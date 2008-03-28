@@ -1,6 +1,7 @@
 #!/usr/bin/python
+#
 # Dell Recovery DVD install script
-# Copyright (C) 2008, Dell Inc. 
+# Copyright (C) 2008, Dell Inc.
 #  Author: Mario Limonciello <Mario_Limonciello@Dell.com>
 #
 #
@@ -22,16 +23,6 @@ from distutils.core import setup
 
 import subprocess, glob, os.path
 
-# mo file support taken from package "restricted-manager"
-mo_files = []
-# HACK: make sure that the mo files are generated and up-to-date
-subprocess.call(["make", "-C", "po", "build-mo"])
-for filepath in glob.glob("po/mo/*/LC_MESSAGES/*.mo"):
-    lang = filepath[len("po/mo/"):]
-    targetpath = os.path.dirname(os.path.join("share/locale",lang))
-    mo_files.append((targetpath, [filepath]))
-
-
 setup(
     name="dell-recovery-dvd",
     author="Mario Limonciello",
@@ -40,10 +31,11 @@ setup(
     maintainer_email="Mario_Limonciello@Dell.com",
     url="http://linux.dell.com/",
     license="gpl",
-    description="Creates a recovery DVD from a Dell Factory image",
+    description="Creates a recovery DVD for a Dell Factory image",
     packages=["Dell"],
     data_files=[("share/dell/glade", glob.glob("Dell/*.glade")),
-                ("share/mythbuntu-control-centre/bin", glob.glob()"))],
+                ("share/dell/bin", glob.glob("bin/dell")),
+                ("share/applications", glob.glob("applications/*.desktop"))],
     scripts=["dell-recovery-dvd"],
 )
 
