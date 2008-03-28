@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Dell Recovery DVD Launcher Script
+#
+# Copyright (C) 2008 Dell Inc,
+#   Author: Mario Limonciello
+#
+# This is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2 of the License, or at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this application; if not, write to the Free Software Foundation, Inc., 51
+# Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+##################################################################################
+
+import os
+import sys
+
+def main():
+    toexec = []
+    if os.getuid() == 0:
+        # no privilege escalation required
+        pass
+    elif os.path.exists('/usr/bin/gksudo'):
+        toexec = ['gksudo', '-k', '-D', '/usr/share/applications/dell-dvd.desktop']
+    elif os.path.exists('/usr/bin/kdesu'):
+        toexec = ['kdesu', '--nonewdcop', '--']
+    else:
+        toexec = ['sudo']
+    toexec.append('/usr/share/dell/dell-recovery-dvd')
+    os.execvp(toexec[0], toexec)
+    sys.exit(127)
+
+if __name__ == '__main__':
+    main()

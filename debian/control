@@ -1,0 +1,12 @@
+Source: dell-recovery
+Section: graphics
+Priority: optional
+Maintainer: Mario Limonciello <mario_limonciello@dell.com>
+Build-Depends: debhelper (>= 6.0.0), cdbs
+Standards-Version: 3.7.3
+
+Package: dell-recovery
+Architecture: all
+Depends: ${shlibs:Depends}, menu
+Description: Dell DVD Recreation Package
+ This package is used to produce a Dell recovery DVD image.
