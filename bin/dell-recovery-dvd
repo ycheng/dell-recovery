@@ -22,7 +22,9 @@
 ##################################################################################
 
 from Dell.recovery_dvd import DVD
+import sys
 
 if __name__ == '__main__':
     script = DVD()
+    script.run()
     sys.exit(0)

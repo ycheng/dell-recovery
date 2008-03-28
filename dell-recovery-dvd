@@ -35,7 +35,7 @@ def main():
         toexec = ['kdesu', '--nonewdcop', '--']
     else:
         toexec = ['sudo']
-    toexec.append('/usr/share/dell/dell-recovery-dvd')
+    toexec.append('/usr/share/dell/bin/dell-recovery-dvd')
     os.execvp(toexec[0], toexec)
     sys.exit(127)
 

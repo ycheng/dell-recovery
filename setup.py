@@ -34,7 +34,7 @@ setup(
     description="Creates a recovery DVD for a Dell Factory image",
     packages=["Dell"],
     data_files=[("share/dell/glade", glob.glob("Dell/*.glade")),
-                ("share/dell/bin", glob.glob("bin/dell")),
+                ("share/dell/bin", glob.glob("bin/dell-recovery-dvd")),
                 ("share/applications", glob.glob("applications/*.desktop"))],
     scripts=["dell-recovery-dvd"],
 )
