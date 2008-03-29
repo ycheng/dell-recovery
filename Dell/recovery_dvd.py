@@ -127,11 +127,28 @@ class DVD():
                         self.update_gui(float(progress[:-1])/100,"Building ISO Image")
                     else:
                         print progress[:-1] + " % Done"
+            retval = p3.poll()
+        if retval is not 0:
+            raise GenerateException, "genisoimage exited with a nonstandard return value"
         #umount drive
         self.unmount_drives()
 
+    def fix_permissions(self):
+        """Makes the ISO readable by a normal user"""
+        self.update_gui(1.00,"Adjusting Permissions")
+        if 'SUDO_GID' in os.environ:
+            gid = int(os.environ['SUDO_GID'])
+        if 'SUDO_UID' in os.environ:
+            uid = int(os.environ['SUDO_UID'])
+        if uid is not None and gid is not None:
+            os.chown(self.destination,uid,gid)
+        else:
+            raise PermissionsException, "Error adjusting permissions"
+
+
     def burn_iso(self):
         """Calls an external CD burning application to burn this ISO"""
+        self.update_gui(1.00,"Opening DVD Burner")
         subprocess.call(['nautilus-cd-burner', '--source-iso=' + self.destination])
 
 #### GUI Functions ###
@@ -219,6 +236,7 @@ class DVD():
         success=True
         self.buttons.hide()
         self.progressbar.show()
+        self.progress_dialog.connect('delete_event', self.ignore)
         self.disable_volume_manager()
         self.action.set_text("Building DVD image")
         self.update_gui(0.0, "Preparing to build DVD")
@@ -241,10 +259,15 @@ class DVD():
                 parent=self.progress_dialog)
             success=False
 
-            #Cleanup if we need to
-            if self._mounted:
-                subprocess.call(['umount', DRIVE + RECOVERY_PARTITION])
-
+        try:
+            if success:
+                self.fix_permissions()
+        except:
+            header = _("Could not adjust permissions")
+            body = _("Unable to set the permissions to your username")
+            self.show_alert(gtk.MESSAGE_ERROR, header, body,
+                parent=self.progress_dialog)
+            success=False
         try:
             if success:
                 self.burn_iso()
@@ -255,13 +278,18 @@ class DVD():
                 parent=self.progress_dialog)
             success=False
 
+        self.enable_volume_manager()
+
         if success:
             header = _("Successfully Created DVD")
-            body = _("If you would like to burn another copy,\
-                      a copy is placed in your home directory.")
+            body = _("If you would like to burn another copy, a copy is placed in your home directory.")
             self.show_alert(gtk.MESSAGE_INFO, header, body,
                 parent=self.progress_dialog)
-        self.enable_volume_manager()
+        self.destroy(None)
+
+    def ignore(*args):
+        """Ignores a signal"""
+        return True
 
     def destroy(self, widget, data=None):
         gtk.main_quit()
