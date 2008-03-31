@@ -28,6 +28,7 @@ import shutil
 import tempfile
 import atexit
 import time
+import string
 
 import pygtk
 pygtk.require("2.0")
@@ -60,7 +61,19 @@ class DVD():
             if isinstance(widget, gtk.Label):
                 widget.set_property('can-focus', False)
         self.glade.signal_autoconnect(self)
-        self.destination = os.getenv('HOME') + '/' + ISO
+        if 'SUDO_UID' in os.environ:
+            self.uid = os.environ['SUDO_UID']
+        if 'SUDO_GID' in os.environ:
+            self.gid = os.environ['SUDO_GID']
+        if self.uid is not None:
+            file=open('/etc/passwd','r').readlines()
+            for line in file:
+                if self.uid in line:
+                    self.destination = string.split(line,':')[5]
+                    break
+        else:
+            self.destination = os.getenv('HOME')
+        self.destination = self.destination + '/' + ISO
 
     def mount_drives(self):
         subprocess.call(['mount', DRIVE + RECOVERY_PARTITION , self._mntdir])
@@ -89,12 +102,15 @@ class DVD():
             self.update_gui(0.005,"Building Utility Partition")
 
         #Mount the RP & clean it up
+        # - Removes pagefile.sys which may have joined us during FI
+        # - Removes mbr.bin/upimg.bin which may exist if creating recovery disks from recovery disks
+        # - Removes all .exe files since we don't do $stuff on windows
         if gui is not False:
             self.update_gui(0.007,"Preparing Recovery Partition")
         self._mntdir=tempfile.mkdtemp()
         self.mount_drives()
         for file in os.listdir(self._mntdir):
-            if ".exe" in file or "pagefile.sys" in file:
+            if ".exe" in file or ".bin" in file or "pagefile.sys" in file:
                 os.remove(self._mntdir + '/' + file)
         if gui is not False:
             self.update_gui(0.009,"Building Recovery Partition")
@@ -136,12 +152,8 @@ class DVD():
     def fix_permissions(self):
         """Makes the ISO readable by a normal user"""
         self.update_gui(1.00,"Adjusting Permissions")
-        if 'SUDO_GID' in os.environ:
-            gid = int(os.environ['SUDO_GID'])
-        if 'SUDO_UID' in os.environ:
-            uid = int(os.environ['SUDO_UID'])
-        if uid is not None and gid is not None:
-            os.chown(self.destination,uid,gid)
+        if self.uid is not None and self.gid is not None:
+            os.chown(self.destination,int(self.uid),int(self.gid))
         else:
             raise PermissionsException, "Error adjusting permissions"
 
