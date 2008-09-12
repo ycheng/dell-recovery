@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #
-# Dell Recovery DVD install script
+# Dell Recovery Media install script
 # Copyright (C) 2008, Dell Inc.
 #  Author: Mario Limonciello <Mario_Limonciello@Dell.com>
 #
@@ -24,19 +24,19 @@ from distutils.core import setup
 import subprocess, glob, os.path
 
 setup(
-    name="dell-recovery-dvd",
+    name="dell-recovery-media",
     author="Mario Limonciello",
     author_email="Mario_Limoncielo@Dell.com",
     maintainer="Mario Limonciello",
     maintainer_email="Mario_Limonciello@Dell.com",
     url="http://linux.dell.com/",
     license="gpl",
-    description="Creates a recovery DVD for a Dell Factory image",
+    description="Creates a piece of recovery media for a Dell Factory image",
     packages=["Dell"],
     data_files=[("share/dell/glade", glob.glob("Dell/*.glade")),
-                ("share/dell/bin", glob.glob("bin/dell-recovery-dvd")),
+                ("share/dell/bin", glob.glob("bin/dell-recovery-media")),
                 ("share/dell/bin", glob.glob("bin/create-new-uuid")),
                 ("share/applications", glob.glob("applications/*.desktop"))],
-    scripts=["dell-recovery-dvd"],
+    scripts=["dell-recovery-media"],
 )
 
