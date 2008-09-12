@@ -35,6 +35,7 @@ setup(
     packages=["Dell"],
     data_files=[("share/dell/glade", glob.glob("Dell/*.glade")),
                 ("share/dell/bin", glob.glob("bin/dell-recovery-dvd")),
+                ("share/dell/bin", glob.glob("bin/create-new-uuid")),
                 ("share/applications", glob.glob("applications/*.desktop"))],
     scripts=["dell-recovery-dvd"],
 )
