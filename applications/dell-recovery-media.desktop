@@ -1,11 +1,11 @@
 [Desktop Entry]
 Version=1.0
 Encoding=UTF-8
-Name=Create Dell Rescue DVD Image
+Name=Create Dell Recovery Media
 Type=Application
 Terminal=false
-Name[en_US]=Create Dell Rescue DVD Image
-Exec=su-to-root -X -c /usr/bin/dell-recovery-dvd
+Name[en_US]=Create Dell Recovery Media
+Exec=su-to-root -X -c /usr/bin/dell-recovery-media
 Icon=/usr/share/images/dell/dell-dvd.png
 Categories=System;Settings
 
