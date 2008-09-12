@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Dell Recovery DVD Launcher Script
+# Dell Recovery Media Launcher Script
 #
 # Copyright (C) 2008 Dell Inc,
 #   Author: Mario Limonciello
@@ -30,12 +30,12 @@ def main():
         # no privilege escalation required
         pass
     elif os.path.exists('/usr/bin/gksudo'):
-        toexec = ['gksudo', '-k', '-D', '/usr/share/applications/dell-dvd.desktop']
+        toexec = ['gksudo', '-k', '-D', '/usr/share/applications/dell-recovery-media.desktop']
     elif os.path.exists('/usr/bin/kdesu'):
         toexec = ['kdesu', '--nonewdcop', '--']
     else:
         toexec = ['sudo']
-    toexec.append('/usr/share/dell/bin/dell-recovery-dvd')
+    toexec.append('/usr/share/dell/bin/dell-recovery-media')
     os.execvp(toexec[0], toexec)
     sys.exit(127)
 
