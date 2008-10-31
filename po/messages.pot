@@ -1,0 +1,158 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-10-31 19:32-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: Dell/progress_dialogs.glade:7 Dell/progress_dialogs.glade:136
+msgid "Dell Recovery Media Creator"
+msgstr ""
+
+#: Dell/progress_dialogs.glade:27
+msgid "<activity placeholder>"
+msgstr ""
+
+#: Dell/progress_dialogs.glade:147
+msgid ""
+"This application will create OS Recovery Media that can be used to restore "
+"the computer to its factory shipped state.  You will have the option to "
+"create an USB key or DVD image."
+msgstr ""
+
+#: Dell/progress_dialogs.glade:165
+msgid "DVD+/-RW Disc"
+msgstr ""
+
+#: Dell/progress_dialogs.glade:182
+msgid "USB Flash Drive"
+msgstr ""
+
+#: Dell/progress_dialogs.glade:221
+msgid "Cancel Recovery Media Creator"
+msgstr ""
+
+#: Dell/recovery_dvd.py:128 Dell/recovery_dvd.py:139
+msgid "Building Utility Partition"
+msgstr ""
+
+#: Dell/recovery_dvd.py:146
+msgid "Preparing Recovery Partition"
+msgstr ""
+
+#: Dell/recovery_dvd.py:152
+msgid "Building Recovery Partition"
+msgstr ""
+
+#: Dell/recovery_dvd.py:157
+msgid "Regenerating UUIDs"
+msgstr ""
+
+#: Dell/recovery_dvd.py:167
+msgid "create-new-uuid exited with a nonstandard return value."
+msgstr ""
+
+#: Dell/recovery_dvd.py:176
+msgid "Building ISO image"
+msgstr ""
+
+#: Dell/recovery_dvd.py:199
+msgid "Building ISO Image"
+msgstr ""
+
+#: Dell/recovery_dvd.py:204
+msgid "genisoimage exited with a nonstandard return value."
+msgstr ""
+
+#: Dell/recovery_dvd.py:210
+msgid "Adjusting Permissions"
+msgstr ""
+
+#: Dell/recovery_dvd.py:214
+msgid "Error adjusting permissions."
+msgstr ""
+
+#: Dell/recovery_dvd.py:219
+msgid "Opening Burner"
+msgstr ""
+
+#: Dell/recovery_dvd.py:223
+msgid "Nautilus CD Burner"
+msgstr ""
+
+#: Dell/recovery_dvd.py:226
+msgid "Canonical USB Creator"
+msgstr ""
+
+#: Dell/recovery_dvd.py:228
+msgid "Unknown image burn type."
+msgstr ""
+
+#: Dell/recovery_dvd.py:232
+msgid "returned a nonstandard return code."
+msgstr ""
+
+#: Dell/recovery_dvd.py:342
+msgid "Welcome"
+msgstr ""
+
+#: Dell/recovery_dvd.py:345
+msgid "Choose Media Type"
+msgstr ""
+
+#: Dell/recovery_dvd.py:348
+msgid "Confirm Selections"
+msgstr ""
+
+#: Dell/recovery_dvd.py:356
+msgid "Media Type: "
+msgstr ""
+
+#: Dell/recovery_dvd.py:373
+msgid "Preparing to build base image"
+msgstr ""
+
+#: Dell/recovery_dvd.py:383
+msgid "Couldn't create temp directories"
+msgstr ""
+
+#: Dell/recovery_dvd.py:391
+msgid "Could not build UP"
+msgstr ""
+
+#: Dell/recovery_dvd.py:400
+msgid "Could not regenerate UUID"
+msgstr ""
+
+#: Dell/recovery_dvd.py:409
+msgid "Could not build image"
+msgstr ""
+
+#: Dell/recovery_dvd.py:418
+msgid "Could not adjust permissions"
+msgstr ""
+
+#: Dell/recovery_dvd.py:433
+msgid "Could not write image"
+msgstr ""
+
+#: Dell/recovery_dvd.py:439
+msgid "Recovery Media Creation Process Complete"
+msgstr ""
+
+#: Dell/recovery_dvd.py:440
+msgid ""
+"If you would like to archive another copy, the generated image has been "
+"stored in your home directory under the filename:"
+msgstr ""
