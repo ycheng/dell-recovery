@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
 # «recovery_dvd» - Dell Recovery DVD Creator
