@@ -1,0 +1,10 @@
+Priority: High
+Terminal: False
+Command: /usr/bin/dell-recovery-media
+GettextDomain: dell-recovery
+Name: Create Dell Recovery Media
+Description:
+ It is recommended that you create Recovery media to be able to restore your
+ computer to a known state in the event of a software or hardware failure.
+ You can do this now by clicking on "Run this action now"
+ To do this at a later time, please use the "System -> Administration" menu.

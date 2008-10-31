@@ -36,6 +36,7 @@ setup(
     data_files=[("share/dell/glade", glob.glob("Dell/*.glade")),
                 ("share/dell/bin", glob.glob("bin/dell-recovery-media")),
                 ("share/dell/bin", glob.glob("bin/create-new-uuid")),
+		("share/dell/notes", glob.glob("notes/*")),
                 ("share/applications", glob.glob("applications/*.desktop"))],
     scripts=["dell-recovery-media"],
 )
