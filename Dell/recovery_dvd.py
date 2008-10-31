@@ -77,27 +77,40 @@ class DVD():
             self.destination = os.getenv('HOME')
         self.destination = self.destination + '/' + ISO
 
-        #make temporary directories
-        self._tmpdir=tempfile.mkdtemp()
-        self._mntdir=tempfile.mkdtemp()
-        os.mkdir(self._tmpdir + '/up')
+        #these directories may get used during creation
+        self._mntdir=None
+        self._tmpdir=None
+
         #make sure they are cleaned up no matter what happens
         atexit.register(self.unmount_drives)
 
     def mount_drives(self):
-        subprocess.call(['mount', DRIVE + RECOVERY_PARTITION , self._mntdir])
+        #only mount place if they really exist
+        if self._mntdir is not None:
+            subprocess.call(['mount', DRIVE + RECOVERY_PARTITION , self._mntdir])
 
     def unmount_drives(self):
-        subprocess.call(['umount', self._mntdir + '/.disk/casper-uuid-generic'])
-        subprocess.call(['umount', self._mntdir + '/casper/initrd.gz'])
-        subprocess.call(['umount', self._mntdir])
-        subprocess.call(['umount', self._tmpdir])
+        #only unmount places if they actually existed
+        if self._mntdir is not None:
+            subprocess.call(['umount', self._mntdir + '/.disk/casper-uuid-generic'])
+            subprocess.call(['umount', self._mntdir + '/casper/initrd.gz'])
+            subprocess.call(['umount', self._mntdir])
+        if self._tmpdir is not None:
+            subprocess.call(['umount', self._tmpdir])
+
+    def create_tempdirs(self):
+        """Creates temporary directories to be used while building ISO"""
+        #Temporary directories that will be useful
+        self._tmpdir=tempfile.mkdtemp()
+        os.mkdir(self._tmpdir + '/up')
+        self._mntdir=tempfile.mkdtemp()
 
     def build_up(self,gui=False):
         """Builds a Utility partition Image"""
         ##Create UP
         if gui is not False:
             self.update_progress_gui(0.003,_("Building Utility Partition"))
+        
         #MBR
         subprocess.call(['dd','if=' + DRIVE,'bs=512','count=1','of=' + self._tmpdir + '/up/mbr.bin'])
         #UP Partition
@@ -184,31 +197,25 @@ class DVD():
         else:
             raise RuntimeError, _("Error adjusting permissions.")
 
-
-    def burn_iso(self,gui=False):
-        """Calls an external CD burning application to burn this ISO"""
-        self.update_progress_gui(1.00,_("Opening DVD Burner"))
+    def burn(self,type,gui=False):
+        """Calls an external application for burning this ISO"""
         if gui is not False:
-            self.progress_dialog.hide()
-            while gtk.events_pending():
-                gtk.main_iteration()
-
-        ret=subprocess.call(['nautilus-cd-burner', '--source-iso=' + self.destination])
+            self.update_progress_gui(1.00,_("Opening Burner"))
+            self.hide_wizard()
+        if type=="iso":
+            ret=subprocess.call(['nautilus-cd-burner', '--source-iso=' + self.destination])
+            err_str=_("Nautilus CD Burner")
+        elif type=="usb":
+            ret=subprocess.call(['usb-creator', '--iso=' + self.destination, '-n'])
+            err_str=_("Canonical USB Creator")
+        else:
+            raise RuntimeError, _("Unknown image burn type.")
+            return False
         if ret != 0:
-            raise RuntimeError, _("Nautilus CD Burner") + _("returned a nonstandard return code.")
-
-    def burn_usb(self,gui=False):
-        """Writes an ISO image to a flash drive and makes it bootable"""
-        self.update_progress_gui(1.00,_("Opening USB Burner"))
-        
-        if gui is not False:
-            self.progress_dialog.hide()
-            while gtk.events_pending():
-                gtk.main_iteration()
-
-        ret=subprocess.call(['usb-creator', '--iso=' + self.destination, '-n'])
-        if ret != 0:
-            raise RuntimeError, _("Canonical USB Creator") + _("returned a nonstandard return code.")
+            if type=="iso":
+                raise RuntimeError, err_str + _("returned a nonstandard return code.")
+            return False
+        return True
 
 #### GUI Functions ###
 # This application is functional via command line by using the above functions #
@@ -216,6 +223,12 @@ class DVD():
     def run(self):
         self.wizard.show()
         gtk.main()
+    
+    def hide_wizard(self):
+        """Hides the wizard"""
+        self.progress_dialog.hide()
+        while gtk.events_pending():
+            gtk.main_iteration()
 
     def show_alert(self, type, header, body=None, details=None, parent=None):
         if parent is not None:
@@ -318,15 +331,13 @@ class DVD():
         elif page == self.conf_page:
             self.wizard.set_page_title(page,_("Confirm Selections"))
 
-            media_header=_("Media Type: ")
-
             #Fill in dynamic data
             if self.dvdbutton.get_active():
                 type=self.dvdbutton.get_label()
             else:
                 type=self.usbbutton.get_label()
 
-            self.conf_text.set_text(media_header + type + "\n")
+            self.conf_text.set_text(_("Media Type: ") + type + '\n')
             self.wizard.set_page_complete(page,True)
 
 
@@ -345,12 +356,21 @@ class DVD():
         if os.path.exists(self.destination):
             skip_creation=self.remove_existing()
 
+        #Full process for creating an image
         success=True
-
         if not skip_creation:
             self.disable_volume_manager()
+            
             try:
-                self.build_up(True)
+                self.create_tempdirs()
+            except Exception, inst:
+                header = _("Couldn't create temp directories")
+                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
+                    parent=self.progress_dialog)
+                success=False
+            try:
+                if success:
+                    self.build_up(True)
             except Exception, inst:
                 header = _("Could not build UP")
                 self.show_alert(gtk.MESSAGE_ERROR, header, inst,
@@ -358,7 +378,8 @@ class DVD():
                 success=False
 
             try:
-                self.regenerate_uuid(True)
+                if success:
+                    self.regenerate_uuid(True)
             except Exception, inst:
                 header = _("Could not regenerate UUID")
                 self.show_alert(gtk.MESSAGE_ERROR, header, inst,
@@ -384,12 +405,14 @@ class DVD():
                 success=False
             self.enable_volume_manager() 
         
+        #After ISO creation is done, we fork out to other more
+        #intelligent applications for doing lowlevel writing etc
         try:
             if success:
                 if self.dvdbutton.get_active():
-                    self.burn_iso(True)
+                    success=self.burn("iso",True)
                 else:
-                    self.burn_usb(True)
+                    success=self.burn("usb",True)
         except Exception, inst:
             header = _("Could not write image")
             self.show_alert(gtk.MESSAGE_ERROR, header, inst,
@@ -397,8 +420,8 @@ class DVD():
             success=False
 
         if success:
-            header = _("Media Creation Complete")
-            body = _("If you would like to create another copy, the generated image has been stored in your home directory under the filename: ") + self.destination
+            header = _("Recovery Media Creation Process Complete")
+            body = _("If you would like to archive another copy, the generated image has been stored in your home directory under the filename:") + '\n' + self.destination
             self.show_alert(gtk.MESSAGE_INFO, header, body,
                 parent=self.progress_dialog)
         self.destroy(None)
@@ -410,5 +433,8 @@ class DVD():
     def destroy(self, widget=None, data=None):
         gtk.main_quit()
         self.unmount_drives()
-        os.removedirs(self._mntdir)
-        os.removedirs(self._tmpdir)
+
+        if self._mntdir is not None:
+            os.removedirs(self._mntdir)
+        if self._tmpdir is not None:
+            os.removedirs(self._tmpdir)
