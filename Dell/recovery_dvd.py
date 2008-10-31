@@ -90,13 +90,28 @@ class DVD():
             subprocess.call(['mount', DRIVE + RECOVERY_PARTITION , self._mntdir])
 
     def unmount_drives(self):
-        #only unmount places if they actually existed
+        def walk_cleanup(directory):
+            for root,dirs,files in os.walk(directory, topdown=False):
+                for name in files:
+                    os.remove(os.path.join(root,name))
+                for name in dirs:
+                    os.rmdir(os.path.join(root,name))
+
+        #only unmount places if they actually still exist
         if self._mntdir is not None:
             subprocess.call(['umount', self._mntdir + '/.disk/casper-uuid-generic'])
             subprocess.call(['umount', self._mntdir + '/casper/initrd.gz'])
             subprocess.call(['umount', self._mntdir])
+            walk_cleanup(self._mntdir)
+            os.rmdir(self._mntdir)
+            self._mntdir=None
+
         if self._tmpdir is not None:
             subprocess.call(['umount', self._tmpdir])
+            walk_cleanup(self._tmpdir)
+            os.rmdir(self._tmpdir)
+            self._tmpdir=None
+
 
     def create_tempdirs(self):
         """Creates temporary directories to be used while building ISO"""
@@ -110,7 +125,7 @@ class DVD():
         ##Create UP
         if gui is not False:
             self.update_progress_gui(0.003,_("Building Utility Partition"))
-        
+
         #MBR
         subprocess.call(['dd','if=' + DRIVE,'bs=512','count=1','of=' + self._tmpdir + '/up/mbr.bin'])
         #UP Partition
@@ -201,7 +216,7 @@ class DVD():
         """Calls an external application for burning this ISO"""
         if gui is not False:
             self.update_progress_gui(1.00,_("Opening Burner"))
-            self.hide_wizard()
+            self.hide_progress()
         if type=="iso":
             ret=subprocess.call(['nautilus-cd-burner', '--source-iso=' + self.destination])
             err_str=_("Nautilus CD Burner")
@@ -223,9 +238,9 @@ class DVD():
     def run(self):
         self.wizard.show()
         gtk.main()
-    
-    def hide_wizard(self):
-        """Hides the wizard"""
+
+    def hide_progress(self):
+        """Hides the progress bar"""
         self.progress_dialog.hide()
         while gtk.events_pending():
             gtk.main_iteration()
@@ -344,6 +359,11 @@ class DVD():
     def create_dvd(self,widget):
         """Starts the DVD Creation Process"""
 
+        #Check for existing image
+        skip_creation=False
+        if os.path.exists(self.destination):
+            skip_creation=self.remove_existing()
+
         #GUI Elements
         self.wizard.hide()
         self.progress_dialog.show()
@@ -351,16 +371,11 @@ class DVD():
         self.action.set_text("Building Base image")
         self.update_progress_gui(0.0, _("Preparing to build base image"))
 
-        #Check for existing image
-        skip_creation=False
-        if os.path.exists(self.destination):
-            skip_creation=self.remove_existing()
-
         #Full process for creating an image
         success=True
         if not skip_creation:
             self.disable_volume_manager()
-            
+
             try:
                 self.create_tempdirs()
             except Exception, inst:
@@ -403,8 +418,8 @@ class DVD():
                 self.show_alert(gtk.MESSAGE_ERROR, header, inst,
                     parent=self.progress_dialog)
                 success=False
-            self.enable_volume_manager() 
-        
+            self.enable_volume_manager()
+
         #After ISO creation is done, we fork out to other more
         #intelligent applications for doing lowlevel writing etc
         try:
@@ -426,6 +441,8 @@ class DVD():
                 parent=self.progress_dialog)
         self.destroy(None)
 
+
+
     def ignore(*args):
         """Ignores a signal"""
         return True
@@ -433,8 +450,3 @@ class DVD():
     def destroy(self, widget=None, data=None):
         gtk.main_quit()
         self.unmount_drives()
-
-        if self._mntdir is not None:
-            os.removedirs(self._mntdir)
-        if self._tmpdir is not None:
-            os.removedirs(self._tmpdir)
