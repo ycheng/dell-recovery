@@ -7,7 +7,7 @@
 # Author:
 #  - Mario Limonciello <Mario_Limonciello@Dell.com>
 #
-# Mythbuntu is free software; you can redistribute it and/or modify it under
+# This is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free
 # Software Foundation; either version 2 of the License, or at your option)
 # any later version.
@@ -29,6 +29,7 @@ import tempfile
 import atexit
 import time
 import string
+import stat
 
 import pygtk
 pygtk.require("2.0")
@@ -44,6 +45,7 @@ from gettext import gettext as _
 
 #Glade directory
 GLADEDIR = '/usr/share/dell/glade'
+#GLADEDIR = '/home/test/dell-recovery/Dell'
 
 #Place to do operations on
 DRIVE='/dev/sda'
@@ -75,20 +77,27 @@ class DVD():
             self.destination = os.getenv('HOME')
         self.destination = self.destination + '/' + ISO
 
-    def mount_drives(self):
-        subprocess.call(['mount', DRIVE + RECOVERY_PARTITION , self._mntdir])
+        #make temporary directories
+        self._tmpdir=tempfile.mkdtemp()
+        self._mntdir=tempfile.mkdtemp()
+        os.mkdir(self._tmpdir + '/up')
+        #make sure they are cleaned up no matter what happens
         atexit.register(self.unmount_drives)
 
+    def mount_drives(self):
+        subprocess.call(['mount', DRIVE + RECOVERY_PARTITION , self._mntdir])
+
     def unmount_drives(self):
-        subprocess.call(['umount', DRIVE + RECOVERY_PARTITION])
+        subprocess.call(['umount', self._mntdir + '/.disk/casper-uuid-generic'])
+        subprocess.call(['umount', self._mntdir + '/casper/initrd.gz'])
+        subprocess.call(['umount', self._mntdir])
+        subprocess.call(['umount', self._tmpdir])
 
     def build_up(self,gui=False):
         """Builds a Utility partition Image"""
         ##Create UP
         if gui is not False:
-            self.update_gui(0.003,"Building Utility Partition")
-        self._tmpdir=tempfile.mkdtemp()
-        os.mkdir(self._tmpdir + '/up')
+            self.update_progress_gui(0.003,_("Building Utility Partition"))
         #MBR
         subprocess.call(['dd','if=' + DRIVE,'bs=512','count=1','of=' + self._tmpdir + '/up/mbr.bin'])
         #UP Partition
@@ -97,28 +106,45 @@ class DVD():
         partition_file=open(self._tmpdir + '/up/' + 'upimg.bin', "w")
         partition_file.write(p2.communicate()[0])
         partition_file.close()
-        self._mntdir=tempfile.mkdtemp()
         if gui is not False:
-            self.update_gui(0.005,"Building Utility Partition")
+            self.update_progress_gui(0.005,_("Building Utility Partition"))
 
         #Mount the RP & clean it up
         # - Removes pagefile.sys which may have joined us during FI
         # - Removes mbr.bin/upimg.bin which may exist if creating recovery disks from recovery disks
         # - Removes all .exe files since we don't do $stuff on windows
         if gui is not False:
-            self.update_gui(0.007,"Preparing Recovery Partition")
-        self._mntdir=tempfile.mkdtemp()
+            self.update_progress_gui(0.007,_("Preparing Recovery Partition"))
         self.mount_drives()
         for file in os.listdir(self._mntdir):
             if ".exe" in file or ".bin" in file or "pagefile.sys" in file:
                 os.remove(self._mntdir + '/' + file)
         if gui is not False:
-            self.update_gui(0.009,"Building Recovery Partition")
+            self.update_progress_gui(0.008,_("Building Recovery Partition"))
+
+    def regenerate_uuid(self,gui=False):
+        """Regenerates the UUID used on the casper image"""
+        if gui is not False:
+            self.update_progress_gui(0.009,_("Regenerating UUIDs"))
+        uuid_args = ['/usr/share/dell/bin/create-new-uuid',
+                          self._mntdir + '/casper/initrd.gz',
+                          self._tmpdir + '/',
+                          self._tmpdir + '/']
+        uuid = subprocess.Popen(uuid_args)
+        retval = uuid.poll()
+        while (retval is None):
+            retval = uuid.poll()
+        if retval is not 0:
+            raise RuntimeError, _("create-new-uuid exited with a nonstandard return value.")
+
+        #Loop mount these UUIDs so that they are included on the disk
+        subprocess.call(['mount', '-o', 'ro' ,'--bind', self._tmpdir + '/initrd.gz', self._mntdir + '/casper/initrd.gz'])
+        subprocess.call(['mount', '-o', 'ro', '--bind', self._tmpdir + '/casper-uuid-generic', self._mntdir + '/.disk/casper-uuid-generic'])
 
     def build_iso(self,gui=False):
         """Builds an ISO image"""
         if gui is not False:
-            self.update_gui(0.01,"Building ISO image")
+            self.update_progress_gui(0.01,_("Building ISO image"))
         #Boot sector for ISO
         shutil.copy(self._mntdir + '/isolinux/isolinux.bin', self._tmpdir)
 
@@ -131,7 +157,8 @@ class DVD():
             '-cache-inodes', '-l',
             '-publisher', 'Dell Inc.',
             '-V', 'Dell Ubuntu Reinstallation Media',
-            self._mntdir + '/', self._tmpdir + '/up/']
+            self._mntdir + '/',
+            self._tmpdir + '/up/']
         p3 = subprocess.Popen(genisoargs,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         retval = p3.poll()
         while (retval is None):
@@ -140,34 +167,54 @@ class DVD():
                 progress = output.split()[0]
                 if (progress[-1:] == '%'):
                     if gui is not False:
-                        self.update_gui(float(progress[:-1])/100,"Building ISO Image")
+                        self.update_progress_gui(float(progress[:-1])/100,_("Building ISO Image"))
                     else:
                         print progress[:-1] + " % Done"
             retval = p3.poll()
         if retval is not 0:
-            raise GenerateException, "genisoimage exited with a nonstandard return value"
+            raise RuntimeError, _("genisoimage exited with a nonstandard return value.")
         #umount drive
         self.unmount_drives()
 
     def fix_permissions(self):
         """Makes the ISO readable by a normal user"""
-        self.update_gui(1.00,"Adjusting Permissions")
+        self.update_progress_gui(1.00,_("Adjusting Permissions"))
         if self.uid is not None and self.gid is not None:
             os.chown(self.destination,int(self.uid),int(self.gid))
         else:
-            raise PermissionsException, "Error adjusting permissions"
+            raise RuntimeError, _("Error adjusting permissions.")
 
 
-    def burn_iso(self):
+    def burn_iso(self,gui=False):
         """Calls an external CD burning application to burn this ISO"""
-        self.update_gui(1.00,"Opening DVD Burner")
-        subprocess.call(['nautilus-cd-burner', '--source-iso=' + self.destination])
+        self.update_progress_gui(1.00,_("Opening DVD Burner"))
+        if gui is not False:
+            self.progress_dialog.hide()
+            while gtk.events_pending():
+                gtk.main_iteration()
+
+        ret=subprocess.call(['nautilus-cd-burner', '--source-iso=' + self.destination])
+        if ret != 0:
+            raise RuntimeError, _("Nautilus CD Burner") + _("returned a nonstandard return code.")
+
+    def burn_usb(self,gui=False):
+        """Writes an ISO image to a flash drive and makes it bootable"""
+        self.update_progress_gui(1.00,_("Opening USB Burner"))
+        
+        if gui is not False:
+            self.progress_dialog.hide()
+            while gtk.events_pending():
+                gtk.main_iteration()
+
+        ret=subprocess.call(['usb-creator', '--iso=' + self.destination, '-n'])
+        if ret != 0:
+            raise RuntimeError, _("Canonical USB Creator") + _("returned a nonstandard return code.")
 
 #### GUI Functions ###
 # This application is functional via command line by using the above functions #
 
     def run(self):
-        self.progress_dialog.show()
+        self.wizard.show()
         gtk.main()
 
     def show_alert(self, type, header, body=None, details=None, parent=None):
@@ -199,6 +246,23 @@ class DVD():
         if res == gtk.RESPONSE_CLOSE:
             return True
         return False
+
+    def check_close(self,widget):
+        """Asks the user before closing the dialog"""
+        response = self.close_dialog.run()
+        if response == gtk.RESPONSE_YES:
+            self.destroy()
+        else:
+            self.close_dialog.hide()
+
+    def remove_existing(self):
+        """Asks the user about removing an old ISO"""
+        response = self.existing_dialog.run()
+        self.existing_dialog.hide()
+        if response == gtk.RESPONSE_YES:
+            return False
+        else:
+            return True
 
     def disable_volume_manager(self):
         gvm_root = '/desktop/gnome/volume_manager'
@@ -233,8 +297,8 @@ class DVD():
                 gconftool.set(gconf_key, 'bool',
                               self.gconf_previous[gconf_key])
 
-    def update_gui(self,progress,new_text=None):
-        """Updates the GUI to show what we are working on"""
+    def update_progress_gui(self,progress,new_text=None):
+        """Updates the progressbar to show what we are working on"""
         self.progressbar.set_fraction(progress)
         if new_text != None:
             self.action.set_markup("<i>"+_(new_text)+"</i>")
@@ -242,59 +306,99 @@ class DVD():
         while gtk.events_pending():
             gtk.main_iteration()
 
+    def build_page(self,widget,page):
+        """Prepares our GTK assistant"""
+
+        if page == self.start_page:
+            self.wizard.set_page_title(page,_("Welcome"))
+            self.wizard.set_page_complete(page,True)
+        elif page == self.media_type_page:
+            self.wizard.set_page_title(page,_("Choose Media Type"))
+            self.wizard.set_page_complete(page,True)
+        elif page == self.conf_page:
+            self.wizard.set_page_title(page,_("Confirm Selections"))
+
+            media_header=_("Media Type: ")
+
+            #Fill in dynamic data
+            if self.dvdbutton.get_active():
+                type=self.dvdbutton.get_label()
+            else:
+                type=self.usbbutton.get_label()
+
+            self.conf_text.set_text(media_header + type + "\n")
+            self.wizard.set_page_complete(page,True)
+
 
     def create_dvd(self,widget):
         """Starts the DVD Creation Process"""
-        success=True
-        self.buttons.hide()
-        self.progressbar.show()
+
+        #GUI Elements
+        self.wizard.hide()
+        self.progress_dialog.show()
         self.progress_dialog.connect('delete_event', self.ignore)
-        self.disable_volume_manager()
-        self.action.set_text("Building DVD image")
-        self.update_gui(0.0, "Preparing to build DVD")
+        self.action.set_text("Building Base image")
+        self.update_progress_gui(0.0, _("Preparing to build base image"))
 
-        try:
-            self.build_up(True)
-        except:
-            header = _("Could not build UP")
-            body = _("Unable to build utility partition.")
-            self.show_alert(gtk.MESSAGE_ERROR, header, body,
-                parent=self.progress_dialog)
-            success=False
+        #Check for existing image
+        skip_creation=False
+        if os.path.exists(self.destination):
+            skip_creation=self.remove_existing()
+
+        success=True
+
+        if not skip_creation:
+            self.disable_volume_manager()
+            try:
+                self.build_up(True)
+            except Exception, inst:
+                header = _("Could not build UP")
+                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
+                    parent=self.progress_dialog)
+                success=False
+
+            try:
+                self.regenerate_uuid(True)
+            except Exception, inst:
+                header = _("Could not regenerate UUID")
+                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
+                    parent=self.progress_dialog)
+                success=False
+
+            try:
+                if success:
+                    self.build_iso(True)
+            except Exception, inst:
+                header = _("Could not build image")
+                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
+                    parent=self.progress_dialog)
+                success=False
+
+            try:
+                if success:
+                    self.fix_permissions()
+            except Exception, inst:
+                header = _("Could not adjust permissions")
+                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
+                    parent=self.progress_dialog)
+                success=False
+            self.enable_volume_manager() 
+        
         try:
             if success:
-                self.build_iso(True)
-        except:
-            header = _("Could not build ISO")
-            body = _("Unable to build ISO image.")
-            self.show_alert(gtk.MESSAGE_ERROR, header, body,
+                if self.dvdbutton.get_active():
+                    self.burn_iso(True)
+                else:
+                    self.burn_usb(True)
+        except Exception, inst:
+            header = _("Could not write image")
+            self.show_alert(gtk.MESSAGE_ERROR, header, inst,
                 parent=self.progress_dialog)
             success=False
-
-        try:
-            if success:
-                self.fix_permissions()
-        except:
-            header = _("Could not adjust permissions")
-            body = _("Unable to set the permissions to your username")
-            self.show_alert(gtk.MESSAGE_ERROR, header, body,
-                parent=self.progress_dialog)
-            success=False
-        try:
-            if success:
-                self.burn_iso()
-        except:
-            header = _("Could not burn ISO")
-            body = _("Unable to burn ISO image.")
-            self.show_alert(gtk.MESSAGE_ERROR, header, body,
-                parent=self.progress_dialog)
-            success=False
-
-        self.enable_volume_manager()
 
         if success:
-            header = _("Successfully Created DVD")
-            body = _("If you would like to burn another copy, a copy is placed in your home directory.")
+            header = _("Media Creation Complete")
+            body = _("If you would like to create another copy, the generated image has been stored in your home directory under the filename: ") + self.destination
             self.show_alert(gtk.MESSAGE_INFO, header, body,
                 parent=self.progress_dialog)
         self.destroy(None)
@@ -303,5 +407,8 @@ class DVD():
         """Ignores a signal"""
         return True
 
-    def destroy(self, widget, data=None):
+    def destroy(self, widget=None, data=None):
         gtk.main_quit()
+        self.unmount_drives()
+        os.removedirs(self._mntdir)
+        os.removedirs(self._tmpdir)
