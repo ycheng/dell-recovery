@@ -4,6 +4,7 @@ dell-recovery (0.2) intrepid; urgency=low
     - Adds USB Drive support
     - Adds a popup nag dialog
   * debian/control:
+    - Bump standards version
     - Depend upon usb-creator for USB support.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 31 Oct 2008 17:24:13 -0400
