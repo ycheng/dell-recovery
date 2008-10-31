@@ -9,7 +9,7 @@ Standards-Version: 3.7.3
 
 Package: dell-recovery
 Architecture: all
-Depends: ${python:Depends}, menu, dell-artwork, python-glade2, python-gtk2, uuid-runtime, syslinux, mbr
+Depends: ${python:Depends}, menu, dell-artwork, python-glade2, python-gtk2, uuid-runtime, usb-creator
 XB-Python-Version: ${python:Versions}
 Description: Dell DVD Recreation Package
  This package is used to produce a Dell recovery DVD image.
