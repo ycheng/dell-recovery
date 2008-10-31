@@ -21,8 +21,8 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
-import sys
-sys.path.insert(0, '/home/test/dell-recovery')
+#import sys
+#sys.path.insert(0, '/home/test/dell-recovery')
 
 from Dell.recovery_dvd import DVD
 import sys
