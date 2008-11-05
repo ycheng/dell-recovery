@@ -146,7 +146,7 @@ class DVD():
             self.update_progress_gui(0.007,_("Preparing Recovery Partition"))
         self.mount_drives()
         for file in os.listdir(self._mntdir):
-            if ".exe" in file or ".bin" in file or "pagefile.sys" in file:
+            if ".exe" in file or ".bin" in file or ".sys" in file:
                 os.remove(self._mntdir + '/' + file)
         if gui is not False:
             self.update_progress_gui(0.008,_("Building Recovery Partition"))
@@ -174,7 +174,12 @@ class DVD():
         """Builds an ISO image"""
         if gui is not False:
             self.update_progress_gui(0.01,_("Building ISO image"))
+
         #Boot sector for ISO
+	#if we have ran this from a USB key, we might have syslinux which will
+	#break our build
+	if os.path.exists(self._mntdir + '/syslinux'):
+            shutil.move(self._mntdir + '/syslinux', self._mntdir + '/isolinux')
         shutil.copy(self._mntdir + '/isolinux/isolinux.bin', self._tmpdir)
 
         #ISO Creation

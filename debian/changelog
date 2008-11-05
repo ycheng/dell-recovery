@@ -1,3 +1,12 @@
+dell-recovery (0.3) intrepid; urgency=low
+
+  * New release.
+    - Move syslinux to isolinux in case we want to recover from a recovery.
+  * Filter out all .sys files in / so that there aren't errors later with
+    usb-creator.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 05 Nov 2008 13:59:32 -0600
+
 dell-recovery (0.2) intrepid; urgency=low
 
   * New release.
