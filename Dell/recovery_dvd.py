@@ -67,14 +67,20 @@ class DVD():
             module.bindtextdomain(domain, LOCALEDIR)
             module.textdomain(domain)
 
-        self.glade = gtk.glade.XML(GLADEDIR + '/' + 'progress_dialogs.glade',None,domain)
+        self.glade = gtk.glade.XML(GLADEDIR + '/' + 'progress_dialogs.glade')
         for widget in self.glade.get_widget_prefix(""):
             setattr(self, widget.get_name(), widget)
-            #for some reason our labels aren't translating
-            #this will force all labels
+#for some reason our glade doesn't want to translate
+#force it all
             if isinstance(widget, gtk.Label):
                 widget.set_property('can-focus', False)
-                #widget.set_text(_(widget.get_text()))
+                widget.set_text(_(widget.get_text()))
+            elif isinstance(widget, gtk.RadioButton):
+            	widget.set_label(_(widget.get_label()))
+            elif isinstance(widget, gtk.Window):
+            	title=widget.get_title()
+            	if title:
+            		widget.set_title(_(title))
         self.glade.signal_autoconnect(self)
 
         if 'SUDO_UID' in os.environ:
