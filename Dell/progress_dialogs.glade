@@ -71,7 +71,6 @@
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox6">
         <property name="visible">True</property>
@@ -225,7 +224,6 @@
     <property name="icon">dell-dvd.png</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="skip_taskbar_hint">True</property>
-    <property name="has_separator">False</property>
     <property name="message_type">GTK_MESSAGE_QUESTION</property>
     <property name="buttons">GTK_BUTTONS_YES_NO</property>
     <property name="text">Are you sure you want to cancel the Recovery Media creation process?</property>
@@ -255,7 +253,6 @@
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="skip_taskbar_hint">True</property>
-    <property name="has_separator">False</property>
     <property name="message_type">GTK_MESSAGE_QUESTION</property>
     <property name="buttons">GTK_BUTTONS_YES_NO</property>
     <property name="text">An existing image was found (possibly from a previous run).  Would you like to remove this old copy and regenerate the image?</property>
