@@ -42,7 +42,10 @@ import gtk.glade
 import gconftool
 
 #Translation Support
+domain='dell-recovery'
+import gettext
 from gettext import gettext as _
+LOCALEDIR='/usr/share/locale'
 
 #Glade directory
 GLADEDIR = '/usr/share/dell/glade'
@@ -58,12 +61,22 @@ ISO='ubuntu-dell-reinstall.iso'
 
 class DVD():
     def __init__(self):
-        self.glade = gtk.glade.XML(GLADEDIR + '/' + 'progress_dialogs.glade')
+
+		#setup locales
+        for module in (gettext, gtk.glade):
+            module.bindtextdomain(domain, LOCALEDIR)
+            module.textdomain(domain)
+
+        self.glade = gtk.glade.XML(GLADEDIR + '/' + 'progress_dialogs.glade',None,domain)
         for widget in self.glade.get_widget_prefix(""):
             setattr(self, widget.get_name(), widget)
+            #for some reason our labels aren't translating
+            #this will force all labels
             if isinstance(widget, gtk.Label):
                 widget.set_property('can-focus', False)
+                #widget.set_text(_(widget.get_text()))
         self.glade.signal_autoconnect(self)
+
         if 'SUDO_UID' in os.environ:
             self.uid = os.environ['SUDO_UID']
         if 'SUDO_GID' in os.environ:
