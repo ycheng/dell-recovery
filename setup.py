@@ -20,8 +20,15 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 from distutils.core import setup
+from DistUtilsExtra.command import *
 
-import subprocess, glob, os.path
+import glob, os.path
+
+I18NFILES = []
+for filepath in glob.glob("po/mo/*/LC_MESSAGES/*.mo"):
+    lang = filepath[len("po/mo/"):]
+    targetpath = os.path.dirname(os.path.join("share/locale",lang))
+    I18NFILES.append((targetpath, [filepath]))
 
 setup(
     name="dell-recovery-media",
@@ -37,7 +44,7 @@ setup(
                 ("share/dell/bin", glob.glob("bin/dell-recovery-media")),
                 ("share/dell/bin", glob.glob("bin/create-new-uuid")),
 		("share/dell/notes", glob.glob("notes/*")),
-                ("share/applications", glob.glob("applications/*.desktop"))],
+                ("share/applications", glob.glob("applications/*.desktop"))]+I18NFILES,
     scripts=["dell-recovery-media"],
 )
 

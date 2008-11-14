@@ -2,7 +2,7 @@ Source: dell-recovery
 Section: graphics
 Priority: optional
 Maintainer: Mario Limonciello <mario_limonciello@dell.com>
-Build-Depends: debhelper (>= 6.0.0), cdbs, python-central (>= 0.5.6), python (>= 2.4),
+Build-Depends: debhelper (>= 6.0.0), cdbs, python-central (>= 0.5.6), python (>= 2.4), python-distutils-extra
 XS-Python-Version: current
 Homepage: http://linux.dell.com/
 Standards-Version: 3.8.0
