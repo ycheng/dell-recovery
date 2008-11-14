@@ -165,7 +165,6 @@
                 <property name="label" translatable="yes">DVD+/-RW Disc</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <property name="group">usbbutton</property>
               </widget>
             </child>
           </widget>
