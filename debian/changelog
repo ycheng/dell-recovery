@@ -3,6 +3,9 @@ dell-recovery (0.4) intrepid; urgency=low
   * Allow retrying failed burns.  This works around what appears to be either
     a GTK or nautilus-cd-burner bug where nautilus-cd-burner is crashing
     immediately.
+  * Clean up some warnings on startup.
+  * Remove old separators that were not necessary.
+  * Add taskbar hints to all relevant dialogs.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 24 Nov 2008 12:58:58 -0600
 

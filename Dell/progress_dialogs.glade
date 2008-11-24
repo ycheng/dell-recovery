@@ -64,13 +64,13 @@
   </widget>
   <widget class="GtkDialog" id="dialog_hig">
     <property name="border_width">6</property>
-    <property name="title" translatable="yes"></property>
+    <property name="title" translatable="yes">Dell Recovery Media Creator</property>
     <property name="resizable">False</property>
     <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
     <property name="icon">dell-dvd.png</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
-    <property name="skip_taskbar_hint">True</property>
-    <property name="skip_pager_hint">True</property>
+    <property name="skip_taskbar_hint">False</property>
+    <property name="skip_pager_hint">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox6">
         <property name="visible">True</property>
@@ -237,6 +237,7 @@
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="skip_taskbar_hint">True</property>
+    <property name="skip_pager_hint">False</property>
     <property name="message_type">GTK_MESSAGE_QUESTION</property>
     <property name="buttons">GTK_BUTTONS_YES_NO</property>
     <property name="text">An existing image was found (possibly from a previous run).  Would you like to remove this old copy and regenerate the image?</property>
@@ -245,11 +246,13 @@
   </widget>
   <widget class="GtkMessageDialog" id="retry_dialog">
     <property name="border_width">5</property>
+    <property name="title" translatable="yes">Retry burn?</property>
     <property name="resizable">False</property>
     <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
-    <property name="skip_taskbar_hint">True</property>
+    <property name="skip_taskbar_hint">False</property>
+    <property name="skip_pager_hint">False</property>
     <property name="has_separator">False</property>
     <property name="message_type">GTK_MESSAGE_QUESTION</property>
     <property name="buttons">GTK_BUTTONS_YES_NO</property>
