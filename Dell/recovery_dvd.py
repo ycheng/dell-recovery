@@ -195,9 +195,9 @@ class DVD():
             self.update_progress_gui(0.01,_("Building ISO image"))
 
         #Boot sector for ISO
-	#if we have ran this from a USB key, we might have syslinux which will
-	#break our build
-	if os.path.exists(self._mntdir + '/syslinux'):
+        #if we have ran this from a USB key, we might have syslinux which will
+        #break our build
+        if os.path.exists(self._mntdir + '/syslinux'):
             shutil.move(self._mntdir + '/syslinux', self._mntdir + '/isolinux')
         shutil.copy(self._mntdir + '/isolinux/isolinux.bin', self._tmpdir)
 
@@ -253,7 +253,7 @@ class DVD():
             return False
         if ret != 0:
             if type=="iso":
-                raise RuntimeError, err_str + _("returned a nonstandard return code.")
+                raise RuntimeError, err_str +" " + _("returned a nonstandard return code.")
             return False
         return True
 
@@ -308,14 +308,13 @@ class DVD():
         else:
             self.close_dialog.hide()
 
-    def remove_existing(self):
-        """Asks the user about removing an old ISO"""
-        response = self.existing_dialog.run()
-        self.existing_dialog.hide()
+    def show_question(self,dialog):
+        """Presents the user with a question"""
+        response = dialog.run()
+        dialog.hide()
         if response == gtk.RESPONSE_YES:
             return False
-        else:
-            return True
+        return True
 
     def disable_volume_manager(self):
         gvm_root = '/desktop/gnome/volume_manager'
@@ -387,7 +386,7 @@ class DVD():
         #Check for existing image
         skip_creation=False
         if os.path.exists(self.destination):
-            skip_creation=self.remove_existing()
+            skip_creation=self.show_question(self.existing_dialog)
 
         #GUI Elements
         self.wizard.hide()
@@ -447,21 +446,22 @@ class DVD():
 
         #After ISO creation is done, we fork out to other more
         #intelligent applications for doing lowlevel writing etc
-        try:
-            if success:
-                if self.dvdbutton.get_active():
-                    success=self.burn("iso",True)
-                else:
-                    success=self.burn("usb",True)
-        except Exception, inst:
-            header = _("Could not write image")
-            self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                parent=self.progress_dialog)
+        if success:
             success=False
+            while not success:
+                try:
+                    if self.dvdbutton.get_active():
+                        success=self.burn("iso",True)
+                    else:
+                        success=self.burn("usb",True)
+                except Exception, inst:
+                    success=False
+                if not success:
+                    success=self.show_question(self.retry_dialog)
 
         if success:
             header = _("Recovery Media Creation Process Complete")
-            body = _("If you would like to archive another copy, the generated image has been stored in your home directory under the filename:") + '\n' + self.destination
+            body = _("If you would like to archive another copy, the generated image has been stored in your home directory under the filename:") + ' ' + self.destination
             self.show_alert(gtk.MESSAGE_INFO, header, body,
                 parent=self.progress_dialog)
         self.destroy(None)

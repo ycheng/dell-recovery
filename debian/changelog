@@ -1,3 +1,11 @@
+dell-recovery (0.4) intrepid; urgency=low
+
+  * Allow retrying failed burns.  This works around what appears to be either
+    a GTK or nautilus-cd-burner bug where nautilus-cd-burner is crashing
+    immediately.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 24 Nov 2008 12:58:58 -0600
+
 dell-recovery (0.3) intrepid; urgency=low
 
   * New release.
