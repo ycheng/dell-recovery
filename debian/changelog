@@ -1,3 +1,9 @@
+dell-recovery (0.5) intrepid; urgency=low
+
+  * Move syslinux.cfg if it exists to isolinux.cfg.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 25 Nov 2008 02:16:47 -0600
+
 dell-recovery (0.4) intrepid; urgency=low
 
   * Allow retrying failed burns.  This works around what appears to be either

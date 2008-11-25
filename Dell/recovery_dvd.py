@@ -199,6 +199,8 @@ class DVD():
         #break our build
         if os.path.exists(self._mntdir + '/syslinux'):
             shutil.move(self._mntdir + '/syslinux', self._mntdir + '/isolinux')
+        if os.path.exists(self._mntdir + '/isolinux/syslinux.cfg'):
+            shutil.move(self._mntdir + '/isolinux/syslinux.cfg', self._mntdir + '/isolinux/isolinux.cfg')
         shutil.copy(self._mntdir + '/isolinux/isolinux.bin', self._tmpdir)
 
         #ISO Creation
