@@ -1,3 +1,9 @@
+dell-recovery (0.7) intrepid; urgency=low
+
+  * Import more translations from launchpad.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 26 Nov 2008 10:18:46 -0600
+
 dell-recovery (0.6) intrepid; urgency=low
 
   * Add translations from launchpad.
