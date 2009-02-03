@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<deviceinfo version="0.2">
+
+  <!-- Hide recovery partition -->
+  <device>
+    <!-- Hopefully we don't shoot ourselves in the foot wrg to RAID, but lets say -->
+    <!-- recovery partitions are always on the first disk -->
+    <match key="block.device" contains="/dev/sda">
+      <match key="block.is_volume" bool="true">
+
+        <!-- Recovery partitions are always FAT32 -->
+        <match key="volume.partition.type" string="0x0c">
+
+          <!-- If we restored from a USB key, the partition label is probably install -->
+          <match key="volume.label" string="install">
+            <merge key="info.ignore" type="bool">true</merge>
+            <merge key="volume.ignore" type="bool">true</merge>
+          </match>
+
+          <!-- If we restored from a partition, it's probably OS -->
+          <match key="volume.label" string="OS">
+            <merge key="info.ignore" type="bool">true</merge>
+            <merge key="volume.ignore" type="bool">true</merge>
+          </match>
+
+        </match>
+      </match>
+    </match>
+  </device>
+</deviceinfo>

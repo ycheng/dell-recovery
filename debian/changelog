@@ -1,3 +1,9 @@
+dell-recovery (0.8) jaunty; urgency=low
+
+  * Add HAL FDI file for hiding recovery partition (LP: #325008)
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 03 Feb 2009 14:04:48 -0600
+
 dell-recovery (0.7) intrepid; urgency=low
 
   * Import more translations from launchpad.

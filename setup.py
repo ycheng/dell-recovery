@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #
 # Dell Recovery Media install script
-# Copyright (C) 2008, Dell Inc.
+# Copyright (C) 2008-2009, Dell Inc.
 #  Author: Mario Limonciello <Mario_Limonciello@Dell.com>
 #
 #
@@ -44,6 +44,7 @@ setup(
                 ("share/dell/bin", glob.glob("bin/dell-recovery-media")),
                 ("share/dell/bin", glob.glob("bin/create-new-uuid")),
 		("share/dell/notes", glob.glob("notes/*")),
+		("share/hal/fdi/policy/20thirdparty", glob.glob("hal/*")),
                 ("share/applications", glob.glob("applications/*.desktop"))]+I18NFILES,
     scripts=["dell-recovery-media"],
 )
