@@ -1,16 +1,16 @@
-# French translation for dell-recovery
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Swedish translation for dell-recovery
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the dell-recovery package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-11-25 21:03-0600\n"
-"PO-Revision-Date: 2008-11-26 19:54+0000\n"
-"Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
-"Language-Team: French <fr@li.org>\n"
+"PO-Revision-Date: 2009-01-04 18:40+0000\n"
+"Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
+"Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,23 +19,23 @@ msgstr ""
 
 #: ../Dell/progress_dialogs.glade.h:1
 msgid "<activity placeholder>"
-msgstr "<espace réservé d'activité>"
+msgstr "<platshållare för aktivitet>"
 
 #: ../Dell/progress_dialogs.glade.h:2
 msgid "Cancel Recovery Media Creator"
-msgstr "Annuler Recovery Media Creator"
+msgstr "Avbryt skapandet av återställningsmedia"
 
 #: ../Dell/progress_dialogs.glade.h:3
 msgid "DVD+/-RW Disc"
-msgstr "Disque DVD+/-RW"
+msgstr "DVD+/-RW-skiva"
 
 #: ../Dell/progress_dialogs.glade.h:4
 msgid "Dell Recovery Media Creator"
-msgstr "Créateur de supports de restauration Dell"
+msgstr "Skapa återställningsmedia för Dell"
 
 #: ../Dell/progress_dialogs.glade.h:5
 msgid "Retry burn?"
-msgstr ""
+msgstr "Bränn igen?"
 
 #: ../Dell/progress_dialogs.glade.h:6
 msgid ""
@@ -43,122 +43,122 @@ msgid ""
 "the computer to its factory shipped state.  You will have the option to "
 "create an USB key or DVD image."
 msgstr ""
-"Cette application permettra de créer OS de supports de récupération qui peut "
-"être utilisé pour restaurer l'ordinateur à son état usine expédiées. Vous "
-"avez la possibilité de créer une clé USB ou un DVD image."
+"Detta program kommer att skapa ett återställningsmedia för operativsystem "
+"som kan användas för att återställa datorn till dess fabriksinställningar. "
+"Du kommer att få alternativet att skapa på en USB-enhet eller dvd-avbildning."
 
 #: ../Dell/progress_dialogs.glade.h:7
 msgid "USB Flash Drive"
-msgstr "Lecteur flash USB"
+msgstr "USB-enhet"
 
 #: ../Dell/recovery_dvd.py:147 ../Dell/recovery_dvd.py:158
 msgid "Building Utility Partition"
-msgstr "Création d'une partition d'utilitaires"
+msgstr "Bygger verktygspartition"
 
 #: ../Dell/recovery_dvd.py:165
 msgid "Preparing Recovery Partition"
-msgstr "Préparation d'une partition de restauration"
+msgstr "Förbereder återställningspartition"
 
 #: ../Dell/recovery_dvd.py:171
 msgid "Building Recovery Partition"
-msgstr "Création d'une partition de restauration"
+msgstr "Bygger återställningspartition"
 
 #: ../Dell/recovery_dvd.py:176
 msgid "Regenerating UUIDs"
-msgstr "Régéneration des UUID"
+msgstr "Omgenererar UUID"
 
 #: ../Dell/recovery_dvd.py:186
 msgid "create-new-uuid exited with a nonstandard return value."
-msgstr "Fermeture de create-new-uuid avec une valeur de retour non standard."
+msgstr "create-new-uuid avslutades med ett icke-standard svarsvärde."
 
 #: ../Dell/recovery_dvd.py:195
 msgid "Building ISO image"
-msgstr "Création de l'image ISO"
+msgstr "Bygger ISO-avbildning"
 
 #: ../Dell/recovery_dvd.py:225
 msgid "Building ISO Image"
-msgstr "Création de l'image ISO"
+msgstr "Bygger ISO-avbildning"
 
 #: ../Dell/recovery_dvd.py:230
 msgid "genisoimage exited with a nonstandard return value."
-msgstr "Fermeture de genisoimage avec une valeur de retour non standard."
+msgstr "genisoimage avslutades med ett icke-standard svarsvärde."
 
 #: ../Dell/recovery_dvd.py:236
 msgid "Adjusting Permissions"
-msgstr "Réglage des permissions"
+msgstr "Justerar rättigheter"
 
 #: ../Dell/recovery_dvd.py:240
 msgid "Error adjusting permissions."
-msgstr "Erreur de réglage des permissions."
+msgstr "Fel vid justering av rättigheter."
 
 #: ../Dell/recovery_dvd.py:245
 msgid "Opening Burner"
-msgstr "Ouverture du graveur"
+msgstr "Öppnar brännare"
 
 #: ../Dell/recovery_dvd.py:249
 msgid "Nautilus CD Burner"
-msgstr "Graveur de CD Nautilus"
+msgstr "Nautilus cd-brännare"
 
 #: ../Dell/recovery_dvd.py:252
 msgid "Canonical USB Creator"
-msgstr "Créateur USB canonique"
+msgstr "Canonical USB-skapare"
 
 #: ../Dell/recovery_dvd.py:254
 msgid "Unknown image burn type."
-msgstr "Type de gravure d'image inconnu."
+msgstr "Okänd bränningstyp för avbildning."
 
 #: ../Dell/recovery_dvd.py:258
 msgid "returned a nonstandard return code."
-msgstr "a renvoyé un code de retour non standard."
+msgstr "returnerade en icke-standard svarskod."
 
 #: ../Dell/recovery_dvd.py:367
 msgid "Welcome"
-msgstr "Bienvenue"
+msgstr "Välkommen"
 
 #: ../Dell/recovery_dvd.py:370
 msgid "Choose Media Type"
-msgstr "Choisir un type de support"
+msgstr "Välj mediatyp"
 
 #: ../Dell/recovery_dvd.py:373
 msgid "Confirm Selections"
-msgstr "Confirmer les sélections"
+msgstr "Bekräfta"
 
 #: ../Dell/recovery_dvd.py:381
 msgid "Media Type: "
-msgstr "Type de support : "
+msgstr "Mediatyp: "
 
 #: ../Dell/recovery_dvd.py:398
 msgid "Preparing to build base image"
-msgstr "Préparation de la création de l'image de base"
+msgstr "Förbereder att bygga grundavbildning"
 
 #: ../Dell/recovery_dvd.py:408
 msgid "Couldn't create temp directories"
-msgstr "Impossible de créer des répertoires temp"
+msgstr "Kunde inte skapa temporärkataloger"
 
 #: ../Dell/recovery_dvd.py:416
 msgid "Could not build UP"
-msgstr "Création UP impossible"
+msgstr "Kunde inte bygga UP"
 
 #: ../Dell/recovery_dvd.py:425
 msgid "Could not regenerate UUID"
-msgstr "Régénération d'UUID impossible"
+msgstr "Kunde inte omgenerera UUID"
 
 #: ../Dell/recovery_dvd.py:434
 msgid "Could not build image"
-msgstr "Création d'image impossible"
+msgstr "Kunde inte bygga avbildning"
 
 #: ../Dell/recovery_dvd.py:443
 msgid "Could not adjust permissions"
-msgstr "Réglage des permissions impossible"
+msgstr "Kunde inte justera rättigheter"
 
 #: ../Dell/recovery_dvd.py:465
 msgid "Recovery Media Creation Process Complete"
-msgstr "Processus de création de supports de restauration terminé"
+msgstr "Återställningsmediat är färdigt"
 
 #: ../Dell/recovery_dvd.py:466
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored in your home directory under the filename:"
 msgstr ""
-"Si vous désirez une autre copie d'archives, de la génération image a été "
-"stocké dans votre répertoire home sous le nom de fichier:"
+"Om du vill göra en kopia till så har den genererade avbildning lagrats i din "
+"hemkatalog med filnamnet:"
