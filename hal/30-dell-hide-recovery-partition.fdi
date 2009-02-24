@@ -10,7 +10,7 @@
       <match key="block.is_volume" bool="true">
 
         <!-- Recovery partitions are always FAT32 -->
-        <match key="volume.partition.type" string="0x0c">
+        <match key="volume.fstype" string="vfat">
 
           <!-- If we restored from a USB key, the partition label is probably install -->
           <match key="volume.label" string="install">
