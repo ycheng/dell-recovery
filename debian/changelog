@@ -1,3 +1,18 @@
+dell-recovery (0.10) UNRELEASED; urgency=low
+
+  * debian/control:
+    - Drop dependency on menu.
+  * debian/links:
+    - Install actual .desktop file to /etc/skel rather than symlink.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 03 Mar 2009 12:39:41 -0600
+
+dell-recovery (0.9) jaunty; urgency=low
+
+  * Update FDI file for changes in jaunty.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 25 Feb 2009 12:16:57 -0600
+
 dell-recovery (0.8) jaunty; urgency=low
 
   * Add HAL FDI file for hiding recovery partition (LP: #325008)
