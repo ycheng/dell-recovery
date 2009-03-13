@@ -5,7 +5,7 @@ Name=Create Dell Recovery Media
 Type=Application
 Terminal=false
 Name[en_US]=Create Dell Recovery Media
-Exec=su-to-root -X -c /usr/bin/dell-recovery-media
+Exec=/usr/bin/dell-recovery-media
 Icon=/usr/share/images/dell/dell-dvd.png
 Categories=System;Settings
 
