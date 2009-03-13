@@ -31,6 +31,7 @@ import atexit
 import time
 import string
 import stat
+import dbus
 
 import pygtk
 pygtk.require("2.0")
@@ -62,7 +63,7 @@ ISO='ubuntu-dell-reinstall.iso'
 class DVD():
     def __init__(self):
 
-		#setup locales
+        #setup locales
         for module in (gettext, gtk.glade):
             module.bindtextdomain(domain, LOCALEDIR)
             module.textdomain(domain)
@@ -76,11 +77,11 @@ class DVD():
                 widget.set_property('can-focus', False)
                 widget.set_text(_(widget.get_text()))
             elif isinstance(widget, gtk.RadioButton):
-            	widget.set_label(_(widget.get_label()))
+                widget.set_label(_(widget.get_label()))
             elif isinstance(widget, gtk.Window):
-            	title=widget.get_title()
-            	if title:
-            		widget.set_title(_(title))
+                title=widget.get_title()
+                if title:
+                    widget.set_title(_(title))
         self.glade.signal_autoconnect(self)
 
         if 'SUDO_UID' in os.environ:
@@ -103,6 +104,32 @@ class DVD():
 
         #make sure they are cleaned up no matter what happens
         atexit.register(self.unmount_drives)
+
+    def check_preloaded_system(self):
+        """Checks that the system this tool is being run on contains a
+           utility partition and recovery partition"""
+        bus = dbus.SystemBus()
+        hal_obj = bus.get_object('org.freedesktop.Hal', '/org/freedesktop/Hal/Manager')
+        hal = dbus.Interface(hal_obj, 'org.freedesktop.Hal.Manager')
+
+        up=False
+        rp=False
+
+        udis = hal.FindDeviceByCapability('volume')
+        for udi in udis:
+            dev_obj = bus.get_object('org.freedesktop.Hal', udi)
+            dev = dbus.Interface(dev_obj, 'org.freedesktop.Hal.Device')
+
+            property = dev.GetProperty('volume.label')
+
+            if 'DellUtility' in property:
+                up=True
+            elif 'install' in property or 'OS' in property:
+                rp=True
+
+            if up and rp:
+                return True
+        return False
 
     def mount_drives(self):
         #only mount place if they really exist
@@ -263,7 +290,14 @@ class DVD():
 # This application is functional via command line by using the above functions #
 
     def run(self):
-        self.wizard.show()
+        if self.check_preloaded_system():
+            self.wizard.show()
+        else:
+            header=_("This tool requires that a Utility Partition and Linux Recovery partition are present to function.")
+            inst = None
+            self.show_alert(gtk.MESSAGE_ERROR, header, inst,
+                    parent=self.progress_dialog)
+            return
         gtk.main()
 
     def hide_progress(self):
@@ -467,8 +501,6 @@ class DVD():
             self.show_alert(gtk.MESSAGE_INFO, header, body,
                 parent=self.progress_dialog)
         self.destroy(None)
-
-
 
     def ignore(*args):
         """Ignores a signal"""

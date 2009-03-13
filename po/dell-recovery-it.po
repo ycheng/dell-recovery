@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-11-25 21:03-0600\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-03-13 15:38-0500\n"
 "PO-Revision-Date: 2008-11-15 12:00+0000\n"
 "Last-Translator: Alex Trenta <dando.sando@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -52,111 +52,117 @@ msgstr ""
 msgid "USB Flash Drive"
 msgstr "Unità flash USB"
 
-#: ../Dell/recovery_dvd.py:147 ../Dell/recovery_dvd.py:158
+#: ../Dell/recovery_dvd.py:174 ../Dell/recovery_dvd.py:185
 msgid "Building Utility Partition"
 msgstr "Costruzione partizione di utilità"
 
-#: ../Dell/recovery_dvd.py:165
+#: ../Dell/recovery_dvd.py:192
 msgid "Preparing Recovery Partition"
 msgstr "Preparazione partizione di recupero"
 
-#: ../Dell/recovery_dvd.py:171
+#: ../Dell/recovery_dvd.py:198
 msgid "Building Recovery Partition"
 msgstr "Costruzione partizione di recupero"
 
-#: ../Dell/recovery_dvd.py:176
+#: ../Dell/recovery_dvd.py:203
 msgid "Regenerating UUIDs"
 msgstr "Rigenerazione degli UUID"
 
-#: ../Dell/recovery_dvd.py:186
+#: ../Dell/recovery_dvd.py:213
 msgid "create-new-uuid exited with a nonstandard return value."
 msgstr "create-new-uuid è terminata con un valore di ritorno non standard."
 
-#: ../Dell/recovery_dvd.py:195
+#: ../Dell/recovery_dvd.py:222
 msgid "Building ISO image"
 msgstr "Costruzione immagine ISO"
 
-#: ../Dell/recovery_dvd.py:225
+#: ../Dell/recovery_dvd.py:252
 msgid "Building ISO Image"
 msgstr "Costruzione immagine ISO"
 
-#: ../Dell/recovery_dvd.py:230
+#: ../Dell/recovery_dvd.py:257
 msgid "genisoimage exited with a nonstandard return value."
 msgstr "genisomage è terminata con un valore di ritorno non standard."
 
-#: ../Dell/recovery_dvd.py:236
+#: ../Dell/recovery_dvd.py:263
 msgid "Adjusting Permissions"
 msgstr "Regolazione dei permessi"
 
-#: ../Dell/recovery_dvd.py:240
+#: ../Dell/recovery_dvd.py:267
 msgid "Error adjusting permissions."
 msgstr "Errore nel regolare i permessi."
 
-#: ../Dell/recovery_dvd.py:245
+#: ../Dell/recovery_dvd.py:272
 msgid "Opening Burner"
 msgstr "Apertura del masterizzatore"
 
-#: ../Dell/recovery_dvd.py:249
+#: ../Dell/recovery_dvd.py:276
 msgid "Nautilus CD Burner"
 msgstr "Nautilus CD Burner"
 
-#: ../Dell/recovery_dvd.py:252
+#: ../Dell/recovery_dvd.py:279
 msgid "Canonical USB Creator"
 msgstr ""
 
-#: ../Dell/recovery_dvd.py:254
+#: ../Dell/recovery_dvd.py:281
 msgid "Unknown image burn type."
 msgstr "Tipo di immagine da masterizzare sconosciuta."
 
-#: ../Dell/recovery_dvd.py:258
+#: ../Dell/recovery_dvd.py:285
 msgid "returned a nonstandard return code."
 msgstr "restituito un codice di ritorno non standard."
 
-#: ../Dell/recovery_dvd.py:367
+#: ../Dell/recovery_dvd.py:296
+msgid ""
+"This tool requires that a Utility Partition and Linux Recovery partition are "
+"present to function."
+msgstr ""
+
+#: ../Dell/recovery_dvd.py:401
 msgid "Welcome"
 msgstr "Benvenuti"
 
-#: ../Dell/recovery_dvd.py:370
+#: ../Dell/recovery_dvd.py:404
 msgid "Choose Media Type"
 msgstr "Scegliere il tipo di supporto"
 
-#: ../Dell/recovery_dvd.py:373
+#: ../Dell/recovery_dvd.py:407
 msgid "Confirm Selections"
 msgstr "Confermare le selezioni"
 
-#: ../Dell/recovery_dvd.py:381
+#: ../Dell/recovery_dvd.py:415
 msgid "Media Type: "
 msgstr "Tipo di supporto: "
 
-#: ../Dell/recovery_dvd.py:398
+#: ../Dell/recovery_dvd.py:432
 msgid "Preparing to build base image"
 msgstr "Preparazione della costruzione dell'immagine di base"
 
-#: ../Dell/recovery_dvd.py:408
+#: ../Dell/recovery_dvd.py:442
 msgid "Couldn't create temp directories"
 msgstr "Impossibile creare le directory temporanee"
 
-#: ../Dell/recovery_dvd.py:416
+#: ../Dell/recovery_dvd.py:450
 msgid "Could not build UP"
 msgstr "Impossibile costruire"
 
-#: ../Dell/recovery_dvd.py:425
+#: ../Dell/recovery_dvd.py:459
 msgid "Could not regenerate UUID"
 msgstr "Impossibile rigenerare lo UUID"
 
-#: ../Dell/recovery_dvd.py:434
+#: ../Dell/recovery_dvd.py:468
 msgid "Could not build image"
 msgstr "Impossibile costruire l'immagine"
 
-#: ../Dell/recovery_dvd.py:443
+#: ../Dell/recovery_dvd.py:477
 msgid "Could not adjust permissions"
 msgstr "Impossibile regolare i permessi"
 
-#: ../Dell/recovery_dvd.py:465
+#: ../Dell/recovery_dvd.py:499
 msgid "Recovery Media Creation Process Complete"
 msgstr "Processo di creazione del supporto di recupero completato"
 
-#: ../Dell/recovery_dvd.py:466
+#: ../Dell/recovery_dvd.py:500
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored in your home directory under the filename:"

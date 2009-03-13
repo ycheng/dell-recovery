@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-11-25 21:03-0600\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-03-13 15:38-0500\n"
 "PO-Revision-Date: 2009-01-04 18:40+0000\n"
 "Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -51,111 +51,117 @@ msgstr ""
 msgid "USB Flash Drive"
 msgstr "USB-enhet"
 
-#: ../Dell/recovery_dvd.py:147 ../Dell/recovery_dvd.py:158
+#: ../Dell/recovery_dvd.py:174 ../Dell/recovery_dvd.py:185
 msgid "Building Utility Partition"
 msgstr "Bygger verktygspartition"
 
-#: ../Dell/recovery_dvd.py:165
+#: ../Dell/recovery_dvd.py:192
 msgid "Preparing Recovery Partition"
 msgstr "Förbereder återställningspartition"
 
-#: ../Dell/recovery_dvd.py:171
+#: ../Dell/recovery_dvd.py:198
 msgid "Building Recovery Partition"
 msgstr "Bygger återställningspartition"
 
-#: ../Dell/recovery_dvd.py:176
+#: ../Dell/recovery_dvd.py:203
 msgid "Regenerating UUIDs"
 msgstr "Omgenererar UUID"
 
-#: ../Dell/recovery_dvd.py:186
+#: ../Dell/recovery_dvd.py:213
 msgid "create-new-uuid exited with a nonstandard return value."
 msgstr "create-new-uuid avslutades med ett icke-standard svarsvärde."
 
-#: ../Dell/recovery_dvd.py:195
+#: ../Dell/recovery_dvd.py:222
 msgid "Building ISO image"
 msgstr "Bygger ISO-avbildning"
 
-#: ../Dell/recovery_dvd.py:225
+#: ../Dell/recovery_dvd.py:252
 msgid "Building ISO Image"
 msgstr "Bygger ISO-avbildning"
 
-#: ../Dell/recovery_dvd.py:230
+#: ../Dell/recovery_dvd.py:257
 msgid "genisoimage exited with a nonstandard return value."
 msgstr "genisoimage avslutades med ett icke-standard svarsvärde."
 
-#: ../Dell/recovery_dvd.py:236
+#: ../Dell/recovery_dvd.py:263
 msgid "Adjusting Permissions"
 msgstr "Justerar rättigheter"
 
-#: ../Dell/recovery_dvd.py:240
+#: ../Dell/recovery_dvd.py:267
 msgid "Error adjusting permissions."
 msgstr "Fel vid justering av rättigheter."
 
-#: ../Dell/recovery_dvd.py:245
+#: ../Dell/recovery_dvd.py:272
 msgid "Opening Burner"
 msgstr "Öppnar brännare"
 
-#: ../Dell/recovery_dvd.py:249
+#: ../Dell/recovery_dvd.py:276
 msgid "Nautilus CD Burner"
 msgstr "Nautilus cd-brännare"
 
-#: ../Dell/recovery_dvd.py:252
+#: ../Dell/recovery_dvd.py:279
 msgid "Canonical USB Creator"
 msgstr "Canonical USB-skapare"
 
-#: ../Dell/recovery_dvd.py:254
+#: ../Dell/recovery_dvd.py:281
 msgid "Unknown image burn type."
 msgstr "Okänd bränningstyp för avbildning."
 
-#: ../Dell/recovery_dvd.py:258
+#: ../Dell/recovery_dvd.py:285
 msgid "returned a nonstandard return code."
 msgstr "returnerade en icke-standard svarskod."
 
-#: ../Dell/recovery_dvd.py:367
+#: ../Dell/recovery_dvd.py:296
+msgid ""
+"This tool requires that a Utility Partition and Linux Recovery partition are "
+"present to function."
+msgstr ""
+
+#: ../Dell/recovery_dvd.py:401
 msgid "Welcome"
 msgstr "Välkommen"
 
-#: ../Dell/recovery_dvd.py:370
+#: ../Dell/recovery_dvd.py:404
 msgid "Choose Media Type"
 msgstr "Välj mediatyp"
 
-#: ../Dell/recovery_dvd.py:373
+#: ../Dell/recovery_dvd.py:407
 msgid "Confirm Selections"
 msgstr "Bekräfta"
 
-#: ../Dell/recovery_dvd.py:381
+#: ../Dell/recovery_dvd.py:415
 msgid "Media Type: "
 msgstr "Mediatyp: "
 
-#: ../Dell/recovery_dvd.py:398
+#: ../Dell/recovery_dvd.py:432
 msgid "Preparing to build base image"
 msgstr "Förbereder att bygga grundavbildning"
 
-#: ../Dell/recovery_dvd.py:408
+#: ../Dell/recovery_dvd.py:442
 msgid "Couldn't create temp directories"
 msgstr "Kunde inte skapa temporärkataloger"
 
-#: ../Dell/recovery_dvd.py:416
+#: ../Dell/recovery_dvd.py:450
 msgid "Could not build UP"
 msgstr "Kunde inte bygga UP"
 
-#: ../Dell/recovery_dvd.py:425
+#: ../Dell/recovery_dvd.py:459
 msgid "Could not regenerate UUID"
 msgstr "Kunde inte omgenerera UUID"
 
-#: ../Dell/recovery_dvd.py:434
+#: ../Dell/recovery_dvd.py:468
 msgid "Could not build image"
 msgstr "Kunde inte bygga avbildning"
 
-#: ../Dell/recovery_dvd.py:443
+#: ../Dell/recovery_dvd.py:477
 msgid "Could not adjust permissions"
 msgstr "Kunde inte justera rättigheter"
 
-#: ../Dell/recovery_dvd.py:465
+#: ../Dell/recovery_dvd.py:499
 msgid "Recovery Media Creation Process Complete"
 msgstr "Återställningsmediat är färdigt"
 
-#: ../Dell/recovery_dvd.py:466
+#: ../Dell/recovery_dvd.py:500
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored in your home directory under the filename:"

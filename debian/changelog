@@ -4,6 +4,9 @@ dell-recovery (0.10) UNRELEASED; urgency=low
     - Drop dependency on menu.
   * debian/links:
     - Install actual .desktop file to /etc/skel rather than symlink.
+  * import translations from launchpad.
+  * Don't allow this tool to run on systems without a UP and RP.
+    This is an undefined case that would likely fail anyway.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 03 Mar 2009 12:39:41 -0600
 
