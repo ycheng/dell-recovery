@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-11 13:26-0600\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2008-11-25 21:03-0600\n"
 "PO-Revision-Date: 2008-11-26 19:54+0000\n"
 "Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-02-03 20:36+0000\n"
+"X-Launchpad-Export-Date: 2009-03-13 20:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/progress_dialogs.glade.h:1
