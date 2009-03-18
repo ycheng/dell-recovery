@@ -1,4 +1,4 @@
-dell-recovery (0.11) UNRELEASED; urgency=low
+dell-recovery (0.11) jaunty; urgency=low
 
   * Don't build the MBR backup when creating recovery media.
     We'll dynamically create the partition table instead.
