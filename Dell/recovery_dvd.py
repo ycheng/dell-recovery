@@ -173,8 +173,6 @@ class DVD():
         if gui is not False:
             self.update_progress_gui(0.003,_("Building Utility Partition"))
 
-        #MBR
-        subprocess.call(['dd','if=' + DRIVE,'bs=512','count=1','of=' + self._tmpdir + '/up/mbr.bin'])
         #UP Partition
         p1 = subprocess.Popen(['dd','if='+ DRIVE + UTILITY_PARTITION,'bs=1M'], stdout=subprocess.PIPE)
         p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
@@ -186,7 +184,7 @@ class DVD():
 
         #Mount the RP & clean it up
         # - Removes pagefile.sys which may have joined us during FI
-        # - Removes mbr.bin/upimg.bin which may exist if creating recovery disks from recovery disks
+        # - Removes upimg.bin which may exist if creating recovery disks from recovery disks
         # - Removes all .exe files since we don't do $stuff on windows
         if gui is not False:
             self.update_progress_gui(0.007,_("Preparing Recovery Partition"))
