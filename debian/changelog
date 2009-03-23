@@ -1,3 +1,10 @@
+dell-recovery (0.12) UNRELEASED; urgency=low
+
+  * Cleanup an isolinux directory if it exists at the same
+    time as a syslinux directory.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 23 Mar 2009 15:13:01 -0500
+
 dell-recovery (0.11) jaunty; urgency=low
 
   * Don't build the MBR backup when creating recovery media.

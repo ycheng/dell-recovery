@@ -137,28 +137,27 @@ class DVD():
             subprocess.call(['mount', DRIVE + RECOVERY_PARTITION , self._mntdir])
 
     def unmount_drives(self):
-        def walk_cleanup(directory):
-            for root,dirs,files in os.walk(directory, topdown=False):
-                for name in files:
-                    os.remove(os.path.join(root,name))
-                for name in dirs:
-                    os.rmdir(os.path.join(root,name))
-
         #only unmount places if they actually still exist
         if self._mntdir is not None:
             subprocess.call(['umount', self._mntdir + '/.disk/casper-uuid-generic'])
             subprocess.call(['umount', self._mntdir + '/casper/initrd.gz'])
             subprocess.call(['umount', self._mntdir])
-            walk_cleanup(self._mntdir)
+            self.walk_cleanup(self._mntdir)
             os.rmdir(self._mntdir)
             self._mntdir=None
 
         if self._tmpdir is not None:
             subprocess.call(['umount', self._tmpdir])
-            walk_cleanup(self._tmpdir)
+            self.walk_cleanup(self._tmpdir)
             os.rmdir(self._tmpdir)
             self._tmpdir=None
 
+    def walk_cleanup(self,directory):
+        for root,dirs,files in os.walk(directory, topdown=False):
+            for name in files:
+                os.remove(os.path.join(root,name))
+            for name in dirs:
+                os.rmdir(os.path.join(root,name))
 
     def create_tempdirs(self):
         """Creates temporary directories to be used while building ISO"""
@@ -219,13 +218,19 @@ class DVD():
         if gui is not False:
             self.update_progress_gui(0.01,_("Building ISO image"))
 
-        #Boot sector for ISO
         #if we have ran this from a USB key, we might have syslinux which will
         #break our build
         if os.path.exists(self._mntdir + '/syslinux'):
+            if os.path.exists(self._mntdir + '/isolinux'):
+                #this means we might have been alternating between
+                #recovery media formats too much
+                self.walk_cleanup(self._mntdir + '/isolinux')
+                os.rmdir(self._mntdir + '/isolinux')
             shutil.move(self._mntdir + '/syslinux', self._mntdir + '/isolinux')
         if os.path.exists(self._mntdir + '/isolinux/syslinux.cfg'):
             shutil.move(self._mntdir + '/isolinux/syslinux.cfg', self._mntdir + '/isolinux/isolinux.cfg')
+
+        #Boot sector for ISO
         shutil.copy(self._mntdir + '/isolinux/isolinux.bin', self._tmpdir)
 
         #ISO Creation
