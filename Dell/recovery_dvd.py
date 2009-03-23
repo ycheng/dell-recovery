@@ -168,31 +168,28 @@ class DVD():
 
     def build_up(self,gui=False):
         """Builds a Utility partition Image"""
-        ##Create UP
-        if gui is not False:
-            self.update_progress_gui(0.003,_("Building Utility Partition"))
-
-        #UP Partition
-        p1 = subprocess.Popen(['dd','if='+ DRIVE + UTILITY_PARTITION,'bs=1M'], stdout=subprocess.PIPE)
-        p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
-        partition_file=open(self._tmpdir + '/up/' + 'upimg.bin', "w")
-        partition_file.write(p2.communicate()[0])
-        partition_file.close()
-        if gui is not False:
-            self.update_progress_gui(0.005,_("Building Utility Partition"))
 
         #Mount the RP & clean it up
         # - Removes pagefile.sys which may have joined us during FI
-        # - Removes upimg.bin which may exist if creating recovery disks from recovery disks
         # - Removes all .exe files since we don't do $stuff on windows
-        if gui is not False:
-            self.update_progress_gui(0.007,_("Preparing Recovery Partition"))
         self.mount_drives()
-        for file in os.listdir(self._mntdir):
-            if ".exe" in file or ".bin" in file or ".sys" in file:
-                os.remove(self._mntdir + '/' + file)
         if gui is not False:
-            self.update_progress_gui(0.008,_("Building Recovery Partition"))
+            self.update_progress_gui(0.003,_("Preparing Recovery Partition"))
+        for file in os.listdir(self._mntdir):
+            if ".exe" in file or ".sys" in file:
+                os.remove(self._mntdir + '/' + file)
+
+        ##Create UP only if it isn't already made (it can be from multiple recoveries)
+        if not os.path.exists(self._mntdir + '/upimg.bin'):
+            if gui is not False:
+                self.update_progress_gui(0.005,_("Building Utility Partition"))
+            p1 = subprocess.Popen(['dd','if='+ DRIVE + UTILITY_PARTITION,'bs=1M'], stdout=subprocess.PIPE)
+            p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
+            partition_file=open(self._tmpdir + '/up/' + 'upimg.bin', "w")
+            partition_file.write(p2.communicate()[0])
+            partition_file.close()
+            if gui is not False:
+                self.update_progress_gui(0.007,_("Building Utility Partition"))
 
     def regenerate_uuid(self,gui=False):
         """Regenerates the UUID used on the casper image"""
@@ -275,8 +272,8 @@ class DVD():
             self.update_progress_gui(1.00,_("Opening Burner"))
             self.hide_progress()
         if type=="iso":
-            ret=subprocess.call(['nautilus-cd-burner', '--source-iso=' + self.destination])
-            err_str=_("Nautilus CD Burner")
+            ret=subprocess.call(['brasero', '-i', self.destination])
+            err_str=_("Brasero")
         elif type=="usb":
             ret=subprocess.call(['usb-creator', '--iso=' + self.destination, '-n'])
             err_str=_("Canonical USB Creator")

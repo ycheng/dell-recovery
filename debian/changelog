@@ -2,6 +2,10 @@ dell-recovery (0.12) UNRELEASED; urgency=low
 
   * Cleanup an isolinux directory if it exists at the same
     time as a syslinux directory.
+  * If the UP already exists, say if we are recovering from
+    a recovery, no need to go and make it again.
+  * Use brasero instead of nautilus-cd-burner since nautilus
+    cd burner is no longer included in 9.04.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 23 Mar 2009 15:13:01 -0500
 
