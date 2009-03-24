@@ -352,39 +352,6 @@ class DVD():
             return False
         return True
 
-    def disable_volume_manager(self):
-        gvm_root = '/desktop/gnome/volume_manager'
-        gvm_automount_drives = '%s/automount_drives' % gvm_root
-        gvm_automount_media = '%s/automount_media' % gvm_root
-        volumes_visible = '/apps/nautilus/desktop/volumes_visible'
-        media_automount = '/apps/nautilus/preferences/media_automount'
-        media_automount_open = '/apps/nautilus/preferences/media_automount_open'
-        self.gconf_previous = {}
-        for gconf_key in (gvm_automount_drives, gvm_automount_media,
-                          volumes_visible,
-                          media_automount, media_automount_open):
-            self.gconf_previous[gconf_key] = gconftool.get(gconf_key)
-            if self.gconf_previous[gconf_key] != 'false':
-                gconftool.set(gconf_key, 'bool', 'false')
-
-        atexit.register(self.enable_volume_manager)
-
-    def enable_volume_manager(self):
-        gvm_root = '/desktop/gnome/volume_manager'
-        gvm_automount_drives = '%s/automount_drives' % gvm_root
-        gvm_automount_media = '%s/automount_media' % gvm_root
-        volumes_visible = '/apps/nautilus/desktop/volumes_visible'
-        media_automount = '/apps/nautilus/preferences/media_automount'
-        media_automount_open = '/apps/nautilus/preferences/media_automount_open'
-        for gconf_key in (gvm_automount_drives, gvm_automount_media,
-                          volumes_visible,
-                          media_automount, media_automount_open):
-            if self.gconf_previous[gconf_key] == '':
-                gconftool.unset(gconf_key)
-            elif self.gconf_previous[gconf_key] != 'false':
-                gconftool.set(gconf_key, 'bool',
-                              self.gconf_previous[gconf_key])
-
     def update_progress_gui(self,progress,new_text=None):
         """Updates the progressbar to show what we are working on"""
         self.progressbar.set_fraction(progress)
@@ -434,7 +401,6 @@ class DVD():
         #Full process for creating an image
         success=True
         if not skip_creation:
-            self.disable_volume_manager()
 
             try:
                 self.create_tempdirs()
@@ -478,7 +444,6 @@ class DVD():
                 self.show_alert(gtk.MESSAGE_ERROR, header, inst,
                     parent=self.progress_dialog)
                 success=False
-            self.enable_volume_manager()
 
         #After ISO creation is done, we fork out to other more
         #intelligent applications for doing lowlevel writing etc
