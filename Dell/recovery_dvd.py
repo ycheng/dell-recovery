@@ -3,7 +3,7 @@
 #
 # «recovery_dvd» - Dell Recovery DVD Creator
 #
-# Copyright (C) 2008, Dell Inc.
+# Copyright (C) 2008-2009, Dell Inc.
 #
 # Author:
 #  - Mario Limonciello <Mario_Limonciello@Dell.com>
@@ -25,22 +25,16 @@
 
 import os
 import subprocess
-import shutil
-import tempfile
-import atexit
-import time
-import string
 import stat
 import dbus
+import gobject
+import sys
 
 import pygtk
 pygtk.require("2.0")
 
 import gtk
 import gtk.glade
-
-#Borrowed from Canonical/Ubiquity
-import gconftool
 
 #Translation Support
 domain='dell-recovery'
@@ -84,26 +78,9 @@ class DVD():
                     widget.set_title(_(title))
         self.glade.signal_autoconnect(self)
 
-        if 'SUDO_UID' in os.environ:
-            self.uid = os.environ['SUDO_UID']
-        if 'SUDO_GID' in os.environ:
-            self.gid = os.environ['SUDO_GID']
-        if self.uid is not None:
-            file=open('/etc/passwd','r').readlines()
-            for line in file:
-                if self.uid in line:
-                    self.destination = string.split(line,':')[5]
-                    break
-        else:
-            self.destination = os.getenv('HOME')
-        self.destination = self.destination + '/' + ISO
-
-        #these directories may get used during creation
-        self._mntdir=None
-        self._tmpdir=None
-
-        #make sure they are cleaned up no matter what happens
-        atexit.register(self.unmount_drives)
+        self.destination = os.getenv('HOME') + '/' + ISO
+        self.timeout = 0
+        self.progress = 0
 
     def check_preloaded_system(self):
         """Checks that the system this tool is being run on contains a
@@ -131,160 +108,36 @@ class DVD():
                 return True
         return False
 
-    def mount_drives(self):
-        #only mount place if they really exist
-        if self._mntdir is not None:
-            subprocess.call(['mount', DRIVE + RECOVERY_PARTITION , self._mntdir])
 
-    def unmount_drives(self):
-        #only unmount places if they actually still exist
-        if self._mntdir is not None:
-            subprocess.call(['umount', self._mntdir + '/.disk/casper-uuid-generic'])
-            subprocess.call(['umount', self._mntdir + '/casper/initrd.gz'])
-            subprocess.call(['umount', self._mntdir])
-            self.walk_cleanup(self._mntdir)
-            os.rmdir(self._mntdir)
-            self._mntdir=None
-
-        if self._tmpdir is not None:
-            subprocess.call(['umount', self._tmpdir])
-            self.walk_cleanup(self._tmpdir)
-            os.rmdir(self._tmpdir)
-            self._tmpdir=None
-
-    def walk_cleanup(self,directory):
-        for root,dirs,files in os.walk(directory, topdown=False):
-            for name in files:
-                os.remove(os.path.join(root,name))
-            for name in dirs:
-                os.rmdir(os.path.join(root,name))
-
-    def create_tempdirs(self):
-        """Creates temporary directories to be used while building ISO"""
-        #Temporary directories that will be useful
-        self._tmpdir=tempfile.mkdtemp()
-        os.mkdir(self._tmpdir + '/up')
-        self._mntdir=tempfile.mkdtemp()
-
-    def build_up(self,gui=False):
-        """Builds a Utility partition Image"""
-
-        #Mount the RP & clean it up
-        # - Removes pagefile.sys which may have joined us during FI
-        # - Removes all .exe files since we don't do $stuff on windows
-        self.mount_drives()
-        if gui is not False:
-            self.update_progress_gui(0.003,_("Preparing Recovery Partition"))
-        for file in os.listdir(self._mntdir):
-            if ".exe" in file or ".sys" in file:
-                os.remove(self._mntdir + '/' + file)
-
-        ##Create UP only if it isn't already made (it can be from multiple recoveries)
-        if not os.path.exists(self._mntdir + '/upimg.bin'):
-            if gui is not False:
-                self.update_progress_gui(0.005,_("Building Utility Partition"))
-            p1 = subprocess.Popen(['dd','if='+ DRIVE + UTILITY_PARTITION,'bs=1M'], stdout=subprocess.PIPE)
-            p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
-            partition_file=open(self._tmpdir + '/up/' + 'upimg.bin', "w")
-            partition_file.write(p2.communicate()[0])
-            partition_file.close()
-            if gui is not False:
-                self.update_progress_gui(0.007,_("Building Utility Partition"))
-
-    def regenerate_uuid(self,gui=False):
-        """Regenerates the UUID used on the casper image"""
-        if gui is not False:
-            self.update_progress_gui(0.009,_("Regenerating UUIDs"))
-        uuid_args = ['/usr/share/dell/bin/create-new-uuid',
-                          self._mntdir + '/casper/initrd.gz',
-                          self._tmpdir + '/',
-                          self._tmpdir + '/']
-        uuid = subprocess.Popen(uuid_args)
-        retval = uuid.poll()
-        while (retval is None):
-            retval = uuid.poll()
-        if retval is not 0:
-            raise RuntimeError, _("create-new-uuid exited with a nonstandard return value.")
-
-        #Loop mount these UUIDs so that they are included on the disk
-        subprocess.call(['mount', '-o', 'ro' ,'--bind', self._tmpdir + '/initrd.gz', self._mntdir + '/casper/initrd.gz'])
-        subprocess.call(['mount', '-o', 'ro', '--bind', self._tmpdir + '/casper-uuid-generic', self._mntdir + '/.disk/casper-uuid-generic'])
-
-    def build_iso(self,gui=False):
-        """Builds an ISO image"""
-        if gui is not False:
-            self.update_progress_gui(0.01,_("Building ISO image"))
-
-        #if we have ran this from a USB key, we might have syslinux which will
-        #break our build
-        if os.path.exists(self._mntdir + '/syslinux'):
-            if os.path.exists(self._mntdir + '/isolinux'):
-                #this means we might have been alternating between
-                #recovery media formats too much
-                self.walk_cleanup(self._mntdir + '/isolinux')
-                os.rmdir(self._mntdir + '/isolinux')
-            shutil.move(self._mntdir + '/syslinux', self._mntdir + '/isolinux')
-        if os.path.exists(self._mntdir + '/isolinux/syslinux.cfg'):
-            shutil.move(self._mntdir + '/isolinux/syslinux.cfg', self._mntdir + '/isolinux/isolinux.cfg')
-
-        #Boot sector for ISO
-        shutil.copy(self._mntdir + '/isolinux/isolinux.bin', self._tmpdir)
-
-        #ISO Creation
-        genisoargs=['genisoimage', '-o', self.destination,
-            '-input-charset', 'utf-8',
-            '-b', 'isolinux/isolinux.bin', '-c', 'isolinux/boot.catalog',
-            '-no-emul-boot', '-boot-load-size', '4', '-boot-info-table',
-            '-pad', '-r', '-J', '-joliet-long', '-N', '-hide-joliet-trans-tbl',
-            '-cache-inodes', '-l',
-            '-publisher', 'Dell Inc.',
-            '-V', 'Dell Ubuntu Reinstallation Media',
-            self._mntdir + '/',
-            self._tmpdir + '/up/']
-        p3 = subprocess.Popen(genisoargs,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        retval = p3.poll()
-        while (retval is None):
-            output = p3.stderr.readline()
-            if ( output != "" ):
-                progress = output.split()[0]
-                if (progress[-1:] == '%'):
-                    if gui is not False:
-                        self.update_progress_gui(float(progress[:-1])/100,_("Building ISO Image"))
-                    else:
-                        print progress[:-1] + " % Done"
-            retval = p3.poll()
-        if retval is not 0:
-            raise RuntimeError, _("genisoimage exited with a nonstandard return value.")
-        #umount drive
-        self.unmount_drives()
-
-    def fix_permissions(self):
-        """Makes the ISO readable by a normal user"""
-        self.update_progress_gui(1.00,_("Adjusting Permissions"))
-        if self.uid is not None and self.gid is not None:
-            os.chown(self.destination,int(self.uid),int(self.gid))
-        else:
-            raise RuntimeError, _("Error adjusting permissions.")
-
-    def burn(self,type,gui=False):
+    def burn(self,pid,error_code):
         """Calls an external application for burning this ISO"""
-        if gui is not False:
-            self.update_progress_gui(1.00,_("Opening Burner"))
+        success=False
+        if error_code is 0:
+            self.progress=1.00
+            self.progress_text=_("Opening Burner")
+            self.update_progress_gui()
             self.hide_progress()
-        if type=="iso":
-            ret=subprocess.call(['brasero', '-i', self.destination])
-            err_str=_("Brasero")
-        elif type=="usb":
-            ret=subprocess.call(['usb-creator', '--iso=' + self.destination, '-n'])
-            err_str=_("Canonical USB Creator")
+
+            while not success:
+                success=True
+                if self.dvdbutton.get_active():
+                    ret=subprocess.call(['brasero', '-i', self.destination])
+                else:
+                    ret=subprocess.call(['usb-creator', '--iso=' + self.destination, '-n'])
+                if ret is not 0:
+                    success=self.show_question(self.retry_dialog)
+
+            header = _("Recovery Media Creation Process Complete")
+            body = _("If you would like to archive another copy, the generated image has been stored in your home directory under the filename:") + ' ' + self.destination
+            self.show_alert(gtk.MESSAGE_INFO, header, body,
+                parent=self.progress_dialog)
+
         else:
-            raise RuntimeError, _("Unknown image burn type.")
-            return False
-        if ret != 0:
-            if type=="iso":
-                raise RuntimeError, err_str +" " + _("returned a nonstandard return code.")
-            return False
-        return True
+            header = _("Could not build image")
+            self.show_alert(gtk.MESSAGE_ERROR, header,
+                parent=self.progress_dialog)
+
+        self.destroy(None)
 
 #### GUI Functions ###
 # This application is functional via command line by using the above functions #
@@ -352,14 +205,14 @@ class DVD():
             return False
         return True
 
-    def update_progress_gui(self,progress,new_text=None):
+    def update_progress_gui(self):
         """Updates the progressbar to show what we are working on"""
-        self.progressbar.set_fraction(progress)
-        if new_text != None:
-            self.action.set_markup("<i>"+_(new_text)+"</i>")
-        time.sleep(0.5)
+        self.progressbar.set_fraction(float(self.progress)/100)
+        if self.progress_text != None:
+            self.action.set_markup("<i>"+_(self.progress_text)+"</i>")
         while gtk.events_pending():
             gtk.main_iteration()
+        return True
 
     def build_page(self,widget,page):
         """Prepares our GTK assistant"""
@@ -396,76 +249,47 @@ class DVD():
         self.progress_dialog.show()
         self.progress_dialog.connect('delete_event', self.ignore)
         self.action.set_text("Building Base image")
-        self.update_progress_gui(0.0, _("Preparing to build base image"))
 
         #Full process for creating an image
-        success=True
         if not skip_creation:
+            if os.getuid() == 0:
+                sudo = []
+            elif os.path.exists('/usr/bin/gksudo'):
+                sudo = ['gksudo', '-k']
+            elif os.path.exists('/usr/bin/kdesu'):
+                sudo = ['kdesu', '--nonewdcop', '--']
+            
+            cmd = '/usr/share/dell/bin/create_iso.py' + \
+                  ' -d ' + DRIVE + \
+                  ' -u ' + UTILITY_PARTITION + \
+                  ' -r ' + RECOVERY_PARTITION + \
+                  ' -i ' + self.destination
+            sudo.append(cmd)
+            self.pipe = subprocess.Popen(sudo, stdout=subprocess.PIPE,
+            stderr=sys.stderr, universal_newlines=True)
+            self.watch = gobject.io_add_watch(self.pipe.stdout,
+                 gobject.IO_IN | gobject.IO_HUP,
+                 self.data_available)
+            # Wait for the process to complete
+            gobject.child_watch_add(self.pipe.pid, self.burn)
+        else:
+            self.burn(None, 0)
 
-            try:
-                self.create_tempdirs()
-            except Exception, inst:
-                header = _("Couldn't create temp directories")
-                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                    parent=self.progress_dialog)
-                success=False
-            try:
-                if success:
-                    self.build_up(True)
-            except Exception, inst:
-                header = _("Could not build UP")
-                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                    parent=self.progress_dialog)
-                success=False
 
-            try:
-                if success:
-                    self.regenerate_uuid(True)
-            except Exception, inst:
-                header = _("Could not regenerate UUID")
-                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                    parent=self.progress_dialog)
-                success=False
-
-            try:
-                if success:
-                    self.build_iso(True)
-            except Exception, inst:
-                header = _("Could not build image")
-                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                    parent=self.progress_dialog)
-                success=False
-
-            try:
-                if success:
-                    self.fix_permissions()
-            except Exception, inst:
-                header = _("Could not adjust permissions")
-                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                    parent=self.progress_dialog)
-                success=False
-
-        #After ISO creation is done, we fork out to other more
-        #intelligent applications for doing lowlevel writing etc
-        if success:
-            success=False
-            while not success:
-                try:
-                    if self.dvdbutton.get_active():
-                        success=self.burn("iso",True)
-                    else:
-                        success=self.burn("usb",True)
-                except Exception, inst:
-                    success=False
-                if not success:
-                    success=self.show_question(self.retry_dialog)
-
-        if success:
-            header = _("Recovery Media Creation Process Complete")
-            body = _("If you would like to archive another copy, the generated image has been stored in your home directory under the filename:") + ' ' + self.destination
-            self.show_alert(gtk.MESSAGE_INFO, header, body,
-                parent=self.progress_dialog)
-        self.destroy(None)
+    def data_available(self, source, condition):
+        text = source.readline()
+        if len(text) > 0:
+            if len(text.split('%')) > 1:
+                self.progress=text.split('%')[0]
+            else:
+                self.progress_text = text.strip('\n')
+            if not self.timeout:
+                self.timeout = gobject.timeout_add(2000, self.update_progress_gui)
+            return True
+        else:
+            if self.timeout:
+                gobject.source_remove(self.timeout)
+            return False
 
     def ignore(*args):
         """Ignores a signal"""
@@ -473,4 +297,3 @@ class DVD():
 
     def destroy(self, widget=None, data=None):
         gtk.main_quit()
-        self.unmount_drives()

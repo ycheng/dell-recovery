@@ -21,23 +21,10 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
-import os
+from Dell.recovery_dvd import DVD
 import sys
 
-def main():
-    toexec = []
-    if os.getuid() == 0:
-        # no privilege escalation required
-        pass
-    elif os.path.exists('/usr/bin/gksudo'):
-        toexec = ['gksudo', '-k', '-D', '/usr/share/applications/dell-recovery-media.desktop']
-    elif os.path.exists('/usr/bin/kdesu'):
-        toexec = ['kdesu', '--nonewdcop', '--']
-    else:
-        toexec = ['sudo']
-    toexec.append('/usr/share/dell/bin/dell-recovery-media')
-    os.execvp(toexec[0], toexec)
-    sys.exit(127)
-
 if __name__ == '__main__':
-    main()
+    script = DVD()
+    script.run()
+    sys.exit(0)

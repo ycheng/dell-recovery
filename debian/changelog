@@ -2,6 +2,9 @@ dell-recovery (0.13) UNRELEASED; urgency=low
 
   * Don't enable or disable volume manager anymore.  Not necessary
     with the HAL FDI file we ship now.
+  * Split up all activity between a frontend and backend script.  This
+    allows the GUI to run without root priv's and the actual script to
+    run with root priv's.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 24 Mar 2009 17:21:17 -0500
 
