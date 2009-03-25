@@ -46,11 +46,6 @@ LOCALEDIR='/usr/share/locale'
 GLADEDIR = '/usr/share/dell/glade'
 #GLADEDIR = '/home/test/dell-recovery/Dell'
 
-#Place to do operations on
-DRIVE='/dev/sda'
-UTILITY_PARTITION='1'
-RECOVERY_PARTITION='2'
-
 #Resultant Image
 ISO='ubuntu-dell-reinstall.iso'
 
@@ -89,8 +84,8 @@ class DVD():
         hal_obj = bus.get_object('org.freedesktop.Hal', '/org/freedesktop/Hal/Manager')
         hal = dbus.Interface(hal_obj, 'org.freedesktop.Hal.Manager')
 
-        up=False
-        rp=False
+        self.up=False
+        self.rp=False
 
         udis = hal.FindDeviceByCapability('volume')
         for udi in udis:
@@ -100,11 +95,11 @@ class DVD():
             property = dev.GetProperty('volume.label')
 
             if 'DellUtility' in property:
-                up=True
+                self.up=dev.GetProperty('block.device')
             elif 'install' in property or 'OS' in property:
-                rp=True
+                self.rp=dev.GetProperty('block.device')
 
-            if up and rp:
+            if self.up and self.rp:
                 return True
         return False
 
@@ -260,9 +255,8 @@ class DVD():
                 sudo = ['kdesu', '--nonewdcop', '--']
             
             cmd = '/usr/share/dell/bin/create_iso.py' + \
-                  ' -d ' + DRIVE + \
-                  ' -u ' + UTILITY_PARTITION + \
-                  ' -r ' + RECOVERY_PARTITION + \
+                  ' -u ' + self.up + \
+                  ' -r ' + self.rp + \
                   ' -i ' + self.destination
             sudo.append(cmd)
             self.pipe = subprocess.Popen(sudo, stdout=subprocess.PIPE,

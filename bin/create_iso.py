@@ -54,7 +54,7 @@ def unmount_drives(mntdir,tmpdir):
         walk_cleanup(tmpdir)
         os.rmdir(tmpdir)
 
-def main(device, up, rp, iso):
+def main(up, rp, iso):
     #create temporary workspace
     tmpdir=tempfile.mkdtemp()
     os.mkdir(tmpdir + '/up')
@@ -64,7 +64,7 @@ def main(device, up, rp, iso):
     atexit.register(unmount_drives,mntdir,tmpdir)
 
     #mount the RP
-    subprocess.call(['mount', device + rp , mntdir])
+    subprocess.call(['mount', rp , mntdir])
 
     #Cleanup the RP
     #FIXME, we should just ignore rather than delete these files
@@ -76,7 +76,7 @@ def main(device, up, rp, iso):
     if not os.path.exists(mntdir + '/upimg.bin'):
         sys.stdout.write('Building UP\n')
         sys.stdout.flush()
-        p1 = subprocess.Popen(['dd','if='+ device + up,'bs=1M'], stdout=subprocess.PIPE)
+        p1 = subprocess.Popen(['dd','if=' + up,'bs=1M'], stdout=subprocess.PIPE)
         p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
         partition_file=open(tmpdir + '/up/' + 'upimg.bin', "w")
         partition_file.write(p2.communicate()[0])
@@ -150,30 +150,27 @@ def main(device, up, rp, iso):
         sys.exit(1)
     
 if __name__ == '__main__':
-    device_name = ''
-    utility_part_num = ''
-    recovery_part_num = ''
+    utility_part = ''
+    recovery_part = ''
     iso_name = ''
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'd:u:r:i:')
+        opts, args = getopt.getopt(sys.argv[1:], 'u:r:i:')
     except getopt.GetoptError:
         sys.exit(1)
     for opt, arg in opts:
-        if opt == '-d':
-            device_name = arg
-        elif opt == '-u':
-            utility_part_num = arg
+        if opt == '-u':
+            utility_part = arg
         elif opt == '-r':
-            recovery_part_num = arg
+            recovery_part = arg
         elif opt == '-i':
             iso_name = arg
     
-    if device_name and utility_part_num and recovery_part_num and iso_name:
-        main(device_name, utility_part_num, recovery_part_num, iso_name)
+    if utility_part and recovery_part and iso_name:
+        main(utility_part, recovery_part, iso_name)
         if 'SUDO_UID' in os.environ and 'SUDO_GID' in os.environ and os.path.exists(iso_name):
             os.chown(iso_name,int(os.environ['SUDO_UID']),int(os.environ['SUDO_GID']))
         sys.exit(0)
     else:
         print >> sys.stderr, \
-            'Device name, ISO name, UP partition number and RP partition number are required.  Cannot continue.\n'
+            'ISO name, UP name, and RP name are required.  Cannot continue.\n'
         sys.exit(1)
