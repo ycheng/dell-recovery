@@ -208,8 +208,7 @@
           <widget class="GtkFileChooserButton" id="filechooserbutton">
             <property name="visible">True</property>
             <property name="preview_widget_active">False</property>
-            <property name="title" translatable="yes">Select an ISO</property>
-            <signal name="file_set" handler="set_file"/>
+            <property name="title" translatable="yes">Select a directory for the ISO</property>
           </widget>
         </child>
       </widget>
