@@ -102,6 +102,44 @@ class DVD():
                 return True
         return False
 
+    def create_dvd(self,widget):
+        """Starts the DVD Creation Process"""
+
+        #Check for existing image
+        skip_creation=False
+        if os.path.exists(self.filechooserbutton.get_filename() + ISO):
+            skip_creation=self.show_question(self.existing_dialog)
+
+        #GUI Elements
+        self.wizard.hide()
+        self.progress_dialog.show()
+        self.progress_dialog.connect('delete_event', self.ignore)
+        self.action.set_text("Building Base image")
+
+        #Full process for creating an image
+        if not skip_creation:
+            if os.getuid() == 0:
+                sudo = []
+            elif os.path.exists('/usr/bin/gksudo'):
+                sudo = ['gksudo', '-k']
+            elif os.path.exists('/usr/bin/kdesu'):
+                sudo = ['kdesu', '--nonewdcop', '--']
+            
+            cmd = '/usr/share/dell/bin/create_iso.py' + \
+                  ' -u ' + self.up + \
+                  ' -r ' + self.rp + \
+                  ' -i ' + self.filechooserbutton.get_filename() + ISO
+            sudo.append(cmd)
+            self.pipe = subprocess.Popen(sudo, stdout=subprocess.PIPE,
+            stderr=sys.stderr, universal_newlines=True)
+            self.watch = gobject.io_add_watch(self.pipe.stdout,
+                 gobject.IO_IN | gobject.IO_HUP,
+                 self.data_available)
+            # Wait for the process to complete
+            gobject.child_watch_add(self.pipe.pid, self.burn)
+        else:
+            self.burn(None, 0)
+
 
     def burn(self,pid,error_code):
         """Calls an external application for burning this ISO"""
@@ -236,45 +274,6 @@ class DVD():
 
             self.conf_text.set_text(text)
             self.wizard.set_page_complete(page,True)
-
-    def create_dvd(self,widget):
-        """Starts the DVD Creation Process"""
-
-        #Check for existing image
-        skip_creation=False
-        if os.path.exists(self.filechooserbutton.get_filename() + ISO):
-            skip_creation=self.show_question(self.existing_dialog)
-
-        #GUI Elements
-        self.wizard.hide()
-        self.progress_dialog.show()
-        self.progress_dialog.connect('delete_event', self.ignore)
-        self.action.set_text("Building Base image")
-
-        #Full process for creating an image
-        if not skip_creation:
-            if os.getuid() == 0:
-                sudo = []
-            elif os.path.exists('/usr/bin/gksudo'):
-                sudo = ['gksudo', '-k']
-            elif os.path.exists('/usr/bin/kdesu'):
-                sudo = ['kdesu', '--nonewdcop', '--']
-            
-            cmd = '/usr/share/dell/bin/create_iso.py' + \
-                  ' -u ' + self.up + \
-                  ' -r ' + self.rp + \
-                  ' -i ' + self.filechooserbutton.get_filename() + ISO
-            sudo.append(cmd)
-            self.pipe = subprocess.Popen(sudo, stdout=subprocess.PIPE,
-            stderr=sys.stderr, universal_newlines=True)
-            self.watch = gobject.io_add_watch(self.pipe.stdout,
-                 gobject.IO_IN | gobject.IO_HUP,
-                 self.data_available)
-            # Wait for the process to complete
-            gobject.child_watch_add(self.pipe.pid, self.burn)
-        else:
-            self.burn(None, 0)
-
 
     def data_available(self, source, condition):
         text = source.readline()
