@@ -47,7 +47,7 @@ GLADEDIR = '/usr/share/dell/glade'
 #GLADEDIR = '/home/test/dell-recovery/Dell'
 
 #Resultant Image
-ISO='ubuntu-dell-reinstall.iso'
+ISO='/ubuntu-dell-reinstall.iso'
 
 class DVD():
     def __init__(self):
@@ -73,7 +73,6 @@ class DVD():
                     widget.set_title(_(title))
         self.glade.signal_autoconnect(self)
 
-        self.destination = os.getenv('HOME') + '/' + ISO
         self.timeout = 0
         self.progress = 0
 
@@ -116,14 +115,14 @@ class DVD():
             while not success:
                 success=True
                 if self.dvdbutton.get_active():
-                    ret=subprocess.call(['brasero', '-i', self.destination])
+                    ret=subprocess.call(['brasero', '-i', self.filechooserbutton.get_filename() + ISO])
                 else:
-                    ret=subprocess.call(['usb-creator', '--iso=' + self.destination, '-n'])
+                    ret=subprocess.call(['usb-creator', '--iso=' + self.filechooserbutton.get_filename() + ISO])
                 if ret is not 0:
                     success=self.show_question(self.retry_dialog)
 
             header = _("Recovery Media Creation Process Complete")
-            body = _("If you would like to archive another copy, the generated image has been stored in your home directory under the filename:") + ' ' + self.destination
+            body = _("If you would like to archive another copy, the generated image has been stored in your home directory under the filename:") + ' ' + self.filechooserbutton.get_filename() + ISO
             self.show_alert(gtk.MESSAGE_INFO, header, body,
                 parent=self.progress_dialog)
 
@@ -218,6 +217,10 @@ class DVD():
         elif page == self.media_type_page:
             self.wizard.set_page_title(page,_("Choose Media Type"))
             self.wizard.set_page_complete(page,True)
+        elif page == self.file_page:
+            self.wizard.set_page_title(page,_("Choose Target Directory"))
+            self.filechooserbutton.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+            self.wizard.set_page_complete(page,True)
         elif page == self.conf_page:
             self.wizard.set_page_title(page,_("Confirm Selections"))
 
@@ -229,17 +232,17 @@ class DVD():
             text=_("Media Type: ") + type + '\n'
             text+=_("Utility Partition: ") + self.up + '\n'
             text+=_("Recovery Partition: ") + self.rp + '\n'
+            text+=_("File Name: ") + self.filechooserbutton.get_filename() + ISO + '\n'
 
             self.conf_text.set_text(text)
             self.wizard.set_page_complete(page,True)
-
 
     def create_dvd(self,widget):
         """Starts the DVD Creation Process"""
 
         #Check for existing image
         skip_creation=False
-        if os.path.exists(self.destination):
+        if os.path.exists(self.filechooserbutton.get_filename() + ISO):
             skip_creation=self.show_question(self.existing_dialog)
 
         #GUI Elements
@@ -260,7 +263,7 @@ class DVD():
             cmd = '/usr/share/dell/bin/create_iso.py' + \
                   ' -u ' + self.up + \
                   ' -r ' + self.rp + \
-                  ' -i ' + self.destination
+                  ' -i ' + self.filechooserbutton.get_filename() + ISO
             sudo.append(cmd)
             self.pipe = subprocess.Popen(sudo, stdout=subprocess.PIPE,
             stderr=sys.stderr, universal_newlines=True)
