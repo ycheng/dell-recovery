@@ -226,8 +226,11 @@ class DVD():
                 type=self.dvdbutton.get_label()
             else:
                 type=self.usbbutton.get_label()
+            text=_("Media Type: ") + type + '\n'
+            text+=_("Utility Partition: ") + self.up + '\n'
+            text+=_("Recovery Partition: ") + self.rp + '\n'
 
-            self.conf_text.set_text(_("Media Type: ") + type + '\n')
+            self.conf_text.set_text(text)
             self.wizard.set_page_complete(page,True)
 
 
