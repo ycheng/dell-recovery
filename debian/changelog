@@ -1,4 +1,4 @@
-dell-recovery (0.13) UNRELEASED; urgency=low
+dell-recovery (0.13) jaunty; urgency=low
 
   * Don't enable or disable volume manager anymore.  Not necessary
     with the HAL FDI file we ship now.
