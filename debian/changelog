@@ -1,4 +1,4 @@
-dell-recovery (0.14) UNRELEASED; urgency=low
+dell-recovery (0.14) jaunty; urgency=low
 
   * Rather than calling the backend with a gksudo wrapper,
     use policy kit to authorize it's call.
@@ -12,7 +12,7 @@ dell-recovery (0.14) UNRELEASED; urgency=low
   * Add 99_dell_recovery (taken from china customizations) to the install.  This
     will prepare dell-recovery for when grub2 is made default.
 
- -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 26 Mar 2009 13:33:43 -0500
+ -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 31 Mar 2009 18:18:02 -0500
 
 dell-recovery (0.13) jaunty; urgency=low
 
