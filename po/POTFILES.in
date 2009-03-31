@@ -1,2 +1,3 @@
-Dell/progress_dialogs.glade
-Dell/recovery_dvd.py
+Dell/recovery_media_creator.glade
+Dell/recovery_frontend.py
+Dell/recovery_backend.py
