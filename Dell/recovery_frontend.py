@@ -82,6 +82,44 @@ class Frontend():
 
         self.timeout = 0
 
+    def check_burners(self):
+        """Checks for what utilities are available to burn with"""
+        def which(program):
+            import os
+            def is_exe(fpath):
+                return os.path.exists(fpath) and os.access(fpath, os.X_OK)
+
+            fpath, fname = os.path.split(program)
+            if fpath:
+                if is_exe(program):
+                    return program
+            else:
+                for path in os.environ["PATH"].split(os.pathsep):
+                    exe_file = os.path.join(path, program)
+                    if is_exe(exe_file):
+                        return exe_file
+
+            return None
+
+        def find_command(array):
+            for item in array:
+                path=which(item)
+                if path is not None:
+                    return [path] + array[item]
+            return None
+
+        cd_burners = { 'brasero':['-i'],
+                       'nautilus-cd-burner':['--source-iso='] }
+        self.cd_burn_cmd = find_command(cd_burners)
+
+        usb_burners = { 'usb-creator':['-n','--iso'] }
+        self.usb_burn_cmd = find_command(usb_burners)
+        
+        if self.cd_burn_cmd is not None or \
+           self.usb_burn_cmd is not None:
+            return True
+        return False
+
     def check_preloaded_system(self):
         """Checks that the system this tool is being run on contains a
            utility partition and recovery partition"""
@@ -149,23 +187,10 @@ class Frontend():
         while not success:
             success=True
             if self.dvdbutton.get_active():
-                if os.path.exists('/usr/bin/brasero'):
-                    cmd=['brasero', '-i', self.filechooserbutton.get_filename() + ISO]
-                else:
-                    header = _("Could not find") + _("DVD Burner")
-                    self.show_alert(gtk.MESSAGE_ERROR, header,
-                        parent=self.progress_dialog)
-                    self.destroy(None)
-                ret=subprocess.call(cmd)
+                cmd=self.cd_burn_cmd + [self.filechooserbutton.get_filename() + ISO]
             else:
-                if os.path.exists('/usr/bin/usb-creator'):
-                    cmd=['usb-creator', '--iso=' + self.filechooserbutton.get_filename() + ISO]
-                else:
-                    header = _("Could not find") + _("USB Burner")
-                    self.show_alert(gtk.MESSAGE_ERROR, header,
-                        parent=self.progress_dialog)
-                    self.destroy(None)
-                ret=subprocess.call(cmd)
+                cmd=self.usb_burn_cmd + [self.filechooserbutton.get_filename() + ISO]
+            ret=subprocess.call(cmd)
             if ret is not 0:
                 success=self.show_question(self.retry_dialog)
 
@@ -203,7 +228,14 @@ class Frontend():
 
     def run(self):
         if self.check_preloaded_system():
-            self.wizard.show()
+            if self.check_burners():
+                self.wizard.show()
+            else:
+                header = _("This tool requires a DVD burning or USB burning application to function.")
+                inst = None
+                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
+                    parent=self.progress_dialog)
+                return
         else:
             header=_("This tool requires that a Utility Partition and Linux Recovery partition are present to function.")
             inst = None
@@ -282,6 +314,11 @@ class Frontend():
             self.wizard.set_page_complete(page,True)
         elif page == self.media_type_page:
             self.wizard.set_page_title(page,_("Choose Media Type"))
+            if self.cd_burn_cmd is None:
+                self.dvdbutton.set_sensitive(False)
+                self.usbbutton.set_active(True)
+            if self.usb_burn_cmd is None:
+                self.usbbutton.set_sensitive(False)
             self.wizard.set_page_complete(page,True)
         elif page == self.file_page:
             self.wizard.set_page_title(page,_("Choose Target Directory"))

@@ -7,6 +7,8 @@ dell-recovery (0.14) UNRELEASED; urgency=low
     exceptions and what not.
   * Rename progress_dialogs.glade to the more appropriate 
     recovery_media_creator.glade.
+  * Check for CD and USB burning applications when initializing the UI.  If a 
+    particular type isn't found, then don't allow the application to run.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 26 Mar 2009 13:33:43 -0500
 
