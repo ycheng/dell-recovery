@@ -41,12 +41,20 @@ setup(
     description="Creates a piece of recovery media for a Dell Factory image",
     packages=["Dell"],
     data_files=[("share/dell/glade", glob.glob("Dell/*.glade")),
-                ("share/dell/bin", glob.glob("bin/create_iso.py")),
+                ('share/dell/bin', ['backend/recovery-media-backend']),
+                ('/etc/dbus-1/system.d/', glob.glob('backend/*.conf')),
+                ('share/dbus-1/system-services', glob.glob('backend/*.service')),
                 ("share/dell/bin", glob.glob("bin/create-new-uuid")),
-		("share/dell/notes", glob.glob("notes/*")),
-		("share/hal/fdi/policy/20thirdparty", glob.glob("hal/*")),
-		("/etc/skel/Desktop", glob.glob("applications/*.desktop")),
+                ("share/dell/notes", glob.glob("notes/*")),
+                ("share/hal/fdi/policy/20thirdparty", glob.glob("hal/*")),
+                ("/etc/skel/Desktop", glob.glob("applications/*.desktop")),
                 ("share/applications", glob.glob("applications/*.desktop"))]+I18NFILES,
     scripts=["dell-recovery-media"],
+
+    cmdclass = { 'build': build_extra.build_extra,
+                 'build_i18n': build_i18n.build_i18n,
+                 'build_icons': build_icons.build_icons,
+                 'clean': clean_i18n.clean_i18n,
+               }
 )
 

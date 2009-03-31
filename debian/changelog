@@ -1,3 +1,13 @@
+dell-recovery (0.14) UNRELEASED; urgency=low
+
+  * Rather than calling the backend with a gksudo wrapper,
+    use policy kit to authorize it's call.
+  * Call the backend via an async dbus call.  The method to do this
+    was borrowed from Jockey as normal async calls were mixing up
+    exceptions and what not.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 26 Mar 2009 13:33:43 -0500
+
 dell-recovery (0.13) jaunty; urgency=low
 
   * Don't enable or disable volume manager anymore.  Not necessary

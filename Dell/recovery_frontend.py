@@ -30,11 +30,15 @@ import dbus
 import gobject
 import sys
 
+import dbus.mainloop.glib
+
 import pygtk
 pygtk.require("2.0")
 
 import gtk
 import gtk.glade
+
+from Dell.recovery_backend import UnknownHandlerException, PermissionDeniedByPolicy, BackendCrashError, polkit_auth_wrapper, dbus_sync_call_signal_wrapper, Backend, DBUS_BUS_NAME
 
 #Translation Support
 domain='dell-recovery'
@@ -49,7 +53,7 @@ GLADEDIR = '/usr/share/dell/glade'
 #Resultant Image
 ISO='/ubuntu-dell-reinstall.iso'
 
-class DVD():
+class Frontend():
     def __init__(self):
 
         #setup locales
@@ -73,12 +77,15 @@ class DVD():
                     widget.set_title(_(title))
         self.glade.signal_autoconnect(self)
 
+        self._dbus_iface = None
+        self.dbus_server_main_loop = None
+
         self.timeout = 0
-        self.progress = 0
 
     def check_preloaded_system(self):
         """Checks that the system this tool is being run on contains a
            utility partition and recovery partition"""
+        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         bus = dbus.SystemBus()
         hal_obj = bus.get_object('org.freedesktop.Hal', '/org/freedesktop/Hal/Manager')
         hal = dbus.Interface(hal_obj, 'org.freedesktop.Hal.Manager')
@@ -102,8 +109,8 @@ class DVD():
                 return True
         return False
 
-    def create_dvd(self,widget):
-        """Starts the DVD Creation Process"""
+    def wizard_complete(self,widget):
+        """Finished answering wizard questions, and can continue process"""
 
         #Check for existing image
         skip_creation=False
@@ -112,64 +119,84 @@ class DVD():
 
         #GUI Elements
         self.wizard.hide()
-        self.progress_dialog.show()
-        self.progress_dialog.connect('delete_event', self.ignore)
-        self.action.set_text("Building Base image")
 
-        #Full process for creating an image
+        #Call our DBUS backend to build the ISO
         if not skip_creation:
-            if os.getuid() == 0:
-                sudo = []
-            elif os.path.exists('/usr/bin/gksudo'):
-                sudo = ['gksudo', '-k']
-            elif os.path.exists('/usr/bin/kdesu'):
-                sudo = ['kdesu', '--nonewdcop', '--']
-            
-            cmd = '/usr/share/dell/bin/create_iso.py' + \
-                  ' -u ' + self.up + \
-                  ' -r ' + self.rp + \
-                  ' -i ' + self.filechooserbutton.get_filename() + ISO
-            sudo.append(cmd)
-            self.pipe = subprocess.Popen(sudo, stdout=subprocess.PIPE,
-            stderr=sys.stderr, universal_newlines=True)
-            self.watch = gobject.io_add_watch(self.pipe.stdout,
-                 gobject.IO_IN | gobject.IO_HUP,
-                 self.data_available)
-            # Wait for the process to complete
-            gobject.child_watch_add(self.pipe.pid, self.burn)
-        else:
-            self.burn(None, 0)
+            self.progress_dialog.connect('delete_event', self.ignore)
+            self.action.set_text("Building Base image")
+            try:
+                polkit_auth_wrapper(dbus_sync_call_signal_wrapper,
+                    self.backend(),'create', {'report_progress':self.update_progress_gui},
+                    self.up, self.rp, self.filechooserbutton.get_filename() + ISO)
+            except dbus.DBusException, e:
+                if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
+                    header = _("Permission Denied")
+                else:
+                    header = str(e)
+                self.show_alert(gtk.MESSAGE_ERROR, header,
+                            parent=self.progress_dialog)
+                self.progress_dialog.hide()
+                self.wizard.show()
+                return
+        self.burn(None)
 
-
-    def burn(self,pid,error_code):
+    def burn(self,ret):
         """Calls an external application for burning this ISO"""
         success=False
-        if error_code is 0:
-            self.progress=1.00
-            self.progress_text=_("Opening Burner")
-            self.update_progress_gui()
-            self.hide_progress()
+        self.update_progress_gui(_("Opening Burner"),1.00)
+        self.hide_progress()
 
-            while not success:
-                success=True
-                if self.dvdbutton.get_active():
-                    ret=subprocess.call(['brasero', '-i', self.filechooserbutton.get_filename() + ISO])
+        while not success:
+            success=True
+            if self.dvdbutton.get_active():
+                if os.path.exists('/usr/bin/brasero'):
+                    cmd=['brasero', '-i', self.filechooserbutton.get_filename() + ISO]
                 else:
-                    ret=subprocess.call(['usb-creator', '--iso=' + self.filechooserbutton.get_filename() + ISO])
-                if ret is not 0:
-                    success=self.show_question(self.retry_dialog)
+                    header = _("Could not find") + _("DVD Burner")
+                    self.show_alert(gtk.MESSAGE_ERROR, header,
+                        parent=self.progress_dialog)
+                    self.destroy(None)
+                ret=subprocess.call(cmd)
+            else:
+                if os.path.exists('/usr/bin/usb-creator'):
+                    cmd=['usb-creator', '--iso=' + self.filechooserbutton.get_filename() + ISO]
+                else:
+                    header = _("Could not find") + _("USB Burner")
+                    self.show_alert(gtk.MESSAGE_ERROR, header,
+                        parent=self.progress_dialog)
+                    self.destroy(None)
+                ret=subprocess.call(cmd)
+            if ret is not 0:
+                success=self.show_question(self.retry_dialog)
 
-            header = _("Recovery Media Creation Process Complete")
-            body = _("If you would like to archive another copy, the generated image has been stored in your home directory under the filename:") + ' ' + self.filechooserbutton.get_filename() + ISO
-            self.show_alert(gtk.MESSAGE_INFO, header, body,
-                parent=self.progress_dialog)
-
-        else:
-            header = _("Could not build image")
-            self.show_alert(gtk.MESSAGE_ERROR, header,
-                parent=self.progress_dialog)
+        header = _("Recovery Media Creation Process Complete")
+        body = _("If you would like to archive another copy, the generated image has been stored in your home directory under the filename:") + ' ' + self.filechooserbutton.get_filename() + ISO
+        self.show_alert(gtk.MESSAGE_INFO, header, body,
+            parent=self.progress_dialog)
 
         self.destroy(None)
+
+#### Polkit enhanced ###
+    def backend(self):
+        '''Return D-BUS backend client interface.
+
+        This gets initialized lazily.
+        '''
+        if self._dbus_iface is None:
+            try:
+                self._dbus_iface = Backend.create_dbus_client()
+            except Exception, e:
+                if hasattr(e, '_dbus_error_name') and e._dbus_error_name == \
+                    'org.freedesktop.DBus.Error.FileNotFound':
+                    header = _("Cannot connect to dbus")
+                    self.show_alert(gtk.MESSAGE_ERROR, header,
+                        parent=self.progress_dialog)
+                    self.destroy(None)
+                    sys.exit(1)
+                else:
+                    raise
+
+        return self._dbus_iface
 
 #### GUI Functions ###
 # This application is functional via command line by using the above functions #
@@ -237,11 +264,12 @@ class DVD():
             return False
         return True
 
-    def update_progress_gui(self):
+    def update_progress_gui(self,progress_text,progress):
         """Updates the progressbar to show what we are working on"""
-        self.progressbar.set_fraction(float(self.progress)/100)
-        if self.progress_text != None:
-            self.action.set_markup("<i>"+_(self.progress_text)+"</i>")
+        self.progress_dialog.show()
+        self.progressbar.set_fraction(float(progress)/100)
+        if progress_text != None:
+            self.action.set_markup("<i>"+_(progress_text)+"</i>")
         while gtk.events_pending():
             gtk.main_iteration()
         return True
@@ -274,21 +302,6 @@ class DVD():
 
             self.conf_text.set_text(text)
             self.wizard.set_page_complete(page,True)
-
-    def data_available(self, source, condition):
-        text = source.readline()
-        if len(text) > 0:
-            if len(text.split('%')) > 1:
-                self.progress=text.split('%')[0]
-            else:
-                self.progress_text = text.strip('\n')
-            if not self.timeout:
-                self.timeout = gobject.timeout_add(2000, self.update_progress_gui)
-            return True
-        else:
-            if self.timeout:
-                gobject.source_remove(self.timeout)
-            return False
 
     def ignore(*args):
         """Ignores a signal"""

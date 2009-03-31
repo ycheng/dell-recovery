@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=com.dell.RecoveryMedia
+Exec=/usr/share/dell/bin/recovery-media-backend
+User=root

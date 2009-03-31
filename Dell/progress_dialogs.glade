@@ -143,7 +143,7 @@
     <property name="default_width">400</property>
     <property name="default_height">200</property>
     <property name="icon">dell-dvd.png</property>
-    <signal name="apply" handler="create_dvd"/>
+    <signal name="apply" handler="wizard_complete"/>
     <signal name="prepare" handler="build_page"/>
     <signal name="cancel" handler="check_close"/>
     <child>

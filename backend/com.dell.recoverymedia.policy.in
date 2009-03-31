@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<policyconfig>
+
+  <!-- 
+    Policy definitions for RecoveryMedia system actions.
+    (C) 2009 Dell Inc
+    Author: Mario Limonciello <Mario_Limonciello@Dell.com
+  -->
+
+  <vendor>Dell Recovery Media Creation Tool</vendor>
+  <vendor_url>https://launchpad.net/dell-recovery</vendor_url>
+  <icon_name>dell-dvd</icon_name>
+
+  <action id="com.dell.recoverymedia.create">
+    <_description>Create Dell Recovery ISO</_description>
+    <_message>System policy prevents reading raw devices</_message>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin_keep_session</allow_active>
+    </defaults>
+  </action>
+</policyconfig> 
+

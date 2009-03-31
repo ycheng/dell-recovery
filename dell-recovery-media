@@ -21,10 +21,10 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
-from Dell.recovery_dvd import DVD
+from Dell.recovery_frontend import Frontend
 import sys
 
 if __name__ == '__main__':
-    script = DVD()
+    script = Frontend()
     script.run()
     sys.exit(0)
