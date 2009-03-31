@@ -43,6 +43,7 @@ setup(
     data_files=[("share/dell/glade", glob.glob("Dell/*.glade")),
                 ('share/dell/bin', ['backend/recovery-media-backend']),
                 ('/etc/dbus-1/system.d/', glob.glob('backend/*.conf')),
+                ('/etc/grub.d/', ['etc/99_dell_recovery']),
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
                 ("share/dell/bin", glob.glob("bin/create-new-uuid")),
                 ("share/dell/notes", glob.glob("notes/*")),
