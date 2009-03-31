@@ -61,7 +61,7 @@ class Frontend():
             module.bindtextdomain(domain, LOCALEDIR)
             module.textdomain(domain)
 
-        self.glade = gtk.glade.XML(GLADEDIR + '/' + 'progress_dialogs.glade')
+        self.glade = gtk.glade.XML(GLADEDIR + '/' + 'recovery_media_creator.glade')
         for widget in self.glade.get_widget_prefix(""):
             setattr(self, widget.get_name(), widget)
 #for some reason our glade doesn't want to translate
