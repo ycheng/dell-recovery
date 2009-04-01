@@ -2,6 +2,8 @@ dell-recovery (0.15) UNRELEASED; urgency=low
 
   * Downgrade usb-creator to Recommends
   * Add brasero | nautilus-cd-burner to Recommends.
+  * Add support for not using a burner.  If none of the burning software
+    above was detected, then we'll just default to creating an ISO somewhere.
   * Touch the file we are creating before actually creating it from the dbus
     backend.  This makes the file owned by the first user who touched it (Us!)
     rather than root:root from the dbus backend.
