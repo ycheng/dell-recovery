@@ -197,6 +197,26 @@
             <property name="position">1</property>
           </packing>
         </child>
+        <child>
+          <widget class="GtkAlignment" id="alignment44">
+            <property name="visible">True</property>
+            <property name="yscale">0</property>
+            <property name="left_padding">15</property>
+            <child>
+              <widget class="GtkRadioButton" id="nomediabutton">
+                <property name="label" translatable="yes">No media, create ISO image</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">dvdbutton</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="position">2</property>
+          </packing>
+        </child>
       </widget>
     </child>
     <child>

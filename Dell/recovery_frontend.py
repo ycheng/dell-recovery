@@ -53,6 +53,11 @@ GLADEDIR = '/usr/share/dell/glade'
 #Resultant Image
 ISO='/ubuntu-dell-reinstall.iso'
 
+#Supported burners and their arguments
+cd_burners = { 'brasero':['-i'],
+               'nautilus-cd-burner':['--source-iso='] }
+usb_burners = { 'usb-creator':['-n','--iso'] }
+
 class Frontend():
     def __init__(self):
 
@@ -78,9 +83,10 @@ class Frontend():
         self.glade.signal_autoconnect(self)
 
         self._dbus_iface = None
-        self.dbus_server_main_loop = None
 
         self.timeout = 0
+
+        self.check_burners()
 
     def check_burners(self):
         """Checks for what utilities are available to burn with"""
@@ -108,17 +114,9 @@ class Frontend():
                     return [path] + array[item]
             return None
 
-        cd_burners = { 'brasero':['-i'],
-                       'nautilus-cd-burner':['--source-iso='] }
         self.cd_burn_cmd = find_command(cd_burners)
-
-        usb_burners = { 'usb-creator':['-n','--iso'] }
-        self.usb_burn_cmd = find_command(usb_burners)
         
-        if self.cd_burn_cmd is not None or \
-           self.usb_burn_cmd is not None:
-            return True
-        return False
+        self.usb_burn_cmd = find_command(usb_burners)
 
     def check_preloaded_system(self):
         """Checks that the system this tool is being run on contains a
@@ -188,9 +186,13 @@ class Frontend():
             success=True
             if self.dvdbutton.get_active():
                 cmd=self.cd_burn_cmd + [self.filechooserbutton.get_filename() + ISO]
-            else:
+            elif self.usbbutton.get_active():
                 cmd=self.usb_burn_cmd + [self.filechooserbutton.get_filename() + ISO]
-            ret=subprocess.call(cmd)
+            else:
+                cmd=None
+                ret=0
+            if cmd:
+                ret=subprocess.call(cmd)
             if ret is not 0:
                 success=self.show_question(self.retry_dialog)
 
@@ -228,14 +230,7 @@ class Frontend():
 
     def run(self):
         if self.check_preloaded_system():
-            if self.check_burners():
-                self.wizard.show()
-            else:
-                header = _("This tool requires a DVD burning or USB burning application to function.")
-                inst = None
-                self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                    parent=self.progress_dialog)
-                return
+            self.wizard.show()
         else:
             header=_("This tool requires that a Utility Partition and Linux Recovery partition are present to function.")
             inst = None
@@ -319,6 +314,8 @@ class Frontend():
                 self.usbbutton.set_active(True)
             if self.usb_burn_cmd is None:
                 self.usbbutton.set_sensitive(False)
+                if self.cd_burn_cmd is None:
+                    self.nomediabutton.set_active(True)
             self.wizard.set_page_complete(page,True)
         elif page == self.file_page:
             self.wizard.set_page_title(page,_("Choose Target Directory"))
@@ -330,8 +327,10 @@ class Frontend():
             #Fill in dynamic data
             if self.dvdbutton.get_active():
                 type=self.dvdbutton.get_label()
-            else:
+            elif self.usbbutton.get_active():
                 type=self.usbbutton.get_label()
+            else:
+                type=_("ISO Image")
             text=_("Media Type: ") + type + '\n'
             text+=_("Utility Partition: ") + self.up + '\n'
             text+=_("Recovery Partition: ") + self.rp + '\n'
