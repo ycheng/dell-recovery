@@ -46,7 +46,6 @@ setup(
                 ('/etc/grub.d/', ['etc/99_dell_recovery']),
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
                 ("share/dell/bin", glob.glob("bin/create-new-uuid")),
-                ("share/dell/notes", glob.glob("notes/*")),
                 ("share/hal/fdi/policy/20thirdparty", glob.glob("hal/*")),
                 ("/etc/skel/Desktop", glob.glob("applications/*.desktop")),
                 ("share/applications", glob.glob("applications/*.desktop"))]+I18NFILES,
