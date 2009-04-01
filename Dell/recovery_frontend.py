@@ -88,6 +88,14 @@ class Frontend():
 
         self.check_burners()
 
+        try:
+            process=subprocess.Popen(['lsb_release','-d', '-s'], stdout=subprocess.PIPE)
+            self.release=process.communicate()[0]
+        except OSError:
+            #if we don't have lsb_release sitting around, not a big deal
+            self.release=None
+            
+
     def check_burners(self):
         """Checks for what utilities are available to burn with"""
         def which(program):
@@ -340,10 +348,14 @@ class Frontend():
                 type=self.usbbutton.get_label()
             else:
                 type=_("ISO Image")
-            text=_("Media Type: ") + type + '\n'
+            text = ''
+            if self.release:
+                text+=_("OS Release: ") + self.release
             text+=_("Utility Partition: ") + self.up + '\n'
             text+=_("Recovery Partition: ") + self.rp + '\n'
+            text+=_("Media Type: ") + type + '\n'
             text+=_("File Name: ") + self.filechooserbutton.get_filename() + ISO + '\n'
+            
 
             self.conf_text.set_text(text)
             self.wizard.set_page_complete(page,True)
