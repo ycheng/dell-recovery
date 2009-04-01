@@ -48,7 +48,6 @@ LOCALEDIR='/usr/share/locale'
 
 #Glade directory
 GLADEDIR = '/usr/share/dell/glade'
-#GLADEDIR = '/home/test/dell-recovery/Dell'
 
 #Resultant Image
 ISO='/ubuntu-dell-reinstall.iso'
@@ -65,7 +64,6 @@ class Frontend():
         for module in (gettext, gtk.glade):
             module.bindtextdomain(domain, LOCALEDIR)
             module.textdomain(domain)
-
         self.glade = gtk.glade.XML(GLADEDIR + '/' + 'recovery_media_creator.glade')
         for widget in self.glade.get_widget_prefix(""):
             setattr(self, widget.get_name(), widget)

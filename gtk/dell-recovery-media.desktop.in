@@ -1,10 +1,9 @@
 [Desktop Entry]
 Version=1.0
 Encoding=UTF-8
-Name=Create Dell Recovery Media
+_Name=Create Dell Recovery Media
 Type=Application
 Terminal=false
-Name[en_US]=Create Dell Recovery Media
 Exec=/usr/bin/dell-recovery-media
 Icon=/usr/share/images/dell/dell-dvd.png
 Categories=System;Settings
