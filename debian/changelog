@@ -1,3 +1,10 @@
+dell-recovery (0.15) UNRELEASED; urgency=low
+
+  * Downgrade usb-creator to Recommends
+  * Add brasero | nautilus-cd-burner to Recommends.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 01 Apr 2009 12:40:34 -0500
+
 dell-recovery (0.14) jaunty; urgency=low
 
   * Rather than calling the backend with a gksudo wrapper,
