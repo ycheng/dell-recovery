@@ -2,6 +2,9 @@ dell-recovery (0.15) UNRELEASED; urgency=low
 
   * Downgrade usb-creator to Recommends
   * Add brasero | nautilus-cd-burner to Recommends.
+  * Touch the file we are creating before actually creating it from the dbus
+    backend.  This makes the file owned by the first user who touched it (Us!)
+    rather than root:root from the dbus backend.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 01 Apr 2009 12:40:34 -0500
 

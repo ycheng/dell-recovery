@@ -160,6 +160,15 @@ class Frontend():
         if not skip_creation:
             self.progress_dialog.connect('delete_event', self.ignore)
             self.action.set_text("Building Base image")
+            #try to open the file as a user first so when it's overwritten, it
+            #will be with the correct permissions
+            try:
+                file=open(self.filechooserbutton.get_filename() + ISO,'w')
+                file.close()
+            except IOError:
+                #this might have been somwehere that the system doesn't want us
+                #writing files as a user, oh well, we tried
+                pass
             try:
                 polkit_auth_wrapper(dbus_sync_call_signal_wrapper,
                     self.backend(),'create', {'report_progress':self.update_progress_gui},
