@@ -318,7 +318,6 @@
     <property name="window_position">center-on-parent</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <property name="message_type">question</property>
     <property name="buttons">yes-no</property>
     <property name="text">The media burn process failed.  Would you like to retry?</property>

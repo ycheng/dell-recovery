@@ -9,6 +9,7 @@ dell-recovery (0.15) UNRELEASED; urgency=low
     rather than root:root from the dbus backend.
   * Add optional support to use lsb-release to show information about 
     what release this ISO is being generated for.
+  * Fix a GTKWarning about a separator setting that was getting ignored.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 01 Apr 2009 12:40:34 -0500
 
