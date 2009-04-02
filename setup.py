@@ -46,7 +46,7 @@ setup(
                 ('/etc/dbus-1/system.d/', glob.glob('backend/*.conf')),
                 ('/etc/grub.d/', ['boot/06_dell_theme']),
                 ('/etc/grub.d/', ['boot/99_dell_recovery']),
-                ('usr/share/images/grub/', glob.glob("boot/*.png")),
+                ('share/images/grub/', glob.glob("boot/*.png")),
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
                 ("share/dell/bin", glob.glob("bin/create-new-uuid")),
                 ("share/hal/fdi/policy/20thirdparty", glob.glob("hal/*"))]+I18NFILES,
