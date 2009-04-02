@@ -1,18 +1,19 @@
 #!/bin/bash -e
 
-# for convert_system_path_to_grub_path()
-source /usr/lib/grub/update-grub_lib
+# for prepare_grub_to_access_device
+. /usr/lib/grub/update-grub_lib
+
+GRUB_IMAGE_PATH=/usr/share/images/grub
+bg=dell-wallpaper-640x480.png
 
 # check for usable backgrounds
 use_bg=false
 if [ "$GRUB_TERMINAL" = "gfxterm" ] ; then
-  for i in /usr/share/images/grub/dell-wallpaper-640x480.png ; do
-    if bg=`convert_system_path_to_grub_path $i` ; then 
-      echo "Found Dell background: `basename ${bg}`" >&2
+  prepare_grub_to_access_device `${grub_probe} --target=device ${GRUB_IMAGE_PATH}`
+  if [ -f ${GRUB_IMAGE_PATH}/$bg ] ; then 
+      echo "Found Dell background: ${bg}" >&2
       use_bg=true
-      break
-    fi
-  done
+  fi
 fi
 
 # set the background if possible
@@ -24,7 +25,7 @@ if ${use_bg} ; then
   esac
   cat << EOF
 insmod ${reader}
-if background_image ${bg} ; then
+if background_image ${GRUB_IMAGE_PATH}/${bg} ; then
   set color_normal=white/black
   set color_highlight=black/white
   set menu_color_normal=white/black

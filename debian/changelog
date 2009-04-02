@@ -22,6 +22,7 @@ dell-recovery (0.15) UNRELEASED; urgency=low
     #66257 for more information.
   * Merge in grub2 bootsplash stuff to this package.  We'll only show the bootsplash
     when the package is installed.  This rids us of the last dependency on dell-artwork.
+  * Update 06_dell_theme to not use deprecated methods from grub2 anymore.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 01 Apr 2009 12:40:34 -0500
 
