@@ -1,4 +1,4 @@
-dell-recovery (0.15) UNRELEASED; urgency=low
+dell-recovery (0.15) jaunty; urgency=low
 
   * Downgrade usb-creator to Recommends
   * Add brasero | nautilus-cd-burner to Recommends.
@@ -24,7 +24,7 @@ dell-recovery (0.15) UNRELEASED; urgency=low
     when the package is installed.  This rids us of the last dependency on dell-artwork.
   * Update 06_dell_theme to not use deprecated methods from grub2 anymore.
 
- -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 01 Apr 2009 12:40:34 -0500
+ -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 02 Apr 2009 13:34:55 -0500
 
 dell-recovery (0.14) jaunty; urgency=low
 
