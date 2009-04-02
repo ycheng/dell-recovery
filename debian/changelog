@@ -39,6 +39,7 @@ dell-recovery (0.14) jaunty; urgency=low
     particular type isn't found, then don't allow the application to run.
   * Add 99_dell_recovery (taken from china customizations) to the install.  This
     will prepare dell-recovery for when grub2 is made default.
+  * Update 99_dell_recovery to match the string that we have for grub1
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 31 Mar 2009 18:18:02 -0500
 
