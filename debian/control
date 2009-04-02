@@ -12,5 +12,7 @@ Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}, dell-artwork, python-glade2, python-gtk2, uuid-runtime
 Recommends: usb-creator, brasero | nautilus-cd-burner, lsb-release
 XB-Python-Version: ${python:Versions}
-Description: Dell DVD Recreation Package
- This package is used to produce a Dell recovery DVD image.
+Description: Dell Recovery Media Creation Package
+ This package is used to produce a Dell recovery media image.
+ It then uses known open source tools to write the image to 
+ a USB flash drive or DVD writer.
