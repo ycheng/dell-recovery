@@ -20,6 +20,8 @@ dell-recovery (0.15) UNRELEASED; urgency=low
   * Explicitly set icon path in glade file instead.
   * Rename all translations from dell-recovery-LANG to LANG.  See launchpad answers
     #66257 for more information.
+  * Merge in grub2 bootsplash stuff to this package.  We'll only show the bootsplash
+    when the package is installed.  This rids us of the last dependency on dell-artwork.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 01 Apr 2009 12:40:34 -0500
 
