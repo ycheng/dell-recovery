@@ -1,0 +1,11 @@
+build
+python-build-stamp-2.6
+debian/dell-recovery
+debian/dell-recovery.debhelper.log
+debian/dell-recovery.postinst.debhelper
+debian/dell-recovery.preinst.debhelper
+debian/dell-recovery.prerm.debhelper
+debian/dell-recovery.substvars
+debian/files
+po/dell-recovery.pot
+po/mo
