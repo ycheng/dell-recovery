@@ -9,7 +9,7 @@ Standards-Version: 3.8.0
 
 Package: dell-recovery
 Architecture: all
-Depends: ${python:Depends}, dell-artwork, python-glade2, python-gtk2, uuid-runtime
+Depends: ${python:Depends}, ${misc:Depends}, dell-artwork, python-glade2, python-gtk2, uuid-runtime
 Recommends: usb-creator, brasero | nautilus-cd-burner, lsb-release
 XB-Python-Version: ${python:Versions}
 Description: Dell DVD Recreation Package
