@@ -1,4 +1,4 @@
-# German translation for dell-recovery
+# Italian translation for dell-recovery
 # Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
 # This file is distributed under the same license as the dell-recovery package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
@@ -6,84 +6,84 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-04-01 16:33-0500\n"
-"PO-Revision-Date: 2008-12-15 22:19+0000\n"
-"Last-Translator: Rene Guggi <Unknown>\n"
-"Language-Team: German <de@li.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-04-02 12:15-0500\n"
+"PO-Revision-Date: 2009-03-27 18:13+0000\n"
+"Last-Translator: MeltingShell <Unknown>\n"
+"Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2009-04-02 16:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:184
+#: ../Dell/recovery_frontend.py:185
 msgid "Permission Denied"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:197
+#: ../Dell/recovery_frontend.py:198
 msgid "Opening Burner"
-msgstr "\"CD-Brenner öffnen"
-
-#: ../Dell/recovery_frontend.py:214
-msgid "Recovery Media Creation Process Complete"
-msgstr "Recovery Media Erstellungsvorgang fertig"
+msgstr "Apertura del masterizzatore"
 
 #: ../Dell/recovery_frontend.py:215
+msgid "Recovery Media Creation Process Complete"
+msgstr "Processo di creazione del supporto di recupero completato"
+
+#: ../Dell/recovery_frontend.py:216
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored in your home directory under the filename:"
 msgstr ""
-"Wenn Sie möchten Archiv eine weitere Kopie, die erzeugten Bildes wurde in "
-"Ihrem Home-Verzeichnis unter dem Dateinamen"
+"Per archiviare un'altra copia, l'immagine generata è stata memorizzata nella "
+"propria directory home con il seguente nome file:"
 
-#: ../Dell/recovery_frontend.py:233
+#: ../Dell/recovery_frontend.py:234
 msgid "Cannot connect to dbus"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:250
+#: ../Dell/recovery_frontend.py:251
 msgid ""
 "This tool requires that a Utility Partition and Linux Recovery partition are "
 "present to function."
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:323
+#: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
-msgstr "Willkommen"
+msgstr "Benvenuti"
 
-#: ../Dell/recovery_frontend.py:326
+#: ../Dell/recovery_frontend.py:327
 msgid "Choose Media Type"
-msgstr "Medientyp wählen"
+msgstr "Scegliere il tipo di supporto"
 
-#: ../Dell/recovery_frontend.py:336
+#: ../Dell/recovery_frontend.py:337
 msgid "Choose Target Directory"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:340
+#: ../Dell/recovery_frontend.py:341
 msgid "Confirm Selections"
-msgstr "Auswahloption bestätigen"
+msgstr "Confermare le selezioni"
 
-#: ../Dell/recovery_frontend.py:348
+#: ../Dell/recovery_frontend.py:349
 msgid "ISO Image"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:351
+#: ../Dell/recovery_frontend.py:352
 msgid "OS Release: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:352
+#: ../Dell/recovery_frontend.py:353
 msgid "Utility Partition: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:353
+#: ../Dell/recovery_frontend.py:354
 msgid "Recovery Partition: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:354
-msgid "Media Type: "
-msgstr "Medientyp: "
-
 #: ../Dell/recovery_frontend.py:355
+msgid "Media Type: "
+msgstr "Tipo di supporto: "
+
+#: ../Dell/recovery_frontend.py:356
 msgid "File Name: "
 msgstr ""
 
@@ -114,19 +114,19 @@ msgstr ""
 
 #: ../gtk/recovery_media_creator.glade.h:1
 msgid "<activity placeholder>"
-msgstr "<Aktivitätsplatzhalter>"
+msgstr "<segnaposto attività>"
 
 #: ../gtk/recovery_media_creator.glade.h:2
 msgid "Cancel Recovery Media Creator"
-msgstr "Recovery Media Creator abbrechen"
+msgstr "Annulla creazione supporto di recupero"
 
 #: ../gtk/recovery_media_creator.glade.h:3
 msgid "DVD+/-RW Disc"
-msgstr "DVD+/-RW Disk"
+msgstr "Disco DVD+/-RW"
 
 #: ../gtk/recovery_media_creator.glade.h:4
 msgid "Dell Recovery Media Creator"
-msgstr "Dell Media Creator-Wiederherstellungsprogramm"
+msgstr "Creazione supporto di recupero Dell"
 
 #: ../gtk/recovery_media_creator.glade.h:5
 msgid "No media, create ISO image"
@@ -134,7 +134,7 @@ msgstr ""
 
 #: ../gtk/recovery_media_creator.glade.h:6
 msgid "Retry burn?"
-msgstr "Brennen erneut versuchen?"
+msgstr "Ritenta masterizzazione?"
 
 #: ../gtk/recovery_media_creator.glade.h:7
 msgid "Select a directory for the ISO"
@@ -146,10 +146,11 @@ msgid ""
 "the computer to its factory shipped state.  You will have the option to "
 "create an USB key or DVD image."
 msgstr ""
-"Diese Anwendung wird OS Rettungs-CD verwendet werden können zur "
-"Wiederherstellung des Computers auf die Werkseinstellungen Zustand versandt. "
-"Sie haben die Option, um ein USB-Stick oder DVD-Image"
+"Questa applicazione permette di creare un supporto di recupero del sistema "
+"operativo che può essere usato per ripristinare il computer alle "
+"impostazioni di fabbrica. È possibile creare sia una chiavetta USB che "
+"un'immagine DVD."
 
 #: ../gtk/recovery_media_creator.glade.h:9
 msgid "USB Flash Drive"
-msgstr "USB Flash-Laufwerk"
+msgstr "Unità flash USB"

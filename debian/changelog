@@ -18,6 +18,8 @@ dell-recovery (0.15) UNRELEASED; urgency=low
   * Add some artwork from dell-recovery directly to this package.
   * Remove explicitly hardcoded paths from .desktop file.
   * Explicitly set icon path in glade file instead.
+  * Rename all translations from dell-recovery-LANG to LANG.  See launchpad answers
+    #66257 for more information.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 01 Apr 2009 12:40:34 -0500
 
