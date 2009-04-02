@@ -41,6 +41,7 @@ setup(
     description="Creates a piece of recovery media for a Dell Factory image",
     packages=["Dell"],
     data_files=[("share/dell/glade", glob.glob("gtk/*.glade")),
+                ('share/pixmaps', glob.glob("gtk/*.png")),
                 ('share/dell/bin', ['backend/recovery-media-backend']),
                 ('/etc/dbus-1/system.d/', glob.glob('backend/*.conf')),
                 ('/etc/grub.d/', ['etc/99_dell_recovery']),
