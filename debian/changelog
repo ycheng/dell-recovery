@@ -17,6 +17,7 @@ dell-recovery (0.15) UNRELEASED; urgency=low
   * Update description in debian/control.
   * Add some artwork from dell-recovery directly to this package.
   * Remove explicitly hardcoded paths from .desktop file.
+  * Explicitly set icon path in glade file instead.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 01 Apr 2009 12:40:34 -0500
 

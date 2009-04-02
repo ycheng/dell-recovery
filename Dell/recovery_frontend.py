@@ -65,6 +65,7 @@ class Frontend():
             module.bindtextdomain(domain, LOCALEDIR)
             module.textdomain(domain)
         self.glade = gtk.glade.XML(GLADEDIR + '/' + 'recovery_media_creator.glade')
+        gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.png')
         for widget in self.glade.get_widget_prefix(""):
             setattr(self, widget.get_name(), widget)
 #for some reason our glade doesn't want to translate

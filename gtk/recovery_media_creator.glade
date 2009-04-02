@@ -9,7 +9,6 @@
     <property name="window_position">center</property>
     <property name="default_width">450</property>
     <property name="destroy_with_parent">True</property>
-    <property name="icon">dell-dvd.png</property>
     <property name="deletable">False</property>
     <signal name="destroy" handler="destroy"/>
     <child>
