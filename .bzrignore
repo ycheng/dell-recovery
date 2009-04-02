@@ -9,3 +9,4 @@ debian/dell-recovery.substvars
 debian/files
 po/dell-recovery.pot
 po/mo
+etc/skel
