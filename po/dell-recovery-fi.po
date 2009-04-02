@@ -6,38 +6,141 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-13 15:38-0500\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-04-01 16:33-0500\n"
 "PO-Revision-Date: 2009-02-05 15:04+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-13 20:04+0000\n"
+"X-Launchpad-Export-Date: 2009-04-02 16:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/progress_dialogs.glade.h:1
+#: ../Dell/recovery_frontend.py:184
+msgid "Permission Denied"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:197
+msgid "Opening Burner"
+msgstr "Avataan kirjoittajaa."
+
+#: ../Dell/recovery_frontend.py:214
+msgid "Recovery Media Creation Process Complete"
+msgstr "Palautusmedian luominen valmis"
+
+#: ../Dell/recovery_frontend.py:215
+msgid ""
+"If you would like to archive another copy, the generated image has been "
+"stored in your home directory under the filename:"
+msgstr ""
+"Jos haluat arkistoida toisen kopion, luotu levykuva on tallennettu "
+"kotikansioosi seuraavalla tiedostonimellä:"
+
+#: ../Dell/recovery_frontend.py:233
+msgid "Cannot connect to dbus"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:250
+msgid ""
+"This tool requires that a Utility Partition and Linux Recovery partition are "
+"present to function."
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:323
+msgid "Welcome"
+msgstr "Tervetuloa"
+
+#: ../Dell/recovery_frontend.py:326
+msgid "Choose Media Type"
+msgstr "Valitse median tyyppi"
+
+#: ../Dell/recovery_frontend.py:336
+msgid "Choose Target Directory"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:340
+msgid "Confirm Selections"
+msgstr "Vahvista valinnat"
+
+#: ../Dell/recovery_frontend.py:348
+msgid "ISO Image"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:351
+msgid "OS Release: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:352
+msgid "Utility Partition: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:353
+msgid "Recovery Partition: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:354
+msgid "Media Type: "
+msgstr "Median tyyppi: "
+
+#: ../Dell/recovery_frontend.py:355
+msgid "File Name: "
+msgstr ""
+
+#: ../Dell/recovery_backend.py:336
+msgid "Building UP"
+msgstr ""
+
+#. Renerate UUID
+#: ../Dell/recovery_backend.py:344
+msgid "Generating UUID"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:399
+msgid "Building ISO"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:1
+msgid "Create Dell Recovery ISO"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:2
+msgid "System policy prevents reading raw devices"
+msgstr ""
+
+#: ../gtk/dell-recovery-media.desktop.in.h:1
+msgid "Create Dell Recovery Media"
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:1
 msgid "<activity placeholder>"
 msgstr "<tila varattu toiminnolle>"
 
-#: ../Dell/progress_dialogs.glade.h:2
+#: ../gtk/recovery_media_creator.glade.h:2
 msgid "Cancel Recovery Media Creator"
 msgstr "Peru palautusmedian luonti"
 
-#: ../Dell/progress_dialogs.glade.h:3
+#: ../gtk/recovery_media_creator.glade.h:3
 msgid "DVD+/-RW Disc"
 msgstr "DVD+/-RW-levy"
 
-#: ../Dell/progress_dialogs.glade.h:4
+#: ../gtk/recovery_media_creator.glade.h:4
 msgid "Dell Recovery Media Creator"
 msgstr "Dell-palautusmedian luonti"
 
-#: ../Dell/progress_dialogs.glade.h:5
+#: ../gtk/recovery_media_creator.glade.h:5
+msgid "No media, create ISO image"
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:6
 msgid "Retry burn?"
 msgstr "Yritä kirjoitusta uudelleen?"
 
-#: ../Dell/progress_dialogs.glade.h:6
+#: ../gtk/recovery_media_creator.glade.h:7
+msgid "Select a directory for the ISO"
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:8
 msgid ""
 "This application will create OS Recovery Media that can be used to restore "
 "the computer to its factory shipped state.  You will have the option to "
@@ -47,124 +150,6 @@ msgstr ""
 "tietokoneen palauttamiseksi tehtaalta toimitettua vastaavaan tilaan. Voit "
 "luoda joko USB-tikun tai DVD-kuvan."
 
-#: ../Dell/progress_dialogs.glade.h:7
+#: ../gtk/recovery_media_creator.glade.h:9
 msgid "USB Flash Drive"
 msgstr "USB-Flash-asema"
-
-#: ../Dell/recovery_dvd.py:174 ../Dell/recovery_dvd.py:185
-msgid "Building Utility Partition"
-msgstr "Rakennetaan työkaluosiota"
-
-#: ../Dell/recovery_dvd.py:192
-msgid "Preparing Recovery Partition"
-msgstr "Valmistellaan palautusosiota"
-
-#: ../Dell/recovery_dvd.py:198
-msgid "Building Recovery Partition"
-msgstr "Rakennetaan palautusosiota"
-
-#: ../Dell/recovery_dvd.py:203
-msgid "Regenerating UUIDs"
-msgstr "Luodaan UUID:itä uudelleen"
-
-#: ../Dell/recovery_dvd.py:213
-msgid "create-new-uuid exited with a nonstandard return value."
-msgstr "create-new-uuid poistui epätavallisella palautusarvolla."
-
-#: ../Dell/recovery_dvd.py:222
-msgid "Building ISO image"
-msgstr "Rakennetaan ISO-levykuvaa"
-
-#: ../Dell/recovery_dvd.py:252
-msgid "Building ISO Image"
-msgstr "Rakennetaan ISO-levykuvaa"
-
-#: ../Dell/recovery_dvd.py:257
-msgid "genisoimage exited with a nonstandard return value."
-msgstr "genisoimage poistui epätavallisella palautusarvolla."
-
-#: ../Dell/recovery_dvd.py:263
-msgid "Adjusting Permissions"
-msgstr "Säädetään oikeuksia"
-
-#: ../Dell/recovery_dvd.py:267
-msgid "Error adjusting permissions."
-msgstr "Virhe säädettäessä oikeuksia."
-
-#: ../Dell/recovery_dvd.py:272
-msgid "Opening Burner"
-msgstr "Avataan kirjoittajaa."
-
-#: ../Dell/recovery_dvd.py:276
-msgid "Nautilus CD Burner"
-msgstr "Nautilus-CD-kirjoittaja"
-
-#: ../Dell/recovery_dvd.py:279
-msgid "Canonical USB Creator"
-msgstr "Canonicalin USB-luonti"
-
-#: ../Dell/recovery_dvd.py:281
-msgid "Unknown image burn type."
-msgstr "Tuntematon levykuvan kirjoitustyyppi."
-
-#: ../Dell/recovery_dvd.py:285
-msgid "returned a nonstandard return code."
-msgstr "palautti epänormaalin palautuskoodin."
-
-#: ../Dell/recovery_dvd.py:296
-msgid ""
-"This tool requires that a Utility Partition and Linux Recovery partition are "
-"present to function."
-msgstr ""
-
-#: ../Dell/recovery_dvd.py:401
-msgid "Welcome"
-msgstr "Tervetuloa"
-
-#: ../Dell/recovery_dvd.py:404
-msgid "Choose Media Type"
-msgstr "Valitse median tyyppi"
-
-#: ../Dell/recovery_dvd.py:407
-msgid "Confirm Selections"
-msgstr "Vahvista valinnat"
-
-#: ../Dell/recovery_dvd.py:415
-msgid "Media Type: "
-msgstr "Median tyyppi: "
-
-#: ../Dell/recovery_dvd.py:432
-msgid "Preparing to build base image"
-msgstr "Valmistellaan peruslevykuvan rakentamista"
-
-#: ../Dell/recovery_dvd.py:442
-msgid "Couldn't create temp directories"
-msgstr "Väliaikaishakemistoja ei voi luoda"
-
-#: ../Dell/recovery_dvd.py:450
-msgid "Could not build UP"
-msgstr "UP:ta ei voi rakentaa"
-
-#: ../Dell/recovery_dvd.py:459
-msgid "Could not regenerate UUID"
-msgstr "UUID:iden luominen uudelleen epäonnistui"
-
-#: ../Dell/recovery_dvd.py:468
-msgid "Could not build image"
-msgstr "Levykuvaa ei voi rakentaa"
-
-#: ../Dell/recovery_dvd.py:477
-msgid "Could not adjust permissions"
-msgstr "Oikeuksia ei voi säätää"
-
-#: ../Dell/recovery_dvd.py:499
-msgid "Recovery Media Creation Process Complete"
-msgstr "Palautusmedian luominen valmis"
-
-#: ../Dell/recovery_dvd.py:500
-msgid ""
-"If you would like to archive another copy, the generated image has been "
-"stored in your home directory under the filename:"
-msgstr ""
-"Jos haluat arkistoida toisen kopion, luotu levykuva on tallennettu "
-"kotikansioosi seuraavalla tiedostonimellä:"

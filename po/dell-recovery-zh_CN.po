@@ -6,162 +6,145 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-13 15:38-0500\n"
-"PO-Revision-Date: 2008-11-26 19:53+0000\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-04-01 16:33-0500\n"
+"PO-Revision-Date: 2009-04-02 16:03+0000\n"
 "Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-03-13 20:04+0000\n"
+"X-Launchpad-Export-Date: 2009-04-02 16:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/progress_dialogs.glade.h:1
-msgid "<activity placeholder>"
-msgstr "<活动占位符>"
+#: ../Dell/recovery_frontend.py:184
+msgid "Permission Denied"
+msgstr "权限不足"
 
-#: ../Dell/progress_dialogs.glade.h:2
-msgid "Cancel Recovery Media Creator"
-msgstr "取消恢复媒介创建程序"
-
-#: ../Dell/progress_dialogs.glade.h:3
-msgid "DVD+/-RW Disc"
-msgstr "DVD+/-RW 光盘"
-
-#: ../Dell/progress_dialogs.glade.h:4
-msgid "Dell Recovery Media Creator"
-msgstr "Dell 恢复媒介创建程序"
-
-#: ../Dell/progress_dialogs.glade.h:5
-msgid "Retry burn?"
-msgstr ""
-
-#: ../Dell/progress_dialogs.glade.h:6
-msgid ""
-"This application will create OS Recovery Media that can be used to restore "
-"the computer to its factory shipped state.  You will have the option to "
-"create an USB key or DVD image."
-msgstr ""
-"此应用程序将创建操作系统恢复媒体，可将计算机还原到它的工厂发货状态。您可以选"
-"择创建一个USB密钥或DVD的形象"
-
-#: ../Dell/progress_dialogs.glade.h:7
-msgid "USB Flash Drive"
-msgstr "USB 闪存驱动器"
-
-#: ../Dell/recovery_dvd.py:174 ../Dell/recovery_dvd.py:185
-msgid "Building Utility Partition"
-msgstr "构建公用程序分区"
-
-#: ../Dell/recovery_dvd.py:192
-msgid "Preparing Recovery Partition"
-msgstr "准备恢复分区"
-
-#: ../Dell/recovery_dvd.py:198
-msgid "Building Recovery Partition"
-msgstr "构建恢复分区"
-
-#: ../Dell/recovery_dvd.py:203
-msgid "Regenerating UUIDs"
-msgstr "重新生成 UUIDs"
-
-#: ../Dell/recovery_dvd.py:213
-msgid "create-new-uuid exited with a nonstandard return value."
-msgstr "创建-新-uuid 与非标准返回值共存。"
-
-#: ../Dell/recovery_dvd.py:222
-msgid "Building ISO image"
-msgstr "构建 ISO 映像"
-
-#: ../Dell/recovery_dvd.py:252
-msgid "Building ISO Image"
-msgstr "构建 ISO 映像"
-
-#: ../Dell/recovery_dvd.py:257
-msgid "genisoimage exited with a nonstandard return value."
-msgstr "genisoimage 与非标准返回值共存。"
-
-#: ../Dell/recovery_dvd.py:263
-msgid "Adjusting Permissions"
-msgstr "调整许可"
-
-#: ../Dell/recovery_dvd.py:267
-msgid "Error adjusting permissions."
-msgstr "调整许可出错。"
-
-#: ../Dell/recovery_dvd.py:272
+#: ../Dell/recovery_frontend.py:197
 msgid "Opening Burner"
 msgstr "打开光盘烧制器"
 
-#: ../Dell/recovery_dvd.py:276
-msgid "Nautilus CD Burner"
-msgstr "鹦鹉螺 CD 烧制器"
-
-#: ../Dell/recovery_dvd.py:279
-msgid "Canonical USB Creator"
-msgstr "规范的 USB 创建程序"
-
-#: ../Dell/recovery_dvd.py:281
-msgid "Unknown image burn type."
-msgstr "未知映像烧制类型"
-
-#: ../Dell/recovery_dvd.py:285
-msgid "returned a nonstandard return code."
-msgstr "返回了非标准返回代码。"
-
-#: ../Dell/recovery_dvd.py:296
-msgid ""
-"This tool requires that a Utility Partition and Linux Recovery partition are "
-"present to function."
-msgstr ""
-
-#: ../Dell/recovery_dvd.py:401
-msgid "Welcome"
-msgstr "欢迎"
-
-#: ../Dell/recovery_dvd.py:404
-msgid "Choose Media Type"
-msgstr "选择媒介类型"
-
-#: ../Dell/recovery_dvd.py:407
-msgid "Confirm Selections"
-msgstr "确认选择"
-
-#: ../Dell/recovery_dvd.py:415
-msgid "Media Type: "
-msgstr "媒介类型： "
-
-#: ../Dell/recovery_dvd.py:432
-msgid "Preparing to build base image"
-msgstr "准备构建基本映像"
-
-#: ../Dell/recovery_dvd.py:442
-msgid "Couldn't create temp directories"
-msgstr "无法创建临时目录"
-
-#: ../Dell/recovery_dvd.py:450
-msgid "Could not build UP"
-msgstr "无法构建 UP"
-
-#: ../Dell/recovery_dvd.py:459
-msgid "Could not regenerate UUID"
-msgstr "无法重新生成 UUID"
-
-#: ../Dell/recovery_dvd.py:468
-msgid "Could not build image"
-msgstr "无法构建映像"
-
-#: ../Dell/recovery_dvd.py:477
-msgid "Could not adjust permissions"
-msgstr "无法调整许可"
-
-#: ../Dell/recovery_dvd.py:499
+#: ../Dell/recovery_frontend.py:214
 msgid "Recovery Media Creation Process Complete"
 msgstr "恢复媒介创建过程完成"
 
-#: ../Dell/recovery_dvd.py:500
+#: ../Dell/recovery_frontend.py:215
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored in your home directory under the filename:"
 msgstr "如果你想存档的另一个副本，生成的图片已储存在您的主目录下的文件："
+
+#: ../Dell/recovery_frontend.py:233
+msgid "Cannot connect to dbus"
+msgstr "无法连接到乌思"
+
+#: ../Dell/recovery_frontend.py:250
+msgid ""
+"This tool requires that a Utility Partition and Linux Recovery partition are "
+"present to function."
+msgstr "此工具需要一台实用分区和Linux恢复分区存在运作。"
+
+#: ../Dell/recovery_frontend.py:323
+msgid "Welcome"
+msgstr "欢迎"
+
+#: ../Dell/recovery_frontend.py:326
+msgid "Choose Media Type"
+msgstr "选择媒介类型"
+
+#: ../Dell/recovery_frontend.py:336
+msgid "Choose Target Directory"
+msgstr "选择目标目录"
+
+#: ../Dell/recovery_frontend.py:340
+msgid "Confirm Selections"
+msgstr "确认选择"
+
+#: ../Dell/recovery_frontend.py:348
+msgid "ISO Image"
+msgstr "ISO 镜像"
+
+#: ../Dell/recovery_frontend.py:351
+msgid "OS Release: "
+msgstr "操作系统版本 "
+
+#: ../Dell/recovery_frontend.py:352
+msgid "Utility Partition: "
+msgstr "实用分区 "
+
+#: ../Dell/recovery_frontend.py:353
+msgid "Recovery Partition: "
+msgstr "恢复分区 "
+
+#: ../Dell/recovery_frontend.py:354
+msgid "Media Type: "
+msgstr "媒介类型： "
+
+#: ../Dell/recovery_frontend.py:355
+msgid "File Name: "
+msgstr "文件名 "
+
+#: ../Dell/recovery_backend.py:336
+msgid "Building UP"
+msgstr "建设实用分区"
+
+#. Renerate UUID
+#: ../Dell/recovery_backend.py:344
+msgid "Generating UUID"
+msgstr "生成的UUID"
+
+#: ../Dell/recovery_backend.py:399
+msgid "Building ISO"
+msgstr "建设国际标准化组织"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:1
+msgid "Create Dell Recovery ISO"
+msgstr "创建戴尔恢复国际标准化组织"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:2
+msgid "System policy prevents reading raw devices"
+msgstr "系统策略可以阻止读取原始设备"
+
+#: ../gtk/dell-recovery-media.desktop.in.h:1
+msgid "Create Dell Recovery Media"
+msgstr "创建戴尔恢复媒体"
+
+#: ../gtk/recovery_media_creator.glade.h:1
+msgid "<activity placeholder>"
+msgstr "<活动占位符>"
+
+#: ../gtk/recovery_media_creator.glade.h:2
+msgid "Cancel Recovery Media Creator"
+msgstr "取消恢复媒介创建程序"
+
+#: ../gtk/recovery_media_creator.glade.h:3
+msgid "DVD+/-RW Disc"
+msgstr "DVD+/-RW 光盘"
+
+#: ../gtk/recovery_media_creator.glade.h:4
+msgid "Dell Recovery Media Creator"
+msgstr "Dell 恢复媒介创建程序"
+
+#: ../gtk/recovery_media_creator.glade.h:5
+msgid "No media, create ISO image"
+msgstr "任何媒体，创建ISO映像"
+
+#: ../gtk/recovery_media_creator.glade.h:6
+msgid "Retry burn?"
+msgstr "重试烧？"
+
+#: ../gtk/recovery_media_creator.glade.h:7
+msgid "Select a directory for the ISO"
+msgstr "选择一个目录的ISO"
+
+#: ../gtk/recovery_media_creator.glade.h:8
+msgid ""
+"This application will create OS Recovery Media that can be used to restore "
+"the computer to its factory shipped state.  You will have the option to "
+"create an USB key or DVD image."
+msgstr "此应用程序将创建操作系统恢复媒体，可将计算机还原到它的工厂发货状态。您可以选择创建一个USB密钥或DVD的形象"
+
+#: ../gtk/recovery_media_creator.glade.h:9
+msgid "USB Flash Drive"
+msgstr "USB 闪存驱动器"

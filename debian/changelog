@@ -12,6 +12,7 @@ dell-recovery (0.15) UNRELEASED; urgency=low
   * Fix a GTKWarning about a separator setting that was getting ignored.
   * Add translation support to the .desktop file.
   * Drop first run note.  It wasn't working anyway.
+  * Update translations from launchpad.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 01 Apr 2009 12:40:34 -0500
 
