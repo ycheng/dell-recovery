@@ -4,7 +4,7 @@ Encoding=UTF-8
 _Name=Create Dell Recovery Media
 Type=Application
 Terminal=false
-Exec=/usr/bin/dell-recovery-media
-Icon=/usr/share/images/dell/dell-dvd.png
+Exec=dell-recovery-media
+Icon=dell-dvd
 Categories=System;Settings
 

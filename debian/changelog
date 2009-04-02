@@ -15,6 +15,8 @@ dell-recovery (0.15) UNRELEASED; urgency=low
   * Update translations from launchpad.
   * Add missing ${misc:Depends} to debian/control.
   * Update description in debian/control.
+  * Add some artwork from dell-recovery directly to this package.
+  * Remove explicitly hardcoded paths from .desktop file.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 01 Apr 2009 12:40:34 -0500
 
