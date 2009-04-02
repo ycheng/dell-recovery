@@ -271,7 +271,7 @@
     <property name="skip_taskbar_hint">True</property>
     <property name="message_type">question</property>
     <property name="buttons">yes-no</property>
-    <property name="text">Are you sure you want to cancel the Recovery Media creation process?</property>
+    <property name="text" translatable="yes">Are you sure you want to cancel the Recovery Media creation process?</property>
     <signal name="close" handler="destroy"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox3">
@@ -295,7 +295,7 @@
     <property name="skip_taskbar_hint">True</property>
     <property name="message_type">question</property>
     <property name="buttons">yes-no</property>
-    <property name="text">An existing image was found (possibly from a previous run).  Would you like to remove this old copy and regenerate the image?</property>
+    <property name="text" translatable="yes">An existing image was found (possibly from a previous run).  Would you like to remove this old copy and regenerate the image?</property>
     <signal name="close" handler="destroy"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox5">
@@ -319,7 +319,7 @@
     <property name="type_hint">dialog</property>
     <property name="message_type">question</property>
     <property name="buttons">yes-no</property>
-    <property name="text">The media burn process failed.  Would you like to retry?</property>
+    <property name="text" translatable="yes">The media burn process failed.  Would you like to retry?</property>
     <signal name="close" handler="destroy"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox3">
