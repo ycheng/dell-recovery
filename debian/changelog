@@ -1,3 +1,9 @@
+dell-recovery (0.16) UNRELEASED; urgency=low
+
+  * Add a COPYING file w/ license for when we start to make tarballs.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 03 Apr 2009 12:39:17 -0500
+
 dell-recovery (0.15) jaunty; urgency=low
 
   * Downgrade usb-creator to Recommends
