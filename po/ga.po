@@ -1,0 +1,150 @@
+# Irish translation for dell-recovery
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the dell-recovery package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dell-recovery\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-04-01 16:33-0500\n"
+"PO-Revision-Date: 2009-03-15 01:29+0000\n"
+"Last-Translator: Aaron Mac Fhionnlaoich <aaronapplis@yahoo.ie>\n"
+"Language-Team: Irish <ga@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2009-04-02 16:08+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: ../Dell/recovery_frontend.py:184
+msgid "Permission Denied"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:197
+msgid "Opening Burner"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:214
+msgid "Recovery Media Creation Process Complete"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:215
+msgid ""
+"If you would like to archive another copy, the generated image has been "
+"stored in your home directory under the filename:"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:233
+msgid "Cannot connect to dbus"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:250
+msgid ""
+"This tool requires that a Utility Partition and Linux Recovery partition are "
+"present to function."
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:323
+msgid "Welcome"
+msgstr "Fáilte"
+
+#: ../Dell/recovery_frontend.py:326
+msgid "Choose Media Type"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:336
+msgid "Choose Target Directory"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:340
+msgid "Confirm Selections"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:348
+msgid "ISO Image"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:351
+msgid "OS Release: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:352
+msgid "Utility Partition: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:353
+msgid "Recovery Partition: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:354
+msgid "Media Type: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:355
+msgid "File Name: "
+msgstr ""
+
+#: ../Dell/recovery_backend.py:336
+msgid "Building UP"
+msgstr ""
+
+#. Renerate UUID
+#: ../Dell/recovery_backend.py:344
+msgid "Generating UUID"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:399
+msgid "Building ISO"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:1
+msgid "Create Dell Recovery ISO"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:2
+msgid "System policy prevents reading raw devices"
+msgstr ""
+
+#: ../gtk/dell-recovery-media.desktop.in.h:1
+msgid "Create Dell Recovery Media"
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:1
+msgid "<activity placeholder>"
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:2
+msgid "Cancel Recovery Media Creator"
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:3
+msgid "DVD+/-RW Disc"
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:4
+msgid "Dell Recovery Media Creator"
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:5
+msgid "No media, create ISO image"
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:6
+msgid "Retry burn?"
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:7
+msgid "Select a directory for the ISO"
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:8
+msgid ""
+"This application will create OS Recovery Media that can be used to restore "
+"the computer to its factory shipped state.  You will have the option to "
+"create an USB key or DVD image."
+msgstr ""
+
+#: ../gtk/recovery_media_creator.glade.h:9
+msgid "USB Flash Drive"
+msgstr ""
