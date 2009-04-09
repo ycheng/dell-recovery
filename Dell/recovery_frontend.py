@@ -141,11 +141,12 @@ class Frontend():
             dev_obj = bus.get_object('org.freedesktop.Hal', udi)
             dev = dbus.Interface(dev_obj, 'org.freedesktop.Hal.Device')
 
-            property = dev.GetProperty('volume.label')
+            label = dev.GetProperty('volume.label')
+            fs    = dev.GetProperty('volume.fstype')
 
-            if 'DellUtility' in property:
+            if 'DellUtility' in label:
                 self.up=dev.GetProperty('block.device')
-            elif 'install' in property or 'OS' in property:
+            elif ('install' in label or 'OS' in label) and 'vfat' in fs:
                 self.rp=dev.GetProperty('block.device')
 
             if self.up and self.rp:

@@ -2,6 +2,8 @@ dell-recovery (0.16) UNRELEASED; urgency=low
 
   * Add a COPYING file w/ license for when we start to make tarballs.
   * Add a CHANGES file (which is really just a symlink to debian/changelog)
+  * Detect the filesystem of the rp.  A Linux RP is vfat.  Anything else
+    means that it's not an RP. (Windows RP is ntfs-3g)
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 03 Apr 2009 12:39:17 -0500
 
