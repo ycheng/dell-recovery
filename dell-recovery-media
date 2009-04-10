@@ -22,9 +22,37 @@
 ##################################################################################
 
 from Dell.recovery_frontend import Frontend
+import optparse
+import os
 import sys
 
+usage = '%prog [options]'
+parser = optparse.OptionParser(usage=usage)
+parser.set_defaults(
+    up=None,
+    rp=None,
+    media="dvd",
+    target=os.getenv('HOME'),
+    overwrite=False,
+    automatic=False
+    )
+parser.add_option('-u', '--up', dest='up',
+                  help='Override detected utility partition with this file.')
+parser.add_option('-r', '--rp', dest='rp',
+                  help='Override detected recovery partition with this file.')
+parser.add_option('-m', '--media', dest='media',
+                  help='Set type of recovery media to create [dvd, usb, iso].')
+parser.add_option('-t', '--target', dest='target',
+                  help='Set target directory to store ISO in when completed.')
+parser.add_option('-o', '--overwrite', dest='overwrite', action='store_true',
+                  help='Force overwrite of any existing file')
+(options, args) = parser.parse_args()
+
 if __name__ == '__main__':
-    script = Frontend()
+    script = Frontend(options.up,
+                      options.rp,
+                      options.media,
+                      options.target,
+                      options.overwrite)
     script.run()
     sys.exit(0)

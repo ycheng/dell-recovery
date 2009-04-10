@@ -57,8 +57,8 @@ cd_burners = { 'brasero':['-i'],
                'nautilus-cd-burner':['--source-iso='] }
 usb_burners = { 'usb-creator':['-n','--iso'] }
 
-class Frontend():
-    def __init__(self):
+class Frontend:
+    def __init__(self,up,rp,media,target,overwrite):
 
         #setup locales
         for module in (gettext, gtk.glade):
@@ -93,7 +93,13 @@ class Frontend():
         except OSError:
             #if we don't have lsb_release sitting around, not a big deal
             self.release=None
-            
+
+        #set any command line arguments
+        self.up=up
+        self.rp=rp
+        self.media=media
+        self.target=target
+        self.overwrite=overwrite
 
     def check_burners(self):
         """Checks for what utilities are available to burn with"""
@@ -133,8 +139,21 @@ class Frontend():
         hal_obj = bus.get_object('org.freedesktop.Hal', '/org/freedesktop/Hal/Manager')
         hal = dbus.Interface(hal_obj, 'org.freedesktop.Hal.Manager')
 
-        self.up=False
-        self.rp=False
+        #check any command line arguments
+        if self.up is not None and not os.path.exists(self.up):
+            header=_("Invalid utility partition") + _(" in command line arguments.  Falling back to HAL based detection.")
+            inst = None
+            self.show_alert(gtk.MESSAGE_ERROR, header, inst,
+                parent=self.progress_dialog)
+            self.up=None
+        if self.rp is not None and not os.path.exists(self.rp):
+            header=_("Invalid recovery partition") + _(" in command line arguments.  Falling back to HAL based detection.")
+            inst = None
+            self.show_alert(gtk.MESSAGE_ERROR, header, inst,
+                parent=self.progress_dialog)
+            self.rp=None
+        if self.up is not None and self.rp is not None:
+            return True
 
         udis = hal.FindDeviceByCapability('volume')
         for udi in udis:
@@ -158,7 +177,7 @@ class Frontend():
 
         #Check for existing image
         skip_creation=False
-        if os.path.exists(self.filechooserbutton.get_filename() + ISO):
+        if os.path.exists(self.filechooserbutton.get_filename() + ISO) and not self.overwrite:
             skip_creation=self.show_question(self.existing_dialog)
 
         #GUI Elements
@@ -323,9 +342,18 @@ class Frontend():
 
         if page == self.start_page:
             self.wizard.set_page_title(page,_("Welcome"))
+
             self.wizard.set_page_complete(page,True)
         elif page == self.media_type_page:
             self.wizard.set_page_title(page,_("Choose Media Type"))
+            #fill in command line args
+            if self.media == "dvd":
+                self.dvdbutton.set_active(True)
+            elif self.media == "usb":
+                self.usbbutton.set_active(True)
+            else:
+                self.nomediabutton.set_active(True)
+            #remove invalid options (missing burners)
             if self.cd_burn_cmd is None:
                 self.dvdbutton.set_sensitive(False)
                 self.usbbutton.set_active(True)
@@ -333,10 +361,15 @@ class Frontend():
                 self.usbbutton.set_sensitive(False)
                 if self.cd_burn_cmd is None:
                     self.nomediabutton.set_active(True)
+
             self.wizard.set_page_complete(page,True)
         elif page == self.file_page:
             self.wizard.set_page_title(page,_("Choose Target Directory"))
             self.filechooserbutton.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+            #fill in command line args
+            if os.path.exists(self.target):
+                self.filechooserbutton.set_current_folder(self.target)
+
             self.wizard.set_page_complete(page,True)
         elif page == self.conf_page:
             self.wizard.set_page_title(page,_("Confirm Selections"))
