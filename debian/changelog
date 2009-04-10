@@ -1,4 +1,4 @@
-dell-recovery (0.17) UNRELEASED; urgency=low
+dell-recovery (0.17) jaunty; urgency=low
 
   * Add support for command line arguments.
   * Update string indicating recovery is complete.
