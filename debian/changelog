@@ -1,6 +1,7 @@
 dell-recovery (0.17) UNRELEASED; urgency=low
 
   * Add support for command line arguments.
+  * Update string indicating recovery is complete.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 10 Apr 2009 16:28:49 -0500
 

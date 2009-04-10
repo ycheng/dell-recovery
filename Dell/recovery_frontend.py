@@ -233,7 +233,7 @@ class Frontend:
                 success=self.show_question(self.retry_dialog)
 
         header = _("Recovery Media Creation Process Complete")
-        body = _("If you would like to archive another copy, the generated image has been stored in your home directory under the filename:") + ' ' + self.filechooserbutton.get_filename() + ISO
+        body = _("If you would like to archive another copy, the generated image has been stored under the filename:") + ' ' + self.filechooserbutton.get_filename() + ISO
         self.show_alert(gtk.MESSAGE_INFO, header, body,
             parent=self.progress_dialog)
 
