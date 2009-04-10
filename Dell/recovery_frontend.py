@@ -163,9 +163,9 @@ class Frontend:
             label = dev.GetProperty('volume.label')
             fs    = dev.GetProperty('volume.fstype')
 
-            if 'DellUtility' in label:
+            if not self.up and 'DellUtility' in label:
                 self.up=dev.GetProperty('block.device')
-            elif ('install' in label or 'OS' in label) and 'vfat' in fs:
+            elif not self.rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
                 self.rp=dev.GetProperty('block.device')
 
             if self.up and self.rp:
