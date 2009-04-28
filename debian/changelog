@@ -2,6 +2,8 @@ dell-recovery (0.18) UNRELEASED; urgency=low
 
   * Only fill in the UP or RP variables independently if they are 
     already empty.
+  * Don't offer a retry dialog in the event a burning fails.  Some burners
+    don't actually have reliable return codes.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 10 Apr 2009 16:51:03 -0500
 

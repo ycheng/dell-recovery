@@ -226,11 +226,8 @@ class Frontend:
                 cmd=self.usb_burn_cmd + [self.filechooserbutton.get_filename() + ISO]
             else:
                 cmd=None
-                ret=0
             if cmd:
-                ret=subprocess.call(cmd)
-            if ret is not 0:
-                success=self.show_question(self.retry_dialog)
+                subprocess.call(cmd)
 
         header = _("Recovery Media Creation Process Complete")
         body = _("If you would like to archive another copy, the generated image has been stored under the filename:") + ' ' + self.filechooserbutton.get_filename() + ISO
