@@ -1,3 +1,9 @@
+dell-recovery (0.19) UNRELEASED; urgency=low
+
+  * Add a manpage showing current usage.
+
+ -- Mario Limonciello <superm1@ubuntu.com>  Sat, 23 May 2009 14:28:45 -0500
+
 dell-recovery (0.18) jaunty; urgency=low
 
   * Only fill in the UP or RP variables independently if they are 
