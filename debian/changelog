@@ -1,6 +1,14 @@
 dell-recovery (0.19) UNRELEASED; urgency=low
 
   * Add a manpage showing current usage.
+  * COPYING:
+    - Put a copy of the GPL2, not GPL3.
+  * debian/control:
+    - Set maintainer to have an @ubuntu.com
+    - Add bzr info.
+    - Set section more sanely to utils.
+  * debian/changelog:
+    - Update to be GPL2, not GPL3.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Sat, 23 May 2009 14:28:45 -0500
 
