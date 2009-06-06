@@ -8,6 +8,8 @@ dell-recovery (0.19) UNRELEASED; urgency=low
     - Add bzr info.
     - Set section more sanely to utils.
     - Set standards version to 3.8.1 (no changes necessary).
+    - Add a Suggests for grub-pc.  The app works fine without it, but is
+      more feature-filled with it installed.
   * debian/changelog:
     - Update to be GPL2, not GPL3.
 
