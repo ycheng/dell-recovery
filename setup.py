@@ -49,6 +49,7 @@ setup(
                 ('share/images/grub/', glob.glob("boot/*.png")),
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
                 ("share/dell/bin", glob.glob("bin/create-new-uuid")),
+                ('/lib/udev/rules.d', glob.glob('udev/*')),
                 ("share/hal/fdi/policy/20thirdparty", glob.glob("hal/*"))]+I18NFILES,
     scripts=["dell-recovery-media"],
 
