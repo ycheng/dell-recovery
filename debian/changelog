@@ -1,11 +1,11 @@
-dell-recovery (0.21) UNRELEASED; urgency=low
+dell-recovery (0.21) karmic; urgency=low
 
   * boot:
     - Update to new syntax for the grub2 in Ubuntu 9.10.
   * udev:
     - Rename rule to have priority of 96.  didn't work at 95.
 
- -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 22 Jul 2009 18:35:40 -0500
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 22 Jul 2009 18:36:01 -0500
 
 dell-recovery (0.20) karmic; urgency=low
 
