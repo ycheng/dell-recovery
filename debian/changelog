@@ -1,4 +1,4 @@
-dell-recovery (0.20) UNRELEASED; urgency=low
+dell-recovery (0.20) karmic; urgency=low
 
   * udev:
     - Add a udev rule so that devicekit-disks will hide Dell recovery
@@ -10,7 +10,7 @@ dell-recovery (0.20) UNRELEASED; urgency=low
     - Drop depends on python-glade2
   * Migrate from libglade to gtkbuilder.
 
- -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 13 Jul 2009 16:08:42 -0500
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 22 Jul 2009 18:13:20 -0500
 
 dell-recovery (0.19) karmic; urgency=low
 
