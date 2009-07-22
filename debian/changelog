@@ -5,6 +5,8 @@ dell-recovery (0.20) UNRELEASED; urgency=low
       partitions on factory shipped Linux systems.
   * recovery_frontend:
     - Add support for devicekit-disks.  If this fails, fall back to HAL.
+  * debian/control:
+    - Depends on devicekit-disks or hal for system detection.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 13 Jul 2009 16:08:42 -0500
 
