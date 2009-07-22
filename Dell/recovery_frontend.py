@@ -136,18 +136,16 @@ class Frontend:
            utility partition and recovery partition"""
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         bus = dbus.SystemBus()
-        hal_obj = bus.get_object('org.freedesktop.Hal', '/org/freedesktop/Hal/Manager')
-        hal = dbus.Interface(hal_obj, 'org.freedesktop.Hal.Manager')
 
         #check any command line arguments
         if self.up is not None and not os.path.exists(self.up):
-            header=_("Invalid utility partition") + _(" in command line arguments.  Falling back to HAL based detection.")
+            header=_("Invalid utility partition") + _(" in command line arguments.  Falling back to DeviceKit or HAL based detection.")
             inst = None
             self.show_alert(gtk.MESSAGE_ERROR, header, inst,
                 parent=self.progress_dialog)
             self.up=None
         if self.rp is not None and not os.path.exists(self.rp):
-            header=_("Invalid recovery partition") + _(" in command line arguments.  Falling back to HAL based detection.")
+            header=_("Invalid recovery partition") + _(" in command line arguments.  Falling back to DeviceKit or HAL based detection.")
             inst = None
             self.show_alert(gtk.MESSAGE_ERROR, header, inst,
                 parent=self.progress_dialog)
@@ -155,21 +153,47 @@ class Frontend:
         if self.up is not None and self.rp is not None:
             return True
 
-        udis = hal.FindDeviceByCapability('volume')
-        for udi in udis:
-            dev_obj = bus.get_object('org.freedesktop.Hal', udi)
-            dev = dbus.Interface(dev_obj, 'org.freedesktop.Hal.Device')
+        try:
+            #first try to use devkit-disks. if this fails, then we can fall back to hal
+            dk_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', '/org/freedesktop/DeviceKit/Disks')
+            dk = dbus.Interface(dk_obj, 'org.freedesktop.DeviceKit.Disks')
+            devices = dk.EnumerateDevices()
+            for device in devices:
+                dev_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', device)
+                dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
+                
+                label = dev.Get('org.freedesktop.DeviceKit.Disks.Device','id-label')
+                fs = dev.Get('org.freedesktop.DeviceKit.Disks.Device','id-type')
+                
+                if not self.up and 'DellUtility' in label:
+                    self.up=dev.Get('org.freedesktop.DeviceKit.Disks.Device','device-file')
+                elif not self.rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
+                    self.rp=dev.Get('org.freedesktop.DeviceKit.Disks.Device','device-file')
 
-            label = dev.GetProperty('volume.label')
-            fs    = dev.GetProperty('volume.fstype')
+                if self.up and self.rp:
+                    return True
+                
+        except dbus.DBusException, e:
+            print "Falling back to HAL"
+            hal_obj = bus.get_object('org.freedesktop.Hal', '/org/freedesktop/Hal/Manager')
+            hal = dbus.Interface(hal_obj, 'org.freedesktop.Hal.Manager')
+            devices = hal.FindDeviceByCapability('volume')
+            
+            for device in devices:
+                dev_obj = bus.get_object('org.freedesktop.Hal', device)
+                dev = dbus.Interface(dev_obj, 'org.freedesktop.Hal.Device')
 
-            if not self.up and 'DellUtility' in label:
-                self.up=dev.GetProperty('block.device')
-            elif not self.rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
-                self.rp=dev.GetProperty('block.device')
+                label = dev.GetProperty('volume.label')
+                fs = dev.GetProperty('volume.fstype')
 
-            if self.up and self.rp:
-                return True
+                if not self.up and 'DellUtility' in label:
+                    self.up=dev.GetProperty('block.device')
+                elif not self.rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
+                    self.rp=dev.GetProperty('block.device')
+
+                if self.up and self.rp:
+                    return True
+
         return False
 
     def wizard_complete(self,widget):

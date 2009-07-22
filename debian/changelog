@@ -3,6 +3,8 @@ dell-recovery (0.20) UNRELEASED; urgency=low
   * udev:
     - Add a udev rule so that devicekit-disks will hide Dell recovery
       partitions on factory shipped Linux systems.
+  * recovery_frontend:
+    - Add support for devicekit-disks.  If this fails, fall back to HAL.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 13 Jul 2009 16:08:42 -0500
 
