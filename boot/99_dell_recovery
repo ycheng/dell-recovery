@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-. /usr/lib/grub/update-grub_lib
+source /usr/lib/grub/grub-mkconfig_lib
 
 cat << EOF
 #NOTE: These are the main means for recovery.  In the event of a power loss during recovery, 

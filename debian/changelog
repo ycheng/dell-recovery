@@ -1,3 +1,10 @@
+dell-recovery (0.21) UNRELEASED; urgency=low
+
+  * boot:
+    - Update to new syntax for the grub2 in Ubuntu 9.10.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 22 Jul 2009 18:30:47 -0500
+
 dell-recovery (0.20) karmic; urgency=low
 
   * udev:
