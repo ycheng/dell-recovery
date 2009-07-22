@@ -47,7 +47,7 @@ from gettext import gettext as _
 LOCALEDIR='/usr/share/locale'
 
 #Glade directory
-GLADEDIR = '/usr/share/dell/glade'
+UIDIR = '/usr/share/dell'
 
 #Resultant Image
 ISO='/ubuntu-dell-reinstall.iso'
@@ -61,25 +61,24 @@ class Frontend:
     def __init__(self,up,rp,media,target,overwrite):
 
         #setup locales
-        for module in (gettext, gtk.glade):
-            module.bindtextdomain(domain, LOCALEDIR)
-            module.textdomain(domain)
-        self.glade = gtk.glade.XML(GLADEDIR + '/' + 'recovery_media_creator.glade')
+        gettext.bindtextdomain(domain, LOCALEDIR)
+        gettext.textdomain(domain)
+        self.widgets = gtk.Builder()
+        self.widgets.add_from_file(os.path.join(UIDIR,'recovery_media_creator.ui'))
         gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.png')
-        for widget in self.glade.get_widget_prefix(""):
-            setattr(self, widget.get_name(), widget)
-#for some reason our glade doesn't want to translate
-#force it all
+        self.widgets.connect_signals(self)
+
+        self.widgets.set_translation_domain(domain)
+        for widget in self.widgets.get_objects():
             if isinstance(widget, gtk.Label):
                 widget.set_property('can-focus', False)
                 widget.set_text(_(widget.get_text()))
             elif isinstance(widget, gtk.RadioButton):
                 widget.set_label(_(widget.get_label()))
             elif isinstance(widget, gtk.Window):
-                title=widget.get_title()
+                title = widget.get_title()
                 if title:
-                    widget.set_title(_(title))
-        self.glade.signal_autoconnect(self)
+                    widget.set_title(_(widget.get_title()))
 
         self._dbus_iface = None
 
@@ -142,13 +141,13 @@ class Frontend:
             header=_("Invalid utility partition") + _(" in command line arguments.  Falling back to DeviceKit or HAL based detection.")
             inst = None
             self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                parent=self.progress_dialog)
+                parent=self.widgets.get_object('progress_dialog'))
             self.up=None
         if self.rp is not None and not os.path.exists(self.rp):
             header=_("Invalid recovery partition") + _(" in command line arguments.  Falling back to DeviceKit or HAL based detection.")
             inst = None
             self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                parent=self.progress_dialog)
+                parent=self.widgets.get_object('progress_dialog'))
             self.rp=None
         if self.up is not None and self.rp is not None:
             return True
@@ -201,20 +200,20 @@ class Frontend:
 
         #Check for existing image
         skip_creation=False
-        if os.path.exists(self.filechooserbutton.get_filename() + ISO) and not self.overwrite:
-            skip_creation=self.show_question(self.existing_dialog)
+        if os.path.exists(self.widgets.get_object('filechooserbutton').get_filename() + ISO) and not self.overwrite:
+            skip_creation=self.show_question(self.widgets.get_object('existing_dialog'))
 
         #GUI Elements
-        self.wizard.hide()
+        self.widgets.get_object('wizard').hide()
 
         #Call our DBUS backend to build the ISO
         if not skip_creation:
-            self.progress_dialog.connect('delete_event', self.ignore)
-            self.action.set_text("Building Base image")
+            self.widgets.get_object('progress_dialog').connect('delete_event', self.ignore)
+            self.widgets.get_object('action').set_text("Building Base image")
             #try to open the file as a user first so when it's overwritten, it
             #will be with the correct permissions
             try:
-                file=open(self.filechooserbutton.get_filename() + ISO,'w')
+                file=open(self.widgets.get_object('filechooserbutton').get_filename() + ISO,'w')
                 file.close()
             except IOError:
                 #this might have been somwehere that the system doesn't want us
@@ -223,16 +222,16 @@ class Frontend:
             try:
                 polkit_auth_wrapper(dbus_sync_call_signal_wrapper,
                     self.backend(),'create', {'report_progress':self.update_progress_gui},
-                    self.up, self.rp, self.filechooserbutton.get_filename() + ISO)
+                    self.up, self.rp, self.widgets.get_object('filechooserbutton').get_filename() + ISO)
             except dbus.DBusException, e:
                 if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
                     header = _("Permission Denied")
                 else:
                     header = str(e)
                 self.show_alert(gtk.MESSAGE_ERROR, header,
-                            parent=self.progress_dialog)
-                self.progress_dialog.hide()
-                self.wizard.show()
+                            parent=self.widgets.get_object('progress_dialog'))
+                self.widgets.get_object('progress_dialog').hide()
+                self.widgets.get_object('wizard').show()
                 return
         self.burn(None)
 
@@ -244,19 +243,19 @@ class Frontend:
 
         while not success:
             success=True
-            if self.dvdbutton.get_active():
-                cmd=self.cd_burn_cmd + [self.filechooserbutton.get_filename() + ISO]
-            elif self.usbbutton.get_active():
-                cmd=self.usb_burn_cmd + [self.filechooserbutton.get_filename() + ISO]
+            if self.widgets.get_object('dvdbutton').get_active():
+                cmd=self.cd_burn_cmd + [self.widgets.get_object('filechooserbutton').get_filename() + ISO]
+            elif self.widgets.get_object('usbbutton').get_active():
+                cmd=self.usb_burn_cmd + [self.widgets.get_object('filechooserbutton').get_filename() + ISO]
             else:
                 cmd=None
             if cmd:
                 subprocess.call(cmd)
 
         header = _("Recovery Media Creation Process Complete")
-        body = _("If you would like to archive another copy, the generated image has been stored under the filename:") + ' ' + self.filechooserbutton.get_filename() + ISO
+        body = _("If you would like to archive another copy, the generated image has been stored under the filename:") + ' ' + self.widgets.get_object('filechooserbutton').get_filename() + ISO
         self.show_alert(gtk.MESSAGE_INFO, header, body,
-            parent=self.progress_dialog)
+            parent=self.widgets.get_object('progress_dialog'))
 
         self.destroy(None)
 
@@ -274,7 +273,7 @@ class Frontend:
                     'org.freedesktop.DBus.Error.FileNotFound':
                     header = _("Cannot connect to dbus")
                     self.show_alert(gtk.MESSAGE_ERROR, header,
-                        parent=self.progress_dialog)
+                        parent=self.widgets.get_object('progress_dialog'))
                     self.destroy(None)
                     sys.exit(1)
                 else:
@@ -287,58 +286,58 @@ class Frontend:
 
     def run(self):
         if self.check_preloaded_system():
-            self.wizard.show()
+            self.widgets.get_object('wizard').show()
         else:
             header=_("This tool requires that a Utility Partition and Linux Recovery partition are present to function.")
             inst = None
             self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                    parent=self.progress_dialog)
+                    parent=self.widgets.get_object('progress_dialog'))
             return
         gtk.main()
 
     def hide_progress(self):
         """Hides the progress bar"""
-        self.progress_dialog.hide()
+        self.widgets.get_object('progress_dialog').hide()
         while gtk.events_pending():
             gtk.main_iteration()
 
     def show_alert(self, type, header, body=None, details=None, parent=None):
         if parent is not None:
-             self.dialog_hig.set_transient_for(parent)
+             self.widgets.get_object('dialog_hig').set_transient_for(parent)
         else:
-             self.dialog_hig.set_transient_for(self.progress_dialog)
+             self.widgets.get_object('dialog_hig').set_transient_for(self.widgets.get_object('progress_dialog'))
 
         message = "<b><big>%s</big></b>" % header
         if not body == None:
              message = "%s\n\n%s" % (message, body)
-        self.label_hig.set_markup(message)
+        self.widgets.get_object('label_hig').set_markup(message)
 
         if not details == None:
-             buffer = self.textview_hig.get_buffer()
+             buffer = self.widgets.get_object('textview_hig').get_buffer()
              buffer.set_text(str(details))
-             self.expander_hig.set_expanded(False)
-             self.expander_hig.show()
+             self.widgets.get_object('expander_hig').set_expanded(False)
+             self.widgets.get_object('expander_hig').show()
 
         if type == gtk.MESSAGE_ERROR:
-             self.image_hig.set_property("stock", "gtk-dialog-error")
+             self.widgets.get_object('image_hig').set_property("stock", "gtk-dialog-error")
         elif type == gtk.MESSAGE_WARNING:
-             self.image_hig.set_property("stock", "gtk-dialog-warning")
+             self.widgets.get_object('image_hig').set_property("stock", "gtk-dialog-warning")
         elif type == gtk.MESSAGE_INFO:
-             self.image_hig.set_property("stock", "gtk-dialog-info")
+             self.widgets.get_object('image_hig').set_property("stock", "gtk-dialog-info")
 
-        res = self.dialog_hig.run()
-        self.dialog_hig.hide()
+        res = self.widgets.get_object('dialog_hig').run()
+        self.widgets.get_object('dialog_hig').hide()
         if res == gtk.RESPONSE_CLOSE:
             return True
         return False
 
     def check_close(self,widget):
         """Asks the user before closing the dialog"""
-        response = self.close_dialog.run()
+        response = self.widgets.get_object('close_dialog').run()
         if response == gtk.RESPONSE_YES:
             self.destroy()
         else:
-            self.close_dialog.hide()
+            self.widgets.get_object('close_dialog').hide()
 
     def show_question(self,dialog):
         """Presents the user with a question"""
@@ -350,10 +349,10 @@ class Frontend:
 
     def update_progress_gui(self,progress_text,progress):
         """Updates the progressbar to show what we are working on"""
-        self.progress_dialog.show()
-        self.progressbar.set_fraction(float(progress)/100)
+        self.widgets.get_object('progress_dialog').show()
+        self.widgets.get_object('progressbar').set_fraction(float(progress)/100)
         if progress_text != None:
-            self.action.set_markup("<i>"+_(progress_text)+"</i>")
+            self.widgets.get_object('action').set_markup("<i>"+_(progress_text)+"</i>")
         while gtk.events_pending():
             gtk.main_iteration()
         return True
@@ -361,45 +360,45 @@ class Frontend:
     def build_page(self,widget,page):
         """Prepares our GTK assistant"""
 
-        if page == self.start_page:
-            self.wizard.set_page_title(page,_("Welcome"))
+        if page == self.widgets.get_object('start_page'):
+            self.widgets.get_object('wizard').set_page_title(page,_("Welcome"))
 
-            self.wizard.set_page_complete(page,True)
-        elif page == self.media_type_page:
-            self.wizard.set_page_title(page,_("Choose Media Type"))
+            self.widgets.get_object('wizard').set_page_complete(page,True)
+        elif page == self.widgets.get_object('media_type_page'):
+            self.widgets.get_object('wizard').set_page_title(page,_("Choose Media Type"))
             #fill in command line args
             if self.media == "dvd":
-                self.dvdbutton.set_active(True)
+                self.widgets.get_object('dvdbutton').set_active(True)
             elif self.media == "usb":
-                self.usbbutton.set_active(True)
+                self.widgets.get_object('usbbutton').set_active(True)
             else:
-                self.nomediabutton.set_active(True)
+                self.widgets.get_object('nomediabutton').set_active(True)
             #remove invalid options (missing burners)
             if self.cd_burn_cmd is None:
-                self.dvdbutton.set_sensitive(False)
-                self.usbbutton.set_active(True)
+                self.widgets.get_object('dvdbutton').set_sensitive(False)
+                self.widgets.get_object('usbbutton').set_active(True)
             if self.usb_burn_cmd is None:
-                self.usbbutton.set_sensitive(False)
+                self.widgets.get_object('usbbutton').set_sensitive(False)
                 if self.cd_burn_cmd is None:
-                    self.nomediabutton.set_active(True)
+                    self.widgets.get_object('nomediabutton').set_active(True)
 
-            self.wizard.set_page_complete(page,True)
-        elif page == self.file_page:
-            self.wizard.set_page_title(page,_("Choose Target Directory"))
-            self.filechooserbutton.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+            self.widgets.get_object('wizard').set_page_complete(page,True)
+        elif page == self.widgets.get_object('file_page'):
+            self.widgets.get_object('wizard').set_page_title(page,_("Choose Target Directory"))
+            self.widgets.get_object('filechooserbutton').set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
             #fill in command line args
             if os.path.exists(self.target):
-                self.filechooserbutton.set_current_folder(self.target)
+                self.widgets.get_object('filechooserbutton').set_current_folder(self.target)
 
-            self.wizard.set_page_complete(page,True)
-        elif page == self.conf_page:
-            self.wizard.set_page_title(page,_("Confirm Selections"))
+            self.widgets.get_object('wizard').set_page_complete(page,True)
+        elif page == self.widgets.get_object('conf_page'):
+            self.widgets.get_object('wizard').set_page_title(page,_("Confirm Selections"))
 
             #Fill in dynamic data
-            if self.dvdbutton.get_active():
-                type=self.dvdbutton.get_label()
-            elif self.usbbutton.get_active():
-                type=self.usbbutton.get_label()
+            if self.widgets.get_object('dvdbutton').get_active():
+                type=self.widgets.get_object('dvdbutton').get_label()
+            elif self.widgets.get_object('usbbutton').get_active():
+                type=self.widgets.get_object('usbbutton').get_label()
             else:
                 type=_("ISO Image")
             text = ''
@@ -408,11 +407,11 @@ class Frontend:
             text+=_("Utility Partition: ") + self.up + '\n'
             text+=_("Recovery Partition: ") + self.rp + '\n'
             text+=_("Media Type: ") + type + '\n'
-            text+=_("File Name: ") + self.filechooserbutton.get_filename() + ISO + '\n'
+            text+=_("File Name: ") + self.widgets.get_object('filechooserbutton').get_filename() + ISO + '\n'
             
 
-            self.conf_text.set_text(text)
-            self.wizard.set_page_complete(page,True)
+            self.widgets.get_object('conf_text').set_text(text)
+            self.widgets.get_object('wizard').set_page_complete(page,True)
 
     def ignore(*args):
         """Ignores a signal"""
