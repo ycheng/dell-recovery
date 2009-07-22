@@ -7,6 +7,7 @@ dell-recovery (0.20) UNRELEASED; urgency=low
     - Add support for devicekit-disks.  If this fails, fall back to HAL.
   * debian/control:
     - Depends on devicekit-disks or hal for system detection.
+    - Drop depends on python-glade2
   * Migrate from libglade to gtkbuilder.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 13 Jul 2009 16:08:42 -0500
