@@ -1,3 +1,11 @@
+dell-recovery (0.22) UNRELEASED; urgency=low
+
+  * recovery_frontend:
+    - Support using usb-creator, usb-creator-gtk, or usb-creator-kde for burning
+      ISO images to a USB stick.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 27 Jul 2009 11:47:43 -0500
+
 dell-recovery (0.21) karmic; urgency=low
 
   * boot:

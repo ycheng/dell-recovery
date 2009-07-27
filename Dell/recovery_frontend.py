@@ -55,7 +55,9 @@ ISO='/ubuntu-dell-reinstall.iso'
 #Supported burners and their arguments
 cd_burners = { 'brasero':['-i'],
                'nautilus-cd-burner':['--source-iso='] }
-usb_burners = { 'usb-creator':['-n','--iso'] }
+usb_burners = { 'usb-creator':['-n','--iso'],
+                'usb-creator-gtk':['-n','--iso'],
+                'usb-creator-kde':['-n','--iso'] }
 
 class Frontend:
     def __init__(self,up,rp,media,target,overwrite):
