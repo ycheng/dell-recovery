@@ -1,9 +1,9 @@
-dell-recovery (0.23) UNRELEASED; urgency=low
+dell-recovery (0.23) karmic; urgency=low
 
   * boot:
     - Use initrd.lz as Ubuntu 9.10+ switched to this.
 
- -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 30 Jul 2009 12:49:31 -0500
+ -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 30 Jul 2009 12:50:37 -0500
 
 dell-recovery (0.22) karmic; urgency=low
 
