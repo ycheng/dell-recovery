@@ -98,48 +98,6 @@ def dbus_sync_call_signal_wrapper(dbus_iface, fn, handler_map, *args, **kwargs):
 
 #--------------------------------------------------------------------#
 
-def polkit_auth_wrapper(fn, *args, **kwargs):
-    '''Function call wrapper for PolicyKit authentication.
-
-    Call fn(*args, **kwargs). If it fails with a PermissionDeniedByPolicy
-    and the caller can authenticate to get the missing privilege, the PolicyKit
-    authentication agent is called, and the function call is attempted again.
-
-    This function also translates DBusExceptions into the Exceptions defined
-    above.
-    '''
-    try:
-        try:
-            return fn(*args, **kwargs)
-        except dbus.DBusException, e:
-            if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
-                # last words in message are privilege and auth result
-                (priv, auth_result) = str(e).split()[-2:]
-                if auth_result.startswith('auth_'):
-                    pk_auth = dbus.Interface(dbus.SessionBus().get_object(
-                        'org.freedesktop.PolicyKit.AuthenticationAgent', '/', False),
-                        'org.freedesktop.PolicyKit.AuthenticationAgent')
-                    # TODO: provide xid
-                    res = pk_auth.ObtainAuthorization(priv, dbus.UInt32(0),
-                        dbus.UInt32(os.getpid()), timeout=300)
-                    if res:
-                        return fn(*args, **kwargs)
-                raise PermissionDeniedByPolicy(priv + ' ' + auth_result)
-            raise
-    except dbus.DBusException, e:
-        if e._dbus_error_name == InvalidModeException._dbus_error_name:
-            raise InvalidModeException(str(e))
-        elif e._dbus_error_name == UnknownHandlerException._dbus_error_name:
-            raise UnknownHandlerException(str(e))
-        elif e._dbus_error_name == 'org.freedesktop.DBus.Python.SystemError':
-            raise SystemError(str(e))
-        elif e._dbus_error_name == 'org.freedesktop.DBus.Error.NoReply':
-            raise BackendCrashError
-        else:
-            raise
-
-#--------------------------------------------------------------------#
-
 class Backend(dbus.service.Object):
     '''Backend manager.
 
@@ -258,10 +216,13 @@ class Backend(dbus.service.Object):
         # query PolicyKit
         if self.polkit is None:
             self.polkit = dbus.Interface(dbus.SystemBus().get_object(
-                'org.freedesktop.PolicyKit', '/', False),
-                'org.freedesktop.PolicyKit')
+                'org.freedesktop.PolicyKit1', '/org/freedesktop/PolicyKit1/Authority', False),
+                'org.freedesktop.PolicyKit1.Authority')
         try:
-            res = self.polkit.IsProcessAuthorized(privilege, pid, True)
+            # we don't need is_challenge return here, since we call with AllowUserInteraction
+            (is_auth, _, details) = self.polkit.CheckAuthorization(
+                    ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1)}), 
+                    privilege, {'': ''}, dbus.UInt32(1), '', timeout=600)
         except dbus.DBusException, e:
             if e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
                 # polkitd timed out, connect again
@@ -270,10 +231,10 @@ class Backend(dbus.service.Object):
             else:
                 raise
 
-        if res != 'yes':
-            logging.debug('_check_polkit_privilege: sender %s on connection %s pid %i requested %s: %s' % (
-                sender, conn, pid, privilege, res))
-            raise PermissionDeniedByPolicy(privilege + ' ' + res)
+        if not is_auth:
+            logging.debug('_check_polkit_privilege: sender %s on connection %s pid %i is not authorized for %s: %s' %
+                    (sender, conn, pid, privilege, str(details)))
+            raise PermissionDeniedByPolicy(privilege)
 
     #
     # Internal API for calling from Handlers (not exported through D-BUS)

@@ -38,7 +38,7 @@ pygtk.require("2.0")
 import gtk
 import gtk.glade
 
-from Dell.recovery_backend import UnknownHandlerException, PermissionDeniedByPolicy, BackendCrashError, polkit_auth_wrapper, dbus_sync_call_signal_wrapper, Backend, DBUS_BUS_NAME
+from Dell.recovery_backend import UnknownHandlerException, PermissionDeniedByPolicy, BackendCrashError, dbus_sync_call_signal_wrapper, Backend, DBUS_BUS_NAME
 
 #Translation Support
 domain='dell-recovery'
@@ -222,9 +222,12 @@ class Frontend:
                 #writing files as a user, oh well, we tried
                 pass
             try:
-                polkit_auth_wrapper(dbus_sync_call_signal_wrapper,
-                    self.backend(),'create', {'report_progress':self.update_progress_gui},
-                    self.up, self.rp, self.widgets.get_object('filechooserbutton').get_filename() + ISO)
+                dbus_sync_call_signal_wrapper(self.backend(),
+                    'create',
+                    {'report_progress':self.update_progress_gui},
+                    self.up,
+                    self.rp,
+                    self.widgets.get_object('filechooserbutton').get_filename() + ISO)
             except dbus.DBusException, e:
                 if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
                     header = _("Permission Denied")
