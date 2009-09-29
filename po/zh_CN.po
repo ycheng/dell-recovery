@@ -6,173 +6,171 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-22 18:12-0500\n"
-"PO-Revision-Date: 2009-04-02 16:03+0000\n"
-"Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-04-10 16:35-0500\n"
+"PO-Revision-Date: 2009-08-27 07:58+0000\n"
+"Last-Translator: Careone <zzbusagain@yahoo.com.cn>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-04-02 16:08+0000\n"
+"X-Launchpad-Export-Date: 2009-09-29 21:20+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:141
-#, fuzzy
+#: ../Dell/recovery_frontend.py:144
 msgid "Invalid utility partition"
-msgstr "实用分区 "
+msgstr "无效的公用分区"
 
-#: ../Dell/recovery_frontend.py:141 ../Dell/recovery_frontend.py:147
-msgid ""
-" in command line arguments.  Falling back to DeviceKit or HAL based "
-"detection."
-msgstr ""
+#: ../Dell/recovery_frontend.py:144 ../Dell/recovery_frontend.py:150
+msgid " in command line arguments.  Falling back to HAL based detection."
+msgstr " 命令行参数。失败后返回自动检测到的 HAL 。"
 
-#: ../Dell/recovery_frontend.py:147
-#, fuzzy
+#: ../Dell/recovery_frontend.py:150
 msgid "Invalid recovery partition"
-msgstr "恢复分区 "
+msgstr "无效的恢复分区"
 
-#: ../Dell/recovery_frontend.py:228
+#: ../Dell/recovery_frontend.py:205
 msgid "Permission Denied"
-msgstr "权限不足"
+msgstr "权限禁止"
 
-#: ../Dell/recovery_frontend.py:241
+#: ../Dell/recovery_frontend.py:218
 msgid "Opening Burner"
-msgstr "打开光盘烧制器"
+msgstr "打开光盘刻录器"
 
-#: ../Dell/recovery_frontend.py:255
+#: ../Dell/recovery_frontend.py:235
 msgid "Recovery Media Creation Process Complete"
-msgstr "恢复媒介创建过程完成"
+msgstr "恢复光盘创建完成"
 
-#: ../Dell/recovery_frontend.py:256
-#, fuzzy
+#: ../Dell/recovery_frontend.py:236
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:"
-msgstr "如果你想存档的另一个副本，生成的图片已储存在您的主目录下的文件："
+msgstr "需要压缩制作另一个副本吗？生成的镜像保存为这个文件名："
 
-#: ../Dell/recovery_frontend.py:274
+#: ../Dell/recovery_frontend.py:254
 msgid "Cannot connect to dbus"
-msgstr "无法连接到乌思"
+msgstr "无法连接到 dbus"
 
-#: ../Dell/recovery_frontend.py:291
+#: ../Dell/recovery_frontend.py:271
 msgid ""
 "This tool requires that a Utility Partition and Linux Recovery partition are "
 "present to function."
-msgstr "此工具需要一台实用分区和Linux恢复分区存在运作。"
+msgstr "这个工具需要一个公用分区和Linux恢复分区才能进行操作。"
 
-#: ../Dell/recovery_frontend.py:364
+#: ../Dell/recovery_frontend.py:344
 msgid "Welcome"
-msgstr "欢迎"
+msgstr "欢迎使用"
 
-#: ../Dell/recovery_frontend.py:368
+#: ../Dell/recovery_frontend.py:348
 msgid "Choose Media Type"
-msgstr "选择媒介类型"
+msgstr "选择光盘类型"
 
-#: ../Dell/recovery_frontend.py:387
+#: ../Dell/recovery_frontend.py:367
 msgid "Choose Target Directory"
 msgstr "选择目标目录"
 
-#: ../Dell/recovery_frontend.py:395
+#: ../Dell/recovery_frontend.py:375
 msgid "Confirm Selections"
 msgstr "确认选择"
 
-#: ../Dell/recovery_frontend.py:403
+#: ../Dell/recovery_frontend.py:383
 msgid "ISO Image"
 msgstr "ISO 镜像"
 
-#: ../Dell/recovery_frontend.py:406
+#: ../Dell/recovery_frontend.py:386
 msgid "OS Release: "
 msgstr "操作系统版本 "
 
-#: ../Dell/recovery_frontend.py:407
+#: ../Dell/recovery_frontend.py:387
 msgid "Utility Partition: "
-msgstr "实用分区 "
+msgstr "公用分区 "
 
-#: ../Dell/recovery_frontend.py:408
+#: ../Dell/recovery_frontend.py:388
 msgid "Recovery Partition: "
 msgstr "恢复分区 "
 
-#: ../Dell/recovery_frontend.py:409
+#: ../Dell/recovery_frontend.py:389
 msgid "Media Type: "
-msgstr "媒介类型： "
+msgstr "光盘类型： "
 
-#: ../Dell/recovery_frontend.py:410
+#: ../Dell/recovery_frontend.py:390
 msgid "File Name: "
 msgstr "文件名 "
 
 #: ../Dell/recovery_backend.py:336
 msgid "Building UP"
-msgstr "建设实用分区"
+msgstr "建立公用分区"
 
 #. Renerate UUID
 #: ../Dell/recovery_backend.py:344
 msgid "Generating UUID"
-msgstr "生成的UUID"
+msgstr "生成 UUID"
 
 #: ../Dell/recovery_backend.py:399
 msgid "Building ISO"
-msgstr "建设国际标准化组织"
+msgstr "制作 ISO 光盘镜像"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create Dell Recovery ISO"
-msgstr "创建戴尔恢复国际标准化组织"
+msgstr "制作 Dell 恢复光盘 ISO 镜像"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "System policy prevents reading raw devices"
-msgstr "系统策略可以阻止读取原始设备"
+msgstr "系统策略阻止读取 raw 设备"
 
 #: ../gtk/dell-recovery-media.desktop.in.h:1
 msgid "Create Dell Recovery Media"
-msgstr "创建戴尔恢复媒体"
+msgstr "制作 Dell 恢复光盘"
 
-#: ../gtk/recovery_media_creator.ui.h:1
+#: ../gtk/recovery_media_creator.glade.h:1
 msgid "<activity placeholder>"
-msgstr "<活动占位符>"
+msgstr "<启动标识符>"
 
-#: ../gtk/recovery_media_creator.ui.h:2
+#: ../gtk/recovery_media_creator.glade.h:2
 msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
-msgstr ""
+msgstr "发现已经存在的镜像(可能是上次运行产生的)。是否删除旧的镜像，并重新生成新镜像？"
 
-#: ../gtk/recovery_media_creator.ui.h:3
+#: ../gtk/recovery_media_creator.glade.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
-msgstr ""
+msgstr "确定要取消创建恢复光盘吗？"
 
-#: ../gtk/recovery_media_creator.ui.h:4
+#: ../gtk/recovery_media_creator.glade.h:4
 msgid "Cancel Recovery Media Creator"
-msgstr "取消恢复媒介创建程序"
+msgstr "取消恢复光盘创建程序"
 
-#: ../gtk/recovery_media_creator.ui.h:5
+#: ../gtk/recovery_media_creator.glade.h:5
 msgid "DVD+/-RW Disc"
 msgstr "DVD+/-RW 光盘"
 
-#: ../gtk/recovery_media_creator.ui.h:6
+#: ../gtk/recovery_media_creator.glade.h:6
 msgid "Dell Recovery Media Creator"
-msgstr "Dell 恢复媒介创建程序"
+msgstr "Dell 恢复光盘创建程序"
 
-#: ../gtk/recovery_media_creator.ui.h:7
+#: ../gtk/recovery_media_creator.glade.h:7
 msgid "No media, create ISO image"
-msgstr "任何媒体，创建ISO映像"
+msgstr "没有刻录光盘，只创建 ISO 镜像文件"
 
-#: ../gtk/recovery_media_creator.ui.h:8
+#: ../gtk/recovery_media_creator.glade.h:8
+msgid "Retry burn?"
+msgstr "重新刻录？"
+
+#: ../gtk/recovery_media_creator.glade.h:9
 msgid "Select a directory for the ISO"
-msgstr "选择一个目录的ISO"
+msgstr "从目录中选择 ISO 光盘镜像文件"
 
-#: ../gtk/recovery_media_creator.ui.h:9
+#: ../gtk/recovery_media_creator.glade.h:10
+msgid "The media burn process failed.  Would you like to retry?"
+msgstr "光盘刻录失败。要重试吗？"
+
+#: ../gtk/recovery_media_creator.glade.h:11
 msgid ""
 "This application will create OS Recovery Media that can be used to restore "
 "the computer to its factory shipped state.  You will have the option to "
 "create an USB key or DVD image."
-msgstr ""
-"此应用程序将创建操作系统恢复媒体，可将计算机还原到它的工厂发货状态。您可以选"
-"择创建一个USB密钥或DVD的形象"
+msgstr "本程序用来创建操作系统恢复光盘，可以把计算机还原到出厂状态。你可以选择创建一个 USB 密钥，或者是 DVD 镜像。"
 
-#: ../gtk/recovery_media_creator.ui.h:10
+#: ../gtk/recovery_media_creator.glade.h:12
 msgid "USB Flash Drive"
 msgstr "USB 闪存驱动器"
-
-#~ msgid "Retry burn?"
-#~ msgstr "重试烧？"

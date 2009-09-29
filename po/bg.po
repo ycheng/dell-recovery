@@ -1,16 +1,16 @@
-# Portuguese translation for dell-recovery
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Bulgarian translation for dell-recovery
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the dell-recovery package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-04-10 16:35-0500\n"
-"PO-Revision-Date: 2009-09-18 20:32+0000\n"
-"Last-Translator: Henrique P. Machado <zehrique@ubuntu.com>\n"
-"Language-Team: Portuguese <pt@li.org>\n"
+"PO-Revision-Date: 2009-06-03 17:54+0000\n"
+"Last-Translator: Krasimir Chonov <mk2616@abv.bg>\n"
+"Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,114 +19,108 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:144
 msgid "Invalid utility partition"
-msgstr "Utilitário de partição inválido"
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:144 ../Dell/recovery_frontend.py:150
 msgid " in command line arguments.  Falling back to HAL based detection."
 msgstr ""
-" em argumentos de linha de comando. Retornando para a detecção baseada na "
-"HAL."
 
 #: ../Dell/recovery_frontend.py:150
 msgid "Invalid recovery partition"
-msgstr "Recuperação de partição inválida"
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:205
 msgid "Permission Denied"
-msgstr "Permissão negada"
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:218
 msgid "Opening Burner"
-msgstr "Abrindo gravador"
+msgstr "Отваряне на записващо устройство"
 
 #: ../Dell/recovery_frontend.py:235
 msgid "Recovery Media Creation Process Complete"
-msgstr "Recovery Media Creation Processo Completo"
+msgstr "Създаването на носител за възстановяване завърши"
 
 #: ../Dell/recovery_frontend.py:236
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:"
 msgstr ""
-"Se você quiser salvar uma outra cópia, a imagem gerada foi armazenada sob o "
-"nome de arquivo:"
 
 #: ../Dell/recovery_frontend.py:254
 msgid "Cannot connect to dbus"
-msgstr "Não é possível conectar-se ao dbus"
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:271
 msgid ""
 "This tool requires that a Utility Partition and Linux Recovery partition are "
 "present to function."
 msgstr ""
-"Esta ferramenta requer que um utilitário de partições e uma partição de "
-"recuperação Linux estejam presentes para funcionar."
 
 #: ../Dell/recovery_frontend.py:344
 msgid "Welcome"
-msgstr "Bem-vindo"
+msgstr "Добре дошли"
 
 #: ../Dell/recovery_frontend.py:348
 msgid "Choose Media Type"
-msgstr "Escolha tipo de media"
+msgstr "Изберете тип носител"
 
 #: ../Dell/recovery_frontend.py:367
 msgid "Choose Target Directory"
-msgstr "Escolha o diretório de destino"
+msgstr "Изберете целева папка"
 
 #: ../Dell/recovery_frontend.py:375
 msgid "Confirm Selections"
-msgstr "Confirma selecções"
+msgstr "Потвърждение на изборите"
 
 #: ../Dell/recovery_frontend.py:383
 msgid "ISO Image"
-msgstr "Imagem ISO"
+msgstr "ISO образ"
 
 #: ../Dell/recovery_frontend.py:386
 msgid "OS Release: "
-msgstr "Versão do SO: "
+msgstr "Издание на ОС: "
 
 #: ../Dell/recovery_frontend.py:387
 msgid "Utility Partition: "
-msgstr "Utilitário de partição: "
+msgstr "Програма за възстановяване: "
 
 #: ../Dell/recovery_frontend.py:388
 msgid "Recovery Partition: "
-msgstr "Recuperação de partição: "
+msgstr "Дял за възстановяване: "
 
 #: ../Dell/recovery_frontend.py:389
 msgid "Media Type: "
-msgstr "Tipo de media: "
+msgstr "Тип носител: "
 
 #: ../Dell/recovery_frontend.py:390
 msgid "File Name: "
-msgstr "Nome do arquivo: "
+msgstr "Файл: "
 
 #: ../Dell/recovery_backend.py:336
 msgid "Building UP"
-msgstr "Reconstruindo"
+msgstr "Изграждане"
 
 #. Renerate UUID
 #: ../Dell/recovery_backend.py:344
 msgid "Generating UUID"
-msgstr "Gerando UUID"
+msgstr ""
 
 #: ../Dell/recovery_backend.py:399
 msgid "Building ISO"
-msgstr "Gerando ISO"
+msgstr "Създаване на ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create Dell Recovery ISO"
-msgstr "Cria um arquivo ISO do Dell Recovery"
+msgstr "Създаване на Dell ISO образ за възстановяване"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "System policy prevents reading raw devices"
-msgstr "Políticas do sistema previnem a leitura de dispositivos brutos"
+msgstr ""
 
 #: ../gtk/dell-recovery-media.desktop.in.h:1
 msgid "Create Dell Recovery Media"
-msgstr "Cria mídia do Dell Recovery"
+msgstr "Създаване на Dell носител за възстановяване"
 
 #: ../gtk/recovery_media_creator.glade.h:1
 msgid "<activity placeholder>"
@@ -137,42 +131,38 @@ msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
 msgstr ""
-"Uma imagem existente foi encontrada (possivelmente de uma execução "
-"anterior). Você gostaria de remover esta cópia antiga e gerar novamente a "
-"imagem?"
 
 #: ../gtk/recovery_media_creator.glade.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
 msgstr ""
-"Você tem certeza que quer cancelar o processo de criação do Media Recovery?"
 
 #: ../gtk/recovery_media_creator.glade.h:4
 msgid "Cancel Recovery Media Creator"
-msgstr "Cancelar Recovery Media Creator"
+msgstr "Отказ"
 
 #: ../gtk/recovery_media_creator.glade.h:5
 msgid "DVD+/-RW Disc"
-msgstr "DVD+/-RW Disc"
+msgstr "DVD+/-RW диск"
 
 #: ../gtk/recovery_media_creator.glade.h:6
 msgid "Dell Recovery Media Creator"
-msgstr "Dell Recovery Media Creator"
+msgstr "Създаване на Dell носител за възстановяване"
 
 #: ../gtk/recovery_media_creator.glade.h:7
 msgid "No media, create ISO image"
-msgstr "Nenhuma mídia, cria um arquivo ISO"
+msgstr "Няма носител, създаване на ISO образ"
 
 #: ../gtk/recovery_media_creator.glade.h:8
 msgid "Retry burn?"
-msgstr "Tentar queimar novamente?"
+msgstr "Повторен опит?"
 
 #: ../gtk/recovery_media_creator.glade.h:9
 msgid "Select a directory for the ISO"
-msgstr "Selecione um diretório para o ISO"
+msgstr "Изберете папка за ISO образа"
 
 #: ../gtk/recovery_media_creator.glade.h:10
 msgid "The media burn process failed.  Would you like to retry?"
-msgstr "O processo de gravação da mídia falhou. Você quer tentar novamente?"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.glade.h:11
 msgid ""
@@ -180,10 +170,10 @@ msgid ""
 "the computer to its factory shipped state.  You will have the option to "
 "create an USB key or DVD image."
 msgstr ""
-"Esta aplicação criará OS Recovery Media que poderá ser usado para restaurar "
-"o computador para o estado de envio do fabricante. Terá a opção de criar uma "
-"chave USB ou imagem DVD."
+"Тази програма ще създаде носител за възстановяване на операционната система, "
+"който ще ви послужи за възстановяване на компютъра в първоначалното му "
+"състояние. Можете да създадете USB флаш памет или DVD образ."
 
 #: ../gtk/recovery_media_creator.glade.h:12
 msgid "USB Flash Drive"
-msgstr "Unidade USB"
+msgstr "USB флаш памет"

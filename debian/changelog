@@ -3,6 +3,7 @@ dell-recovery (0.24) UNRELEASED; urgency=low
   * Port over to polkit-1.
   * debian/control:
     - Depends on policykit-1.
+  * Update translations from launchpad.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 29 Sep 2009 15:41:22 -0500
 
