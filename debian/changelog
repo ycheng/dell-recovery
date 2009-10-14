@@ -2,6 +2,8 @@ dell-recovery (0.25) UNRELEASED; urgency=low
 
   * Add support to the backend for querying/incrementing the version of the
     ISO via RP/.disk/bto_version.
+  * Add support for the override the version of the ISO via a frontend command
+    line argument.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
 

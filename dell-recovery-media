@@ -40,6 +40,8 @@ parser.add_option('-u', '--up', dest='up',
                   help='Override detected utility partition with this file.')
 parser.add_option('-r', '--rp', dest='rp',
                   help='Override detected recovery partition with this file.')
+parser.add_option('-v', '--override-version', dest='version',
+                  help='Override the automatic version number generation of this ISO.')
 parser.add_option('-m', '--media', dest='media',
                   help='Set type of recovery media to create [dvd, usb, iso].')
 parser.add_option('-t', '--target', dest='target',
@@ -51,6 +53,7 @@ parser.add_option('-o', '--overwrite', dest='overwrite', action='store_true',
 if __name__ == '__main__':
     script = Frontend(options.up,
                       options.rp,
+                      options.version,
                       options.media,
                       options.target,
                       options.overwrite)
