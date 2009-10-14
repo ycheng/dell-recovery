@@ -1,3 +1,10 @@
+dell-recovery (0.25) UNRELEASED; urgency=low
+
+  * Add support to the backend for querying/incrementing the version of the
+    ISO via RP/.disk/bto_version.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
+
 dell-recovery (0.24) karmic; urgency=low
 
   * Port over to polkit-1.

@@ -268,6 +268,33 @@ class Backend(dbus.service.Object):
     #
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
+        in_signature='s', out_signature='s', sender_keyword='sender',
+        connection_keyword='conn')
+    def query_version(self, rp, sender=None, conn=None):
+        self._reset_timeout()
+        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.query_version')
+
+        mntdir=tempfile.mkdtemp()
+
+        #mount the RP
+        version='A00'
+        ret=subprocess.call(['mount', rp , mntdir])
+        if ret is 0 and os.path.exists(os.path.join(mntdir,'.disk','bto_version')):
+            file=open(os.path.join(mntdir,'.disk','bto_version'),'r')
+            version=file.readline().strip('\n')
+            file.close()
+            self.unmount_drives('', mntdir)
+            if len(version) == 0:
+                version='A00'
+            elif not '.' in version:
+                version+= '.1'
+            else:
+                pieces=version.split('.')
+                increment=int(pieces[1]) + 1
+                version="%s.%d" % (pieces[0],increment)
+        return version
+
+    @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature='sss', out_signature='', sender_keyword='sender',
         connection_keyword='conn')
     def create(self, up, rp, iso, sender=None, conn=None):
