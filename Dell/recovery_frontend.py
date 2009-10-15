@@ -49,9 +49,6 @@ LOCALEDIR='/usr/share/locale'
 #Glade directory
 UIDIR = '/usr/share/dell'
 
-#Resultant Image
-ISO='/ubuntu-dell-reinstall.iso'
-
 #Supported burners and their arguments
 cd_burners = { 'brasero':['-i'],
                'nautilus-cd-burner':['--source-iso='] }
@@ -60,7 +57,7 @@ usb_burners = { 'usb-creator':['-n','--iso'],
                 'usb-creator-kde':['-n','--iso'] }
 
 class Frontend:
-    def __init__(self,up,rp,media,target,overwrite):
+    def __init__(self,up,rp,version,media,target,overwrite):
 
         #setup locales
         gettext.bindtextdomain(domain, LOCALEDIR)
@@ -88,16 +85,15 @@ class Frontend:
 
         self.check_burners()
 
-        try:
-            process=subprocess.Popen(['lsb_release','-d', '-s'], stdout=subprocess.PIPE)
-            self.release=process.communicate()[0]
-        except OSError:
-            #if we don't have lsb_release sitting around, not a big deal
-            self.release=None
+        process=subprocess.Popen(['lsb_release','-r', '-s'], stdout=subprocess.PIPE)
+        self.release=process.communicate()[0].strip('\n')
+        process=subprocess.Popen(['lsb_release','-i', '-s'], stdout=subprocess.PIPE)
+        self.distributor=process.communicate()[0].lower().strip('\n')
 
         #set any command line arguments
         self.up=up
         self.rp=rp
+        self.version=version
         self.media=media
         self.target=target
         self.overwrite=overwrite
@@ -202,7 +198,7 @@ class Frontend:
 
         #Check for existing image
         skip_creation=False
-        if os.path.exists(self.widgets.get_object('filechooserbutton').get_filename() + ISO) and not self.overwrite:
+        if os.path.exists(os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso)) and not self.overwrite:
             skip_creation=self.show_question(self.widgets.get_object('existing_dialog'))
 
         #GUI Elements
@@ -215,7 +211,7 @@ class Frontend:
             #try to open the file as a user first so when it's overwritten, it
             #will be with the correct permissions
             try:
-                file=open(self.widgets.get_object('filechooserbutton').get_filename() + ISO,'w')
+                file=open(os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso),'w')
                 file.close()
             except IOError:
                 #this might have been somwehere that the system doesn't want us
@@ -223,11 +219,12 @@ class Frontend:
                 pass
             try:
                 dbus_sync_call_signal_wrapper(self.backend(),
-                    'create',
+                    'create_' + self.distributor,
                     {'report_progress':self.update_progress_gui},
                     self.up,
                     self.rp,
-                    self.widgets.get_object('filechooserbutton').get_filename() + ISO)
+                    self.version,
+                    os.path.join(self.widgets.get_object('filechooserbutton').get_filename(),self.iso))
             except dbus.DBusException, e:
                 if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
                     header = _("Permission Denied")
@@ -249,16 +246,16 @@ class Frontend:
         while not success:
             success=True
             if self.widgets.get_object('dvdbutton').get_active():
-                cmd=self.cd_burn_cmd + [self.widgets.get_object('filechooserbutton').get_filename() + ISO]
+                cmd=self.cd_burn_cmd + [os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso)]
             elif self.widgets.get_object('usbbutton').get_active():
-                cmd=self.usb_burn_cmd + [self.widgets.get_object('filechooserbutton').get_filename() + ISO]
+                cmd=self.usb_burn_cmd + [os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso)]
             else:
                 cmd=None
             if cmd:
                 subprocess.call(cmd)
 
         header = _("Recovery Media Creation Process Complete")
-        body = _("If you would like to archive another copy, the generated image has been stored under the filename:") + ' ' + self.widgets.get_object('filechooserbutton').get_filename() + ISO
+        body = _("If you would like to archive another copy, the generated image has been stored under the filename:\n") + os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso)
         self.show_alert(gtk.MESSAGE_INFO, header, body,
             parent=self.widgets.get_object('progress_dialog'))
 
@@ -298,6 +295,9 @@ class Frontend:
             self.show_alert(gtk.MESSAGE_ERROR, header, inst,
                     parent=self.widgets.get_object('progress_dialog'))
             return
+        if not self.version:
+            self.version=self.backend().query_version(self.rp)
+        self.iso = self.distributor + '-' + self.release + '-dell_' + self.version + ".iso"
         gtk.main()
 
     def hide_progress(self):
@@ -407,12 +407,10 @@ class Frontend:
             else:
                 type=_("ISO Image")
             text = ''
-            if self.release:
-                text+=_("OS Release: ") + self.release
             text+=_("Utility Partition: ") + self.up + '\n'
             text+=_("Recovery Partition: ") + self.rp + '\n'
             text+=_("Media Type: ") + type + '\n'
-            text+=_("File Name: ") + self.widgets.get_object('filechooserbutton').get_filename() + ISO + '\n'
+            text+=_("File Name: ") + os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso) + '\n'
             
 
             self.widgets.get_object('conf_text').set_text(text)

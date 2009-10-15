@@ -1,3 +1,28 @@
+dell-recovery (0.25) UNRELEASED; urgency=low
+
+  * Add support to the backend for querying/incrementing the version of the
+    ISO via RP/bto_version.
+  * Add support for the override the version of the ISO via a frontend command
+    line argument.
+  * Add support for the backend to write out RP/bto_version during ISO
+    generation if it doesn't exist, and replace it if it does.
+  * Replace all references of initrd.gz with initrd.lz since that's what we use
+    for 9.10 and later.
+  * sync bin/create-new-uuid with casper to add lzma support.
+  * Rename the create function to create_ubuntu as realistically it's an ubuntu
+    only backend.  We'll need to evaluate a separate backend for other OSes, and
+    then maybe create a common backend function that can be shared.
+  * If the RP is already mounted before starting, try to use that old mount
+    point if at all possible when querying existing BTO version.
+  * Don't delete .exe and .sys files from the RP, just ignore them when creating
+    an image.
+  * Mount the RP read only.  We really shouldn't be changing it with this tool
+    anyway.  This has huge side effects on how we have to recreate files in a
+    temporary directory that will have to be changing rather than loop mounting
+    them around.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
+
 dell-recovery (0.24) karmic; urgency=low
 
   * Port over to polkit-1.
