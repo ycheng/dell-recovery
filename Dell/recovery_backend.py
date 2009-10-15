@@ -322,12 +322,6 @@ class Backend(dbus.service.Object):
         #mount the RP
         subprocess.call(['mount', rp , mntdir])
 
-        #Cleanup the RP
-        #FIXME, we should just ignore rather than delete these files
-        for file in os.listdir(mntdir):
-            if ".exe" in file or ".sys" in file:
-                os.remove(mntdir + '/' + file)
-
         #Generate BTO version string
         file=open(os.path.join(tmpdir,'bto_version'),'w')
         file.write(version)
@@ -382,6 +376,8 @@ class Backend(dbus.service.Object):
             '-cache-inodes', '-l',
             '-publisher', 'Dell Inc.',
             '-V', 'Dell Ubuntu Reinstallation Media',
+            '-m', '*.exe',
+            '-m', '*.sys',
             mntdir + '/',
             tmpdir + '/up/']
 

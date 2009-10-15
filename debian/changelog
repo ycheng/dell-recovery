@@ -14,6 +14,8 @@ dell-recovery (0.25) UNRELEASED; urgency=low
     then maybe create a common backend function that can be shared.
   * If the RP is already mounted before starting, try to use that old mount
     point if at all possible when querying existing BTO version.
+  * Don't delete .exe and .sys files from the RP, just ignore them when creating
+    an image.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
 
