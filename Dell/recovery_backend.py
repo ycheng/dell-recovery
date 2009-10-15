@@ -36,6 +36,7 @@ import atexit
 import tempfile
 import subprocess
 import shutil
+import datetime
 
 DBUS_BUS_NAME = 'com.dell.RecoveryMedia'
 
@@ -250,9 +251,6 @@ class Backend(dbus.service.Object):
     def unmount_drives(self,mntdir,tmpdir):
         #only unmount places if they actually still exist
         if os.path.exists(mntdir):
-            subprocess.call(['umount', mntdir + '/.disk/casper-uuid-generic'])
-            subprocess.call(['umount', mntdir + '/bto_version'])
-            subprocess.call(['umount', mntdir + '/casper/initrd.lz'])
             ret=subprocess.call(['umount', mntdir])
             #only cleanup the mntdir if we could properly umount
             if ret is 0:
@@ -313,18 +311,27 @@ class Backend(dbus.service.Object):
         
         #create temporary workspace
         tmpdir=tempfile.mkdtemp()
-        os.mkdir(tmpdir + '/up')
+        os.mkdir(os.path.join(tmpdir,'.disk'))
+        os.mkdir(os.path.join(tmpdir,'casper'))
         mntdir=tempfile.mkdtemp()
 
-        #cleanup any mounts on exit
-        atexit.register(self.unmount_drives,mntdir,tmpdir)
-
         #mount the RP
-        subprocess.call(['mount', rp , mntdir])
+        mount_command=subprocess.Popen(['mount', '-o', 'ro',  rp , mntdir],stderr=subprocess.PIPE)
+        output=mount_command.communicate()
+        ret=mount_command.wait()
+        if ret == 32:
+            self.unmount_drives('', mntdir)
+            mntdir=output[1].strip('\n').split('on')[1].strip(' ')
+            #cleanup any mounts on exit
+            atexit.register(self.unmount_drives,'',tmpdir)
+        else:
+            #cleanup any mounts on exit
+            atexit.register(self.unmount_drives,mntdir,tmpdir)
 
         #Generate BTO version string
         file=open(os.path.join(tmpdir,'bto_version'),'w')
-        file.write(version)
+        file.write(version + '\n')
+        file.write(str(datetime.date.today()) + '\n')
         file.close()
 
         #If necessary, build the UP
@@ -332,7 +339,7 @@ class Backend(dbus.service.Object):
             self.report_progress(_('Building UP'),'0.0')
             p1 = subprocess.Popen(['dd','if=' + up,'bs=1M'], stdout=subprocess.PIPE)
             p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
-            partition_file=open(tmpdir + '/up/' + 'upimg.bin', "w")
+            partition_file=open(tmpdir + 'upimg.bin', "w")
             partition_file.write(p2.communicate()[0])
             partition_file.close()
 
@@ -340,8 +347,8 @@ class Backend(dbus.service.Object):
         self.report_progress(_('Generating UUID'),'0.0')
         uuid_args = ['/usr/share/dell/bin/create-new-uuid',
                               mntdir + '/casper/initrd.lz',
-                              tmpdir + '/',
-                              tmpdir + '/']
+                              tmpdir + '/casper',
+                              tmpdir + '/.disk']
         uuid = subprocess.Popen(uuid_args)
         retval = uuid.poll()
         while (retval is None):
@@ -351,46 +358,47 @@ class Backend(dbus.service.Object):
                 "create-new-uuid exited with a nonstandard return value."
             sys.exit(1)
 
-        #if we have ran this from a USB key, we might have syslinux which will
-        #break our build
-        if os.path.exists(mntdir + '/syslinux'):
-            if os.path.exists(mntdir + '/isolinux'):
-                #this means we might have been alternating between
-                #recovery media formats too much
-                self.walk_cleanup(mntdir + '/isolinux')
-                os.rmdir(mntdir + '/isolinux')
-            shutil.move(mntdir + '/syslinux', mntdir + '/isolinux')
-        if os.path.exists(mntdir + '/isolinux/syslinux.cfg'):
-            shutil.move(mntdir + '/isolinux/syslinux.cfg', mntdir + '/isolinux/isolinux.cfg')
-        #FIXME^^^, this needs to learn how to do it without writing to the RP so the RP can be read only
-        # possible solution is commented below:
-        #if os.path.exists(mntdir + '/syslinux') and not os.path.exists(mntdir + '/isolinux'):
-        #    subprocess.call(['mount', '-o', 'ro' ,'--bind', mntdir + '/syslinux', mntdir + '/isolinux'])
-
         #Arg list
-        genisoargs=['genisoimage', '-o', iso,
+        genisoargs=['genisoimage', 
+            '-o', iso,
             '-input-charset', 'utf-8',
-            '-b', 'isolinux/isolinux.bin', '-c', 'isolinux/boot.catalog',
-            '-no-emul-boot', '-boot-load-size', '4', '-boot-info-table',
-            '-pad', '-r', '-J', '-joliet-long', '-N', '-hide-joliet-trans-tbl',
-            '-cache-inodes', '-l',
+            '-b', 'isolinux/isolinux.bin',
+            '-c', 'isolinux/boot.catalog',
+            '-no-emul-boot',
+            '-boot-load-size', '4', 
+            '-boot-info-table',
+            '-pad', 
+            '-r', 
+            '-J',
+            '-joliet-long', 
+            '-N', 
+            '-hide-joliet-trans-tbl',
+            '-cache-inodes', 
+            '-l',
             '-publisher', 'Dell Inc.',
             '-V', 'Dell Ubuntu Reinstallation Media',
             '-m', '*.exe',
             '-m', '*.sys',
-            mntdir + '/',
-            tmpdir + '/up/']
+            '-m', 'syslinux',
+            '-m', 'syslinux.cfg',
+            '-m', os.path.join(mntdir,'isolinux'),
+            '-m', os.path.join(mntdir,'bto_version'),
+            '-m', os.path.join(mntdir,'.disk','casper-uuid-generic'),
+            '-m', os.path.join(mntdir,'casper','initrd.lz')]
 
-        #Boot sector for ISO
-        shutil.copy(mntdir + '/isolinux/isolinux.bin', tmpdir)
-
-        #Loop mount these UUIDs so that they are included on the disk
-        subprocess.call(['mount', '-o', 'ro' ,'--bind', tmpdir + '/initrd.lz', mntdir + '/casper/initrd.lz'])
-        subprocess.call(['mount', '-o', 'ro', '--bind', tmpdir + '/casper-uuid-generic', mntdir + '/.disk/casper-uuid-generic'])
-        if os.path.exists(os.path.join(mntdir,'bto_version')):
-            subprocess.call(['mount', '-o', 'ro', '--bind', tmpdir + '/bto_version', mntdir + '/bto_version'])
+        #if we have ran this from a USB key, we might have syslinux which will
+        #break our build
+        if os.path.exists(os.path.join(mntdir,'syslinux')):
+            shutil.copytree(os.path.join(mntdir,'syslinux'), os.path.join(tmpdir,'isolinux'))
+            if os.path.exists(os.path.join(tmpdir,'isolinux','syslinux.cfg')):
+                shutil.move(os.path.join(tmpdir,'isolinux','syslinux.cfg'), os.path.join(tmpdir + 'isolinux','isolinux.cfg'))
         else:
-            genisoargs.append(os.path.join(tmpdir,'bto_version'))
+            #Copy boot section for ISO to somewhere writable
+            shutil.copytree(os.path.join(mntdir,'isolinux'), os.path.join(tmpdir,'isolinux'))
+
+        #Directories to install
+        genisoargs.append(tmpdir + '/')
+        genisoargs.append(mntdir + '/')
 
         #ISO Creation
         p3 = subprocess.Popen(genisoargs,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
@@ -404,6 +412,8 @@ class Backend(dbus.service.Object):
             retval = p3.poll()
         if retval is not 0:
             print >> sys.stderr, genisoargs
+            print >> sys.stderr, p3.stderr.readlines()
+            print >> sys.stderr, p3.stdout.readlines()
             print >> sys.stderr, \
                 "genisoimage exited with a nonstandard return value."
             sys.exit(1)

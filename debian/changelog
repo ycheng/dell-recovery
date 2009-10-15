@@ -16,6 +16,10 @@ dell-recovery (0.25) UNRELEASED; urgency=low
     point if at all possible when querying existing BTO version.
   * Don't delete .exe and .sys files from the RP, just ignore them when creating
     an image.
+  * Mount the RP read only.  We really shouldn't be changing it with this tool
+    anyway.  This has huge side effects on how we have to recreate files in a
+    temporary directory that will have to be changing rather than loop mounting
+    them around.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
 
