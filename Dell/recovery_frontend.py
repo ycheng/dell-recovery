@@ -225,6 +225,7 @@ class Frontend:
                     {'report_progress':self.update_progress_gui},
                     self.up,
                     self.rp,
+                    self.version,
                     os.path.join(self.widgets.get_object('filechooserbutton').get_filename(),self.iso))
             except dbus.DBusException, e:
                 if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
@@ -247,16 +248,16 @@ class Frontend:
         while not success:
             success=True
             if self.widgets.get_object('dvdbutton').get_active():
-                cmd=self.cd_burn_cmd + [self.widgets.get_object('filechooserbutton').get_filename() + ISO]
+                cmd=self.cd_burn_cmd + [os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso)]
             elif self.widgets.get_object('usbbutton').get_active():
-                cmd=self.usb_burn_cmd + [self.widgets.get_object('filechooserbutton').get_filename() + ISO]
+                cmd=self.usb_burn_cmd + [os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso)]
             else:
                 cmd=None
             if cmd:
                 subprocess.call(cmd)
 
         header = _("Recovery Media Creation Process Complete")
-        body = _("If you would like to archive another copy, the generated image has been stored under the filename:") + ' ' + self.widgets.get_object('filechooserbutton').get_filename() + ISO
+        body = _("If you would like to archive another copy, the generated image has been stored under the filename:\n") + os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso)
         self.show_alert(gtk.MESSAGE_INFO, header, body,
             parent=self.widgets.get_object('progress_dialog'))
 

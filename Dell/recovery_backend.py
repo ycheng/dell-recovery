@@ -251,6 +251,7 @@ class Backend(dbus.service.Object):
         #only unmount places if they actually still exist
         if os.path.exists(mntdir):
             subprocess.call(['umount', mntdir + '/.disk/casper-uuid-generic'])
+            subprocess.call(['umount', mntdir + '/bto_version'])
             subprocess.call(['umount', mntdir + '/casper/initrd.gz'])
             ret=subprocess.call(['umount', mntdir])
             #only cleanup the mntdir if we could properly umount
@@ -278,12 +279,11 @@ class Backend(dbus.service.Object):
 
         #mount the RP
         version='A00'
-        ret=subprocess.call(['mount', rp , mntdir])
-        if ret is 0 and os.path.exists(os.path.join(mntdir,'.disk','bto_version')):
-            file=open(os.path.join(mntdir,'.disk','bto_version'),'r')
+        ret=subprocess.call(['mount', '-o', 'ro',  rp , mntdir])
+        if ret is 0 and os.path.exists(os.path.join(mntdir,'bto_version')):
+            file=open(os.path.join(mntdir,'bto_version'),'r')
             version=file.readline().strip('\n')
             file.close()
-            self.unmount_drives('', mntdir)
             if len(version) == 0:
                 version='A00'
             elif not '.' in version:
@@ -292,12 +292,14 @@ class Backend(dbus.service.Object):
                 pieces=version.split('.')
                 increment=int(pieces[1]) + 1
                 version="%s.%d" % (pieces[0],increment)
+        self.unmount_drives('', mntdir)
+
         return version
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='sss', out_signature='', sender_keyword='sender',
+        in_signature='ssss', out_signature='', sender_keyword='sender',
         connection_keyword='conn')
-    def create(self, up, rp, iso, sender=None, conn=None):
+    def create(self, up, rp, version, iso, sender=None, conn=None):
 
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.create')
@@ -318,6 +320,11 @@ class Backend(dbus.service.Object):
         for file in os.listdir(mntdir):
             if ".exe" in file or ".sys" in file:
                 os.remove(mntdir + '/' + file)
+
+        #Generate BTO version string
+        file=open(os.path.join(tmpdir,'bto_version'),'w')
+        file.write(version)
+        file.close()
 
         #If necessary, build the UP
         if not os.path.exists(mntdir + '/upimg.bin'):
@@ -359,14 +366,7 @@ class Backend(dbus.service.Object):
         #if os.path.exists(mntdir + '/syslinux') and not os.path.exists(mntdir + '/isolinux'):
         #    subprocess.call(['mount', '-o', 'ro' ,'--bind', mntdir + '/syslinux', mntdir + '/isolinux'])
 
-        #Loop mount these UUIDs so that they are included on the disk
-        subprocess.call(['mount', '-o', 'ro' ,'--bind', tmpdir + '/initrd.gz', mntdir + '/casper/initrd.gz'])
-        subprocess.call(['mount', '-o', 'ro', '--bind', tmpdir + '/casper-uuid-generic', mntdir + '/.disk/casper-uuid-generic'])
-
-        #Boot sector for ISO
-        shutil.copy(mntdir + '/isolinux/isolinux.bin', tmpdir)
-
-        #ISO Creation
+        #Arg list
         genisoargs=['genisoimage', '-o', iso,
             '-input-charset', 'utf-8',
             '-b', 'isolinux/isolinux.bin', '-c', 'isolinux/boot.catalog',
@@ -377,6 +377,19 @@ class Backend(dbus.service.Object):
             '-V', 'Dell Ubuntu Reinstallation Media',
             mntdir + '/',
             tmpdir + '/up/']
+
+        #Boot sector for ISO
+        shutil.copy(mntdir + '/isolinux/isolinux.bin', tmpdir)
+
+        #Loop mount these UUIDs so that they are included on the disk
+        subprocess.call(['mount', '-o', 'ro' ,'--bind', tmpdir + '/initrd.gz', mntdir + '/casper/initrd.gz'])
+        subprocess.call(['mount', '-o', 'ro', '--bind', tmpdir + '/casper-uuid-generic', mntdir + '/.disk/casper-uuid-generic'])
+        if os.path.exists(os.path.join(mntdir,'bto_version')):
+            subprocess.call(['mount', '-o', 'ro', '--bind', tmpdir + '/bto_version', mntdir + '/bto_version'])
+        else:
+            genisoargs.append(os.path.join(tmpdir,'bto_version'))
+
+        #ISO Creation
         p3 = subprocess.Popen(genisoargs,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         retval = p3.poll()
         while (retval is None):
@@ -387,6 +400,7 @@ class Backend(dbus.service.Object):
                     self.report_progress(_('Building ISO'),progress[:-1])
             retval = p3.poll()
         if retval is not 0:
+            print >> sys.stderr, genisoargs
             print >> sys.stderr, \
                 "genisoimage exited with a nonstandard return value."
             sys.exit(1)
