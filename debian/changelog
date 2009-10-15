@@ -8,6 +8,7 @@ dell-recovery (0.25) UNRELEASED; urgency=low
     generation if it doesn't exist, and replace it if it does.
   * Replace all references of initrd.gz with initrd.lz since that's what we use
     for 9.10 and later.
+  * sync bin/create-new-uuid with casper to add lzma support.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
 
