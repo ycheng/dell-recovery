@@ -12,6 +12,8 @@ dell-recovery (0.25) UNRELEASED; urgency=low
   * Rename the create function to create_ubuntu as realistically it's an ubuntu
     only backend.  We'll need to evaluate a separate backend for other OSes, and
     then maybe create a common backend function that can be shared.
+  * If the RP is already mounted before starting, try to use that old mount
+    point if at all possible when querying existing BTO version.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
 

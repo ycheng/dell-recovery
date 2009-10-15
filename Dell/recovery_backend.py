@@ -279,8 +279,14 @@ class Backend(dbus.service.Object):
 
         #mount the RP
         version='A00'
-        ret=subprocess.call(['mount', '-o', 'ro',  rp , mntdir])
-        if ret is 0 and os.path.exists(os.path.join(mntdir,'bto_version')):
+        mount_command=subprocess.Popen(['mount', '-o', 'ro',  rp , mntdir],stderr=subprocess.PIPE)
+        output=mount_command.communicate()
+        ret=mount_command.wait()
+        if ret == 32:
+            self.unmount_drives('', mntdir)
+            mntdir=output[1].strip('\n').split('on')[1].strip(' ')
+
+        if (ret is 0 or ret is 32) and os.path.exists(os.path.join(mntdir,'bto_version')):
             file=open(os.path.join(mntdir,'bto_version'),'r')
             version=file.readline().strip('\n')
             file.close()
@@ -292,7 +298,8 @@ class Backend(dbus.service.Object):
                 pieces=version.split('.')
                 increment=int(pieces[1]) + 1
                 version="%s.%d" % (pieces[0],increment)
-        self.unmount_drives('', mntdir)
+        if ret is 0:
+            self.unmount_drives('', mntdir)
 
         return version
 
