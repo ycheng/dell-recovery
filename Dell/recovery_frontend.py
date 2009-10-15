@@ -86,11 +86,9 @@ class Frontend:
         self.check_burners()
 
         process=subprocess.Popen(['lsb_release','-r', '-s'], stdout=subprocess.PIPE)
-        release=process.communicate()[0].strip('\n')
+        self.release=process.communicate()[0].strip('\n')
         process=subprocess.Popen(['lsb_release','-i', '-s'], stdout=subprocess.PIPE)
-        distributor=process.communicate()[0].lower().strip('\n')
-
-        self.iso = distributor + '-' + release + '-dell_'
+        self.distributor=process.communicate()[0].lower().strip('\n')
 
         #set any command line arguments
         self.up=up
@@ -221,7 +219,7 @@ class Frontend:
                 pass
             try:
                 dbus_sync_call_signal_wrapper(self.backend(),
-                    'create',
+                    'create_' + self.distributor,
                     {'report_progress':self.update_progress_gui},
                     self.up,
                     self.rp,
@@ -299,7 +297,7 @@ class Frontend:
             return
         if not self.version:
             self.version=self.backend().query_version(self.rp)
-        self.iso = self.iso + self.version + ".iso"
+        self.iso = self.distributor + '-' + self.release + '-dell_' + self.version + ".iso"
         gtk.main()
 
     def hide_progress(self):

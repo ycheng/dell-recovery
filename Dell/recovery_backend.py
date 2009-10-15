@@ -299,10 +299,10 @@ class Backend(dbus.service.Object):
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature='ssss', out_signature='', sender_keyword='sender',
         connection_keyword='conn')
-    def create(self, up, rp, version, iso, sender=None, conn=None):
+    def create_ubuntu(self, up, rp, version, iso, sender=None, conn=None):
 
         self._reset_timeout()
-        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.create')
+        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.create_ubuntu')
         
         #create temporary workspace
         tmpdir=tempfile.mkdtemp()

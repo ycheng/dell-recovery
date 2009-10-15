@@ -9,6 +9,9 @@ dell-recovery (0.25) UNRELEASED; urgency=low
   * Replace all references of initrd.gz with initrd.lz since that's what we use
     for 9.10 and later.
   * sync bin/create-new-uuid with casper to add lzma support.
+  * Rename the create function to create_ubuntu as realistically it's an ubuntu
+    only backend.  We'll need to evaluate a separate backend for other OSes, and
+    then maybe create a common backend function that can be shared.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
 
