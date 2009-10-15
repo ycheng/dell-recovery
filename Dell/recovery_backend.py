@@ -252,7 +252,7 @@ class Backend(dbus.service.Object):
         if os.path.exists(mntdir):
             subprocess.call(['umount', mntdir + '/.disk/casper-uuid-generic'])
             subprocess.call(['umount', mntdir + '/bto_version'])
-            subprocess.call(['umount', mntdir + '/casper/initrd.gz'])
+            subprocess.call(['umount', mntdir + '/casper/initrd.lz'])
             ret=subprocess.call(['umount', mntdir])
             #only cleanup the mntdir if we could properly umount
             if ret is 0:
@@ -338,7 +338,7 @@ class Backend(dbus.service.Object):
         #Renerate UUID
         self.report_progress(_('Generating UUID'),'0.0')
         uuid_args = ['/usr/share/dell/bin/create-new-uuid',
-                              mntdir + '/casper/initrd.gz',
+                              mntdir + '/casper/initrd.lz',
                               tmpdir + '/',
                               tmpdir + '/']
         uuid = subprocess.Popen(uuid_args)
@@ -382,7 +382,7 @@ class Backend(dbus.service.Object):
         shutil.copy(mntdir + '/isolinux/isolinux.bin', tmpdir)
 
         #Loop mount these UUIDs so that they are included on the disk
-        subprocess.call(['mount', '-o', 'ro' ,'--bind', tmpdir + '/initrd.gz', mntdir + '/casper/initrd.gz'])
+        subprocess.call(['mount', '-o', 'ro' ,'--bind', tmpdir + '/initrd.lz', mntdir + '/casper/initrd.lz'])
         subprocess.call(['mount', '-o', 'ro', '--bind', tmpdir + '/casper-uuid-generic', mntdir + '/.disk/casper-uuid-generic'])
         if os.path.exists(os.path.join(mntdir,'bto_version')):
             subprocess.call(['mount', '-o', 'ro', '--bind', tmpdir + '/bto_version', mntdir + '/bto_version'])
