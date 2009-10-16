@@ -242,25 +242,53 @@ class Backend(dbus.service.Object):
     #
 
     def walk_cleanup(self,directory):
-        for root,dirs,files in os.walk(directory, topdown=False):
-            for name in files:
-                os.remove(os.path.join(root,name))
-            for name in dirs:
-                os.rmdir(os.path.join(root,name))       
+        '''Cleans up a temporary directory and all it's files'''
+        if os.path.exists(directory):
+            for root,dirs,files in os.walk(directory, topdown=False):
+                for name in files:
+                    os.remove(os.path.join(root,name))
+                for name in dirs:
+                    os.rmdir(os.path.join(root,name))       
+            os.rmdir(directory)
 
-    def unmount_drives(self,mntdir,tmpdir):
-        #only unmount places if they actually still exist
-        if os.path.exists(mntdir):
-            ret=subprocess.call(['umount', mntdir])
-            #only cleanup the mntdir if we could properly umount
-            if ret is 0:
-                self.walk_cleanup(mntdir)
-                os.rmdir(mntdir)
+    def request_mount(self,rp):
+        '''Attempts to mount the rp.
 
-        if os.path.exists(tmpdir):
-            subprocess.call(['umount', tmpdir])
-            self.walk_cleanup(tmpdir)
-            os.rmdir(tmpdir)
+           If successful, return mntdir.
+           If we find that it's already mounted elsewhere, return that mount
+           If unsuccessful, return an empty string
+        '''
+        #first check for an existing mount
+        command=subprocess.Popen(['mount'],stdout=subprocess.PIPE)
+        output=command.communicate()[0].split('\n')
+        for line in output:
+            processed_line=line.split()
+            if len(processed_line) > 0 and processed_line[0] == rp:
+                return processed_line[2]
+
+        #if not already, mounted, produce a mount point
+        mntdir=tempfile.mkdtemp()
+        command=subprocess.Popen(['mount', '-o', 'ro',  rp , mntdir],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        output=command.communicate()
+        ret=command.wait()
+        if ret is not 0:
+            self.os.rmdir(mntdir)
+            if ret == 32:
+                mntdir=output[1].strip('\n').split('on')[1].strip(' ')
+            else:
+                mntdir=''
+                print >> sys.stderr, "WARNING: unable to mount recovery partition"
+                print >> sys.stderr, output
+        else:
+            atexit.register(self.unmount_drive,mntdir)
+        return mntdir
+
+    def unmount_drive(self,mnt):
+        if os.path.exists(mnt):
+            ret=subprocess.call(['umount', mnt])
+            if ret is not 0:
+                print >> sys.stderr, "Error unmounting %s" % mnt
+            os.rmdir(mnt)          
 
     #
     # Client API (through D-BUS)
@@ -273,18 +301,11 @@ class Backend(dbus.service.Object):
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.query_version')
 
-        mntdir=tempfile.mkdtemp()
-
         #mount the RP
         version='A00'
-        mount_command=subprocess.Popen(['mount', '-o', 'ro',  rp , mntdir],stderr=subprocess.PIPE)
-        output=mount_command.communicate()
-        ret=mount_command.wait()
-        if ret == 32:
-            self.unmount_drives('', mntdir)
-            mntdir=output[1].strip('\n').split('on')[1].strip(' ')
+        mntdir = self.request_mount(rp)
 
-        if (ret is 0 or ret is 32) and os.path.exists(os.path.join(mntdir,'bto_version')):
+        if os.path.exists(os.path.join(mntdir,'bto_version')):
             file=open(os.path.join(mntdir,'bto_version'),'r')
             version=file.readline().strip('\n')
             file.close()
@@ -296,8 +317,6 @@ class Backend(dbus.service.Object):
                 pieces=version.split('.')
                 increment=int(pieces[1]) + 1
                 version="%s.%d" % (pieces[0],increment)
-        if ret is 0:
-            self.unmount_drives('', mntdir)
 
         return version
 
@@ -311,22 +330,10 @@ class Backend(dbus.service.Object):
         
         #create temporary workspace
         tmpdir=tempfile.mkdtemp()
-        os.mkdir(os.path.join(tmpdir,'.disk'))
-        os.mkdir(os.path.join(tmpdir,'casper'))
-        mntdir=tempfile.mkdtemp()
+        atexit.register(self.walk_cleanup,tmpdir)
 
         #mount the RP
-        mount_command=subprocess.Popen(['mount', '-o', 'ro',  rp , mntdir],stderr=subprocess.PIPE)
-        output=mount_command.communicate()
-        ret=mount_command.wait()
-        if ret == 32:
-            self.unmount_drives('', mntdir)
-            mntdir=output[1].strip('\n').split('on')[1].strip(' ')
-            #cleanup any mounts on exit
-            atexit.register(self.unmount_drives,'',tmpdir)
-        else:
-            #cleanup any mounts on exit
-            atexit.register(self.unmount_drives,mntdir,tmpdir)
+        mntdir=self.request_mount(rp)
 
         #Generate BTO version string
         file=open(os.path.join(tmpdir,'bto_version'),'w')
@@ -344,6 +351,8 @@ class Backend(dbus.service.Object):
             partition_file.close()
 
         #Renerate UUID
+        os.mkdir(os.path.join(tmpdir,'.disk'))
+        os.mkdir(os.path.join(tmpdir,'casper'))
         self.report_progress(_('Generating UUID'),'0.0')
         uuid_args = ['/usr/share/dell/bin/create-new-uuid',
                               os.path.join(mntdir,'casper','initrd.lz'),
@@ -356,7 +365,7 @@ class Backend(dbus.service.Object):
         if retval is not 0:
             print >> sys.stderr, \
                 "create-new-uuid exited with a nonstandard return value."
-            sys.exit(1)
+            return
 
         #Arg list
         genisoargs=['genisoimage', 
@@ -416,7 +425,6 @@ class Backend(dbus.service.Object):
             print >> sys.stderr, p3.stdout.readlines()
             print >> sys.stderr, \
                 "genisoimage exited with a nonstandard return value."
-            sys.exit(1)
 
     @dbus.service.signal(DBUS_INTERFACE_NAME)
     def report_progress(self, progress_str, percent):

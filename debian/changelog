@@ -21,6 +21,9 @@ dell-recovery (0.25) UNRELEASED; urgency=low
     temporary directory that will have to be changing rather than loop mounting
     them around.
   * Replace all string addition with os.path.join to avoid missing '/' characters.
+  * Move all mounting and unmounting logic into singular functions.
+  * Only unmount directories that we've mounted
+  * Try to use existing system mount points if already mounted if possible.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
 
