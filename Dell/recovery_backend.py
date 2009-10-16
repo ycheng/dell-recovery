@@ -335,19 +335,19 @@ class Backend(dbus.service.Object):
         file.close()
 
         #If necessary, build the UP
-        if not os.path.exists(mntdir + '/upimg.bin'):
+        if not os.path.exists(os.path.join(mntdir,'upimg.bin')):
             self.report_progress(_('Building UP'),'0.0')
             p1 = subprocess.Popen(['dd','if=' + up,'bs=1M'], stdout=subprocess.PIPE)
             p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
-            partition_file=open(tmpdir + 'upimg.bin', "w")
+            partition_file=open(os.path.join(tmpdir, 'upimg.bin'), "w")
             partition_file.write(p2.communicate()[0])
             partition_file.close()
 
         #Renerate UUID
         self.report_progress(_('Generating UUID'),'0.0')
         uuid_args = ['/usr/share/dell/bin/create-new-uuid',
-                              mntdir + '/casper/initrd.lz',
-                              tmpdir + '/casper',
+                              os.path.join(mntdir,'casper','initrd.lz'),
+                              os.path.join(tmpdir,'casper'),
                               tmpdir + '/.disk']
         uuid = subprocess.Popen(uuid_args)
         retval = uuid.poll()
@@ -391,7 +391,7 @@ class Backend(dbus.service.Object):
         if os.path.exists(os.path.join(mntdir,'syslinux')):
             shutil.copytree(os.path.join(mntdir,'syslinux'), os.path.join(tmpdir,'isolinux'))
             if os.path.exists(os.path.join(tmpdir,'isolinux','syslinux.cfg')):
-                shutil.move(os.path.join(tmpdir,'isolinux','syslinux.cfg'), os.path.join(tmpdir + 'isolinux','isolinux.cfg'))
+                shutil.move(os.path.join(tmpdir,'isolinux','syslinux.cfg'), os.path.join(tmpdir,'isolinux','isolinux.cfg'))
         else:
             #Copy boot section for ISO to somewhere writable
             shutil.copytree(os.path.join(mntdir,'isolinux'), os.path.join(tmpdir,'isolinux'))
