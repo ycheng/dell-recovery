@@ -20,6 +20,7 @@ dell-recovery (0.25) UNRELEASED; urgency=low
     anyway.  This has huge side effects on how we have to recreate files in a
     temporary directory that will have to be changing rather than loop mounting
     them around.
+  * Replace all string addition with os.path.join to avoid missing '/' characters.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
 
