@@ -6,8 +6,7 @@ dell-recovery (0.25) UNRELEASED; urgency=low
     line argument.
   * Add support for the backend to write out RP/bto_version during ISO
     generation if it doesn't exist, and replace it if it does.
-  * Replace all references of initrd.gz with initrd.lz since that's what we use
-    for 9.10 and later.
+  * Add support for both initrd.lz and initrd.gz
   * sync bin/create-new-uuid with casper to add lzma support.
   * Rename the create function to create_ubuntu as realistically it's an ubuntu
     only backend.  We'll need to evaluate a separate backend for other OSes, and

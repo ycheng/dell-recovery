@@ -260,7 +260,7 @@ class Backend(dbus.service.Object):
         '''
         #In this is just a directory
         if os.path.isdir(rp):
-            return mntdir
+            return rp
 
         #check for an existing mount
         command=subprocess.Popen(['mount'],stdout=subprocess.PIPE)
@@ -358,8 +358,13 @@ class Backend(dbus.service.Object):
         os.mkdir(os.path.join(tmpdir,'.disk'))
         os.mkdir(os.path.join(tmpdir,'casper'))
         self.report_progress(_('Generating UUID'),'0.0')
+        initrd=os.path.join(mntdir,'casper','initrd')
+        if os.path.exists(initrd + '.gz'):
+            initrd=initrd + '.gz'
+        elif os.path.exists(initrd + '.lz'):
+            initrd=initrd + '.lz'
         uuid_args = ['/usr/share/dell/bin/create-new-uuid',
-                              os.path.join(mntdir,'casper','initrd.lz'),
+                              initrd,
                               os.path.join(tmpdir,'casper'),
                               tmpdir + '/.disk']
         uuid = subprocess.Popen(uuid_args)
@@ -397,7 +402,7 @@ class Backend(dbus.service.Object):
             '-m', os.path.join(mntdir,'isolinux'),
             '-m', os.path.join(mntdir,'bto_version'),
             '-m', os.path.join(mntdir,'.disk','casper-uuid-generic'),
-            '-m', os.path.join(mntdir,'casper','initrd.lz')]
+            '-m', initrd]
 
         #if we have ran this from a USB key, we might have syslinux which will
         #break our build
