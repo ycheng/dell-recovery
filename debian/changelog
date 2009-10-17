@@ -24,6 +24,8 @@ dell-recovery (0.25) UNRELEASED; urgency=low
   * Only unmount directories that we've mounted
   * Try to use existing system mount points if already mounted if possible.
   * Add support for producing an image from a directory, rather than mount point.
+  * debian/postinst:
+    - Refresh dbus rules on package install so it works immediately.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
 

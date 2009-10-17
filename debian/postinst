@@ -8,6 +8,11 @@ case "$1" in
       update-grub
     fi
 
+    #reload dbus so this works immediately
+    if status dbus>/dev/null; then
+      service dbus reload
+    fi
+
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)
   ;;
