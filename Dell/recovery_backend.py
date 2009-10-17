@@ -258,7 +258,11 @@ class Backend(dbus.service.Object):
            If we find that it's already mounted elsewhere, return that mount
            If unsuccessful, return an empty string
         '''
-        #first check for an existing mount
+        #In this is just a directory
+        if os.path.isdir(rp):
+            return mntdir
+
+        #check for an existing mount
         command=subprocess.Popen(['mount'],stdout=subprocess.PIPE)
         output=command.communicate()[0].split('\n')
         for line in output:
