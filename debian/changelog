@@ -1,4 +1,4 @@
-dell-recovery (0.25) UNRELEASED; urgency=low
+dell-recovery (0.25) karmic; urgency=low
 
   * Add support to the backend for querying/incrementing the version of the
     ISO via RP/bto_version.
@@ -28,7 +28,7 @@ dell-recovery (0.25) UNRELEASED; urgency=low
     - Refresh dbus rules on package install so it works immediately.
   * Be more informative about the status indicators.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Oct 2009 18:38:12 -0500
+ -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 19 Oct 2009 13:37:05 -0500
 
 dell-recovery (0.24) karmic; urgency=low
 
