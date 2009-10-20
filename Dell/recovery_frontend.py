@@ -70,9 +70,6 @@ class Frontend:
         self.widgets.add_from_file(os.path.join(UIDIR,'recovery_media_creator.ui'))
         gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.png')
 
-        if builder:
-            self.builder_init()
-
         self.widgets.set_translation_domain(domain)
         for widget in self.widgets.get_objects():
             if isinstance(widget, gtk.Label):
@@ -85,6 +82,9 @@ class Frontend:
                 if title:
                     widget.set_title(_(widget.get_title()))
         self.widgets.connect_signals(self)
+
+        if builder:
+            self.builder_init()
 
         self._dbus_iface = None
 
@@ -311,6 +311,63 @@ create an USB key or DVD image."))
         wizard.insert_page(self.builder_widgets.get_object('fid_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('base_page'),1)
 
+        self.builder_widgets.connect_signals(self)
+
+    def builder_base_toggled(self,widget):
+        """Called when the radio button for the Builder base image page is changed"""
+        file_chooser=self.builder_widgets.get_object('base_file_chooser')
+        
+        if self.builder_widgets.get_object('iso_image_radio').get_active():
+            file_chooser.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
+        else:
+            file_chooser.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+
+    def builder_base_file_chooser_picked(self,widget):
+        """Called when a file is selected on the base page"""
+        #TODO, use the backend to query
+        #TODO, update gui
+        #TODO, disable built-in if this is a vanilla image
+
+    def builder_fid_toggled(self,widget):
+        """Called when the radio button for the Builder FID overlay page is changed"""
+        wizard = self.widgets.get_object('wizard')
+        fid_page = self.builder_widgets.get_object('fid_page')
+        file_chooser_hbox = self.builder_widgets.get_object('fid_file_chooser_hbox')
+        file_chooser = self.builder_widgets.get_object('fid_file_chooser')
+        git_tree_hbox = self.builder_widgets.get_object('fid_git_tree_hbox')
+        label = self.builder_widgets.get_object('fid_overlay_details_label')
+
+        label.set_markup("")
+        wizard.set_page_complete(fid_page,False)
+        file_chooser_hbox.set_sensitive(False)
+        git_tree_hbox.set_sensitive(False)
+        
+        if self.builder_widgets.get_object('builtin_radio').get_active():
+            wizard.set_page_complete(fid_page,True)
+            
+        elif self.builder_widgets.get_object('git_radio').get_active():
+            git_tree_hbox.set_sensitive(True)
+
+        elif self.builder_widgets.get_object('folder_radio').get_active():
+            file_chooser_hbox.set_sensitive(True)
+            file_chooser.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+            
+        elif self.builder_widgets.get_object('tgz_radio').get_active():
+            file_chooser_hbox.set_sensitive(True)
+            file_chooser.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
+
+    def builder_fid_file_chooser_picked(self,widget):
+        """Called when the button to choose a tgz or folder is clicked"""
+
+    def builder_fid_test_button_clicked(self,widget):
+        """Called when the button to test a git tree is clicked"""
+        label=self.builder_widgets.get_object('fid_overlay_details_label')
+        if not os.path.exists('/usr/bin/git'):
+            label.set_markup(_("<b>ERROR</b>: git is not installed"))
+
+    def builder_fish_action(self,widget):
+        """Called when the add or remove buttons are pressed on the fish action page"""
+
     def build_builder_page(self,page):
         """Processes output that should be done on a builder page"""
         wizard = self.widgets.get_object('wizard')
@@ -319,7 +376,8 @@ create an USB key or DVD image."))
             wizard.set_page_complete(page,True)
         elif page == self.builder_widgets.get_object('fid_page'):
             wizard.set_page_title(page,_("Choose FID Overlay"))
-            wizard.set_page_complete(page,True)
+            self.builder_fid_toggled(None)
+
         elif page == self.builder_widgets.get_object('fish_page'):
             wizard.set_page_title(page,_("Choose FISH Packages"))
             wizard.set_page_complete(page,True)
