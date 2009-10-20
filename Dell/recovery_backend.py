@@ -301,9 +301,9 @@ class Backend(dbus.service.Object):
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature='s', out_signature='s', sender_keyword='sender',
         connection_keyword='conn')
-    def query_version(self, rp, sender=None, conn=None):
+    def query_bto_version(self, rp, sender=None, conn=None):
         self._reset_timeout()
-        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.query_version')
+        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.query_bto_version')
 
         #mount the RP
         version='A00'

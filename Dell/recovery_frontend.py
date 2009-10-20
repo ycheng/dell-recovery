@@ -401,9 +401,6 @@ create an USB key or DVD image."))
                     parent=self.widgets.get_object('progress_dialog'))
             return
 
-        if not self.version:
-            self.version=self.backend().query_version(self.rp)
-        self.iso = self.distributor + '-' + self.release + '-dell_' + self.version + ".iso"
         gtk.main()
 
     def hide_progress(self):
@@ -506,6 +503,10 @@ create an USB key or DVD image."))
             self.widgets.get_object('wizard').set_page_title(page,_("Confirm Selections"))
 
             #Fill in dynamic data
+            if not self.version:
+                self.version=self.backend().query_bto_version(self.rp)
+            self.iso = self.distributor + '-' + self.release + '-dell_' + self.version + ".iso"
+
             if self.widgets.get_object('dvdbutton').get_active():
                 type=self.widgets.get_object('dvdbutton').get_label()
             elif self.widgets.get_object('usbbutton').get_active():

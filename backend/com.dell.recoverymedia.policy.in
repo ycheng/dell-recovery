@@ -15,7 +15,7 @@
   <icon_name>dell-dvd</icon_name>
 
 
-  <action id="com.dell.recoverymedia.query_version">
+  <action id="com.dell.recoverymedia.query_bto_version">
     <_description>Query BTO Version</_description>
     <_message>System policy prevents reading raw devices</_message>
     <defaults>
