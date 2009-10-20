@@ -321,21 +321,29 @@ create an USB key or DVD image."))
         label = self.builder_widgets.get_object('base_image_details_label')
 
         label.set_markup("")
+        file_chooser.set_sensitive(True)
         wizard.set_page_complete(base_page,False)
         
         if self.builder_widgets.get_object('iso_image_radio').get_active():
             file_chooser.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
-        else:
+        elif self.builder_widgets.get_object('directory_radio').get_active():
             file_chooser.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+        else:
+            file_chooser.set_sensitive(False)
+            self.builder_base_file_chooser_picked()
 
-    def builder_base_file_chooser_picked(self,widget):
+    def builder_base_file_chooser_picked(self,widget=None):
         """Called when a file is selected on the base page"""
+        
         base_page = self.builder_widgets.get_object('base_page')
         wizard = self.widgets.get_object('wizard')
 
         wizard.set_page_complete(base_page,True)
-        
-        (self.bto_base,output_text) = self.backend().query_iso_information(widget.get_filename())
+
+        if widget == self.builder_widgets.get_object('base_file_chooser'):
+            (self.bto_base,output_text) = self.backend().query_iso_information(widget.get_filename())
+        else:
+            (self.bto_base,output_text) = self.backend().query_iso_information(self.rp)
 
         #If this is a BTO image, then allow using built in framework
         if not self.bto_base and self.builder_widgets.get_object('builtin_radio').get_active():
@@ -389,6 +397,8 @@ create an USB key or DVD image."))
         """Processes output that should be done on a builder page"""
         wizard = self.widgets.get_object('wizard')
         if page == self.builder_widgets.get_object('base_page'):
+            if self.rp:
+                self.builder_widgets.get_object('recovery_hbox').set_sensitive(True)
             wizard.set_page_title(page,_("Choose Base OS Image"))
             
         elif page == self.builder_widgets.get_object('fid_page'):

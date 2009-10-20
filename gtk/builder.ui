@@ -104,6 +104,45 @@
                 <property name="position">1</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkHBox" id="recovery_hbox">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="GtkRadioButton" id="recovery_partition_radio">
+                    <property name="label" translatable="yes">Detected Recovery Partition</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">iso_image_radio</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkImage" id="image7">
+                    <property name="visible">True</property>
+                    <property name="icon_name">harddrive</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </object>
         </child>
       </object>
@@ -121,8 +160,8 @@
         <child>
           <object class="GtkFileChooserButton" id="base_file_chooser">
             <property name="visible">True</property>
-            <property name="preview_widget_active">False</property>
             <property name="create_folders">False</property>
+            <property name="preview_widget_active">False</property>
             <property name="title" translatable="yes">Base Image Source</property>
             <signal name="file_set" handler="builder_base_file_chooser_picked"/>
           </object>
@@ -378,8 +417,8 @@
             <child>
               <object class="GtkFileChooserButton" id="fid_file_chooser">
                 <property name="visible">True</property>
-                <property name="preview_widget_active">False</property>
                 <property name="create_folders">False</property>
+                <property name="preview_widget_active">False</property>
                 <property name="title" translatable="yes">Base Image Source</property>
                 <signal name="file_set" handler="builder_fid_file_chooser_picked"/>
               </object>
