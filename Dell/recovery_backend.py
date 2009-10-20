@@ -280,7 +280,7 @@ class Backend(dbus.service.Object):
         output=command.communicate()
         ret=command.wait()
         if ret is not 0:
-            self.os.rmdir(mntdir)
+            os.rmdir(mntdir)
             if ret == 32:
                 mntdir=output[1].strip('\n').split('on')[1].strip(' ')
             else:

@@ -4,6 +4,7 @@ dell-recovery (0.26) UNRELEASED; urgency=low
     their different components.
   * Rename existing method query_version to query_bto_version and only check
     it at the last step in case it gets filled earlier (with builder mode)
+  * Correct an error in the backend handling code for when an image can't mount.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 20 Oct 2009 12:06:45 -0500
 
