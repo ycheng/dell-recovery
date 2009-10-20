@@ -47,7 +47,11 @@ from gettext import gettext as _
 LOCALEDIR='/usr/share/locale'
 
 #Glade directory
-UIDIR = '/usr/share/dell'
+if os.path.isdir('gtk') and 'DEBUG' in os.environ:
+    UIDIR= 'gtk'
+else:
+    UIDIR = '/usr/share/dell'
+
 
 #Supported burners and their arguments
 cd_burners = { 'brasero':['-i'],
@@ -57,7 +61,7 @@ usb_burners = { 'usb-creator':['-n','--iso'],
                 'usb-creator-kde':['-n','--iso'] }
 
 class Frontend:
-    def __init__(self,up,rp,version,media,target,overwrite):
+    def __init__(self,up,rp,version,media,target,overwrite,builder):
 
         #setup locales
         gettext.bindtextdomain(domain, LOCALEDIR)
@@ -65,7 +69,9 @@ class Frontend:
         self.widgets = gtk.Builder()
         self.widgets.add_from_file(os.path.join(UIDIR,'recovery_media_creator.ui'))
         gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.png')
-        self.widgets.connect_signals(self)
+
+        if builder:
+            self.builder_init()
 
         self.widgets.set_translation_domain(domain)
         for widget in self.widgets.get_objects():
@@ -78,6 +84,7 @@ class Frontend:
                 title = widget.get_title()
                 if title:
                     widget.set_title(_(widget.get_title()))
+        self.widgets.connect_signals(self)
 
         self._dbus_iface = None
 
@@ -97,6 +104,7 @@ class Frontend:
         self.media=media
         self.target=target
         self.overwrite=overwrite
+        self.builder=builder
 
     def check_burners(self):
         """Checks for what utilities are available to burn with"""
@@ -125,7 +133,7 @@ class Frontend:
             return None
 
         self.cd_burn_cmd = find_command(cd_burners)
-        
+
         self.usb_burn_cmd = find_command(usb_burners)
 
     def check_preloaded_system(self):
@@ -158,10 +166,10 @@ class Frontend:
             for device in devices:
                 dev_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', device)
                 dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
-                
+
                 label = dev.Get('org.freedesktop.DeviceKit.Disks.Device','id-label')
                 fs = dev.Get('org.freedesktop.DeviceKit.Disks.Device','id-type')
-                
+
                 if not self.up and 'DellUtility' in label:
                     self.up=dev.Get('org.freedesktop.DeviceKit.Disks.Device','device-file')
                 elif not self.rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
@@ -169,13 +177,13 @@ class Frontend:
 
                 if self.up and self.rp:
                     return True
-                
+
         except dbus.DBusException, e:
             print "Falling back to HAL"
             hal_obj = bus.get_object('org.freedesktop.Hal', '/org/freedesktop/Hal/Manager')
             hal = dbus.Interface(hal_obj, 'org.freedesktop.Hal.Manager')
             devices = hal.FindDeviceByCapability('volume')
-            
+
             for device in devices:
                 dev_obj = bus.get_object('org.freedesktop.Hal', device)
                 dev = dbus.Interface(dev_obj, 'org.freedesktop.Hal.Device')
@@ -283,11 +291,50 @@ class Frontend:
 
         return self._dbus_iface
 
+#### Builder specific ####
+    def builder_init(self):
+        """Inserts builder widgets into the Gtk.Assistant"""
+        self.builder_widgets=gtk.Builder()
+        self.builder_widgets.add_from_file(os.path.join(UIDIR,'builder.ui'))
+
+        wizard = self.widgets.get_object('wizard')
+        #wizard.resize(400,400)
+        wizard.set_title(wizard.get_title() + _(" (BTO Image Builder Mode)"))
+
+        self.widgets.get_object('start_page').set_text(_("This application will integrate a Dell \
+OEM FID framework & FISH package set into a customized \
+OS media image.  You will have the option to \
+create an USB key or DVD image."))
+
+        wizard.insert_page(self.builder_widgets.get_object('builder_summary_page'),1)
+        wizard.insert_page(self.builder_widgets.get_object('fish_page'),1)
+        wizard.insert_page(self.builder_widgets.get_object('fid_page'),1)
+        wizard.insert_page(self.builder_widgets.get_object('base_page'),1)
+
+    def build_builder_page(self,page):
+        """Processes output that should be done on a builder page"""
+        wizard = self.widgets.get_object('wizard')
+        if page == self.builder_widgets.get_object('base_page'):
+            wizard.set_page_title(page,_("Choose Base OS Image"))
+            wizard.set_page_complete(page,True)
+        elif page == self.builder_widgets.get_object('fid_page'):
+            wizard.set_page_title(page,_("Choose FID Overlay"))
+            wizard.set_page_complete(page,True)
+        elif page == self.builder_widgets.get_object('fish_page'):
+            wizard.set_page_title(page,_("Choose FISH Packages"))
+            wizard.set_page_complete(page,True)
+        elif page == self.builder_widgets.get_object('builder_summary_page'):
+            wizard.set_page_title(page,_("Builder Summary"))
+            wizard.set_page_complete(page,True)
+        else:
+            print page
+
+
 #### GUI Functions ###
 # This application is functional via command line by using the above functions #
 
     def run(self):
-        if self.check_preloaded_system():
+        if self.check_preloaded_system() or self.builder:
             self.widgets.get_object('wizard').show()
         else:
             header=_("This tool requires that a Utility Partition and Linux Recovery partition are present to function.")
@@ -295,6 +342,7 @@ class Frontend:
             self.show_alert(gtk.MESSAGE_ERROR, header, inst,
                     parent=self.widgets.get_object('progress_dialog'))
             return
+
         if not self.version:
             self.version=self.backend().query_version(self.rp)
         self.iso = self.distributor + '-' + self.release + '-dell_' + self.version + ".iso"
@@ -411,10 +459,12 @@ class Frontend:
             text+=_("Recovery Partition: ") + self.rp + '\n'
             text+=_("Media Type: ") + type + '\n'
             text+=_("File Name: ") + os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso) + '\n'
-            
+
 
             self.widgets.get_object('conf_text').set_text(text)
             self.widgets.get_object('wizard').set_page_complete(page,True)
+        elif self.builder:
+            self.build_builder_page(page)
 
     def ignore(*args):
         """Ignores a signal"""

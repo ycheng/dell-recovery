@@ -1,3 +1,10 @@
+dell-recovery (0.26) UNRELEASED; urgency=low
+
+  * Introduce a builder mode that can be used for generating BTO images from
+    their different components.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 20 Oct 2009 12:06:45 -0500
+
 dell-recovery (0.25) UNRELEASED; urgency=low
 
   * Add support to the backend for querying/incrementing the version of the
