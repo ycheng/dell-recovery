@@ -60,6 +60,9 @@ usb_burners = { 'usb-creator':['-n','--iso'],
                 'usb-creator-gtk':['-n','--iso'],
                 'usb-creator-kde':['-n','--iso'] }
 
+git_trees = { 'ubuntu': 'http://humbolt.us.dell.com/pub/Applications/git-internal-projects/ubuntu-fid.git',
+            }
+
 class Frontend:
     def __init__(self,up,rp,version,media,target,overwrite,builder):
 
@@ -479,6 +482,9 @@ create an USB key or DVD image."))
             
         elif page == self.builder_widgets.get_object('fid_page'):
             wizard.set_page_title(page,_("Choose FID Overlay"))
+            for operating_system in git_trees:
+                if operating_system == self.distributor:
+                    self.builder_widgets.get_object('git_url').set_text(git_trees[operating_system])
             self.builder_fid_toggled(None)
 
         elif page == self.builder_widgets.get_object('fish_page'):

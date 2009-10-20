@@ -460,7 +460,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry1">
+              <object class="GtkEntry" id="git_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="invisible_char">&#x25CF;</property>
@@ -471,7 +471,7 @@
             </child>
             <child>
               <object class="GtkButton" id="fid_fetch_button">
-                <property name="label" translatable="yes">Fetch tags</property>
+                <property name="label" translatable="yes">Fetch/Update Tree</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
