@@ -316,6 +316,12 @@ create an USB key or DVD image."))
     def builder_base_toggled(self,widget):
         """Called when the radio button for the Builder base image page is changed"""
         file_chooser=self.builder_widgets.get_object('base_file_chooser')
+        base_page = self.builder_widgets.get_object('base_page')
+        wizard = self.widgets.get_object('wizard')
+        label = self.builder_widgets.get_object('base_image_details_label')
+
+        label.set_markup("")
+        wizard.set_page_complete(base_page,False)
         
         if self.builder_widgets.get_object('iso_image_radio').get_active():
             file_chooser.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
@@ -324,9 +330,17 @@ create an USB key or DVD image."))
 
     def builder_base_file_chooser_picked(self,widget):
         """Called when a file is selected on the base page"""
-        #TODO, use the backend to query
-        #TODO, update gui
-        #TODO, disable built-in if this is a vanilla image
+        base_page = self.builder_widgets.get_object('base_page')
+        wizard = self.widgets.get_object('wizard')
+
+        wizard.set_page_complete(base_page,True)
+        
+        (self.bto_base,output_text) = self.backend().query_iso_information(widget.get_filename())
+
+        #If this is a BTO image, then allow using built in framework
+        self.builder_widgets.get_object('builtin_hbox').set_sensitive(self.bto_base)
+
+        self.builder_widgets.get_object('base_image_details_label').set_markup(output_text)
 
     def builder_fid_toggled(self,widget):
         """Called when the radio button for the Builder FID overlay page is changed"""
@@ -358,6 +372,7 @@ create an USB key or DVD image."))
 
     def builder_fid_file_chooser_picked(self,widget):
         """Called when the button to choose a tgz or folder is clicked"""
+        
 
     def builder_fid_test_button_clicked(self,widget):
         """Called when the button to test a git tree is clicked"""
@@ -373,7 +388,7 @@ create an USB key or DVD image."))
         wizard = self.widgets.get_object('wizard')
         if page == self.builder_widgets.get_object('base_page'):
             wizard.set_page_title(page,_("Choose Base OS Image"))
-            wizard.set_page_complete(page,True)
+            
         elif page == self.builder_widgets.get_object('fid_page'):
             wizard.set_page_title(page,_("Choose FID Overlay"))
             self.builder_fid_toggled(None)

@@ -272,7 +272,11 @@ class Backend(dbus.service.Object):
 
         #if not already, mounted, produce a mount point
         mntdir=tempfile.mkdtemp()
-        command=subprocess.Popen(['mount', '-o', 'ro',  rp , mntdir],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        mnt_args = ['mount','-r',rp, mntdir]
+        if ".iso" in rp:
+            mnt_args.insert(1,'loop')
+            mnt_args.insert(1,'-o')
+        command=subprocess.Popen(mnt_args,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         output=command.communicate()
         ret=command.wait()
         if ret is not 0:
@@ -297,6 +301,38 @@ class Backend(dbus.service.Object):
     #
     # Client API (through D-BUS)
     #
+
+
+    @dbus.service.method(DBUS_INTERFACE_NAME,
+        in_signature='s', out_signature='bs', sender_keyword='sender',
+        connection_keyword='conn')
+    def query_iso_information(self, iso, sender=None, conn=None):
+        """Queries what type of ISO this is.  This same method will be used regardless
+           of OS."""
+        self._reset_timeout()
+        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.query_iso_information')
+
+        mntdir = self.request_mount(iso)
+
+        bto_version=''
+        bto_date=''
+        if os.path.exists(os.path.join(mntdir,'bto_version')):
+            file=open(os.path.join(mntdir,'bto_version'),'r')
+            bto_version=file.readline().strip('\n')
+            bto_date=file.readline().strip('\n')
+            file.close()
+
+        distributor_version='Unknown Base Image'
+        if os.path.exists(os.path.join(mntdir,'.disk','info')):
+            file=open(os.path.join(mntdir,'.disk','info'),'r')
+            distributor_version=file.readline().strip('\n')
+            file.close()
+
+        if bto_version:
+            return (True, "<b>Dell BTO Image</b>, version %s built on %s\n%s" %(bto_version, bto_date, distributor_version))
+        else:
+            return (False, distributor_version)
+
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature='s', out_signature='s', sender_keyword='sender',

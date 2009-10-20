@@ -158,6 +158,7 @@
                 <property name="label" translatable="yes">
 
 </property>
+                <property name="use_markup">True</property>
               </object>
             </child>
           </object>
