@@ -37,6 +37,7 @@ pygtk.require("2.0")
 
 import gtk
 import gtk.glade
+import vte
 
 from Dell.recovery_backend import UnknownHandlerException, PermissionDeniedByPolicy, BackendCrashError, dbus_sync_call_signal_wrapper, Backend, DBUS_BUS_NAME
 
@@ -316,6 +317,14 @@ create an USB key or DVD image."))
                                             gtk.STOCK_OPEN, gtk.RESPONSE_OK))
         self.file_dialog.set_default_response(gtk.RESPONSE_OK)
 
+        #Set up the VTE window for GIT stuff
+        self.builder_widgets.get_object('builder_vte_window').set_transient_for(
+            self.widgets.get_object('wizard'))
+        self.vte = vte.Terminal()
+        self.builder_widgets.get_object('builder_vte_vbox').add(self.vte)
+        self.vte.show()
+        self.vte.connect("child-exited", self.builder_fid_vte_handler)
+
         wizard.insert_page(self.builder_widgets.get_object('builder_summary_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('fish_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('fid_page'),1)
@@ -399,7 +408,7 @@ create an USB key or DVD image."))
         """Called when the radio button for the Builder FID overlay page is changed"""
         wizard = self.widgets.get_object('wizard')
         fid_page = self.builder_widgets.get_object('fid_page')
-        file_chooser_hbox = self.builder_widgets.get_object('fid_file_chooser_hbox')
+        fid_browse_button = self.builder_widgets.get_object('fid_browse_button')
         file_chooser = self.builder_widgets.get_object('fid_file_chooser')
         git_tree_hbox = self.builder_widgets.get_object('fid_git_tree_hbox')
         git_tag_hbox = self.builder_widgets.get_object('fid_git_tag_hbox')
@@ -407,7 +416,7 @@ create an USB key or DVD image."))
 
         label.set_markup("")
         wizard.set_page_complete(fid_page,False)
-        file_chooser_hbox.set_sensitive(False)
+        fid_browse_button.set_sensitive(False)
         git_tree_hbox.set_sensitive(False)
         git_tag_hbox.set_sensitive(False)
 
@@ -420,11 +429,11 @@ create an USB key or DVD image."))
             git_tree_hbox.set_sensitive(True)
 
         elif self.builder_widgets.get_object('folder_radio').get_active():
-            file_chooser_hbox.set_sensitive(True)
+            fid_browse_button.set_sensitive(True)
             self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
             
         elif self.builder_widgets.get_object('tgz_radio').get_active():
-            file_chooser_hbox.set_sensitive(True)
+            fid_browse_button.set_sensitive(True)
             self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
 
     def builder_fid_file_chooser_picked(self,widget):
@@ -449,14 +458,80 @@ create an USB key or DVD image."))
         wizard = self.widgets.get_object('wizard')
         fid_page = self.builder_widgets.get_object('fid_page')
         label=self.builder_widgets.get_object('fid_overlay_details_label')
+        vte_close=self.builder_widgets.get_object('builder_vte_close')
 
         if not os.path.exists('/usr/bin/git'):
             output_text=_("<b>ERROR</b>: git is not installed")
             wizard.set_page_complete(fid_page,False)
         else:
             output_text=''
-            self.builder_widgets.get_object('fid_git_tag_hbox').set_sensitive(True)
+            vte_close.set_sensitive(False)
+            if not os.path.exists(os.path.join(os.environ['HOME'],'.config','dell-recovery')):
+                os.makedirs(os.path.join(os.environ['HOME'],'.config','dell-recovery'))
+            if not os.path.exists(os.path.join(os.environ['HOME'],'.config','dell-recovery',self.distributor + '-fid')):
+                command=["git", "clone", self.builder_widgets.get_object('git_url').get_text(),
+                         os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')]
+                cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery')
+            else:
+                command=["git", "fetch", "--verbose"]
+                cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
+            self.widgets.get_object('wizard').set_sensitive(False)
+            self.builder_widgets.get_object('builder_vte_window').show()
+            self.vte.fork_command(command=command[0],argv=command,directory=cwd)
         label.set_markup(output_text)
+
+    def builder_fid_vte_handler(self,widget):
+        """Handler for VTE dialog closing"""
+        def fill_liststore_from_command(command, liststore_name):
+            """Fills up the data in a liststore"""
+            liststore=self.builder_widgets.get_object(liststore_name)
+            liststore.clear()
+            cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
+            list_command=subprocess.Popen(args=command,cwd=cwd,stdout=subprocess.PIPE)
+            output=list_command.communicate()[0].split('\n')
+            for item in output:
+                if item and not "HEAD" in item:
+                    liststore.append([item])
+            #Add this so that we can build w/o a tag
+            liststore.append(['origin/master'])
+
+        if widget == self.builder_widgets.get_object('builder_vte_close'):
+            #reactivate GUI
+            self.builder_widgets.get_object('builder_vte_window').hide()
+            self.widgets.get_object('wizard').set_sensitive(True)
+            self.builder_widgets.get_object('fid_git_tag_hbox').set_sensitive(True)
+
+            #update the tag list in the GUI
+            command=["git","tag","-l"]
+            fill_liststore_from_command(command,'tag_liststore')
+
+        else:
+            self.builder_widgets.get_object('builder_vte_close').set_sensitive(True)
+
+    def builder_fid_git_changed(self,widget):
+        """If we have selected a tag"""
+        wizard = self.widgets.get_object('wizard')
+        fid_page = self.builder_widgets.get_object('fid_page')
+
+        active_iter=self.builder_widgets.get_object('git_tags').get_active_iter()
+        active_tag=''
+        output_text=''
+        if active_iter:
+            active_tag=self.builder_widgets.get_object('tag_liststore').get_value(
+                active_iter,0)
+
+        if active_tag:
+            cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
+            #switch checkout branches
+            command=["git","checkout",active_tag.strip()]
+            subprocess.call(command,cwd=cwd)
+        
+            self.builder_fid_overlay=os.path.join(cwd,'framework')
+            output_text = "<b>GIT Tree</b>, Version: %s" % active_tag
+            wizard.set_page_complete(fid_page,True)
+        else:
+            wizard.set_page_complete(fid_page,False)
+        self.builder_widgets.get_object('fid_overlay_details_label').set_markup(output_text)
 
     def builder_fish_action(self,widget):
         """Called when the add or remove buttons are pressed on the fish action page"""
