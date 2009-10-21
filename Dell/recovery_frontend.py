@@ -359,13 +359,15 @@ create an USB key or DVD image."))
         file_chooser_hbox = self.builder_widgets.get_object('fid_file_chooser_hbox')
         file_chooser = self.builder_widgets.get_object('fid_file_chooser')
         git_tree_hbox = self.builder_widgets.get_object('fid_git_tree_hbox')
+        git_tag_hbox = self.builder_widgets.get_object('fid_git_tag_hbox')
         label = self.builder_widgets.get_object('fid_overlay_details_label')
 
         label.set_markup("")
         wizard.set_page_complete(fid_page,False)
         file_chooser_hbox.set_sensitive(False)
         git_tree_hbox.set_sensitive(False)
-        
+        git_tag_hbox.set_sensitive(False)
+
         if self.builder_widgets.get_object('builtin_radio').get_active():
             wizard.set_page_complete(fid_page,True)
             
@@ -384,11 +386,13 @@ create an USB key or DVD image."))
         """Called when the button to choose a tgz or folder is clicked"""
         
 
-    def builder_fid_test_button_clicked(self,widget):
+    def builder_fid_fetch_button_clicked(self,widget):
         """Called when the button to test a git tree is clicked"""
         label=self.builder_widgets.get_object('fid_overlay_details_label')
         if not os.path.exists('/usr/bin/git'):
             label.set_markup(_("<b>ERROR</b>: git is not installed"))
+        else:
+            self.builder_widgets.get_object('fid_git_tag_hbox').set_sensitive(True)
 
     def builder_fish_action(self,widget):
         """Called when the add or remove buttons are pressed on the fish action page"""

@@ -467,12 +467,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="fid_test_button">
-                <property name="label" translatable="yes">Test URL</property>
+              <object class="GtkButton" id="fid_fetch_button">
+                <property name="label" translatable="yes">Fetch tags</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <signal name="clicked" handler="builder_fid_test_button_clicked"/>
+                <signal name="clicked" handler="builder_fid_fetch_button_clicked"/>
               </object>
               <packing>
                 <property name="position">2</property>
@@ -485,6 +485,44 @@
         <property name="expand">False</property>
         <property name="fill">False</property>
         <property name="position">3</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkAlignment" id="alignment5">
+        <property name="visible">True</property>
+        <property name="xalign">0</property>
+        <property name="xscale">0.25</property>
+        <property name="left_padding">10</property>
+        <child>
+          <object class="GtkHBox" id="fid_git_tag_hbox">
+            <property name="visible">True</property>
+            <property name="sensitive">False</property>
+            <property name="spacing">10</property>
+            <child>
+              <object class="GtkLabel" id="label4">
+                <property name="visible">True</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">GIT Tags: </property>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBoxEntry" id="comboboxentry1">
+                <property name="visible">True</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="position">4</property>
       </packing>
     </child>
     <child>
@@ -521,7 +559,7 @@
         </child>
       </object>
       <packing>
-        <property name="position">4</property>
+        <property name="position">5</property>
       </packing>
     </child>
   </object>
