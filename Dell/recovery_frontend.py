@@ -465,21 +465,9 @@ create an USB key or DVD image."))
             ret=self.builder_file_dialog(_("Dell FISH Packages"),["*.tar.gz","*.tgz"])
             if ret is not None:
                 model.append([ret])
-            else:
-                print "Cancel"
-
-            #builder_fish_file_chooser.run()
-            #builder_fish_file_chooser.hide()
         elif widget == remove_button:
             item = fish_treeview.get_selection()
-            iterator = model.get_iter_first()
-            to_delete = None
-            while iterator is not None:
-                if model.get_value(iterator, 0) == item:
-                    to_delete = iterator
-                iterator = model.iter_next(iterator)
-            if to_delete is not None:
-                model.remove(to_delete)
+            model.remove(model.get_iter(item.get_selected_rows()[1][0]))
 
     def build_builder_page(self,page):
         """Processes output that should be done on a builder page"""
@@ -508,6 +496,14 @@ create an USB key or DVD image."))
                 output_text+= "\n<b>Base Image</b>: " + self.builder_base_image
             if self.builder_fid_overlay:
                 output_text+= "\n<b>FID Overlay</b>: " + self.builder_fid_overlay
+
+            model = self.builder_widgets.get_object('fish_liststore')
+            iterator = model.get_iter_first()
+            if iterator is not None:
+                output_text += "\n<b>FISH Packages</b>:\n"
+            while iterator is not None:
+                output_text+= "\t" + model.get_value(iterator,0) + '\n'
+                iterator = model.iter_next(iterator)
             page.set_markup(output_text)
             
             wizard.set_page_complete(page,True)
