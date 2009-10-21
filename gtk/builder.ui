@@ -654,40 +654,10 @@
       </packing>
     </child>
   </object>
-  <object class="GtkVBox" id="builder_summary_page">
+  <object class="GtkLabel" id="builder_summary_page">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <child>
-      <object class="GtkAlignment" id="alignment6">
-        <property name="width_request">300</property>
-        <property name="visible">True</property>
-        <child>
-          <object class="GtkLabel" id="builder_summary_label">
-            <property name="visible">True</property>
-            <property name="xalign">0</property>
-            <property name="label" translatable="yes">SUMMARY</property>
-          </object>
-        </child>
-      </object>
-      <packing>
-        <property name="fill">False</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
+    <property name="xalign">0</property>
+    <property name="label" translatable="yes">SUMMARY</property>
+    <property name="use_markup">True</property>
   </object>
 </interface>

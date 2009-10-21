@@ -367,21 +367,28 @@ create an USB key or DVD image."))
         if widget == self.builder_widgets.get_object('base_browse_button'):
             ret=self.builder_file_dialog("Base Images",["*.iso"])
             if ret is not None:
-                (self.bto_base,output_text) = self.backend().query_iso_information(ret)
+                (self.bto_base, distributor, release, output_text) = self.backend().query_iso_information(ret)
                 self.builder_base_image=ret
                 wizard.set_page_complete(base_page,True)
             else:
                 self.bto_base=False
                 output_text=""
+                distributor=''
+                release=''
         else:
-            (self.bto_base,output_text) = self.backend().query_iso_information(self.rp)
-            self.builder_base_image=None
+            (self.bto_base, distributor, release, output_text) = self.backend().query_iso_information(self.rp)
+            self.builder_base_image=self.rp
             wizard.set_page_complete(base_page,True)
 
         #If this is a BTO image, then allow using built in framework
         if not self.bto_base and self.builder_widgets.get_object('builtin_radio').get_active():
             self.builder_widgets.get_object('git_radio').set_active(True)
         self.builder_widgets.get_object('builtin_hbox').set_sensitive(self.bto_base)
+
+        if distributor:
+            self.distributor=distributor
+        if release:
+            self.release=release
 
         self.builder_widgets.get_object('base_image_details_label').set_markup(output_text)
 
@@ -493,6 +500,16 @@ create an USB key or DVD image."))
             
         elif page == self.builder_widgets.get_object('builder_summary_page'):
             wizard.set_page_title(page,_("Builder Summary"))
+            output_text = "<b>Base Image Distributor</b>: " + self.distributor
+            output_text+= "\n<b>Base Image Release</b>: " + self.release
+            if self.bto_base:
+                output_text+= "\n<b>BTO Base Image</b>: " + self.builder_base_image
+            else:
+                output_text+= "\n<b>Base Image</b>: " + self.builder_base_image
+            if self.builder_fid_overlay:
+                output_text+= "\n<b>FID Overlay</b>: " + self.builder_fid_overlay
+            page.set_markup(output_text)
+            
             wizard.set_page_complete(page,True)
         else:
             print page

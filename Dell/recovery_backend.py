@@ -304,7 +304,7 @@ class Backend(dbus.service.Object):
 
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='s', out_signature='bs', sender_keyword='sender',
+        in_signature='s', out_signature='bsss', sender_keyword='sender',
         connection_keyword='conn')
     def query_iso_information(self, iso, sender=None, conn=None):
         """Queries what type of ISO this is.  This same method will be used regardless
@@ -322,16 +322,20 @@ class Backend(dbus.service.Object):
             bto_date=file.readline().strip('\n')
             file.close()
 
-        distributor_version='Unknown Base Image'
+        distributor_string='Unknown Base Image'
+        release=''
+        distributor=''
         if os.path.exists(os.path.join(mntdir,'.disk','info')):
             file=open(os.path.join(mntdir,'.disk','info'),'r')
-            distributor_version=file.readline().strip('\n')
+            distributor_string=file.readline().strip('\n')
             file.close()
+            distributor=distributor_string.split()[0].lower()
+            release=distributor_string.split()[1].lower()
 
         if bto_version:
-            return (True, "<b>Dell BTO Image</b>, version %s built on %s\n%s" %(bto_version, bto_date, distributor_version))
+            return (True, distributor, release, "<b>Dell BTO Image</b>, version %s built on %s\n%s" %(bto_version, bto_date, distributor_string))
         else:
-            return (False, distributor_version)
+            return (False, distributor, release, distributor_string)
 
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
