@@ -147,6 +147,8 @@
         </child>
       </object>
       <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
         <property name="position">1</property>
       </packing>
     </child>
@@ -158,12 +160,12 @@
         <property name="left_padding">10</property>
         <property name="right_padding">10</property>
         <child>
-          <object class="GtkFileChooserButton" id="base_file_chooser">
+          <object class="GtkButton" id="base_browse_button">
+            <property name="label" translatable="yes">Choose Image</property>
             <property name="visible">True</property>
-            <property name="create_folders">False</property>
-            <property name="preview_widget_active">False</property>
-            <property name="title" translatable="yes">Base Image Source</property>
-            <signal name="file_set" handler="builder_base_file_chooser_picked"/>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="builder_base_file_chooser_picked"/>
           </object>
         </child>
       </object>
@@ -207,6 +209,7 @@
         </child>
       </object>
       <packing>
+        <property name="expand">False</property>
         <property name="position">3</property>
       </packing>
     </child>
@@ -415,12 +418,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkFileChooserButton" id="fid_file_chooser">
+              <object class="GtkButton" id="fid_browse_button">
+                <property name="label" translatable="yes">Choose Overlay</property>
                 <property name="visible">True</property>
-                <property name="create_folders">False</property>
-                <property name="preview_widget_active">False</property>
-                <property name="title" translatable="yes">Base Image Source</property>
-                <signal name="file_set" handler="builder_fid_file_chooser_picked"/>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="builder_fid_file_chooser_picked"/>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -566,7 +569,7 @@
   <object class="GtkListStore" id="fish_liststore">
     <columns>
       <!-- column-name fish_packages -->
-      <column type="gchar"/>
+      <column type="gchararray"/>
     </columns>
   </object>
   <object class="GtkVBox" id="fish_page">
@@ -588,17 +591,22 @@
       </packing>
     </child>
     <child>
-      <object class="GtkTreeView" id="treeview1">
+      <object class="GtkTreeView" id="fish_treeview">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="model">fish_liststore</property>
-        <property name="vadjustment">adjustment1</property>
         <property name="search_column">0</property>
         <property name="enable_grid_lines">horizontal</property>
         <property name="enable_tree_lines">True</property>
         <child>
           <object class="GtkTreeViewColumn" id="treeviewcolumn1">
             <property name="title">FISH Packages</property>
+            <child>
+              <object class="GtkCellRendererText" id="cellrenderertext1"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
           </object>
         </child>
       </object>
@@ -680,45 +688,6 @@
     </child>
     <child>
       <placeholder/>
-    </child>
-  </object>
-  <object class="GtkAdjustment" id="adjustment1">
-    <property name="upper">100</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-    <property name="page_size">10</property>
-  </object>
-  <object class="GtkFileChooserDialog" id="builder_fish_file_chooser">
-    <property name="border_width">5</property>
-    <property name="icon_name">dell-recovery</property>
-    <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
-    <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox1">
-        <property name="visible">True</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child>
-          <placeholder/>
-        </child>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area1">
-            <property name="visible">True</property>
-            <property name="layout_style">end</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
     </child>
   </object>
 </interface>

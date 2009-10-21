@@ -306,6 +306,13 @@ OEM FID framework & FISH package set into a customized \
 OS media image.  You will have the option to \
 create an USB key or DVD image."))
 
+        self.file_dialog = gtk.FileChooserDialog("Choose Base BTO Image",
+                                           None,
+                                           gtk.FILE_CHOOSER_ACTION_OPEN,
+                                           (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+                                            gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+        self.file_dialog.set_default_response(gtk.RESPONSE_OK)
+
         wizard.insert_page(self.builder_widgets.get_object('builder_summary_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('fish_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('fid_page'),1)
@@ -313,23 +320,40 @@ create an USB key or DVD image."))
 
         self.builder_widgets.connect_signals(self)
 
+    def builder_file_dialog(self, filter_name, filter_types):
+        """Browses all files under a particular filter
+           filter_name is a str
+           filter_types is a an array of str"""
+        filter = gtk.FileFilter()
+        filter.set_name(filter_name)
+        for type in filter_types:
+            filter.add_pattern(type)
+        self.file_dialog.add_filter(filter)
+        response = self.file_dialog.run()
+        self.file_dialog.hide()
+        self.file_dialog.remove_filter(filter)
+        if response == gtk.RESPONSE_OK:
+            return self.file_dialog.get_filename() 
+        else:
+            return None
+
     def builder_base_toggled(self,widget):
         """Called when the radio button for the Builder base image page is changed"""
-        file_chooser=self.builder_widgets.get_object('base_file_chooser')
+        base_browse_button=self.builder_widgets.get_object('base_browse_button')
         base_page = self.builder_widgets.get_object('base_page')
         wizard = self.widgets.get_object('wizard')
         label = self.builder_widgets.get_object('base_image_details_label')
 
         label.set_markup("")
-        file_chooser.set_sensitive(True)
+        base_browse_button.set_sensitive(True)
         wizard.set_page_complete(base_page,False)
         
         if self.builder_widgets.get_object('iso_image_radio').get_active():
-            file_chooser.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
+            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
         elif self.builder_widgets.get_object('directory_radio').get_active():
-            file_chooser.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
         else:
-            file_chooser.set_sensitive(False)
+            base_browse_button.set_sensitive(False)
             self.builder_base_file_chooser_picked()
 
     def builder_base_file_chooser_picked(self,widget=None):
@@ -338,12 +362,21 @@ create an USB key or DVD image."))
         base_page = self.builder_widgets.get_object('base_page')
         wizard = self.widgets.get_object('wizard')
 
-        wizard.set_page_complete(base_page,True)
+        wizard.set_page_complete(base_page,False)
 
-        if widget == self.builder_widgets.get_object('base_file_chooser'):
-            (self.bto_base,output_text) = self.backend().query_iso_information(widget.get_filename())
+        if widget == self.builder_widgets.get_object('base_browse_button'):
+            ret=self.builder_file_dialog("Base Images",["*.iso"])
+            if ret is not None:
+                (self.bto_base,output_text) = self.backend().query_iso_information(ret)
+                self.builder_base_image=ret
+                wizard.set_page_complete(base_page,True)
+            else:
+                self.bto_base=False
+                output_text=""
         else:
             (self.bto_base,output_text) = self.backend().query_iso_information(self.rp)
+            self.builder_base_image=None
+            wizard.set_page_complete(base_page,True)
 
         #If this is a BTO image, then allow using built in framework
         if not self.bto_base and self.builder_widgets.get_object('builtin_radio').get_active():
@@ -370,32 +403,76 @@ create an USB key or DVD image."))
 
         if self.builder_widgets.get_object('builtin_radio').get_active():
             wizard.set_page_complete(fid_page,True)
+            label.set_markup("<b>Builtin</b>: BTO Image")
+            self.builder_fid_overlay=None
             
         elif self.builder_widgets.get_object('git_radio').get_active():
             git_tree_hbox.set_sensitive(True)
 
         elif self.builder_widgets.get_object('folder_radio').get_active():
             file_chooser_hbox.set_sensitive(True)
-            file_chooser.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
             
         elif self.builder_widgets.get_object('tgz_radio').get_active():
             file_chooser_hbox.set_sensitive(True)
-            file_chooser.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
+            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
 
     def builder_fid_file_chooser_picked(self,widget):
         """Called when the button to choose a tgz or folder is clicked"""
-        
+        wizard = self.widgets.get_object('wizard')
+        fid_page = self.builder_widgets.get_object('fid_page')
+        label = self.builder_widgets.get_object('fid_overlay_details_label')
+
+        if widget == self.builder_widgets.get_object('fid_browse_button'):
+            ret=self.builder_file_dialog("FID Overlays",["*.tar.gz","*.tgz"])
+            if ret is not None:
+                wizard.set_page_complete(fid_page,True)
+                output_text=_("<b>Local</b>: %s" % ret)
+                self.builder_fid_overlay=ret
+            else:
+                output_text=''
+                wizard.set_page_complete(fid_page,False)
+            label.set_markup(output_text)
 
     def builder_fid_fetch_button_clicked(self,widget):
         """Called when the button to test a git tree is clicked"""
+        wizard = self.widgets.get_object('wizard')
+        fid_page = self.builder_widgets.get_object('fid_page')
         label=self.builder_widgets.get_object('fid_overlay_details_label')
+
         if not os.path.exists('/usr/bin/git'):
-            label.set_markup(_("<b>ERROR</b>: git is not installed"))
+            output_text=_("<b>ERROR</b>: git is not installed")
+            wizard.set_page_complete(fid_page,False)
         else:
+            output_text=''
             self.builder_widgets.get_object('fid_git_tag_hbox').set_sensitive(True)
+        label.set_markup(output_text)
 
     def builder_fish_action(self,widget):
         """Called when the add or remove buttons are pressed on the fish action page"""
+        add_button = self.builder_widgets.get_object('fish_add')
+        remove_button = self.builder_widgets.get_object('fish_remove')
+        fish_treeview = self.builder_widgets.get_object('fish_treeview')
+        model = fish_treeview.get_model()
+        if widget == add_button:
+            ret=self.builder_file_dialog(_("Dell FISH Packages"),["*.tar.gz","*.tgz"])
+            if ret is not None:
+                model.append([ret])
+            else:
+                print "Cancel"
+
+            #builder_fish_file_chooser.run()
+            #builder_fish_file_chooser.hide()
+        elif widget == remove_button:
+            item = fish_treeview.get_selection()
+            iterator = model.get_iter_first()
+            to_delete = None
+            while iterator is not None:
+                if model.get_value(iterator, 0) == item:
+                    to_delete = iterator
+                iterator = model.iter_next(iterator)
+            if to_delete is not None:
+                model.remove(to_delete)
 
     def build_builder_page(self,page):
         """Processes output that should be done on a builder page"""
@@ -411,7 +488,9 @@ create an USB key or DVD image."))
 
         elif page == self.builder_widgets.get_object('fish_page'):
             wizard.set_page_title(page,_("Choose FISH Packages"))
+            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
             wizard.set_page_complete(page,True)
+            
         elif page == self.builder_widgets.get_object('builder_summary_page'):
             wizard.set_page_title(page,_("Builder Summary"))
             wizard.set_page_complete(page,True)
