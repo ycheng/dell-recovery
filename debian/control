@@ -11,7 +11,7 @@ Standards-Version: 3.8.1
 
 Package: dell-recovery
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python-gtk2, policykit-1, uuid-runtime, devicekit-disks | hal
+Depends: ${python:Depends}, ${misc:Depends}, python-gtk2, python-vte, policykit-1, uuid-runtime, devicekit-disks | hal
 Replaces: dell-artwork
 Recommends: usb-creator, brasero | nautilus-cd-burner, lsb-release
 Suggests: grub-pc
