@@ -10,6 +10,7 @@ dell-recovery (0.26) UNRELEASED; urgency=low
   * Don't ask a question about where to store the ISO.  Instead, lets always
     assume it ends up in Downloads.  This is useful now because usb-creator
     will look there anyway by default.
+  * Apply markup to the summary page in both modes.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 20 Oct 2009 12:06:45 -0500
 

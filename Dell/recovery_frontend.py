@@ -706,17 +706,17 @@ create an USB key or DVD image."))
             elif self.widgets.get_object('usbbutton').get_active():
                 type=self.widgets.get_object('usbbutton').get_label()
             else:
-                type=_("ISO Image")
+                type="<b>" + _("ISO Image") + '</b>'
             text = ''
             if self.up:
-                text+=_("Utility Partition: ") + self.up + '\n'
+                text+="<b>" + _("Utility Partition: ") + '</b>' + self.up + '\n'
             if self.rp:
-                text+=_("Recovery Partition: ") + self.rp + '\n'
-            text+=_("Media Type: ") + type + '\n'
-            text+=_("File Name: ") + os.path.join(os.environ['HOME'], 'Downloads', self.iso) + '\n'
+                text+="<b>" + _("Recovery Partition: ") + '</b>' + self.rp + '\n'
+            text+="<b>" + _("Media Type: ") + '</b>' + type + '\n'
+            text+="<b>" + _("File Name: ") + '</b>' + os.path.join(os.environ['HOME'], 'Downloads', self.iso) + '\n'
 
 
-            self.widgets.get_object('conf_text').set_text(text)
+            self.widgets.get_object('conf_text').set_markup(text)
             self.widgets.get_object('wizard').set_page_complete(page,True)
 
         if self.builder:
