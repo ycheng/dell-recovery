@@ -325,7 +325,6 @@ create an USB key or DVD image."))
         self.vte.show()
         self.vte.connect("child-exited", self.builder_fid_vte_handler)
 
-        wizard.insert_page(self.builder_widgets.get_object('builder_summary_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('fish_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('fid_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('base_page'),1)
@@ -567,30 +566,28 @@ create an USB key or DVD image."))
             self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
             wizard.set_page_complete(page,True)
             
-        elif page == self.builder_widgets.get_object('builder_summary_page'):
+        elif page == self.widgets.get_object('conf_page'):
             wizard.set_page_title(page,_("Builder Summary"))
-            output_text = "<b>Base Image Distributor</b>: " + self.distributor
-            output_text+= "\n<b>Base Image Release</b>: " + self.release
+            output_text = "<b>Base Image Distributor</b>: " + self.distributor + '\n'
+            output_text+= "<b>Base Image Release</b>: " + self.release + '\n'
             if self.bto_base:
-                output_text+= "\n<b>BTO Base Image</b>: " + self.builder_base_image
+                output_text+= "<b>BTO Base Image</b>: " + self.builder_base_image + '\n'
             else:
-                output_text+= "\n<b>Base Image</b>: " + self.builder_base_image
+                output_text+= "<b>Base Image</b>: " + self.builder_base_image + '\n'
             if self.builder_fid_overlay:
-                output_text+= "\n<b>FID Overlay</b>: " + self.builder_fid_overlay
+                output_text+= "<b>FID Overlay</b>: " + self.builder_fid_overlay + '\n'
 
             model = self.builder_widgets.get_object('fish_liststore')
             iterator = model.get_iter_first()
             if iterator is not None:
-                output_text += "\n<b>FISH Packages</b>:\n"
+                output_text += "<b>FISH Packages</b>:\n"
             while iterator is not None:
                 output_text+= "\t" + model.get_value(iterator,0) + '\n'
                 iterator = model.iter_next(iterator)
-            page.set_markup(output_text)
-            
-            wizard.set_page_complete(page,True)
-        else:
-            print page
 
+            output_text+= self.widgets.get_object('conf_text').get_label()
+
+            self.widgets.get_object('conf_text').set_markup(output_text)
 
 #### GUI Functions ###
 # This application is functional via command line by using the above functions #
@@ -711,15 +708,18 @@ create an USB key or DVD image."))
             else:
                 type=_("ISO Image")
             text = ''
-            text+=_("Utility Partition: ") + self.up + '\n'
-            text+=_("Recovery Partition: ") + self.rp + '\n'
+            if self.up:
+                text+=_("Utility Partition: ") + self.up + '\n'
+            if self.rp:
+                text+=_("Recovery Partition: ") + self.rp + '\n'
             text+=_("Media Type: ") + type + '\n'
             text+=_("File Name: ") + os.path.join(os.environ['HOME'], 'Downloads', self.iso) + '\n'
 
 
             self.widgets.get_object('conf_text').set_text(text)
             self.widgets.get_object('wizard').set_page_complete(page,True)
-        elif self.builder:
+
+        if self.builder:
             self.build_builder_page(page)
 
     def ignore(*args):
