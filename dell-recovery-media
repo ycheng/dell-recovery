@@ -31,6 +31,7 @@ parser = optparse.OptionParser(usage=usage)
 parser.set_defaults(
     up=None,
     rp=None,
+    version='',
     media="dvd",
     target=os.getenv('HOME'),
     overwrite=False,

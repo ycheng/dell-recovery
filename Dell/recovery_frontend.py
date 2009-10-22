@@ -104,7 +104,7 @@ class Frontend:
         #set any command line arguments
         self.up=up
         self.rp=rp
-        self.version=version
+        self.widgets.get_object('version').set_text(version)
         self.media=media
         self.target=target
         self.overwrite=overwrite
@@ -235,7 +235,7 @@ class Frontend:
                     {'report_progress':self.update_progress_gui},
                     self.up,
                     self.rp,
-                    self.version,
+                    self.widgets.get_object('version').get_text(),
                     os.path.join(os.environ['HOME'], 'Downloads',self.iso))
             except dbus.DBusException, e:
                 if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
@@ -325,9 +325,13 @@ create an USB key or DVD image."))
         self.vte.show()
         self.vte.connect("child-exited", self.builder_fid_vte_handler)
 
+        #insert builder pages
         wizard.insert_page(self.builder_widgets.get_object('fish_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('fid_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('base_page'),1)
+
+        #improve the summary
+        self.widgets.get_object('version_hbox').show()
 
         self.builder_widgets.connect_signals(self)
 
@@ -524,8 +528,17 @@ create an USB key or DVD image."))
             #switch checkout branches
             command=["git","checkout",active_tag.strip()]
             subprocess.call(command,cwd=cwd)
-        
+
             self.builder_fid_overlay=os.path.join(cwd,'framework')
+
+            #if we don't have a tag set, set one
+            if not self.widgets.get_object('version').get_text():
+                tag=active_tag.strip().split('_')
+                if len(tag) > 1:
+                    self.widgets.get_object('version').set_text(tag[1])
+                else:
+                    self.widgets.get_object('version').set_text('X00')
+
             output_text = "<b>GIT Tree</b>, Version: %s" % active_tag
             wizard.set_page_complete(fid_page,True)
         else:
@@ -546,7 +559,7 @@ create an USB key or DVD image."))
             item = fish_treeview.get_selection()
             model.remove(model.get_iter(item.get_selected_rows()[1][0]))
 
-    def build_builder_page(self,page):
+    def build_builder_page(self,widget,page):
         """Processes output that should be done on a builder page"""
         wizard = self.widgets.get_object('wizard')
         if page == self.builder_widgets.get_object('base_page'):
@@ -566,8 +579,11 @@ create an USB key or DVD image."))
             self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
             wizard.set_page_complete(page,True)
             
-        elif page == self.widgets.get_object('conf_page'):
-            wizard.set_page_title(page,_("Builder Summary"))
+        elif page == self.widgets.get_object('conf_page') or \
+             widget == self.widgets.get_object('version'):
+
+            if page:
+                wizard.set_page_title(page,_("Builder Summary"))
             output_text = "<b>Base Image Distributor</b>: " + self.distributor + '\n'
             output_text+= "<b>Base Image Release</b>: " + self.release + '\n'
             if self.bto_base:
@@ -666,7 +682,7 @@ create an USB key or DVD image."))
             gtk.main_iteration()
         return True
 
-    def build_page(self,widget,page):
+    def build_page(self,widget,page=None):
         """Prepares our GTK assistant"""
 
         if page == self.widgets.get_object('start_page'):
@@ -693,13 +709,13 @@ create an USB key or DVD image."))
 
             self.widgets.get_object('wizard').set_page_complete(page,True)
 
-        elif page == self.widgets.get_object('conf_page'):
-            self.widgets.get_object('wizard').set_page_title(page,_("Confirm Selections"))
+        elif page == self.widgets.get_object('conf_page') or \
+                     widget == self.widgets.get_object('version'):
 
             #Fill in dynamic data
-            if not self.version:
-                self.version=self.backend().query_bto_version(self.rp)
-            self.iso = self.distributor + '-' + self.release + '-dell_' + self.version + ".iso"
+            if not self.widgets.get_object('version').get_text():
+                self.widgets.get_object('version').set_text(self.backend().query_bto_version(self.rp))
+            self.iso = self.distributor + '-' + self.release + '-dell_' + self.widgets.get_object('version').get_text() + ".iso"
 
             if self.widgets.get_object('dvdbutton').get_active():
                 type=self.widgets.get_object('dvdbutton').get_label()
@@ -715,12 +731,14 @@ create an USB key or DVD image."))
             text+="<b>" + _("Media Type: ") + '</b>' + type + '\n'
             text+="<b>" + _("File Name: ") + '</b>' + os.path.join(os.environ['HOME'], 'Downloads', self.iso) + '\n'
 
-
             self.widgets.get_object('conf_text').set_markup(text)
-            self.widgets.get_object('wizard').set_page_complete(page,True)
+
+            if page:
+                self.widgets.get_object('wizard').set_page_title(page,_("Confirm Selections"))
+                self.widgets.get_object('wizard').set_page_complete(page,True)
 
         if self.builder:
-            self.build_builder_page(page)
+            self.build_builder_page(widget,page)
 
     def ignore(*args):
         """Ignores a signal"""
