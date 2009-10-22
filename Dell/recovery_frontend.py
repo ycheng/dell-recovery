@@ -210,7 +210,7 @@ class Frontend:
 
         #Check for existing image
         skip_creation=False
-        if os.path.exists(os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso)) and not self.overwrite:
+        if os.path.exists(os.path.join(os.environ['HOME'], 'Downloads', self.iso)) and not self.overwrite:
             skip_creation=self.show_question(self.widgets.get_object('existing_dialog'))
 
         #GUI Elements
@@ -223,7 +223,7 @@ class Frontend:
             #try to open the file as a user first so when it's overwritten, it
             #will be with the correct permissions
             try:
-                file=open(os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso),'w')
+                file=open(os.path.join(os.environ['HOME'], 'Downloads', self.iso),'w')
                 file.close()
             except IOError:
                 #this might have been somwehere that the system doesn't want us
@@ -236,7 +236,7 @@ class Frontend:
                     self.up,
                     self.rp,
                     self.version,
-                    os.path.join(self.widgets.get_object('filechooserbutton').get_filename(),self.iso))
+                    os.path.join(os.environ['HOME'], 'Downloads',self.iso))
             except dbus.DBusException, e:
                 if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
                     header = _("Permission Denied")
@@ -258,16 +258,16 @@ class Frontend:
         while not success:
             success=True
             if self.widgets.get_object('dvdbutton').get_active():
-                cmd=self.cd_burn_cmd + [os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso)]
+                cmd=self.cd_burn_cmd + [os.path.join(os.environ['HOME'], 'Downloads', self.iso)]
             elif self.widgets.get_object('usbbutton').get_active():
-                cmd=self.usb_burn_cmd + [os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso)]
+                cmd=self.usb_burn_cmd + [os.path.join(os.environ['HOME'], 'Downloads', self.iso)]
             else:
                 cmd=None
             if cmd:
                 subprocess.call(cmd)
 
         header = _("Recovery Media Creation Process Complete")
-        body = _("If you would like to archive another copy, the generated image has been stored under the filename:\n") + os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso)
+        body = _("If you would like to archive another copy, the generated image has been stored under the filename:\n") + os.path.join(os.environ['HOME'], 'Downloads', self.iso)
         self.show_alert(gtk.MESSAGE_INFO, header, body,
             parent=self.widgets.get_object('progress_dialog'))
 
@@ -695,14 +695,7 @@ create an USB key or DVD image."))
                     self.widgets.get_object('nomediabutton').set_active(True)
 
             self.widgets.get_object('wizard').set_page_complete(page,True)
-        elif page == self.widgets.get_object('file_page'):
-            self.widgets.get_object('wizard').set_page_title(page,_("Choose Target Directory"))
-            self.widgets.get_object('filechooserbutton').set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-            #fill in command line args
-            if os.path.exists(self.target):
-                self.widgets.get_object('filechooserbutton').set_current_folder(self.target)
 
-            self.widgets.get_object('wizard').set_page_complete(page,True)
         elif page == self.widgets.get_object('conf_page'):
             self.widgets.get_object('wizard').set_page_title(page,_("Confirm Selections"))
 
@@ -721,7 +714,7 @@ create an USB key or DVD image."))
             text+=_("Utility Partition: ") + self.up + '\n'
             text+=_("Recovery Partition: ") + self.rp + '\n'
             text+=_("Media Type: ") + type + '\n'
-            text+=_("File Name: ") + os.path.join(self.widgets.get_object('filechooserbutton').get_filename(), self.iso) + '\n'
+            text+=_("File Name: ") + os.path.join(os.environ['HOME'], 'Downloads', self.iso) + '\n'
 
 
             self.widgets.get_object('conf_text').set_text(text)

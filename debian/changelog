@@ -7,6 +7,9 @@ dell-recovery (0.26) UNRELEASED; urgency=low
   * Correct an error in the backend handling code for when an image can't mount.
   * debian/control:
     - Depends on python-vte for builder git features.
+  * Don't ask a question about where to store the ISO.  Instead, lets always
+    assume it ends up in Downloads.  This is useful now because usb-creator
+    will look there anyway by default.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 20 Oct 2009 12:06:45 -0500
 

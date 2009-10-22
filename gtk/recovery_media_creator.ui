@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <interface>
-  <!-- interface-requires gtk+ 2.16 -->
+  <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkWindow" id="progress_dialog">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -10,7 +10,7 @@
     <property name="default_width">450</property>
     <property name="destroy_with_parent">True</property>
     <property name="deletable">False</property>
-    <signal handler="destroy" name="destroy"/>
+    <signal name="destroy" handler="destroy"/>
     <child>
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
@@ -142,9 +142,12 @@
     <property name="window_position">center</property>
     <property name="default_width">400</property>
     <property name="default_height">200</property>
-    <signal handler="wizard_complete" name="apply"/>
-    <signal handler="build_page" name="prepare"/>
-    <signal handler="check_close" name="cancel"/>
+    <signal name="apply" handler="wizard_complete"/>
+    <signal name="prepare" handler="build_page"/>
+    <signal name="cancel" handler="check_close"/>
+    <child>
+      <placeholder/>
+    </child>
     <child>
       <object class="GtkLabel" id="start_page">
         <property name="visible">True</property>
@@ -219,18 +222,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkAlignment" id="file_page">
-        <property name="visible">True</property>
-        <property name="xscale">0.45000000596046448</property>
-        <property name="yscale">0.15000000596046448</property>
-        <child>
-          <object class="GtkFileChooserButton" id="filechooserbutton">
-            <property name="visible">True</property>
-            <property name="preview_widget_active">False</property>
-            <property name="title" translatable="yes">Select a directory for the ISO</property>
-          </object>
-        </child>
-      </object>
+      <placeholder/>
     </child>
     <child>
       <object class="GtkHBox" id="conf_page">
@@ -271,7 +263,7 @@
     <property name="message_type">question</property>
     <property name="buttons">yes-no</property>
     <property name="text" translatable="yes">Are you sure you want to cancel the Recovery Media creation process?</property>
-    <signal handler="destroy" name="close"/>
+    <signal name="close" handler="destroy"/>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox3">
         <child internal-child="action_area">
@@ -295,7 +287,7 @@
     <property name="message_type">question</property>
     <property name="buttons">yes-no</property>
     <property name="text" translatable="yes">An existing image was found (possibly from a previous run).  Would you like to remove this old copy and regenerate the image?</property>
-    <signal handler="destroy" name="close"/>
+    <signal name="close" handler="destroy"/>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox5">
         <child internal-child="action_area">
