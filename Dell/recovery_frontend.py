@@ -219,6 +219,38 @@ class Frontend:
         #Call our DBUS backend to build the ISO
         if not skip_creation:
             self.widgets.get_object('progress_dialog').connect('delete_event', self.ignore)
+
+            #if we need to build the content of the RP first (eg we're running in builder mode)
+            if self.builder:
+                #update gui
+                self.widgets.get_object('action').set_text('Assembling Image Components')
+
+                #build fish list
+                fish_list=[]
+                model = self.builder_widgets.get_object('fish_liststore')
+                iterator = model.get_iter_first()
+                while iterator is not None:
+                    fish_list.append(model.get_value(iterator,0))
+                    iterator = model.iter_next(iterator)
+
+                try:
+                    self.rp=dbus_sync_call_signal_wrapper(self.backend(),
+                            'assemble_image',
+                            {'report_progress':self.update_progress_gui},
+                            self.builder_base_image,
+                            self.builder_fid_overlay,
+                            fish_list)
+                except dbus.DBusException, e:
+                    if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
+                        header = _("Permission Denied")
+                    else:
+                        header = str(e)
+                    self.show_alert(gtk.MESSAGE_ERROR, header,
+                                parent=self.widgets.get_object('progress_dialog'))
+                    self.widgets.get_object('progress_dialog').hide()
+                    self.widgets.get_object('wizard').show()
+                    return
+
             self.widgets.get_object('action').set_text("Building Base image")
             #try to open the file as a user first so when it's overwritten, it
             #will be with the correct permissions
@@ -333,6 +365,10 @@ create an USB key or DVD image."))
         #improve the summary
         self.widgets.get_object('version_hbox').show()
 
+        #builder variable defaults
+        self.builder_fid_overlay=''
+        self.bto_base=False
+
         self.builder_widgets.connect_signals(self)
 
     def builder_file_dialog(self, filter_name, filter_types):
@@ -379,21 +415,27 @@ create an USB key or DVD image."))
 
         wizard.set_page_complete(base_page,False)
 
+        bto_version=''
         if widget == self.builder_widgets.get_object('base_browse_button'):
             ret=self.builder_file_dialog("Base Images",["*.iso"])
             if ret is not None:
-                (self.bto_base, distributor, release, output_text) = self.backend().query_iso_information(ret)
+                (bto_version, distributor, release, output_text) = self.backend().query_iso_information(ret)
+                self.bto_base=not not bto_version
                 self.builder_base_image=ret
                 wizard.set_page_complete(base_page,True)
             else:
-                self.bto_base=False
+                bto_version='X00'
                 output_text=""
                 distributor=''
                 release=''
         else:
-            (self.bto_base, distributor, release, output_text) = self.backend().query_iso_information(self.rp)
+            (bto_version, distributor, release, output_text) = self.backend().query_iso_information(self.rp)
+            self.bto_base=not not bto_version
             self.builder_base_image=self.rp
             wizard.set_page_complete(base_page,True)
+
+        #set the version string that we fetched from the image
+        self.widgets.get_object('version').set_text(bto_version)
 
         #If this is a BTO image, then allow using built in framework
         if not self.bto_base and self.builder_widgets.get_object('builtin_radio').get_active():
@@ -426,7 +468,7 @@ create an USB key or DVD image."))
         if self.builder_widgets.get_object('builtin_radio').get_active():
             wizard.set_page_complete(fid_page,True)
             label.set_markup("<b>Builtin</b>: BTO Image")
-            self.builder_fid_overlay=None
+            self.builder_fid_overlay=''
             
         elif self.builder_widgets.get_object('git_radio').get_active():
             git_tree_hbox.set_sensitive(True)
@@ -531,13 +573,11 @@ create an USB key or DVD image."))
 
             self.builder_fid_overlay=os.path.join(cwd,'framework')
 
-            #if we don't have a tag set, set one
-            if not self.widgets.get_object('version').get_text():
-                tag=active_tag.strip().split('_')
-                if len(tag) > 1:
-                    self.widgets.get_object('version').set_text(tag[1])
-                else:
-                    self.widgets.get_object('version').set_text('X00')
+            tag=active_tag.strip().split('_')
+            if len(tag) > 1:
+                self.widgets.get_object('version').set_text(tag[1])
+            else:
+                self.widgets.get_object('version').set_text('X00')
 
             output_text = "<b>GIT Tree</b>, Version: %s" % active_tag
             wizard.set_page_complete(fid_page,True)
@@ -722,7 +762,7 @@ create an USB key or DVD image."))
             elif self.widgets.get_object('usbbutton').get_active():
                 type=self.widgets.get_object('usbbutton').get_label()
             else:
-                type="<b>" + _("ISO Image") + '</b>'
+                type=_("ISO Image")
             text = ''
             if self.up:
                 text+="<b>" + _("Utility Partition: ") + '</b>' + self.up + '\n'
