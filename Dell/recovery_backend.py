@@ -35,8 +35,10 @@ import getopt
 import atexit
 import tempfile
 import subprocess
+import tarfile
 import shutil
 import datetime
+import distutils.dir_util
 
 DBUS_BUS_NAME = 'com.dell.RecoveryMedia'
 
@@ -301,10 +303,56 @@ class Backend(dbus.service.Object):
     #
     # Client API (through D-BUS)
     #
+    @dbus.service.method(DBUS_INTERFACE_NAME,
+        in_signature='ssas', out_signature='s', sender_keyword='sender',
+        connection_keyword='conn')
+    def assemble_image(self, base, fid, fish, sender=None, conn=None):
+        """Takes the different pieces that would be used for a BTO image and puts them together"""
 
+        def safe_tar_extract(filename,destination):
+            """Safely extracts a tarball into destination"""
+            file=tarfile.open(filename)
+            dangerous_file=False
+            for name in file.getnames():
+                if name.startswith('..') or name.startswith('/'):
+                    dangerous_file=True
+                    break
+            if not dangerous_file:
+                file.extractall(destination)
+            file.close()
+
+        self._reset_timeout()
+        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.create')
+
+        base_mnt = self.request_mount(base)
+
+        assembly_tmp=tempfile.mkdtemp()
+        atexit.register(self.walk_cleanup,assembly_tmp)
+
+        #copy the base iso/mnt point/etc
+        self.report_progress(_('Adding in base image'),'10.0')
+        distutils.dir_util.copy_tree(base_mnt,assembly_tmp,verbose=1,update=1)
+
+        #TODO, purge support
+
+        #Add in FID content
+        if os.path.isdir(fid):
+            self.report_progress(_('Putting together FID content'),'30.0')
+            distutils.dir_util.copy_tree(fid,assembly_tmp,verbose=1,update=1)
+        elif os.path.exists(fid) and tarfile.is_tarfile(fid):
+            self.report_progress(_('Putting together FID content'),'30.0')
+            safe_tar_extract(fid,assembly_tmp)
+
+        length=float(len(fish))
+        for fishie in fish:
+            self.report_progress(_('Inserting FISH packages'),fish.index(fishie)/length*100 + 30)
+            if os.path.exists(fishie) and tarfile.is_tarfile(fishie):
+                safe_tar_extract(fishie,assembly_tmp)
+
+        return assembly_tmp
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='s', out_signature='bsss', sender_keyword='sender',
+        in_signature='s', out_signature='ssss', sender_keyword='sender',
         connection_keyword='conn')
     def query_iso_information(self, iso, sender=None, conn=None):
         """Queries what type of ISO this is.  This same method will be used regardless
@@ -333,9 +381,9 @@ class Backend(dbus.service.Object):
             release=distributor_string.split()[1].lower()
 
         if bto_version:
-            return (True, distributor, release, "<b>Dell BTO Image</b>, version %s built on %s\n%s" %(bto_version, bto_date, distributor_string))
-        else:
-            return (False, distributor, release, distributor_string)
+            distributor_string="<b>Dell BTO Image</b>, version %s built on %s\n%s" %(bto_version, bto_date, distributor_string)
+
+        return (bto_version, distributor, release, distributor_string)
 
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
@@ -370,7 +418,7 @@ class Backend(dbus.service.Object):
     def create_ubuntu(self, up, rp, version, iso, sender=None, conn=None):
 
         self._reset_timeout()
-        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.create_ubuntu')
+        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.create')
         
         #create temporary workspace
         tmpdir=tempfile.mkdtemp()
@@ -386,7 +434,7 @@ class Backend(dbus.service.Object):
         file.close()
 
         #If necessary, build the UP
-        if not os.path.exists(os.path.join(mntdir,'upimg.bin')):
+        if not os.path.exists(os.path.join(mntdir,'upimg.bin')) and up:
             self.report_progress(_('Building Dell Utility Partition'),'0.0')
             p1 = subprocess.Popen(['dd','if=' + up,'bs=1M'], stdout=subprocess.PIPE)
             p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)

@@ -35,8 +35,8 @@
     </defaults>
   </action>
 
-  <action id="com.dell.recoverymedia.create_ubuntu">
-    <_description>Create Dell Recovery ISO</_description>
+  <action id="com.dell.recoverymedia.create">
+    <_description>Create/Assemble Dell Recovery ISO</_description>
     <_message>System policy prevents reading raw devices</_message>
     <defaults>
       <allow_any>auth_admin</allow_any>
