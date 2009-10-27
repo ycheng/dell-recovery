@@ -147,19 +147,19 @@ class Frontend:
         bus = dbus.SystemBus()
 
         #check any command line arguments
-        if self.up is not None and not os.path.exists(self.up):
+        if self.up and not os.path.exists(self.up):
             header=_("Invalid utility partition") + _(" in command line arguments.  Falling back to DeviceKit or HAL based detection.")
             inst = None
             self.show_alert(gtk.MESSAGE_ERROR, header, inst,
                 parent=self.widgets.get_object('progress_dialog'))
             self.up=None
-        if self.rp is not None and not os.path.exists(self.rp):
+        if self.rp and not os.path.exists(self.rp):
             header=_("Invalid recovery partition") + _(" in command line arguments.  Falling back to DeviceKit or HAL based detection.")
             inst = None
             self.show_alert(gtk.MESSAGE_ERROR, header, inst,
                 parent=self.widgets.get_object('progress_dialog'))
             self.rp=None
-        if self.up is not None and self.rp is not None:
+        if self.up and self.rp:
             return True
 
         try:
@@ -255,6 +255,8 @@ class Frontend:
             #try to open the file as a user first so when it's overwritten, it
             #will be with the correct permissions
             try:
+                if not os.path.isdir(os.path.join(os.environ['HOME'], 'Downloads')):
+                    os.makedirs(os.path.join(os.environ['HOME'], 'Downloads'))
                 file=open(os.path.join(os.environ['HOME'], 'Downloads', self.iso),'w')
                 file.close()
             except IOError:

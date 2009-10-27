@@ -29,8 +29,8 @@ import sys
 usage = '%prog [options]'
 parser = optparse.OptionParser(usage=usage)
 parser.set_defaults(
-    up=None,
-    rp=None,
+    up='',
+    rp='',
     version='',
     media="dvd",
     target=os.getenv('HOME'),
