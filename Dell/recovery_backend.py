@@ -362,17 +362,12 @@ class Backend(dbus.service.Object):
 
         mntdir = self.request_mount(iso)
 
-        bto_version=''
-        bto_date=''
-        if os.path.exists(os.path.join(mntdir,'bto_version')):
-            file=open(os.path.join(mntdir,'bto_version'),'r')
-            bto_version=file.readline().strip('\n')
-            bto_date=file.readline().strip('\n')
-            file.close()
+        (bto_version,bto_date) = self.query_bto_version(iso)
 
         distributor_string='Unknown Base Image'
         release=''
         distributor=''
+        #Ubuntu disks have .disk/info
         if os.path.exists(os.path.join(mntdir,'.disk','info')):
             file=open(os.path.join(mntdir,'.disk','info'),'r')
             distributor_string=file.readline().strip('\n')
@@ -381,13 +376,13 @@ class Backend(dbus.service.Object):
             release=distributor_string.split()[1].lower()
 
         if bto_version:
-            distributor_string="<b>Dell BTO Image</b>, version %s built on %s\n%s" %(bto_version, bto_date, distributor_string)
+            distributor_string="<b>Dell BTO Image</b>, version %s built on %s\n%s" %(bto_version.split('.')[0], bto_date, distributor_string)
 
         return (bto_version, distributor, release, distributor_string)
 
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='s', out_signature='s', sender_keyword='sender',
+        in_signature='s', out_signature='ss', sender_keyword='sender',
         connection_keyword='conn')
     def query_bto_version(self, rp, sender=None, conn=None):
         self._reset_timeout()
@@ -400,6 +395,7 @@ class Backend(dbus.service.Object):
         if os.path.exists(os.path.join(mntdir,'bto_version')):
             file=open(os.path.join(mntdir,'bto_version'),'r')
             version=file.readline().strip('\n')
+            date=file.readline().strip('\n')
             file.close()
             if len(version) == 0:
                 version='A00'
@@ -410,7 +406,7 @@ class Backend(dbus.service.Object):
                 increment=int(pieces[1]) + 1
                 version="%s.%d" % (pieces[0],increment)
 
-        return version
+        return (version,date)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature='ssss', out_signature='', sender_keyword='sender',

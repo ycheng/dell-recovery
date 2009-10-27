@@ -756,7 +756,8 @@ create an USB key or DVD image."))
 
             #Fill in dynamic data
             if not self.widgets.get_object('version').get_text():
-                self.widgets.get_object('version').set_text(self.backend().query_bto_version(self.rp))
+                (version,date) = self.backend().query_bto_version(self.rp)
+                self.widgets.get_object('version').set_text(version)
             self.iso = self.distributor + '-' + self.release + '-dell_' + self.widgets.get_object('version').get_text() + ".iso"
 
             if self.widgets.get_object('dvdbutton').get_active():
