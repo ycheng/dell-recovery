@@ -457,17 +457,12 @@ create an USB key or DVD image."))
         """Called when the radio button for the Builder FID overlay page is changed"""
         wizard = self.widgets.get_object('wizard')
         fid_page = self.builder_widgets.get_object('fid_page')
-        fid_browse_button = self.builder_widgets.get_object('fid_browse_button')
-        file_chooser = self.builder_widgets.get_object('fid_file_chooser')
         git_tree_hbox = self.builder_widgets.get_object('fid_git_tree_hbox')
-        git_tag_hbox = self.builder_widgets.get_object('fid_git_tag_hbox')
         label = self.builder_widgets.get_object('fid_overlay_details_label')
 
         label.set_markup("")
         wizard.set_page_complete(fid_page,False)
-        fid_browse_button.set_sensitive(False)
         git_tree_hbox.set_sensitive(False)
-        git_tag_hbox.set_sensitive(False)
 
         if self.builder_widgets.get_object('builtin_radio').get_active():
             wizard.set_page_complete(fid_page,True)
@@ -476,31 +471,9 @@ create an USB key or DVD image."))
             
         elif self.builder_widgets.get_object('git_radio').get_active():
             git_tree_hbox.set_sensitive(True)
-
-        elif self.builder_widgets.get_object('folder_radio').get_active():
-            fid_browse_button.set_sensitive(True)
-            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-            
-        elif self.builder_widgets.get_object('tgz_radio').get_active():
-            fid_browse_button.set_sensitive(True)
-            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
-
-    def builder_fid_file_chooser_picked(self,widget):
-        """Called when the button to choose a tgz or folder is clicked"""
-        wizard = self.widgets.get_object('wizard')
-        fid_page = self.builder_widgets.get_object('fid_page')
-        label = self.builder_widgets.get_object('fid_overlay_details_label')
-
-        if widget == self.builder_widgets.get_object('fid_browse_button'):
-            ret=self.builder_file_dialog("FID Overlays",["*.tar.gz","*.tgz"])
-            if ret is not None:
-                wizard.set_page_complete(fid_page,True)
-                output_text=_("<b>Local</b>: %s" % ret)
-                self.builder_fid_overlay=ret
-            else:
-                output_text=''
-                wizard.set_page_complete(fid_page,False)
-            label.set_markup(output_text)
+            cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
+            if os.path.exists(cwd):
+                self.builder_fid_vte_handler(self.builder_widgets.get_object('git_radio'))
 
     def builder_fid_fetch_button_clicked(self,widget):
         """Called when the button to test a git tree is clicked"""
@@ -544,7 +517,10 @@ create an USB key or DVD image."))
             #Add this so that we can build w/o a tag
             liststore.append(['origin/master'])
 
-        if widget == self.builder_widgets.get_object('builder_vte_close'):
+        #Git radio was toggled OR
+        #Close was pressed on the GUI
+        if widget == self.builder_widgets.get_object('git_radio') or \
+           widget == self.builder_widgets.get_object('builder_vte_close'):
             #reactivate GUI
             self.builder_widgets.get_object('builder_vte_window').hide()
             self.widgets.get_object('wizard').set_sensitive(True)
@@ -554,6 +530,7 @@ create an USB key or DVD image."))
             command=["git","tag","-l"]
             fill_liststore_from_command(command,'tag_liststore')
 
+        #the vte command exited
         else:
             self.builder_widgets.get_object('builder_vte_close').set_sensitive(True)
 

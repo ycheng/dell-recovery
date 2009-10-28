@@ -314,80 +314,6 @@
                 <property name="position">1</property>
               </packing>
             </child>
-            <child>
-              <object class="GtkHBox" id="hbox5">
-                <property name="visible">True</property>
-                <property name="spacing">10</property>
-                <child>
-                  <object class="GtkRadioButton" id="folder_radio">
-                    <property name="label" translatable="yes">Existing Directory</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="draw_indicator">True</property>
-                    <property name="group">builtin_radio</property>
-                    <signal name="toggled" handler="builder_fid_toggled"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkImage" id="image5">
-                    <property name="visible">True</property>
-                    <property name="icon_name">folder</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="fill">False</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkHBox" id="hbox4">
-                <property name="visible">True</property>
-                <property name="spacing">10</property>
-                <child>
-                  <object class="GtkRadioButton" id="tgz_radio">
-                    <property name="label" translatable="yes">Existing tarball (.tgz or .tar.gz)</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="draw_indicator">True</property>
-                    <property name="group">builtin_radio</property>
-                    <signal name="toggled" handler="builder_fid_toggled"/>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkImage" id="image4">
-                    <property name="visible">True</property>
-                    <property name="icon_name">archive</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="fill">False</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
           </object>
         </child>
       </object>
@@ -404,48 +330,27 @@
         <property name="xscale">0</property>
         <property name="left_padding">10</property>
         <child>
-          <object class="GtkHBox" id="hbox7">
+          <object class="GtkHBox" id="fid_git_tree_hbox">
             <property name="visible">True</property>
+            <property name="sensitive">False</property>
             <property name="spacing">10</property>
             <child>
-              <object class="GtkButton" id="fid_browse_button">
-                <property name="label" translatable="yes">Choose Overlay</property>
+              <object class="GtkButton" id="fid_fetch_button">
+                <property name="label" translatable="yes">Fetch/Update GIT Tree</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <signal name="clicked" handler="builder_fid_file_chooser_picked"/>
+                <signal name="clicked" handler="builder_fid_fetch_button_clicked"/>
               </object>
               <packing>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkHBox" id="fid_git_tree_hbox">
+              <object class="GtkEntry" id="git_url">
                 <property name="visible">True</property>
-                <property name="sensitive">False</property>
-                <property name="spacing">10</property>
-                <child>
-                  <object class="GtkButton" id="fid_fetch_button">
-                    <property name="label" translatable="yes">Fetch/Update GIT Tree</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <signal name="clicked" handler="builder_fid_fetch_button_clicked"/>
-                  </object>
-                  <packing>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="git_url">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
-                  </object>
-                  <packing>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x25CF;</property>
               </object>
               <packing>
                 <property name="position">1</property>
