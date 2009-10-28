@@ -370,6 +370,7 @@ create an USB key or DVD image."))
 
         #builder variable defaults
         self.builder_fid_overlay=''
+        self.builder_base_image=''
         self.bto_base=False
 
         self.builder_widgets.connect_signals(self)
@@ -411,6 +412,9 @@ create an USB key or DVD image."))
         wizard.set_page_complete(base_page,False)
 
         bto_version=''
+        output_text=''
+        distributor=''
+        release=''
         if widget == self.builder_widgets.get_object('base_browse_button'):
             ret=self.builder_file_dialog()
             if ret is not None:
@@ -418,10 +422,6 @@ create an USB key or DVD image."))
                 self.bto_base=not not bto_version
                 self.builder_base_image=ret
                 wizard.set_page_complete(base_page,True)
-            else:
-                output_text=""
-                distributor=''
-                release=''
         else:
             (bto_version, distributor, release, output_text) = self.backend().query_iso_information(self.rp)
             self.bto_base=not not bto_version
