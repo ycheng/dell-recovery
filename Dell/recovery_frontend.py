@@ -426,7 +426,6 @@ create an USB key or DVD image."))
                 self.builder_base_image=ret
                 wizard.set_page_complete(base_page,True)
             else:
-                bto_version='X00'
                 output_text=""
                 distributor=''
                 release=''
@@ -436,6 +435,8 @@ create an USB key or DVD image."))
             self.builder_base_image=self.rp
             wizard.set_page_complete(base_page,True)
 
+        if not bto_version:
+            bto_version='X00'
         #set the version string that we fetched from the image
         self.widgets.get_object('version').set_text(bto_version)
 

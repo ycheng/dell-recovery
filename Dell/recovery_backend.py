@@ -375,8 +375,10 @@ class Backend(dbus.service.Object):
             distributor=distributor_string.split()[0].lower()
             release=distributor_string.split()[1].lower()
 
-        if bto_version:
+        if bto_version and bto_date:
             distributor_string="<b>Dell BTO Image</b>, version %s built on %s\n%s" %(bto_version.split('.')[0], bto_date, distributor_string)
+        else:
+            bto_version=''
 
         return (bto_version, distributor, release, distributor_string)
 
@@ -390,6 +392,7 @@ class Backend(dbus.service.Object):
 
         #mount the RP
         version='A00'
+        date=''
         mntdir = self.request_mount(rp)
 
         if os.path.exists(os.path.join(mntdir,'bto_version')):
