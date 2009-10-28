@@ -681,6 +681,8 @@ create an USB key or DVD image."))
         """Asks the user before closing the dialog"""
         response = self.widgets.get_object('close_dialog').run()
         if response == gtk.RESPONSE_YES:
+            if self._dbus_iface is not None:
+                self.backend().request_exit()
             self.destroy()
         else:
             self.widgets.get_object('close_dialog').hide()

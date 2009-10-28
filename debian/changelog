@@ -11,6 +11,8 @@ dell-recovery (0.26) UNRELEASED; urgency=low
     assume it ends up in Downloads.  This is useful now because usb-creator
     will look there anyway by default.
   * Apply markup to the summary page in both modes.
+  * Close the backend when we are finished, either from the close dialog or
+    the success dialog.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 20 Oct 2009 12:06:45 -0500
 
