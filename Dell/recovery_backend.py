@@ -130,11 +130,11 @@ class Backend(dbus.service.Object):
         once the server is ready to take requests.
         '''
         dbus.service.Object.__init__(self, self.bus, '/RecoveryMedia')
-        main_loop = gobject.MainLoop()
+        self.main_loop = gobject.MainLoop()
         self._timeout = False
         if timeout:
             def _t():
-                main_loop.quit()
+                self.main_loop.quit()
                 return True
             gobject.timeout_add(timeout * 1000, _t)
 
@@ -146,7 +146,7 @@ class Backend(dbus.service.Object):
         while not self._timeout:
             if timeout:
                 self._timeout = True
-            main_loop.run()
+            self.main_loop.run()
 
     @classmethod
     def create_dbus_server(klass, session_bus=False):
@@ -303,6 +303,15 @@ class Backend(dbus.service.Object):
     #
     # Client API (through D-BUS)
     #
+    @dbus.service.method(DBUS_INTERFACE_NAME,
+        in_signature='', out_signature='', sender_keyword='sender',
+        connection_keyword='conn')
+    def request_exit(self, sender=None, conn=None):
+        """Closes the backend and cleans up"""
+        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.request_exit')
+        self._timeout = True
+        self.main_loop.quit()
+        
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature='ssas', out_signature='s', sender_keyword='sender',
         connection_keyword='conn')

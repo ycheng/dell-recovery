@@ -305,6 +305,7 @@ class Frontend:
         self.show_alert(gtk.MESSAGE_INFO, header, body,
             parent=self.widgets.get_object('progress_dialog'))
 
+        self.backend().request_exit()
         self.destroy(None)
 
 #### Polkit enhanced ###

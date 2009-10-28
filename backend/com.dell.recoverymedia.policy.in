@@ -44,5 +44,15 @@
       <allow_active>auth_admin_keep</allow_active>
     </defaults>
   </action>
+
+  <action id="com.dell.recoverymedia.request_exit">
+    <_description>Request closing the backend</_description>
+    <_message>System policy prevents closing processes without notice</_message>
+    <defaults>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+  </action>
 </policyconfig> 
 
