@@ -250,10 +250,14 @@ class Backend(dbus.service.Object):
                 for name in files:
                     os.remove(os.path.join(root,name))
                 for name in dirs:
-                    if os.path.isdir(os.path.join(root,name)):
-                        os.rmdir(os.path.join(root,name))
+                    full_name=os.path.join(root,name)
+                    if os.path.islink(full_name):
+                        os.remove(full_name)
+                    elif os.path.isdir(full_name):
+                        os.rmdir(full_name)
+                    #covers broken links
                     else:
-                        os.remove(os.path.join(root,name))
+                        os.remove(full_name)
             os.rmdir(directory)
 
     def request_mount(self,rp):
