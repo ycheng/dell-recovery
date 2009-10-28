@@ -331,14 +331,14 @@ class Backend(dbus.service.Object):
 
         #copy the base iso/mnt point/etc
         self.report_progress(_('Adding in base image'),'10.0')
-        distutils.dir_util.copy_tree(base_mnt,assembly_tmp,verbose=1,update=1)
+        distutils.dir_util.copy_tree(base_mnt,assembly_tmp,preserve_symlinks=1,verbose=1,update=1)
 
         #TODO, purge support
 
         #Add in FID content
         if os.path.isdir(fid):
             self.report_progress(_('Putting together FID content'),'30.0')
-            distutils.dir_util.copy_tree(fid,assembly_tmp,verbose=1,update=1)
+            distutils.dir_util.copy_tree(fid,assembly_tmp,preserve_symlinks=1,verbose=1,update=1)
         elif os.path.exists(fid) and tarfile.is_tarfile(fid):
             self.report_progress(_('Putting together FID content'),'30.0')
             safe_tar_extract(fid,assembly_tmp)
