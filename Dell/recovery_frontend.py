@@ -345,7 +345,7 @@ OEM FID framework & FISH package set into a customized \
 OS media image.  You will have the option to \
 create an USB key or DVD image."))
 
-        self.file_dialog = gtk.FileChooserDialog("Choose Base BTO Image",
+        self.file_dialog = gtk.FileChooserDialog("Choose Item",
                                            None,
                                            gtk.FILE_CHOOSER_ACTION_OPEN,
                                            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
@@ -374,18 +374,10 @@ create an USB key or DVD image."))
 
         self.builder_widgets.connect_signals(self)
 
-    def builder_file_dialog(self, filter_name, filter_types):
-        """Browses all files under a particular filter
-           filter_name is a str
-           filter_types is a an array of str"""
-        filter = gtk.FileFilter()
-        filter.set_name(filter_name)
-        for type in filter_types:
-            filter.add_pattern(type)
-        self.file_dialog.add_filter(filter)
+    def builder_file_dialog(self):
+        """Browses all files under a particular filter"""
         response = self.file_dialog.run()
         self.file_dialog.hide()
-        self.file_dialog.remove_filter(filter)
         if response == gtk.RESPONSE_OK:
             return self.file_dialog.get_filename() 
         else:
@@ -420,7 +412,7 @@ create an USB key or DVD image."))
 
         bto_version=''
         if widget == self.builder_widgets.get_object('base_browse_button'):
-            ret=self.builder_file_dialog("Base Images",["*.iso"])
+            ret=self.builder_file_dialog()
             if ret is not None:
                 (bto_version, distributor, release, output_text) = self.backend().query_iso_information(ret)
                 self.bto_base=not not bto_version
@@ -573,7 +565,7 @@ create an USB key or DVD image."))
         fish_treeview = self.builder_widgets.get_object('fish_treeview')
         model = fish_treeview.get_model()
         if widget == add_button:
-            ret=self.builder_file_dialog(_("Dell FISH Packages"),["*.tar.gz","*.tgz"])
+            ret=self.builder_file_dialog()
             if ret is not None:
                 model.append([ret])
         elif widget == remove_button:
@@ -586,6 +578,9 @@ create an USB key or DVD image."))
         if page == self.builder_widgets.get_object('base_page'):
             if self.rp:
                 self.builder_widgets.get_object('recovery_hbox').set_sensitive(True)
+            filter = gtk.FileFilter()
+            filter.add_pattern("*.iso")
+            self.file_dialog.set_filter(filter)
             wizard.set_page_title(page,_("Choose Base OS Image"))
             
         elif page == self.builder_widgets.get_object('fid_page'):
@@ -598,6 +593,10 @@ create an USB key or DVD image."))
         elif page == self.builder_widgets.get_object('fish_page'):
             wizard.set_page_title(page,_("Choose FISH Packages"))
             self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
+            filter = gtk.FileFilter()
+            filter.add_pattern("*.tgz")
+            filter.add_pattern("*.tar.gz")
+            self.file_dialog.set_filter(filter)
             wizard.set_page_complete(page,True)
             
         elif page == self.widgets.get_object('conf_page') or \
