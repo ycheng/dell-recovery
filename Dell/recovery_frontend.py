@@ -220,6 +220,18 @@ class Frontend:
         if not skip_creation:
             self.widgets.get_object('progress_dialog').connect('delete_event', self.ignore)
 
+            #try to open the file as a user first so when it's overwritten, it
+            #will be with the correct permissions
+            try:
+                if not os.path.isdir(os.path.join(os.environ['HOME'], 'Downloads')):
+                    os.makedirs(os.path.join(os.environ['HOME'], 'Downloads'))
+                file=open(os.path.join(os.environ['HOME'], 'Downloads', self.iso),'w')
+                file.close()
+            except IOError:
+                #this might have been somwehere that the system doesn't want us
+                #writing files as a user, oh well, we tried
+                pass
+
             #if we need to build the content of the RP first (eg we're running in builder mode)
             if self.builder:
                 #update gui
@@ -232,45 +244,29 @@ class Frontend:
                 while iterator is not None:
                     fish_list.append(model.get_value(iterator,0))
                     iterator = model.iter_next(iterator)
+                function='assemble_image'
+                args = (self.builder_base_image,
+                        self.builder_fid_overlay,
+                        fish_list,
+                        'create_' + self.distributor,
+                        self.up,
+                        self.widgets.get_object('version').get_text(),
+                        os.path.join(os.environ['HOME'], 'Downloads',self.iso))
 
-                try:
-                    self.rp=dbus_sync_call_signal_wrapper(self.backend(),
-                            'assemble_image',
-                            {'report_progress':self.update_progress_gui},
-                            self.builder_base_image,
-                            self.builder_fid_overlay,
-                            fish_list)
-                except dbus.DBusException, e:
-                    if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
-                        header = _("Permission Denied")
-                    else:
-                        header = str(e)
-                    self.show_alert(gtk.MESSAGE_ERROR, header,
-                                parent=self.widgets.get_object('progress_dialog'))
-                    self.widgets.get_object('progress_dialog').hide()
-                    self.widgets.get_object('wizard').show()
-                    return
-
-            self.widgets.get_object('action').set_text("Building Base image")
-            #try to open the file as a user first so when it's overwritten, it
-            #will be with the correct permissions
-            try:
-                if not os.path.isdir(os.path.join(os.environ['HOME'], 'Downloads')):
-                    os.makedirs(os.path.join(os.environ['HOME'], 'Downloads'))
-                file=open(os.path.join(os.environ['HOME'], 'Downloads', self.iso),'w')
-                file.close()
-            except IOError:
-                #this might have been somwehere that the system doesn't want us
-                #writing files as a user, oh well, we tried
-                pass
+            #RP is ready to go, just create ISO
+            else:
+                self.widgets.get_object('action').set_text("Building Base image")
+                function='create_' + self.distributor
+                args=(self.up,
+                      self.rp,
+                      self.widgets.get_object('version').get_text(),
+                      os.path.join(os.environ['HOME'], 'Downloads',self.iso))
+                        
             try:
                 dbus_sync_call_signal_wrapper(self.backend(),
-                    'create_' + self.distributor,
-                    {'report_progress':self.update_progress_gui},
-                    self.up,
-                    self.rp,
-                    self.widgets.get_object('version').get_text(),
-                    os.path.join(os.environ['HOME'], 'Downloads',self.iso))
+                                              function,
+                                              {'report_progress':self.update_progress_gui},
+                                              *args)
             except dbus.DBusException, e:
                 if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
                     header = _("Permission Denied")
@@ -281,6 +277,7 @@ class Frontend:
                 self.widgets.get_object('progress_dialog').hide()
                 self.widgets.get_object('wizard').show()
                 return
+
         self.burn(None)
 
     def burn(self,ret):

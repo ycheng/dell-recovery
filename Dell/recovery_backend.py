@@ -315,10 +315,17 @@ class Backend(dbus.service.Object):
         self.main_loop.quit()
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='ssas', out_signature='s', sender_keyword='sender',
+        in_signature='ssasssss', out_signature='', sender_keyword='sender',
         connection_keyword='conn')
-    def assemble_image(self, base, fid, fish, sender=None, conn=None):
-        """Takes the different pieces that would be used for a BTO image and puts them together"""
+    def assemble_image(self, base, fid, fish, create_fn, up, version, iso, sender=None, conn=None):
+        """Takes the different pieces that would be used for a BTO image and puts them together
+           base: mount point of base image (or directory)
+           fid: mount point of fid overlay
+           fish: list of packages to fish
+           create_fn: function to call for creation of ISO
+           up: utility partition
+           version: version for ISO creation purposes
+           iso: iso file name to create"""
 
         def white_copy_tree(src,dst,whitelist,base=None):
             """Recursively copies files from src to dest only
@@ -420,7 +427,8 @@ class Backend(dbus.service.Object):
                     safe_tar_extract(fishie,assembly_tmp)
             logging.debug("assemble_image: done inserting fish")
 
-        return assembly_tmp
+        function=getattr(Backend,create_fn)
+        function(self,up,assembly_tmp,version,iso)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature='s', out_signature='ssss', sender_keyword='sender',
