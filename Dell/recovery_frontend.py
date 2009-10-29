@@ -492,15 +492,15 @@ create an USB key or DVD image."))
 
     def builder_fid_vte_handler(self,widget):
         """Handler for VTE dialog closing"""
-        def fill_liststore_from_command(command, liststore_name):
-            """Fills up the data in a liststore"""
+        def fill_liststore_from_command(command, filter, liststore_name):
+            """Fills up the data in a liststore, only items matching filter"""
             liststore=self.builder_widgets.get_object(liststore_name)
             liststore.clear()
             cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
             list_command=subprocess.Popen(args=command,cwd=cwd,stdout=subprocess.PIPE)
             output=list_command.communicate()[0].split('\n')
             for item in output:
-                if item and not "HEAD" in item:
+                if item and not "HEAD" in item and filter in item:
                     liststore.append([item])
             #Add this so that we can build w/o a tag
             liststore.append(['origin/master'])
@@ -516,7 +516,7 @@ create an USB key or DVD image."))
 
             #update the tag list in the GUI
             command=["git","tag","-l"]
-            fill_liststore_from_command(command,'tag_liststore')
+            fill_liststore_from_command(command,self.release,'tag_liststore')
 
         #the vte command exited
         else:
