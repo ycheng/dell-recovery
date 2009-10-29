@@ -45,14 +45,8 @@ DBUS_BUS_NAME = 'com.dell.RecoveryMedia'
 
 #--------------------------------------------------------------------#
 
-class UnknownHandlerException(dbus.DBusException):
-    _dbus_error_name = 'com.dell.RecoveryMedia.UnknownHandlerException'
-
-class InvalidModeException(dbus.DBusException):
-    _dbus_error_name = 'com.dell.RecoveryMedia.InvalidModeException'
-
-class InvalidDriverDBException(dbus.DBusException):
-    _dbus_error_name = 'com.dell.RecoveryMedia.InvalidDriverDBException'
+class CreateFailed(dbus.DBusException):
+    _dbus_error_name = 'com.dell.RecoveryMedia.CreateFailedException'
 
 class PermissionDeniedByPolicy(dbus.DBusException):
     _dbus_error_name = 'com.dell.RecoveryMedia.PermissionDeniedByPolicy'
@@ -538,7 +532,7 @@ class Backend(dbus.service.Object):
         if retval is not 0:
             print >> sys.stderr, \
                 "create-new-uuid exited with a nonstandard return value."
-            return
+            raise CreateFailed("create-new-uuid exited with a nonstandard return value.")
 
         #Arg list
         genisoargs=['genisoimage',
@@ -598,6 +592,7 @@ class Backend(dbus.service.Object):
             print >> sys.stderr, p3.stdout.readlines()
             print >> sys.stderr, \
                 "genisoimage exited with a nonstandard return value."
+            raise CreateFailed("genisoimage exited with a nonstandard return value.")
 
     @dbus.service.signal(DBUS_INTERFACE_NAME)
     def report_progress(self, progress_str, percent):
