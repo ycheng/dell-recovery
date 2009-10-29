@@ -39,7 +39,7 @@ import gtk
 import gtk.glade
 import vte
 
-from Dell.recovery_backend import UnknownHandlerException, PermissionDeniedByPolicy, BackendCrashError, dbus_sync_call_signal_wrapper, Backend, DBUS_BUS_NAME
+from Dell.recovery_backend import CreateFailed, PermissionDeniedByPolicy, BackendCrashError, dbus_sync_call_signal_wrapper, Backend, DBUS_BUS_NAME
 
 #Translation Support
 domain='dell-recovery'
