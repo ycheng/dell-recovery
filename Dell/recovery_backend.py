@@ -39,6 +39,7 @@ import tarfile
 import shutil
 import datetime
 import distutils.dir_util
+import re
 
 DBUS_BUS_NAME = 'com.dell.RecoveryMedia'
 
@@ -153,8 +154,8 @@ class Backend(dbus.service.Object):
         '''Return a D-BUS server backend instance.
 
         Normally this connects to the system bus. Set session_bus to True to
-        connect to the session bus (for testing). 
-        
+        connect to the session bus (for testing).
+
         '''
         import dbus.mainloop.glib
 
@@ -215,7 +216,7 @@ class Backend(dbus.service.Object):
             self.dbus_info = dbus.Interface(conn.get_object('org.freedesktop.DBus',
                 '/org/freedesktop/DBus/Bus', False), 'org.freedesktop.DBus')
         pid = self.dbus_info.GetConnectionUnixProcessID(sender)
-        
+
         # query PolicyKit
         if self.polkit is None:
             self.polkit = dbus.Interface(dbus.SystemBus().get_object(
@@ -224,7 +225,7 @@ class Backend(dbus.service.Object):
         try:
             # we don't need is_challenge return here, since we call with AllowUserInteraction
             (is_auth, _, details) = self.polkit.CheckAuthorization(
-                    ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1)}), 
+                    ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1)}),
                     privilege, {'': ''}, dbus.UInt32(1), '', timeout=600)
         except dbus.DBusException, e:
             if e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
@@ -305,7 +306,7 @@ class Backend(dbus.service.Object):
             ret=subprocess.call(['umount', mnt])
             if ret is not 0:
                 print >> sys.stderr, "Error unmounting %s" % mnt
-            os.rmdir(mnt)          
+            os.rmdir(mnt)
 
     #
     # Client API (through D-BUS)
@@ -318,12 +319,51 @@ class Backend(dbus.service.Object):
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.request_exit')
         self._timeout = True
         self.main_loop.quit()
-        
+
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature='ssas', out_signature='s', sender_keyword='sender',
         connection_keyword='conn')
     def assemble_image(self, base, fid, fish, sender=None, conn=None):
         """Takes the different pieces that would be used for a BTO image and puts them together"""
+
+        def white_copy_tree(src,dst,whitelist,base=None):
+            """Recursively copies files from src to dest only
+               when they match the whitelist outlined in whitelist"""
+            from distutils.file_util import copy_file
+            from distutils.dir_util import mkpath
+
+            if base is None:
+                base=src
+                if not base.endswith('/'):
+                    base += '/'
+
+            names = os.listdir(src)
+
+            outputs = []
+
+            for n in names:
+                src_name = os.path.join(src, n)
+                dst_name = os.path.join(dst, n)
+                end=src_name.split(base)[1]
+
+                #don't copy symlinks or hardlinks, vfat seems to hate them
+                if os.path.islink(src_name):
+                    continue
+                    
+                #recurse till we find FILES
+                elif os.path.isdir(src_name):
+                    outputs.extend(
+                        white_copy_tree(src_name, dst_name, whitelist, base))
+
+                #only copy the file if it matches the whitelist
+                elif whitelist.search(end):
+                    if not os.path.isdir(dst):
+                        os.makedirs(dst)
+                    copy_file(src_name, dst_name, preserve_mode=1,
+                              preserve_times=1, update=1, dry_run=0)
+                    outputs.append(dst_name)
+
+            return outputs
 
         def safe_tar_extract(filename,destination):
             """Safely extracts a tarball into destination"""
@@ -345,25 +385,44 @@ class Backend(dbus.service.Object):
         assembly_tmp=tempfile.mkdtemp()
         atexit.register(self.walk_cleanup,assembly_tmp)
 
+        #Build a filter list using re for stuff that will be purged during copy
+        filter=''
+        purge_list_file=os.path.join(fid,'..','examples','purgedvd.lst')
+        if os.path.exists(purge_list_file):
+            try:
+                purge_list = open(purge_list_file).readlines()
+                for line in purge_list:
+                    folder=line.strip('\n')
+                    if not filter and folder:
+                        filter = "^" + folder
+                    elif folder:
+                        filter += "|^" + folder
+            except IOError:
+                print  >> sys.stderr, "Error reading purge list, but file exists"
+        logging.debug('assemble_image: filter is %s' % filter)
+        white_pattern=re.compile(filter)
+
         #copy the base iso/mnt point/etc
         self.report_progress(_('Adding in base image'),'10.0')
-        distutils.dir_util.copy_tree(base_mnt,assembly_tmp,preserve_symlinks=1,verbose=1,update=1)
-
-        #TODO, purge support
+        white_copy_tree(base_mnt,assembly_tmp,white_pattern)
+        logging.debug('assemble_image: done copying base image')
 
         #Add in FID content
-        if os.path.isdir(fid):
-            self.report_progress(_('Putting together FID content'),'30.0')
-            distutils.dir_util.copy_tree(fid,assembly_tmp,preserve_symlinks=1,verbose=1,update=1)
-        elif os.path.exists(fid) and tarfile.is_tarfile(fid):
-            self.report_progress(_('Putting together FID content'),'30.0')
-            safe_tar_extract(fid,assembly_tmp)
+        if os.path.exists(fid):
+            self.report_progress(_('Overlaying FID content'),'30.0')
+            if os.path.isdir(fid):
+                distutils.dir_util.copy_tree(fid,assembly_tmp,preserve_symlinks=1,verbose=1,update=1)
+            elif tarfile.is_tarfile(fid):
+                safe_tar_extract(fid,assembly_tmp)
+            logging.debug('assemble_image: done overlaying FID content')
 
         length=float(len(fish))
-        for fishie in fish:
-            self.report_progress(_('Inserting FISH packages'),fish.index(fishie)/length*100 + 30)
-            if os.path.exists(fishie) and tarfile.is_tarfile(fishie):
-                safe_tar_extract(fishie,assembly_tmp)
+        if length > 0:
+            for fishie in fish:
+                self.report_progress(_('Inserting FISH packages'),fish.index(fishie)/length*100 + 30)
+                if os.path.exists(fishie) and tarfile.is_tarfile(fishie):
+                    safe_tar_extract(fishie,assembly_tmp)
+            logging.debug("assemble_image: done inserting fish")
 
         return assembly_tmp
 
@@ -434,7 +493,7 @@ class Backend(dbus.service.Object):
 
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.create')
-        
+
         #create temporary workspace
         tmpdir=tempfile.mkdtemp()
         atexit.register(self.walk_cleanup,tmpdir)
@@ -480,21 +539,21 @@ class Backend(dbus.service.Object):
             return
 
         #Arg list
-        genisoargs=['genisoimage', 
+        genisoargs=['genisoimage',
             '-o', iso,
             '-input-charset', 'utf-8',
             '-b', 'isolinux/isolinux.bin',
             '-c', 'isolinux/boot.catalog',
             '-no-emul-boot',
-            '-boot-load-size', '4', 
+            '-boot-load-size', '4',
             '-boot-info-table',
-            '-pad', 
-            '-r', 
+            '-pad',
+            '-r',
             '-J',
-            '-joliet-long', 
-            '-N', 
+            '-joliet-long',
+            '-N',
             '-hide-joliet-trans-tbl',
-            '-cache-inodes', 
+            '-cache-inodes',
             '-l',
             '-publisher', 'Dell Inc.',
             '-V', 'Dell Ubuntu Reinstallation Media',
