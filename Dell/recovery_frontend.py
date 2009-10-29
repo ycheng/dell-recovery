@@ -766,6 +766,9 @@ create an USB key or DVD image."))
             if self._dbus_iface is not None:
                 self.backend().request_exit()
         except dbus.DBusException, e:
-            print "WARNING, error closing D-Bus service.  It may have already timed out"
-            print str(e)
+            if hasattr(e, '_dbus_error_name') and e._dbus_error_name == \
+                    'org.freedesktop.DBus.Error.ServiceUnknown':
+                pass
+            else:
+                print "Received %s when closing DBus service" % str(e)
         gtk.main_quit()
