@@ -305,7 +305,6 @@ class Frontend:
         self.show_alert(gtk.MESSAGE_INFO, header, body,
             parent=self.widgets.get_object('progress_dialog'))
 
-        self.backend().request_exit()
         self.destroy(None)
 
 #### Polkit enhanced ###
@@ -680,8 +679,6 @@ create an USB key or DVD image."))
         """Asks the user before closing the dialog"""
         response = self.widgets.get_object('close_dialog').run()
         if response == gtk.RESPONSE_YES:
-            if self._dbus_iface is not None:
-                self.backend().request_exit()
             self.destroy()
         else:
             self.widgets.get_object('close_dialog').hide()
@@ -768,4 +765,10 @@ create an USB key or DVD image."))
         return True
 
     def destroy(self, widget=None, data=None):
+        try:
+            if self._dbus_iface is not None:
+                self.backend().request_exit()
+        except dbus.DBusException, e:
+            print "WARNING, error closing D-Bus service.  It may have already timed out"
+            print str(e)
         gtk.main_quit()
