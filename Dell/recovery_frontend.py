@@ -565,8 +565,9 @@ create an USB key or DVD image."))
             if ret is not None:
                 model.append([ret])
         elif widget == remove_button:
-            item = fish_treeview.get_selection()
-            model.remove(model.get_iter(item.get_selected_rows()[1][0]))
+            row = fish_treeview.get_selection().get_selected_rows()[1]
+            if len(row) > 0:
+                model.remove(model.get_iter(row[0]))
 
     def build_builder_page(self,widget,page):
         """Processes output that should be done on a builder page"""
