@@ -336,6 +336,7 @@ class Frontend:
         """Inserts builder widgets into the Gtk.Assistant"""
         self.builder_widgets=gtk.Builder()
         self.builder_widgets.add_from_file(os.path.join(UIDIR,'builder.ui'))
+        self.builder_widgets.connect_signals(self)
 
         wizard = self.widgets.get_object('wizard')
         #wizard.resize(400,400)
@@ -678,13 +679,14 @@ create an USB key or DVD image."))
             return True
         return False
 
-    def check_close(self,widget):
+    def check_close(self, widget, args=None):
         """Asks the user before closing the dialog"""
         response = self.widgets.get_object('close_dialog').run()
         if response == gtk.RESPONSE_YES:
             self.destroy()
         else:
             self.widgets.get_object('close_dialog').hide()
+        return True
 
     def show_question(self,dialog):
         """Presents the user with a question"""

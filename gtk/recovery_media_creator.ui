@@ -142,9 +142,13 @@
     <property name="window_position">center</property>
     <property name="default_width">400</property>
     <property name="default_height">200</property>
+    <property name="deletable">False</property>
     <signal name="apply" handler="wizard_complete"/>
     <signal name="prepare" handler="build_page"/>
     <signal name="cancel" handler="check_close"/>
+    <child>
+      <placeholder/>
+    </child>
     <child>
       <placeholder/>
     </child>

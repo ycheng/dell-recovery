@@ -549,7 +549,9 @@
     <property name="window_position">center-on-parent</property>
     <property name="icon_name">dell-recovery</property>
     <property name="type_hint">dialog</property>
+    <property name="deletable">False</property>
     <property name="has_separator">False</property>
+    <signal name="delete_event" handler="check_close"/>
     <child internal-child="vbox">
       <object class="GtkVBox" id="builder_vte_vbox">
         <property name="visible">True</property>
