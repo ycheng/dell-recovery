@@ -29,8 +29,9 @@ import sys
 usage = '%prog [options]'
 parser = optparse.OptionParser(usage=usage)
 parser.set_defaults(
-    up=None,
-    rp=None,
+    up='',
+    rp='',
+    version='',
     media="dvd",
     target=os.getenv('HOME'),
     overwrite=False,
@@ -48,6 +49,8 @@ parser.add_option('-t', '--target', dest='target',
                   help='Set target directory to store ISO in when completed.')
 parser.add_option('-o', '--overwrite', dest='overwrite', action='store_true',
                   help='Force overwrite of any existing file')
+parser.add_option('--builder', dest='builder', action='store_true',
+                  help='Enable OEM Builder mode for assembling an image from multiple sources.')
 (options, args) = parser.parse_args()
 
 if __name__ == '__main__':
@@ -56,6 +59,7 @@ if __name__ == '__main__':
                       options.version,
                       options.media,
                       options.target,
-                      options.overwrite)
+                      options.overwrite,
+                      options.builder)
     script.run()
     sys.exit(0)

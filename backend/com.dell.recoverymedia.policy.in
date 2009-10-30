@@ -15,7 +15,7 @@
   <icon_name>dell-dvd</icon_name>
 
 
-  <action id="com.dell.recoverymedia.query_version">
+  <action id="com.dell.recoverymedia.query_bto_version">
     <_description>Query BTO Version</_description>
     <_message>System policy prevents reading raw devices</_message>
     <defaults>
@@ -25,13 +25,33 @@
     </defaults>
   </action>
 
-  <action id="com.dell.recoverymedia.create_ubuntu">
-    <_description>Create Dell Recovery ISO</_description>
+  <action id="com.dell.recoverymedia.query_iso_information">
+    <_description>Query ISO Information</_description>
     <_message>System policy prevents reading raw devices</_message>
     <defaults>
-      <allow_any>auth_admin</allow_any>
-      <allow_inactive>auth_admin</allow_inactive>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+  </action>
+
+  <action id="com.dell.recoverymedia.create">
+    <_description>Create/Assemble Dell Recovery ISO</_description>
+    <_message>System policy prevents reading raw devices</_message>
+    <defaults>
+      <allow_any>auth_admin_keep</allow_any>
+      <allow_inactive>auth_admin_keep</allow_inactive>
       <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+  </action>
+
+  <action id="com.dell.recoverymedia.request_exit">
+    <_description>Request closing the backend</_description>
+    <_message>System policy prevents closing processes without notice</_message>
+    <defaults>
+      <allow_any>yes</allow_any>
+      <allow_inactive>yes</allow_inactive>
+      <allow_active>yes</allow_active>
     </defaults>
   </action>
 </policyconfig> 

@@ -1,3 +1,22 @@
+dell-recovery (0.26) UNRELEASED; urgency=low
+
+  * Introduce a builder mode that can be used for generating BTO images from
+    their different components.
+  * Rename existing method query_version to query_bto_version and only check
+    it at the last step in case it gets filled earlier (with builder mode)
+  * Correct an error in the backend handling code for when an image can't mount.
+  * debian/control:
+    - Depends on python-vte for builder git features.
+    - Recommends on git-core, usb-creator-gtk
+  * Don't ask a question about where to store the ISO.  Instead, lets always
+    assume it ends up in Downloads.  This is useful now because usb-creator
+    will look there anyway by default.
+  * Apply markup to the summary page in both modes.
+  * Close the backend when we are finished, either from the close dialog or
+    the success dialog.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 30 Oct 2009 17:26:57 -0500
+
 dell-recovery (0.25) karmic; urgency=low
 
   * Add support to the backend for querying/incrementing the version of the
