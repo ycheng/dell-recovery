@@ -102,15 +102,10 @@ class progress(Thread):
     def __init__(self, str, device, to_write):
         Thread.__init__(self)
         self._stopevent = Event()
-        self.reset(str, device, to_write)
-
-    def reset(self, str, mnt, w_size):
-        """Resets the progress thread defaults"""
-        self._stopevent.clear()
         self.str=str
-        self.to_write = w_size
-        self.device = mnt
-        statvfs = os.statvfs(mnt)
+        self.to_write = to_write
+        self.device = device
+        statvfs = os.statvfs(device)
         self.start_free = statvfs.f_bsize * statvfs.f_bavail
 
     def progress(self, str, per):
@@ -345,11 +340,8 @@ class Backend(dbus.service.Object):
     def start_progress_thread(self, str, mnt, w_size):
         """Initializes the extra progress thread, or resets it
            if it already exists'"""
-        if not self.progress_thread:
-            self.progress_thread = progress(str, mnt, w_size)
-            self.progress_thread.progress = self.report_progress
-        else:
-            self.progress_thread.reset(str, mnt, w_size)
+        self.progress_thread = progress(str, mnt, w_size)
+        self.progress_thread.progress = self.report_progress
         self.progress_thread.start()
 
     def stop_progress_thread(self):
@@ -380,24 +372,8 @@ class Backend(dbus.service.Object):
            version: version for ISO creation purposes
            iso: iso file name to create"""
         
-        def get_directory_size(directory,whitelist):
-            base=directory
-            if not base.endswith('/'):
-                base += '/'
-            dir_size = 0
-            for (path, dirs, files) in os.walk(directory):
-                end=path.split(base)
-                if len(end) > 1 and whitelist.search(end[1]):
-                    for file in files:
-                        filename = os.path.join(path, file)
-                        dir_size += os.path.getsize(filename)
-                    for dir in dirs:
-                        dir = os.path.join(path,dir)
-                        dir_size += os.path.getsize(dir)
-            return dir_size
-
-        def white_copy_tree(src,dst,whitelist,base=None):
-            """Recursively copies files from src to dest only
+        def white_tree(action,whitelist,src,dst='',base=None):
+            """Recursively ACTIONs files from src to dest only
                when they match the whitelist outlined in whitelist"""
             from distutils.file_util import copy_file
             from distutils.dir_util import mkpath
@@ -409,7 +385,10 @@ class Backend(dbus.service.Object):
 
             names = os.listdir(src)
 
-            outputs = []
+            if action == "copy":
+                outputs = []
+            elif action == "size":
+                outputs = 0
 
             for n in names:
                 src_name = os.path.join(src, n)
@@ -422,16 +401,26 @@ class Backend(dbus.service.Object):
                     
                 #recurse till we find FILES
                 elif os.path.isdir(src_name):
-                    outputs.extend(
-                        white_copy_tree(src_name, dst_name, whitelist, base))
+                    if action == "copy":
+                        outputs.extend(
+                            white_tree(action, whitelist, src_name, dst_name, base))
+                    elif action == "size":
+                        #add the directory we're in
+                        outputs += os.path.getsize(src_name)
+                        #add the files in that directory
+                        outputs += white_tree(action, whitelist, src_name, dst_name, base)
 
                 #only copy the file if it matches the whitelist
                 elif whitelist.search(end):
-                    if not os.path.isdir(dst):
-                        os.makedirs(dst)
-                    copy_file(src_name, dst_name, preserve_mode=1,
-                              preserve_times=1, update=1, dry_run=0)
-                    outputs.append(dst_name)
+                    if action == "copy":
+                        if not os.path.isdir(dst):
+                            os.makedirs(dst)
+                        copy_file(src_name, dst_name, preserve_mode=1,
+                                  preserve_times=1, update=1, dry_run=0)
+                        outputs.append(dst_name)
+
+                    elif action == "size":
+                        outputs += os.path.getsize(src_name)
 
             return outputs
 
@@ -474,12 +463,12 @@ class Backend(dbus.service.Object):
         logging.debug('assemble_image: filter is %s' % filter)
         white_pattern=re.compile(filter)
 
+
         #copy the base iso/mnt point/etc
-        w_size=get_directory_size(base_mnt, white_pattern)
+        w_size=white_tree("size", white_pattern, base_mnt)
         self.start_progress_thread(_('Adding in base image'), assembly_tmp, w_size)
-        white_copy_tree(base_mnt, assembly_tmp, white_pattern)
+        white_tree("copy", white_pattern, base_mnt, assembly_tmp)
         self.stop_progress_thread()
-        logging.debug('assemble_image: done copying base image')
 
         #Add in FID content
         if os.path.exists(fid):
@@ -493,7 +482,7 @@ class Backend(dbus.service.Object):
         length=float(len(fish))
         if length > 0:
             for fishie in fish:
-                self.report_progress(_('Inserting FISH packages'),fish.index(fishie)/length*100 + 30)
+                self.report_progress(_('Inserting FISH packages'),fish.index(fishie)/length*100)
                 if os.path.exists(fishie) and tarfile.is_tarfile(fishie):
                     safe_tar_extract(fishie,assembly_tmp)
             logging.debug("assemble_image: done inserting fish")
