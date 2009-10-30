@@ -381,11 +381,19 @@ class Backend(dbus.service.Object):
            iso: iso file name to create"""
         
         def get_directory_size(directory,whitelist):
+            base=directory
+            if not base.endswith('/'):
+                base += '/'
             dir_size = 0
             for (path, dirs, files) in os.walk(directory):
-                for file in files:
-                    filename = os.path.join(path, file)
-                    dir_size += os.path.getsize(filename)
+                end=path.split(base)
+                if len(end) > 1 and whitelist.search(end[1]):
+                    for file in files:
+                        filename = os.path.join(path, file)
+                        dir_size += os.path.getsize(filename)
+                    for dir in dirs:
+                        dir = os.path.join(path,dir)
+                        dir_size += os.path.getsize(dir)
             return dir_size
 
         def white_copy_tree(src,dst,whitelist,base=None):
