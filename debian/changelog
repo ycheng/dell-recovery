@@ -1,4 +1,4 @@
-dell-recovery (0.26) UNRELEASED; urgency=low
+dell-recovery (0.26) karmic; urgency=low
 
   * Introduce a builder mode that can be used for generating BTO images from
     their different components.
