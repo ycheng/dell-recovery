@@ -8,6 +8,7 @@ dell-recovery (0.26) UNRELEASED; urgency=low
   * debian/control:
     - Depends on python-vte for builder git features.
     - Recommends on git-core, usb-creator-gtk
+    - Bump standards version
   * Don't ask a question about where to store the ISO.  Instead, lets always
     assume it ends up in Downloads.  This is useful now because usb-creator
     will look there anyway by default.
