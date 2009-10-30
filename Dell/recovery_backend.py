@@ -321,11 +321,15 @@ class Backend(dbus.service.Object):
         if ret is not 0:
             os.rmdir(mntdir)
             if ret == 32:
-                mntdir=output[1].strip('\n').split('on')[1].strip(' ')
+                try:
+                    mntdir=output[1].strip('\n').split('on')[1].strip(' ')
+                except IndexError:
+                    mntdir=''
+                    logging.warning("IndexError when operating on output string")
             else:
                 mntdir=''
-                print >> sys.stderr, "WARNING: unable to mount recovery partition"
-                print >> sys.stderr, output
+                logging.warning("Unable to mount recovery partition")
+                logging.warning(output)
         else:
             atexit.register(self.unmount_drive,mntdir)
         return mntdir
