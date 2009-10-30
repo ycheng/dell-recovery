@@ -573,7 +573,7 @@ class Backend(dbus.service.Object):
 
         #If necessary, build the UP
         if not os.path.exists(os.path.join(mntdir,'upimg.bin')) and up:
-            self.report_progress(_('Building Dell Utility Partition'),'0.0')
+            self.report_progress(_('Building Dell Utility Partition'),'25.0')
             p1 = subprocess.Popen(['dd','if=' + up,'bs=1M'], stdout=subprocess.PIPE)
             p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
             partition_file=open(os.path.join(tmpdir, 'upimg.bin'), "w")
@@ -583,7 +583,7 @@ class Backend(dbus.service.Object):
         #Renerate UUID
         os.mkdir(os.path.join(tmpdir,'.disk'))
         os.mkdir(os.path.join(tmpdir,'casper'))
-        self.report_progress(_('Regenerating UUID / Rebuilding initramfs'),'0.0')
+        self.report_progress(_('Regenerating UUID / Rebuilding initramfs'),'50.0')
         initrd=os.path.join(mntdir,'casper','initrd')
         if os.path.exists(initrd + '.gz'):
             initrd=initrd + '.gz'
