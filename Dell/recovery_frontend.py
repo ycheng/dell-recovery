@@ -61,8 +61,13 @@ usb_burners = { 'usb-creator':['-n','--iso'],
                 'usb-creator-gtk':['-n','--iso'],
                 'usb-creator-kde':['-n','--iso'] }
 
-git_trees = { 'ubuntu': 'http://humbolt.us.dell.com/pub/Applications/git-internal-projects/ubuntu-fid.git',
-            }
+if 'INTRANET' in os.environ:
+    url="humbolt.us.dell.com/pub/linux.dell.com/srv/www/vhosts/linux.dell.com/html"
+else:
+    url="linux.dell.com"
+
+git_trees = { 'ubuntu': 'http://' + url + '/git/ubuntu-fid.git',
+            }    
 
 class Frontend:
     def __init__(self,up,rp,version,media,target,overwrite,builder):
