@@ -30,6 +30,7 @@ import gobject
 import dbus
 import dbus.service
 import dbus.mainloop.glib
+from threading import Thread, Event
 
 import getopt
 import atexit
@@ -95,6 +96,44 @@ def dbus_sync_call_signal_wrapper(dbus_iface, fn, handler_map, *args, **kwargs):
     return _h_reply_result
 
 #--------------------------------------------------------------------#
+#Borrowed from USB-Creator initially
+#Used for emitting progress for subcalls that don't use stdout nicely
+class progress(Thread):
+    def __init__(self, str, device, to_write):
+        Thread.__init__(self)
+        self._stopevent = Event()
+        self.reset(str, device, to_write)
+
+    def reset(self, str, mnt, w_size):
+        """Resets the progress thread defaults"""
+        self._stopevent.clear()
+        self.str=str
+        self.to_write = w_size
+        self.device = mnt
+        statvfs = os.statvfs(mnt)
+        self.start_free = statvfs.f_bsize * statvfs.f_bavail
+
+    def progress(self, str, per):
+        pass
+
+    def run(self):
+        try:
+            while not self._stopevent.isSet():
+                statvfs = os.statvfs(self.device)
+                free = statvfs.f_bsize * statvfs.f_bavail
+                written = self.start_free - free
+                v = int((written / float(self.to_write)) * 100)
+                if callable(self.progress):
+                    self.progress(self.str,v)
+                self._stopevent.wait(2)
+        except Exception:
+            logging.exception('Could not update progress:')
+
+    def join(self, timeout=None):
+        self._stopevent.set()
+        Thread.join(self, timeout)
+
+#--------------------------------------------------------------------#
 
 class Backend(dbus.service.Object):
     '''Backend manager.
@@ -113,6 +152,7 @@ class Backend(dbus.service.Object):
         # cached D-BUS interfaces for _check_polkit_privilege()
         self.dbus_info = None
         self.polkit = None
+        self.progress_thread = None
         self.enforce_polkit = True
 
     def run_dbus_service(self, timeout=None, send_usr1=False):
@@ -302,6 +342,19 @@ class Backend(dbus.service.Object):
                 print >> sys.stderr, "Error unmounting %s" % mnt
             os.rmdir(mnt)
 
+    def start_progress_thread(self, str, mnt, w_size):
+        """Initializes the extra progress thread, or resets it
+           if it already exists'"""
+        if not self.progress_thread:
+            self.progress_thread = progress(str, mnt, w_size)
+            self.progress_thread.progress = self.report_progress
+        else:
+            self.progress_thread.reset(str, mnt, w_size)
+        self.progress_thread.start()
+
+    def stop_progress_thread(self):
+        """Stops the extra thread for reporting progress"""
+        self.progress_thread.join()
     #
     # Client API (through D-BUS)
     #
@@ -326,6 +379,14 @@ class Backend(dbus.service.Object):
            up: utility partition
            version: version for ISO creation purposes
            iso: iso file name to create"""
+        
+        def get_directory_size(directory,whitelist):
+            dir_size = 0
+            for (path, dirs, files) in os.walk(directory):
+                for file in files:
+                    filename = os.path.join(path, file)
+                    dir_size += os.path.getsize(filename)
+            return dir_size
 
         def white_copy_tree(src,dst,whitelist,base=None):
             """Recursively copies files from src to dest only
@@ -406,13 +467,15 @@ class Backend(dbus.service.Object):
         white_pattern=re.compile(filter)
 
         #copy the base iso/mnt point/etc
-        self.report_progress(_('Adding in base image'),'10.0')
-        white_copy_tree(base_mnt,assembly_tmp,white_pattern)
+        w_size=get_directory_size(base_mnt, white_pattern)
+        self.start_progress_thread(_('Adding in base image'), assembly_tmp, w_size)
+        white_copy_tree(base_mnt, assembly_tmp, white_pattern)
+        self.stop_progress_thread()
         logging.debug('assemble_image: done copying base image')
 
         #Add in FID content
         if os.path.exists(fid):
-            self.report_progress(_('Overlaying FID content'),'30.0')
+            self.report_progress(_('Overlaying FID content'),'99.0')
             if os.path.isdir(fid):
                 distutils.dir_util.copy_tree(fid,assembly_tmp,preserve_symlinks=1,verbose=1,update=1)
             elif tarfile.is_tarfile(fid):
