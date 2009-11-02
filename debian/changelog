@@ -1,4 +1,4 @@
-dell-recovery (0.27) UNRELEASED; urgency=low
+dell-recovery (0.27) karmic; urgency=low
 
   * Don't import gtk.glade.  It's not used anymore.
   * Set the backend timeout to 0.  Prevents the app timing out inbetween
