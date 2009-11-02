@@ -91,9 +91,6 @@ class Frontend:
                     widget.set_title(_(widget.get_title()))
         self.widgets.connect_signals(self)
 
-        if builder:
-            self.builder_init()
-
         self._dbus_iface = None
 
         self.timeout = 0
@@ -215,7 +212,7 @@ class Frontend:
         #Check for existing image
         skip_creation=False
         if os.path.exists(os.path.join(os.environ['HOME'], 'Downloads', self.iso)) and not self.overwrite:
-            skip_creation=self.show_question(self.widgets.get_object('existing_dialog'))
+            skip_creation=not self.show_question(self.widgets.get_object('existing_dialog'))
 
         #GUI Elements
         self.widgets.get_object('wizard').hide()
@@ -631,15 +628,15 @@ create an USB key or DVD image."))
 # This application is functional via command line by using the above functions #
 
     def run(self):
-        if self.check_preloaded_system() or self.builder:
-            self.widgets.get_object('wizard').show()
-        else:
-            header=_("This tool requires that a Utility Partition and Linux Recovery partition are present to function.")
-            inst = None
-            self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                    parent=self.widgets.get_object('progress_dialog'))
-            return
+        if not self.check_preloaded_system() and not self.builder:
+            self.builder=self.show_question(self.widgets.get_object('builder_dialog'))
+            if not self.builder:
+                return
 
+        if self.builder:
+            self.builder_init()
+
+        self.widgets.get_object('wizard').show()
         gtk.main()
 
     def hide_progress(self):
@@ -692,8 +689,8 @@ create an USB key or DVD image."))
         response = dialog.run()
         dialog.hide()
         if response == gtk.RESPONSE_YES:
-            return False
-        return True
+            return True
+        return False
 
     def update_progress_gui(self,progress_text,progress):
         """Updates the progressbar to show what we are working on"""

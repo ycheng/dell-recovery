@@ -3,6 +3,8 @@ dell-recovery (0.27) UNRELEASED; urgency=low
   * Don't import gtk.glade.  It's not used anymore.
   * Set the backend timeout to 0.  Prevents the app timing out inbetween
     long runs.
+  * If the recovery partition is not detected, offer to run the application
+    in BTO image builder mode.  There aren't many other uses for it.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 02 Nov 2009 12:22:18 -0600
 
