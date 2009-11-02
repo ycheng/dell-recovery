@@ -36,7 +36,6 @@ import pygtk
 pygtk.require("2.0")
 
 import gtk
-import gtk.glade
 import vte
 
 from Dell.recovery_backend import CreateFailed, PermissionDeniedByPolicy, BackendCrashError, dbus_sync_call_signal_wrapper, Backend, DBUS_BUS_NAME
@@ -47,7 +46,7 @@ import gettext
 from gettext import gettext as _
 LOCALEDIR='/usr/share/locale'
 
-#Glade directory
+#UI file directory
 if os.path.isdir('gtk') and 'DEBUG' in os.environ:
     UIDIR= 'gtk'
 else:
