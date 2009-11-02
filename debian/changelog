@@ -1,6 +1,8 @@
 dell-recovery (0.27) UNRELEASED; urgency=low
 
   * Don't import gtk.glade.  It's not used anymore.
+  * Set the backend timeout to 0.  Prevents the app timing out inbetween
+    long runs.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 02 Nov 2009 12:22:18 -0600
 
