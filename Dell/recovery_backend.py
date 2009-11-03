@@ -515,7 +515,7 @@ class Backend(dbus.service.Object):
             file=open(os.path.join(mntdir,'.disk','info'),'r')
             distributor_string=file.readline().strip('\n')
             file.close()
-            distributor=distributor_string.split()[0].lower()
+            distributor="ubuntu"
             release=distributor_string.split()[1].lower()
 
         if bto_version and bto_date:
