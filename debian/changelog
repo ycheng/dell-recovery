@@ -1,4 +1,4 @@
-dell-recovery (0.28) UNRELEASED; urgency=low
+dell-recovery (0.28) karmic; urgency=low
 
   * if .disk/info exists, just assume ubuntu rather than trying to read
     a string out of it.  Prevents issues with moblin and kubuntu images.
@@ -7,7 +7,7 @@ dell-recovery (0.28) UNRELEASED; urgency=low
   * depends on policykit-1-gnome to ensure that the proper things to allow
     this to work on KDE are installed.
 
- -- Mario Limonciello <superm1@ubuntu.com>  Mon, 02 Nov 2009 22:51:59 -0600
+ -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 03 Nov 2009 13:21:17 -0600
 
 dell-recovery (0.27) karmic; urgency=low
 
