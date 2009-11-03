@@ -11,9 +11,9 @@ Standards-Version: 3.8.3
 
 Package: dell-recovery
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python-gtk2, python-vte, policykit-1, uuid-runtime, devicekit-disks | hal
+Depends: ${python:Depends}, ${misc:Depends}, python-gtk2, policykit-1, uuid-runtime, devicekit-disks | hal
 Replaces: dell-artwork
-Recommends: usb-creator-gtk, brasero | nautilus-cd-burner, lsb-release, git-core
+Recommends: usb-creator-gtk, brasero | nautilus-cd-burner, lsb-release, git-core, python-vte
 Suggests: grub-pc
 XB-Python-Version: ${python:Versions}
 Description: Dell Recovery Media Creation Package

@@ -36,7 +36,6 @@ import pygtk
 pygtk.require("2.0")
 
 import gtk
-import vte
 
 from Dell.recovery_backend import CreateFailed, PermissionDeniedByPolicy, BackendCrashError, dbus_sync_call_signal_wrapper, Backend, DBUS_BUS_NAME
 
@@ -330,6 +329,15 @@ class Frontend:
 #### Builder specific ####
     def builder_init(self):
         """Inserts builder widgets into the Gtk.Assistant"""
+        try:
+            import vte
+        except ImportError:
+            header = _("python-vte is missing")
+            body = _("Builder mode requires python-vte to function")
+            self.show_alert(gtk.MESSAGE_ERROR, header, body,
+                parent=None)
+            sys.exit(1)
+
         self.builder_widgets=gtk.Builder()
         self.builder_widgets.add_from_file(os.path.join(UIDIR,'builder.ui'))
         self.builder_widgets.connect_signals(self)
