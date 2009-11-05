@@ -19,3 +19,18 @@ snapshots of release upon standard Ubuntu media.
 
 The latest information on how to use builder mode will be documented at:
 http://en.community.dell.com/wikis/linux/building-base-ubuntu-factory-iso.aspx
+
+GIT Trees
+---
+It's important when working with the git trees that a few standards are used for this tool properly recognize.
+All buildable points need to be identified with tags in this format:
+
+VERSION_{X,A}NUMBER
+or
+VERSION_{X,A}NUMBER.ITERATION
+
+VERSION is the OS version as determined by a flat file on the disk or by lsb_release
+X is for development version
+A is for stable version
+NUMBER is an increasing number
+ITERATION is the spinoff for FISH drivers
