@@ -35,7 +35,8 @@ parser.set_defaults(
     media="dvd",
     target=os.getenv('HOME'),
     overwrite=False,
-    xrev=False
+    xrev=False,
+    branch=False
     )
 parser.add_option('-u', '--up', dest='up',
                   help='Override detected utility partition with this file.')
@@ -53,6 +54,8 @@ parser.add_option('--builder', dest='builder', action='store_true',
                   help='Enable OEM Builder mode for assembling an image from multiple sources.')
 parser.add_option('--show-development-tags', dest='xrev', action='store_true',
                   help='Show development git tags when operating in builder mode.  By default, these are hidden if stable tags are present.')
+parser.add_option('--override-branch-mode', dest='branch', action='store_true',
+                  help='Show branches instead of tags in builder mode.  This is most useful when the tip of the branch is known stable.')
 (options, args) = parser.parse_args()
 
 if __name__ == '__main__':
@@ -63,6 +66,7 @@ if __name__ == '__main__':
                       options.target,
                       options.overwrite,
                       options.builder,
-                      options.xrev)
+                      options.xrev,
+                      options.branch)
     script.run()
     sys.exit(0)

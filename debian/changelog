@@ -5,6 +5,8 @@ dell-recovery (0.29) UNRELEASED; urgency=low
     an extra command line argument is added.
   * Don't erroneously call builder_fid_toggled a whole bunch of times when
     choosing an ISO image.
+  * Optionally allow choosing branches via a command line override.  Useful
+    for one-off projects where tip is known stable.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 05 Nov 2009 15:44:17 -0600
 

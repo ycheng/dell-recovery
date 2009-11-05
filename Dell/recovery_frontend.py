@@ -68,7 +68,7 @@ git_trees = { 'ubuntu': 'http://' + url + '/git/ubuntu-fid.git',
             }    
 
 class Frontend:
-    def __init__(self,up,rp,version,media,target,overwrite,builder,xrev):
+    def __init__(self,up,rp,version,media,target,overwrite,builder,xrev,branch):
 
         #setup locales
         gettext.bindtextdomain(domain, LOCALEDIR)
@@ -110,6 +110,7 @@ class Frontend:
         self.overwrite=overwrite
         self.builder=builder
         self.xrev=xrev
+        self.branch=branch
 
     def check_burners(self):
         """Checks for what utilities are available to burn with"""
@@ -521,13 +522,29 @@ create an USB key or DVD image."))
                         use_xrev=False
                         break
             for item in output:
+                #Check that we have a valid item
+                # AND
+                #It doesn't contain HEAD
+                # AND
+                # [ We are in branch mode
+                #   OR
+                #   [ 
+                #     It contains our filter
+                #     We show X rev builds
+                #     It contains an X rev tag
+                #   ]
+                # ]
+
                 if item and \
                    not "HEAD" in item and \
-                   filter in item and \
-                   (use_xrev or not filter + "_X" in item):
+                   (self.branch or \
+                   (filter in item and \
+                    (use_xrev or \
+                     not filter + "_X" in item))):
                     liststore.append([item])
-            if use_xrev:
-                #Add this so that we can build w/o a tag
+
+            #Add this so that we can build w/o a tag only if we are in tag mode w/ dev on
+            if use_xrev and not self.branch:
                 liststore.append(['origin/master'])
 
         #Git radio was toggled OR
@@ -540,7 +557,10 @@ create an USB key or DVD image."))
             self.builder_widgets.get_object('fid_git_tag_hbox').set_sensitive(True)
 
             #update the tag list in the GUI
-            command=["git","tag","-l"]
+            if self.branch:
+                command=["git", "branch", "-r"]
+            else:
+                command=["git","tag","-l"]
             fill_liststore_from_command(command,self.release,'tag_liststore')
         #the vte command exited
         else:
