@@ -3,6 +3,8 @@ dell-recovery (0.29) UNRELEASED; urgency=low
   * Add a short README directing users to the right places for HOWTOs.
   * Don't show X-rev tags in builder mode if A-rev tags are present unless
     an extra command line argument is added.
+  * Don't erroneously call builder_fid_toggled a whole bunch of times when
+    choosing an ISO image.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 05 Nov 2009 15:44:17 -0600
 

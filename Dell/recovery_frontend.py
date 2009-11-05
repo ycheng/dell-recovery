@@ -441,7 +441,9 @@ create an USB key or DVD image."))
         self.widgets.get_object('version').set_text(bto_version)
 
         #If this is a BTO image, then allow using built in framework
-        if not self.bto_base and self.builder_widgets.get_object('builtin_radio').get_active():
+        if output_text and \
+           not self.bto_base and \
+           self.builder_widgets.get_object('builtin_radio').get_active():
             self.builder_widgets.get_object('git_radio').set_active(True)
         self.builder_widgets.get_object('builtin_hbox').set_sensitive(self.bto_base)
 
