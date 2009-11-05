@@ -1,3 +1,9 @@
+dell-recovery (0.29) UNRELEASED; urgency=low
+
+  * Add a short README directing users to the right places for HOWTOs.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 05 Nov 2009 15:44:17 -0600
+
 dell-recovery (0.28) karmic; urgency=low
 
   * if .disk/info exists, just assume ubuntu rather than trying to read

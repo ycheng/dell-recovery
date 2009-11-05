@@ -1,0 +1,21 @@
+Dell Recovery Media Creator
+----
+The Dell Recovery media creation tool supports two different modes, 
+"End User Mode" and "Builder Mode".  In End User mode, the tool will simply 
+create an image from an existing recovery partition with no customizations.
+In builder mode, the tool allows modifying the source of the base image, 
+the source of the framework, as well as injection of additional content.
+
+End User Mode
+---
+When a customer receives a Dell machine that has been factory shipped 
+with Linux, there will be an icon on the user's desktop to launch this 
+tool.  They will only be asked what type of media they would like to create.
+
+Builder Mode
+---
+In builder mode, the user will be offered a variety of options that allow them to create ISOs based upon different
+snapshots of release upon standard Ubuntu media.
+
+The latest information on how to use builder mode will be documented at:
+http://en.community.dell.com/wikis/linux/building-base-ubuntu-factory-iso.aspx
