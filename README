@@ -20,7 +20,7 @@ snapshots of release upon standard Ubuntu media.
 The latest information on how to use builder mode will be documented at:
 http://en.community.dell.com/wikis/linux/building-base-ubuntu-factory-iso.aspx
 
-GIT Trees
+GIT Tree Tagging
 ---
 It's important when working with the git trees that a few standards are used for this tool properly recognize.
 All buildable points need to be identified with tags in this format:
@@ -34,3 +34,8 @@ X is for development version
 A is for stable version
 NUMBER is an increasing number
 ITERATION is the spinoff for FISH drivers
+
+GIT Tree Branches
+---
+If subbranches are created for one off projects, the tool expects tip to be stable.  Please don't use tags
+on these types of branches.
