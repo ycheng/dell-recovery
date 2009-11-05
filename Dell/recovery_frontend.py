@@ -68,7 +68,7 @@ git_trees = { 'ubuntu': 'http://' + url + '/git/ubuntu-fid.git',
             }    
 
 class Frontend:
-    def __init__(self,up,rp,version,media,target,overwrite,builder):
+    def __init__(self,up,rp,version,media,target,overwrite,builder,xrev):
 
         #setup locales
         gettext.bindtextdomain(domain, LOCALEDIR)
@@ -109,6 +109,7 @@ class Frontend:
         self.target=target
         self.overwrite=overwrite
         self.builder=builder
+        self.xrev=xrev
 
     def check_burners(self):
         """Checks for what utilities are available to burn with"""
@@ -509,11 +510,23 @@ create an USB key or DVD image."))
             cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
             list_command=subprocess.Popen(args=command,cwd=cwd,stdout=subprocess.PIPE)
             output=list_command.communicate()[0].split('\n')
+            #go through the list once to see if we have A rev tags at all
+            use_xrev=self.xrev
+            if not use_xrev:
+                use_xrev=True
+                for item in output:
+                    if filter + "_A" in item:
+                        use_xrev=False
+                        break
             for item in output:
-                if item and not "HEAD" in item and filter in item:
+                if item and \
+                   not "HEAD" in item and \
+                   filter in item and \
+                   (use_xrev or not filter + "_X" in item):
                     liststore.append([item])
-            #Add this so that we can build w/o a tag
-            liststore.append(['origin/master'])
+            if use_xrev:
+                #Add this so that we can build w/o a tag
+                liststore.append(['origin/master'])
 
         #Git radio was toggled OR
         #Close was pressed on the GUI
@@ -527,7 +540,6 @@ create an USB key or DVD image."))
             #update the tag list in the GUI
             command=["git","tag","-l"]
             fill_liststore_from_command(command,self.release,'tag_liststore')
-
         #the vte command exited
         else:
             self.builder_widgets.get_object('builder_vte_close').set_sensitive(True)
