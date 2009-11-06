@@ -516,7 +516,13 @@ class Backend(dbus.service.Object):
             distributor_string=file.readline().strip('\n')
             file.close()
             distributor="ubuntu"
-            release=distributor_string.split()[1].lower()
+            for piece in distributor_string.split():
+                try:
+                    release=float(piece)
+                except ValueError:
+                    continue
+                release=piece
+                break
 
         if bto_version and bto_date:
             distributor_string="<b>Dell BTO Image</b>, version %s built on %s\n%s" %(bto_version.split('.')[0], bto_date, distributor_string)
