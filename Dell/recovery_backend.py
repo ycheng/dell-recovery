@@ -584,28 +584,6 @@ class Backend(dbus.service.Object):
             partition_file.write(p2.communicate()[0])
             partition_file.close()
 
-        #Renerate UUID
-        os.mkdir(os.path.join(tmpdir,'.disk'))
-        os.mkdir(os.path.join(tmpdir,'casper'))
-        self.report_progress(_('Regenerating UUID / Rebuilding initramfs'),'50.0')
-        initrd=os.path.join(mntdir,'casper','initrd')
-        if os.path.exists(initrd + '.gz'):
-            initrd=initrd + '.gz'
-        elif os.path.exists(initrd + '.lz'):
-            initrd=initrd + '.lz'
-        uuid_args = ['/usr/share/dell/bin/create-new-uuid',
-                              initrd,
-                              os.path.join(tmpdir,'casper'),
-                              tmpdir + '/.disk']
-        uuid = subprocess.Popen(uuid_args)
-        retval = uuid.poll()
-        while (retval is None):
-            retval = uuid.poll()
-        if retval is not 0:
-            print >> sys.stderr, \
-                "create-new-uuid exited with a nonstandard return value."
-            raise CreateFailed("create-new-uuid exited with a nonstandard return value.")
-
         #Arg list
         genisoargs=['genisoimage',
             '-o', iso,
@@ -630,9 +608,39 @@ class Backend(dbus.service.Object):
             '-m', 'syslinux',
             '-m', 'syslinux.cfg',
             '-m', os.path.join(mntdir,'isolinux'),
-            '-m', os.path.join(mntdir,'bto_version'),
-            '-m', os.path.join(mntdir,'.disk','casper-uuid-generic'),
-            '-m', initrd]
+            '-m', os.path.join(mntdir,'bto_version')]
+
+        #Renerate UUID (only if this media supports it)
+        if os.path.exists(os.path.join(mntdir,'.disk','casper-uuid-generic')) and\
+           os.path.exists(os.path.join(mntdir,'casper')):
+            initrd=os.path.join(mntdir,'casper','initrd')
+            if os.path.exists(initrd + '.gz'):
+                initrd=initrd + '.gz'
+            elif os.path.exists(initrd + '.lz'):
+                initrd=initrd + '.lz'
+            else:
+                initrd=''
+            if initrd:
+                os.mkdir(os.path.join(tmpdir,'.disk'))
+                os.mkdir(os.path.join(tmpdir,'casper'))
+                self.report_progress(_('Regenerating UUID / Rebuilding initramfs'),'50.0')
+                uuid_args = ['/usr/share/dell/bin/create-new-uuid',
+                         initrd,
+                         os.path.join(tmpdir,'casper'),
+                         tmpdir + '/.disk']
+                uuid = subprocess.Popen(uuid_args)
+                retval = uuid.poll()
+                while (retval is None):
+                    retval = uuid.poll()
+                if retval is not 0:
+                    print >> sys.stderr, \
+                        "create-new-uuid exited with a nonstandard return value."
+                    raise CreateFailed("create-new-uuid exited with a nonstandard return value.")
+
+                genisoargs.append('-m')
+                genisoargs.append(os.path.join(mntdir,'.disk','casper-uuid-generic'))
+                genisoargs.append('-m')
+                genisoargs.append(initrd)
 
         #if we have ran this from a USB key, we might have syslinux which will
         #break our build
