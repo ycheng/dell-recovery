@@ -1,4 +1,4 @@
-dell-recovery (0.30) UNRELEASED; urgency=low
+dell-recovery (0.30) karmic; urgency=low
 
   * Make the regeneration of the UUID optional, and only if the appropriate 
     files are present.  Allows Billerica images to proceed a little bit 
@@ -6,7 +6,7 @@ dell-recovery (0.30) UNRELEASED; urgency=low
   * Iterate the list of items in .disk/info to find the first floating point 
     number to assign to the release series.
 
- -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 06 Nov 2009 15:11:01 -0600
+ -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 09 Nov 2009 17:32:32 -0600
 
 dell-recovery (0.29) karmic; urgency=low
 
