@@ -500,6 +500,16 @@ class Backend(dbus.service.Object):
     def query_iso_information(self, iso, sender=None, conn=None):
         """Queries what type of ISO this is.  This same method will be used regardless
            of OS."""
+        def find_float(str):
+            """Finds the floating point number in a string"""
+            for piece in str.split():
+                try:
+                    release=float(piece)
+                except ValueError:
+                    continue
+                return piece
+            return ''
+
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.query_iso_information')
 
@@ -508,7 +518,6 @@ class Backend(dbus.service.Object):
         (bto_version,bto_date) = self.query_bto_version(iso)
 
         distributor_string='Unknown Base Image'
-        release=''
         distributor=''
         #Ubuntu disks have .disk/info
         if os.path.exists(os.path.join(mntdir,'.disk','info')):
@@ -516,13 +525,17 @@ class Backend(dbus.service.Object):
             distributor_string=file.readline().strip('\n')
             file.close()
             distributor="ubuntu"
-            for piece in distributor_string.split():
-                try:
-                    release=float(piece)
-                except ValueError:
-                    continue
-                release=piece
-                break
+            
+        #RHEL disks have .discinfo
+        elif os.path.exists(os.path.join(mntdir,'.discinfo')):
+            file=open(os.path.join(mntdir,'.discinfo'),'r')
+            timestamp=file.readline().strip('\n')
+            distributor_string=file.readline().strip('\n')
+            arch=file.readline().strip('\n')
+            distributor="redhat"
+            distributor_string += ', ' + arch
+
+        release=find_float(distributor_string)
 
         if bto_version and bto_date:
             distributor_string="<b>Dell BTO Image</b>, version %s built on %s\n%s" %(bto_version.split('.')[0], bto_date, distributor_string)
