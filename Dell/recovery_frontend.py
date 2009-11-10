@@ -96,10 +96,18 @@ class Frontend:
 
         self.check_burners()
 
-        process=subprocess.Popen(['lsb_release','-r', '-s'], stdout=subprocess.PIPE)
-        self.release=process.communicate()[0].strip('\n')
-        process=subprocess.Popen(['lsb_release','-i', '-s'], stdout=subprocess.PIPE)
-        self.distributor=process.communicate()[0].lower().strip('\n')
+        try:
+            process=subprocess.Popen(['lsb_release','-r', '-s'], stdout=subprocess.PIPE)
+            self.release=process.communicate()[0].strip('\n')
+            process=subprocess.Popen(['lsb_release','-i', '-s'], stdout=subprocess.PIPE)
+            self.distributor=process.communicate()[0].lower().strip('\n')
+        except OSError:
+            self.release='0.00'
+            self.distributor='unknown'
+
+        for item in ['server','enterprise']:
+            if item in self.distributor:
+                self.distributor=self.distributor.split(item)[0]
 
         #set any command line arguments
         self.up=up
