@@ -441,17 +441,17 @@ create an USB key or DVD image."))
         #set the version string that we fetched from the image
         self.widgets.get_object('version').set_text(bto_version)
 
+        if distributor:
+            self.distributor=distributor
+        if release:
+            self.release=release
+
         #If this is a BTO image, then allow using built in framework
         if output_text and \
            not self.bto_base and \
            self.builder_widgets.get_object('builtin_radio').get_active():
             self.builder_widgets.get_object('git_radio').set_active(True)
         self.builder_widgets.get_object('builtin_hbox').set_sensitive(self.bto_base)
-
-        if distributor:
-            self.distributor=distributor
-        if release:
-            self.release=release
 
         self.builder_widgets.get_object('base_image_details_label').set_markup(output_text)
 
