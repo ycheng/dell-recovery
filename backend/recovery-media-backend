@@ -63,6 +63,9 @@ setup_logging(argv_options.debug, argv_options.logfile)
 
 
 svr = Backend.create_dbus_server()
+if not svr:
+    logging.error("Error spawning DBUS server")
+    sys.exit(10)
 if argv_options.timeout == 0:
     svr.run_dbus_service()
 else:

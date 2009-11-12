@@ -195,7 +195,12 @@ class Backend(dbus.service.Object):
             backend.enforce_polkit = False
         else:
             backend.bus = dbus.SystemBus()
-        backend.dbus_name = dbus.service.BusName(DBUS_BUS_NAME, backend.bus)
+        try:
+            backend.dbus_name = dbus.service.BusName(DBUS_BUS_NAME, backend.bus)
+        except dbus.exceptions.DBusException,msg:
+            logging.error("Exception when spawning dbus service")
+            logging.error(msg)
+            return None
         return backend
 
     @classmethod

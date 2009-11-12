@@ -4,6 +4,8 @@ dell-recovery (0.31) UNRELEASED; urgency=low
   * When reading in a base image, set self.distributor before updating git info.
   * If lsb_release isn't available, set some sane variables.
   * Strip out the possible enterprise and server bits from lsb_release.
+  * Catch exceptions when spawning the backend and try to log them if possible
+    to improve debugability.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 10 Nov 2009 11:39:58 -0600
 
