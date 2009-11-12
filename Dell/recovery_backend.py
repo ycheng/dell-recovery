@@ -538,7 +538,7 @@ class Backend(dbus.service.Object):
             distributor_string=file.readline().strip('\n')
             arch=file.readline().strip('\n')
             distributor="redhat"
-            distributor_string += ', ' + arch
+            distributor_string += ' ' + arch
 
         release=find_float(distributor_string)
 
