@@ -6,6 +6,8 @@ dell-recovery (0.31) UNRELEASED; urgency=low
   * Strip out the possible enterprise and server bits from lsb_release.
   * Catch exceptions when spawning the backend and try to log them if possible
     to improve debugability.
+  * Hook up the command line argument --target to actually do things.
+  * Test for "Download" in ~ before just assuming "Downloads" is our ideal dir.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 10 Nov 2009 11:39:58 -0600
 

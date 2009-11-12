@@ -26,6 +26,10 @@ import optparse
 import os
 import sys
 
+target=os.path.join(os.getenv('HOME'),'Download')
+if not os.path.isdir(target):
+    target=os.path.join(os.getenv('HOME'),'Downloads')
+
 usage = '%prog [options]'
 parser = optparse.OptionParser(usage=usage)
 parser.set_defaults(
@@ -33,7 +37,7 @@ parser.set_defaults(
     rp='',
     version='',
     media="dvd",
-    target=os.getenv('HOME'),
+    target=target,
     overwrite=False,
     xrev=False,
     branch=False
