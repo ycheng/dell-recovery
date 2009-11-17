@@ -8,6 +8,9 @@ dell-recovery (0.31) UNRELEASED; urgency=low
     to improve debugability.
   * Hook up the command line argument --target to actually do things.
   * Test for "Download" in ~ before just assuming "Downloads" is our ideal dir.
+  * In the backend, clobber all files with FID overlay regardless of date.
+    This helps billerica images as well as FID changes that were created
+    before an image was published.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 10 Nov 2009 11:39:58 -0600
 
