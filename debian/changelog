@@ -1,4 +1,4 @@
-dell-recovery (0.31) UNRELEASED; urgency=low
+dell-recovery (0.31) karmic; urgency=low
 
   * Add support for reading .discinfo from RHEL disks.
   * When reading in a base image, set self.distributor before updating git info.
@@ -12,7 +12,7 @@ dell-recovery (0.31) UNRELEASED; urgency=low
     This helps billerica images as well as FID changes that were created
     before an image was published.
 
- -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 10 Nov 2009 11:39:58 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 18 Nov 2009 09:32:02 -0600
 
 dell-recovery (0.30) karmic; urgency=low
 
