@@ -645,6 +645,7 @@ create an USB key or DVD image."))
             filter = gtk.FileFilter()
             filter.add_pattern("*.tgz")
             filter.add_pattern("*.tar.gz")
+            filter.add_pattern("*.deb")
             self.file_dialog.set_filter(filter)
             wizard.set_page_complete(page,True)
             

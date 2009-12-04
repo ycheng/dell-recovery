@@ -1,3 +1,10 @@
+dell-recovery (0.32) UNRELEASED; urgency=low
+
+  * Now that Dell's internal tools have support for FISH packages that
+    are single debs not published in FI format, allow them on the FISH page.
+
+ -- Mario Limonciello <superm1@ubuntu.com>  Thu, 03 Dec 2009 21:58:20 -0600
+
 dell-recovery (0.31) karmic; urgency=low
 
   * Add support for reading .discinfo from RHEL disks.

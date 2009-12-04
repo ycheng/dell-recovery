@@ -494,6 +494,8 @@ class Backend(dbus.service.Object):
                 self.report_progress(_('Inserting FISH packages'),fish.index(fishie)/length*100)
                 if os.path.exists(fishie) and tarfile.is_tarfile(fishie):
                     safe_tar_extract(fishie,assembly_tmp)
+                elif fishie.endswith('.deb'):
+                    distutils.file_util.copy_file(fishie,os.path.join(assembly_tmp,'debs','main'),verbose=1,update=0)
             logging.debug("assemble_image: done inserting fish")
 
         function=getattr(Backend,create_fn)
