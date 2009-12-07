@@ -488,6 +488,7 @@ class Backend(dbus.service.Object):
                 safe_tar_extract(fid,assembly_tmp)
             logging.debug('assemble_image: done overlaying FID content')
 
+        #Add in FISH content
         length=float(len(fish))
         if length > 0:
             for fishie in fish:
@@ -496,6 +497,8 @@ class Backend(dbus.service.Object):
                     safe_tar_extract(fishie,assembly_tmp)
                 elif fishie.endswith('.deb'):
                     distutils.file_util.copy_file(fishie,os.path.join(assembly_tmp,'debs','main'),verbose=1,update=0)
+                elif fishie.endswith('.pdf'):
+                    distutils.file_util.copy_file(fishie,os.path.join(assembly_tmp,'doc'),verbose=1,update=0)
             logging.debug("assemble_image: done inserting fish")
 
         function=getattr(Backend,create_fn)
