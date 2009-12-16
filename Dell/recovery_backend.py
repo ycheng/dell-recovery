@@ -499,6 +499,8 @@ class Backend(dbus.service.Object):
                     distutils.file_util.copy_file(fishie,os.path.join(assembly_tmp,'debs','main'),verbose=1,update=0)
                 elif fishie.endswith('.pdf'):
                     distutils.file_util.copy_file(fishie,os.path.join(assembly_tmp,'doc'),verbose=1,update=0)
+                elif fishie.endswith('.py') or fishie.endswith('.sh'):
+                    distutils.file_util.copy_file(fishie,os.path.join(assembly_tmp,'scripts','chroot-scripts','fish'),verbose=1,update=0)                    
             logging.debug("assemble_image: done inserting fish")
 
         function=getattr(Backend,create_fn)

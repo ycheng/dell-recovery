@@ -65,6 +65,7 @@ else:
     url="linux.dell.com"
 
 git_trees = { 'ubuntu': 'http://' + url + '/git/ubuntu-fid.git',
+              'redhat': 'http://humbolt.us.dell.com/pub/Applications/git-internal-projects/redhat-fid.git',
             }    
 
 class Frontend:
@@ -647,6 +648,9 @@ create an USB key or DVD image."))
             filter.add_pattern("*.tar.gz")
             filter.add_pattern("*.deb")
             filter.add_pattern("*.pdf")
+            filter.add_pattern("*.py")
+            filter.add_pattern("*.sh")
+
             self.file_dialog.set_filter(filter)
             wizard.set_page_complete(page,True)
             
