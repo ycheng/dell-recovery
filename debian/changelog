@@ -1,4 +1,4 @@
-dell-recovery (0.32) UNRELEASED; urgency=low
+dell-recovery (0.32) karmic; urgency=low
 
   * Now that Dell's internal tools have support for FISH packages that
     are single debs, pdfs, python scripts or shell scripts
