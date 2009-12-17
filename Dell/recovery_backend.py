@@ -493,14 +493,27 @@ class Backend(dbus.service.Object):
         if length > 0:
             for fishie in fish:
                 self.report_progress(_('Inserting FISH packages'),fish.index(fishie)/length*100)
-                if os.path.exists(fishie) and tarfile.is_tarfile(fishie):
-                    safe_tar_extract(fishie,assembly_tmp)
-                elif fishie.endswith('.deb'):
-                    distutils.file_util.copy_file(fishie,os.path.join(assembly_tmp,'debs','main'),verbose=1,update=0)
+                dest=None
+                if fishie.endswith('.deb'):
+                    dest=os.path.join(assembly_tmp,'debs','main')
+                    logging.debug("assemble_image: Copying debian archive fishie %s" % fishie)
                 elif fishie.endswith('.pdf'):
-                    distutils.file_util.copy_file(fishie,os.path.join(assembly_tmp,'doc'),verbose=1,update=0)
+                    dest=os.path.join(assembly_tmp,'docs')
+                    logging.debug("assemble_image: Copying document fishie fishie %s" % fishie)
                 elif fishie.endswith('.py') or fishie.endswith('.sh'):
-                    distutils.file_util.copy_file(fishie,os.path.join(assembly_tmp,'scripts','chroot-scripts','fish'),verbose=1,update=0)                    
+                    dest=os.path.join(assembly_tmp,'scripts','chroot-scripts','fish')
+                    logging.debug("assemble_image: Copying python or shell fishie %s" % fishie)
+                elif os.path.exists(fishie) and tarfile.is_tarfile(fishie):
+                    safe_tar_extract(fishie,assembly_tmp)
+                    logging.debug("assemble_image: Extracting tar fishie %s" % fishie)
+                else:
+                    logging.debug("assemble_image: ignoring fishie %s" % fishie)
+
+                #If we just do a flat copy
+                if dest is not None:
+                    if not os.path.isdir(dest):
+                        os.makedirs(dest)
+                    distutils.file_util.copy_file(fishie,dest,verbose=1,update=0)
             logging.debug("assemble_image: done inserting fish")
 
         function=getattr(Backend,create_fn)
