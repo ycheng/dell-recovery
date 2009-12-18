@@ -1,3 +1,10 @@
+dell-recovery (0.33) UNRELEASED; urgency=low
+
+  * Split out the common stuff that is used by the backend and frontend into a
+    common python script.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 18 Dec 2009 12:39:36 -0600
+
 dell-recovery (0.32) karmic; urgency=low
 
   * Now that Dell's internal tools have support for FISH packages that

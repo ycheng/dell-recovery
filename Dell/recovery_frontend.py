@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# «recovery_dvd» - Dell Recovery DVD Creator
+# «recovery_frontend» - Dell Recovery DVD Creator
 #
 # Copyright (C) 2008-2009, Dell Inc.
 #
@@ -27,46 +27,17 @@ import os
 import subprocess
 import stat
 import dbus
-import gobject
 import sys
 
 import dbus.mainloop.glib
 
-import pygtk
-pygtk.require("2.0")
-
 import gtk
 
-from Dell.recovery_backend import CreateFailed, PermissionDeniedByPolicy, BackendCrashError, dbus_sync_call_signal_wrapper, Backend, DBUS_BUS_NAME
+from Dell.recovery_common import *
 
-#Translation Support
-domain='dell-recovery'
+#Translation support
 import gettext
 from gettext import gettext as _
-LOCALEDIR='/usr/share/locale'
-
-#UI file directory
-if os.path.isdir('gtk') and 'DEBUG' in os.environ:
-    UIDIR= 'gtk'
-else:
-    UIDIR = '/usr/share/dell'
-
-
-#Supported burners and their arguments
-cd_burners = { 'brasero':['-i'],
-               'nautilus-cd-burner':['--source-iso='] }
-usb_burners = { 'usb-creator':['-n','--iso'],
-                'usb-creator-gtk':['-n','--iso'],
-                'usb-creator-kde':['-n','--iso'] }
-
-if 'INTRANET' in os.environ:
-    url="humbolt.us.dell.com/pub/linux.dell.com/srv/www/vhosts/linux.dell.com/html"
-else:
-    url="linux.dell.com"
-
-git_trees = { 'ubuntu': 'http://' + url + '/git/ubuntu-fid.git',
-              'redhat': 'http://humbolt.us.dell.com/pub/Applications/git-internal-projects/redhat-fid.git',
-            }    
 
 class Frontend:
     def __init__(self,up,rp,version,media,target,overwrite,builder,xrev,branch):
@@ -121,6 +92,8 @@ class Frontend:
         self.xrev=xrev
         self.branch=branch
 
+        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+
     def check_burners(self):
         """Checks for what utilities are available to burn with"""
         def which(program):
@@ -154,8 +127,6 @@ class Frontend:
     def check_preloaded_system(self):
         """Checks that the system this tool is being run on contains a
            utility partition and recovery partition"""
-        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-        bus = dbus.SystemBus()
 
         #check any command line arguments
         if self.up and not os.path.exists(self.up):
@@ -173,48 +144,9 @@ class Frontend:
         if self.up and self.rp:
             return True
 
-        try:
-            #first try to use devkit-disks. if this fails, then we can fall back to hal
-            dk_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', '/org/freedesktop/DeviceKit/Disks')
-            dk = dbus.Interface(dk_obj, 'org.freedesktop.DeviceKit.Disks')
-            devices = dk.EnumerateDevices()
-            for device in devices:
-                dev_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', device)
-                dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
-
-                label = dev.Get('org.freedesktop.DeviceKit.Disks.Device','id-label')
-                fs = dev.Get('org.freedesktop.DeviceKit.Disks.Device','id-type')
-
-                if not self.up and 'DellUtility' in label:
-                    self.up=dev.Get('org.freedesktop.DeviceKit.Disks.Device','device-file')
-                elif not self.rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
-                    self.rp=dev.Get('org.freedesktop.DeviceKit.Disks.Device','device-file')
-
-                if self.up and self.rp:
-                    return True
-
-        except dbus.DBusException, e:
-            print "Falling back to HAL"
-            hal_obj = bus.get_object('org.freedesktop.Hal', '/org/freedesktop/Hal/Manager')
-            hal = dbus.Interface(hal_obj, 'org.freedesktop.Hal.Manager')
-            devices = hal.FindDeviceByCapability('volume')
-
-            for device in devices:
-                dev_obj = bus.get_object('org.freedesktop.Hal', device)
-                dev = dbus.Interface(dev_obj, 'org.freedesktop.Hal.Device')
-
-                label = dev.GetProperty('volume.label')
-                fs = dev.GetProperty('volume.fstype')
-
-                if not self.up and 'DellUtility' in label:
-                    self.up=dev.GetProperty('block.device')
-                elif not self.rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
-                    self.rp=dev.GetProperty('block.device')
-
-                if self.up and self.rp:
-                    return True
-
-        return False
+        (self.up,self.rp) = find_partitions(self.up,self.rp)
+        
+        return (self.up and self.rp)
 
     def wizard_complete(self,widget):
         """Finished answering wizard questions, and can continue process"""
@@ -323,7 +255,9 @@ class Frontend:
         '''
         if self._dbus_iface is None:
             try:
-                self._dbus_iface = Backend.create_dbus_client()
+                bus = dbus.SystemBus()
+                self._dbus_iface = dbus.Interface(bus.get_object(DBUS_BUS_NAME, '/RecoveryMedia'),
+                                                  DBUS_INTERFACE_NAME)
             except Exception, e:
                 if hasattr(e, '_dbus_error_name') and e._dbus_error_name == \
                     'org.freedesktop.DBus.Error.FileNotFound':

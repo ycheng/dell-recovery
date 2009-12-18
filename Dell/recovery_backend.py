@@ -42,58 +42,7 @@ import datetime
 import distutils.dir_util
 import re
 
-DBUS_BUS_NAME = 'com.dell.RecoveryMedia'
-
-#--------------------------------------------------------------------#
-
-class CreateFailed(dbus.DBusException):
-    _dbus_error_name = 'com.dell.RecoveryMedia.CreateFailedException'
-
-class PermissionDeniedByPolicy(dbus.DBusException):
-    _dbus_error_name = 'com.dell.RecoveryMedia.PermissionDeniedByPolicy'
-
-class BackendCrashError(SystemError):
-    pass
-
-#--------------------------------------------------------------------#
-
-def dbus_sync_call_signal_wrapper(dbus_iface, fn, handler_map, *args, **kwargs):
-    '''Run a D-BUS method call while receiving signals.
-
-    This function is an Ugly Hack™, since a normal synchronous dbus_iface.fn()
-    call does not cause signals to be received until the method returns. Thus
-    it calls fn asynchronously and sets up a temporary main loop to receive
-    signals and call their handlers; these are assigned in handler_map (signal
-    name → signal handler).
-    '''
-    if not hasattr(dbus_iface, 'connect_to_signal'):
-        # not a D-BUS object
-        return getattr(dbus_iface, fn)(*args, **kwargs)
-
-    def _h_reply(result=None):
-        global _h_reply_result
-        _h_reply_result = result
-        loop.quit()
-
-    def _h_error(exception=None):
-        global _h_exception_exc
-        _h_exception_exc = exception
-        loop.quit()
-
-    loop = gobject.MainLoop()
-    global _h_reply_result, _h_exception_exc
-    _h_reply_result = None
-    _h_exception_exc = None
-    kwargs['reply_handler'] = _h_reply
-    kwargs['error_handler'] = _h_error
-    kwargs['timeout'] = 86400
-    for signame, sighandler in handler_map.iteritems():
-        dbus_iface.connect_to_signal(signame, sighandler)
-    dbus_iface.get_dbus_method(fn)(*args, **kwargs)
-    loop.run()
-    if _h_exception_exc:
-        raise _h_exception_exc
-    return _h_reply_result
+from Dell.recovery_common import *
 
 #--------------------------------------------------------------------#
 #Borrowed from USB-Creator initially
@@ -137,7 +86,6 @@ class Backend(dbus.service.Object):
     is implemented as a dbus.service.Object, so that it can be called through
     D-BUS as well (on the /RecoveryMedia object path).
     '''
-    DBUS_INTERFACE_NAME = 'com.dell.RecoveryMedia'
 
     #
     # D-BUS control API
@@ -202,20 +150,6 @@ class Backend(dbus.service.Object):
             logging.error(msg)
             return None
         return backend
-
-    @classmethod
-    def create_dbus_client(klass, session_bus=False):
-        '''Return a client-side D-BUS interface for Backend.
-
-        Normally this connects to the system bus. Set session_bus to True to
-        connect to the session bus (for testing).
-        '''
-        if session_bus:
-            bus = dbus.SessionBus()
-        else:
-            bus = dbus.SystemBus()
-        obj = bus.get_object(DBUS_BUS_NAME, '/RecoveryMedia')
-        return dbus.Interface(obj, Backend.DBUS_INTERFACE_NAME)
 
     #
     # Internal methods
