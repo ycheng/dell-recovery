@@ -3,6 +3,8 @@ dell-recovery (0.33) UNRELEASED; urgency=low
   [ Mario Limonciello ]
   * Split out the common stuff that is used by the backend and frontend into a
     common python script.
+  * Don't require an utility partition to declare a system a preloaded system.
+    During development it's possible that UP's aren't included.
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.

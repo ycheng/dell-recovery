@@ -146,7 +146,7 @@ class Frontend:
 
         (self.up,self.rp) = find_partitions(self.up,self.rp)
         
-        return (self.up and self.rp)
+        return self.rp
 
     def wizard_complete(self,widget):
         """Finished answering wizard questions, and can continue process"""
