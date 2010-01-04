@@ -24,7 +24,7 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
-import logging, os, os.path, signal, sys
+import logging, os, os.path, signal, sys, re
 
 import gobject
 import dbus
@@ -521,16 +521,31 @@ class Backend(dbus.service.Object):
             version=file.readline().strip('\n')
             date=file.readline().strip('\n')
             file.close()
-            if len(version) == 0:
-                version='A00'
-            elif not '.' in version:
-                version+= '.1'
-            else:
-                pieces=version.split('.')
-                increment=int(pieces[1]) + 1
-                version="%s.%d" % (pieces[0],increment)
+
+            version = self._parse_bto_version(version)
 
         return (version,date)
+
+
+    def _parse_bto_version(self, version):
+        match = re.match(r"(?:(?P<alpha1>\w+\.[a-z]*)(?P<digits>\d+))"
+                         r"|(?P<alpha2>\w+(?:\.[a-z]+)?)",
+                         version, re.I)
+
+        if match:
+            if match.group('digits'):
+                version="%s%d" % (match.group('alpha1'),
+                                  int(match.group('digits'))+1)
+            else:
+                if '.' in match.group('alpha2'):
+                    version="%s1" % match.group('alpha2')
+                else:
+                    version="%s.1" % match.group('alpha2')
+        else:
+            version = 'A00'
+
+        return version
+
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature='ssss', out_signature='', sender_keyword='sender',

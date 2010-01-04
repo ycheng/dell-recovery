@@ -1,7 +1,11 @@
 dell-recovery (0.33) UNRELEASED; urgency=low
 
+  [ Mario Limonciello ]
   * Split out the common stuff that is used by the backend and frontend into a
     common python script.
+
+  [ Javier Collado ]
+  * Use re to parse the BTO version number more flexibly.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 18 Dec 2009 12:39:36 -0600
 
