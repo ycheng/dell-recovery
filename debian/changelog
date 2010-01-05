@@ -9,6 +9,8 @@ dell-recovery (0.33) UNRELEASED; urgency=low
     can use it.
   * Introduce an OEM-Config plugin to force the user to at least be questioned
     to create recovery media for the first time.
+  * Don't install an icon on new users' desktops anymore since the questions
+    are posed via OEM-config.
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.
