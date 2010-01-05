@@ -13,6 +13,8 @@ dell-recovery (0.33) UNRELEASED; urgency=low
     are posed via OEM-config.
   * Clean up the old icon from the skel folder in case other new users are made.
   * debian/control: Mark as enhances for oem-config-gtk
+  * Fix "Error parsing subject struct" when running on Lucid (no apparent 
+    regressions on Karmic with this fix)
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.

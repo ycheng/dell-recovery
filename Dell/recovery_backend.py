@@ -193,7 +193,8 @@ class Backend(dbus.service.Object):
         try:
             # we don't need is_challenge return here, since we call with AllowUserInteraction
             (is_auth, _, details) = self.polkit.CheckAuthorization(
-                    ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1)}),
+                    ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1),
+                        'start-time': dbus.UInt64(0, variant_level=1)}), 
                     privilege, {'': ''}, dbus.UInt32(1), '', timeout=600)
         except dbus.DBusException, e:
             if e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
