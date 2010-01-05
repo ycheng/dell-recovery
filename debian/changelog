@@ -17,6 +17,7 @@ dell-recovery (0.33) UNRELEASED; urgency=low
     regressions on Karmic with this fix)
   * Since .desktop file is no longer on the desktop, rename it's action to be
     more appropriate.
+  * Add a lintian overrides file for errors that are irrelevant.
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.
