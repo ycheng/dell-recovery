@@ -12,6 +12,7 @@ dell-recovery (0.33) UNRELEASED; urgency=low
   * Don't install an icon on new users' desktops anymore since the questions
     are posed via OEM-config.
   * Clean up the old icon from the skel folder in case other new users are made.
+  * debian/control: Mark as enhances for oem-config-gtk
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.

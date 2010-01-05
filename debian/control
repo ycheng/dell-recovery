@@ -14,6 +14,7 @@ Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}, python-gtk2, policykit-1, uuid-runtime, devicekit-disks | hal, policykit-1-gnome
 Replaces: dell-artwork
 Recommends: usb-creator-gtk, brasero | nautilus-cd-burner, lsb-release, git-core, python-vte
+Enhances: oem-config-gtk
 Suggests: grub-pc
 XB-Python-Version: ${python:Versions}
 Description: Dell Recovery Media Creation Package
