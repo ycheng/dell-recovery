@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Encoding=UTF-8
-_Name=Create Dell Recovery Media
+_Name=Dell Recovery Media Creator
 Type=Application
 Terminal=false
 Exec=dell-recovery-media
