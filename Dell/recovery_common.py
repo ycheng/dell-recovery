@@ -105,6 +105,36 @@ def find_partitions(up,rp):
                 rp=dev.GetProperty('block.device')
     return (up,rp)
 
+def find_burners():
+    """Checks for what utilities are available to burn with"""
+    def which(program):
+        import os
+        def is_exe(fpath):
+            return os.path.exists(fpath) and os.access(fpath, os.X_OK)
+
+        fpath, fname = os.path.split(program)
+        if fpath:
+            if is_exe(program):
+                return program
+        else:
+            for path in os.environ["PATH"].split(os.pathsep):
+                exe_file = os.path.join(path, program)
+                if is_exe(exe_file):
+                    return exe_file
+
+        return None
+
+    def find_command(array):
+        for item in array:
+            path=which(item)
+            if path is not None:
+                return [path] + array[item]
+        return None
+
+    return (find_command(cd_burners),
+            find_command(usb_burners))
+
+
 def dbus_sync_call_signal_wrapper(dbus_iface, fn, handler_map, *args, **kwargs):
     '''Run a D-BUS method call while receiving signals.
 

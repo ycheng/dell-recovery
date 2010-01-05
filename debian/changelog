@@ -5,6 +5,8 @@ dell-recovery (0.33) UNRELEASED; urgency=low
     common python script.
   * Don't require an utility partition to declare a system a preloaded system.
     During development it's possible that UP's aren't included.
+  * Move the function to find burners into -common so alternative frontends
+    can use it.
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.
