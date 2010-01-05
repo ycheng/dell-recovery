@@ -1,0 +1,16 @@
+Template: dell-recovery/destination
+Type: string
+Default: none
+Description: for internal use; determines whether to generate recovery media
+
+Template: dell-recovery/build_start
+Type: text
+Description: Building Dell Recovery Media...
+
+Template: dell-recovery/build_progress
+Type: text
+Description: ${MESSAGE} (${PERCENT}%)...
+
+Template: dell-recovery/burning
+Type: text
+Description: Invoking Media Burner...

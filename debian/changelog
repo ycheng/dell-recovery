@@ -7,6 +7,8 @@ dell-recovery (0.33) UNRELEASED; urgency=low
     During development it's possible that UP's aren't included.
   * Move the function to find burners into -common so alternative frontends
     can use it.
+  * Introduce an OEM-Config plugin to force the user to at least be questioned
+    to create recovery media for the first time.
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.
