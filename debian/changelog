@@ -18,6 +18,7 @@ dell-recovery (0.33) UNRELEASED; urgency=low
   * Since .desktop file is no longer on the desktop, rename it's action to be
     more appropriate.
   * Add a lintian overrides file for errors that are irrelevant.
+  * Add translation support to templates for strings shown only in Ubiquity.
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.

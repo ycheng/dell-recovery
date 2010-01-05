@@ -3,7 +3,7 @@ Section: utils
 Priority: optional
 Maintainer: Mario Limonciello <superm1@ubuntu.com>
 XSBC-Original-Maintainer: Mario Limonciello <mario_limonciello@dell.com>
-Build-Depends: debhelper (>= 6.0.0), cdbs, python-central (>= 0.5.6), python (>= 2.4), python-distutils-extra
+Build-Depends: debhelper (>= 6.0.0), cdbs, python-central (>= 0.5.6), python (>= 2.4), python-distutils-extra, po-debconf
 XS-Python-Version: current
 Homepage: http://linux.dell.com/
 Vcs-Bzr: http://bazaar.launchpad.net/~dell-team/dell-recovery/trunk
