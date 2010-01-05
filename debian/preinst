@@ -4,6 +4,9 @@ set -e
 case "$1" in
   upgrade)
     [ -L /etc/skel/Desktop/dell-recovery-media.desktop ] && rm /etc/skel/Desktop/dell-recovery-media.desktop
+    if dpkg --compare-versions "$2" le "0.33"; then
+        rm /etc/skel/Desktop/dell-recovery-media.desktop
+    fi
 esac
 
 #DEBHELPER#

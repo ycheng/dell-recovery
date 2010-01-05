@@ -11,6 +11,7 @@ dell-recovery (0.33) UNRELEASED; urgency=low
     to create recovery media for the first time.
   * Don't install an icon on new users' desktops anymore since the questions
     are posed via OEM-config.
+  * Clean up the old icon from the skel folder in case other new users are made.
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.
