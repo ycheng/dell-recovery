@@ -21,6 +21,7 @@ dell-recovery (0.33) UNRELEASED; urgency=low
   * Add translation support to templates for strings shown only in Ubiquity.
   * If git-core isn't installed, but the user is running in builder mode, offer
     to install it using aptdaemon if available.
+  * debian/control: Recommends on python-aptdaemon-gtk
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.
