@@ -1,4 +1,4 @@
-dell-recovery (0.33) UNRELEASED; urgency=low
+dell-recovery (0.33) lucid; urgency=low
 
   [ Mario Limonciello ]
   * Split out the common stuff that is used by the backend and frontend into a
@@ -28,7 +28,7 @@ dell-recovery (0.33) UNRELEASED; urgency=low
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.
 
- -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 18 Dec 2009 12:39:36 -0600
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 06 Jan 2010 16:23:02 -0600
 
 dell-recovery (0.32) karmic; urgency=low
 

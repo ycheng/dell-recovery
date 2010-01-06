@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-04-10 16:35-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-01-06 16:20-0600\n"
 "PO-Revision-Date: 2009-02-05 15:04+0000\n"
 "Last-Translator: Timo Jyrinki <timo-jyrinki@ubuntu.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -17,163 +17,181 @@ msgstr ""
 "X-Launchpad-Export-Date: 2009-09-29 21:20+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:144
+#: ../Dell/recovery_frontend.py:114
 msgid "Invalid utility partition"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:144 ../Dell/recovery_frontend.py:150
-msgid " in command line arguments.  Falling back to HAL based detection."
+#: ../Dell/recovery_frontend.py:114 ../Dell/recovery_frontend.py:120
+msgid ""
+" in command line arguments.  Falling back to DeviceKit or HAL based "
+"detection."
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:150
+#: ../Dell/recovery_frontend.py:120
 msgid "Invalid recovery partition"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:205
+#: ../Dell/recovery_frontend.py:196
 msgid "Permission Denied"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:218
+#: ../Dell/recovery_frontend.py:210
 msgid "Opening Burner"
 msgstr "Avataan kirjoittajaa."
 
-#: ../Dell/recovery_frontend.py:235
+#: ../Dell/recovery_frontend.py:224
 msgid "Recovery Media Creation Process Complete"
 msgstr "Palautusmedian luominen valmis"
 
-#: ../Dell/recovery_frontend.py:236
+#: ../Dell/recovery_frontend.py:225
 msgid ""
 "If you would like to archive another copy, the generated image has been "
-"stored under the filename:"
+"stored under the filename:\n"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:254
+#: ../Dell/recovery_frontend.py:245
 msgid "Cannot connect to dbus"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:271
+#: ../Dell/recovery_frontend.py:261
+msgid "python-vte is missing"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:262
+msgid "Builder mode requires python-vte to function"
+msgstr ""
+
+#. wizard.resize(400,400)
+#: ../Dell/recovery_frontend.py:273
+msgid " (BTO Image Builder Mode)"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:275
+#, fuzzy
 msgid ""
-"This tool requires that a Utility Partition and Linux Recovery partition are "
-"present to function."
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:344
-msgid "Welcome"
-msgstr "Tervetuloa"
-
-#: ../Dell/recovery_frontend.py:348
-msgid "Choose Media Type"
-msgstr "Valitse median tyyppi"
-
-#: ../Dell/recovery_frontend.py:367
-msgid "Choose Target Directory"
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:375
-msgid "Confirm Selections"
-msgstr "Vahvista valinnat"
-
-#: ../Dell/recovery_frontend.py:383
-msgid "ISO Image"
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:386
-msgid "OS Release: "
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:387
-msgid "Utility Partition: "
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:388
-msgid "Recovery Partition: "
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:389
-msgid "Media Type: "
-msgstr "Median tyyppi: "
-
-#: ../Dell/recovery_frontend.py:390
-msgid "File Name: "
-msgstr ""
-
-#: ../Dell/recovery_backend.py:336
-msgid "Building UP"
-msgstr ""
-
-#. Renerate UUID
-#: ../Dell/recovery_backend.py:344
-msgid "Generating UUID"
-msgstr ""
-
-#: ../Dell/recovery_backend.py:399
-msgid "Building ISO"
-msgstr ""
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:1
-msgid "Create Dell Recovery ISO"
-msgstr ""
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:2
-msgid "System policy prevents reading raw devices"
-msgstr ""
-
-#: ../gtk/dell-recovery-media.desktop.in.h:1
-msgid "Create Dell Recovery Media"
-msgstr ""
-
-#: ../gtk/recovery_media_creator.glade.h:1
-msgid "<activity placeholder>"
-msgstr "<tila varattu toiminnolle>"
-
-#: ../gtk/recovery_media_creator.glade.h:2
-msgid ""
-"An existing image was found (possibly from a previous run).  Would you like "
-"to remove this old copy and regenerate the image?"
-msgstr ""
-
-#: ../gtk/recovery_media_creator.glade.h:3
-msgid "Are you sure you want to cancel the Recovery Media creation process?"
-msgstr ""
-
-#: ../gtk/recovery_media_creator.glade.h:4
-msgid "Cancel Recovery Media Creator"
-msgstr "Peru palautusmedian luonti"
-
-#: ../gtk/recovery_media_creator.glade.h:5
-msgid "DVD+/-RW Disc"
-msgstr "DVD+/-RW-levy"
-
-#: ../gtk/recovery_media_creator.glade.h:6
-msgid "Dell Recovery Media Creator"
-msgstr "Dell-palautusmedian luonti"
-
-#: ../gtk/recovery_media_creator.glade.h:7
-msgid "No media, create ISO image"
-msgstr ""
-
-#: ../gtk/recovery_media_creator.glade.h:8
-msgid "Retry burn?"
-msgstr "Yritä kirjoitusta uudelleen?"
-
-#: ../gtk/recovery_media_creator.glade.h:9
-msgid "Select a directory for the ISO"
-msgstr ""
-
-#: ../gtk/recovery_media_creator.glade.h:10
-msgid "The media burn process failed.  Would you like to retry?"
-msgstr ""
-
-#: ../gtk/recovery_media_creator.glade.h:11
-msgid ""
-"This application will create OS Recovery Media that can be used to restore "
-"the computer to its factory shipped state.  You will have the option to "
-"create an USB key or DVD image."
+"This application will integrate a Dell OEM FID framework & FISH package set "
+"into a customized OS media image.  You will have the option to create an USB "
+"key or DVD image."
 msgstr ""
 "Tämä sovellus luo käyttöjärjestelmän palautusmedia, jota voidaan käyttää "
 "tietokoneen palauttamiseksi tehtaalta toimitettua vastaavaan tilaan. Voit "
 "luoda joko USB-tikun tai DVD-kuvan."
 
-#: ../gtk/recovery_media_creator.glade.h:12
-msgid "USB Flash Drive"
-msgstr "USB-Flash-asema"
+#: ../Dell/recovery_frontend.py:412
+msgid "<b>ERROR</b>: git is not installed"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:557
+msgid "Choose Base OS Image"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:560
+msgid "Choose FID Overlay"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:567
+msgid "Choose FISH Packages"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:584
+msgid "Builder Summary"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:709
+msgid "Welcome"
+msgstr "Tervetuloa"
+
+#: ../Dell/recovery_frontend.py:713
+msgid "Choose Media Type"
+msgstr "Valitse median tyyppi"
+
+#: ../Dell/recovery_frontend.py:746
+msgid "ISO Image"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:749
+msgid "Utility Partition: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:751
+msgid "Recovery Partition: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:752
+msgid "Media Type: "
+msgstr "Median tyyppi: "
+
+#: ../Dell/recovery_frontend.py:753
+msgid "File Name: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:758
+msgid "Confirm Selections"
+msgstr "Vahvista valinnat"
+
+#: ../Dell/recovery_backend.py:413
+msgid "Adding in base image"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:419
+msgid "Overlaying FID content"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:430
+msgid "Inserting FISH packages"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:574
+msgid "Building Dell Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:620
+msgid "Regenerating UUID / Rebuilding initramfs"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:661
+msgid "Building ISO"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:1
+msgid "Create/Assemble Dell Recovery ISO"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:2
+msgid "Query BTO Version"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:3
+msgid "Query ISO Information"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:4
+msgid "Request closing the backend"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:5
+msgid "System policy prevents closing processes without notice"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:6
+msgid "System policy prevents reading raw devices"
+msgstr ""
+
+#: ../gtk/dell-recovery-media.desktop.in.h:1
+msgid "Dell Recovery Media Creator"
+msgstr "Dell-palautusmedian luonti"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<tila varattu toiminnolle>"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Peru palautusmedian luonti"
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "DVD+/-RW-levy"
+
+#~ msgid "Retry burn?"
+#~ msgstr "Yritä kirjoitusta uudelleen?"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "USB-Flash-asema"

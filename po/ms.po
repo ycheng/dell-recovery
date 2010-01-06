@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-04-10 16:35-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-01-06 16:20-0600\n"
 "PO-Revision-Date: 2009-06-21 07:02+0000\n"
 "Last-Translator: Ibrahim Elias <imen802003@netscape.net>\n"
 "Language-Team: Malay <ms@li.org>\n"
@@ -17,169 +17,229 @@ msgstr ""
 "X-Launchpad-Export-Date: 2009-09-29 21:20+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:144
+#: ../Dell/recovery_frontend.py:114
 msgid "Invalid utility partition"
 msgstr "Partition utiliti tidak sah"
 
-#: ../Dell/recovery_frontend.py:144 ../Dell/recovery_frontend.py:150
-msgid " in command line arguments.  Falling back to HAL based detection."
+#: ../Dell/recovery_frontend.py:114 ../Dell/recovery_frontend.py:120
+#, fuzzy
+msgid ""
+" in command line arguments.  Falling back to DeviceKit or HAL based "
+"detection."
 msgstr " in command line arguments.  Falling back to HAL based detection."
 
-#: ../Dell/recovery_frontend.py:150
+#: ../Dell/recovery_frontend.py:120
 msgid "Invalid recovery partition"
 msgstr "Partition recovery tidak sah"
 
-#: ../Dell/recovery_frontend.py:205
+#: ../Dell/recovery_frontend.py:196
 msgid "Permission Denied"
 msgstr "Kebenaran ditolak"
 
-#: ../Dell/recovery_frontend.py:218
+#: ../Dell/recovery_frontend.py:210
 msgid "Opening Burner"
 msgstr "Buka Burner"
 
-#: ../Dell/recovery_frontend.py:235
+#: ../Dell/recovery_frontend.py:224
 msgid "Recovery Media Creation Process Complete"
 msgstr "Proses Recovery Medi Creation Selesai"
 
-#: ../Dell/recovery_frontend.py:236
+#: ../Dell/recovery_frontend.py:225
+#, fuzzy
 msgid ""
 "If you would like to archive another copy, the generated image has been "
-"stored under the filename:"
+"stored under the filename:\n"
 msgstr ""
 "Sekiranya anda mahu arkib salinan lain, imej terjana telah disimpan di bawah "
 "nama fail:"
 
-#: ../Dell/recovery_frontend.py:254
+#: ../Dell/recovery_frontend.py:245
 msgid "Cannot connect to dbus"
 msgstr "Tidak boleh sambung ke dbus"
 
-#: ../Dell/recovery_frontend.py:271
-msgid ""
-"This tool requires that a Utility Partition and Linux Recovery partition are "
-"present to function."
+#: ../Dell/recovery_frontend.py:261
+msgid "python-vte is missing"
 msgstr ""
-"Perkakas ini memerlukan Partition Utiliti dan partition Linux Recovery hadir "
-"untuk berfungsi."
 
-#: ../Dell/recovery_frontend.py:344
-msgid "Welcome"
-msgstr "Selamat Datang"
-
-#: ../Dell/recovery_frontend.py:348
-msgid "Choose Media Type"
-msgstr "Pilih Jenis Media"
-
-#: ../Dell/recovery_frontend.py:367
-msgid "Choose Target Directory"
-msgstr "Pilih Direktori Tujuan"
-
-#: ../Dell/recovery_frontend.py:375
-msgid "Confirm Selections"
-msgstr "Confirm Pilihan"
-
-#: ../Dell/recovery_frontend.py:383
-msgid "ISO Image"
-msgstr "Imej ISO"
-
-#: ../Dell/recovery_frontend.py:386
-msgid "OS Release: "
-msgstr "Versi keluaran OS: "
-
-#: ../Dell/recovery_frontend.py:387
-msgid "Utility Partition: "
-msgstr "Partition Utiliti: "
-
-#: ../Dell/recovery_frontend.py:388
-msgid "Recovery Partition: "
-msgstr "Partition Recovery: "
-
-#: ../Dell/recovery_frontend.py:389
-msgid "Media Type: "
-msgstr "Jenis Media: "
-
-#: ../Dell/recovery_frontend.py:390
-msgid "File Name: "
-msgstr "Nama File: "
-
-#: ../Dell/recovery_backend.py:336
-msgid "Building UP"
-msgstr "Membina UP"
-
-#. Renerate UUID
-#: ../Dell/recovery_backend.py:344
-msgid "Generating UUID"
-msgstr "Menjana UUID"
-
-#: ../Dell/recovery_backend.py:399
-msgid "Building ISO"
-msgstr "Membina ISO"
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:1
-msgid "Create Dell Recovery ISO"
-msgstr "Cipta Dell Recovery ISO"
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:2
-msgid "System policy prevents reading raw devices"
-msgstr "Polisi sistem menghalang baca raw device"
-
-#: ../gtk/dell-recovery-media.desktop.in.h:1
-msgid "Create Dell Recovery Media"
-msgstr "Cipta Media Recovery Dell"
-
-#: ../gtk/recovery_media_creator.glade.h:1
-msgid "<activity placeholder>"
-msgstr "<activity placeholder>"
-
-#: ../gtk/recovery_media_creator.glade.h:2
-msgid ""
-"An existing image was found (possibly from a previous run).  Would you like "
-"to remove this old copy and regenerate the image?"
+#: ../Dell/recovery_frontend.py:262
+msgid "Builder mode requires python-vte to function"
 msgstr ""
-"Imej yang telah ada dijumpai (kemungkinan dari jalan sebelum ini). Adakah "
-"anda mahu untuk buang salinan lama ini dan regenerate imej?"
 
-#: ../gtk/recovery_media_creator.glade.h:3
-msgid "Are you sure you want to cancel the Recovery Media creation process?"
-msgstr "Adakah anda pasti untuk batal proses cipta Media Recovery?"
+#. wizard.resize(400,400)
+#: ../Dell/recovery_frontend.py:273
+msgid " (BTO Image Builder Mode)"
+msgstr ""
 
-#: ../gtk/recovery_media_creator.glade.h:4
-msgid "Cancel Recovery Media Creator"
-msgstr "Batal Media Recovery Creator"
-
-#: ../gtk/recovery_media_creator.glade.h:5
-msgid "DVD+/-RW Disc"
-msgstr "DVD+/-RW Disk"
-
-#: ../gtk/recovery_media_creator.glade.h:6
-msgid "Dell Recovery Media Creator"
-msgstr "Dell Recovery Media Creator"
-
-#: ../gtk/recovery_media_creator.glade.h:7
-msgid "No media, create ISO image"
-msgstr "Tiada media, cipta imej ISO"
-
-#: ../gtk/recovery_media_creator.glade.h:8
-msgid "Retry burn?"
-msgstr "Cuba lagi bakar?"
-
-#: ../gtk/recovery_media_creator.glade.h:9
-msgid "Select a directory for the ISO"
-msgstr "Pilih direktori untuk ISO"
-
-#: ../gtk/recovery_media_creator.glade.h:10
-msgid "The media burn process failed.  Would you like to retry?"
-msgstr "Proses bakar media gagal. Adakah anda mahu cuba lagi?"
-
-#: ../gtk/recovery_media_creator.glade.h:11
+#: ../Dell/recovery_frontend.py:275
+#, fuzzy
 msgid ""
-"This application will create OS Recovery Media that can be used to restore "
-"the computer to its factory shipped state.  You will have the option to "
-"create an USB key or DVD image."
+"This application will integrate a Dell OEM FID framework & FISH package set "
+"into a customized OS media image.  You will have the option to create an USB "
+"key or DVD image."
 msgstr ""
 "Aplikasi ini akan cipta Media OS Recovery yang boleh digunakan untuk restore "
 "komputer ke keadaan asal dari kilang. Anda mempunyai pilih untuk cipta key "
 "USB atau imej DVD."
 
-#: ../gtk/recovery_media_creator.glade.h:12
-msgid "USB Flash Drive"
-msgstr "USB Flash Drive"
+#: ../Dell/recovery_frontend.py:412
+msgid "<b>ERROR</b>: git is not installed"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:557
+msgid "Choose Base OS Image"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:560
+msgid "Choose FID Overlay"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:567
+msgid "Choose FISH Packages"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:584
+msgid "Builder Summary"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:709
+msgid "Welcome"
+msgstr "Selamat Datang"
+
+#: ../Dell/recovery_frontend.py:713
+msgid "Choose Media Type"
+msgstr "Pilih Jenis Media"
+
+#: ../Dell/recovery_frontend.py:746
+msgid "ISO Image"
+msgstr "Imej ISO"
+
+#: ../Dell/recovery_frontend.py:749
+msgid "Utility Partition: "
+msgstr "Partition Utiliti: "
+
+#: ../Dell/recovery_frontend.py:751
+msgid "Recovery Partition: "
+msgstr "Partition Recovery: "
+
+#: ../Dell/recovery_frontend.py:752
+msgid "Media Type: "
+msgstr "Jenis Media: "
+
+#: ../Dell/recovery_frontend.py:753
+msgid "File Name: "
+msgstr "Nama File: "
+
+#: ../Dell/recovery_frontend.py:758
+msgid "Confirm Selections"
+msgstr "Confirm Pilihan"
+
+#: ../Dell/recovery_backend.py:413
+msgid "Adding in base image"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:419
+msgid "Overlaying FID content"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:430
+msgid "Inserting FISH packages"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:574
+#, fuzzy
+msgid "Building Dell Utility Partition"
+msgstr "Partition Utiliti: "
+
+#: ../Dell/recovery_backend.py:620
+msgid "Regenerating UUID / Rebuilding initramfs"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:661
+msgid "Building ISO"
+msgstr "Membina ISO"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:1
+#, fuzzy
+msgid "Create/Assemble Dell Recovery ISO"
+msgstr "Cipta Dell Recovery ISO"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:2
+msgid "Query BTO Version"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:3
+msgid "Query ISO Information"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:4
+msgid "Request closing the backend"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:5
+#, fuzzy
+msgid "System policy prevents closing processes without notice"
+msgstr "Polisi sistem menghalang baca raw device"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:6
+msgid "System policy prevents reading raw devices"
+msgstr "Polisi sistem menghalang baca raw device"
+
+#: ../gtk/dell-recovery-media.desktop.in.h:1
+msgid "Dell Recovery Media Creator"
+msgstr "Dell Recovery Media Creator"
+
+#~ msgid ""
+#~ "This tool requires that a Utility Partition and Linux Recovery partition "
+#~ "are present to function."
+#~ msgstr ""
+#~ "Perkakas ini memerlukan Partition Utiliti dan partition Linux Recovery "
+#~ "hadir untuk berfungsi."
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Pilih Direktori Tujuan"
+
+#~ msgid "OS Release: "
+#~ msgstr "Versi keluaran OS: "
+
+#~ msgid "Building UP"
+#~ msgstr "Membina UP"
+
+#~ msgid "Generating UUID"
+#~ msgstr "Menjana UUID"
+
+#~ msgid "Create Dell Recovery Media"
+#~ msgstr "Cipta Media Recovery Dell"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<activity placeholder>"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you "
+#~ "like to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "Imej yang telah ada dijumpai (kemungkinan dari jalan sebelum ini). Adakah "
+#~ "anda mahu untuk buang salinan lama ini dan regenerate imej?"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr "Adakah anda pasti untuk batal proses cipta Media Recovery?"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Batal Media Recovery Creator"
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "DVD+/-RW Disk"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Tiada media, cipta imej ISO"
+
+#~ msgid "Retry burn?"
+#~ msgstr "Cuba lagi bakar?"
+
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "Pilih direktori untuk ISO"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr "Proses bakar media gagal. Adakah anda mahu cuba lagi?"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "USB Flash Drive"

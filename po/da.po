@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-04-10 16:35-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-01-06 16:20-0600\n"
 "PO-Revision-Date: 2009-05-23 16:53+0000\n"
 "Last-Translator: Jimmy Frydkær Jensen <thewolf40@mailme.dk>\n"
 "Language-Team: Danish <da@li.org>\n"
@@ -17,170 +17,230 @@ msgstr ""
 "X-Launchpad-Export-Date: 2009-09-29 21:20+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:144
+#: ../Dell/recovery_frontend.py:114
 msgid "Invalid utility partition"
 msgstr "Ugyldig nytte partition"
 
-#: ../Dell/recovery_frontend.py:144 ../Dell/recovery_frontend.py:150
-msgid " in command line arguments.  Falling back to HAL based detection."
+#: ../Dell/recovery_frontend.py:114 ../Dell/recovery_frontend.py:120
+#, fuzzy
+msgid ""
+" in command line arguments.  Falling back to DeviceKit or HAL based "
+"detection."
 msgstr " i kommandolinje argument. Falder tilbage til HAL detection."
 
-#: ../Dell/recovery_frontend.py:150
+#: ../Dell/recovery_frontend.py:120
 msgid "Invalid recovery partition"
 msgstr "Ugyldig genskabelsespartition"
 
-#: ../Dell/recovery_frontend.py:205
+#: ../Dell/recovery_frontend.py:196
 msgid "Permission Denied"
 msgstr "Tilladelse nægtet"
 
-#: ../Dell/recovery_frontend.py:218
+#: ../Dell/recovery_frontend.py:210
 msgid "Opening Burner"
 msgstr "Åbner brænder"
 
-#: ../Dell/recovery_frontend.py:235
+#: ../Dell/recovery_frontend.py:224
 msgid "Recovery Media Creation Process Complete"
 msgstr "Genskabelses Medie Oprettelses Proces Færdig"
 
-#: ../Dell/recovery_frontend.py:236
+#: ../Dell/recovery_frontend.py:225
+#, fuzzy
 msgid ""
 "If you would like to archive another copy, the generated image has been "
-"stored under the filename:"
+"stored under the filename:\n"
 msgstr ""
 "Hvis du ønsker at arkivere en anden kopi, er det generede billede gemt under "
 "filnavnet:"
 
-#: ../Dell/recovery_frontend.py:254
+#: ../Dell/recovery_frontend.py:245
 msgid "Cannot connect to dbus"
 msgstr "Kan ikke forbinde til dbus"
 
-#: ../Dell/recovery_frontend.py:271
-msgid ""
-"This tool requires that a Utility Partition and Linux Recovery partition are "
-"present to function."
+#: ../Dell/recovery_frontend.py:261
+msgid "python-vte is missing"
 msgstr ""
-"Dette værktøj kræver at en nytte-partition og Linux Recovery Partition er "
-"til stede og fungerer."
 
-#: ../Dell/recovery_frontend.py:344
-msgid "Welcome"
-msgstr "Velkommen"
-
-#: ../Dell/recovery_frontend.py:348
-msgid "Choose Media Type"
-msgstr "Vælg Medietype"
-
-#: ../Dell/recovery_frontend.py:367
-msgid "Choose Target Directory"
-msgstr "Vælg mål-mappe"
-
-#: ../Dell/recovery_frontend.py:375
-msgid "Confirm Selections"
-msgstr "Godkend valgene"
-
-#: ../Dell/recovery_frontend.py:383
-msgid "ISO Image"
-msgstr "ISO billede"
-
-#: ../Dell/recovery_frontend.py:386
-msgid "OS Release: "
-msgstr "OS udgivelse: "
-
-#: ../Dell/recovery_frontend.py:387
-msgid "Utility Partition: "
-msgstr "Nyttepartition: "
-
-#: ../Dell/recovery_frontend.py:388
-msgid "Recovery Partition: "
-msgstr "Genskabelsespartiton: "
-
-#: ../Dell/recovery_frontend.py:389
-msgid "Media Type: "
-msgstr "Medietype: "
-
-#: ../Dell/recovery_frontend.py:390
-msgid "File Name: "
-msgstr "Filbavn: "
-
-#: ../Dell/recovery_backend.py:336
-msgid "Building UP"
-msgstr "Bygger op"
-
-#. Renerate UUID
-#: ../Dell/recovery_backend.py:344
-msgid "Generating UUID"
-msgstr "Genererer UUID"
-
-#: ../Dell/recovery_backend.py:399
-msgid "Building ISO"
-msgstr "Bygger ISO"
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:1
-msgid "Create Dell Recovery ISO"
-msgstr "Opret Dell Gendannelses ISO"
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:2
-msgid "System policy prevents reading raw devices"
-msgstr "Systempolitik forhindrer læsning af raw enheder"
-
-#: ../gtk/dell-recovery-media.desktop.in.h:1
-msgid "Create Dell Recovery Media"
-msgstr "Opret Dell Gendannelsesmeide"
-
-#: ../gtk/recovery_media_creator.glade.h:1
-msgid "<activity placeholder>"
-msgstr "<activity placeholder>"
-
-#: ../gtk/recovery_media_creator.glade.h:2
-msgid ""
-"An existing image was found (possibly from a previous run).  Would you like "
-"to remove this old copy and regenerate the image?"
+#: ../Dell/recovery_frontend.py:262
+msgid "Builder mode requires python-vte to function"
 msgstr ""
-"Et eksisterende billede blev fundet (formentlig fra en tidligere kørsel). "
-"Ønsker du at fjerne den gamle kopi og regenerere billedet?"
 
-#: ../gtk/recovery_media_creator.glade.h:3
-msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#. wizard.resize(400,400)
+#: ../Dell/recovery_frontend.py:273
+msgid " (BTO Image Builder Mode)"
 msgstr ""
-"Er du sikker på du ønsker at annullére oprettelsen af Gendannelsesmediet?"
 
-#: ../gtk/recovery_media_creator.glade.h:4
-msgid "Cancel Recovery Media Creator"
-msgstr "Annullér Gendannelsesmedie-opretter"
-
-#: ../gtk/recovery_media_creator.glade.h:5
-msgid "DVD+/-RW Disc"
-msgstr "DVD+/-RW Disc"
-
-#: ../gtk/recovery_media_creator.glade.h:6
-msgid "Dell Recovery Media Creator"
-msgstr "Dell Gendannelsesmedie-opretter"
-
-#: ../gtk/recovery_media_creator.glade.h:7
-msgid "No media, create ISO image"
-msgstr "Ingen medie, opret ISO billede"
-
-#: ../gtk/recovery_media_creator.glade.h:8
-msgid "Retry burn?"
-msgstr "Prøv at brænde igen?"
-
-#: ../gtk/recovery_media_creator.glade.h:9
-msgid "Select a directory for the ISO"
-msgstr "Vælg en mappe til ISO billedet"
-
-#: ../gtk/recovery_media_creator.glade.h:10
-msgid "The media burn process failed.  Would you like to retry?"
-msgstr "Brænding af medie mislukkedes. Vil du prøve igen?"
-
-#: ../gtk/recovery_media_creator.glade.h:11
+#: ../Dell/recovery_frontend.py:275
+#, fuzzy
 msgid ""
-"This application will create OS Recovery Media that can be used to restore "
-"the computer to its factory shipped state.  You will have the option to "
-"create an USB key or DVD image."
+"This application will integrate a Dell OEM FID framework & FISH package set "
+"into a customized OS media image.  You will have the option to create an USB "
+"key or DVD image."
 msgstr ""
 "Dette program vil oprette et gendannelses medie som kan bruges til at "
 "gendanne computeren til den tilstand den forlod fabrikken i. Du vil få "
 "mulighed for at oprette enten en USB nøgle eller et DVD billede."
 
-#: ../gtk/recovery_media_creator.glade.h:12
-msgid "USB Flash Drive"
-msgstr "USB Flash Drive"
+#: ../Dell/recovery_frontend.py:412
+msgid "<b>ERROR</b>: git is not installed"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:557
+msgid "Choose Base OS Image"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:560
+msgid "Choose FID Overlay"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:567
+msgid "Choose FISH Packages"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:584
+msgid "Builder Summary"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:709
+msgid "Welcome"
+msgstr "Velkommen"
+
+#: ../Dell/recovery_frontend.py:713
+msgid "Choose Media Type"
+msgstr "Vælg Medietype"
+
+#: ../Dell/recovery_frontend.py:746
+msgid "ISO Image"
+msgstr "ISO billede"
+
+#: ../Dell/recovery_frontend.py:749
+msgid "Utility Partition: "
+msgstr "Nyttepartition: "
+
+#: ../Dell/recovery_frontend.py:751
+msgid "Recovery Partition: "
+msgstr "Genskabelsespartiton: "
+
+#: ../Dell/recovery_frontend.py:752
+msgid "Media Type: "
+msgstr "Medietype: "
+
+#: ../Dell/recovery_frontend.py:753
+msgid "File Name: "
+msgstr "Filbavn: "
+
+#: ../Dell/recovery_frontend.py:758
+msgid "Confirm Selections"
+msgstr "Godkend valgene"
+
+#: ../Dell/recovery_backend.py:413
+msgid "Adding in base image"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:419
+msgid "Overlaying FID content"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:430
+msgid "Inserting FISH packages"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:574
+#, fuzzy
+msgid "Building Dell Utility Partition"
+msgstr "Nyttepartition: "
+
+#: ../Dell/recovery_backend.py:620
+msgid "Regenerating UUID / Rebuilding initramfs"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:661
+msgid "Building ISO"
+msgstr "Bygger ISO"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:1
+#, fuzzy
+msgid "Create/Assemble Dell Recovery ISO"
+msgstr "Opret Dell Gendannelses ISO"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:2
+msgid "Query BTO Version"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:3
+msgid "Query ISO Information"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:4
+msgid "Request closing the backend"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:5
+#, fuzzy
+msgid "System policy prevents closing processes without notice"
+msgstr "Systempolitik forhindrer læsning af raw enheder"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:6
+msgid "System policy prevents reading raw devices"
+msgstr "Systempolitik forhindrer læsning af raw enheder"
+
+#: ../gtk/dell-recovery-media.desktop.in.h:1
+msgid "Dell Recovery Media Creator"
+msgstr "Dell Gendannelsesmedie-opretter"
+
+#~ msgid ""
+#~ "This tool requires that a Utility Partition and Linux Recovery partition "
+#~ "are present to function."
+#~ msgstr ""
+#~ "Dette værktøj kræver at en nytte-partition og Linux Recovery Partition er "
+#~ "til stede og fungerer."
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Vælg mål-mappe"
+
+#~ msgid "OS Release: "
+#~ msgstr "OS udgivelse: "
+
+#~ msgid "Building UP"
+#~ msgstr "Bygger op"
+
+#~ msgid "Generating UUID"
+#~ msgstr "Genererer UUID"
+
+#~ msgid "Create Dell Recovery Media"
+#~ msgstr "Opret Dell Gendannelsesmeide"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<activity placeholder>"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you "
+#~ "like to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "Et eksisterende billede blev fundet (formentlig fra en tidligere kørsel). "
+#~ "Ønsker du at fjerne den gamle kopi og regenerere billedet?"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr ""
+#~ "Er du sikker på du ønsker at annullére oprettelsen af Gendannelsesmediet?"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Annullér Gendannelsesmedie-opretter"
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "DVD+/-RW Disc"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Ingen medie, opret ISO billede"
+
+#~ msgid "Retry burn?"
+#~ msgstr "Prøv at brænde igen?"
+
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "Vælg en mappe til ISO billedet"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr "Brænding af medie mislukkedes. Vil du prøve igen?"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "USB Flash Drive"
