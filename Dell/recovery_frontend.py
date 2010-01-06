@@ -441,6 +441,8 @@ create an USB key or DVD image."))
             liststore=self.builder_widgets.get_object(liststore_name)
             liststore.clear()
             cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
+            if not os.path.exists(cwd):
+                return
             list_command=subprocess.Popen(args=command,cwd=cwd,stdout=subprocess.PIPE)
             output=list_command.communicate()[0].split('\n')
             #go through the list once to see if we have A rev tags at all

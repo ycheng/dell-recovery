@@ -22,6 +22,8 @@ dell-recovery (0.33) UNRELEASED; urgency=low
   * If git-core isn't installed, but the user is running in builder mode, offer
     to install it using aptdaemon if available.
   * debian/control: Recommends on python-aptdaemon-gtk
+  * Prevent a crash if the git server is unaccessible when trying to fetch
+    the list of items.
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.
