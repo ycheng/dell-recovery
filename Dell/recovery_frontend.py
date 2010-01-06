@@ -35,6 +35,15 @@ import gtk
 
 from Dell.recovery_common import *
 
+try:
+    from aptdaemon import client
+    from aptdaemon.enums import *
+    from aptdaemon.gtkwidgets import (AptErrorDialog,
+                                      AptProgressDialog,
+                                      AptMessageDialog)
+except ImportError:
+    pass
+
 #Translation support
 import gettext
 from gettext import gettext as _
@@ -91,6 +100,8 @@ class Frontend:
         self.builder=builder
         self.xrev=xrev
         self.branch=branch
+
+        self.ac=None
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
@@ -399,6 +410,12 @@ create an USB key or DVD image."))
 
         if not os.path.exists('/usr/bin/git'):
             output_text=_("<b>ERROR</b>: git is not installed")
+            if not self.ac:
+                try:
+                    self.ac = client.AptClient()
+                    self.builder_widgets.get_object('install_git_button').show()
+                except NameError:
+                    pass
             wizard.set_page_complete(fid_page,False)
         else:
             output_text=''
@@ -583,6 +600,27 @@ create an USB key or DVD image."))
             output_text+= self.widgets.get_object('conf_text').get_label()
 
             self.widgets.get_object('conf_text').set_markup(output_text)
+
+    def install_git(self,widget):
+        """Launch into an installer for git"""
+        widget.hide()
+        t = self.ac.install_packages(['git-core'],
+                                    wait=False,
+                                    reply_handler=None,
+                                    error_handler=None)
+        wizard=self.widgets.get_object('wizard')
+        dialog = AptProgressDialog(t, parent=wizard)
+        try:
+            dialog.run()
+            super(AptProgressDialog, dialog).run()
+        except dbus.exceptions.DBusException, e:
+            msg = str(e)
+            error = gtk.MessageDialog(parent=wizard, type=gtk.MESSAGE_ERROR,
+                            buttons=gtk.BUTTONS_CLOSE,
+                            message_format=msg)
+            error.run()
+            error.hide()
+
 
 #### GUI Functions ###
 # This application is functional via command line by using the above functions #

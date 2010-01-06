@@ -19,6 +19,8 @@ dell-recovery (0.33) UNRELEASED; urgency=low
     more appropriate.
   * Add a lintian overrides file for errors that are irrelevant.
   * Add translation support to templates for strings shown only in Ubiquity.
+  * If git-core isn't installed, but the user is running in builder mode, offer
+    to install it using aptdaemon if available.
 
   [ Javier Collado ]
   * Use re to parse the BTO version number more flexibly.

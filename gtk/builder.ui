@@ -447,6 +447,25 @@
         <property name="position">4</property>
       </packing>
     </child>
+    <child>
+      <object class="GtkAlignment" id="alignment6">
+        <property name="visible">True</property>
+        <property name="xscale">0</property>
+        <child>
+          <object class="GtkButton" id="install_git_button">
+            <property name="label" translatable="yes">Install git</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <signal name="clicked" handler="install_git"/>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="position">5</property>
+      </packing>
+    </child>
   </object>
   <object class="GtkListStore" id="fish_liststore">
     <columns>
