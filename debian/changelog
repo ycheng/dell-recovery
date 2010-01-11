@@ -1,3 +1,11 @@
+dell-recovery (0.34) UNRELEASED; urgency=low
+
+  * Put all the builder code into it's own python file to clean up the frontend
+    code.  Move the logic to determine if to use builder into the main startup
+    script instead.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 11 Jan 2010 16:51:13 -0600
+
 dell-recovery (0.33) lucid; urgency=low
 
   [ Mario Limonciello ]

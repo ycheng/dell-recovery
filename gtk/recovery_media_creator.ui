@@ -159,6 +159,9 @@
       <placeholder/>
     </child>
     <child>
+      <placeholder/>
+    </child>
+    <child>
       <object class="GtkLabel" id="start_page">
         <property name="visible">True</property>
         <property name="label" translatable="yes">This application will create OS Recovery Media that can be used to restore the computer to its factory shipped state.  You will have the option to create an USB key or DVD image.</property>
@@ -350,34 +353,6 @@
       <object class="GtkVBox" id="dialog-vbox5">
         <child internal-child="action_area">
           <object class="GtkHButtonBox" id="dialog-action_area5"/>
-          <packing>
-            <property name="expand">False</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkMessageDialog" id="builder_dialog">
-    <property name="border_width">5</property>
-    <property name="title" translatable="yes">Missing Recovery Partition</property>
-    <property name="resizable">False</property>
-    <property name="window_position">center-on-parent</property>
-    <property name="destroy_with_parent">True</property>
-    <property name="type_hint">dialog</property>
-    <property name="skip_taskbar_hint">True</property>
-    <property name="message_type">question</property>
-    <property name="buttons">yes-no</property>
-    <property name="text" translatable="yes">This tool requires that a Linux Recovery partition is present to function normally. Would you like to run in BTO Image Builder Mode?</property>
-    <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox7">
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area7">
-            <child>
-              <placeholder/>
-            </child>
-          </object>
           <packing>
             <property name="expand">False</property>
             <property name="pack_type">end</property>

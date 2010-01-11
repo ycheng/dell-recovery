@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
 # Dell Recovery Media Launcher Script
@@ -21,10 +21,27 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
-from Dell.recovery_frontend import Frontend
+from Dell.recovery_frontend import GTKFrontend
+from Dell.recovery_builder import GTKBuilderFrontend
+from Dell.recovery_common import find_partitions
 import optparse
 import os
 import sys
+
+def check_builder(builder,rp):
+    """Determines if we should run in builder mode"""
+    if not rp and not builder:
+        import gtk
+        dialog=gtk.MessageDialog(type=gtk.MESSAGE_QUESTION,
+                                 buttons=gtk.BUTTONS_YES_NO,
+                                 message_format="This tool requires that a Linux Recovery partition is present to function normally. Would you like to run in BTO Image Builder Mode?")
+        answer=dialog.run()
+        dialog.hide()
+        if answer == gtk.RESPONSE_YES:
+            builder = True
+    return builder
+
+
 
 target=os.path.join(os.getenv('HOME'),'Download')
 if not os.path.isdir(target):
@@ -37,6 +54,7 @@ parser.set_defaults(
     rp='',
     version='',
     media="dvd",
+    builder=False,
     target=target,
     overwrite=False,
     xrev=False,
@@ -63,13 +81,27 @@ parser.add_option('--override-branch-mode', dest='branch', action='store_true',
 (options, args) = parser.parse_args()
 
 if __name__ == '__main__':
-    script = Frontend(options.up,
-                      options.rp,
+    up,rp=find_partitions(options.up,options.rp)
+    builder=check_builder(options.builder,rp)    
+
+    if builder:
+        script = GTKBuilderFrontend(
+                      up,
+                      rp,
                       options.version,
                       options.media,
                       options.target,
                       options.overwrite,
-                      options.builder,
+                      options.xrev,
+                      options.branch)
+    else:
+        script = GTKFrontend(
+                      up,
+                      rp,
+                      options.version,
+                      options.media,
+                      options.target,
+                      options.overwrite,
                       options.xrev,
                       options.branch)
     script.run()
