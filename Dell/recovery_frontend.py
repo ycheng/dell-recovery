@@ -34,7 +34,6 @@ import gtk
 
 from Dell.recovery_common import *
 
-
 #Translation support
 import gettext
 from gettext import gettext as _
