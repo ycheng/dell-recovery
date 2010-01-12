@@ -86,7 +86,7 @@ create an USB key or DVD image."))
         self.vte = vte.Terminal()
         self.builder_widgets.get_object('builder_vte_vbox').add(self.vte)
         self.vte.show()
-        self.vte.connect("child-exited", self.builder_fid_vte_handler)
+        self.vte.connect("child-exited", self.fid_vte_handler)
 
         #insert builder pages
         wizard.insert_page(self.builder_widgets.get_object('fish_page'),1)
@@ -122,7 +122,7 @@ create an USB key or DVD image."))
             for operating_system in git_trees:
                 if operating_system == self.distributor:
                     self.builder_widgets.get_object('git_url').set_text(git_trees[operating_system])
-            self.builder_fid_toggled(None)
+            self.fid_toggled(None)
 
         elif page == self.builder_widgets.get_object('fish_page'):
             wizard.set_page_title(page,_("Choose FISH Packages"))
@@ -187,7 +187,7 @@ create an USB key or DVD image."))
 
         GTKFrontend.wizard_complete(self,widget,function, args)
 
-    def builder_file_dialog(self):
+    def run_file_dialog(self):
         """Browses all files under a particular filter"""
         response = self.file_dialog.run()
         self.file_dialog.hide()
@@ -196,7 +196,7 @@ create an USB key or DVD image."))
         else:
             return None
 
-    def builder_base_toggled(self,widget):
+    def base_toggled(self,widget):
         """Called when the radio button for the Builder base image page is changed"""
         base_browse_button=self.builder_widgets.get_object('base_browse_button')
         base_page = self.builder_widgets.get_object('base_page')
@@ -213,9 +213,9 @@ create an USB key or DVD image."))
             self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
         else:
             base_browse_button.set_sensitive(False)
-            self.builder_base_file_chooser_picked()
+            self.base_file_chooser_picked()
 
-    def builder_base_file_chooser_picked(self,widget=None):
+    def base_file_chooser_picked(self,widget=None):
         """Called when a file is selected on the base page"""
         
         base_page = self.builder_widgets.get_object('base_page')
@@ -228,7 +228,7 @@ create an USB key or DVD image."))
         distributor=''
         release=''
         if widget == self.builder_widgets.get_object('base_browse_button'):
-            ret=self.builder_file_dialog()
+            ret=self.run_file_dialog()
             if ret is not None:
                 (bto_version, distributor, release, output_text) = self.backend().query_iso_information(ret)
                 self.bto_base=not not bto_version
@@ -259,7 +259,7 @@ create an USB key or DVD image."))
 
         self.builder_widgets.get_object('base_image_details_label').set_markup(output_text)
 
-    def builder_fid_toggled(self,widget):
+    def fid_toggled(self,widget):
         """Called when the radio button for the Builder FID overlay page is changed"""
         wizard = self.widgets.get_object('wizard')
         fid_page = self.builder_widgets.get_object('fid_page')
@@ -279,9 +279,9 @@ create an USB key or DVD image."))
             git_tree_hbox.set_sensitive(True)
             cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
             if os.path.exists(cwd):
-                self.builder_fid_vte_handler(self.builder_widgets.get_object('git_radio'))
+                self.fid_vte_handler(self.builder_widgets.get_object('git_radio'))
 
-    def builder_fid_fetch_button_clicked(self,widget):
+    def fid_fetch_button_clicked(self,widget):
         """Called when the button to test a git tree is clicked"""
         wizard = self.widgets.get_object('wizard')
         fid_page = self.builder_widgets.get_object('fid_page')
@@ -314,7 +314,7 @@ create an USB key or DVD image."))
             self.vte.fork_command(command=command[0],argv=command,directory=cwd)
         label.set_markup(output_text)
 
-    def builder_fid_vte_handler(self,widget):
+    def fid_vte_handler(self,widget):
         """Handler for VTE dialog closing"""
         def fill_liststore_from_command(command, filter, liststore_name):
             """Fills up the data in a liststore, only items matching filter"""
@@ -378,7 +378,7 @@ create an USB key or DVD image."))
         else:
             self.builder_widgets.get_object('builder_vte_close').set_sensitive(True)
 
-    def builder_fid_git_changed(self,widget):
+    def fid_git_changed(self,widget):
         """If we have selected a tag"""
         wizard = self.widgets.get_object('wizard')
         fid_page = self.builder_widgets.get_object('fid_page')
@@ -410,14 +410,14 @@ create an USB key or DVD image."))
             wizard.set_page_complete(fid_page,False)
         self.builder_widgets.get_object('fid_overlay_details_label').set_markup(output_text)
 
-    def builder_fish_action(self,widget):
+    def fish_action(self,widget):
         """Called when the add or remove buttons are pressed on the fish action page"""
         add_button = self.builder_widgets.get_object('fish_add')
         remove_button = self.builder_widgets.get_object('fish_remove')
         fish_treeview = self.builder_widgets.get_object('fish_treeview')
         model = fish_treeview.get_model()
         if widget == add_button:
-            ret=self.builder_file_dialog()
+            ret=self.run_file_dialog()
             if ret is not None:
                 model.append([ret])
         elif widget == remove_button:
