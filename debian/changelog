@@ -9,6 +9,7 @@ dell-recovery (0.34) UNRELEASED; urgency=low
     be running in builder mode.
   * Move the logic to increment the BTO version into the various frontends rather
     than incrementing during the backend query_bto_version method.
+  * Only offer DVD burning if DVD burning hardware is on the system.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 11 Jan 2010 16:51:13 -0600
 

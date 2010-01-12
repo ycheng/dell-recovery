@@ -48,7 +48,7 @@ else:
 
 
 #Supported burners and their arguments
-cd_burners = { 'brasero':['-i'],
+dvd_burners = { 'brasero':['-i'],
                'nautilus-cd-burner':['--source-iso='] }
 usb_burners = { 'usb-creator':['-n','--iso'],
                 'usb-creator-gtk':['-n','--iso'],
@@ -132,8 +132,35 @@ def find_burners():
                 return [path] + array[item]
         return None
 
-    return (find_command(cd_burners),
-            find_command(usb_burners))
+    dvd = find_command(dvd_burners)
+    usb = find_command(usb_burners)
+    
+    #If we have apps for DVD burning, check hardware
+    if dvd:
+        try:
+            bus = dbus.SystemBus()
+            #first try to use devkit-disks. if this fails, then, it's OK
+            dk_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', '/org/freedesktop/DeviceKit/Disks')
+            dk = dbus.Interface(dk_obj, 'org.freedesktop.DeviceKit.Disks')
+            devices = dk.EnumerateDevices()
+            found_supported_dvdr = False
+            for device in devices:
+                dev_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', device)
+                dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
+
+                supported_media = dev.Get('org.freedesktop.DeviceKit.Disks.Device','DriveMediaCompatibility')
+                for item in supported_media:
+                    if 'optical_dvd_r' in item:
+                        found_supported_dvdr = True
+                        break
+                if found_supported_dvdr:
+                    break
+            if not found_supported_dvdr:
+                dvd = None
+        except dbus.DBusException, e:
+            print "Error parsing devkit disks for info about DVD burners: %s" % str(e)
+
+    return (dvd,usb)
 
 def increment_bto_version(version):
     match = re.match(r"(?:(?P<alpha1>\w+\.[a-z]*)(?P<digits>\d+))"
