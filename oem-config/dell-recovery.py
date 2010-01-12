@@ -118,6 +118,7 @@ class Install(InstallPlugin):
 
             #Determine internal version number of image
             (version,date) = dbus_iface.query_bto_version(rp)
+            version = magic.increment_bto_version(version)
 
             #Build image
             try:

@@ -248,7 +248,11 @@ create an USB key or DVD image."))
 
         if not bto_version:
             bto_version='X00'
+            
         #set the version string that we fetched from the image
+        #or increment it if we started from a BTO base image
+        if self.bto_base:
+            bto_version=increment_bto_version(bto_version)
         self.widgets.get_object('version').set_text(bto_version)
 
         if distributor:

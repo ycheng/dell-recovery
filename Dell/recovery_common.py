@@ -26,6 +26,7 @@
 import dbus.mainloop.glib
 import gobject
 import os
+import re
 
 ##                ##
 ##Common Variables##
@@ -134,6 +135,22 @@ def find_burners():
     return (find_command(cd_burners),
             find_command(usb_burners))
 
+def increment_bto_version(version):
+    match = re.match(r"(?:(?P<alpha1>\w+\.[a-z]*)(?P<digits>\d+))"
+                     r"|(?P<alpha2>\w+(?:\.[a-z]+)?)",
+                     version, re.I)
+
+    if match:
+        if match.group('digits'):
+            version="%s%d" % (match.group('alpha1'),
+                              int(match.group('digits'))+1)
+        else:
+            if '.' in match.group('alpha2'):
+                version="%s1" % match.group('alpha2')
+            else:
+                version="%s.1" % match.group('alpha2')
+
+    return version
 
 def dbus_sync_call_signal_wrapper(dbus_iface, fn, handler_map, *args, **kwargs):
     '''Run a D-BUS method call while receiving signals.
