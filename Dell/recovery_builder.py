@@ -103,6 +103,12 @@ create an USB key or DVD image."))
 
         self.builder_widgets.connect_signals(self)
 
+    def run(self):
+        """Main method for launching the frontend, this needs to be overridden
+           because it may be ran from a non-preloaded system"""
+        self.widgets.get_object('wizard').show()
+        gtk.main()
+
     def build_page(self,widget,page=None):
         """Processes output that should be done on a builder page"""
         #Do the normal processing first

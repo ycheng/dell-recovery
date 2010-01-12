@@ -4,6 +4,7 @@ dell-recovery (0.34) UNRELEASED; urgency=low
     code.  Move the logic to determine if to use builder into the main startup
     script instead.
   * Remove extraneous builder_ prefix from all builder specific functions.
+  * Fix running in builder mode on a non-preloaded system.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 11 Jan 2010 16:51:13 -0600
 
