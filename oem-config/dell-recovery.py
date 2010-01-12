@@ -51,9 +51,9 @@ class PageGtk(PluginUI):
                 self.dvd_media = builder.get_object('save_to_dvd')
                 self.none_media = builder.get_object('save_to_none')
                 if not dvd:
-                    builder.get_object('dvd_vbox').set_sensitive(False)
+                    builder.get_object('dvd_vbox').hide()
                 if not usb:
-                    builder.get_object('usb_vbox').set_sensitive(False)
+                    builder.get_object('usb_vbox').hide()
             except Exception, e:
                 self.debug('Could not create Dell Recovery page: %s', e)
                 self.plugin_widgets = None

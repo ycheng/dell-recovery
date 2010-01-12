@@ -311,10 +311,10 @@ class GTKFrontend:
                 self.widgets.get_object('nomediabutton').set_active(True)
             #remove invalid options (missing burners)
             if self.cd_burn_cmd is None:
-                self.widgets.get_object('dvdbutton').set_sensitive(False)
+                self.widgets.get_object('dvdbutton').hide()
                 self.widgets.get_object('usbbutton').set_active(True)
             if self.usb_burn_cmd is None:
-                self.widgets.get_object('usbbutton').set_sensitive(False)
+                self.widgets.get_object('usbbutton').hide()
                 if self.cd_burn_cmd is None:
                     self.widgets.get_object('nomediabutton').set_active(True)
 

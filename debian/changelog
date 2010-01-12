@@ -10,6 +10,9 @@ dell-recovery (0.34) UNRELEASED; urgency=low
   * Move the logic to increment the BTO version into the various frontends rather
     than incrementing during the backend query_bto_version method.
   * Only offer DVD burning if DVD burning hardware is on the system.
+  * Rather than just greying out the DVD burner radio buttons when DVD burning
+    hardware isn't available, hide the widgets all together to avoid confusion
+    as to why the widget is greyed out.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 11 Jan 2010 16:51:13 -0600
 
