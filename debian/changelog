@@ -15,6 +15,8 @@ dell-recovery (0.34) UNRELEASED; urgency=low
     as to why the widget is greyed out.
   * Clean up the OEM config page to line up the widgets and add some nicer icons.
   * Add icons for the normal GTK frontend's media selection page.
+  * Don't show the full path on the summary page.  Prevents the GUI from growing
+    in size (in normal circumstances) in builder mode.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 11 Jan 2010 16:51:13 -0600
 

@@ -341,7 +341,7 @@ class GTKFrontend:
             if self.rp:
                 text+="<b>" + _("Recovery Partition: ") + '</b>' + self.rp + '\n'
             text+="<b>" + _("Media Type: ") + '</b>' + type + '\n'
-            text+="<b>" + _("File Name: ") + '</b>' + os.path.join(self.path, self.iso) + '\n'
+            text+="<b>" + _("File Name: ") + '</b>' + self.iso + '\n'
 
             self.widgets.get_object('conf_text').set_markup(text)
 
