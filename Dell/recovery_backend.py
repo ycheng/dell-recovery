@@ -513,7 +513,7 @@ class Backend(dbus.service.Object):
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.query_bto_version')
 
         #mount the RP
-        version='A00'
+        version=''
         date=''
         mntdir = self.request_mount(rp)
 

@@ -325,7 +325,12 @@ class GTKFrontend:
 
             #Fill in dynamic data
             if not self.widgets.get_object('version').get_text():
-                (version,date) = self.backend().query_bto_version(self.rp)
+                (version, distributor, release, output_text) = self.backend().query_iso_information(self.rp)
+                if distributor:
+                    self.distributor=distributor
+                if release:
+                    self.release=release
+                version=increment_bto_version(version)
                 self.widgets.get_object('version').set_text(version)
             self.iso = self.distributor + '-' + self.release + '-dell_' + self.widgets.get_object('version').get_text() + ".iso"
 

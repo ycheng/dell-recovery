@@ -176,6 +176,8 @@ def increment_bto_version(version):
                 version="%s1" % match.group('alpha2')
             else:
                 version="%s.1" % match.group('alpha2')
+    else:
+        return 'A00'
 
     return version
 
