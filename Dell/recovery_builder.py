@@ -27,6 +27,9 @@ import os
 import sys
 import gtk
 import subprocess
+
+import threading
+
 from Dell.recovery_frontend import GTKFrontend
 from Dell.recovery_common import *
 
@@ -42,6 +45,29 @@ except ImportError:
 #Translation support
 import gettext
 from gettext import gettext as _
+
+class PulseThread(threading.Thread):
+    """Class for showing a pulsing progress bar."""
+    def __init__(self,progressbar):
+        threading.Thread.__init__(self)
+        self.progressbar = progressbar
+        self._stopevent = threading.Event()
+    
+    def join(self):
+        self._stopevent.set()
+        threading.Thread.join(self)
+
+    def run(self):
+        try:
+            while not self._stopevent.isSet():
+                gtk.gdk.threads_enter()
+                self.progressbar.pulse()
+                gtk.gdk.threads_leave()
+                self._stopevent.wait(0.3)
+        except Exception:
+            print "Exception when checking progress bar thread in builder"
+        self.progressbar.set_fraction(1)
+        self.progressbar.set_text(_("Finished. Press Close to Continue"))
 
 class GTKBuilderFrontend(GTKFrontend):
 
@@ -84,7 +110,7 @@ create an USB key or DVD image."))
         self.builder_widgets.get_object('builder_vte_window').set_transient_for(
             self.widgets.get_object('wizard'))
         self.vte = vte.Terminal()
-        self.builder_widgets.get_object('builder_vte_vbox').add(self.vte)
+        self.builder_widgets.get_object('builder_vte_vbox').pack_start(self.vte)
         self.vte.show()
         self.vte.connect("child-exited", self.fid_vte_handler)
 
@@ -95,6 +121,9 @@ create an USB key or DVD image."))
 
         #improve the summary
         self.widgets.get_object('version_hbox').show()
+
+        #git progressbar thread
+        self.pulsethread=PulseThread(self.builder_widgets.get_object('vte_progressbar'))
 
         #builder variable defaults
         self.builder_fid_overlay=''
@@ -107,7 +136,10 @@ create an USB key or DVD image."))
         """Main method for launching the frontend, this needs to be overridden
            because it may be ran from a non-preloaded system"""
         self.widgets.get_object('wizard').show()
+        gtk.gdk.threads_init()
+        gtk.gdk.threads_enter()
         gtk.main()
+        gtk.gdk.threads_leave()
 
     def build_page(self,widget,page=None):
         """Processes output that should be done on a builder page"""
@@ -321,6 +353,7 @@ create an USB key or DVD image."))
                 cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
             self.widgets.get_object('wizard').set_sensitive(False)
             self.builder_widgets.get_object('builder_vte_window').show()
+            self.pulsethread.start()
             self.vte.fork_command(command=command[0],argv=command,directory=cwd)
         label.set_markup(output_text)
 
@@ -386,6 +419,7 @@ create an USB key or DVD image."))
             fill_liststore_from_command(command,self.release,'tag_liststore')
         #the vte command exited
         else:
+            self.pulsethread.join()
             self.builder_widgets.get_object('builder_vte_close').set_sensitive(True)
 
     def fid_git_changed(self,widget):
