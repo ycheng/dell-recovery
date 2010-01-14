@@ -286,7 +286,10 @@ class GTKFrontend:
     def update_progress_gui(self,progress_text,progress):
         """Updates the progressbar to show what we are working on"""
         self.widgets.get_object('progress_dialog').show()
-        self.widgets.get_object('progressbar').set_fraction(float(progress)/100)
+        if float(progress) < 0:
+            self.widgets.get_object('progressbar').pulse()
+        else:
+            self.widgets.get_object('progressbar').set_fraction(float(progress)/100)
         if progress_text != None:
             self.widgets.get_object('action').set_markup("<i>"+_(progress_text)+"</i>")
         while gtk.events_pending():

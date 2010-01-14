@@ -26,6 +26,7 @@ dell-recovery (0.34) UNRELEASED; urgency=low
     running in builder mode.
   * Add a pulsing thread to the backend so that it can report during activities
     that it has no idea when they will  be done.
+  * If the progress is -1% done, pulse the  bar in the GTK frontend
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 11 Jan 2010 16:51:13 -0600
 
