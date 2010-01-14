@@ -22,8 +22,9 @@ dell-recovery (0.34) UNRELEASED; urgency=low
     not the running OS.
   * Move the default value of 'A00' when no BTO version is defined into the
     increment_bto_version function used in recovery_common.
-  * Add a progressbar widget and a pulsing thread to the git fetch page when
-    running in builder mode.
+  * Automatically close the fetch window when complete.
+  * Don't show the terminal for fetching by default, but allow it to be expanded.
+  * Add a cancel button to the fetch if the user wants to abort it.
   * Add a pulsing thread to the backend so that it can report during activities
     that it has no idea when they will  be done.
   * If the progress is -1% done, pulse the  bar in the GTK frontend

@@ -28,8 +28,6 @@ import sys
 import gtk
 import subprocess
 
-import threading
-
 from Dell.recovery_frontend import GTKFrontend
 from Dell.recovery_common import *
 
@@ -45,29 +43,6 @@ except ImportError:
 #Translation support
 import gettext
 from gettext import gettext as _
-
-class PulseThread(threading.Thread):
-    """Class for showing a pulsing progress bar."""
-    def __init__(self,progressbar):
-        threading.Thread.__init__(self)
-        self.progressbar = progressbar
-        self._stopevent = threading.Event()
-    
-    def join(self):
-        self._stopevent.set()
-        threading.Thread.join(self)
-
-    def run(self):
-        try:
-            while not self._stopevent.isSet():
-                gtk.gdk.threads_enter()
-                self.progressbar.pulse()
-                gtk.gdk.threads_leave()
-                self._stopevent.wait(0.3)
-        except Exception:
-            print "Exception when checking progress bar thread in builder"
-        self.progressbar.set_fraction(1)
-        self.progressbar.set_text(_("Finished. Press Close to Continue"))
 
 class GTKBuilderFrontend(GTKFrontend):
 
@@ -110,7 +85,7 @@ create an USB key or DVD image."))
         self.builder_widgets.get_object('builder_vte_window').set_transient_for(
             self.widgets.get_object('wizard'))
         self.vte = vte.Terminal()
-        self.builder_widgets.get_object('builder_vte_vbox').pack_start(self.vte)
+        self.builder_widgets.get_object('fetch_expander').add(self.vte)
         self.vte.show()
         self.vte.connect("child-exited", self.fid_vte_handler)
 
@@ -121,9 +96,6 @@ create an USB key or DVD image."))
 
         #improve the summary
         self.widgets.get_object('version_hbox').show()
-
-        #git progressbar thread
-        self.pulsethread=PulseThread(self.builder_widgets.get_object('vte_progressbar'))
 
         #builder variable defaults
         self.builder_fid_overlay=''
@@ -136,10 +108,7 @@ create an USB key or DVD image."))
         """Main method for launching the frontend, this needs to be overridden
            because it may be ran from a non-preloaded system"""
         self.widgets.get_object('wizard').show()
-        gtk.gdk.threads_init()
-        gtk.gdk.threads_enter()
         gtk.main()
-        gtk.gdk.threads_leave()
 
     def build_page(self,widget,page=None):
         """Processes output that should be done on a builder page"""
@@ -328,7 +297,6 @@ create an USB key or DVD image."))
         wizard = self.widgets.get_object('wizard')
         fid_page = self.builder_widgets.get_object('fid_page')
         label=self.builder_widgets.get_object('fid_overlay_details_label')
-        vte_close=self.builder_widgets.get_object('builder_vte_close')
 
         if not os.path.exists('/usr/bin/git'):
             output_text=_("<b>ERROR</b>: git is not installed")
@@ -341,7 +309,6 @@ create an USB key or DVD image."))
             wizard.set_page_complete(fid_page,False)
         else:
             output_text=''
-            vte_close.set_sensitive(False)
             if not os.path.exists(os.path.join(os.environ['HOME'],'.config','dell-recovery')):
                 os.makedirs(os.path.join(os.environ['HOME'],'.config','dell-recovery'))
             if not os.path.exists(os.path.join(os.environ['HOME'],'.config','dell-recovery',self.distributor + '-fid')):
@@ -353,9 +320,12 @@ create an USB key or DVD image."))
                 cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
             self.widgets.get_object('wizard').set_sensitive(False)
             self.builder_widgets.get_object('builder_vte_window').show()
-            self.pulsethread.start()
-            self.vte.fork_command(command=command[0],argv=command,directory=cwd)
+            self.git_pid = self.vte.fork_command(command=command[0],argv=command,directory=cwd)
         label.set_markup(output_text)
+
+    def fid_fetch_cancel(self, widget):
+        """Handle a press to the cancel button of the VTE page"""
+        os.kill(self.git_pid, 15)
 
     def fid_vte_handler(self,widget):
         """Handler for VTE dialog closing"""
@@ -402,25 +372,17 @@ create an USB key or DVD image."))
             if use_xrev and not self.branch:
                 liststore.append(['origin/master'])
 
-        #Git radio was toggled OR
-        #Close was pressed on the GUI
-        if widget == self.builder_widgets.get_object('git_radio') or \
-           widget == self.builder_widgets.get_object('builder_vte_close'):
-            #reactivate GUI
-            self.builder_widgets.get_object('builder_vte_window').hide()
-            self.widgets.get_object('wizard').set_sensitive(True)
-            self.builder_widgets.get_object('fid_git_tag_hbox').set_sensitive(True)
+        #reactivate GUI
+        self.builder_widgets.get_object('builder_vte_window').hide()
+        self.widgets.get_object('wizard').set_sensitive(True)
+        self.builder_widgets.get_object('fid_git_tag_hbox').set_sensitive(True)
 
-            #update the tag list in the GUI
-            if self.branch:
-                command=["git", "branch", "-r"]
-            else:
-                command=["git","tag","-l"]
-            fill_liststore_from_command(command,self.release,'tag_liststore')
-        #the vte command exited
+        #update the tag list in the GUI
+        if self.branch:
+            command=["git", "branch", "-r"]
         else:
-            self.pulsethread.join()
-            self.builder_widgets.get_object('builder_vte_close').set_sensitive(True)
+            command=["git","tag","-l"]
+        fill_liststore_from_command(command,self.release,'tag_liststore')
 
     def fid_git_changed(self,widget):
         """If we have selected a tag"""

@@ -564,6 +564,7 @@
   <object class="GtkDialog" id="builder_vte_window">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">GIT Tree Status</property>
+    <property name="resizable">False</property>
     <property name="window_position">center-on-parent</property>
     <property name="icon_name">dell-recovery</property>
     <property name="type_hint">dialog</property>
@@ -576,16 +577,36 @@
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
-          <placeholder/>
-        </child>
-        <child>
-          <object class="GtkProgressBar" id="vte_progressbar">
+          <object class="GtkLabel" id="fetch_label">
             <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">&lt;b&gt;The GIT fetch is in progress.  &lt;/b&gt;
+This window will close automatically when the process is complete. 
+&lt;b&gt;NOTE:&lt;/b&gt; Please be patient, the initial fetch may take a while.</property>
+            <property name="use_markup">True</property>
+            <property name="wrap">True</property>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
-            <property name="pack_type">end</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkExpander" id="fetch_expander">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child type="label">
+              <object class="GtkLabel" id="fetch_expander_label">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Show Details</property>
+              </object>
+            </child>
+          </object>
+          <packing>
             <property name="position">2</property>
           </packing>
         </child>
@@ -597,14 +618,13 @@
               <placeholder/>
             </child>
             <child>
-              <object class="GtkButton" id="builder_vte_close">
-                <property name="label">gtk-close</property>
+              <object class="GtkButton" id="builder_vte_cancel">
+                <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
-                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
-                <signal name="clicked" handler="fid_vte_handler"/>
+                <signal name="clicked" handler="fid_fetch_cancel"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -622,7 +642,7 @@
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">builder_vte_close</action-widget>
+      <action-widget response="0">builder_vte_cancel</action-widget>
     </action-widgets>
   </object>
 </interface>
