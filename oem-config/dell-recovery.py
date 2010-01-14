@@ -34,6 +34,8 @@ AFTER = 'usersetup'
 BEFORE = None
 WEIGHT = 12
 
+rotational_characters=['\\','|','/','|']
+
 #Gtk widgets
 class PageGtk(PluginUI):
     def __init__(self, *args, **kwargs):
@@ -95,6 +97,13 @@ class Install(InstallPlugin):
     def update_progress_gui(self, progress_text, progress_percent):
         """Function called by the backend to update the progress in a frontend"""
         self.progress._db.subst('dell-recovery/build_progress', 'MESSAGE', progress_text)
+        if float(progress_percent) < 0:
+            if self.index >= len(rotational_characters):
+                self.index = 0
+            progress_percent = rotational_characters[self.index]
+            self.index += 1
+        else:
+            progress_percent += "%"
         self.progress._db.subst('dell-recovery/build_progress', 'PERCENT', progress_percent)
         self.progress.info('dell-recovery/build_progress')
 
@@ -105,6 +114,7 @@ class Install(InstallPlugin):
         if type != "none":
             up,  rp  = magic.find_partitions('','')
             dvd, usb = magic.find_burners()
+            self.index = 0
             file = os.path.join('/tmp/dell.iso')
             try:
                 bus = dbus.SystemBus()
