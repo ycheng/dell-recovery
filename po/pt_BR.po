@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-06 16:20-0600\n"
+"POT-Creation-Date: 2010-01-14 15:48-0600\n"
 "PO-Revision-Date: 2009-05-09 15:40+0000\n"
 "Last-Translator: Arthur Rodrigues <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "X-Launchpad-Export-Date: 2009-09-29 21:20+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:114
+#: ../Dell/recovery_frontend.py:103
 msgid "Invalid utility partition"
 msgstr "Partição utilitária inválida"
 
-#: ../Dell/recovery_frontend.py:114 ../Dell/recovery_frontend.py:120
+#: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
 #, fuzzy
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
@@ -29,23 +29,23 @@ msgid ""
 msgstr ""
 " nos argumentos da linha de comando. Revertendo à detecção baseada no HAL."
 
-#: ../Dell/recovery_frontend.py:120
+#: ../Dell/recovery_frontend.py:109
 msgid "Invalid recovery partition"
 msgstr "Partição de recuperação inválida."
 
-#: ../Dell/recovery_frontend.py:196
+#: ../Dell/recovery_frontend.py:164
 msgid "Permission Denied"
 msgstr "Permissão Negada."
 
-#: ../Dell/recovery_frontend.py:210
+#: ../Dell/recovery_frontend.py:178
 msgid "Opening Burner"
 msgstr "Abrindo gravador"
 
-#: ../Dell/recovery_frontend.py:224
+#: ../Dell/recovery_frontend.py:192
 msgid "Recovery Media Creation Process Complete"
 msgstr "Concluído o processo de criação do Recovery Media"
 
-#: ../Dell/recovery_frontend.py:225
+#: ../Dell/recovery_frontend.py:193
 #, fuzzy
 msgid ""
 "If you would like to archive another copy, the generated image has been "
@@ -54,108 +54,59 @@ msgstr ""
 "Se você desejar arquivar uma outra cópia, a imagem gerada foi guardada sob o "
 "nome de arquivo:"
 
-#: ../Dell/recovery_frontend.py:245
+#: ../Dell/recovery_frontend.py:213
 msgid "Cannot connect to dbus"
 msgstr "Impossível conectar ao dbus"
 
-#: ../Dell/recovery_frontend.py:261
-msgid "python-vte is missing"
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:262
-msgid "Builder mode requires python-vte to function"
-msgstr ""
-
-#. wizard.resize(400,400)
-#: ../Dell/recovery_frontend.py:273
-msgid " (BTO Image Builder Mode)"
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:275
-#, fuzzy
-msgid ""
-"This application will integrate a Dell OEM FID framework & FISH package set "
-"into a customized OS media image.  You will have the option to create an USB "
-"key or DVD image."
-msgstr ""
-"Este pedido vai criar OS Recuperação Mídia que pode ser usado para restaurar "
-"o computador ao seu estado embarcados fábrica. Você terá a opção de criar "
-"uma chave USB ou DVD imagem."
-
-#: ../Dell/recovery_frontend.py:412
-msgid "<b>ERROR</b>: git is not installed"
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:557
-msgid "Choose Base OS Image"
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:560
-msgid "Choose FID Overlay"
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:567
-msgid "Choose FISH Packages"
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:584
-msgid "Builder Summary"
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:709
+#: ../Dell/recovery_frontend.py:303
 msgid "Welcome"
 msgstr "Bem-vindo"
 
-#: ../Dell/recovery_frontend.py:713
+#: ../Dell/recovery_frontend.py:307
 msgid "Choose Media Type"
 msgstr "Escolher o tipo de mídia"
 
-#: ../Dell/recovery_frontend.py:746
+#: ../Dell/recovery_frontend.py:345 ../gtk/builder.ui.h:16
 msgid "ISO Image"
 msgstr "Imagem ISO"
 
-#: ../Dell/recovery_frontend.py:749
+#: ../Dell/recovery_frontend.py:348
 msgid "Utility Partition: "
 msgstr "Partição Utilitária: "
 
-#: ../Dell/recovery_frontend.py:751
+#: ../Dell/recovery_frontend.py:350
 msgid "Recovery Partition: "
 msgstr "Partição de Recuperação: "
 
-#: ../Dell/recovery_frontend.py:752
+#: ../Dell/recovery_frontend.py:351
 msgid "Media Type: "
 msgstr "Tipo de mídia: "
 
-#: ../Dell/recovery_frontend.py:753
+#: ../Dell/recovery_frontend.py:352
 msgid "File Name: "
 msgstr "Nome do Arquivo: "
 
-#: ../Dell/recovery_frontend.py:758
+#: ../Dell/recovery_frontend.py:357
 msgid "Confirm Selections"
 msgstr "Confirmar seleções"
 
-#: ../Dell/recovery_backend.py:413
+#: ../Dell/recovery_backend.py:440
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:419
+#: ../Dell/recovery_backend.py:446
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:430
+#: ../Dell/recovery_backend.py:457
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:574
-#, fuzzy
-msgid "Building Dell Utility Partition"
-msgstr "Partição Utilitária: "
-
-#: ../Dell/recovery_backend.py:620
+#: ../Dell/recovery_backend.py:626
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:661
+#: ../Dell/recovery_backend.py:668
 msgid "Building ISO"
 msgstr "Construindo a ISO"
 
@@ -186,8 +137,185 @@ msgid "System policy prevents reading raw devices"
 msgstr "Política do sistema impede a leitura de dispositivos raw"
 
 #: ../gtk/dell-recovery-media.desktop.in.h:1
+#: ../gtk/recovery_media_creator.ui.h:6
 msgid "Dell Recovery Media Creator"
 msgstr "Criador de mídia de recuperação Dell"
+
+#: ../gtk/recovery_media_creator.ui.h:1
+msgid "<activity placeholder>"
+msgstr "<espaço reservado para atividades>"
+
+#: ../gtk/recovery_media_creator.ui.h:2
+msgid ""
+"An existing image was found (possibly from a previous run).  Would you like "
+"to remove this old copy and regenerate the image?"
+msgstr ""
+"Uma imagem existente foi encontrada (possivelmente de uma execução "
+"anterior). Você deseja remover essa cópia antiga e regerar a imagem?"
+
+#: ../gtk/recovery_media_creator.ui.h:3
+msgid "Are you sure you want to cancel the Recovery Media creation process?"
+msgstr ""
+"Você tem certeza que quer cancelar o processo de criação da Mídia de "
+"Recuperação?"
+
+#: ../gtk/recovery_media_creator.ui.h:4
+msgid "Cancel Recovery Media Creator"
+msgstr "Cancelar o Recovery Media Creator"
+
+#: ../gtk/recovery_media_creator.ui.h:5
+msgid "DVD+/-RW Disc"
+msgstr "Disco DVD+/-RW"
+
+#: ../gtk/recovery_media_creator.ui.h:7
+msgid "No media, create ISO image"
+msgstr "Nenhuma mídia, criar imagem ISO"
+
+#: ../gtk/recovery_media_creator.ui.h:8
+#, fuzzy
+msgid ""
+"This application will create OS Recovery Media that can be used to restore "
+"the computer to its factory shipped state.  You will have the option to "
+"create an USB key or DVD image."
+msgstr ""
+"Este pedido vai criar OS Recuperação Mídia que pode ser usado para restaurar "
+"o computador ao seu estado embarcados fábrica. Você terá a opção de criar "
+"uma chave USB ou DVD imagem."
+
+#: ../gtk/recovery_media_creator.ui.h:9
+msgid "USB Flash Drive"
+msgstr "Unidade Flash USB"
+
+#: ../gtk/recovery_media_creator.ui.h:10
+msgid "Version:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:1
+msgid ""
+"\n"
+"\n"
+msgstr ""
+
+#: ../gtk/builder.ui.h:4
+msgid ""
+"<b>The GIT fetch is in progress.  </b>\n"
+"This window will close automatically when the process is complete. \n"
+"<b>NOTE:</b> Please be patient, the initial fetch may take a while."
+msgstr ""
+
+#: ../gtk/builder.ui.h:7
+msgid ""
+"Any add-on drivers or applications that need to be integrated into the image "
+"can be added here."
+msgstr ""
+
+#: ../gtk/builder.ui.h:8
+#, fuzzy
+msgid "Choose Image"
+msgstr "Escolher o tipo de mídia"
+
+#: ../gtk/builder.ui.h:9
+#, fuzzy
+msgid "Detected Recovery Partition"
+msgstr "Partição de Recuperação: "
+
+#: ../gtk/builder.ui.h:10
+msgid "Extracted Directory"
+msgstr ""
+
+#: ../gtk/builder.ui.h:11
+msgid "FID GIT Tree"
+msgstr ""
+
+#: ../gtk/builder.ui.h:12
+msgid "FID framework built into BTO image"
+msgstr ""
+
+#: ../gtk/builder.ui.h:13
+msgid "Fetch/Update GIT Tree"
+msgstr ""
+
+#: ../gtk/builder.ui.h:14
+msgid "GIT Tags/Branches:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:15
+msgid "GIT Tree Status"
+msgstr ""
+
+#: ../gtk/builder.ui.h:17
+msgid "Install git"
+msgstr ""
+
+#: ../gtk/builder.ui.h:18
+msgid "Selected Image Details:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:19
+msgid "Selected Overlay Details:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:20
+msgid "Show Details"
+msgstr ""
+
+#: ../gtk/builder.ui.h:21
+msgid ""
+"The Base OS image provides the majority of the content for a BTO image.  It "
+"can be a Vanilla OS image, or existing BTO Image."
+msgstr ""
+
+#: ../gtk/builder.ui.h:22
+msgid ""
+"The FID framework is the first piece overlaid on top of a Vanilla image.  In "
+"the event that you are generating from an existing BTO image, you can use "
+"the framework built into that image."
+msgstr ""
+
+#: ../oem-config/stepRecoveryMedia.ui.h:1
+msgid ""
+"<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
+msgstr ""
+
+#: ../oem-config/stepRecoveryMedia.ui.h:2
+msgid "<b>Note:</b> This requires writable DVD media."
+msgstr ""
+
+#: ../oem-config/stepRecoveryMedia.ui.h:3
+#, fuzzy
+msgid "<big><b>Create Dell Recovery Media?</b></big>"
+msgstr "Criar Mídia de Recuperação Dell"
+
+#: ../oem-config/stepRecoveryMedia.ui.h:4
+msgid ""
+"Dell Recovery Media can be used to restore your system to the same state as "
+"when it was first shipped to you.\n"
+"<b>It is highly recommended that you generate media and store it in a safe "
+"place.</b>"
+msgstr ""
+
+#: ../oem-config/stepRecoveryMedia.ui.h:6
+msgid "Don't generate recovery media at this time"
+msgstr ""
+
+#: ../oem-config/stepRecoveryMedia.ui.h:7
+msgid ""
+"Recovery Media can be generated later by choosing the tool from the System "
+"menu."
+msgstr ""
+
+#: ../oem-config/stepRecoveryMedia.ui.h:8
+#, fuzzy
+msgid "Save recovery media to DVD"
+msgstr "Cancelar o Recovery Media Creator"
+
+#: ../oem-config/stepRecoveryMedia.ui.h:9
+msgid "Save recovery media to an external USB flash drive"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Building Dell Utility Partition"
+#~ msgstr "Partição Utilitária: "
 
 #~ msgid ""
 #~ "This tool requires that a Utility Partition and Linux Recovery partition "
@@ -208,33 +336,6 @@ msgstr "Criador de mídia de recuperação Dell"
 #~ msgid "Generating UUID"
 #~ msgstr "Gerando UUID"
 
-#~ msgid "Create Dell Recovery Media"
-#~ msgstr "Criar Mídia de Recuperação Dell"
-
-#~ msgid "<activity placeholder>"
-#~ msgstr "<espaço reservado para atividades>"
-
-#~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you "
-#~ "like to remove this old copy and regenerate the image?"
-#~ msgstr ""
-#~ "Uma imagem existente foi encontrada (possivelmente de uma execução "
-#~ "anterior). Você deseja remover essa cópia antiga e regerar a imagem?"
-
-#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
-#~ msgstr ""
-#~ "Você tem certeza que quer cancelar o processo de criação da Mídia de "
-#~ "Recuperação?"
-
-#~ msgid "Cancel Recovery Media Creator"
-#~ msgstr "Cancelar o Recovery Media Creator"
-
-#~ msgid "DVD+/-RW Disc"
-#~ msgstr "Disco DVD+/-RW"
-
-#~ msgid "No media, create ISO image"
-#~ msgstr "Nenhuma mídia, criar imagem ISO"
-
 #~ msgid "Retry burn?"
 #~ msgstr "Tentar gravar novamente?"
 
@@ -244,6 +345,3 @@ msgstr "Criador de mídia de recuperação Dell"
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr ""
 #~ "O processo de gravação da mídia flahou. Você deseja tentar novamente?"
-
-#~ msgid "USB Flash Drive"
-#~ msgstr "Unidade Flash USB"

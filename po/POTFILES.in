@@ -2,4 +2,7 @@ Dell/recovery_frontend.py
 Dell/recovery_backend.py
 backend/com.dell.recoverymedia.policy.in
 gtk/dell-recovery-media.desktop.in
-gtk/recovery_media_creator.ui
+[type: gettext/glade]gtk/recovery_media_creator.ui
+[type: gettext/glade]gtk/builder.ui
+[type: gettext/glade]oem-config/stepRecoveryMedia.ui
+oem-config/dell-recovery.py
