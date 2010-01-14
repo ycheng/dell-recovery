@@ -47,7 +47,7 @@ from Dell.recovery_common import *
 #--------------------------------------------------------------------#
 #Borrowed from USB-Creator initially
 #Used for emitting progress for subcalls that don't use stdout nicely
-class progress(Thread):
+class progress_by_size(Thread):
     def __init__(self, str, device, to_write):
         Thread.__init__(self)
         self._stopevent = Event()
@@ -70,6 +70,28 @@ class progress(Thread):
                 if callable(self.progress):
                     self.progress(self.str,v)
                 self._stopevent.wait(2)
+        except Exception:
+            logging.exception('Could not update progress:')
+
+    def join(self, timeout=None):
+        self._stopevent.set()
+        Thread.join(self, timeout)
+
+class progress_by_pulse(Thread):
+    def __init__(self,str):
+        Thread.__init__(self)
+        self._stopevent = Event()
+        self.str = str
+
+    def progress(self, str, per):
+        pass
+
+    def run(self):
+        try:
+            while not self._stopevent.isSet():
+                if callable(self.progress):
+                    self.progress(self.str,"-1")
+                self._stopevent.wait(.5)
         except Exception:
             logging.exception('Could not update progress:')
 
@@ -281,16 +303,21 @@ class Backend(dbus.service.Object):
                 print >> sys.stderr, "Error unmounting %s" % mnt
             os.rmdir(mnt)
 
-    def start_progress_thread(self, str, mnt, w_size):
+    def start_sizable_progress_thread(self, str, mnt, w_size):
         """Initializes the extra progress thread, or resets it
            if it already exists'"""
-        self.progress_thread = progress(str, mnt, w_size)
+        self.progress_thread = progress_by_size(str, mnt, w_size)
         self.progress_thread.progress = self.report_progress
         self.progress_thread.start()
 
     def stop_progress_thread(self):
         """Stops the extra thread for reporting progress"""
         self.progress_thread.join()
+
+    def start_pulsable_progress_thread(self, str):
+        self.progress_thread = progress_by_pulse(str)
+        self.progress_thread.progress = self.report_progress
+        self.progress_thread.start()
     #
     # Client API (through D-BUS)
     #
@@ -410,7 +437,7 @@ class Backend(dbus.service.Object):
 
         #copy the base iso/mnt point/etc
         w_size=white_tree("size", white_pattern, base_mnt)
-        self.start_progress_thread(_('Adding in base image'), assembly_tmp, w_size)
+        self.start_sizable_progress_thread(_('Adding in base image'), assembly_tmp, w_size)
         white_tree("copy", white_pattern, base_mnt, assembly_tmp)
         self.stop_progress_thread()
 
@@ -549,12 +576,13 @@ class Backend(dbus.service.Object):
 
         #If necessary, build the UP
         if not os.path.exists(os.path.join(mntdir,'upimg.bin')) and up:
-            self.report_progress(_('Building Dell Utility Partition'),'25.0')
+            self.start_pulsable_progress_thread(__('Building Dell Utility Partition'))
             p1 = subprocess.Popen(['dd','if=' + up,'bs=1M'], stdout=subprocess.PIPE)
             p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
             partition_file=open(os.path.join(tmpdir, 'upimg.bin'), "w")
             partition_file.write(p2.communicate()[0])
             partition_file.close()
+            self.stop_progress_thread()
 
         #Arg list
         genisoargs=['genisoimage',
@@ -595,7 +623,7 @@ class Backend(dbus.service.Object):
             if initrd:
                 os.mkdir(os.path.join(tmpdir,'.disk'))
                 os.mkdir(os.path.join(tmpdir,'casper'))
-                self.report_progress(_('Regenerating UUID / Rebuilding initramfs'),'50.0')
+                self.start_pulsable_progress_thread(_('Regenerating UUID / Rebuilding initramfs'))
                 uuid_args = ['/usr/share/dell/bin/create-new-uuid',
                          initrd,
                          os.path.join(tmpdir,'casper'),
@@ -604,6 +632,7 @@ class Backend(dbus.service.Object):
                 retval = uuid.poll()
                 while (retval is None):
                     retval = uuid.poll()
+                self.stop_progress_thread()
                 if retval is not 0:
                     print >> sys.stderr, \
                         "create-new-uuid exited with a nonstandard return value."

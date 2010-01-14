@@ -24,6 +24,8 @@ dell-recovery (0.34) UNRELEASED; urgency=low
     increment_bto_version function used in recovery_common.
   * Add a progressbar widget and a pulsing thread to the git fetch page when
     running in builder mode.
+  * Add a pulsing thread to the backend so that it can report during activities
+    that it has no idea when they will  be done.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 11 Jan 2010 16:51:13 -0600
 
