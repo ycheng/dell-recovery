@@ -5,31 +5,32 @@ dell-recovery (0.34) UNRELEASED; urgency=low
     script instead.
   * Remove extraneous builder_ prefix from all builder specific functions.
   * Fix running in builder mode on a non-preloaded system.
-  * Clean up arguments in main launcher script that determines whether or not to
-    be running in builder mode.
-  * Move the logic to increment the BTO version into the various frontends rather
-    than incrementing during the backend query_bto_version method.
+  * Clean up arguments in main launcher script that determines whether or not
+    to be running in builder mode.
+  * Move the logic to increment the BTO version into the various frontends
+    rather than incrementing during the backend query_bto_version method.
   * Only offer DVD burning if DVD burning hardware is on the system.
   * Rather than just greying out the DVD burner radio buttons when DVD burning
     hardware isn't available, hide the widgets all together to avoid confusion
     as to why the widget is greyed out.
-  * Clean up the OEM config page to line up the widgets and add some nicer icons.
+  * Clean up the OEM config page to line up the widgets and add some nicer
+    icons.
   * Add icons for the normal GTK frontend's media selection page.
-  * Don't show the full path on the summary page.  Prevents the GUI from growing
-    in size (in normal circumstances) in builder mode.
+  * Don't show the full path on the summary page.  Prevents the GUI from
+    growing in size (in normal circumstances) in builder mode.
   * Use query_iso_information in the frontend rather than query_bto_version to
     ensure the information being queried is reflective of the OS on the RP
     not the running OS.
   * Move the default value of 'A00' when no BTO version is defined into the
     increment_bto_version function used in recovery_common.
   * Automatically close the fetch window when complete.
-  * Don't show the terminal for fetching by default, but allow it to be expanded.
+  * Don't show the terminal for fetching, but allow it to be expanded.
   * Add a cancel button to the fetch if the user wants to abort it.
   * Add a pulsing thread to the backend so that it can report during activities
     that it has no idea when they will  be done.
   * If the progress is -1% done, pulse the  bar in the GTK frontend
-  * In the OEM-Config frontend, show some ASCII characters when we don't know the
-    true progress.
+  * In the OEM-Config frontend, show some ASCII characters when we don't know
+    the true progress.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 11 Jan 2010 16:51:13 -0600
 
