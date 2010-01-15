@@ -1,4 +1,4 @@
-dell-recovery (0.35) UNRELEASED; urgency=low
+dell-recovery (0.35) lucid; urgency=low
 
   * Correct a minor error that prevented the backend from running when a utility
     partition was present but upimg.bin wasn't on the recovery partition.
