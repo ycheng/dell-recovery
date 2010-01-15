@@ -576,7 +576,7 @@ class Backend(dbus.service.Object):
 
         #If necessary, build the UP
         if not os.path.exists(os.path.join(mntdir,'upimg.bin')) and up:
-            self.start_pulsable_progress_thread(__('Building Dell Utility Partition'))
+            self.start_pulsable_progress_thread(_('Building Dell Utility Partition'))
             p1 = subprocess.Popen(['dd','if=' + up,'bs=1M'], stdout=subprocess.PIPE)
             p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
             partition_file=open(os.path.join(tmpdir, 'upimg.bin'), "w")
