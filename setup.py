@@ -31,7 +31,7 @@ for filepath in glob.glob("po/mo/*/LC_MESSAGES/*.mo"):
     I18NFILES.append((targetpath, [filepath]))
 
 setup(
-    name="dell-recovery-media",
+    name="dell-recovery",
     author="Mario Limonciello",
     author_email="Mario_Limoncielo@Dell.com",
     maintainer="Mario Limonciello",

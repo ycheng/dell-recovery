@@ -20,8 +20,7 @@ merge-po: $(PO_FILES)
 	msgfmt $< -o mo/$(subst .po,,$<)/LC_MESSAGES/$(DOMAIN).mo 
 
 # dummy target 
-update-po: $(DOMAIN).pot merge-po $(patsubst %.po,%.mo,$(wildcard *.po))
+update-po: $(DOMAIN).pot $(patsubst %.po,%.mo,$(wildcard *.po))
 
 clean:
-	rm -rf *.pot
 	rm -rf mo

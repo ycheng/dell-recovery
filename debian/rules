@@ -5,6 +5,3 @@ include /usr/share/cdbs/1/class/python-distutils.mk
 
 clean::
 	cd $(CURDIR)/po; make clean
-
-configure/dell-recovery::
-	cd $(CURDIR)/po; make update-po

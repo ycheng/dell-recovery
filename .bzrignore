@@ -7,7 +7,6 @@ debian/dell-recovery.preinst.debhelper
 debian/dell-recovery.prerm.debhelper
 debian/dell-recovery.substvars
 debian/files
-po/dell-recovery.pot
 po/mo
 etc/skel
 launchpad-export.tar.gz
