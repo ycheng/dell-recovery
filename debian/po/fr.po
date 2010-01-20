@@ -1,0 +1,118 @@
+# French translation for dell-recovery
+# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# This file is distributed under the same license as the dell-recovery package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dell-recovery\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-01-14 15:13-0600\n"
+"PO-Revision-Date: 2009-08-24 18:27+0000\n"
+"Last-Translator: Pierre Dorbais <Unknown>\n"
+"Language-Team: French <fr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. Type: text
+#. Description
+#: ../templates:2001
+msgid "Building Dell Recovery Media..."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:4001
+msgid "Opening Burner..."
+msgstr ""
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "Disque DVD+/-RW"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<espace réservé d'activité>"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "Lecteur flash USB"
+
+#~ msgid "Opening Burner"
+#~ msgstr "Ouverture du graveur"
+
+#~ msgid "Welcome"
+#~ msgstr "Bienvenue"
+
+#~ msgid "Confirm Selections"
+#~ msgstr "Confirmer les sélections"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "Processus de création de supports de restauration terminé"
+
+#~ msgid "Retry burn?"
+#~ msgstr "Réessayer de graver?"
+
+#~ msgid "File Name: "
+#~ msgstr "Nom du Fichier: "
+
+#~ msgid "ISO Image"
+#~ msgstr "Image ISO"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Partition de Restauration: "
+
+#~ msgid "Permission Denied"
+#~ msgstr "Permission refusée"
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "Impossible de se connecter à dbus"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Aucun média, créer une image ISO"
+
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "Sélectionnez un répertoire pour l'ISO"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "Une image existante a été trouvée (probablement d'une exécution précédente). "
+#~ "Voulez-vous enlever cette ancienne copie et régénérer l'image ?"
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Choisissez le répertoire de destination"
+
+#~ msgid "Building ISO"
+#~ msgstr "Construction de l'ISO"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Partition de restauration invalide"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr "Le processus de gravure du média a échoué. Voulez vous réessayer?"
+
+#~ msgid "Media Type: "
+#~ msgstr "Type de média : "
+
+#~ msgid "Choose Media Type"
+#~ msgstr "Choisir un type de média"
+
+#~ msgid "System policy prevents reading raw devices"
+#~ msgstr ""
+#~ "Les rêgles système empêchent une lecture en brut sur des périphériques."
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Annuler la création du média de restauration Dell"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr ""
+#~ "Êtes vous sur de vouloir annuler le processus de création du média de "
+#~ "restauration Dell?"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Créateur du média de restauration Dell"
+
+#~ msgid "OS Release: "
+#~ msgstr "Version du système d'exploitation: "

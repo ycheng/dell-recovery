@@ -1,0 +1,135 @@
+# Spanish translation for dell-recovery
+# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# This file is distributed under the same license as the dell-recovery package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dell-recovery\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-01-14 15:13-0600\n"
+"PO-Revision-Date: 2009-04-28 22:02+0000\n"
+"Last-Translator: Ruben <Unknown>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. Type: text
+#. Description
+#: ../templates:2001
+msgid "Building Dell Recovery Media..."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:4001
+msgid "Opening Burner..."
+msgstr ""
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Cancelar Recovery Media Creator"
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "Disco DVD+/-RW"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<indicador de posición de actividades>"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "Unidad Flash USB"
+
+#~ msgid "Opening Burner"
+#~ msgstr "Abriendo grabadora"
+
+#~ msgid "Media Type: "
+#~ msgstr "Tipo de medio: "
+
+#~ msgid "Welcome"
+#~ msgstr "Bienvenido"
+
+#~ msgid "Confirm Selections"
+#~ msgstr "Confirmar selecciones"
+
+#~ msgid "Choose Media Type"
+#~ msgstr "Escoger tipo de medio"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Creador de soportes de recuperación de Dell"
+
+#~ msgid "Retry burn?"
+#~ msgstr "¿ Reintentar grabación ?"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Particion de recuperación: "
+
+#~ msgid "File Name: "
+#~ msgstr "Nombre del archivo: "
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Seleccione un directorio vacío"
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "No se puede conectar con dbus"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Sin medio, crear imagen ISO"
+
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "Seleccione una carpeta para la imagen ISO"
+
+#~ msgid "System policy prevents reading raw devices"
+#~ msgstr "La política del sistema impide leer dispositivos raw"
+
+#~ msgid "Building UP"
+#~ msgstr "Creando UP"
+
+#~ msgid "Generating UUID"
+#~ msgstr "Generando UUID"
+
+#~ msgid "Permission Denied"
+#~ msgstr "Permiso denegado"
+
+#~ msgid "ISO Image"
+#~ msgstr "Imagen ISO"
+
+#~ msgid ""
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
+#~ msgstr ""
+#~ "Esta herramienta requiere de una partición de utilidad y de una partición de "
+#~ "recuperación de Linux para poder funcionar."
+
+#~ msgid "Utility Partition: "
+#~ msgstr "Partición de utilidad: "
+
+#~ msgid "Building ISO"
+#~ msgstr "Creando ISO"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr ""
+#~ "¿Seguro que quiere cancelar el proceso de creación del Medio de Recuperación?"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr "Ha fallado la grabación en el soporte. ¿Quiere volver a intentarlo?"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Partición de utilidad no válida"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "Proceso de creación del soporte de recuperación finalizado"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Partición de recuperación no válida."
+
+#~ msgid "OS Release: "
+#~ msgstr "Versión del SO: "
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "Ya existe una imagen (posiblemente de una ejecución anterior). ¿Quiere "
+#~ "eliminar esta copia antigua y volver a generar la imagen?"

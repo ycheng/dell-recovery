@@ -1,0 +1,128 @@
+# German translation for dell-recovery
+# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# This file is distributed under the same license as the dell-recovery package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dell-recovery\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-01-14 15:13-0600\n"
+"PO-Revision-Date: 2009-12-02 18:08+0000\n"
+"Last-Translator: ucn| <Unknown>\n"
+"Language-Team: German <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. Type: text
+#. Description
+#: ../templates:2001
+msgid "Building Dell Recovery Media..."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:4001
+msgid "Opening Burner..."
+msgstr ""
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<Aktivitätsplatzhalter>"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Recovery Media Creator abbrechen"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "USB Flash-Laufwerk"
+
+#~ msgid "Opening Burner"
+#~ msgstr "\"CD-Brenner öffnen"
+
+#~ msgid "Media Type: "
+#~ msgstr "Medientyp: "
+
+#~ msgid "Welcome"
+#~ msgstr "Willkommen"
+
+#~ msgid "Confirm Selections"
+#~ msgstr "Auswahloption bestätigen"
+
+#~ msgid "Choose Media Type"
+#~ msgstr "Medientyp wählen"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "Recovery Media Erstellungsvorgang fertig"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Dell Media Creator-Wiederherstellungsprogramm"
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "DVD+/-RW Disk"
+
+#~ msgid "Retry burn?"
+#~ msgstr "Brennen erneut versuchen?"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Wiederherstellungspartition: "
+
+#~ msgid "File Name: "
+#~ msgstr "Dateiname: "
+
+#~ msgid "Utility Partition: "
+#~ msgstr "Dienstpartition: "
+
+#~ msgid "OS Release: "
+#~ msgstr "Betriebssystemversion: "
+
+#~ msgid "Permission Denied"
+#~ msgstr "Zugriff verweigert"
+
+#~ msgid "ISO Image"
+#~ msgstr "ISO-Abbild"
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Zielverzeichnis auswählen"
+
+#~ msgid ""
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
+#~ msgstr ""
+#~ "Dieses Programm benötigt eine vorhandene Dienstprogramm- und eine "
+#~ "Linuxwiederherstellungspartition."
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "Keine Verbindung zum D-Bus"
+
+#~ msgid "Building ISO"
+#~ msgstr "Erzeuge ISO"
+
+#~ msgid "Generating UUID"
+#~ msgstr "Erzeuge UUID"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Kein Medium, erzeuge ISO-Abbild"
+
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "Wähle Verzeichnis für ISO-Abbild"
+
+#~ msgid "System policy prevents reading raw devices"
+#~ msgstr "Systemrichtlinie verhindert das Lesen von Raw-Devices"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Ungültige Werkzeugpartition"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr ""
+#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch einmal "
+#~ "versuchen?"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr ""
+#~ "Sind sie sich sicher, dass sie den Erstellungsprozess des "
+#~ "Wiederherstellungsdatenträgers abbrechen möchten?"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Ungültige Wiederherstellungspartition"

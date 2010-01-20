@@ -1,0 +1,134 @@
+# Malay translation for dell-recovery
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the dell-recovery package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dell-recovery\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-01-14 15:13-0600\n"
+"PO-Revision-Date: 2009-06-21 07:02+0000\n"
+"Last-Translator: Ibrahim Elias <imen802003@netscape.net>\n"
+"Language-Team: Malay <ms@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. Type: text
+#. Description
+#: ../templates:2001
+msgid "Building Dell Recovery Media..."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:4001
+msgid "Opening Burner..."
+msgstr ""
+
+#~ msgid "Welcome"
+#~ msgstr "Selamat Datang"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Partition utiliti tidak sah"
+
+#~ msgid "Permission Denied"
+#~ msgstr "Kebenaran ditolak"
+
+#~ msgid ""
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
+#~ msgstr ""
+#~ "Perkakas ini memerlukan Partition Utiliti dan partition Linux Recovery hadir "
+#~ "untuk berfungsi."
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "Tidak boleh sambung ke dbus"
+
+#~ msgid "Opening Burner"
+#~ msgstr "Buka Burner"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "Proses Recovery Medi Creation Selesai"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Partition recovery tidak sah"
+
+#~ msgid "Building UP"
+#~ msgstr "Membina UP"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Partition Recovery: "
+
+#~ msgid "File Name: "
+#~ msgstr "Nama File: "
+
+#~ msgid "Media Type: "
+#~ msgstr "Jenis Media: "
+
+#~ msgid "Confirm Selections"
+#~ msgstr "Confirm Pilihan"
+
+#~ msgid "Choose Media Type"
+#~ msgstr "Pilih Jenis Media"
+
+#~ msgid "Utility Partition: "
+#~ msgstr "Partition Utiliti: "
+
+#~ msgid "OS Release: "
+#~ msgstr "Versi keluaran OS: "
+
+#~ msgid "ISO Image"
+#~ msgstr "Imej ISO"
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Pilih Direktori Tujuan"
+
+#~ msgid "System policy prevents reading raw devices"
+#~ msgstr "Polisi sistem menghalang baca raw device"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<activity placeholder>"
+
+#~ msgid "Generating UUID"
+#~ msgstr "Menjana UUID"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Batal Media Recovery Creator"
+
+#~ msgid "Building ISO"
+#~ msgstr "Membina ISO"
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "DVD+/-RW Disk"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr "Adakah anda pasti untuk batal proses cipta Media Recovery?"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "Imej yang telah ada dijumpai (kemungkinan dari jalan sebelum ini). Adakah "
+#~ "anda mahu untuk buang salinan lama ini dan regenerate imej?"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Dell Recovery Media Creator"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "USB Flash Drive"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Tiada media, cipta imej ISO"
+
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "Pilih direktori untuk ISO"
+
+#~ msgid "Retry burn?"
+#~ msgstr "Cuba lagi bakar?"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr "Proses bakar media gagal. Adakah anda mahu cuba lagi?"

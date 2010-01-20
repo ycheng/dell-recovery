@@ -1,0 +1,130 @@
+# Simplified Chinese translation for dell-recovery
+# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# This file is distributed under the same license as the dell-recovery package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dell-recovery\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-01-14 15:13-0600\n"
+"PO-Revision-Date: 2009-08-27 07:58+0000\n"
+"Last-Translator: Careone <zzbusagain@yahoo.com.cn>\n"
+"Language-Team: Simplified Chinese <zh_CN@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. Type: text
+#. Description
+#: ../templates:2001
+msgid "Building Dell Recovery Media..."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:4001
+msgid "Opening Burner..."
+msgstr ""
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "DVD+/-RW 光盘"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "USB 闪存驱动器"
+
+#~ msgid "Confirm Selections"
+#~ msgstr "确认选择"
+
+#~ msgid "ISO Image"
+#~ msgstr "ISO 镜像"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "恢复分区 "
+
+#~ msgid "File Name: "
+#~ msgstr "文件名 "
+
+#~ msgid "OS Release: "
+#~ msgstr "操作系统版本 "
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "选择目标目录"
+
+#~ msgid "Welcome"
+#~ msgstr "欢迎使用"
+
+#~ msgid "Permission Denied"
+#~ msgstr "权限禁止"
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "无法连接到 dbus"
+
+#~ msgid "Opening Burner"
+#~ msgstr "打开光盘刻录器"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "恢复光盘创建完成"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "无效的恢复分区"
+
+#~ msgid "Media Type: "
+#~ msgstr "光盘类型： "
+
+#~ msgid "Choose Media Type"
+#~ msgstr "选择光盘类型"
+
+#~ msgid "System policy prevents reading raw devices"
+#~ msgstr "系统策略阻止读取 raw 设备"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<启动标识符>"
+
+#~ msgid "Generating UUID"
+#~ msgstr "生成 UUID"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "取消恢复光盘创建程序"
+
+#~ msgid "Building ISO"
+#~ msgstr "制作 ISO 光盘镜像"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr "确定要取消创建恢复光盘吗？"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
+#~ msgstr "发现已经存在的镜像(可能是上次运行产生的)。是否删除旧的镜像，并重新生成新镜像？"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Dell 恢复光盘创建程序"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "没有刻录光盘，只创建 ISO 镜像文件"
+
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "从目录中选择 ISO 光盘镜像文件"
+
+#~ msgid "Retry burn?"
+#~ msgstr "重新刻录？"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr "光盘刻录失败。要重试吗？"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "无效的公用分区"
+
+#~ msgid "Utility Partition: "
+#~ msgstr "公用分区 "
+
+#~ msgid ""
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
+#~ msgstr "这个工具需要一个公用分区和Linux恢复分区才能进行操作。"
+
+#~ msgid "Building UP"
+#~ msgstr "建立公用分区"
