@@ -500,27 +500,39 @@ class Backend(dbus.service.Object):
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.query_iso_information')
 
-        mntdir = self.request_mount(iso)
 
         (bto_version,bto_date) = self.query_bto_version(iso)
 
         distributor_string='Unknown Base Image'
         distributor=''
+
         #Ubuntu disks have .disk/info
-        if os.path.exists(os.path.join(mntdir,'.disk','info')):
-            file=open(os.path.join(mntdir,'.disk','info'),'r')
-            distributor_string=file.readline().strip('\n')
-            file.close()
-            distributor="ubuntu"
-            
-        #RHEL disks have .discinfo
-        elif os.path.exists(os.path.join(mntdir,'.discinfo')):
-            file=open(os.path.join(mntdir,'.discinfo'),'r')
-            timestamp=file.readline().strip('\n')
-            distributor_string=file.readline().strip('\n')
-            arch=file.readline().strip('\n')
-            distributor="redhat"
-            distributor_string += ' ' + arch
+        if os.path.isfile(iso) and iso.endswith('.iso'):
+            cmd = ['isoinfo', '-J', '-i', iso, '-x', '/.disk/info']
+            invokation = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+            out, err = invokation.communicate()
+            if invokation.returncode is None:
+                invokation.wait()
+            if out:
+                distributor_string = out
+                distributor="ubuntu"
+        else:
+            mntdir = self.request_mount(iso)
+
+            if os.path.exists(os.path.join(mntdir,'.disk','info')):
+                file=open(os.path.join(mntdir,'.disk','info'),'r')
+                distributor_string=file.readline().strip('\n')
+                file.close()
+                distributor="ubuntu"
+
+            #RHEL disks have .discinfo
+            elif os.path.exists(os.path.join(mntdir,'.discinfo')):
+                file=open(os.path.join(mntdir,'.discinfo'),'r')
+                timestamp=file.readline().strip('\n')
+                distributor_string=file.readline().strip('\n')
+                arch=file.readline().strip('\n')
+                distributor="redhat"
+                distributor_string += ' ' + arch
 
         release=find_float(distributor_string)
 
@@ -542,13 +554,26 @@ class Backend(dbus.service.Object):
         #mount the RP
         version=''
         date=''
-        mntdir = self.request_mount(rp)
 
-        if os.path.exists(os.path.join(mntdir,'bto_version')):
-            file=open(os.path.join(mntdir,'bto_version'),'r')
-            version=file.readline().strip('\n')
-            date=file.readline().strip('\n')
-            file.close()
+        if os.path.isfile(rp) and rp.endswith('.iso'):
+            cmd = ['isoinfo', '-J', '-i', rp, '-x', '/bto_version']
+            invokation = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+            out, err = invokation.communicate()
+            if invokation.returncode is None:
+                invokation.wait()
+            if out:
+                out = out.split('\n')
+                if len(out) > 1:
+                    version = out[0]
+                    date = out[1]
+
+        else:
+            mntdir = self.request_mount(rp)
+            if os.path.exists(os.path.join(mntdir,'bto_version')):
+                file=open(os.path.join(mntdir,'bto_version'),'r')
+                version=file.readline().strip('\n')
+                date=file.readline().strip('\n')
+                file.close()
 
         return (version,date)
 

@@ -2,6 +2,9 @@ dell-recovery (0.36) UNRELEASED; urgency=low
 
   * Fix translations stuff so that we only use one template (dell-recovery)
     that should be imported from Launchpad in a mergable branch.
+  * Don't continually loop mount ISOs when they are selected in the GUI.
+    Most systems run out of loopback devices at 7 and dell-recovery doesn't like
+    that too much.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Tue, 19 Jan 2010 11:07:01 -0600
 
