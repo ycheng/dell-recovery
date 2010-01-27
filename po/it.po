@@ -7,19 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-14 15:48-0600\n"
-"PO-Revision-Date: 2009-03-27 18:13+0000\n"
-"Last-Translator: MeltingShell <Unknown>\n"
+"POT-Creation-Date: 2010-01-19 11:06-0600\n"
+"PO-Revision-Date: 2010-01-26 15:14+0000\n"
+"Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-09-29 21:20+0000\n"
+"X-Launchpad-Export-Date: 2010-01-27 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
 msgid "Invalid utility partition"
-msgstr ""
+msgstr "Partizione di utilità non valida"
 
 #: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
 msgid ""
@@ -29,11 +29,11 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:109
 msgid "Invalid recovery partition"
-msgstr ""
+msgstr "Partizione di recupero non valida"
 
 #: ../Dell/recovery_frontend.py:164
 msgid "Permission Denied"
-msgstr ""
+msgstr "Permesso negato"
 
 #: ../Dell/recovery_frontend.py:178
 msgid "Opening Burner"
@@ -51,7 +51,7 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:213
 msgid "Cannot connect to dbus"
-msgstr ""
+msgstr "Impossibile connettersi a D-Bus"
 
 #: ../Dell/recovery_frontend.py:303
 msgid "Welcome"
@@ -63,15 +63,15 @@ msgstr "Scegliere il tipo di supporto"
 
 #: ../Dell/recovery_frontend.py:345 ../gtk/builder.ui.h:16
 msgid "ISO Image"
-msgstr ""
+msgstr "Immagine ISO"
 
 #: ../Dell/recovery_frontend.py:348
 msgid "Utility Partition: "
-msgstr ""
+msgstr "Partizione di utilità: "
 
 #: ../Dell/recovery_frontend.py:350
 msgid "Recovery Partition: "
-msgstr ""
+msgstr "Partizione di recupero: "
 
 #: ../Dell/recovery_frontend.py:351
 msgid "Media Type: "
@@ -79,7 +79,7 @@ msgstr "Tipo di supporto: "
 
 #: ../Dell/recovery_frontend.py:352
 msgid "File Name: "
-msgstr ""
+msgstr "Nome file: "
 
 #: ../Dell/recovery_frontend.py:357
 msgid "Confirm Selections"
@@ -97,13 +97,17 @@ msgstr ""
 msgid "Inserting FISH packages"
 msgstr ""
 
+#: ../Dell/recovery_backend.py:579
+msgid "Building Dell Utility Partition"
+msgstr ""
+
 #: ../Dell/recovery_backend.py:626
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
 #: ../Dell/recovery_backend.py:668
 msgid "Building ISO"
-msgstr ""
+msgstr "Generazione ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create/Assemble Dell Recovery ISO"
@@ -127,7 +131,7 @@ msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"
-msgstr ""
+msgstr "La politica di sistema previene la lettura di dispositivi raw"
 
 #: ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/recovery_media_creator.ui.h:6
@@ -143,10 +147,13 @@ msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
 msgstr ""
+"È stata trovata un'immagine precedente. Rimuovere la vecchia copia e "
+"rigenerare l'immagine?"
 
 #: ../gtk/recovery_media_creator.ui.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
 msgstr ""
+"Annullare veramente il processo di creazione del supporto di recupero?"
 
 #: ../gtk/recovery_media_creator.ui.h:4
 msgid "Cancel Recovery Media Creator"
@@ -158,10 +165,9 @@ msgstr "Disco DVD+/-RW"
 
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create ISO image"
-msgstr ""
+msgstr "No, crea immagine ISO"
 
 #: ../gtk/recovery_media_creator.ui.h:8
-#, fuzzy
 msgid ""
 "This application will create OS Recovery Media that can be used to restore "
 "the computer to its factory shipped state.  You will have the option to "
@@ -185,6 +191,8 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"\n"
+"\n"
 
 #: ../gtk/builder.ui.h:4
 msgid ""
@@ -200,9 +208,8 @@ msgid ""
 msgstr ""
 
 #: ../gtk/builder.ui.h:8
-#, fuzzy
 msgid "Choose Image"
-msgstr "Scegliere il tipo di supporto"
+msgstr ""
 
 #: ../gtk/builder.ui.h:9
 msgid "Detected Recovery Partition"
@@ -293,9 +300,8 @@ msgid ""
 msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:8
-#, fuzzy
 msgid "Save recovery media to DVD"
-msgstr "Annulla creazione supporto di recupero"
+msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"

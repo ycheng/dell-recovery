@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-14 15:48-0600\n"
-"PO-Revision-Date: 2009-06-30 04:52+0000\n"
+"POT-Creation-Date: 2010-01-19 11:06-0600\n"
+"PO-Revision-Date: 2010-01-26 15:18+0000\n"
 "Last-Translator: Vilson Gjeci <vilsongjeci@gmail.com>\n"
 "Language-Team: Albanian <sq@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-09-29 21:20+0000\n"
+"X-Launchpad-Export-Date: 2010-01-27 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
@@ -95,6 +95,10 @@ msgstr ""
 
 #: ../Dell/recovery_backend.py:457
 msgid "Inserting FISH packages"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:579
+msgid "Building Dell Utility Partition"
 msgstr ""
 
 #: ../Dell/recovery_backend.py:626
@@ -180,6 +184,8 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"\n"
+"\n"
 
 #: ../gtk/builder.ui.h:4
 msgid ""
