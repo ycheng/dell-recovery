@@ -38,11 +38,13 @@ rotational_characters=['\\','|','/','|']
 
 #Gtk widgets
 class PageGtk(PluginUI):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, controller, *args, **kwargs):
+        self.controller = controller
         up,  rp  = magic.find_partitions('','')
         dvd, usb = magic.find_burners()
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
-        if rp and oem:
+        self.genuine = magic.check_vendor()
+        if oem and (rp or not self.genuine):
             try:
                 import gtk
                 builder = gtk.Builder()
@@ -56,6 +58,11 @@ class PageGtk(PluginUI):
                     builder.get_object('dvd_box').hide()
                 if not usb:
                     builder.get_object('usb_box').hide()
+                if not self.genuine:
+                    builder.get_object('usb_box').hide()
+                    builder.get_object('dvd_box').hide()
+                    builder.get_object('none_box').hide()
+                    builder.get_object('genuine_box').show()
             except Exception, e:
                 self.debug('Could not create Dell Recovery page: %s', e)
                 self.plugin_widgets = None
@@ -63,6 +70,11 @@ class PageGtk(PluginUI):
             if not rp:
                 self.debug('Disabling %s because of problems with partitions: up[%s] and rp[%s]', NAME, up, rp)
             self.plugin_widgets = None
+
+    def plugin_get_current_page(self):
+        if not self.genuine:
+            self.controller.allow_go_forward(False)
+        return self.plugin_widgets
 
     def get_type(self):
         """Returns the type of recovery to do from GUI"""

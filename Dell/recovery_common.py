@@ -24,6 +24,7 @@
 ##################################################################################
 
 import dbus.mainloop.glib
+import subprocess
 import gobject
 import os
 import re
@@ -66,6 +67,19 @@ git_trees = { 'ubuntu': 'http://' + url + '/git/ubuntu-fid.git',
 ##                ## 
 ##Common Functions##
 ##                ##
+def check_vendor():
+    vendor = ''
+    invokation = subprocess.Popen(['dmidecode'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out = invokation.communicate()[0]
+    if invokation.returncode is None:
+        invokation.wait()
+    if out:
+        for line in out.split('\n'):
+            if 'Vendor' in line:
+                vendor = line.split()[1].lower()
+                break
+    return (vendor == 'dell' or vendor == 'innotek')
+
 def find_partitions(up,rp):
     """Searches the system for utility and recovery partitions"""
     bus = dbus.SystemBus()
