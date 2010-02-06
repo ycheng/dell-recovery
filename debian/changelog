@@ -11,6 +11,8 @@ dell-recovery (0.36) UNRELEASED; urgency=low
     - Enhances: ubiquity-frontend-gtk
     - Recommends: syslinux
   * Move white_tree into common to allow it to be used by the ubiquity GUI too.
+  * debian/postinst:
+    - Don't fail if dbus can't be reloaded.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Tue, 19 Jan 2010 11:07:01 -0600
 

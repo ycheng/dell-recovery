@@ -12,7 +12,7 @@ case "$1" in
 
     #reload dbus so this works immediately
     if status dbus>/dev/null; then
-      service dbus reload
+      service dbus reload || true
     fi
 
   ;;
