@@ -140,49 +140,54 @@ class Page(Plugin):
 
         #Zero out the MBR
         with open('/dev/zero','rb') as zeros:
-            with open(self.device,'w') as out:
-                out.write(zeros.read(1024))
+            with misc.raised_privileges():
+                with open(self.device,'w') as out:
+                    out.write(zeros.read(1024))
 
         #Create a DOS MBR
         with open('/usr/lib/syslinux/mbr.bin')as mbr:
-            with open(self.device,'w') as out:
-                out.write(mbr.read(404))
+            with misc.raised_privileges():
+                with open(self.device,'w') as out:
+                    out.write(mbr.read(404))
 
         #Partitioner commands
         data = 'n\np\n1\n\n' # New partition 1
-        data += '+' + up_size + 'M\n\nt\nde\n\n' # Size and make it type de
+        data += '+' + str(up_size) + 'M\n\nt\nde\n\n' # Size and make it type de
         data += 'n\np\n2\n\n' # New partition 2
-        data += '+' + rp_size + 'M\n\nt\np\n2\n0b\n\n' # Size and make it type 0b
+        data += '+' + str(rp_size) + 'M\n\nt\np\n2\n0b\n\n' # Size and make it type 0b
         data += 'a\n2\n\n' # Make partition 2 active
         data += 'w\n' # Save and quit
-        fetch_output(['fdisk', '/dev/sda'], data)
+        with misc.raised_privileges():
+            fetch_output(['fdisk', '/dev/sda'], data)
 
         #Restore UP
         if os.path.exists('/cdrom/upimg.bin'):
-            with open(self.device + '1','w') as partition:
-                p1 = subprocess.Popen(['gzip','-dc','/cdrom/upimg.bin'], stdout=subprocess.PIPE)
-                partition.write(p1.communicate()[0])
+            with misc.raised_privileges():
+                with open(self.device + '1','w') as partition:
+                    p1 = subprocess.Popen(['gzip','-dc','/cdrom/upimg.bin'], stdout=subprocess.PIPE)
+                    partition.write(p1.communicate()[0])
 
         #Build RP FS
-        fs = misc.execute('mkfs.msdos','-n','install',self.device + '2')
+        fs = misc.execute_root('mkfs.msdos','-n','install',self.device + '2')
         if not fs:
             self.debug("Error creating vfat filesystem on %s2" % self.device)
 
         #Mount RP
-        mount = misc.execute('mount', '-t', 'vfat', self.device + '2', '/boot')
+        mount = misc.execute_root('mount', '-t', 'vfat', self.device + '2', '/boot')
         if not mount:
             self.debug("Error mounting %s2" % self.device)
 
         #Copy RP Files
-        magic.white_tree("copy", white_pattern, '/cdrom', '/boot')
+        with misc.raised_privileges():
+            magic.white_tree("copy", white_pattern, '/cdrom', '/boot')
 
         #Install grub
-        grub = misc.execute('grub-install', '--force', self.device + '2')
+        grub = misc.execute_root('grub-install', '--force', self.device + '2')
         if not grub:
             self.debug("Error installing grub to %s2" % self.device)
 
         #Build new UUID
-        uuid = misc.execute('casper-new-uuid',
+        uuid = misc.execute_root('casper-new-uuid',
                              '/cdrom/casper/initrd.lz',
                              '/boot/casper',
                              '/boot/.disk')
@@ -193,7 +198,7 @@ class Page(Plugin):
         if self.kexec:
             with open('/proc/cmdline') as file:
                 cmdline = file.readline().strip('\n').replace('DVDBOOT','').replace('REINSTALL','')
-            kexec_run = misc.execute('kexec',
+            kexec_run = misc.execute_root('kexec',
                           '-l', '/boot/casper/vmlinuz',
                           '--initrd=/boot/casper/initrd.lz',
                           '--command-line="' + cmdline + '"')
@@ -201,49 +206,49 @@ class Page(Plugin):
                 self.debug("kexec loading of kernel and initrd failed")
 
         #Unmount devices
-        umount = misc.execute('umount', '/boot')
+        umount = misc.execute_root('umount', '/boot')
         if not umount:
             self.debug("Umount after file copy failed")
 
     def install_grub(self):
         """Installs grub on the recovery partition"""
-        cd_mount   = misc.execute('mount', '-o', 'remount,rw', '/cdrom')
+        cd_mount   = misc.execute_root('mount', '-o', 'remount,rw', '/cdrom')
         if not cd_mount:
             self.debug("CD Mount failed")
-        bind_mount = misc.execute('mount', '-o', 'bind', '/cdrom', '/boot')
+        bind_mount = misc.execute_root('mount', '-o', 'bind', '/cdrom', '/boot')
         if not bind_mount:
             self.debug("Bind Mount failed")
-        grub_inst  = misc.execute('grub-install', '--force', self.device + '2')
+        grub_inst  = misc.execute_root('grub-install', '--force', self.device + '2')
         if not grub_inst:
             self.debug("Grub install failed")
-        unbind_mount = misc.execute('umount', '/boot')
+        unbind_mount = misc.execute_root('umount', '/boot')
         if not unbind_mount:
             self.debug("Unmount /boot failed")
-        uncd_mount   = misc.execute('mount', '-o', 'remount,ro', '/cdrom')
+        uncd_mount   = misc.execute_root('mount', '-o', 'remount,ro', '/cdrom')
         if not uncd_mount:
             self.debug("Uncd mount failed")
 
     def remove_extra_partitions(self):
         """Removes partitions 3 and 4 for the process to start"""
-        active = misc.execute('sfdisk', '-A2', self.device)
+        active = misc.execute_root('sfdisk', '-A2', self.device)
         if not active:
             self.debug("Failed to set partition 2 active on %s" % self.device)
         for number in ('3','4'):
-            remove = misc.execute('parted', '-s', self.device, 'rm', number)
+            remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
             if not remove:
                 self.debug("Error removing partition number: %d on %s" % (number,self.device))
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
         #TODO: notify in GUI of media ejections
-        eject = misc.execute(['eject', '-p', '-m' '/cdrom'])
+        eject = misc.execute_root(['eject', '-p', '-m' '/cdrom'])
         self.debug("Eject was: %d" % eject)
         if self.kexec:
-            kexec = misc.execute('kexec', '-e')
+            kexec = misc.execute_root('kexec', '-e')
             if not kexec:
                 self.debug("kexec failed")
 
-        reboot = misc.execute('reboot','-n')
+        reboot = misc.execute_root('reboot','-n')
         if not reboot:
             self.debug("Reboot failed")
 
@@ -277,6 +282,15 @@ class Page(Plugin):
             self.device = self.db.get('partman-auto/disk')
         except debconf.DebconfError:
             pass
+
+        #If the system doesn't support edd, just assume first drive
+        if not os.path.exists(self.device) and 'edd' in self.device:
+            with misc.raised_privileges():
+                os.symlink('../../sda', self.device)
+
+        #Follow the symlink
+        if os.path.islink(self.device):
+            self.device = os.path.join(os.path.dirname(self.device), os.readlink(self.device))
 
         return Plugin.prepare(self, unfiltered=unfiltered)
 
