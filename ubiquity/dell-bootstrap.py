@@ -247,8 +247,9 @@ class Page(Plugin):
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
         #TODO: notify in GUI of media ejections
-        eject = misc.execute_root('eject', '-p', '-m' '/cdrom')
-        self.debug("Eject was: %d" % eject)
+        #eject = misc.execute_root('eject', '-p', '-m' '/cdrom')
+        #if not eject:
+        #    self.debug("Eject was: %d" % eject)
         if self.kexec:
             kexec = misc.execute_root('kexec', '-e')
             if not kexec:
