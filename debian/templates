@@ -8,6 +8,11 @@ Type: string
 Default: 
 Description: for internal use; determines whether to create a recovery partition
 
+Template: dell-recovery/kexec
+Type: boolean
+Default: true
+Description: Use kexec to load a new kernel after building the RP
+
 Template: dell-recovery/build_start
 Type: text
 _Description: Building Dell Recovery Media...
