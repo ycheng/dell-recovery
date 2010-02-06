@@ -28,6 +28,7 @@ from ubiquity import misc
 import Dell.recovery_common as magic
 import subprocess
 import os
+import re
 
 NAME = 'dell-bootstrap'
 AFTER = None
@@ -121,6 +122,8 @@ class Page(Plugin):
             (out,err) = proc.communicate(data)
             return out
 
+        white_pattern = re.compile('/')
+
         #Calculate UP#
         if os.path.exists('/cdrom/upimg.bin'):
             #in bytes
@@ -131,7 +134,7 @@ class Page(Plugin):
             up_size = 0
 
         #Calculate RP
-        rp_size = magic.white_tree("size",'/','/cdrom')
+        rp_size = magic.white_tree("size", white_pattern, '/cdrom')
         #in mbytes
         rp_size = (rp_size / 1048576) + cushion
 
@@ -171,7 +174,7 @@ class Page(Plugin):
             self.debug("Error mounting %s2" % self.device)
 
         #Copy RP Files
-        magic.white_tree("copy",'/','/cdrom','/boot')
+        magic.white_tree("copy", white_pattern, '/cdrom', '/boot')
 
         #Install grub
         grub = misc.execute('grub-install', '--force', self.device + '2')
