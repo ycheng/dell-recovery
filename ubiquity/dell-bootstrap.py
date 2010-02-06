@@ -39,17 +39,16 @@ class PageGtk(PluginUI):
     def __init__(self, controller, *args, **kwargs):
         self.plugin_widgets = None
 
-        file = open('/proc/cmdline')
-        self.cmdline = file.readline().strip('\n')
-        file.close()
-        
+        with open('/proc/cmdline') as file:
+            cmdline = file.readline().strip('\n')
+
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
 
         with misc.raised_privileges():
             self.genuine = magic.check_vendor()
 
-        self.reinstall = 'REINSTALL' in self.cmdline
-        self.dvdboot = 'DVDBOOT' in self.cmdline
+        self.reinstall = 'REINSTALL' in cmdline
+        self.dvdboot = 'DVDBOOT' in cmdline
 
         if (self.reinstall or self.dvdboot or not self.genuine) and not oem:
             try:
@@ -75,12 +74,12 @@ class PageGtk(PluginUI):
                 self.debug('Could not create Dell Bootstrap page: %s', e)
         else:
             if not (self.reinstall or self.dvdboot):
-                self.debug('Disabling %s because of problems with cmdline: [%s]', NAME, self.cmdline)
+                self.debug('Disabling %s because of problems with cmdline: [%s]', NAME, cmdline)
             elif oem:
                 self.debug('Disabling %s because of running in OEM mode', NAME)
 
     def plugin_get_current_page(self):
-        if not self.genuine:                               
+        if not self.genuine:
             self.controller.allow_go_forward(False)
         return self.plugin_widgets
 
@@ -108,46 +107,186 @@ class PageGtk(PluginUI):
         self.controller.allow_go_forward(True)
 
 class Page(Plugin):
-    def copy_rp(self):
+    def __init__(self, frontend, db=None, ui=None):
+        self.kexec = False
+        self.device = '/dev/sda'
+        Plugin.__init__(self, frontend, db, ui)
+
+    def build_rp(self, cushion=300):
         """Copies content to the recovery partition"""
-        pass
+
+        def fetch_output(self, cmd, data=None):
+            '''Helper function to just read the output from a command'''
+            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+            (out,err) = proc.communicate(data)[0]
+            return out
+
+        #Calculate UP#
+        if os.path.exists('/cdrom/upimg.bin'):
+            #in bytes
+            up_size = int(fetch_output(['gzip','-lq','upimg.bin']).split()[1])
+            #in mbytes
+            up_size = up_size / 1048576
+        else:
+            up_size = 0
+
+        #Calculate RP
+        rp_size = magic.white_tree("size",'/','/cdrom')
+        #in mbytes
+        rp_size = (rp_size / 1048576) + cushion
+
+        #Zero out the MBR
+        with open('/dev/zero','rb') as zeros:
+            with open(self.device,'w') as out:
+                out.write(zeros.read(1024))
+
+        #Create a DOS MBR
+        with open('/usr/lib/syslinux/mbr.bin')as mbr:
+            with open(self.device,'w') as out:
+                out.write(mbr.read(404))
+
+        #Partitioner commands
+        data = 'n\np\n1\n\n' # New partition 1
+        data += '+' + up_size + 'M\n\nt\nde\n\n' # Size and make it type de
+        data += 'n\np\n2\n\n' # New partition 2
+        data += '+' + rp_size + 'M\n\nt\np\n2\n0b\n\n' # Size and make it type 0b
+        data += 'a\n2\n\n' # Make partition 2 active
+        data += 'w\n' # Save and quit
+        fetch_output(['fdisk', '/dev/sda'], data)
+
+        #Restore UP
+        if os.path.exists('/cdrom/upimg.bin'):
+            with open(self.device + '1','w') as partition:
+                p1 = subprocess.Popen(['gzip','-dc','/cdrom/upimg.bin'], stdout=subprocess.PIPE)
+                partition.write(p1.communicate()[0])
+
+        #Build RP FS
+        fs = misc.execute('mkfs.msdos','-n','install',self.device + '2')
+        if not fs:
+            self.debug("Error creating vfat filesystem on %s2" % self.device)
+
+        #Mount RP
+        mount = misc.execute('mount', '-t', 'vfat', self.device + '2', '/boot')
+        if not mount:
+            self.debug("Error mounting %s2" % self.device)
+
+        #Copy RP Files
+        magic.white_tree("copy",'/','/cdrom','/boot')
+
+        #Install grub
+        grub = misc.execute('grub-install', '--force', self.device + '2')
+        if not grub:
+            self.debug("Error installing grub to %s2" % self.device)
+
+        #Build new UUID
+        uuid = misc.execute('casper-new-uuid',
+                             '/cdrom/casper/initrd.lz',
+                             '/boot/casper',
+                             '/boot/.disk')
+        if not uuid:
+            self.debug("Error rebuilding new casper UUID")
+
+        #Load kexec kernel
+        if self.kexec:
+            with open('/proc/cmdline') as file:
+                cmdline = file.readline().strip('\n').replace('DVDBOOT','').replace('REINSTALL','')
+            kexec_run = misc.execute('kexec',
+                          '-l', '/boot/casper/vmlinuz',
+                          '--initrd=/boot/casper/initrd.lz',
+                          '--command-line="' + cmdline + '"')
+            if not kexec_run:
+                self.debug("kexec loading of kernel and initrd failed")
+
+        #Unmount devices
+        umount = misc.execute('umount', '/boot')
+        if not umount:
+            self.debug("Umount after file copy failed")
 
     def install_grub(self):
         """Installs grub on the recovery partition"""
-        pass
+        cd_mount   = misc.execute('mount', '-o', 'remount,rw', '/cdrom')
+        if not cd_mount:
+            self.debug("CD Mount failed")
+        bind_mount = misc.execute('mount', '-o', 'bind', '/cdrom', '/boot')
+        if not bind_mount:
+            self.debug("Bind Mount failed")
+        grub_inst  = misc.execute('grub-install', '--force', self.device + '2')
+        if not grub_inst:
+            self.debug("Grub install failed")
+        unbind_mount = misc.execute('umount', '/boot')
+        if not unbind_mount:
+            self.debug("Unmount /boot failed")
+        uncd_mount   = misc.execute('mount', '-o', 'remount,ro', '/cdrom')
+        if not uncd_mount:
+            self.debug("Uncd mount failed")
 
     def remove_extra_partitions(self):
         """Removes partitions 3 and 4 for the process to start"""
-        pass
+        active = misc.execute('sfdisk', '-A2', self.device)
+        if not active:
+            self.debug("Failed to set partition 2 active on %s" % self.device)
+        for number in ('3','4'):
+            remove = misc.execute('parted', '-s', self.device, 'rm', number)
+            if not remove:
+                self.debug("Error removing partition number: %d on %s" % (number,self.device))
 
-    def kexec(self):
+    def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
-        pass
+        #TODO: notify in GUI of media ejections
+        eject = misc.execute(['eject', '-p', '-m' '/cdrom'])
+        self.debug("Eject was: %d" % eject)
+        if self.kexec:
+            kexec = misc.execute('kexec', '-e')
+            if not kexec:
+                self.debug("kexec failed")
+
+        reboot = misc.execute('reboot','-n')
+        if not reboot:
+            self.debug("Reboot failed")
 
     def unset_drive_preseeds(self):
         """Unsets any preseeds that are related to setting a drive"""
+        for key in [ ]:
+            self.db.fset(key, 'seen', 'false')
+            self.db.set(key, '')
 
     def prepare(self, unfiltered=False):
-        type = self.db.get('dell-recovery/recovery_type')
-        self.ui.set_type(type)
+        try:
+            type = self.db.get('dell-recovery/recovery_type')
+            self.ui.set_type(type)
+        except debconf.DebconfError:
+            pass
+
+        try:
+            self.kexec = misc.create_bool(self.db.get('dell-recovery/kexec'))
+        except debconf.DebconfError:
+            pass
+        try:
+            self.device = self.db.get('partman-auto/disk')
+        except debconf.DebconfError:
+            pass
+
         return Plugin.prepare(self, unfiltered=unfiltered)
 
     def ok_handler(self):
         type = self.ui.get_type()
         self.preseed('dell-recovery/recovery_type', type)
+
         # User recovery - need to copy RP
         if type == "automatic":
-            self.copy_rp()
-            self.kexec()
+            self.build_rp()
+            self.boot_rp()
+
         # User recovery - resizing drives
         elif type == "interactive":
             self.unset_drive_preseeds()
+
         # Factory install and post kexec
         else:
             self.remove_extra_partitions()
             self.install_grub()
         return Plugin.ok_handler(self)
-        
+
 
 #Currently we have actual stuff that's run as a late command
 #class Install(InstallPlugin):
