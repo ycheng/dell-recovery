@@ -115,7 +115,7 @@ class Page(Plugin):
     def build_rp(self, cushion=300):
         """Copies content to the recovery partition"""
 
-        def fetch_output(self, cmd, data=None):
+        def fetch_output(cmd, data=None):
             '''Helper function to just read the output from a command'''
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
             (out,err) = proc.communicate(data)[0]
@@ -246,9 +246,18 @@ class Page(Plugin):
 
     def unset_drive_preseeds(self):
         """Unsets any preseeds that are related to setting a drive"""
-        for key in [ ]:
+        for key in [ 'partman-auto/init_automatically_partition',
+                     'partman-auto/disk',
+                     'partman-auto/expert_recipe',
+                     'partman-basicfilesystems/no_swap',
+                     'grub-installer/only_debian',
+                     'grub-installer/with_other_os',
+                     'grub-installer/bootdev',
+                     'grub-installer/make_active' ]:
             self.db.fset(key, 'seen', 'false')
             self.db.set(key, '')
+        self.db.set('ubiquity/partman-skip-unmount', 'false')
+        self.db.set('partman/filter_mounted', 'true')
 
     def prepare(self, unfiltered=False):
         try:
