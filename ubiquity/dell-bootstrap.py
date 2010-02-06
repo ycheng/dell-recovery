@@ -118,13 +118,13 @@ class Page(Plugin):
         def fetch_output(cmd, data=None):
             '''Helper function to just read the output from a command'''
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-            (out,err) = proc.communicate(data)[0]
+            (out,err) = proc.communicate(data)
             return out
 
         #Calculate UP#
         if os.path.exists('/cdrom/upimg.bin'):
             #in bytes
-            up_size = int(fetch_output(['gzip','-lq','upimg.bin']).split()[1])
+            up_size = int(fetch_output(['gzip','-lq','/cdrom/upimg.bin']).split()[1])
             #in mbytes
             up_size = up_size / 1048576
         else:
