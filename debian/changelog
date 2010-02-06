@@ -7,6 +7,9 @@ dell-recovery (0.36) UNRELEASED; urgency=low
     that too much.
   * Encode strings that sent over dbus when mounting directories (LP: #514452)
   * Add a function to ensure this is running on Dell hardware during OEM config.
+  * debian/control:
+    - Enhances: ubiquity-frontend-gtk
+    - Recommends: syslinux
 
  -- Mario Limonciello <superm1@ubuntu.com>  Tue, 19 Jan 2010 11:07:01 -0600
 
