@@ -160,6 +160,12 @@ class Page(Plugin):
         with misc.raised_privileges():
             fetch_output(['fdisk', '/dev/sda'], data)
 
+        #Refresh the kernel partition list
+        with misc.raised_privileges():
+            probe = misc.execute_root('partprobe', self.device)
+            if not probe:
+                self.debug("Partition probe failed")
+
         #Restore UP
         if os.path.exists('/cdrom/upimg.bin'):
             with misc.raised_privileges():
@@ -241,7 +247,7 @@ class Page(Plugin):
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
         #TODO: notify in GUI of media ejections
-        eject = misc.execute_root(['eject', '-p', '-m' '/cdrom'])
+        eject = misc.execute_root('eject', '-p', '-m' '/cdrom')
         self.debug("Eject was: %d" % eject)
         if self.kexec:
             kexec = misc.execute_root('kexec', '-e')
