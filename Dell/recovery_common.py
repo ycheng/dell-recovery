@@ -64,9 +64,61 @@ git_trees = { 'ubuntu': 'http://' + url + '/git/ubuntu-fid.git',
               'redhat': 'http://humbolt.us.dell.com/pub/Applications/git-internal-projects/redhat-fid.git',
             }
 
-##                ## 
+##                ##
 ##Common Functions##
 ##                ##
+def white_tree(action,whitelist,src,dst='',base=None):
+    """Recursively ACTIONs files from src to dest only
+       when they match the whitelist outlined in whitelist"""
+    from distutils.file_util import copy_file
+    from distutils.dir_util import mkpath
+
+    if base is None:
+        base=src
+        if not base.endswith('/'):
+            base += '/'
+
+    names = os.listdir(src)
+
+    if action == "copy":
+        outputs = []
+    elif action == "size":
+        outputs = 0
+
+    for n in names:
+        src_name = os.path.join(src, n)
+        dst_name = os.path.join(dst, n)
+        end=src_name.split(base)[1]
+
+        #don't copy symlinks or hardlinks, vfat seems to hate them
+        if os.path.islink(src_name):
+            continue
+
+        #recurse till we find FILES
+        elif os.path.isdir(src_name):
+            if action == "copy":
+                outputs.extend(
+                    white_tree(action, whitelist, src_name, dst_name, base))
+            elif action == "size":
+                #add the directory we're in
+                outputs += os.path.getsize(src_name)
+                #add the files in that directory
+                outputs += white_tree(action, whitelist, src_name, dst_name, base)
+
+        #only copy the file if it matches the whitelist
+        elif whitelist.search(end):
+            if action == "copy":
+                if not os.path.isdir(dst):
+                    os.makedirs(dst)
+                copy_file(src_name, dst_name, preserve_mode=1,
+                          preserve_times=1, update=1, dry_run=0)
+                outputs.append(dst_name)
+
+            elif action == "size":
+                outputs += os.path.getsize(src_name)
+
+    return outputs
+
 def check_vendor():
     vendor = ''
     invokation = subprocess.Popen(['dmidecode'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -148,7 +200,7 @@ def find_burners():
 
     dvd = find_command(dvd_burners)
     usb = find_command(usb_burners)
-    
+
     #If we have apps for DVD burning, check hardware
     if dvd:
         try:

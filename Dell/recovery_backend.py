@@ -216,7 +216,7 @@ class Backend(dbus.service.Object):
             # we don't need is_challenge return here, since we call with AllowUserInteraction
             (is_auth, _, details) = self.polkit.CheckAuthorization(
                     ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1),
-                        'start-time': dbus.UInt64(0, variant_level=1)}), 
+                        'start-time': dbus.UInt64(0, variant_level=1)}),
                     privilege, {'': ''}, dbus.UInt32(1), '', timeout=600)
         except dbus.DBusException, e:
             if e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
@@ -345,58 +345,6 @@ class Backend(dbus.service.Object):
            up: utility partition
            version: version for ISO creation purposes
            iso: iso file name to create"""
-        
-        def white_tree(action,whitelist,src,dst='',base=None):
-            """Recursively ACTIONs files from src to dest only
-               when they match the whitelist outlined in whitelist"""
-            from distutils.file_util import copy_file
-            from distutils.dir_util import mkpath
-
-            if base is None:
-                base=src
-                if not base.endswith('/'):
-                    base += '/'
-
-            names = os.listdir(src)
-
-            if action == "copy":
-                outputs = []
-            elif action == "size":
-                outputs = 0
-
-            for n in names:
-                src_name = os.path.join(src, n)
-                dst_name = os.path.join(dst, n)
-                end=src_name.split(base)[1]
-
-                #don't copy symlinks or hardlinks, vfat seems to hate them
-                if os.path.islink(src_name):
-                    continue
-                    
-                #recurse till we find FILES
-                elif os.path.isdir(src_name):
-                    if action == "copy":
-                        outputs.extend(
-                            white_tree(action, whitelist, src_name, dst_name, base))
-                    elif action == "size":
-                        #add the directory we're in
-                        outputs += os.path.getsize(src_name)
-                        #add the files in that directory
-                        outputs += white_tree(action, whitelist, src_name, dst_name, base)
-
-                #only copy the file if it matches the whitelist
-                elif whitelist.search(end):
-                    if action == "copy":
-                        if not os.path.isdir(dst):
-                            os.makedirs(dst)
-                        copy_file(src_name, dst_name, preserve_mode=1,
-                                  preserve_times=1, update=1, dry_run=0)
-                        outputs.append(dst_name)
-
-                    elif action == "size":
-                        outputs += os.path.getsize(src_name)
-
-            return outputs
 
         def safe_tar_extract(filename,destination):
             """Safely extracts a tarball into destination"""
