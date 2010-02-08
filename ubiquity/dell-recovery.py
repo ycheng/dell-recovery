@@ -24,6 +24,7 @@
 ##################################################################################
 
 from ubiquity.plugin import *
+from ubiquity import misc
 import subprocess
 import os
 import Dell.recovery_common as magic
@@ -43,7 +44,8 @@ class PageGtk(PluginUI):
         up,  rp  = magic.find_partitions('','')
         dvd, usb = magic.find_burners()
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
-        self.genuine = magic.check_vendor()
+        with misc.raised_privileges():
+            self.genuine = magic.check_vendor()
         if oem and (rp or not self.genuine):
             try:
                 import gtk
