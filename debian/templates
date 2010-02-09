@@ -5,7 +5,7 @@ Description: for internal use; determines whether to generate recovery media
 
 Template: dell-recovery/recovery_type
 Type: string
-Default: 
+Default: factory
 Description: for internal use; determines whether to create a recovery partition
 
 Template: dell-recovery/kexec

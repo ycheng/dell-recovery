@@ -40,18 +40,12 @@ class PageGtk(PluginUI):
     def __init__(self, controller, *args, **kwargs):
         self.plugin_widgets = None
 
-        with open('/proc/cmdline') as file:
-            cmdline = file.readline().strip('\n')
-
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
 
         with misc.raised_privileges():
             self.genuine = magic.check_vendor()
 
-        self.reinstall = 'REINSTALL' in cmdline
-        self.dvdboot = 'DVDBOOT' in cmdline
-
-        if (self.reinstall or self.dvdboot or not self.genuine) and not oem:
+        if not oem:
             try:
                 import gtk
                 builder = gtk.Builder()
@@ -60,24 +54,18 @@ class PageGtk(PluginUI):
                 self.controller = controller
                 self.plugin_widgets = builder.get_object('stepDellBootstrap')
                 self.automated_recovery = builder.get_object('automated_recovery')
+                self.automated_recovery_box = builder.get_object('automated_recovery_box')
                 self.interactive_recovery = builder.get_object('interactive_recovery')
+                self.interactive_recovery_box = builder.get_object('interactive_recovery_box')
                 self.hidden_radio = builder.get_object('hidden_radio')
                 if not self.genuine:
-                    builder.get_object('interactive_recovery_box').hide()
-                    builder.get_object('automated_recovery_box').hide()
+                    self.interactive_recovery_box.hide()
+                    self.automated_recovery_box.hide()
                     self.automated_recovery.set_sensitive(False)
                     self.interactive_recovery.set_sensitive(False)
                     builder.get_object('genuine_box').show()
-                elif not self.dvdboot:
-                    builder.get_object('interactive_recovery_box').hide()
-                    self.interactive_recovery.set_sensitive(False)
             except Exception, e:
                 self.debug('Could not create Dell Bootstrap page: %s', e)
-        else:
-            if not (self.reinstall or self.dvdboot):
-                self.debug('Disabling %s because of problems with cmdline: [%s]', NAME, cmdline)
-            elif oem:
-                self.debug('Disabling %s because of running in OEM mode', NAME)
 
     def plugin_get_current_page(self):
         if not self.genuine:
@@ -101,7 +89,11 @@ class PageGtk(PluginUI):
             self.interactive_recovery.set_active(True)
         else:
             self.hidden_radio.set_active(True)
-            self.controller.allow_go_forward(False)
+            if type != "factory":
+                self.controller.allow_go_forward(False)
+            if type == "hdd":
+                self.interactive_recovery_box.hide()
+                self.interactive_recovery.set_sensitive(False)
 
     def toggle_type(self, widget):
         """Allows the user to go forward after they've made a selection'"""
@@ -154,17 +146,18 @@ class Page(Plugin):
         data = 'n\np\n1\n\n' # New partition 1
         data += '+' + str(up_size) + 'M\n\nt\nde\n\n' # Size and make it type de
         data += 'n\np\n2\n\n' # New partition 2
-        data += '+' + str(rp_size) + 'M\n\nt\np\n2\n0b\n\n' # Size and make it type 0b
+        data += '+' + str(rp_size) + 'M\n\nt\n2\n0b\n\n' # Size and make it type 0b
         data += 'a\n2\n\n' # Make partition 2 active
         data += 'w\n' # Save and quit
         with misc.raised_privileges():
             fetch_output(['fdisk', '/dev/sda'], data)
 
         #Refresh the kernel partition list
-        with misc.raised_privileges():
-            probe = misc.execute_root('partprobe', self.device)
-            if not probe:
-                self.debug("Partition probe failed")
+        #We probably don't need this, but in case we decide to, here's how to enable it
+        #with misc.raised_privileges():
+        #    probe = misc.execute_root('partprobe', self.device)
+        #    if probe is False:
+        #        self.debug("Partition probe failed")
 
         #Restore UP
         if os.path.exists('/cdrom/upimg.bin'):
@@ -175,12 +168,12 @@ class Page(Plugin):
 
         #Build RP FS
         fs = misc.execute_root('mkfs.msdos','-n','install',self.device + '2')
-        if not fs:
+        if fs is False:
             self.debug("Error creating vfat filesystem on %s2" % self.device)
 
         #Mount RP
         mount = misc.execute_root('mount', '-t', 'vfat', self.device + '2', '/boot')
-        if not mount:
+        if mount is False:
             self.debug("Error mounting %s2" % self.device)
 
         #Copy RP Files
@@ -189,7 +182,7 @@ class Page(Plugin):
 
         #Install grub
         grub = misc.execute_root('grub-install', '--force', self.device + '2')
-        if not grub:
+        if grub is False:
             self.debug("Error installing grub to %s2" % self.device)
 
         #Build new UUID
@@ -197,51 +190,60 @@ class Page(Plugin):
                              '/cdrom/casper/initrd.lz',
                              '/boot/casper',
                              '/boot/.disk')
-        if not uuid:
+        if uuid is False:
             self.debug("Error rebuilding new casper UUID")
 
         #Load kexec kernel
         if self.kexec:
             with open('/proc/cmdline') as file:
-                cmdline = file.readline().strip('\n').replace('DVDBOOT','').replace('REINSTALL','')
+                cmdline = file.readline().strip('\n').replace('dell-recovery/recovery_type=dvd','dell-recovery/recovery_type=factory').replace('dell-recovery/recovery_type=hdd','dell-recovery/recovery_type=factory')
             kexec_run = misc.execute_root('kexec',
                           '-l', '/boot/casper/vmlinuz',
                           '--initrd=/boot/casper/initrd.lz',
                           '--command-line="' + cmdline + '"')
-            if not kexec_run:
+            if kexec_run is False:
                 self.debug("kexec loading of kernel and initrd failed")
 
         #Unmount devices
         umount = misc.execute_root('umount', '/boot')
-        if not umount:
+        if umount is False:
             self.debug("Umount after file copy failed")
 
     def install_grub(self):
         """Installs grub on the recovery partition"""
         cd_mount   = misc.execute_root('mount', '-o', 'remount,rw', '/cdrom')
-        if not cd_mount:
+        if cd_mount is False:
             self.debug("CD Mount failed")
         bind_mount = misc.execute_root('mount', '-o', 'bind', '/cdrom', '/boot')
-        if not bind_mount:
+        if bind_mount is False:
             self.debug("Bind Mount failed")
         grub_inst  = misc.execute_root('grub-install', '--force', self.device + '2')
-        if not grub_inst:
+        if grub_inst is False:
             self.debug("Grub install failed")
         unbind_mount = misc.execute_root('umount', '/boot')
-        if not unbind_mount:
+        if unbind_mount is False:
             self.debug("Unmount /boot failed")
         uncd_mount   = misc.execute_root('mount', '-o', 'remount,ro', '/cdrom')
-        if not uncd_mount:
+        if uncd_mount is False:
             self.debug("Uncd mount failed")
+
+    def disable_swap(self):
+        """Disables any swap partitions in use"""
+        with open('/proc/swaps','r') as swap:
+            for line in swap.readlines():
+                if self.device in line:
+                    misc.execute_root('swapoff', line.split()[0])
+                    if misc is False:
+                        self.debug("Error disabling swap on device %s" % line.split()[0])
 
     def remove_extra_partitions(self):
         """Removes partitions 3 and 4 for the process to start"""
         active = misc.execute_root('sfdisk', '-A2', self.device)
-        if not active:
+        if active is False:
             self.debug("Failed to set partition 2 active on %s" % self.device)
         for number in ('3','4'):
             remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
-            if not remove:
+            if remove is False:
                 self.debug("Error removing partition number: %d on %s" % (number,self.device))
 
     def boot_rp(self):
@@ -252,11 +254,11 @@ class Page(Plugin):
         #    self.debug("Eject was: %d" % eject)
         if self.kexec:
             kexec = misc.execute_root('kexec', '-e')
-            if not kexec:
+            if kexec is False:
                 self.debug("kexec failed")
 
         reboot = misc.execute_root('reboot','-n')
-        if not reboot:
+        if reboot is False:
             self.debug("Reboot failed")
 
     def unset_drive_preseeds(self):
@@ -274,9 +276,49 @@ class Page(Plugin):
         self.db.set('ubiquity/partman-skip-unmount', 'false')
         self.db.set('partman/filter_mounted', 'true')
 
+    def fixup_devices(self):
+        """Fixes self.device to not be a symlink"""
+        #If the system doesn't support edd, just hunt for the first writable drive
+        #TODO 02-08-10: find a better way to do this.  It's a wee bit ugly
+        if not os.path.exists(self.device) and 'edd' in self.device:
+            #First read in /proc/mounts to make sure we don't accidently write over the same
+            #device we're booted from - unless it's a hard drive
+            ignore = ''
+            new = 'sda'
+            with open('/proc/mounts','r') as f:
+                for line in f.readlines():
+                    #Mounted
+                    if '/cdrom' in line:
+                        #and isn't a hard drive
+                        device = line.split()[0]
+                        if subprocess.call(['/lib/udev/ata_id',device) != 0:
+                            ignore = device
+                            break
+            if ignore:
+                for root,dirs,files in os.walk('/dev/'):
+                    for name in files:
+                        if name.startswith('sd'):
+                            stripped = name.strip('1234567890')
+                            if stripped in ignore:
+                                continue
+                            else:
+                                new = stripped
+            with misc.raised_privileges():
+                os.symlink('../../' + new, self.device)
+
+        #Follow the symlink
+        if os.path.islink(self.device):
+            self.device = os.path.join(os.path.dirname(self.device), os.readlink(self.device))
+
     def prepare(self, unfiltered=False):
         try:
             type = self.db.get('dell-recovery/recovery_type')
+            #These require interactivity - so don't fly by even if --automatic
+            if type != 'factory':
+                self.db.set('dell-recovery/recovery_type','')
+                self.db.fset('dell-recovery/recovery_type', 'seen', 'false')
+            else:
+                self.db.fset('dell-recovery/recovery_type', 'seen', 'true')
             self.ui.set_type(type)
         except debconf.DebconfError:
             pass
@@ -290,23 +332,16 @@ class Page(Plugin):
         except debconf.DebconfError:
             pass
 
-        #If the system doesn't support edd, just assume first drive
-        if not os.path.exists(self.device) and 'edd' in self.device:
-            with misc.raised_privileges():
-                os.symlink('../../sda', self.device)
+        return (['/usr/share/ubiquity/dell-bootstrap'], ['dell-recovery/recovery_type'])
 
-        #Follow the symlink
-        if os.path.islink(self.device):
-            self.device = os.path.join(os.path.dirname(self.device), os.readlink(self.device))
+    def cleanup(self):
 
-        return Plugin.prepare(self, unfiltered=unfiltered)
-
-    def ok_handler(self):
-        type = self.ui.get_type()
-        self.preseed('dell-recovery/recovery_type', type)
-
+        self.fixup_devices()
+        
+        type = self.db.get('dell-recovery/recovery_type')
         # User recovery - need to copy RP
         if type == "automatic":
+            self.disable_swap()
             self.build_rp()
             self.boot_rp()
 
@@ -314,11 +349,22 @@ class Page(Plugin):
         elif type == "interactive":
             self.unset_drive_preseeds()
 
-        # Factory install and post kexec
+        # Factory install, post kexec, and booting from RP
         else:
+            self.disable_swap()
             self.remove_extra_partitions()
             self.install_grub()
+        Plugin.cleanup(self)
+
+    def ok_handler(self):
+        """Copy answers from debconf questions"""
+        type = self.ui.get_type()
+        self.preseed('dell-recovery/recovery_type', type)
         return Plugin.ok_handler(self)
+
+    def cancel_handler(self):
+        """Called when we don't want to perform recovery'"""
+        misc.execute('reboot','-n')
 
 
 #Currently we have actual stuff that's run as a late command
