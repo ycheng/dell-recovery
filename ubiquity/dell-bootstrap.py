@@ -57,6 +57,8 @@ class PageGtk(PluginUI):
                 self.automated_recovery_box = builder.get_object('automated_recovery_box')
                 self.interactive_recovery = builder.get_object('interactive_recovery')
                 self.interactive_recovery_box = builder.get_object('interactive_recovery_box')
+                self.hdd_recovery = builder.get_object('hdd_recovery')
+                self.hdd_recovery_box = builder.get_object('hdd_recovery_box')
                 self.hidden_radio = builder.get_object('hidden_radio')
                 if not self.genuine:
                     self.interactive_recovery_box.hide()
@@ -92,8 +94,11 @@ class PageGtk(PluginUI):
             if type != "factory":
                 self.controller.allow_go_forward(False)
             if type == "hdd":
+                self.hdd_recovery_box.show()
                 self.interactive_recovery_box.hide()
+                self.automated_recovery_box.hide()
                 self.interactive_recovery.set_sensitive(False)
+                self.automated_recovery.set_sensitive(False)
 
     def toggle_type(self, widget):
         """Allows the user to go forward after they've made a selection'"""
@@ -112,6 +117,11 @@ class Page(Plugin):
             '''Helper function to just read the output from a command'''
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
             (out,err) = proc.communicate(data)
+            if proc.returncode is None:
+                proc.wait()
+            if proc.returncode != 0:
+                raise RuntimeError, ("Command %s failed with stdout/stderr: %s\n%s" %
+                                     (cmd, out, err))
             return out
 
         white_pattern = re.compile('/')
@@ -150,7 +160,7 @@ class Page(Plugin):
         data += 'a\n2\n\n' # Make partition 2 active
         data += 'w\n' # Save and quit
         with misc.raised_privileges():
-            fetch_output(['fdisk', '/dev/sda'], data)
+            self.debug(fetch_output(['fdisk', self.device], data))
 
         #Refresh the kernel partition list
         #We probably don't need this, but in case we decide to, here's how to enable it
@@ -291,7 +301,7 @@ class Page(Plugin):
                     if '/cdrom' in line:
                         #and isn't a hard drive
                         device = line.split()[0]
-                        if subprocess.call(['/lib/udev/ata_id',device) != 0:
+                        if subprocess.call(['/lib/udev/ata_id',device]) != 0:
                             ignore = device
                             break
             if ignore:
@@ -309,6 +319,7 @@ class Page(Plugin):
         #Follow the symlink
         if os.path.islink(self.device):
             self.device = os.path.join(os.path.dirname(self.device), os.readlink(self.device))
+        self.debug("Fixed up device we are operating on is %s" % self.device)
 
     def prepare(self, unfiltered=False):
         try:
