@@ -108,6 +108,7 @@ class Page(Plugin):
     def __init__(self, frontend, db=None, ui=None):
         self.kexec = False
         self.device = '/dev/sda'
+        self.node = ''
         Plugin.__init__(self, frontend, db, ui)
 
     def build_rp(self, cushion=300):
@@ -241,7 +242,7 @@ class Page(Plugin):
         """Disables any swap partitions in use"""
         with open('/proc/swaps','r') as swap:
             for line in swap.readlines():
-                if self.device in line:
+                if self.device in line or self.node in line:
                     misc.execute_root('swapoff', line.split()[0])
                     if misc is False:
                         self.debug("Error disabling swap on device %s" % line.split()[0])
@@ -318,6 +319,7 @@ class Page(Plugin):
 
         #Follow the symlink
         if os.path.islink(self.device):
+            self.node = os.readlink(self.device).split('/').pop()
             self.device = os.path.join(os.path.dirname(self.device), os.readlink(self.device))
         self.debug("Fixed up device we are operating on is %s" % self.device)
 
