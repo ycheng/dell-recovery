@@ -144,14 +144,8 @@ class Page(Plugin):
         #Zero out the MBR
         with open('/dev/zero','rb') as zeros:
             with misc.raised_privileges():
-                with open(self.device,'w') as out:
+                with open(self.device,'wb') as out:
                     out.write(zeros.read(1024))
-
-        #Create a DOS MBR
-        with open('/usr/lib/syslinux/mbr.bin')as mbr:
-            with misc.raised_privileges():
-                with open(self.device,'w') as out:
-                    out.write(mbr.read(404))
 
         #Partitioner commands
         data = 'n\np\n1\n\n' # New partition 1
@@ -162,6 +156,12 @@ class Page(Plugin):
         data += 'w\n' # Save and quit
         with misc.raised_privileges():
             self.debug(fetch_output(['fdisk', self.device], data))
+
+        #Create a DOS MBR
+        with open('/usr/lib/syslinux/mbr.bin','rb')as mbr:
+            with misc.raised_privileges():
+                with open(self.device,'wb') as out:
+                    out.write(mbr.read(404))
 
         #Refresh the kernel partition list
         #We probably don't need this, but in case we decide to, here's how to enable it
