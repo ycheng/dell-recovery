@@ -25,6 +25,7 @@
 
 from ubiquity.plugin import *
 from ubiquity import misc
+import debconf
 import Dell.recovery_common as magic
 import subprocess
 import os
