@@ -11,7 +11,7 @@ case "$1" in
     fi
 
     #reload dbus so this works immediately
-    if status dbus>/dev/null; then
+    if status dbus >/dev/null 2>&1; then
       service dbus reload || true
     fi
 
