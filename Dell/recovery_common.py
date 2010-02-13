@@ -71,7 +71,27 @@ def find_partitions(up,rp):
     bus = dbus.SystemBus()
 
     try:
-        #first try to use devkit-disks. if this fails, then we can fall back to hal
+        #first try to use udisks, if this fails, fall back to devkit-disks.
+        udisk_obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
+        ud = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
+        devices = ud.EnumerateDevices()
+        for device in devices:
+            dev_obj = bus.get_object('org.freedesktop.UDisks', device)
+            dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
+
+            label = dev.Get('org.freedesktop.UDisks.Device','IdLabel')
+            fs = dev.Get('org.freedesktop.Udisks.Device','IdType')
+
+            if not up and 'DellUtility' in label:
+                up=dev.Get('org.freedesktop.UDisks.Device','DeviceFile')
+            elif not rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
+                rp=dev.Get('org.freedesktop.Udisks.Device','DeviceFile')
+        return (up,rp)
+    except dbus.DBusException, e:
+        print "%s, UDisks Failed" % str(e)
+
+    try:
+        #next try to use devkit-disks. if this fails, then we can fall back to hal
         dk_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', '/org/freedesktop/DeviceKit/Disks')
         dk = dbus.Interface(dk_obj, 'org.freedesktop.DeviceKit.Disks')
         devices = dk.EnumerateDevices()
@@ -86,9 +106,12 @@ def find_partitions(up,rp):
                 up=dev.Get('org.freedesktop.DeviceKit.Disks.Device','device-file')
             elif not rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
                 rp=dev.Get('org.freedesktop.DeviceKit.Disks.Device','device-file')
+        return (up,rp)
 
     except dbus.DBusException, e:
-        print "Falling back to HAL"
+        print "%s, DeviceKit-Disks Failed" % str(e)
+
+    try:
         hal_obj = bus.get_object('org.freedesktop.Hal', '/org/freedesktop/Hal/Manager')
         hal = dbus.Interface(hal_obj, 'org.freedesktop.Hal.Manager')
         devices = hal.FindDeviceByCapability('volume')
@@ -99,12 +122,13 @@ def find_partitions(up,rp):
 
             label = dev.GetProperty('volume.label')
             fs = dev.GetProperty('volume.fstype')
-
             if not up and 'DellUtility' in label:
                 up=dev.GetProperty('block.device')
             elif not rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
                 rp=dev.GetProperty('block.device')
-    return (up,rp)
+        return (up,rp)
+    except dbus.DBusException, e:
+        print "%s, HAL Failed" % str(e)
 
 def find_burners():
     """Checks for what utilities are available to burn with"""

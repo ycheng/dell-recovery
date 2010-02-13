@@ -8,6 +8,8 @@ dell-recovery (0.36) UNRELEASED; urgency=low
   * Encode strings that sent over dbus when mounting directories (LP: #514452)
   * debian/control:
     - Add a depends on udisks.
+  * Add support for UDisks, followed by falling back to Devkit-disks and lastly
+    HAL.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Tue, 19 Jan 2010 11:07:01 -0600
 
