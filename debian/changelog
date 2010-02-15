@@ -10,6 +10,8 @@ dell-recovery (0.36) UNRELEASED; urgency=low
     - Add a depends on udisks.
   * Add support for UDisks, followed by falling back to Devkit-disks and lastly
     HAL.
+  * Convert package to dh7 rather than cdbs.
+  * Convert package to a v3 source package.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Tue, 19 Jan 2010 11:07:01 -0600
 
