@@ -6,10 +6,15 @@ dell-recovery (0.36) UNRELEASED; urgency=low
     Most systems run out of loopback devices at 7 and dell-recovery doesn't like
     that too much.
   * Encode strings that sent over dbus when mounting directories (LP: #514452)
-  * Add a function to ensure this is running on Dell hardware during OEM config.
   * debian/control:
+    - Add a depends on udisks.
     - Enhances: ubiquity-frontend-gtk
     - Recommends: syslinux
+  * Add support for UDisks, followed by falling back to Devkit-disks and lastly
+    HAL.
+  * Convert package to dh7 rather than cdbs.
+  * Convert package to a v3 source package.
+  * Add a function to ensure this is running on Dell hardware during OEM config.
   * Move white_tree into common to allow it to be used by the ubiquity GUI too.
   * debian/postinst:
     - Don't fail if dbus can't be reloaded.
