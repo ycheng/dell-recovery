@@ -6,7 +6,7 @@ SUBSYSTEM!="block", GOTO="dell_rp_end"
 #shouldn't clash with windows factory shipped systems
 #which may have "OS" as the third partition
 
-ENV{ID_FS_TYPE}=="vfat", ENV{ID_FS_LABEL}=="OS|install", ENV{DKD_PARTITION_NUMBER}=="2", ENV{DKD_PRESENTATION_HIDE}="1"
+ENV{ID_FS_TYPE}=="vfat", ENV{ID_FS_LABEL}=="OS|install", ENV{DKD_PARTITION_NUMBER}=="2", ENV{DKD_PRESENTATION_HIDE}="1", ENV{UDISKS_PRESENTATION_HIDE}="1"
 
 LABEL="dell_rp_end"
 
