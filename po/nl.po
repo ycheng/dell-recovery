@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-19 11:06-0600\n"
-"PO-Revision-Date: 2010-01-26 15:16+0000\n"
-"Last-Translator: Willem Ligtenberg <WLigtenberg@gmail.com>\n"
+"POT-Creation-Date: 2010-02-15 12:31-0600\n"
+"PO-Revision-Date: 2010-02-15 15:17+0000\n"
+"Last-Translator: Emilien Klein <emilien+ubuntu@klein.st>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-27 04:46+0000\n"
+"X-Launchpad-Export-Date: 2010-02-16 04:54+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
@@ -85,27 +85,27 @@ msgstr "Bestandsnaam: "
 msgid "Confirm Selections"
 msgstr "Bevestig uw keuze"
 
-#: ../Dell/recovery_backend.py:440
+#: ../Dell/recovery_backend.py:443
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:446
+#: ../Dell/recovery_backend.py:449
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:457
+#: ../Dell/recovery_backend.py:460
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:579
+#: ../Dell/recovery_backend.py:607
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:626
+#: ../Dell/recovery_backend.py:654
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:668
+#: ../Dell/recovery_backend.py:696
 msgid "Building ISO"
 msgstr "ISO wordt aangemaakt"
 
@@ -182,7 +182,7 @@ msgstr "Usb-stick"
 
 #: ../gtk/recovery_media_creator.ui.h:10
 msgid "Version:"
-msgstr ""
+msgstr "Versie:"
 
 #: ../gtk/builder.ui.h:1
 msgid ""
@@ -239,7 +239,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:17
 msgid "Install git"
-msgstr ""
+msgstr "Git installeren"
 
 #: ../gtk/builder.ui.h:18
 msgid "Selected Image Details:"
@@ -251,7 +251,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:20
 msgid "Show Details"
-msgstr ""
+msgstr "Details tonen"
 
 #: ../gtk/builder.ui.h:21
 msgid ""
@@ -270,10 +270,11 @@ msgstr ""
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
+"<b>Opmerking:</b> Dit vereist een USB flash drive met ongeveer 2 GB vrij."
 
 #: ../oem-config/stepRecoveryMedia.ui.h:2
 msgid "<b>Note:</b> This requires writable DVD media."
-msgstr ""
+msgstr "<b>Opmerking:</b> Dit vereist een beschrijfbare DVD schrijf."
 
 #: ../oem-config/stepRecoveryMedia.ui.h:3
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
