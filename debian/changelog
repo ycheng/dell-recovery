@@ -1,4 +1,4 @@
-dell-recovery (0.36) UNRELEASED; urgency=low
+dell-recovery (0.36) lucid; urgency=low
 
   * Fix translations stuff so that we only use one template (dell-recovery)
     that should be imported from Launchpad in a mergable branch.
@@ -13,7 +13,7 @@ dell-recovery (0.36) UNRELEASED; urgency=low
   * Convert package to dh7 rather than cdbs.
   * Convert package to a v3 source package.
 
- -- Mario Limonciello <superm1@ubuntu.com>  Tue, 19 Jan 2010 11:07:01 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 16 Feb 2010 17:39:18 -0600
 
 dell-recovery (0.35) lucid; urgency=low
 
