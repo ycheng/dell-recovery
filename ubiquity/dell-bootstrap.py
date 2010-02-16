@@ -290,13 +290,13 @@ class Page(Plugin):
 
     def fixup_devices(self):
         """Fixes self.device to not be a symlink"""
-        #If the system doesn't support edd, just hunt for the first writable drive
-        #TODO 02-08-10: find a better way to do this.  It's a wee bit ugly
-        if not os.path.exists(self.device) and 'edd' in self.device:
+        #Normally we do want the first edd device, but if we're booted from a USB
+        #stick, that's just not true anymore
+        if 'edd' in self.device:
             #First read in /proc/mounts to make sure we don't accidently write over the same
             #device we're booted from - unless it's a hard drive
             ignore = ''
-            new = 'sda'
+            new = ''
             with open('/proc/mounts','r') as f:
                 for line in f.readlines():
                     #Mounted
@@ -315,9 +315,13 @@ class Page(Plugin):
                                 continue
                             else:
                                 new = stripped
-            with misc.raised_privileges():
-                os.symlink('../../' + new, self.device)
-
+            if new:
+                with misc.raised_privileges():
+                    #Check if old device already existed:
+                    if os.path.islink(self.device):
+                        os.unlink(self.device)
+                    os.symlink('../../' + new, self.device)
+    
         #Follow the symlink
         if os.path.islink(self.device):
             self.node = os.readlink(self.device).split('/').pop()
