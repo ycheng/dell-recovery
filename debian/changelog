@@ -1,6 +1,6 @@
 dell-recovery (0.37) UNRELEASED; urgency=low
 
- * debian/control:
+  * debian/control:
     - Enhances: ubiquity-frontend-gtk
     - Recommends: syslinux
   * Add a function to ensure this is running on Dell hardware during OEM config.
