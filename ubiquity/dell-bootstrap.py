@@ -25,6 +25,7 @@
 
 from ubiquity.plugin import *
 from ubiquity import misc
+from threading import Thread, Event
 import debconf
 import Dell.recovery_common as magic
 import subprocess
@@ -119,121 +120,19 @@ class PageGtk(PluginUI):
         self.info_window.hide()
         self.reboot_dialog.run()
 
+    def show_exception_dialog(self, e):
+        self.info_spinner.stop()
+        self.info_window.hide()
+        err_dialog = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK, message_format=str(e))
+        err_dialog.set_title('Exception Encountered')
+        err_dialog.run()
+
 class Page(Plugin):
     def __init__(self, frontend, db=None, ui=None):
         self.kexec = False
         self.device = '/dev/sda'
         self.node = ''
         Plugin.__init__(self, frontend, db, ui)
-
-    def build_rp(self, cushion=300):
-        """Copies content to the recovery partition"""
-
-        def fetch_output(cmd, data=None):
-            '''Helper function to just read the output from a command'''
-            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-            (out,err) = proc.communicate(data)
-            if proc.returncode is None:
-                proc.wait()
-            if proc.returncode != 0:
-                raise RuntimeError, ("Command %s failed with stdout/stderr: %s\n%s" %
-                                     (cmd, out, err))
-            return out
-
-        white_pattern = re.compile('/')
-
-        #Calculate UP#
-        if os.path.exists('/cdrom/upimg.bin'):
-            #in bytes
-            up_size = int(fetch_output(['gzip','-lq','/cdrom/upimg.bin']).split()[1])
-            #in mbytes
-            up_size = up_size / 1048576
-        else:
-            up_size = 0
-
-        #Calculate RP
-        rp_size = magic.white_tree("size", white_pattern, '/cdrom')
-        #in mbytes
-        rp_size = (rp_size / 1048576) + cushion
-
-        #Zero out the MBR
-        with open('/dev/zero','rb') as zeros:
-            with misc.raised_privileges():
-                with open(self.device,'wb') as out:
-                    out.write(zeros.read(1024))
-
-        #Partitioner commands
-        data = 'n\np\n1\n\n' # New partition 1
-        data += '+' + str(up_size) + 'M\n\nt\nde\n\n' # Size and make it type de
-        data += 'n\np\n2\n\n' # New partition 2
-        data += '+' + str(rp_size) + 'M\n\nt\n2\n0b\n\n' # Size and make it type 0b
-        data += 'a\n2\n\n' # Make partition 2 active
-        data += 'w\n' # Save and quit
-        with misc.raised_privileges():
-            self.debug(fetch_output(['fdisk', self.device], data))
-
-        #Create a DOS MBR
-        with open('/usr/lib/syslinux/mbr.bin','rb')as mbr:
-            with misc.raised_privileges():
-                with open(self.device,'wb') as out:
-                    out.write(mbr.read(404))
-
-        #Refresh the kernel partition list
-        #We probably don't need this, but in case we decide to, here's how to enable it
-        #with misc.raised_privileges():
-        #    probe = misc.execute_root('partprobe', self.device)
-        #    if probe is False:
-        #        self.debug("Partition probe failed")
-
-        #Restore UP
-        if os.path.exists('/cdrom/upimg.bin'):
-            with misc.raised_privileges():
-                with open(self.device + '1','w') as partition:
-                    p1 = subprocess.Popen(['gzip','-dc','/cdrom/upimg.bin'], stdout=subprocess.PIPE)
-                    partition.write(p1.communicate()[0])
-
-        #Build RP FS
-        fs = misc.execute_root('mkfs.msdos','-n','install',self.device + '2')
-        if fs is False:
-            raise RuntimeError, ("Error creating vfat filesystem on %s2" % self.device)
-
-        #Mount RP
-        mount = misc.execute_root('mount', '-t', 'vfat', self.device + '2', '/boot')
-        if mount is False:
-            raise RuntimeError, ("Error mounting %s2" % self.device)
-
-        #Copy RP Files
-        with misc.raised_privileges():
-            magic.white_tree("copy", white_pattern, '/cdrom', '/boot')
-
-        #Install grub
-        grub = misc.execute_root('grub-install', '--force', self.device + '2')
-        if grub is False:
-            raise RuntimeError, ("Error installing grub to %s2" % self.device)
-
-        #Build new UUID
-        uuid = misc.execute_root('casper-new-uuid',
-                             '/cdrom/casper/initrd.lz',
-                             '/boot/casper',
-                             '/boot/.disk')
-        if uuid is False:
-            raise RuntimeError, ("Error rebuilding new casper UUID")
-
-        #Load kexec kernel
-        if self.kexec:
-            with open('/proc/cmdline') as file:
-                cmdline = file.readline().strip('\n').replace('dell-recovery/recovery_type=dvd','dell-recovery/recovery_type=factory').replace('dell-recovery/recovery_type=hdd','dell-recovery/recovery_type=factory')
-            kexec_run = misc.execute_root('kexec',
-                          '-l', '/boot/casper/vmlinuz',
-                          '--initrd=/boot/casper/initrd.lz',
-                          '--command-line="' + cmdline + '"')
-            if kexec_run is False:
-                self.debug("kexec loading of kernel and initrd failed")
-
-        #Unmount devices
-        umount = misc.execute_root('umount', '/boot')
-        if umount is False:
-            self.debug("Umount after file copy failed")
 
     def install_grub(self):
         """Installs grub on the recovery partition"""
@@ -369,8 +268,10 @@ class Page(Plugin):
 
         return (['/usr/share/ubiquity/dell-bootstrap'], ['dell-recovery/recovery_type'])
 
-    def cleanup(self):
-
+    def ok_handler(self):
+        """Copy answers from debconf questions"""
+        type = self.ui.get_type()
+        self.preseed('dell-recovery/recovery_type', type)
         self.fixup_devices()
         
         type = self.db.get('dell-recovery/recovery_type')
@@ -378,7 +279,12 @@ class Page(Plugin):
         if type == "automatic":
             self.ui.show_info_dialog()
             self.disable_swap()
-            self.build_rp()
+            self.rp_builder = rp_builder(self.device, self.kexec)
+            self.rp_builder.exception = self.handle_exception
+            self.rp_builder.exit = self.exit_ui_loops
+            self.rp_builder.start()
+            self.enter_ui_loop()
+            self.rp_builder.join()
             self.boot_rp()
 
         # User recovery - resizing drives
@@ -391,18 +297,134 @@ class Page(Plugin):
             self.remove_extra_partitions()
             self.install_grub()
 
-        Plugin.cleanup(self)
-
-    def ok_handler(self):
-        """Copy answers from debconf questions"""
-        type = self.ui.get_type()
-        self.preseed('dell-recovery/recovery_type', type)
         return Plugin.ok_handler(self)
 
     def cancel_handler(self):
         """Called when we don't want to perform recovery'"""
         misc.execute('reboot','-n')
 
+    def handle_exception(self, e):
+        self.debug(str(e))
+        self.ui.show_exception_dialog(e)
+
+class rp_builder(Thread):
+    def __init__(self, device, kexec):
+        self.device = device
+        self.kexec = kexec
+        Thread.__init__(self)
+
+    def exception(self, exception):
+        pass
+
+    def build_rp(self, cushion=300):
+        """Copies content to the recovery partition"""
+
+        def fetch_output(cmd, data=None):
+            '''Helper function to just read the output from a command'''
+            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+            (out,err) = proc.communicate(data)
+            if proc.returncode is None:
+                proc.wait()
+            if proc.returncode != 0:
+                raise RuntimeError, ("Command %s failed with stdout/stderr: %s\n%s" %
+                                     (cmd, out, err))
+            return out
+
+        white_pattern = re.compile('/')
+
+        #Calculate UP#
+        if os.path.exists('/cdrom/upimg.bin'):
+            #in bytes
+            up_size = int(fetch_output(['gzip','-lq','/cdrom/upimg.bin']).split()[1])
+            #in mbytes
+            up_size = up_size / 1048576
+        else:
+            up_size = 0
+
+        #Calculate RP
+        rp_size = magic.white_tree("size", white_pattern, '/cdrom')
+        #in mbytes
+        rp_size = (rp_size / 1048576) + cushion
+
+        #Zero out the MBR
+        with open('/dev/zero','rb') as zeros:
+            with misc.raised_privileges():
+                with open(self.device,'wb') as out:
+                    out.write(zeros.read(1024))
+
+        #Partitioner commands
+        data = 'n\np\n1\n\n' # New partition 1
+        data += '+' + str(up_size) + 'M\n\nt\nde\n\n' # Size and make it type de
+        data += 'n\np\n2\n\n' # New partition 2
+        data += '+' + str(rp_size) + 'M\n\nt\n2\n0b\n\n' # Size and make it type 0b
+        data += 'a\n2\n\n' # Make partition 2 active
+        data += 'w\n' # Save and quit
+        with misc.raised_privileges():
+            fetch_output(['fdisk', self.device], data)
+
+        #Create a DOS MBR
+        with open('/usr/lib/syslinux/mbr.bin','rb')as mbr:
+            with misc.raised_privileges():
+                with open(self.device,'wb') as out:
+                    out.write(mbr.read(404))
+
+        #Restore UP
+        if os.path.exists('/cdrom/upimg.bin'):
+            with misc.raised_privileges():
+                with open(self.device + '1','w') as partition:
+                    p1 = subprocess.Popen(['gzip','-dc','/cdrom/upimg.bin'], stdout=subprocess.PIPE)
+                    partition.write(p1.communicate()[0])
+
+        #Build RP FS
+        fs = misc.execute_root('mkfs.msdos','-n','install',self.device + '2')
+        if fs is False:
+            raise RuntimeError, ("Error creating vfat filesystem on %s2" % self.device)
+
+        #Mount RP
+        mount = misc.execute_root('mount', '-t', 'vfat', self.device + '2', '/boot')
+        if mount is False:
+            raise RuntimeError, ("Error mounting %s2" % self.device)
+
+        #Copy RP Files
+        with misc.raised_privileges():
+            magic.white_tree("copy", white_pattern, '/cdrom', '/boot')
+
+        #Install grub
+        grub = misc.execute_root('grub-install', '--force', self.device + '2')
+        if grub is False:
+            raise RuntimeError, ("Error installing grub to %s2" % self.device)
+
+        #Build new UUID
+        uuid = misc.execute_root('casper-new-uuid',
+                             '/cdrom/casper/initrd.lz',
+                             '/boot/casper',
+                             '/boot/.disk')
+        if uuid is False:
+            raise RuntimeError, ("Error rebuilding new casper UUID")
+
+        #Load kexec kernel
+        if self.kexec:
+            with open('/proc/cmdline') as file:
+                cmdline = file.readline().strip('\n').replace('dell-recovery/recovery_type=dvd','dell-recovery/recovery_type=factory').replace('dell-recovery/recovery_type=hdd','dell-recovery/recovery_type=factory')
+            kexec_run = misc.execute_root('kexec',
+                          '-l', '/boot/casper/vmlinuz',
+                          '--initrd=/boot/casper/initrd.lz',
+                          '--command-line="' + cmdline + '"')
+            if kexec_run is False:
+                self.debug("kexec loading of kernel and initrd failed")
+
+        #Unmount devices
+        umount = misc.execute_root('umount', '/boot')
+
+    def exit(self):
+        pass
+
+    def run(self):
+        try:
+            self.build_rp()
+        except Exception, e:
+            self.exception(e)
+        self.exit()
 
 #Currently we have actual stuff that's run as a late command
 #class Install(InstallPlugin):
