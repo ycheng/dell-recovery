@@ -122,6 +122,9 @@ class Install(InstallPlugin):
         self.progress.info('dell-recovery/build_progress')
 
     def install(self, target, progress, *args, **kwargs):
+        if not 'UBIQUITY_OEM_USER_CONFIG' in os.environ:
+            return
+
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.progress=progress
         type = self.db.get('dell-recovery/destination')
