@@ -181,12 +181,12 @@ class Page(Plugin):
         #Build RP FS
         fs = misc.execute_root('mkfs.msdos','-n','install',self.device + '2')
         if fs is False:
-            self.debug("Error creating vfat filesystem on %s2" % self.device)
+            raise RuntimeError, ("Error creating vfat filesystem on %s2" % self.device)
 
         #Mount RP
         mount = misc.execute_root('mount', '-t', 'vfat', self.device + '2', '/boot')
         if mount is False:
-            self.debug("Error mounting %s2" % self.device)
+            raise RuntimeError, ("Error mounting %s2" % self.device)
 
         #Copy RP Files
         with misc.raised_privileges():
@@ -195,7 +195,7 @@ class Page(Plugin):
         #Install grub
         grub = misc.execute_root('grub-install', '--force', self.device + '2')
         if grub is False:
-            self.debug("Error installing grub to %s2" % self.device)
+            raise RuntimeError, ("Error installing grub to %s2" % self.device)
 
         #Build new UUID
         uuid = misc.execute_root('casper-new-uuid',
@@ -203,7 +203,7 @@ class Page(Plugin):
                              '/boot/casper',
                              '/boot/.disk')
         if uuid is False:
-            self.debug("Error rebuilding new casper UUID")
+            raise RuntimeError, ("Error rebuilding new casper UUID")
 
         #Load kexec kernel
         if self.kexec:
@@ -225,19 +225,19 @@ class Page(Plugin):
         """Installs grub on the recovery partition"""
         cd_mount   = misc.execute_root('mount', '-o', 'remount,rw', '/cdrom')
         if cd_mount is False:
-            self.debug("CD Mount failed")
+            raise RuntimeError, ("CD Mount failed")
         bind_mount = misc.execute_root('mount', '-o', 'bind', '/cdrom', '/boot')
         if bind_mount is False:
-            self.debug("Bind Mount failed")
+            raise RuntimeError, ("Bind Mount failed")
         grub_inst  = misc.execute_root('grub-install', '--force', self.device + '2')
         if grub_inst is False:
-            self.debug("Grub install failed")
+            raise RuntimeError, ("Grub install failed")
         unbind_mount = misc.execute_root('umount', '/boot')
         if unbind_mount is False:
-            self.debug("Unmount /boot failed")
+            raise RuntimeError, ("Unmount /boot failed")
         uncd_mount   = misc.execute_root('mount', '-o', 'remount,ro', '/cdrom')
         if uncd_mount is False:
-            self.debug("Uncd mount failed")
+            raise RuntimeError, ("Uncd mount failed")
 
     def disable_swap(self):
         """Disables any swap partitions in use"""
@@ -246,7 +246,7 @@ class Page(Plugin):
                 if self.device in line or self.node in line:
                     misc.execute_root('swapoff', line.split()[0])
                     if misc is False:
-                        self.debug("Error disabling swap on device %s" % line.split()[0])
+                        raise RuntimeError, ("Error disabling swap on device %s" % line.split()[0])
 
     def remove_extra_partitions(self):
         """Removes partitions 3 and 4 for the process to start"""
@@ -256,7 +256,7 @@ class Page(Plugin):
         for number in ('3','4'):
             remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
             if remove is False:
-                self.debug("Error removing partition number: %d on %s" % (number,self.device))
+                raise RuntimeError, ("Error removing partition number: %d on %s" % (number,self.device))
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
@@ -271,7 +271,7 @@ class Page(Plugin):
 
         reboot = misc.execute_root('reboot','-n')
         if reboot is False:
-            self.debug("Reboot failed")
+            raise RuntimeError, ("Reboot failed")
 
     def unset_drive_preseeds(self):
         """Unsets any preseeds that are related to setting a drive"""
