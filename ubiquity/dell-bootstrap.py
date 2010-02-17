@@ -198,7 +198,8 @@ class Page(Plugin):
                      'grub-installer/only_debian',
                      'grub-installer/with_other_os',
                      'grub-installer/bootdev',
-                     'grub-installer/make_active' ]:
+                     'grub-installer/make_active',
+                     'ubiquity/reboot' ]:
             self.db.fset(key, 'seen', 'false')
             self.db.set(key, '')
         self.db.set('ubiquity/partman-skip-unmount', 'false')
