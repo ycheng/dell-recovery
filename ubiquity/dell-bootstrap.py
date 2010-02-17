@@ -33,6 +33,9 @@ import os
 import re
 import gtk
 import shutil
+import dbus
+from dbus.mainloop.glib import DBusGMainLoop
+DBusGMainLoop(set_as_default=True)
 
 NAME = 'dell-bootstrap'
 AFTER = None
@@ -174,23 +177,20 @@ class Page(Plugin):
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
-
-        for file in ['/sbin/reboot', '/usr/share/dell/bin/kexec']:
-            if os.path.exists(file):
-                shutil.copy(file, '/tmp')
+        shutil.copy('/sbin/reboot', '/tmp')
+        if self.kexec and os.path.exists('/usr/share/dell/bin/kexec'):
+            shutil.copy('/usr/share/dell/bin/kexec', '/tmp')
         eject = misc.execute_root('eject', '-p', '-m' '/cdrom')
-        self.ui.show_reboot_dialog()
         if eject is False:
             self.debug("Eject was: %d" % eject)
-        
-        if self.kexec:
-            kexec = misc.execute_root('/tmp/kexec', '-e')
-            if kexec is False:
-                self.debug("kexec failed")
 
-        reboot = misc.execute_root('/tmp/reboot','-n')
-        if reboot is False:
-            raise RuntimeError, ("Reboot failed")
+        #Set up a listen for udisks to let us know a usb device has left
+        bus = dbus.SystemBus()
+        bus.add_signal_receiver(reboot_machine, 'DeviceRemoved', 'org.freedesktop.UDisks')
+        
+        self.ui.show_reboot_dialog()
+
+        reboot_machine(None)
 
     def unset_drive_preseeds(self):
         """Unsets any preseeds that are related to setting a drive"""
@@ -430,6 +430,16 @@ class rp_builder(Thread):
         except Exception, e:
             self.exception(e)
         self.exit()
+
+def reboot_machine(objpath):
+    if os.path.exists('/tmp/kexec'):
+        kexec = misc.execute_root('/tmp/kexec', '-e')
+        if kexec is False:
+            self.debug("kexec failed")
+
+    reboot = misc.execute_root('/tmp/reboot','-n')
+    if reboot is False:
+        raise RuntimeError, ("Reboot failed")
 
 #Currently we have actual stuff that's run as a late command
 #class Install(InstallPlugin):
