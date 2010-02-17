@@ -32,6 +32,7 @@ import subprocess
 import os
 import re
 import gtk
+import shutil
 
 NAME = 'dell-bootstrap'
 AFTER = None
@@ -173,19 +174,21 @@ class Page(Plugin):
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
-        
+
+        for file in ['/sbin/reboot', '/usr/share/dell/bin/kexec']:
+            if os.path.exists(file):
+                shutil.copy(file, '/tmp')
+        eject = misc.execute_root('eject', '-p', '-m' '/cdrom')
         self.ui.show_reboot_dialog()
-        #TODO: notify in GUI of media ejections
-        #eject = misc.execute_root('eject', '-p', '-m' '/cdrom')
-        #if not eject:
-        #    self.debug("Eject was: %d" % eject)
+        if eject is False:
+            self.debug("Eject was: %d" % eject)
         
         if self.kexec:
-            kexec = misc.execute_root('kexec', '-e')
+            kexec = misc.execute_root('/tmp/kexec', '-e')
             if kexec is False:
                 self.debug("kexec failed")
 
-        reboot = misc.execute_root('reboot','-n')
+        reboot = misc.execute_root('/tmp/reboot','-n')
         if reboot is False:
             raise RuntimeError, ("Reboot failed")
 
@@ -407,12 +410,13 @@ class rp_builder(Thread):
         if self.kexec:
             with open('/proc/cmdline') as file:
                 cmdline = file.readline().strip('\n').replace('dell-recovery/recovery_type=dvd','dell-recovery/recovery_type=factory').replace('dell-recovery/recovery_type=hdd','dell-recovery/recovery_type=factory')
-            kexec_run = misc.execute_root('kexec',
+            if os.path.exists('/usr/share/dell/bin/kexec'):
+                kexec_run = misc.execute_root('/usr/share/dell/bin/kexec',
                           '-l', '/boot/casper/vmlinuz',
                           '--initrd=/boot/casper/initrd.lz',
                           '--command-line="' + cmdline + '"')
-            if kexec_run is False:
-                self.debug("kexec loading of kernel and initrd failed")
+                if kexec_run is False:
+                    self.debug("kexec loading of kernel and initrd failed")
 
         #Unmount devices
         umount = misc.execute_root('umount', '/boot')
