@@ -354,4 +354,76 @@
       </packing>
     </child>
   </object>
+  <object class="GtkMessageDialog" id="reboot_dialog">
+    <property name="border_width">5</property>
+    <property name="window_position">center-always</property>
+    <property name="type_hint">normal</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="has_separator">False</property>
+    <property name="buttons">ok</property>
+    <property name="text" translatable="yes">Please remove your recovery media and click OK
+to continue.  Your system may reboot.</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox3">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area3">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="info_window">
+    <property name="resizable">True</property>
+    <property name="window_position">center-always</property>
+    <property name="default_width">300</property>
+    <property name="default_height">200</property>
+    <child>
+      <object class="GtkVBox" id="info_vbox">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkLabel" id="info_label">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="yalign">0.25</property>
+            <property name="label" translatable="yes">&lt;b&gt;Recovery Partition build in progress.  &lt;/b&gt;
+This window will close automatically when the process is complete. 
+&lt;b&gt;NOTE:&lt;/b&gt; Please be patient, this may take a while.</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSpinner" id="info_spinner">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
 </interface>

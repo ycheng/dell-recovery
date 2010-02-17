@@ -30,6 +30,7 @@ import Dell.recovery_common as magic
 import subprocess
 import os
 import re
+import gtk
 
 NAME = 'dell-bootstrap'
 AFTER = None
@@ -47,28 +48,29 @@ class PageGtk(PluginUI):
             self.genuine = magic.check_vendor()
 
         if not oem:
-            try:
-                import gtk
-                builder = gtk.Builder()
-                builder.add_from_file('/usr/share/ubiquity/gtk/stepDellBootstrap.ui')
-                builder.connect_signals(self)
-                self.controller = controller
-                self.plugin_widgets = builder.get_object('stepDellBootstrap')
-                self.automated_recovery = builder.get_object('automated_recovery')
-                self.automated_recovery_box = builder.get_object('automated_recovery_box')
-                self.interactive_recovery = builder.get_object('interactive_recovery')
-                self.interactive_recovery_box = builder.get_object('interactive_recovery_box')
-                self.hdd_recovery = builder.get_object('hdd_recovery')
-                self.hdd_recovery_box = builder.get_object('hdd_recovery_box')
-                self.hidden_radio = builder.get_object('hidden_radio')
-                if not self.genuine:
-                    self.interactive_recovery_box.hide()
-                    self.automated_recovery_box.hide()
-                    self.automated_recovery.set_sensitive(False)
-                    self.interactive_recovery.set_sensitive(False)
-                    builder.get_object('genuine_box').show()
-            except Exception, e:
-                self.debug('Could not create Dell Bootstrap page: %s', e)
+            builder = gtk.Builder()
+            builder.add_from_file('/usr/share/ubiquity/gtk/stepDellBootstrap.ui')
+            builder.connect_signals(self)
+            self.controller = controller
+            self.plugin_widgets = builder.get_object('stepDellBootstrap')
+            self.automated_recovery = builder.get_object('automated_recovery')
+            self.automated_recovery_box = builder.get_object('automated_recovery_box')
+            self.interactive_recovery = builder.get_object('interactive_recovery')
+            self.interactive_recovery_box = builder.get_object('interactive_recovery_box')
+            self.hdd_recovery = builder.get_object('hdd_recovery')
+            self.hdd_recovery_box = builder.get_object('hdd_recovery_box')
+            self.hidden_radio = builder.get_object('hidden_radio')
+            self.reboot_dialog = builder.get_object('reboot_dialog')
+            self.reboot_dialog.set_title('Dell Recovery')
+            self.info_window = builder.get_object('info_window')
+            self.info_window.set_title('Dell Recovery')
+            self.info_spinner = builder.get_object('info_spinner')
+            if not self.genuine:
+                self.interactive_recovery_box.hide()
+                self.automated_recovery_box.hide()
+                self.automated_recovery.set_sensitive(False)
+                self.interactive_recovery.set_sensitive(False)
+                builder.get_object('genuine_box').show()
 
     def plugin_get_current_page(self):
         if not self.genuine:
@@ -104,6 +106,18 @@ class PageGtk(PluginUI):
     def toggle_type(self, widget):
         """Allows the user to go forward after they've made a selection'"""
         self.controller.allow_go_forward(True)
+
+    def show_info_dialog(self):
+        self.controller.toggle_top_level()
+        self.info_window.show()
+        self.info_spinner.start()
+        while gtk.events_pending():
+            gtk.main_iteration()
+
+    def show_reboot_dialog(self):
+        self.info_spinner.stop()
+        self.info_window.hide()
+        self.reboot_dialog.run()
 
 class Page(Plugin):
     def __init__(self, frontend, db=None, ui=None):
@@ -260,10 +274,13 @@ class Page(Plugin):
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
+        
+        self.ui.show_reboot_dialog()
         #TODO: notify in GUI of media ejections
         #eject = misc.execute_root('eject', '-p', '-m' '/cdrom')
         #if not eject:
         #    self.debug("Eject was: %d" % eject)
+        
         if self.kexec:
             kexec = misc.execute_root('kexec', '-e')
             if kexec is False:
@@ -359,6 +376,7 @@ class Page(Plugin):
         type = self.db.get('dell-recovery/recovery_type')
         # User recovery - need to copy RP
         if type == "automatic":
+            self.ui.show_info_dialog()
             self.disable_swap()
             self.build_rp()
             self.boot_rp()
@@ -372,6 +390,7 @@ class Page(Plugin):
             self.disable_swap()
             self.remove_extra_partitions()
             self.install_grub()
+
         Plugin.cleanup(self)
 
     def ok_handler(self):
