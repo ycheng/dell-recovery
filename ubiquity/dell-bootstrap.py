@@ -490,8 +490,41 @@ def reboot_machine(objpath):
         raise RuntimeError, ("Reboot failed")
 
 #Currently we have actual stuff that's run as a late command
-#class Install(InstallPlugin):
-#
-#    def install(self, target, progress, *args, **kwargs):
-#        return InstallPlugin.install(self, target, progress, *args, **kwargs)
+class Install(InstallPlugin):
+    def find_unconditional_debs(self):
+        '''Finds any debs from debs/main that we want unconditionally installed
+           (but ONLY the latest version on the media)'''
+        import apt_inst
+        import apt_pkg
+
+        def parse(file):
+            """ read a deb """
+            control = apt_inst.debExtractControl(open(file))
+            sections = apt_pkg.ParseSection(control)
+            return sections["Package"]
+
+        to_install = []
+        for file in os.listdir('/cdrom/debs/main'):
+            if '.deb' in file:
+                to_install.append(parse(os.path.join('/cdrom/debs/main',file)))
+        return to_install
+
+    def install(self, target, progress, *args, **kwargs):
+        '''This is highly dependent upon being called AFTER configure_apt
+        in install.  If that is ever converted into a plugin, we'll
+        have some major problems!'''
+        from ubiquity import install_misc
+        to_install = []
+
+        #Fixup pool
+        install_misc.chroot_setup(target)
+        install_misc.chrex(target, '/cdrom/scripts/pool.sh')
+        install_misc.chroot_cleanup(target)
+
+        #Install unconditional debs
+        to_install.append('dkms')
+        to_install += self.find_unconditional_debs()
+        install_misc.record_installed(to_install)
+        
+        return InstallPlugin.install(self, target, progress, *args, **kwargs)
 
