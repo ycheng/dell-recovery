@@ -174,7 +174,7 @@ class Page(Plugin):
         for number in ('3','4'):
             remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
             if remove is False:
-                raise RuntimeError, ("Error removing partition number: %d on %s" % (number,self.device))
+                self.debug("Error removing partition number: %s on %s (this may be normal)'" % (number, self.device))
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
@@ -209,7 +209,7 @@ class Page(Plugin):
         self.db.set('ubiquity/partman-skip-unmount', 'false')
         self.db.set('partman/filter_mounted', 'true')
 
-    def fixup_devices(self):
+    def fixup_recovery_devices(self):
         """Fixes self.device to not be a symlink"""
         #Normally we do want the first edd device, but if we're booted from a USB
         #stick, that's just not true anymore
@@ -249,6 +249,22 @@ class Page(Plugin):
             self.device = os.path.join(os.path.dirname(self.device), os.readlink(self.device))
         self.debug("Fixed up device we are operating on is %s" % self.device)
 
+    def fixup_factory_devices(self):
+        #Ignore any EDD settings - we want to just plop on the same drive with
+        #the right FS label (which will be valid right now)
+        #Don't you dare put a USB stick in the system with that label right now!
+        new = ''
+        for path in [ '/dev/disk/by-label/install',
+                      '/dev/disk/by-label/OS'     ]:
+            if os.path.exists(path):
+                new = os.readlink(path).split('/').pop().strip('1234567890')
+                break
+        if new:
+            self.device = os.path.join('/dev', new)
+            self.db.set('partman-auto/disk', self.device)
+            self.db.set('grub-installer/bootdev', self.device + '3')
+        self.debug("Fixed up device we are operating on is %s" % self.device)
+
     def prepare(self, unfiltered=False):
         type = None
         try:
@@ -259,7 +275,8 @@ class Page(Plugin):
                 self.db.fset('dell-recovery/recovery_type', 'seen', 'false')
             else:
                 self.db.fset('dell-recovery/recovery_type', 'seen', 'true')
-        except debconf.DebconfError:
+        except debconf.DebconfError, e:
+            self.debug(str(e))
             #TODO superm1 : 2-18-10
             # if the template doesn't exist, this might be a casper bug
             # where the template wasn't registered at package install
@@ -282,11 +299,6 @@ class Page(Plugin):
 
         return (['/usr/share/ubiquity/dell-bootstrap'], ['dell-recovery/recovery_type'])
 
-    def run(self, priority, question):
-        if question == 'dell-recovery/recovery_type':
-            self.fixup_devices()
-        return Plugin.run(self, priority, question)
-
     def ok_handler(self):
         """Copy answers from debconf questions"""
         type = self.ui.get_type()
@@ -295,10 +307,10 @@ class Page(Plugin):
 
     def cleanup(self):
         #All this processing happens in cleanup because that ensures it runs for all scenarios
-        self.fixup_devices()
         type = self.db.get('dell-recovery/recovery_type')
         # User recovery - need to copy RP
         if type == "automatic":
+            self.fixup_recovery_devices()
             self.ui.show_info_dialog()
             self.disable_swap()
             self.rp_builder = rp_builder(self.device, self.kexec)
@@ -316,6 +328,7 @@ class Page(Plugin):
 
         # Factory install, post kexec, and booting from RP
         else:
+            self.fixup_factory_devices()
             self.disable_swap()
             self.remove_extra_partitions()
             self.install_grub()
