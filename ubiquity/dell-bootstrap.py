@@ -133,7 +133,7 @@ class PageGtk(PluginUI):
 
 class Page(Plugin):
     def __init__(self, frontend, db=None, ui=None):
-        self.kexec = False
+        self.kexec = True
         self.device = '/dev/sda'
         self.node = ''
         Plugin.__init__(self, frontend, db, ui)
@@ -178,8 +178,8 @@ class Page(Plugin):
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
         shutil.copy('/sbin/reboot', '/tmp')
-        if self.kexec and os.path.exists('/usr/share/dell/bin/kexec'):
-            shutil.copy('/usr/share/dell/bin/kexec', '/tmp')
+        if self.kexec and os.path.exists('/cdrom/misc/kexec'):
+            shutil.copy('/cdrom/misc/kexec', '/tmp')
         eject = misc.execute_root('eject', '-p', '-m' '/cdrom')
         if eject is False:
             self.debug("Eject was: %d" % eject)
@@ -407,11 +407,10 @@ class rp_builder(Thread):
             raise RuntimeError, ("Error rebuilding new casper UUID")
 
         #Load kexec kernel
-        if self.kexec:
+        if self.kexec and os.path.exists('/cdrom/misc/kexec'):
             with open('/proc/cmdline') as file:
                 cmdline = file.readline().strip('\n').replace('dell-recovery/recovery_type=dvd','dell-recovery/recovery_type=factory').replace('dell-recovery/recovery_type=hdd','dell-recovery/recovery_type=factory')
-            if os.path.exists('/usr/share/dell/bin/kexec'):
-                kexec_run = misc.execute_root('/usr/share/dell/bin/kexec',
+                kexec_run = misc.execute_root('/cdrom/misc/kexec',
                           '-l', '/boot/casper/vmlinuz',
                           '--initrd=/boot/casper/initrd.lz',
                           '--command-line="' + cmdline + '"')
