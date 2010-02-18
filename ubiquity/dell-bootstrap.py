@@ -161,7 +161,7 @@ class Page(Plugin):
         """Disables any swap partitions in use"""
         with open('/proc/swaps','r') as swap:
             for line in swap.readlines():
-                if self.device in line or self.node in line:
+                if self.device in line or (self.node and self.node in line):
                     misc.execute_root('swapoff', line.split()[0])
                     if misc is False:
                         raise RuntimeError, ("Error disabling swap on device %s" % line.split()[0])
