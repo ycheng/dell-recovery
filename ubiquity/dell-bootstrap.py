@@ -250,6 +250,7 @@ class Page(Plugin):
         self.debug("Fixed up device we are operating on is %s" % self.device)
 
     def prepare(self, unfiltered=False):
+        type = None
         try:
             type = self.db.get('dell-recovery/recovery_type')
             #These require interactivity - so don't fly by even if --automatic
@@ -258,9 +259,17 @@ class Page(Plugin):
                 self.db.fset('dell-recovery/recovery_type', 'seen', 'false')
             else:
                 self.db.fset('dell-recovery/recovery_type', 'seen', 'true')
-            self.ui.set_type(type)
         except debconf.DebconfError:
-            pass
+            #TODO superm1 : 2-18-10
+            # if the template doesn't exist, this might be a casper bug
+            # where the template wasn't registered at package install
+            # work around it by assuming no template == factory
+            type = 'factory'
+            self.db.register('debian-installer/dummy', 'dell-recovery/recovery_type')
+            self.db.set('dell-recovery/recovery_type', type)
+            self.db.fset('dell-recovery/recovery_type', 'seen', 'true')
+
+        self.ui.set_type(type)
 
         try:
             self.kexec = misc.create_bool(self.db.get('dell-recovery/kexec'))
