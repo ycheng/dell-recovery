@@ -42,6 +42,25 @@ AFTER = None
 BEFORE = 'language'
 WEIGHT = 12
 
+class PageNoninteractive(PluginUI):
+    def get_type(self):
+        '''For the noninteractive frontend, get_type always returns an empty str
+            This is because the noninteractive frontend always runs in "factory"
+            mode, which expects such a str""'''
+        return ""
+
+    def set_type(self,type):
+        pass
+
+    def show_info_dialog(self):
+        pass
+
+    def show_reboot_dialog(self):
+        pass
+
+    def show_exception_dialog(self,e):
+        pass
+
 #Gtk widgets
 class PageGtk(PluginUI):
     def __init__(self, controller, *args, **kwargs):
