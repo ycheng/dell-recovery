@@ -41,6 +41,7 @@ NAME = 'dell-bootstrap'
 AFTER = None
 BEFORE = 'language'
 WEIGHT = 12
+OEM = False
 
 class PageNoninteractive(PluginUI):
     def get_type(self):
