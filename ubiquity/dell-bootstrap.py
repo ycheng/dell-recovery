@@ -127,9 +127,10 @@ class PageGtk(PluginUI):
     def show_exception_dialog(self, e):
         self.info_spinner.stop()
         self.info_window.hide()
-        err_dialog = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK, message_format=str(e))
-        err_dialog.set_title('Exception Encountered')
+        err_dialog = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK, message_format='Exception Encountered')
+        err_dialog.format_secondary_text(str(e))
         err_dialog.run()
+        err_dialog.hide()
 
 class Page(Plugin):
     def __init__(self, frontend, db=None, ui=None):
@@ -272,23 +273,32 @@ class Page(Plugin):
 
         return (['/usr/share/ubiquity/dell-bootstrap'], ['dell-recovery/recovery_type'])
 
+    def run(self, priority, question):
+        if question == 'dell-recovery/recovery_type':
+            self.fixup_devices()
+        return Plugin.run(self, priority, question)
+
     def ok_handler(self):
         """Copy answers from debconf questions"""
         type = self.ui.get_type()
         self.preseed('dell-recovery/recovery_type', type)
+        return Plugin.ok_handler(self)
+
+    def cleanup(self):
+        #All this processing happens in cleanup because that ensures it runs for all scenarios
         self.fixup_devices()
-        
         type = self.db.get('dell-recovery/recovery_type')
         # User recovery - need to copy RP
         if type == "automatic":
             self.ui.show_info_dialog()
             self.disable_swap()
             self.rp_builder = rp_builder(self.device, self.kexec)
-            self.rp_builder.exception = self.handle_exception
             self.rp_builder.exit = self.exit_ui_loops
             self.rp_builder.start()
             self.enter_ui_loop()
             self.rp_builder.join()
+            if self.rp_builder.exception:
+                self.handle_exception(self.rp_builder.exception)
             self.boot_rp()
 
         # User recovery - resizing drives
@@ -300,8 +310,7 @@ class Page(Plugin):
             self.disable_swap()
             self.remove_extra_partitions()
             self.install_grub()
-
-        return Plugin.ok_handler(self)
+        Plugin.cleanup(self)
 
     def cancel_handler(self):
         """Called when we don't want to perform recovery'"""
@@ -315,10 +324,8 @@ class rp_builder(Thread):
     def __init__(self, device, kexec):
         self.device = device
         self.kexec = kexec
+        self.exception = None
         Thread.__init__(self)
-
-    def exception(self, exception):
-        pass
 
     def build_rp(self, cushion=300):
         """Copies content to the recovery partition"""
@@ -427,14 +434,14 @@ class rp_builder(Thread):
         try:
             self.build_rp()
         except Exception, e:
-            self.exception(e)
+            self.exception = e
         self.exit()
 
 def reboot_machine(objpath):
     if os.path.exists('/tmp/kexec'):
         kexec = misc.execute_root('/tmp/kexec', '-e')
         if kexec is False:
-            self.debug("kexec failed")
+            pass
 
     reboot = misc.execute_root('/tmp/reboot','-n')
     if reboot is False:
