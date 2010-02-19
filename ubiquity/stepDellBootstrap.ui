@@ -361,8 +361,8 @@
     <property name="skip_taskbar_hint">True</property>
     <property name="has_separator">False</property>
     <property name="buttons">ok</property>
-    <property name="text" translatable="yes">Please remove any recovery media and click OK
-to continue.  Your system may reboot.</property>
+    <property name="text" translatable="yes">Please remove any recovery media.
+Your system may reboot.</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox3">
         <property name="visible">True</property>
