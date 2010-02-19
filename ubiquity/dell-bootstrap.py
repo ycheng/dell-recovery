@@ -78,6 +78,7 @@ class PageGtk(PluginUI):
             self.genuine = magic.check_vendor()
 
         if not oem:
+            import gtk
             builder = gtk.Builder()
             builder.add_from_file('/usr/share/ubiquity/gtk/stepDellBootstrap.ui')
             builder.connect_signals(self)
@@ -95,6 +96,7 @@ class PageGtk(PluginUI):
             self.info_window = builder.get_object('info_window')
             self.info_window.set_title('Dell Recovery')
             self.info_spinner = builder.get_object('info_spinner')
+            self.err_dialog = builder.get_object('err_dialog')
             if not self.genuine:
                 self.interactive_recovery_box.hide()
                 self.automated_recovery_box.hide()
@@ -143,8 +145,6 @@ class PageGtk(PluginUI):
         self.controller.toggle_top_level()
         self.info_window.show()
         self.info_spinner.start()
-        while gtk.events_pending():
-            gtk.main_iteration()
 
     def show_reboot_dialog(self):
         self.info_spinner.stop()
@@ -154,10 +154,9 @@ class PageGtk(PluginUI):
     def show_exception_dialog(self, e):
         self.info_spinner.stop()
         self.info_window.hide()
-        err_dialog = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK, message_format='Exception Encountered')
-        err_dialog.format_secondary_text(str(e))
-        err_dialog.run()
-        err_dialog.hide()
+        self.err_dialog.format_secondary_text(str(e))
+        self.err_dialog.run()
+        self.err_dialog.hide()
 
 ################
 # Debconf Page #
