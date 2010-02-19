@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-15 12:31-0600\n"
+"POT-Creation-Date: 2010-02-19 16:33-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,27 +84,27 @@ msgstr ""
 msgid "Confirm Selections"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:443
+#: ../Dell/recovery_backend.py:391
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:449
+#: ../Dell/recovery_backend.py:397
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:460
+#: ../Dell/recovery_backend.py:408
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:607
+#: ../Dell/recovery_backend.py:555
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:654
+#: ../Dell/recovery_backend.py:602
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:696
+#: ../Dell/recovery_backend.py:644
 msgid "Building ISO"
 msgstr ""
 
@@ -258,20 +258,24 @@ msgid ""
 "the framework built into that image."
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:1
+#: ../ubiquity/stepRecoveryMedia.ui.h:1
+msgid "<b>ERROR:</b> This media is only valid on Dell systems."
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:2
+#: ../ubiquity/stepRecoveryMedia.ui.h:3
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:3
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you.\n"
@@ -279,20 +283,20 @@ msgid ""
 "place.</b>"
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
 msgstr ""

@@ -50,9 +50,9 @@ setup(
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
                 ("share/dell/bin", glob.glob("bin/create-new-uuid")),
                 ('/lib/udev/rules.d', glob.glob('udev/*')),
-                ('lib/ubiquity/plugins', glob.glob('oem-config/*.py')),
-                ('share/ubiquity/gtk', glob.glob('oem-config/*.ui')),
-                ("share/hal/fdi/policy/20thirdparty", glob.glob("hal/*"))]+I18NFILES,
+                ('lib/ubiquity/plugins', glob.glob('ubiquity/*.py')),
+                ('share/ubiquity/gtk', glob.glob('ubiquity/*.ui')),
+                ('share/ubiquity', ['ubiquity/dell-bootstrap'])]+I18NFILES,
     scripts=["dell-recovery-media"],
 
     cmdclass = { 'build': build_extra.build_extra,

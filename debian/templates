@@ -3,6 +3,17 @@ Type: string
 Default: none
 Description: for internal use; determines whether to generate recovery media
 
+Template: dell-recovery/recovery_type
+Type: string
+Default: factory
+Description: for internal use;determines whether to offer the bootstrap 
+ ubiquity plugin to the user
+
+Template: dell-recovery/kexec
+Type: boolean
+Default: true
+Description: Use kexec to load a new kernel after building the RP?
+
 Template: dell-recovery/build_start
 Type: text
 _Description: Building Dell Recovery Media...
