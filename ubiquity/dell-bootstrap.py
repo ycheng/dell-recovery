@@ -522,10 +522,27 @@ class Install(InstallPlugin):
             return sections["Package"]
 
         to_install = []
-        for file in os.listdir('/cdrom/debs/main'):
-            if '.deb' in file:
-                to_install.append(parse(os.path.join('/cdrom/debs/main',file)))
+        if os.path.isdir('/cdrom/debs/main'):
+            for file in os.listdir('/cdrom/debs/main'):
+                if '.deb' in file:
+                    to_install.append(parse(os.path.join('/cdrom/debs/main',file)))
         return to_install
+
+    def enable_oem_config(self, target):
+        '''Enables OEM config on the target'''
+        oem_dir = os.path.join(target,'var/lib/oem-config')
+        if not os.path.exists(oem_dir):
+            os.makedirs(oem_dir)
+        with open(os.path.join(oem_dir,'run'),'w'):
+            pass
+
+    def remove_ricoh_mmc(self):
+        '''Removes the ricoh_mmc kernel module which is known to cause problems
+           with MDIAGS'''
+        lsmod = fetch_output('lsmod').split('\n')
+        for line in lsmod:
+            if line.startswith('ricoh_mmc'):
+                misc.execute('rmmod',line.split()[0])
 
     def install(self, target, progress, *args, **kwargs):
         '''This is highly dependent upon being called AFTER configure_apt
@@ -538,21 +555,18 @@ class Install(InstallPlugin):
         from ubiquity import install_misc
         to_install = []
 
-        #Fixup pool
-        install_misc.chroot_setup(target)
-        install_misc.chrex(target, '/cdrom/scripts/pool.sh')
-        install_misc.chroot_cleanup(target)
+        #Fixup pool to only accept stuff on /cdrom
+        #This is reversed at the end of OEM-config
+        if os.path.exists('/cdrom/scripts/pool.sh'):
+            install_misc.chrex(target, '/cdrom/scripts/pool.sh')
 
-        #Install unconditional debs
         to_install.append('dkms')
         to_install += self.find_unconditional_debs()
         install_misc.record_installed(to_install)
 
-        #Remove ricoh_mmc, it can cause problems with MDIAGS
-        lsmod = fetch_output('lsmod').split('\n')
-        for line in lsmod:
-            if line.startswith('ricoh_mmc'):
-                misc.execute('rmmod',line.split()[0])
-        
+        self.remove_ricoh_mmc()
+
+        self.enable_oem_config(target)
+
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
 
