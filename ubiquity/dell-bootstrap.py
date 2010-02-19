@@ -43,6 +43,9 @@ BEFORE = 'language'
 WEIGHT = 12
 OEM = False
 
+#######################
+# Noninteractive Page #
+#######################
 class PageNoninteractive(PluginUI):
     def get_type(self):
         '''For the noninteractive frontend, get_type always returns an empty str
@@ -62,7 +65,9 @@ class PageNoninteractive(PluginUI):
     def show_exception_dialog(self,e):
         pass
 
-#Gtk widgets
+############
+# GTK Page #
+############
 class PageGtk(PluginUI):
     def __init__(self, controller, *args, **kwargs):
         self.plugin_widgets = None
@@ -154,6 +159,9 @@ class PageGtk(PluginUI):
         err_dialog.run()
         err_dialog.hide()
 
+################
+# Debconf Page #
+################
 class Page(Plugin):
     def __init__(self, frontend, db=None, ui=None):
         self.kexec = True
@@ -364,6 +372,9 @@ class Page(Plugin):
         self.debug(str(e))
         self.ui.show_exception_dialog(e)
 
+############################
+# RP Builder Worker Thread #
+############################
 class rp_builder(Thread):
     def __init__(self, device, kexec):
         self.device = device
@@ -373,17 +384,6 @@ class rp_builder(Thread):
 
     def build_rp(self, cushion=300):
         """Copies content to the recovery partition"""
-
-        def fetch_output(cmd, data=None):
-            '''Helper function to just read the output from a command'''
-            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-            (out,err) = proc.communicate(data)
-            if proc.returncode is None:
-                proc.wait()
-            if proc.returncode != 0:
-                raise RuntimeError, ("Command %s failed with stdout/stderr: %s\n%s" %
-                                     (cmd, out, err))
-            return out
 
         white_pattern = re.compile('/')
 
@@ -468,8 +468,7 @@ class rp_builder(Thread):
                 if kexec_run is False:
                     self.debug("kexec loading of kernel and initrd failed")
 
-        #Unmount devices
-        umount = misc.execute_root('umount', '/boot')
+        misc.execute_root('umount', '/boot')
 
     def exit(self):
         pass
@@ -481,6 +480,20 @@ class rp_builder(Thread):
             self.exception = e
         self.exit()
 
+####################
+# Helper Functions #
+####################
+def fetch_output(cmd, data=None):
+    '''Helper function to just read the output from a command'''
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+    (out,err) = proc.communicate(data)
+    if proc.returncode is None:
+        proc.wait()
+    if proc.returncode != 0:
+        raise RuntimeError, ("Command %s failed with stdout/stderr: %s\n%s" %
+                             (cmd, out, err))
+    return out
+
 def reboot_machine(objpath):
     if os.path.exists('/tmp/kexec'):
         kexec = misc.execute_root('/tmp/kexec', '-e')
@@ -491,7 +504,9 @@ def reboot_machine(objpath):
     if reboot is False:
         raise RuntimeError, ("Reboot failed")
 
-#Currently we have actual stuff that's run as a late command
+###########################################
+# Commands Processed During Install class #
+###########################################
 class Install(InstallPlugin):
     def find_unconditional_debs(self):
         '''Finds any debs from debs/main that we want unconditionally installed
