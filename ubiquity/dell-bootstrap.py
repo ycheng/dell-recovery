@@ -499,9 +499,13 @@ def reboot_machine(objpath):
     if os.path.exists('/tmp/kexec'):
         kexec = misc.execute_root('/tmp/kexec', '-e')
         if kexec is False:
-            pass
+            self.debug("unable to kexec")
 
-    reboot = misc.execute_root('/tmp/reboot','-n')
+    if os.path.exists('/tmp/reboot'):
+        reboot_cmd = '/tmp/reboot'
+    else:
+        reboot_cmd = '/sbin/reboot'
+    reboot = misc.execute_root(reboot_cmd,'-n')
     if reboot is False:
         raise RuntimeError, ("Reboot failed")
 
