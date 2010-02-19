@@ -413,14 +413,21 @@ class rp_builder(Thread):
                     out.write(zeros.read(1024))
 
         #Partitioner commands
-        data = 'n\np\n1\n\n' # New partition 1
+        data = 'p' #print current partitions (we might want them for debugging)
+        data += 'n\np\n1\n\n' # New partition 1
         data += '+' + str(up_size) + 'M\n\nt\nde\n\n' # Size and make it type de
         data += 'n\np\n2\n\n' # New partition 2
         data += '+' + str(rp_size) + 'M\n\nt\n2\n0b\n\n' # Size and make it type 0b
         data += 'a\n2\n\n' # Make partition 2 active
         data += 'w\n' # Save and quit
-        with misc.raised_privileges():
-            fetch_output(['fdisk', self.device], data)
+        try:
+            with misc.raised_privileges():
+                fetch_output(['fdisk', self.device], data)
+        except RuntimeError, e:
+            #If we have a failure, try to re-read using partprobe
+            probe = misc.execute_root('partprobe', self.device)
+            if probe is False:
+                raise RuntimeError, e
 
         #Create a DOS MBR
         with open('/usr/lib/syslinux/mbr.bin','rb')as mbr:
@@ -500,8 +507,9 @@ def fetch_output(cmd, data=None):
     if proc.returncode is None:
         proc.wait()
     if proc.returncode != 0:
-        raise RuntimeError, ("Command %s failed with stdout/stderr: %s\n%s" %
-                             (cmd, out, err))
+        error = "Command %s failed with stdout/stderr: %s\n%s" % (cmd, out, err)
+        syslog.syslog(error)
+        raise RuntimeError, (error)
     return out
 
 def reboot_machine(objpath):
