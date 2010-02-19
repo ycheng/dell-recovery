@@ -547,6 +547,12 @@ class Install(InstallPlugin):
         to_install.append('dkms')
         to_install += self.find_unconditional_debs()
         install_misc.record_installed(to_install)
+
+        #Remove ricoh_mmc, it can cause problems with MDIAGS
+        lsmod = fetch_output('lsmod').split('\n')
+        for line in lsmod:
+            if line.startswith('ricoh_mmc'):
+                misc.execute('rmmod',line.split()[0])
         
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
 
