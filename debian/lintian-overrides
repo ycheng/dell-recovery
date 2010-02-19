@@ -1,1 +1,3 @@
 dell-recovery: no-debconf-config
+dell-recovery: debconf-is-not-a-registry usr/share/ubiquity/dell-bootstrap
+
