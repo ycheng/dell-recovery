@@ -293,6 +293,8 @@ class Page(Plugin):
             self.device = os.path.join('/dev', new)
             self.db.set('partman-auto/disk', self.device)
             self.db.set('grub-installer/bootdev', self.device + '3')
+        else:
+            raise RuntimeError, ("Unable to find factory device (was going to use %s)" % self.device)
         self.debug("Fixed up device we are operating on is %s" % self.device)
 
     def prepare(self, unfiltered=False):
