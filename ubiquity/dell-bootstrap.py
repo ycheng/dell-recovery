@@ -515,6 +515,10 @@ class Install(InstallPlugin):
         '''This is highly dependent upon being called AFTER configure_apt
         in install.  If that is ever converted into a plugin, we'll
         have some major problems!'''
+        genuine = magic.check_vendor()
+        if not genuine:
+            raise RuntimeError, ("This recovery media only works on Dell Hardware.")
+
         from ubiquity import install_misc
         to_install = []
 
