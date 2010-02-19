@@ -345,7 +345,9 @@ class Page(Plugin):
             self.fixup_recovery_devices()
             self.ui.show_info_dialog()
             self.disable_swap()
-            self.rp_builder = rp_builder(self.device, self.kexec)
+            with misc.raised_privileges():
+                mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
+            self.rp_builder = rp_builder(self.device, self.kexec, mem)
             self.rp_builder.exit = self.exit_ui_loops
             self.rp_builder.start()
             self.enter_ui_loop()
@@ -378,9 +380,10 @@ class Page(Plugin):
 # RP Builder Worker Thread #
 ############################
 class rp_builder(Thread):
-    def __init__(self, device, kexec):
+    def __init__(self, device, kexec, mem):
         self.device = device
         self.kexec = kexec
+        self.mem = mem
         self.exception = None
         Thread.__init__(self)
 
@@ -452,12 +455,17 @@ class rp_builder(Thread):
             raise RuntimeError, ("Error installing grub to %s2" % self.device)
 
         #Build new UUID
-        uuid = misc.execute_root('casper-new-uuid',
-                             '/cdrom/casper/initrd.lz',
-                             '/boot/casper',
-                             '/boot/.disk')
-        if uuid is False:
-            raise RuntimeError, ("Error rebuilding new casper UUID")
+        if int(self.mem) >= 1000000:
+            uuid = misc.execute_root('casper-new-uuid',
+                                '/cdrom/casper/initrd.lz',
+                                '/boot/casper',
+                                '/boot/.disk')
+            if uuid is False:
+                raise RuntimeError, ("Error rebuilding new casper UUID")
+        else:
+            #The new UUID just fixes the installed-twice-on-same-system scenario
+            #most users won't need that anyway so it's just nice to have
+            syslog.syslog("Skipping casper UUID build due to low memory")
 
         #Load kexec kernel
         if self.kexec and os.path.exists('/cdrom/misc/kexec'):
