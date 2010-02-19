@@ -413,7 +413,7 @@ class rp_builder(Thread):
                     out.write(zeros.read(1024))
 
         #Partitioner commands
-        data = 'p' #print current partitions (we might want them for debugging)
+        data = 'p\n' #print current partitions (we might want them for debugging)
         data += 'n\np\n1\n\n' # New partition 1
         data += '+' + str(up_size) + 'M\n\nt\nde\n\n' # Size and make it type de
         data += 'n\np\n2\n\n' # New partition 2
