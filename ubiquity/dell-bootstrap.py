@@ -36,6 +36,7 @@ import shutil
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 DBusGMainLoop(set_as_default=True)
+import syslog
 
 NAME = 'dell-bootstrap'
 AFTER = None
@@ -467,7 +468,7 @@ class rp_builder(Thread):
                           '--initrd=/boot/casper/initrd.lz',
                           '--command-line="' + cmdline + '"')
                 if kexec_run is False:
-                    self.debug("kexec loading of kernel and initrd failed")
+                    syslog.syslog("kexec loading of kernel and initrd failed")
 
         misc.execute_root('umount', '/boot')
 
@@ -499,7 +500,7 @@ def reboot_machine(objpath):
     if os.path.exists('/tmp/kexec'):
         kexec = misc.execute_root('/tmp/kexec', '-e')
         if kexec is False:
-            self.debug("unable to kexec")
+            syslog.syslog("unable to kexec")
 
     if os.path.exists('/tmp/reboot'):
         reboot_cmd = '/tmp/reboot'
