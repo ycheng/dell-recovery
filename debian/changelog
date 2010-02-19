@@ -1,5 +1,6 @@
 dell-recovery (0.37) UNRELEASED; urgency=low
 
+  * Port another missed area from devkit-disks to udisks.
   * debian/control:
     - Enhances: ubiquity-frontend-gtk
     - Recommends: syslinux

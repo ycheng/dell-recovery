@@ -228,6 +228,27 @@ def find_burners():
     #If we have apps for DVD burning, check hardware
     if dvd:
         try:
+            #first try to use udisks, if this fails, fall back to devkit-disks.
+            udisk_obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
+            ud = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
+            devices = ud.EnumerateDevices()
+            for device in devices:
+                dev_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', device)
+                dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
+
+                supported_media = dev.Get('org.freedesktop.DeviceKit.Disks.Device','DriveMediaCompatibility')
+                for item in supported_media:
+                    if 'optical_dvd_r' in item:
+                        found_supported_dvdr = True
+                        break
+                if found_supported_dvdr:
+                    break
+            if not found_supported_dvdr:
+                dvd = None
+            return (dvd,usb)
+        except dbus.DBusException, e:
+            print "%s, UDisks Failed" % str(e)
+        try:
             bus = dbus.SystemBus()
             #first try to use devkit-disks. if this fails, then, it's OK
             dk_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', '/org/freedesktop/DeviceKit/Disks')
