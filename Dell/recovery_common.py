@@ -161,16 +161,18 @@ def find_burners():
     
     #If we have apps for DVD burning, check hardware
     if dvd:
+        found_supported_dvdr = False
         try:
+            bus = dbus.SystemBus()
             #first try to use udisks, if this fails, fall back to devkit-disks.
             udisk_obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
             ud = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
             devices = ud.EnumerateDevices()
             for device in devices:
-                dev_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', device)
+                dev_obj = bus.get_object('org.freedesktop.UDisks', device)
                 dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
 
-                supported_media = dev.Get('org.freedesktop.DeviceKit.Disks.Device','DriveMediaCompatibility')
+                supported_media = dev.Get('org.freedesktop.UDisks.Device','DriveMediaCompatibility')
                 for item in supported_media:
                     if 'optical_dvd_r' in item:
                         found_supported_dvdr = True
@@ -181,14 +183,12 @@ def find_burners():
                 dvd = None
             return (dvd,usb)
         except dbus.DBusException, e:
-            print "%s, UDisks Failed" % str(e)
+            print "%s, UDisks Failed burner parse" % str(e)
         try:
-            bus = dbus.SystemBus()
             #first try to use devkit-disks. if this fails, then, it's OK
             dk_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', '/org/freedesktop/DeviceKit/Disks')
             dk = dbus.Interface(dk_obj, 'org.freedesktop.DeviceKit.Disks')
             devices = dk.EnumerateDevices()
-            found_supported_dvdr = False
             for device in devices:
                 dev_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', device)
                 dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
@@ -203,7 +203,7 @@ def find_burners():
             if not found_supported_dvdr:
                 dvd = None
         except dbus.DBusException, e:
-            print "Error parsing devkit disks for info about DVD burners: %s" % str(e)
+            print "%s, device kit Failed burner parse" % str(e)
 
     return (dvd,usb)
 
