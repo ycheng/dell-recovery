@@ -358,7 +358,7 @@ class Page(Plugin):
 
     def cancel_handler(self):
         """Called when we don't want to perform recovery'"""
-        misc.execute('reboot','-n')
+        misc.execute_root('reboot','-n')
 
     def handle_exception(self, e):
         self.debug(str(e))
