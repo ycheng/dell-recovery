@@ -13,6 +13,8 @@ dell-recovery (0.37) UNRELEASED; urgency=low
     - Pulls in some of the post install portions of git to earlier in the install.
   * debian/postinst:
     - Don't fail if dbus can't be reloaded.
+  * Only ask for permissions to mount hard drives, feel free to loop mount devices
+    without additional permissions.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 19 Feb 2010 15:55:32 -0600
 

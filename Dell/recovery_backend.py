@@ -252,7 +252,7 @@ class Backend(dbus.service.Object):
                         os.remove(full_name)
             os.rmdir(directory)
 
-    def request_mount(self,rp):
+    def request_mount(self,rp,sender=None,conn=None):
         '''Attempts to mount the rp.
 
            If successful, return mntdir.
@@ -280,6 +280,8 @@ class Backend(dbus.service.Object):
         if ".iso" in rp:
             mnt_args.insert(1,'loop')
             mnt_args.insert(1,'-o')
+        else:
+            self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.create')
         command=subprocess.Popen(mnt_args,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         output=command.communicate()
         ret=command.wait()
@@ -359,9 +361,8 @@ class Backend(dbus.service.Object):
             file.close()
 
         self._reset_timeout()
-        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.create')
 
-        base_mnt = self.request_mount(base)
+        base_mnt = self.request_mount(base,sender,conn)
 
         assembly_tmp=tempfile.mkdtemp()
         atexit.register(self.walk_cleanup,assembly_tmp)
@@ -452,7 +453,7 @@ class Backend(dbus.service.Object):
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.query_iso_information')
 
 
-        (bto_version,bto_date) = self.query_bto_version(iso)
+        (bto_version,bto_date) = self.query_bto_version(iso, sender, conn)
 
         distributor_string='Unknown Base Image'
         distributor=''
@@ -468,7 +469,7 @@ class Backend(dbus.service.Object):
                 distributor_string = out
                 distributor="ubuntu"
         else:
-            mntdir = self.request_mount(iso)
+            mntdir = self.request_mount(iso, sender, conn)
 
             if os.path.exists(os.path.join(mntdir,'.disk','info')):
                 file=open(os.path.join(mntdir,'.disk','info'),'r')
@@ -519,7 +520,7 @@ class Backend(dbus.service.Object):
                     date = out[1]
 
         else:
-            mntdir = self.request_mount(rp)
+            mntdir = self.request_mount(rp, sender, conn)
             if os.path.exists(os.path.join(mntdir,'bto_version')):
                 file=open(os.path.join(mntdir,'bto_version'),'r')
                 version=file.readline().strip('\n')
@@ -542,7 +543,7 @@ class Backend(dbus.service.Object):
         atexit.register(self.walk_cleanup,tmpdir)
 
         #mount the RP
-        mntdir=self.request_mount(rp)
+        mntdir=self.request_mount(rp, sender, conn)
 
         #Generate BTO version string
         file=open(os.path.join(tmpdir,'bto_version'),'w')

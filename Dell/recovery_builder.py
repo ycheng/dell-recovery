@@ -242,10 +242,19 @@ create an USB key or DVD image."))
                 self.builder_base_image=ret
                 wizard.set_page_complete(base_page,True)
         else:
-            (bto_version, distributor, release, output_text) = self.backend().query_iso_information(self.rp)
-            self.bto_base=not not bto_version
-            self.builder_base_image=self.rp
-            wizard.set_page_complete(base_page,True)
+            try:
+                (bto_version, distributor, release, output_text) = self.backend().query_iso_information(self.rp)
+
+                self.bto_base=not not bto_version
+                self.builder_base_image=self.rp
+                wizard.set_page_complete(base_page,True)
+            except dbus.DBusException, e:
+                if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
+                    header = _("Permission Denied")
+                else:
+                    header = str(e)
+                self.show_alert(gtk.MESSAGE_ERROR, header,
+                            parent=self.widgets.get_object('progress_dialog'))
 
         if not bto_version:
             bto_version='X00'
