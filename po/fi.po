@@ -7,33 +7,35 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-19 11:06-0600\n"
-"PO-Revision-Date: 2010-01-26 15:13+0000\n"
+"POT-Creation-Date: 2010-02-19 16:33-0600\n"
+"PO-Revision-Date: 2010-02-20 10:43+0000\n"
 "Last-Translator: Timo Jyrinki <timo-jyrinki@ubuntu.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-27 04:46+0000\n"
+"X-Launchpad-Export-Date: 2010-02-21 04:57+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
 msgid "Invalid utility partition"
-msgstr ""
+msgstr "Epäkelpo työkaluosio"
 
 #: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
 msgstr ""
+" komentoriviargumenteissa. Palataan DeviceKit- tai HAl-pohjaiseen "
+"havaitsemiseen."
 
 #: ../Dell/recovery_frontend.py:109
 msgid "Invalid recovery partition"
-msgstr ""
+msgstr "Epäkelpo palautusosio"
 
 #: ../Dell/recovery_frontend.py:164
 msgid "Permission Denied"
-msgstr ""
+msgstr "Pääsy evätty"
 
 #: ../Dell/recovery_frontend.py:178
 msgid "Opening Burner"
@@ -48,10 +50,12 @@ msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
+"Siltä varalta, että haluaisit arkistoida toisen kopion, on luotu levykuva "
+"tallennettu tiedostonimellä:\n"
 
 #: ../Dell/recovery_frontend.py:213
 msgid "Cannot connect to dbus"
-msgstr ""
+msgstr "Dbusiin ei voi yhdistää"
 
 #: ../Dell/recovery_frontend.py:303
 msgid "Welcome"
@@ -63,15 +67,15 @@ msgstr "Valitse median tyyppi"
 
 #: ../Dell/recovery_frontend.py:345 ../gtk/builder.ui.h:16
 msgid "ISO Image"
-msgstr ""
+msgstr "ISO-levykuva"
 
 #: ../Dell/recovery_frontend.py:348
 msgid "Utility Partition: "
-msgstr ""
+msgstr "Työkaluosio: "
 
 #: ../Dell/recovery_frontend.py:350
 msgid "Recovery Partition: "
-msgstr ""
+msgstr "Palautusosio: "
 
 #: ../Dell/recovery_frontend.py:351
 msgid "Media Type: "
@@ -79,59 +83,62 @@ msgstr "Median tyyppi: "
 
 #: ../Dell/recovery_frontend.py:352
 msgid "File Name: "
-msgstr ""
+msgstr "Tiedostonimi: "
 
 #: ../Dell/recovery_frontend.py:357
 msgid "Confirm Selections"
 msgstr "Vahvista valinnat"
 
-#: ../Dell/recovery_backend.py:440
+#: ../Dell/recovery_backend.py:391
 msgid "Adding in base image"
-msgstr ""
+msgstr "Lisätään peruslevykuvaan"
 
-#: ../Dell/recovery_backend.py:446
+#: ../Dell/recovery_backend.py:397
 msgid "Overlaying FID content"
-msgstr ""
+msgstr "Laskostetaan FID-sisältöä"
 
-#: ../Dell/recovery_backend.py:457
+#: ../Dell/recovery_backend.py:408
 msgid "Inserting FISH packages"
-msgstr ""
+msgstr "Lisätään FISH-paketteja"
 
-#: ../Dell/recovery_backend.py:579
+#: ../Dell/recovery_backend.py:555
 msgid "Building Dell Utility Partition"
-msgstr ""
+msgstr "Rakennetaan Dell-työkaluosiota"
 
-#: ../Dell/recovery_backend.py:626
+#: ../Dell/recovery_backend.py:602
 msgid "Regenerating UUID / Rebuilding initramfs"
-msgstr ""
+msgstr "Luodaan uudelleen UUID / rakennetaan uudelleen initramfs"
 
-#: ../Dell/recovery_backend.py:668
+#: ../Dell/recovery_backend.py:644
 msgid "Building ISO"
-msgstr ""
+msgstr "Rakennetaan ISOa"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create/Assemble Dell Recovery ISO"
-msgstr ""
+msgstr "Luo/koosta Dell-palautus-ISO-levykuva"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
-msgstr ""
+msgstr "Tarkista BTO-versio"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:3
 msgid "Query ISO Information"
-msgstr ""
+msgstr "Tarkista ISO-tiedot"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
 msgid "Request closing the backend"
-msgstr ""
+msgstr "Pyydä taustaohjelman sulkemista"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "System policy prevents closing processes without notice"
 msgstr ""
+"Järjestelmän valtuutusasetukset estävät prosessien sulkemisen ilman "
+"ilmoitusta"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"
 msgstr ""
+"Järjestelmän valtuutusasetukset estävät raakalaitteiden (raw) lukemisen"
 
 #: ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/recovery_media_creator.ui.h:6
@@ -147,10 +154,12 @@ msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
 msgstr ""
+"Olemassa oleva levykuva löytyi (mahdollisesti edelliseltä suorituskerralta). "
+"Haluatko poistaa tämän vanhan kopion ja luoda levykuvan uudelleen?"
 
 #: ../gtk/recovery_media_creator.ui.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
-msgstr ""
+msgstr "Haluatko varmasti perua palautusmedian luonnin?"
 
 #: ../gtk/recovery_media_creator.ui.h:4
 msgid "Cancel Recovery Media Creator"
@@ -162,7 +171,7 @@ msgstr "DVD+/-RW-levy"
 
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create ISO image"
-msgstr ""
+msgstr "Ei mediaa/levyä, luo ISO-levykuva"
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid ""
@@ -180,7 +189,7 @@ msgstr "USB-Flash-asema"
 
 #: ../gtk/recovery_media_creator.ui.h:10
 msgid "Version:"
-msgstr ""
+msgstr "Versio:"
 
 #: ../gtk/builder.ui.h:1
 msgid ""
@@ -196,66 +205,75 @@ msgid ""
 "This window will close automatically when the process is complete. \n"
 "<b>NOTE:</b> Please be patient, the initial fetch may take a while."
 msgstr ""
+"<b>GIT-nouto on käynnissä.  </b>\n"
+"Tämä ikkuna sulkeutuu automaattisesti, kun toiminto on valmis. \n"
+"<b>HUOMAA:</b> Ole kärsivällinen, sillä ensimmäinen nouto voi kestää jonkin "
+"aikaa."
 
 #: ../gtk/builder.ui.h:7
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
 msgstr ""
+"Mahdolliset tarvittavat, levykuvaan integroitavat lisäajurit ja sovellukset "
+"voidaan lisätä tässä."
 
 #: ../gtk/builder.ui.h:8
 msgid "Choose Image"
-msgstr ""
+msgstr "Valitse levykuva"
 
 #: ../gtk/builder.ui.h:9
 msgid "Detected Recovery Partition"
-msgstr ""
+msgstr "Palautusosio havaittiin"
 
 #: ../gtk/builder.ui.h:10
 msgid "Extracted Directory"
-msgstr ""
+msgstr "Purettiin hakemisto"
 
 #: ../gtk/builder.ui.h:11
 msgid "FID GIT Tree"
-msgstr ""
+msgstr "FID GIT-puu"
 
 #: ../gtk/builder.ui.h:12
 msgid "FID framework built into BTO image"
-msgstr ""
+msgstr "FID-kehysohjelmisto rakennettu BTO-levykuvaan"
 
 #: ../gtk/builder.ui.h:13
 msgid "Fetch/Update GIT Tree"
-msgstr ""
+msgstr "Hae/päivitä GIT-puu"
 
 #: ../gtk/builder.ui.h:14
 msgid "GIT Tags/Branches:"
-msgstr ""
+msgstr "GIT-merkinnät/haarat:"
 
 #: ../gtk/builder.ui.h:15
 msgid "GIT Tree Status"
-msgstr ""
+msgstr "GIT-puun tila"
 
 #: ../gtk/builder.ui.h:17
 msgid "Install git"
-msgstr ""
+msgstr "Asenna git"
 
 #: ../gtk/builder.ui.h:18
 msgid "Selected Image Details:"
-msgstr ""
+msgstr "Valitun levykuvan tiedot:"
 
 #: ../gtk/builder.ui.h:19
 msgid "Selected Overlay Details:"
-msgstr ""
+msgstr "Valitun laskostuksen tiedot:"
 
 #: ../gtk/builder.ui.h:20
 msgid "Show Details"
-msgstr ""
+msgstr "Näytä yksityiskohdat"
 
 #: ../gtk/builder.ui.h:21
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
 msgstr ""
+"Käyttöjärjestelmän peruslevykuva tarjoaa suurimman osan BTO-levykuvan "
+"sisällöstä. Se voi olla puhdas käyttöjärjestelmän levykuva, tai olemassa "
+"oleva BTO-levykuva."
 
 #: ../gtk/builder.ui.h:22
 msgid ""
@@ -263,45 +281,60 @@ msgid ""
 "the event that you are generating from an existing BTO image, you can use "
 "the framework built into that image."
 msgstr ""
+"FID-kehysohjelmisto on ensimmäinen puhtaan levykuvan päälle laskostettava "
+"osa. Jos luot käyttäen olemassa olevaa BTO-levykuvaa pohjana, voit käyttää "
+"kyseiseen levykuvaan sisään rakennettua kehysohjelmistoa."
 
-#: ../oem-config/stepRecoveryMedia.ui.h:1
+#: ../ubiquity/stepRecoveryMedia.ui.h:1
+msgid "<b>ERROR:</b> This media is only valid on Dell systems."
+msgstr "<b>VIRHE:</b> Tämä media on tarkoitettu vain Dell-järjestelmille."
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
+"<b>Huomaa:</b> Tämä vaatii USB-muistivälineen, jolla on noin 2GB vapaata "
+"tilaa."
 
-#: ../oem-config/stepRecoveryMedia.ui.h:2
+#: ../ubiquity/stepRecoveryMedia.ui.h:3
 msgid "<b>Note:</b> This requires writable DVD media."
-msgstr ""
+msgstr "<b>Huomaa:</b> Tämä vaatii kirjoitettavan DVD-levyn"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:3
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr ""
+msgstr "<big><b>Luodaanko Dell-palautusmedia?</b></big>"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you.\n"
 "<b>It is highly recommended that you generate media and store it in a safe "
 "place.</b>"
 msgstr ""
+"Dell-palautusmediaa voidaan käyttää järjestelmän palauttamiseksi tehtaalta "
+"tulleeseen tilaan.\n"
+"<b>On hyvin suositeltavaa, että luot median ja sijoitat sen turvalliseen "
+"paikkaan.</b>"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
-msgstr ""
+msgstr "Älä luo palautusmediaa tällä kertaa"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
+"Palautusmedian voi luoda myöhemmin valitsemalla työkalun Järjestelmä-"
+"valikosta."
 
-#: ../oem-config/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
-msgstr ""
+msgstr "Tallenna palautusmedia DVD-levylle"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
-msgstr ""
+msgstr "Tallenna palautusmedia ulkoiselle USB-muistivälineelle"
 
 #~ msgid "Retry burn?"
 #~ msgstr "Yritä kirjoitusta uudelleen?"
