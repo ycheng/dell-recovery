@@ -1,4 +1,4 @@
-dell-recovery (0.37) UNRELEASED; urgency=low
+dell-recovery (0.37) lucid; urgency=low
 
   * Port another missed area from devkit-disks to udisks.
   * debian/control:
@@ -11,12 +11,13 @@ dell-recovery (0.37) UNRELEASED; urgency=low
     - (N/A) for oem-config run.
     - Causes the bootstrap/ portion of git to be unnecessary
     - Pulls in some of the post install portions of git to earlier in the install.
+    - (LP: #525136)
   * debian/postinst:
     - Don't fail if dbus can't be reloaded.
   * Only ask for permissions to mount hard drives, feel free to loop mount devices
     without additional permissions.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 19 Feb 2010 15:55:32 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Feb 2010 19:21:08 -0600
 
 dell-recovery (0.36) lucid; urgency=low
 
