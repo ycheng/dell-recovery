@@ -211,9 +211,6 @@ class Page(Plugin):
         shutil.copy('/sbin/reboot', '/tmp')
         if self.kexec and os.path.exists('/cdrom/misc/kexec'):
             shutil.copy('/cdrom/misc/kexec', '/tmp')
-        eject = misc.execute_root('eject', '-p', '-m', '/cdrom')
-        if eject is False:
-            self.debug("Eject was: %d" % eject)
 
         #Set up a listen for udisks to let us know a usb device has left
         bus = dbus.SystemBus()

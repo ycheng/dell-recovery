@@ -1,3 +1,12 @@
+dell-recovery (0.38) UNRELEASED; urgency=low
+
+  * dell-bootstrap:
+    - Don't eject the media for the user.  This appears to cause some problems with
+      current daily media in that portions of the squashfs needed for displaying
+      that dialog haven't yet been cached.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 23 Feb 2010 15:47:48 -0600
+
 dell-recovery (0.37) lucid; urgency=low
 
   * Port another missed area from devkit-disks to udisks.
