@@ -1,4 +1,4 @@
-dell-recovery (0.38) UNRELEASED; urgency=low
+dell-recovery (0.38) lucid; urgency=low
 
   * dell-bootstrap:
     - Don't eject the media for the user.  This appears to cause some problems with
