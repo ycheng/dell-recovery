@@ -230,6 +230,8 @@ class Page(Plugin):
                      'grub-installer/with_other_os',
                      'grub-installer/bootdev',
                      'grub-installer/make_active',
+                     'oem-config/early_command',
+                     'oem-config/late_command',
                      'ubiquity/reboot' ]:
             self.db.fset(key, 'seen', 'false')
             self.db.set(key, '')
