@@ -3,6 +3,9 @@ dell-recovery (0.39) UNRELEASED; urgency=low
   * dell-bootstrap:
     - Unset oem-config/{early,late}_commands when doing an install that doesn't
       include an RP.
+    - Fill in the data dynamically for the oem-config early command.
+    - Reference partition numbers and /cdrom mount from variables to more easily
+      change later as necessary.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 03 Mar 2010 11:23:18 -0600
 

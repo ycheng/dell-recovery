@@ -44,6 +44,12 @@ BEFORE = 'language'
 WEIGHT = 12
 OEM = False
 
+UP_PART =     '1'
+RP_PART =     '2'
+OS_PART =     '3'
+SWAP_PART =   '4'
+CDROM_MOUNT = '/cdrom'
+
 #######################
 # Noninteractive Page #
 #######################
@@ -171,19 +177,19 @@ class Page(Plugin):
 
     def install_grub(self):
         """Installs grub on the recovery partition"""
-        cd_mount   = misc.execute_root('mount', '-o', 'remount,rw', '/cdrom')
+        cd_mount   = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
         if cd_mount is False:
             raise RuntimeError, ("CD Mount failed")
-        bind_mount = misc.execute_root('mount', '-o', 'bind', '/cdrom', '/boot')
+        bind_mount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
         if bind_mount is False:
             raise RuntimeError, ("Bind Mount failed")
-        grub_inst  = misc.execute_root('grub-install', '--force', self.device + '2')
+        grub_inst  = misc.execute_root('grub-install', '--force', self.device + RP_PART)
         if grub_inst is False:
             raise RuntimeError, ("Grub install failed")
         unbind_mount = misc.execute_root('umount', '/boot')
         if unbind_mount is False:
             raise RuntimeError, ("Unmount /boot failed")
-        uncd_mount   = misc.execute_root('mount', '-o', 'remount,ro', '/cdrom')
+        uncd_mount   = misc.execute_root('mount', '-o', 'remount,ro', CDROM_MOUNT)
         if uncd_mount is False:
             raise RuntimeError, ("Uncd mount failed")
 
@@ -198,10 +204,10 @@ class Page(Plugin):
 
     def remove_extra_partitions(self):
         """Removes partitions 3 and 4 for the process to start"""
-        active = misc.execute_root('sfdisk', '-A2', self.device)
+        active = misc.execute_root('sfdisk', '-A' + RP_PART, self.device)
         if active is False:
             self.debug("Failed to set partition 2 active on %s" % self.device)
-        for number in ('3','4'):
+        for number in (OS_PART, SWAP_PART):
             remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
             if remove is False:
                 self.debug("Error removing partition number: %s on %s (this may be normal)'" % (number, self.device))
@@ -209,8 +215,8 @@ class Page(Plugin):
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
         shutil.copy('/sbin/reboot', '/tmp')
-        if self.kexec and os.path.exists('/cdrom/misc/kexec'):
-            shutil.copy('/cdrom/misc/kexec', '/tmp')
+        if self.kexec and os.path.exists(CDROM_MOUNT + '/misc/kexec'):
+            shutil.copy(CDROM_MOUNT + '/misc/kexec', '/tmp')
 
         #Set up a listen for udisks to let us know a usb device has left
         bus = dbus.SystemBus()
@@ -290,8 +296,9 @@ class Page(Plugin):
                 break
         if new:
             self.device = os.path.join('/dev', new)
+            self.db.set('oem-config/early_command', 'mount %s%s %s' % (self.device, RP_PART, CDROM_MOUNT))
             self.db.set('partman-auto/disk', self.device)
-            self.db.set('grub-installer/bootdev', self.device + '3')
+            self.db.set('grub-installer/bootdev', self.device + OS_PART)
         else:
             raise RuntimeError, ("Unable to find factory device (was going to use %s)" % self.device)
         self.debug("Fixed up device we are operating on is %s" % self.device)
@@ -392,16 +399,16 @@ class rp_builder(Thread):
         white_pattern = re.compile('/')
 
         #Calculate UP#
-        if os.path.exists('/cdrom/upimg.bin'):
+        if os.path.exists(CDROM_MOUNT + '/upimg.bin'):
             #in bytes
-            up_size = int(fetch_output(['gzip','-lq','/cdrom/upimg.bin']).split()[1])
+            up_size = int(fetch_output(['gzip','-lq',CDROM_MOUNT + '/upimg.bin']).split()[1])
             #in mbytes
             up_size = up_size / 1048576
         else:
             up_size = 0
 
         #Calculate RP
-        rp_size = magic.white_tree("size", white_pattern, '/cdrom')
+        rp_size = magic.white_tree("size", white_pattern, CDROM_MOUNT)
         #in mbytes
         rp_size = (rp_size / 1048576) + cushion
 
@@ -412,13 +419,13 @@ class rp_builder(Thread):
                     out.write(zeros.read(1024))
 
         #Partitioner commands
-        data = 'p\n' #print current partitions (we might want them for debugging)
-        data += 'n\np\n1\n\n' # New partition 1
-        data += '+' + str(up_size) + 'M\n\nt\nde\n\n' # Size and make it type de
-        data += 'n\np\n2\n\n' # New partition 2
-        data += '+' + str(rp_size) + 'M\n\nt\n2\n0b\n\n' # Size and make it type 0b
-        data += 'a\n2\n\n' # Make partition 2 active
-        data += 'w\n' # Save and quit
+        data = 'p\n'    #print current partitions (we might want them for debugging)
+        data += 'n\np\n%s\n\n' % UP_PART    # New partition for UP
+        data += '+' + str(up_size) + 'M\n\nt\nde\n\n'   # Size and make it type de
+        data += 'n\np\n%s\n\n' % RP_PART    # New partition for RP
+        data += '+' + str(rp_size) + 'M\n\nt\n%s\n0b\n\n' % RP_PART    # Size and make it type 0b
+        data += 'a\n%s\n\n' % RP_PART   # Make RP active
+        data += 'w\n'   # Save and quit
         try:
             with misc.raised_privileges():
                 fetch_output(['fdisk', self.device], data)
@@ -435,35 +442,35 @@ class rp_builder(Thread):
                     out.write(mbr.read(404))
 
         #Restore UP
-        if os.path.exists('/cdrom/upimg.bin'):
+        if os.path.exists(CDROM_MOUNT + '/upimg.bin'):
             with misc.raised_privileges():
                 with open(self.device + '1','w') as partition:
-                    p1 = subprocess.Popen(['gzip','-dc','/cdrom/upimg.bin'], stdout=subprocess.PIPE)
+                    p1 = subprocess.Popen(['gzip','-dc',CDROM_MOUNT + '/upimg.bin'], stdout=subprocess.PIPE)
                     partition.write(p1.communicate()[0])
 
         #Build RP FS
-        fs = misc.execute_root('mkfs.msdos','-n','install',self.device + '2')
+        fs = misc.execute_root('mkfs.msdos','-n','install',self.device + RP_PART)
         if fs is False:
-            raise RuntimeError, ("Error creating vfat filesystem on %s2" % self.device)
+            raise RuntimeError, ("Error creating vfat filesystem on %s%s" % (self.device, RP_PART))
 
         #Mount RP
-        mount = misc.execute_root('mount', '-t', 'vfat', self.device + '2', '/boot')
+        mount = misc.execute_root('mount', '-t', 'vfat', self.device + RP_PART, '/boot')
         if mount is False:
-            raise RuntimeError, ("Error mounting %s2" % self.device)
+            raise RuntimeError, ("Error mounting %s%s" % (self.device, RP_PART))
 
         #Copy RP Files
         with misc.raised_privileges():
-            magic.white_tree("copy", white_pattern, '/cdrom', '/boot')
+            magic.white_tree("copy", white_pattern, CDROM_MOUNT, '/boot')
 
         #Install grub
-        grub = misc.execute_root('grub-install', '--force', self.device + '2')
+        grub = misc.execute_root('grub-install', '--force', self.device + RP_PART)
         if grub is False:
-            raise RuntimeError, ("Error installing grub to %s2" % self.device)
+            raise RuntimeError, ("Error installing grub to %s%s" % (self.device, RP_PART))
 
         #Build new UUID
         if int(self.mem) >= 1000000:
             uuid = misc.execute_root('casper-new-uuid',
-                                '/cdrom/casper/initrd.lz',
+                                CDROM_MOUNT + '/casper/initrd.lz',
                                 '/boot/casper',
                                 '/boot/.disk')
             if uuid is False:
@@ -474,10 +481,10 @@ class rp_builder(Thread):
             syslog.syslog("Skipping casper UUID build due to low memory")
 
         #Load kexec kernel
-        if self.kexec and os.path.exists('/cdrom/misc/kexec'):
+        if self.kexec and os.path.exists(CDROM_MOUNT + '/misc/kexec'):
             with open('/proc/cmdline') as file:
                 cmdline = file.readline().strip('\n').replace('dell-recovery/recovery_type=dvd','dell-recovery/recovery_type=factory').replace('dell-recovery/recovery_type=hdd','dell-recovery/recovery_type=factory')
-                kexec_run = misc.execute_root('/cdrom/misc/kexec',
+                kexec_run = misc.execute_root(CDROM_MOUNT + '/misc/kexec',
                           '-l', '/boot/casper/vmlinuz',
                           '--initrd=/boot/casper/initrd.lz',
                           '--command-line="' + cmdline + '"')
@@ -542,10 +549,10 @@ class Install(InstallPlugin):
             return sections["Package"]
 
         to_install = []
-        if os.path.isdir('/cdrom/debs/main'):
-            for file in os.listdir('/cdrom/debs/main'):
+        if os.path.isdir(CDROM_MOUNT + '/debs/main'):
+            for file in os.listdir(CDROM_MOUNT + '/debs/main'):
                 if '.deb' in file:
-                    to_install.append(parse(os.path.join('/cdrom/debs/main',file)))
+                    to_install.append(parse(os.path.join(CDROM_MOUNT + '/debs/main',file)))
         return to_install
 
     def enable_oem_config(self, target):
@@ -577,8 +584,8 @@ class Install(InstallPlugin):
 
         #Fixup pool to only accept stuff on /cdrom
         #This is reversed at the end of OEM-config
-        if os.path.exists('/cdrom/scripts/pool.sh'):
-            install_misc.chrex(target, '/cdrom/scripts/pool.sh')
+        if os.path.exists(CDROM_MOUNT + '/scripts/pool.sh'):
+            install_misc.chrex(target, CDROM_MOUNT + '/scripts/pool.sh')
 
         to_install.append('dkms')
         to_install += self.find_unconditional_debs()
