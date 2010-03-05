@@ -6,6 +6,8 @@ dell-recovery (0.39) UNRELEASED; urgency=low
     - Fill in the data dynamically for the oem-config early command.
     - Reference partition numbers and /cdrom mount from variables to more easily
       change later as necessary.
+    - Use the casper init script to cache all the binaries and libraries needed
+      to reboot.
   * Allow setting the OS and Swap partitions that are cleared during install
     from preseed parameters, dell-recovery/{os_partition, swap_partition}
   * Remove unused has_separator from ubiquity bootstrap plugin.

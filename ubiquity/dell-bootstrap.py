@@ -215,7 +215,8 @@ class Page(Plugin):
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
-        shutil.copy('/sbin/reboot', '/tmp')
+        subprocess.call(['/etc/init.d/casper','stop'])
+
         if self.kexec and os.path.exists(CDROM_MOUNT + '/misc/kexec'):
             shutil.copy(CDROM_MOUNT + '/misc/kexec', '/tmp')
 
@@ -540,10 +541,7 @@ def reboot_machine(objpath):
         if kexec is False:
             syslog.syslog("unable to kexec")
 
-    if os.path.exists('/tmp/reboot'):
-        reboot_cmd = '/tmp/reboot'
-    else:
-        reboot_cmd = '/sbin/reboot'
+    reboot_cmd = '/sbin/reboot'
     reboot = misc.execute_root(reboot_cmd,'-n')
     if reboot is False:
         raise RuntimeError, ("Reboot failed")
