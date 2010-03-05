@@ -113,7 +113,9 @@ class PageGtk(PluginUI):
         if not self.genuine:
             self.controller.allow_go_forward(False)
         #The widget has been added into the top level by now, so we can change top level stuff
-        self.plugin_widgets.get_parent_window().set_title('Dell Recovery')
+        window = self.plugin_widgets.get_parent_window()
+        window.set_title('Dell Recovery')
+        window.set_functions(gtk.gdk.FUNC_RESIZE | gtk.gdk.FUNC_MOVE)
         return self.plugin_widgets
 
     def get_type(self):
