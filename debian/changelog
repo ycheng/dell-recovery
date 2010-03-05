@@ -9,6 +9,7 @@ dell-recovery (0.39) UNRELEASED; urgency=low
   * Allow setting the OS and Swap partitions that are cleared during install
     from preseed parameters, dell-recovery/{os_partition, swap_partition}
   * Remove unused has_separator from ubiquity bootstrap plugin.
+  * Adjust 99_dell_recovery to refer to ubuntu.seed instead for reinstall.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 03 Mar 2010 11:23:18 -0600
 

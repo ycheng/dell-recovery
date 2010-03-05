@@ -7,7 +7,7 @@ cat << EOF
 #      grub is installed on the recovery partition, and will be loaded (in english) with
 #      these same entries available to it.
 menuentry "Reinstall Operating System (WARNING: all data will be LOST!)" {
-	linux	(hd0,2)/casper/vmlinuz preseed/file=/cdrom/preseed/dell.seed boot=casper automatic-ubiquity noprompt edd=on quiet splash dell-recovery/recovery_type=hdd
+	linux	(hd0,2)/casper/vmlinuz preseed/file=/cdrom/preseed/ubuntu.seed boot=casper automatic-ubiquity noprompt edd=on quiet splash dell-recovery/recovery_type=hdd
 	initrd	(hd0,2)/casper/initrd.lz
 }
 EOF
