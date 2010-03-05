@@ -170,7 +170,7 @@ class PageGtk(PluginUI):
 ################
 class Page(Plugin):
     def __init__(self, frontend, db=None, ui=None):
-        self.kexec = True
+        self.kexec = False
         self.device = '/dev/sda'
         self.node = ''
         Plugin.__init__(self, frontend, db, ui)

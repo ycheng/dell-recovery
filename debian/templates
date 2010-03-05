@@ -11,7 +11,7 @@ Description: for internal use;determines whether to offer the bootstrap
 
 Template: dell-recovery/kexec
 Type: boolean
-Default: true
+Default: false
 Description: Use kexec to load a new kernel after building the RP?
 
 Template: dell-recovery/os_partition

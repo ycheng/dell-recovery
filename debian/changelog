@@ -13,6 +13,7 @@ dell-recovery (0.39) UNRELEASED; urgency=low
   * Remove unused has_separator from ubiquity bootstrap plugin.
   * Adjust 99_dell_recovery to refer to ubuntu.seed instead for reinstall.
   * Don't allow the recovery window to be closed or minimized.
+  * Disable kexec by default.  It appears to cause problems on non-KMS HW.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 03 Mar 2010 11:23:18 -0600
 
