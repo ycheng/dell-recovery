@@ -14,6 +14,16 @@ Type: boolean
 Default: true
 Description: Use kexec to load a new kernel after building the RP?
 
+Template: dell-recovery/os_partition
+Type: string
+Default: 3
+Description: for internal use; determines where the destination OS partition is
+
+Template: dell-recovery/swap_partition
+Type: string
+Default: 4
+Description: for internal use; determines where the destination swap partition is
+
 Template: dell-recovery/build_start
 Type: text
 _Description: Building Dell Recovery Media...

@@ -6,6 +6,8 @@ dell-recovery (0.39) UNRELEASED; urgency=low
     - Fill in the data dynamically for the oem-config early command.
     - Reference partition numbers and /cdrom mount from variables to more easily
       change later as necessary.
+  * Allow setting the OS and Swap partitions that are cleared during install
+    from preseed parameters, dell-recovery/{os_partition, swap_partition}
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 03 Mar 2010 11:23:18 -0600
 

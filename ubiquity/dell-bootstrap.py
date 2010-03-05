@@ -46,8 +46,6 @@ OEM = False
 
 UP_PART =     '1'
 RP_PART =     '2'
-OS_PART =     '3'
-SWAP_PART =   '4'
 CDROM_MOUNT = '/cdrom'
 
 #######################
@@ -206,11 +204,12 @@ class Page(Plugin):
         """Removes partitions 3 and 4 for the process to start"""
         active = misc.execute_root('sfdisk', '-A' + RP_PART, self.device)
         if active is False:
-            self.debug("Failed to set partition 2 active on %s" % self.device)
-        for number in (OS_PART, SWAP_PART):
-            remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
-            if remove is False:
-                self.debug("Error removing partition number: %s on %s (this may be normal)'" % (number, self.device))
+            self.debug("Failed to set partition %s active on %s" % (RP_PART, self.device))
+        for number in (self.os_part, self.swap_part):
+            if number.isdigit():
+                remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
+                if remove is False:
+                    self.debug("Error removing partition number: %s on %s (this may be normal)'" % (number, self.device))
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
@@ -298,7 +297,7 @@ class Page(Plugin):
             self.device = os.path.join('/dev', new)
             self.db.set('oem-config/early_command', 'mount %s%s %s' % (self.device, RP_PART, CDROM_MOUNT))
             self.db.set('partman-auto/disk', self.device)
-            self.db.set('grub-installer/bootdev', self.device + OS_PART)
+            self.db.set('grub-installer/bootdev', self.device + self.os_part)
         else:
             raise RuntimeError, ("Unable to find factory device (was going to use %s)" % self.device)
         self.debug("Fixed up device we are operating on is %s" % self.device)
@@ -323,13 +322,28 @@ class Page(Plugin):
             self.db.register('debian-installer/dummy', 'dell-recovery/recovery_type')
             self.db.set('dell-recovery/recovery_type', type)
             self.db.fset('dell-recovery/recovery_type', 'seen', 'true')
-
         self.ui.set_type(type)
 
+        #In case we preseeded the partitions we need installed to
+        try:
+            self.os_part = self.db.get('dell-recovery/os_partition')
+        except debconf.DebconfError, e:
+            self.debug(str(e))
+            self.os_part = '3'
+
+        try:
+            self.swap_part = self.db.get('dell-recovery/swap_partition')
+        except debconf.DebconfError, e:
+            self.debug(str(e))
+            self.swap_part = '4'
+
+        #We might try to support this
         try:
             self.kexec = misc.create_bool(self.db.get('dell-recovery/kexec'))
         except debconf.DebconfError:
             pass
+
+        #If we are using multiple disks, we might fill this in
         try:
             self.device = self.db.get('partman-auto/disk')
         except debconf.DebconfError:
