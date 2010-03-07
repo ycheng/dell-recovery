@@ -1,3 +1,10 @@
+dell-recovery (0.40) UNRELEASED; urgency=low
+
+  * Create separate udev rules for devkit and udisks since they need
+    to match on different things.
+
+ -- Mario Limonciello <superm1@ubuntu.com>  Sun, 07 Mar 2010 01:12:28 -0600
+
 dell-recovery (0.39) lucid; urgency=low
 
   * dell-bootstrap:
