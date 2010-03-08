@@ -2,6 +2,9 @@ dell-recovery (0.40) UNRELEASED; urgency=low
 
   * Create separate udev rules for devkit and udisks since they need
     to match on different things.
+  * ubiquity/dell-recovery.py:
+    - Only show the page if a dvd or usb burner is available.  No use showing
+      when the only option is "None"
 
  -- Mario Limonciello <superm1@ubuntu.com>  Sun, 07 Mar 2010 01:12:28 -0600
 

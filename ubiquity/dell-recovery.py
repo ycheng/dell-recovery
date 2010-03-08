@@ -46,7 +46,7 @@ class PageGtk(PluginUI):
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
         with misc.raised_privileges():
             self.genuine = magic.check_vendor()
-        if oem and (rp or not self.genuine):
+        if oem and (dvd or usb) and (rp or not self.genuine):
             try:
                 import gtk
                 builder = gtk.Builder()
