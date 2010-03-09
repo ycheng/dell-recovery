@@ -1,4 +1,4 @@
-dell-recovery (0.40) UNRELEASED; urgency=low
+dell-recovery (0.40) lucid; urgency=low
 
   * Create separate udev rules for devkit and udisks since they need
     to match on different things.
