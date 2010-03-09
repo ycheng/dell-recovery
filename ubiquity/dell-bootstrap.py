@@ -607,7 +607,11 @@ class Install(InstallPlugin):
 
         self.remove_ricoh_mmc()
 
-        self.enable_oem_config(target)
+        try:
+            if self.db.get('oem-config/enable') == 'true':
+                self.enable_oem_config(target)
+        except debconf.DebconfError, e:
+            pass
 
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
 
