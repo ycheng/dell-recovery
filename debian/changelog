@@ -5,6 +5,7 @@ dell-recovery (0.40) UNRELEASED; urgency=low
   * ubiquity/dell-recovery.py:
     - Only show the page if a dvd or usb burner is available.  No use showing
       when the only option is "None"
+    - Update the Install class to use current ubiquity functions.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Sun, 07 Mar 2010 01:12:28 -0600
 

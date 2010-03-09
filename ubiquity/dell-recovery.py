@@ -110,7 +110,7 @@ class Page(Plugin):
 class Install(InstallPlugin):
     def update_progress_gui(self, progress_text, progress_percent):
         """Function called by the backend to update the progress in a frontend"""
-        self.progress._db.subst('dell-recovery/build_progress', 'MESSAGE', progress_text)
+        self.progress.substitute('dell-recovery/build_progress', 'MESSAGE', progress_text)
         if float(progress_percent) < 0:
             if self.index >= len(rotational_characters):
                 self.index = 0
@@ -118,7 +118,7 @@ class Install(InstallPlugin):
             self.index += 1
         else:
             progress_percent += "%"
-        self.progress._db.subst('dell-recovery/build_progress', 'PERCENT', progress_percent)
+        self.progress.substitute('dell-recovery/build_progress', 'PERCENT', progress_percent)
         self.progress.info('dell-recovery/build_progress')
 
     def install(self, target, progress, *args, **kwargs):
@@ -127,7 +127,7 @@ class Install(InstallPlugin):
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.progress=progress
-        type = self.db.get('dell-recovery/destination')
+        type = progress.get('dell-recovery/destination')
         if type != "none":
             up,  rp  = magic.find_partitions('','')
             dvd, usb = magic.find_burners()
