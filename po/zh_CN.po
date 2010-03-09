@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-19 11:06-0600\n"
-"PO-Revision-Date: 2010-01-26 15:19+0000\n"
-"Last-Translator: Careone <zzbusagain@yahoo.com.cn>\n"
+"POT-Creation-Date: 2010-02-22 17:49-0600\n"
+"PO-Revision-Date: 2010-03-09 00:32+0000\n"
+"Last-Translator: Yiding He <yiding.he@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-27 04:46+0000\n"
+"X-Launchpad-Export-Date: 2010-03-09 04:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
@@ -85,27 +85,27 @@ msgstr "文件名 "
 msgid "Confirm Selections"
 msgstr "确认选择"
 
-#: ../Dell/recovery_backend.py:440
+#: ../Dell/recovery_backend.py:392
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:446
+#: ../Dell/recovery_backend.py:398
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:457
+#: ../Dell/recovery_backend.py:409
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:579
+#: ../Dell/recovery_backend.py:556
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:626
+#: ../Dell/recovery_backend.py:603
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:668
+#: ../Dell/recovery_backend.py:645
 msgid "Building ISO"
 msgstr "制作 ISO 光盘镜像"
 
@@ -230,23 +230,23 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:15
 msgid "GIT Tree Status"
-msgstr ""
+msgstr "GIT 树状态"
 
 #: ../gtk/builder.ui.h:17
 msgid "Install git"
-msgstr ""
+msgstr "安装 git"
 
 #: ../gtk/builder.ui.h:18
 msgid "Selected Image Details:"
-msgstr ""
+msgstr "选中的镜像的详情："
 
 #: ../gtk/builder.ui.h:19
 msgid "Selected Overlay Details:"
-msgstr ""
+msgstr "选中的覆盖详情："
 
 #: ../gtk/builder.ui.h:20
 msgid "Show Details"
-msgstr ""
+msgstr "显示详细信息"
 
 #: ../gtk/builder.ui.h:21
 msgid ""
@@ -261,44 +261,50 @@ msgid ""
 "the framework built into that image."
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:1
+#: ../ubiquity/stepRecoveryMedia.ui.h:1
+msgid "<b>ERROR:</b> This media is only valid on Dell systems."
+msgstr "<b>错误：</b>本介质只适合 Dell 电脑使用。"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
-msgstr ""
+msgstr "<b>提示：</b>这要求 USB 闪存盘至少有 2GB 的可用空间。"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:2
+#: ../ubiquity/stepRecoveryMedia.ui.h:3
 msgid "<b>Note:</b> This requires writable DVD media."
-msgstr ""
+msgstr "<b>提示：</b>这需要可写的 DVD 盘片。"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:3
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr ""
+msgstr "<big><b>创建 Dell 恢复盘？</b></big>"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you.\n"
 "<b>It is highly recommended that you generate media and store it in a safe "
 "place.</b>"
 msgstr ""
+"Dell 恢复盘可以用来恢复您的电脑系统到第一次安装好后的状态。\n"
+"<b>强烈推荐您制作一个恢复盘，然后将恢复盘放在安全的地方。</b>"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
-msgstr ""
+msgstr "这次不生成恢复盘"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
-msgstr ""
+msgstr "可以在“系统”菜单里选择“工具”，稍后再生成恢复盘。"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
-msgstr ""
+msgstr "将恢复介质保存为 DVD"
 
-#: ../oem-config/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
-msgstr ""
+msgstr "将恢复介质保存为外接的 USB 闪存盘"
 
 #~ msgid ""
 #~ "This tool requires that a Utility Partition and Linux Recovery partition are "

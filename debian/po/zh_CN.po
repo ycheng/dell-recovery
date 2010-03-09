@@ -7,27 +7,27 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-01-14 15:13-0600\n"
-"PO-Revision-Date: 2009-08-27 07:58+0000\n"
-"Last-Translator: Careone <zzbusagain@yahoo.com.cn>\n"
+"POT-Creation-Date: 2010-02-09 12:09-0600\n"
+"PO-Revision-Date: 2010-03-09 03:05+0000\n"
+"Last-Translator: Eleanor Chen <chenyueg@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Launchpad-Export-Date: 2010-03-09 04:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
 #. Description
-#: ../templates:2001
+#: ../templates:4001
 msgid "Building Dell Recovery Media..."
-msgstr ""
+msgstr "创建 Dell 恢复介质..."
 
 #. Type: text
 #. Description
-#: ../templates:4001
+#: ../templates:6001
 msgid "Opening Burner..."
-msgstr ""
+msgstr "打开刻录机..."
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW 光盘"
