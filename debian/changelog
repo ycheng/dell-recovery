@@ -1,4 +1,4 @@
-dell-recovery (0.41) UNRELEASED; urgency=low
+dell-recovery (0.41) lucid; urgency=low
 
   * Ask for PW only after last wizard page.
 
