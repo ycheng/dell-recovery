@@ -291,8 +291,9 @@ class Page(Plugin):
         #the right FS label (which will be valid right now)
         #Don't you dare put a USB stick in the system with that label right now!
         new = ''
-        for path in [ '/dev/disk/by-label/install',
-                      '/dev/disk/by-label/OS'     ]:
+        for path in [ '/dev/disk/by-label/RECOVERY',
+                      '/dev/disk/by-label/OS'      ,
+                      '/dev/disk/by-label/install' ]:
             if os.path.exists(path):
                 new = os.readlink(path).split('/').pop().strip('1234567890')
                 break

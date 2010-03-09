@@ -8,6 +8,8 @@ dell-recovery (0.40) UNRELEASED; urgency=low
     - Update the Install class to use current ubiquity functions.
   * ubiquity/dell-bootstrap.py:
     - Only touch the oem-config run file if oem-config was preseeded.
+    - Allow starting from a partition called RECOVERY in case we came from
+      a Win7 RE.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Sun, 07 Mar 2010 01:12:28 -0600
 
