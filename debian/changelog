@@ -1,3 +1,9 @@
+dell-recovery (0.41) UNRELEASED; urgency=low
+
+  * Ask for PW only after last wizard page.
+
+ -- Mario Limonciello <superm1@ubuntu.com>  Tue, 09 Mar 2010 09:52:19 -0600
+
 dell-recovery (0.40) lucid; urgency=low
 
   * Create separate udev rules for devkit and udisks since they need
@@ -516,3 +522,4 @@ dell-recovery (0.1) hardy; urgency=low
   * Initial Release.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 21 Mar 2008 18:58:40 -0500
+

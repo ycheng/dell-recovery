@@ -120,6 +120,26 @@ class GTKFrontend:
 
     def wizard_complete(self, widget, function=None, args=None):
         """Finished answering wizard questions, and can continue process"""
+        try:
+            #Fill in dynamic data
+            if not self.widgets.get_object('version').get_text():
+                (version, distributor, release, output_text) = self.backend().query_iso_information(self.rp)
+                if distributor:
+                    self.distributor=distributor
+                if release:
+                    self.release=release
+                version=increment_bto_version(version)
+                self.widgets.get_object('version').set_text(version)
+            self.iso = self.distributor + '-' + self.release + '-dell_' + self.widgets.get_object('version').get_text() + ".iso"
+        except dbus.DBusException, e:
+            if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
+                header = _("Permission Denied")
+            else:
+                header = str(e)
+            self.show_alert(gtk.MESSAGE_ERROR, header,
+                        parent=self.widgets.get_object('wizard'))
+            return
+
 
         #Check for existing image
         skip_creation=False
@@ -326,17 +346,6 @@ class GTKFrontend:
         elif page == self.widgets.get_object('conf_page') or \
                      widget == self.widgets.get_object('version'):
 
-            #Fill in dynamic data
-            if not self.widgets.get_object('version').get_text():
-                (version, distributor, release, output_text) = self.backend().query_iso_information(self.rp)
-                if distributor:
-                    self.distributor=distributor
-                if release:
-                    self.release=release
-                version=increment_bto_version(version)
-                self.widgets.get_object('version').set_text(version)
-            self.iso = self.distributor + '-' + self.release + '-dell_' + self.widgets.get_object('version').get_text() + ".iso"
-
             if self.widgets.get_object('dvdbutton').get_active():
                 type=self.widgets.get_object('dvdbutton').get_label()
             elif self.widgets.get_object('usbbutton').get_active():
@@ -349,7 +358,6 @@ class GTKFrontend:
             if self.rp:
                 text+="<b>" + _("Recovery Partition: ") + '</b>' + self.rp + '\n'
             text+="<b>" + _("Media Type: ") + '</b>' + type + '\n'
-            text+="<b>" + _("File Name: ") + '</b>' + self.iso + '\n'
 
             self.widgets.get_object('conf_text').set_markup(text)
 
