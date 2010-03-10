@@ -188,9 +188,7 @@ create an USB key or DVD image."))
                 self.builder_fid_overlay,
                 fish_list,
                 'create_' + self.distributor,
-                self.up,
-                self.widgets.get_object('version').get_text(),
-                os.path.join(self.path,self.iso))
+                self.up)
 
         GTKFrontend.wizard_complete(self,widget,function, args)
 

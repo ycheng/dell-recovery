@@ -170,10 +170,11 @@ class GTKFrontend:
                 self.widgets.get_object('action').set_text("Building Base image")
                 function='create_' + self.distributor
                 args=(self.up,
-                      self.rp,
-                      self.widgets.get_object('version').get_text(),
-                      os.path.join(self.path,self.iso))
-                        
+                      self.rp)
+
+            #all functions require this at the end
+            args += ( self.widgets.get_object('version').get_text(),
+                      os.path.join(self.path,self.iso) )
             try:
                 dbus_sync_call_signal_wrapper(self.backend(),
                                               function,
