@@ -122,7 +122,7 @@ def white_tree(action,whitelist,src,dst='',base=None):
 def check_vendor():
     if os.path.exists('/sys/class/dmi/id/bios_vendor'):
         with open('/sys/class/dmi/id/bios_vendor') as file:
-            vendor = file.readline().strip('\n')
+            vendor = file.readline().split()[0].lower()
     else:
         vendor = ''
     return (vendor == 'dell' or vendor == 'innotek')
