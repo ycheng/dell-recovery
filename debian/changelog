@@ -5,6 +5,7 @@ dell-recovery (0.43) UNRELEASED; urgency=low
   * Use sysfs to read dmi info rather than dmidecode.
   * Add all the strings from the ubiquity pages to debian/templates, which should
     enable translation for all of them.
+  * Don't raise permissions for check vendor anymore since it's just parsing files.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 11 Mar 2010 18:39:51 -0600
 

@@ -44,8 +44,7 @@ class PageGtk(PluginUI):
         up,  rp  = magic.find_partitions('','')
         dvd, usb = magic.find_burners()
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
-        with misc.raised_privileges():
-            self.genuine = magic.check_vendor()
+        self.genuine = magic.check_vendor()
         if oem and (dvd or usb) and (rp or not self.genuine):
             try:
                 import gtk
