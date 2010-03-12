@@ -601,7 +601,12 @@ class Install(InstallPlugin):
         if os.path.exists(CDROM_MOUNT + '/scripts/pool.sh'):
             install_misc.chrex(target, CDROM_MOUNT + '/scripts/pool.sh')
 
+        #These aren't in all images, but desirable if available
         to_install.append('dkms')
+        to_install.append('adobe-flashplugin')
+        to_install.append('dell-recovery')
+
+        #Stuff that is installed on all configs without fish scripts
         to_install += self.find_unconditional_debs()
         install_misc.record_installed(to_install)
 
