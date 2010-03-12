@@ -1,4 +1,4 @@
-dell-recovery (0.43) UNRELEASED; urgency=low
+dell-recovery (0.43) lucid; urgency=low
 
   * Add a new function to recovery_common to support checking if the devices
     in a system match an ID.
