@@ -8,6 +8,7 @@ dell-recovery (0.43) UNRELEASED; urgency=low
   * Don't raise permissions for check vendor anymore since it's just parsing.
   * Always try to install dell-recovery, and adobe-flashplugin even if they
     aren't in debs/main.
+  * Don't show device nodes on the summary page.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 11 Mar 2010 18:39:51 -0600
 

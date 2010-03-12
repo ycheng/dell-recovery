@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-12 16:55-0600\n"
+"POT-Creation-Date: 2010-03-12 17:39-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,19 +64,23 @@ msgstr ""
 msgid "ISO Image"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:358
-msgid "Utility Partition: "
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:360
-msgid "Recovery Partition: "
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:361
+#: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:366
+#: ../Dell/recovery_frontend.py:359
+msgid "Utility Partition: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:359 ../Dell/recovery_frontend.py:364
+msgid "Included"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:362 ../Dell/recovery_frontend.py:364
+msgid "Recovery Partition: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:370
 msgid "Confirm Selections"
 msgstr ""
 

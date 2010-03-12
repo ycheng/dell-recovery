@@ -354,11 +354,15 @@ class GTKFrontend:
             else:
                 type=_("ISO Image")
             text = ''
-            if self.up:
-                text+="<b>" + _("Utility Partition: ") + '</b>' + self.up + '\n'
-            if self.rp:
-                text+="<b>" + _("Recovery Partition: ") + '</b>' + self.rp + '\n'
             text+="<b>" + _("Media Type: ") + '</b>' + type + '\n'
+            if self.up:
+                text+="<b>" + _("Utility Partition: ") + '</b>' + _("Included") + '\n'
+            if self.rp:
+                if not "/dev" in self.rp:
+                    text+="<b>" + _("Recovery Partition: ") + '</b>' + self.rp + '\n'
+                else:
+                    text+="<b>" + _("Recovery Partition: ") + '</b>' + _("Included") + '\n'
+                 
 
             self.widgets.get_object('conf_text').set_markup(text)
 
