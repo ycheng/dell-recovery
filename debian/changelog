@@ -2,6 +2,7 @@ dell-recovery (0.43) UNRELEASED; urgency=low
 
   * Add a new function to recovery_common to support checking if the devices
     in a system match an ID.
+  * Use sysfs to read dmi info rather than dmidecode.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 11 Mar 2010 18:39:51 -0600
 

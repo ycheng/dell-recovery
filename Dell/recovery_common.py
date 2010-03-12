@@ -120,16 +120,11 @@ def white_tree(action,whitelist,src,dst='',base=None):
     return outputs
 
 def check_vendor():
-    vendor = ''
-    invokation = subprocess.Popen(['dmidecode'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out = invokation.communicate()[0]
-    if invokation.returncode is None:
-        invokation.wait()
-    if out:
-        for line in out.split('\n'):
-            if 'Vendor' in line:
-                vendor = line.split()[1].lower()
-                break
+    if os.path.exists('/sys/class/dmi/id/bios_vendor'):
+        with open('/sys/class/dmi/id/bios_vendor') as file:
+            vendor = file.readline().strip('\n')
+    else:
+        vendor = ''
     return (vendor == 'dell' or vendor == 'innotek')
 
 def find_partitions(up,rp):
