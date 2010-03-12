@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-22 17:49-0600\n"
+"POT-Creation-Date: 2010-03-12 16:28-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,57 +30,53 @@ msgstr ""
 msgid "Invalid recovery partition"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:164
+#: ../Dell/recovery_frontend.py:136 ../Dell/recovery_frontend.py:185
 msgid "Permission Denied"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:178
+#: ../Dell/recovery_frontend.py:199
 msgid "Opening Burner"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:192
+#: ../Dell/recovery_frontend.py:213
 msgid "Recovery Media Creation Process Complete"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:193
+#: ../Dell/recovery_frontend.py:214
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:213
+#: ../Dell/recovery_frontend.py:234
 msgid "Cannot connect to dbus"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:303
+#: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:307
+#: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:345 ../gtk/builder.ui.h:16
+#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
 msgid "ISO Image"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:348
+#: ../Dell/recovery_frontend.py:358
 msgid "Utility Partition: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:350
+#: ../Dell/recovery_frontend.py:360
 msgid "Recovery Partition: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:351
+#: ../Dell/recovery_frontend.py:361
 msgid "Media Type: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:352
-msgid "File Name: "
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:357
+#: ../Dell/recovery_frontend.py:366
 msgid "Confirm Selections"
 msgstr ""
 
@@ -264,23 +260,27 @@ msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
-"<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
+"<b>It is highly recommended that you generate media and store it in a safe "
+"place.</b>"
 msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
-msgid "<b>Note:</b> This requires writable DVD media."
+msgid ""
+"<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:4
-msgid "<big><b>Create Dell Recovery Media?</b></big>"
+msgid "<b>Note:</b> This requires writable DVD media."
 msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:5
+msgid "<big><b>Create Dell Recovery Media?</b></big>"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
-"when it was first shipped to you.\n"
-"<b>It is highly recommended that you generate media and store it in a safe "
-"place.</b>"
+"when it was first shipped to you."
 msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:7

@@ -56,15 +56,35 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="bootstrap_information_label">
-                <property name="width_request">650</property>
+              <object class="GtkVBox" id="vbox5">
                 <property name="visible">True</property>
-                <property name="xalign">0</property>
-                <property name="xpad">25</property>
-                <property name="label" translatable="yes">This Dell Recovery Media can be used to restore the original factory software.
-&lt;b&gt;It is recommended you back up all important data before running this tool.&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
-                <property name="wrap">True</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkLabel" id="bootstrap_information_label">
+                    <property name="width_request">650</property>
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="xpad">25</property>
+                    <property name="label" translatable="yes">This Dell Recovery Media can be used to restore the original factory software.</property>
+                    <property name="use_markup">True</property>
+                    <property name="wrap">True</property>
+                  </object>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="bootstrap_warning_label">
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="xpad">25</property>
+                    <property name="label" translatable="yes">&lt;b&gt;It is recommended you back up all important data before running this tool.&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="position">1</property>
@@ -136,7 +156,7 @@
                         <property name="visible">True</property>
                         <property name="left_padding">25</property>
                         <child>
-                          <object class="GtkLabel" id="hdd_warning">
+                          <object class="GtkLabel" id="hdd_warning_label">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
                             <property name="yalign">0</property>
@@ -215,7 +235,7 @@
                         <property name="visible">True</property>
                         <property name="left_padding">25</property>
                         <child>
-                          <object class="GtkLabel" id="automated_warning">
+                          <object class="GtkLabel" id="automated_warning_label">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
                             <property name="yalign">0</property>
@@ -326,7 +346,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="genuine_label">
+                  <object class="GtkLabel" id="genuine_bootstrap_warning_label">
                     <property name="visible">True</property>
                     <property name="xalign">0.05000000074505806</property>
                     <property name="label" translatable="yes">&lt;b&gt;ERROR:&lt;/b&gt; This media is only valid on Dell systems.</property>
@@ -392,8 +412,8 @@ Your system may reboot.</property>
     <property name="window_position">center-always</property>
     <property name="type_hint">normal</property>
     <property name="skip_taskbar_hint">True</property>
-    <property name="buttons">ok</property>
     <property name="message_type">error</property>
+    <property name="buttons">ok</property>
     <property name="text" translatable="yes">Exception Encountered</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox4">
@@ -429,14 +449,13 @@ Your system may reboot.</property>
       <object class="GtkVBox" id="info_vbox">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
         <child>
-          <object class="GtkLabel" id="info_label">
+          <object class="GtkLabel" id="status_label">
             <property name="visible">True</property>
             <property name="xalign">0</property>
             <property name="yalign">0.25</property>
-            <property name="label" translatable="yes">&lt;b&gt;Recovery Partition build in progress.  &lt;/b&gt;
-This window will close automatically when the process is complete. 
-&lt;b&gt;NOTE:&lt;/b&gt; Please be patient, this may take a while.</property>
+            <property name="label" translatable="yes">This window will close automatically when the process is complete. </property>
             <property name="use_markup">True</property>
           </object>
           <packing>
@@ -446,13 +465,27 @@ This window will close automatically when the process is complete.
           </packing>
         </child>
         <child>
+          <object class="GtkLabel" id="status_warning_label">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="yalign">0</property>
+            <property name="label" translatable="yes">&lt;b&gt;NOTE:&lt;/b&gt; Please be patient, this may take a while.</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkSpinner" id="info_spinner">
             <property name="visible">True</property>
           </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>

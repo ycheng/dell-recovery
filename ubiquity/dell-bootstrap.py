@@ -99,7 +99,7 @@ class PageGtk(PluginUI):
             self.reboot_dialog = builder.get_object('reboot_dialog')
             self.reboot_dialog.set_title('Dell Recovery')
             self.info_window = builder.get_object('info_window')
-            self.info_window.set_title('Dell Recovery')
+            self.info_window.set_title('Building Recovery Partition')
             self.info_spinner = builder.get_object('info_spinner')
             self.err_dialog = builder.get_object('err_dialog')
             if not self.genuine:

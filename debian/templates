@@ -35,3 +35,100 @@ Description: ${MESSAGE} (${PERCENT})...
 Template: dell-recovery/burning
 Type: text
 _Description: Opening Burner...
+
+Template: ubiquity/text/bootstrap_heading_label
+Type: text
+_Description: Recovery Type
+
+Template: ubiquity/text/bootstrap_information_label
+Type: text
+_Description: This Dell Recovery Media can be used to restore the original factory software.
+
+Template: ubiquity/text/bootstrap_warning_label
+Type: text
+_Description: It is recommended you back up all important data before running this tool.
+
+Template: ubiquity/text/hdd_recovery
+Type: text
+_Description: Restore Linux OS partitions
+
+Template: ubiquity/text/hdd_info
+Type: text
+_Description: This will rebuild all OS and swap partitions to factory defaults.
+
+Template: ubiquity/text/hdd_warning_label
+Type: text
+_Description: WARNING: All personal files and changes will be lost.
+
+Template: ubiquity/text/automated_recovery
+Type: text
+_Description: Restore entire hard drive.
+
+Template: ubiquity/text/automated_info
+Type: text
+_Description: This will rebuild all utility, recovery, and OS partitions.
+
+Template: ubiquity/text/automated_warning_label
+Type: text
+_Description: WARNING: All personal files and changes will be lost.
+
+Template: ubiquity/text/interactive_recovery
+Type: text
+_Description: Restore only Linux OS partition.
+
+Template: ubiquity/text/interactive_info
+Type: text
+_Description: This option allows you to resize any existing partitions.
+
+Template: ubiquity/text/genuine_bootstrap_warning_label
+Type: text
+_Description: ERROR: This media is only valid on Dell systems.
+
+Template: ubiquity/text/status_label
+Type: text
+_Description: This window will close automatically when the process is complete. 
+
+Template: ubiquity/text/status_warning_label
+Type: text
+_Description: NOTE: Please be patient, this may take a while.
+
+Template: ubiquity/text/recovery_heading_label
+Type: text
+_Description: Create Dell Recovery Media?
+
+Template: ubiquity/text/recovery_information_label
+Type: text
+_Description: Dell Recovery Media can be used to restore your system to the same state as when it was first shipped to you.
+
+Template: ubiquity/text/recovery_warning_label
+Type: text
+_Description: It is highly recommended that you generate media and store it in a safe place.
+
+
+Template: ubiquity/text/save_to_usb
+Type: text
+_Description: Save recovery media to an external USB flash drive
+
+Template: ubiquity/text/usb_warning_label
+Type: text
+_Description: Note: This requires a USB flash drive with approximately 2GB free.
+
+Template: ubiquity/text/save_to_dvd
+Type: text
+_Description: Save recovery media to DVD
+
+Template: ubiquity/text/dvd_warning_label
+Type: text
+_Description: Note: This requires writable DVD media.
+
+Template: ubiquity/text/save_to_none
+Type: text
+_Description: Don't generate recovery media at this time
+
+Template: ubiquity/text/no_media_warning
+Type: text
+_Description: Recovery Media can be generated later by choosing the tool from the System menu.
+
+Template: ubiquity/text/genuine_recovery_warning_label
+Type: text
+_Description: ERROR: This media is only valid on Dell systems.
