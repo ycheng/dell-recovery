@@ -273,6 +273,44 @@ def find_burners():
 
     return (dvd,usb)
 
+def match_system_device(vendor, device):
+    '''Attempts to match the vendor and device combination to the system
+       Allows the following formats:
+       str (eg '1234')
+       int (eg 1234)
+       base 16 int (eg 0x1234)
+       base 16 int in a str (eg '0x1234')
+    '''
+    def recursive_check_ids(directory, check_vendor, check_device):
+        vendor = device = ''
+        for root, dirs, files in os.walk(directory, topdown=False):
+            for file in files:
+                if file == 'vendor':
+                    with open(os.path.join(root,file),'r') as filehandle:
+                        vendor = filehandle.readline().strip('\n')
+                elif file == 'device':
+                    with open(os.path.join(root,file),'r') as filehandle:
+                        device = filehandle.readline().strip('\n')
+            if vendor and device:
+                if ( int(vendor,16) == int(check_vendor) or vendor.strip('0x') == check_vendor ) and \
+                   ( int(device,16) == int(check_device) or device.strip('0x') == check_device ) :
+                   return True
+            if not files:
+                for dir in dirs:
+                    if recursive_check_ids(os.path.join(root,dir), check_vendor, check_device):
+                        return True
+        return False
+    if type(vendor) == str and '0x' in vendor:
+        vendor = int(vendor,16)
+    elif type(vendor) == int:
+        vendor = str(vendor)
+    if type(device) == str and '0x' in device:
+        device = int(device,16)
+    elif type(device) == int:
+        device = str(device)
+    
+    return recursive_check_ids('/sys/bus/pci/devices', vendor, device)
+
 def increment_bto_version(version):
     match = re.match(r"(?:(?P<alpha1>\w+\.[a-z]*)(?P<digits>\d+))"
                      r"|(?P<alpha2>\w+(?:\.[a-z]+)?)",
