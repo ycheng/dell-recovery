@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-14 15:48-0600\n"
-"PO-Revision-Date: 2009-06-03 17:54+0000\n"
+"POT-Creation-Date: 2010-01-19 11:06-0600\n"
+"PO-Revision-Date: 2010-01-26 15:10+0000\n"
 "Last-Translator: Krasimir Chonov <mk2616@abv.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-09-29 21:20+0000\n"
+"X-Launchpad-Export-Date: 2010-01-27 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
@@ -97,6 +97,10 @@ msgstr ""
 msgid "Inserting FISH packages"
 msgstr ""
 
+#: ../Dell/recovery_backend.py:579
+msgid "Building Dell Utility Partition"
+msgstr ""
+
 #: ../Dell/recovery_backend.py:626
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
@@ -106,9 +110,8 @@ msgid "Building ISO"
 msgstr "Създаване на ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
-#, fuzzy
 msgid "Create/Assemble Dell Recovery ISO"
-msgstr "Създаване на Dell ISO образ за възстановяване"
+msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
@@ -162,7 +165,6 @@ msgid "No media, create ISO image"
 msgstr "Няма носител, създаване на ISO образ"
 
 #: ../gtk/recovery_media_creator.ui.h:8
-#, fuzzy
 msgid ""
 "This application will create OS Recovery Media that can be used to restore "
 "the computer to its factory shipped state.  You will have the option to "
@@ -185,6 +187,8 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"\n"
+"\n"
 
 #: ../gtk/builder.ui.h:4
 msgid ""
@@ -200,14 +204,12 @@ msgid ""
 msgstr ""
 
 #: ../gtk/builder.ui.h:8
-#, fuzzy
 msgid "Choose Image"
-msgstr "Изберете тип носител"
+msgstr ""
 
 #: ../gtk/builder.ui.h:9
-#, fuzzy
 msgid "Detected Recovery Partition"
-msgstr "Дял за възстановяване: "
+msgstr ""
 
 #: ../gtk/builder.ui.h:10
 msgid "Extracted Directory"
@@ -272,9 +274,8 @@ msgid "<b>Note:</b> This requires writable DVD media."
 msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:3
-#, fuzzy
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr "Създаване на Dell носител за възстановяване"
+msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:4
 msgid ""
@@ -295,17 +296,12 @@ msgid ""
 msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:8
-#, fuzzy
 msgid "Save recovery media to DVD"
-msgstr "Отказ"
+msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Building Dell Utility Partition"
-#~ msgstr "Програма за възстановяване: "
 
 #~ msgid "Choose Target Directory"
 #~ msgstr "Изберете целева папка"

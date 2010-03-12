@@ -1,0 +1,66 @@
+# Finnish translation for dell-recovery
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the dell-recovery package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dell-recovery\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-02-09 12:09-0600\n"
+"PO-Revision-Date: 2010-02-20 10:33+0000\n"
+"Last-Translator: Timo Jyrinki <timo-jyrinki@ubuntu.com>\n"
+"Language-Team: Finnish <fi@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-02-21 04:57+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. Type: text
+#. Description
+#: ../templates:4001
+msgid "Building Dell Recovery Media..."
+msgstr "Rakennetaan Dell-palautusmediaa..."
+
+#. Type: text
+#. Description
+#: ../templates:6001
+msgid "Opening Burner..."
+msgstr "Avataan kirjoittajaa..."
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "DVD+/-RW-levy"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Peru palautusmedian luonti"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "USB-Flash-asema"
+
+#~ msgid "Retry burn?"
+#~ msgstr "Yritä kirjoitusta uudelleen?"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Dell-palautusmedian luonti"
+
+#~ msgid "Opening Burner"
+#~ msgstr "Avataan kirjoittajaa."
+
+#~ msgid "Media Type: "
+#~ msgstr "Median tyyppi: "
+
+#~ msgid "Welcome"
+#~ msgstr "Tervetuloa"
+
+#~ msgid "Confirm Selections"
+#~ msgstr "Vahvista valinnat"
+
+#~ msgid "Choose Media Type"
+#~ msgstr "Valitse median tyyppi"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "Palautusmedian luominen valmis"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<tila varattu toiminnolle>"

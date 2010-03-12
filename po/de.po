@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-14 15:48-0600\n"
-"PO-Revision-Date: 2009-09-24 09:43+0000\n"
-"Last-Translator: Dieter Smorra <Unknown>\n"
+"POT-Creation-Date: 2010-01-19 11:06-0600\n"
+"PO-Revision-Date: 2010-01-26 15:13+0000\n"
+"Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-09-29 21:20+0000\n"
+"X-Launchpad-Export-Date: 2010-01-27 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
@@ -44,13 +44,10 @@ msgid "Recovery Media Creation Process Complete"
 msgstr "Recovery Media Erstellungsvorgang fertig"
 
 #: ../Dell/recovery_frontend.py:193
-#, fuzzy
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
-"Wenn Sie eine weitere Kopie archivieren möchten, das erzeugte Abbild wurde "
-"unter folgendem Dateinamen gespeichert:"
 
 #: ../Dell/recovery_frontend.py:213
 msgid "Cannot connect to dbus"
@@ -100,6 +97,10 @@ msgstr ""
 msgid "Inserting FISH packages"
 msgstr ""
 
+#: ../Dell/recovery_backend.py:579
+msgid "Building Dell Utility Partition"
+msgstr ""
+
 #: ../Dell/recovery_backend.py:626
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
@@ -109,9 +110,8 @@ msgid "Building ISO"
 msgstr "Erzeuge ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
-#, fuzzy
 msgid "Create/Assemble Dell Recovery ISO"
-msgstr "Dell Recovery ISO erstellen"
+msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
@@ -126,9 +126,8 @@ msgid "Request closing the backend"
 msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
-#, fuzzy
 msgid "System policy prevents closing processes without notice"
-msgstr "Systemrichtlinie verhindert das Lesen von Raw-Devices"
+msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"
@@ -148,6 +147,9 @@ msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
 msgstr ""
+"Ein existierendes Abbild wurde gefunden (wahrscheinlich von einer vorherigen "
+"Ausführung). Möchten Sie diese alte Kopie löschen und das Abbild neu "
+"erstellen?"
 
 #: ../gtk/recovery_media_creator.ui.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
@@ -168,7 +170,6 @@ msgid "No media, create ISO image"
 msgstr "Kein Medium, erzeuge ISO-Abbild"
 
 #: ../gtk/recovery_media_creator.ui.h:8
-#, fuzzy
 msgid ""
 "This application will create OS Recovery Media that can be used to restore "
 "the computer to its factory shipped state.  You will have the option to "
@@ -191,6 +192,8 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"\n"
+"\n"
 
 #: ../gtk/builder.ui.h:4
 msgid ""
@@ -206,14 +209,12 @@ msgid ""
 msgstr ""
 
 #: ../gtk/builder.ui.h:8
-#, fuzzy
 msgid "Choose Image"
-msgstr "Medientyp wählen"
+msgstr ""
 
 #: ../gtk/builder.ui.h:9
-#, fuzzy
 msgid "Detected Recovery Partition"
-msgstr "Wiederherstellungspartition: "
+msgstr ""
 
 #: ../gtk/builder.ui.h:10
 msgid "Extracted Directory"
@@ -278,9 +279,8 @@ msgid "<b>Note:</b> This requires writable DVD media."
 msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:3
-#, fuzzy
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr "Erstelle Dell Recovery Medien"
+msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:4
 msgid ""
@@ -301,21 +301,16 @@ msgid ""
 msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:8
-#, fuzzy
 msgid "Save recovery media to DVD"
-msgstr "Recovery Media Creator abbrechen"
+msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Building Dell Utility Partition"
-#~ msgstr "Dienstpartition: "
-
 #~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
 #~ msgstr ""
 #~ "Dieses Programm benötigt eine vorhandene Dienstprogramm- und eine "
 #~ "Linuxwiederherstellungspartition."
@@ -337,5 +332,5 @@ msgstr ""
 
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr ""
-#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch "
-#~ "einmal versuchen?"
+#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch einmal "
+#~ "versuchen?"

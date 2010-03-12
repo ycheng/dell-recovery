@@ -1,0 +1,106 @@
+# Lithuanian translation for dell-recovery
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the dell-recovery package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dell-recovery\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-02-09 12:09-0600\n"
+"PO-Revision-Date: 2010-02-19 14:11+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Lithuanian <lt@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-02-20 04:44+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. Type: text
+#. Description
+#: ../templates:4001
+msgid "Building Dell Recovery Media..."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:6001
+msgid "Opening Burner..."
+msgstr ""
+
+#~ msgid "Welcome"
+#~ msgstr "Sveiki"
+
+#~ msgid "Choose Media Type"
+#~ msgstr "Pasirinkite laikmenos tipą"
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "Nepavyko prisijungti prie dbus"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Netinkamas įrankių skirsnis"
+
+#~ msgid "Permission Denied"
+#~ msgstr "Priėjimas uždraustas"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "Atkūrimo laikmena sukurta"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Netinkamas atkūrimo skirsnis"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Atkūrimo skirsnis: "
+
+#~ msgid "File Name: "
+#~ msgstr "Failo pavadinimas: "
+
+#~ msgid "Media Type: "
+#~ msgstr "Laikmenos tipas: "
+
+#~ msgid "Confirm Selections"
+#~ msgstr "Patvirtinkite pasirinkimus"
+
+#~ msgid "Utility Partition: "
+#~ msgstr "Įrankių skirsnis: "
+
+#~ msgid "ISO Image"
+#~ msgstr "ISO atvaizdis"
+
+#~ msgid "Building ISO"
+#~ msgstr "Kuriamas ISO atvaizdis"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Dell sistemos atkūrimo laikmenų įrankis"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Ši programa sukurs kompiuterio operacinės sistemos atkūrimo laikmeną, kurios "
+#~ "pagalba galėsite atkurti kompiuterio programinę įrangą iki dabar esančios "
+#~ "būsenos. Jūs galėsite įrašyti atkūrimo atvaizdį į USB atmintuką ar DVD diską."
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Nutraukti atkūrimo laikmenos generavimą"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "USB \"Flash\" atmintukas"
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "DVD+/-RW diskas"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "tik sukurti ISO atvaizdžio failą"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr "Ar tikrai norite nutraukti atkūrimo laikmenos generavimą?"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "Radau jau sukurtą atkūrimo atvaizdžio failą. Ar norite išmesti šį failą ir "
+#~ "iš naujo sukurti sistemos atkūrimo atvaizdį?"

@@ -9,6 +9,7 @@ dell-recovery (0.43) UNRELEASED; urgency=low
   * Always try to install dell-recovery, and adobe-flashplugin even if they
     aren't in debs/main.
   * Don't show device nodes on the summary page.
+  * Merge translations from launchpad.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 11 Mar 2010 18:39:51 -0600
 

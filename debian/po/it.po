@@ -1,0 +1,66 @@
+# Italian translation for dell-recovery
+# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# This file is distributed under the same license as the dell-recovery package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dell-recovery\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-01-14 15:13-0600\n"
+"PO-Revision-Date: 2009-10-20 22:05+0000\n"
+"Last-Translator: Luca Ferretti <elle.uca@ubuntu-it.org>\n"
+"Language-Team: Italian <it@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. Type: text
+#. Description
+#: ../templates:2001
+msgid "Building Dell Recovery Media..."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:4001
+msgid "Opening Burner..."
+msgstr ""
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "Disco DVD+/-RW"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<segnaposto attività>"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Creazione supporto di recupero Dell"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Annulla creazione supporto di recupero"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "Unità flash USB"
+
+#~ msgid "Opening Burner"
+#~ msgstr "Apertura del masterizzatore"
+
+#~ msgid "Media Type: "
+#~ msgstr "Tipo di supporto: "
+
+#~ msgid "Welcome"
+#~ msgstr "Benvenuti"
+
+#~ msgid "Confirm Selections"
+#~ msgstr "Confermare le selezioni"
+
+#~ msgid "Choose Media Type"
+#~ msgstr "Scegliere il tipo di supporto"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "Processo di creazione del supporto di recupero completato"
+
+#~ msgid "Retry burn?"
+#~ msgstr "Ritenta masterizzazione?"

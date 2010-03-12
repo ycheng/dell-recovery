@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-14 15:48-0600\n"
-"PO-Revision-Date: 2009-05-23 16:53+0000\n"
+"POT-Creation-Date: 2010-01-19 11:06-0600\n"
+"PO-Revision-Date: 2010-01-26 15:11+0000\n"
 "Last-Translator: Jimmy Frydkær Jensen <thewolf40@mailme.dk>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-09-29 21:20+0000\n"
+"X-Launchpad-Export-Date: 2010-01-27 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
@@ -22,11 +22,10 @@ msgid "Invalid utility partition"
 msgstr "Ugyldig nytte partition"
 
 #: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
-#, fuzzy
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
-msgstr " i kommandolinje argument. Falder tilbage til HAL detection."
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:109
 msgid "Invalid recovery partition"
@@ -45,13 +44,10 @@ msgid "Recovery Media Creation Process Complete"
 msgstr "Genskabelses Medie Oprettelses Proces Færdig"
 
 #: ../Dell/recovery_frontend.py:193
-#, fuzzy
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
-"Hvis du ønsker at arkivere en anden kopi, er det generede billede gemt under "
-"filnavnet:"
 
 #: ../Dell/recovery_frontend.py:213
 msgid "Cannot connect to dbus"
@@ -101,6 +97,10 @@ msgstr ""
 msgid "Inserting FISH packages"
 msgstr ""
 
+#: ../Dell/recovery_backend.py:579
+msgid "Building Dell Utility Partition"
+msgstr ""
+
 #: ../Dell/recovery_backend.py:626
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
@@ -110,9 +110,8 @@ msgid "Building ISO"
 msgstr "Bygger ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
-#, fuzzy
 msgid "Create/Assemble Dell Recovery ISO"
-msgstr "Opret Dell Gendannelses ISO"
+msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
@@ -127,9 +126,8 @@ msgid "Request closing the backend"
 msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
-#, fuzzy
 msgid "System policy prevents closing processes without notice"
-msgstr "Systempolitik forhindrer læsning af raw enheder"
+msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"
@@ -170,7 +168,6 @@ msgid "No media, create ISO image"
 msgstr "Ingen medie, opret ISO billede"
 
 #: ../gtk/recovery_media_creator.ui.h:8
-#, fuzzy
 msgid ""
 "This application will create OS Recovery Media that can be used to restore "
 "the computer to its factory shipped state.  You will have the option to "
@@ -193,6 +190,8 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"\n"
+"\n"
 
 #: ../gtk/builder.ui.h:4
 msgid ""
@@ -208,14 +207,12 @@ msgid ""
 msgstr ""
 
 #: ../gtk/builder.ui.h:8
-#, fuzzy
 msgid "Choose Image"
-msgstr "Vælg Medietype"
+msgstr ""
 
 #: ../gtk/builder.ui.h:9
-#, fuzzy
 msgid "Detected Recovery Partition"
-msgstr "Genskabelsespartiton: "
+msgstr ""
 
 #: ../gtk/builder.ui.h:10
 msgid "Extracted Directory"
@@ -280,9 +277,8 @@ msgid "<b>Note:</b> This requires writable DVD media."
 msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:3
-#, fuzzy
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr "Opret Dell Gendannelsesmeide"
+msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:4
 msgid ""
@@ -303,21 +299,16 @@ msgid ""
 msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:8
-#, fuzzy
 msgid "Save recovery media to DVD"
-msgstr "Annullér Gendannelsesmedie-opretter"
+msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Building Dell Utility Partition"
-#~ msgstr "Nyttepartition: "
-
 #~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
 #~ msgstr ""
 #~ "Dette værktøj kræver at en nytte-partition og Linux Recovery Partition er "
 #~ "til stede og fungerer."

@@ -7,19 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-14 15:48-0600\n"
-"PO-Revision-Date: 2009-08-19 18:29+0000\n"
+"POT-Creation-Date: 2010-01-19 11:06-0600\n"
+"PO-Revision-Date: 2010-01-26 15:19+0000\n"
 "Last-Translator: Simon Österberg <simon.osterberg@gmail.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-09-29 21:20+0000\n"
+"X-Launchpad-Export-Date: 2010-01-27 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
 msgid "Invalid utility partition"
-msgstr ""
+msgstr "ogiltig tillbehörspartition"
 
 #: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
 msgid ""
@@ -29,11 +29,11 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:109
 msgid "Invalid recovery partition"
-msgstr ""
+msgstr "Ogiltig återskapningspartition"
 
 #: ../Dell/recovery_frontend.py:164
 msgid "Permission Denied"
-msgstr ""
+msgstr "Åtkomst nekad"
 
 #: ../Dell/recovery_frontend.py:178
 msgid "Opening Burner"
@@ -51,7 +51,7 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:213
 msgid "Cannot connect to dbus"
-msgstr ""
+msgstr "kan inte ansluta till dbus"
 
 #: ../Dell/recovery_frontend.py:303
 msgid "Welcome"
@@ -63,11 +63,11 @@ msgstr "Välj mediatyp"
 
 #: ../Dell/recovery_frontend.py:345 ../gtk/builder.ui.h:16
 msgid "ISO Image"
-msgstr ""
+msgstr "ISO-avbild"
 
 #: ../Dell/recovery_frontend.py:348
 msgid "Utility Partition: "
-msgstr ""
+msgstr "Tillbehörspartition: "
 
 #: ../Dell/recovery_frontend.py:350
 msgid "Recovery Partition: "
@@ -97,13 +97,17 @@ msgstr ""
 msgid "Inserting FISH packages"
 msgstr ""
 
+#: ../Dell/recovery_backend.py:579
+msgid "Building Dell Utility Partition"
+msgstr ""
+
 #: ../Dell/recovery_backend.py:626
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
 #: ../Dell/recovery_backend.py:668
 msgid "Building ISO"
-msgstr ""
+msgstr "Bygger ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create/Assemble Dell Recovery ISO"
@@ -127,7 +131,7 @@ msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"
-msgstr ""
+msgstr "Systemprincip förhindrar läsning av obehandlade enheter"
 
 #: ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/recovery_media_creator.ui.h:6
@@ -143,10 +147,14 @@ msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
 msgstr ""
+"En befintlig avbild hittades (eventuellt från en tidigare körning). Vill du "
+"ta bort den gamla kopian och regenerera avbilden?"
 
 #: ../gtk/recovery_media_creator.ui.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
 msgstr ""
+"Är du säker på att du vill avbryta processen för att skapa "
+"återställningsmedia?"
 
 #: ../gtk/recovery_media_creator.ui.h:4
 msgid "Cancel Recovery Media Creator"
@@ -158,10 +166,9 @@ msgstr "DVD+/-RW-skiva"
 
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create ISO image"
-msgstr ""
+msgstr "Ingen media, skapa ISO-avbild"
 
 #: ../gtk/recovery_media_creator.ui.h:8
-#, fuzzy
 msgid ""
 "This application will create OS Recovery Media that can be used to restore "
 "the computer to its factory shipped state.  You will have the option to "
@@ -184,6 +191,8 @@ msgid ""
 "\n"
 "\n"
 msgstr ""
+"\n"
+"\n"
 
 #: ../gtk/builder.ui.h:4
 msgid ""
@@ -199,14 +208,12 @@ msgid ""
 msgstr ""
 
 #: ../gtk/builder.ui.h:8
-#, fuzzy
 msgid "Choose Image"
-msgstr "Välj mediatyp"
+msgstr ""
 
 #: ../gtk/builder.ui.h:9
-#, fuzzy
 msgid "Detected Recovery Partition"
-msgstr "Återställningspartition: "
+msgstr ""
 
 #: ../gtk/builder.ui.h:10
 msgid "Extracted Directory"
@@ -293,9 +300,8 @@ msgid ""
 msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:8
-#, fuzzy
 msgid "Save recovery media to DVD"
-msgstr "Avbryt skapandet av återställningsmedia"
+msgstr ""
 
 #: ../oem-config/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"

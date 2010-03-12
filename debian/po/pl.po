@@ -1,0 +1,63 @@
+# Polish translation for dell-recovery
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the dell-recovery package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dell-recovery\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-01-14 15:13-0600\n"
+"PO-Revision-Date: 2010-02-07 18:52+0000\n"
+"Last-Translator: Marcin Kwidzinski <marcinkwidzinski@yahoo.co.uk>\n"
+"Language-Team: Polish <pl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-02-08 04:47+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#. Type: text
+#. Description
+#: ../templates:2001
+msgid "Building Dell Recovery Media..."
+msgstr "Tworzenie nośnika naprawy systemu Dell.."
+
+#. Type: text
+#. Description
+#: ../templates:4001
+msgid "Opening Burner..."
+msgstr "Otwieranie nagrywarki ..."
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "Dysk DVD+-RW"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "Dysk USB Flash"
+
+#~ msgid "Welcome"
+#~ msgstr "Witamy"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "Proces Tworzenia Dysku Odzyskiwania Zakończony"
+
+#~ msgid "File Name: "
+#~ msgstr "Nazwa pliku: "
+
+#~ msgid "Media Type: "
+#~ msgstr "Typ nośnika: "
+
+#~ msgid "Choose Media Type"
+#~ msgstr "Wybierz typ nośnika"
+
+#~ msgid "ISO Image"
+#~ msgstr "Obraz ISO"
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Wybierz folder docelowy"
+
+#~ msgid "Permission Denied"
+#~ msgstr "Dostęp zabroniony"
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "Nie można się połączyć z dbus"
