@@ -1,3 +1,10 @@
+dell-recovery (0.44) UNRELEASED; urgency=low
+
+  * Run after the language page rather than before all pages.  This should allow
+    the UI to be fully translated (if available).
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 16 Mar 2010 13:40:15 -0500
+
 dell-recovery (0.43) lucid; urgency=low
 
   * Add a new function to recovery_common to support checking if the devices

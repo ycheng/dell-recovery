@@ -39,8 +39,7 @@ DBusGMainLoop(set_as_default=True)
 import syslog
 
 NAME = 'dell-bootstrap'
-AFTER = None
-BEFORE = 'language'
+AFTER = 'language'
 WEIGHT = 12
 OEM = False
 
