@@ -265,7 +265,7 @@
                   <object class="GtkImage" id="image3">
                     <property name="visible">True</property>
                     <property name="pixel_size">48</property>
-                    <property name="icon_name">start-here</property>
+                    <property name="icon_name">desktop</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
