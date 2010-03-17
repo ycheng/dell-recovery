@@ -202,9 +202,14 @@ class Page(Plugin):
 
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
+        #First set the new partition active
         active = misc.execute_root('sfdisk', '-A' + RP_PART, self.device)
         if active is False:
             self.debug("Failed to set partition %s active on %s" % (RP_PART, self.device))
+        #check for extended partitions
+        with misc.raised_privileges():
+            total_partitions = len(fetch_output(['partx', self.device]).split('\n'))-1
+        #remove extras
         for number in (self.os_part, self.swap_part):
             if number.isdigit():
                 remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
@@ -213,6 +218,12 @@ class Page(Plugin):
                 refresh = misc.execute_root('partx', '-d', '--nr', number, self.device)
                 if refresh is False:
                     self.debug("Error updating partition %s for kernel device %s (this may be normal)'" % (number, self.device))
+        #if there were extended, cleanup
+        if total_partitions > 4:
+            refresh = misc.execute_root('partx', '-d', '--nr', '5-' + str(total_partitions), self.device)
+            if refresh is False:
+                self.debug("Error removing extended partitions 5-%s for kernel device %s (this may be normal)'" % (total_partitions, self.device))
+                    
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
