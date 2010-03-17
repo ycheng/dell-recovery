@@ -4,6 +4,8 @@ dell-recovery (0.44) UNRELEASED; urgency=low
     the UI to be fully translated (if available).
   * Set the icon for recovery media to 'desktop' rather than 'start-here'.  The
     default 'start-here' icon isn't very visible.
+  * Use partx to force an update to the kernel about what devices are on the system
+    after removing them using parted during bootstrap.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 16 Mar 2010 13:40:15 -0500
 

@@ -201,7 +201,7 @@ class Page(Plugin):
                         raise RuntimeError, ("Error disabling swap on device %s" % line.split()[0])
 
     def remove_extra_partitions(self):
-        """Removes partitions 3 and 4 for the process to start"""
+        """Removes partitions we are installing on for the process to start"""
         active = misc.execute_root('sfdisk', '-A' + RP_PART, self.device)
         if active is False:
             self.debug("Failed to set partition %s active on %s" % (RP_PART, self.device))
@@ -210,6 +210,9 @@ class Page(Plugin):
                 remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
                 if remove is False:
                     self.debug("Error removing partition number: %s on %s (this may be normal)'" % (number, self.device))
+                refresh = misc.execute_root('partx', '-d', '--nr', number, self.device)
+                if refresh is False:
+                    self.debug("Error updating partition %s for kernel device %s (this may be normal)'" % (number, self.device))
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
