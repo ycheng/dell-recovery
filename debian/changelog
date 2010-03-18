@@ -1,11 +1,11 @@
 dell-recovery (0.44) UNRELEASED; urgency=low
 
-  * Run after the language page rather than before all pages.  This should allow
-    the UI to be fully translated (if available).
-  * Set the icon for recovery media to 'desktop' rather than 'start-here'.  The
-    default 'start-here' icon isn't very visible.
-  * Use partx to force an update to the kernel about what devices are on the system
-    after removing them using parted during bootstrap.
+  * Run after the language page rather than before all pages.  This should
+    allow the UI to be fully translated (if available).
+  * Set the icon for recovery media to 'desktop' rather than 'start-here'.
+    The default 'start-here' icon isn't very visible.
+  * Use partx to force an update to the kernel about what devices are on the
+    system after removing them using parted during bootstrap.
   * Also cleanup extended partitions.  Some assumptions are made here, so this
     might need to be expanded upon if it breaks.
   * Update boot background to reflect new branding.
