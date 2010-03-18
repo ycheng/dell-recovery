@@ -8,6 +8,7 @@ dell-recovery (0.44) UNRELEASED; urgency=low
     after removing them using parted during bootstrap.
   * Also cleanup extended partitions.  Some assumptions are made here, so this
     might need to be expanded upon if it breaks.
+  * Update boot background to reflect new branding.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 16 Mar 2010 13:40:15 -0500
 
