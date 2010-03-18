@@ -428,7 +428,7 @@ class rp_builder(Thread):
     def build_rp(self, cushion=300):
         """Copies content to the recovery partition"""
 
-        white_pattern = re.compile('/')
+        white_pattern = re.compile('.')
 
         #Calculate UP#
         if os.path.exists(CDROM_MOUNT + '/upimg.bin'):

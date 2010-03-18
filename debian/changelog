@@ -15,6 +15,8 @@ dell-recovery (0.44) UNRELEASED; urgency=low
   * Hide close/minimize from any popup windows.
   * Draw attention away from the steps portion of the window by setting it non
     sensitive and hiding it when the recovery partition build starts.
+  * Fix whitelist building for dell-bootstrap to not miss files in the root
+    directory.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 16 Mar 2010 13:40:15 -0500
 
