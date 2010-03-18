@@ -113,6 +113,7 @@ class PageGtk(PluginUI):
         window = self.plugin_widgets.get_parent_window()
         window.set_title('Dell Recovery')
         window.set_functions(gtk.gdk.FUNC_RESIZE | gtk.gdk.FUNC_MOVE)
+        self.controller._wizard.step_label.set_sensitive(False)
         return self.plugin_widgets
 
     def get_type(self):
@@ -146,6 +147,7 @@ class PageGtk(PluginUI):
         self.controller.allow_go_forward(True)
 
     def show_info_dialog(self):
+        self.controller._wizard.step_label.set_markup('')
         self.controller.allow_go_forward(False)
         self.automated_recovery_box.hide()
         self.interactive_recovery_box.hide()
@@ -158,7 +160,6 @@ class PageGtk(PluginUI):
         self.reboot_dialog.run()
 
     def show_exception_dialog(self, e):
-        self.controller.toggle_top_level()
         self.info_spinner.stop()
         self.err_dialog.format_secondary_text(str(e))
         self.err_dialog.run()
