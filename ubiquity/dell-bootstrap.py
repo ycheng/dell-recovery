@@ -96,8 +96,7 @@ class PageGtk(PluginUI):
             self.hidden_radio = builder.get_object('hidden_radio')
             self.reboot_dialog = builder.get_object('reboot_dialog')
             self.reboot_dialog.set_title('Dell Recovery')
-            self.info_window = builder.get_object('info_window')
-            self.info_window.set_title('Building Recovery Partition')
+            self.info_box = builder.get_object('info_box')
             self.info_spinner = builder.get_object('info_spinner')
             self.err_dialog = builder.get_object('err_dialog')
             if not self.genuine:
@@ -147,18 +146,20 @@ class PageGtk(PluginUI):
         self.controller.allow_go_forward(True)
 
     def show_info_dialog(self):
-        self.controller.toggle_top_level()
-        self.info_window.show()
+        self.controller.allow_go_forward(False)
+        self.automated_recovery_box.hide()
+        self.interactive_recovery_box.hide()
+        self.info_box.show()
         self.info_spinner.start()
 
     def show_reboot_dialog(self):
+        self.controller.toggle_top_level()
         self.info_spinner.stop()
-        self.info_window.hide()
         self.reboot_dialog.run()
 
     def show_exception_dialog(self, e):
+        self.controller.toggle_top_level()
         self.info_spinner.stop()
-        self.info_window.hide()
         self.err_dialog.format_secondary_text(str(e))
         self.err_dialog.run()
         self.err_dialog.hide()
