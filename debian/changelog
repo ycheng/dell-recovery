@@ -1,4 +1,4 @@
-dell-recovery (0.44) UNRELEASED; urgency=low
+dell-recovery (0.44) lucid; urgency=low
 
   Ubiquity bootstrap plugin:
   * Run after the language page rather than before all pages.  This should
