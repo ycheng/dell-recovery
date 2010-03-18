@@ -1,5 +1,6 @@
 dell-recovery (0.44) UNRELEASED; urgency=low
 
+  Ubiquity bootstrap plugin:
   * Run after the language page rather than before all pages.  This should
     allow the UI to be fully translated (if available).
   * Set the icon for recovery media to 'desktop' rather than 'start-here'.
@@ -17,6 +18,9 @@ dell-recovery (0.44) UNRELEASED; urgency=low
     sensitive and hiding it when the recovery partition build starts.
   * Fix whitelist building for dell-bootstrap to not miss files in the root
     directory.
+
+  Recovery Backend:
+  * List out any FISH packages in a bto_manifest that gets stored in the ISO.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 16 Mar 2010 13:40:15 -0500
 

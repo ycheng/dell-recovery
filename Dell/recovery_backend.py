@@ -405,8 +405,13 @@ class Backend(dbus.service.Object):
         #Add in FISH content
         length=float(len(fish))
         if length > 0:
+            if os.path.exists(os.path.join(assembly_tmp,'bto_manifest')):
+                manifest=open(os.path.join(assembly_tmp,'bto_manifest'),'a')
+            else:
+                manifest=open(os.path.join(assembly_tmp,'bto_manifest'),'w')
             for fishie in fish:
                 self.report_progress(_('Inserting FISH packages'),fish.index(fishie)/length*100)
+                manifest.write(fishie + '\n')
                 dest=None
                 if fishie.endswith('.deb'):
                     dest=os.path.join(assembly_tmp,'debs','main')
@@ -429,6 +434,7 @@ class Backend(dbus.service.Object):
                         os.makedirs(dest)
                     distutils.file_util.copy_file(fishie,dest,verbose=1,update=0)
             logging.debug("assemble_image: done inserting fish")
+            manifest.close()
 
         function=getattr(Backend,create_fn)
         function(self,up,assembly_tmp,version,iso)
