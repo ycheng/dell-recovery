@@ -36,10 +36,6 @@ Template: dell-recovery/burning
 Type: text
 _Description: Opening Burner...
 
-Template: ubiquity/text/bootstrap_heading_label
-Type: text
-_Description: Recovery Type
-
 Template: ubiquity/text/bootstrap_information_label
 Type: text
 _Description: This Dell Recovery Media can be used to restore the original factory software.

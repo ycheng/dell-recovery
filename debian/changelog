@@ -11,6 +11,7 @@ dell-recovery (0.44) UNRELEASED; urgency=low
   * Update boot background to reflect new branding.
   * Add help text to explain the minimum size necessary for flash drives.
   * Move the info_window into the main window rather than as a popup.
+  * Clean up some unnecessary widgets from the bootstrap page.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 16 Mar 2010 13:40:15 -0500
 
