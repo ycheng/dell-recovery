@@ -385,7 +385,7 @@
   <object class="GtkMessageDialog" id="reboot_dialog">
     <property name="border_width">5</property>
     <property name="window_position">center-always</property>
-    <property name="type_hint">normal</property>
+    <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
     <property name="buttons">ok</property>
@@ -419,7 +419,7 @@ Your system may reboot.</property>
   <object class="GtkMessageDialog" id="err_dialog">
     <property name="border_width">5</property>
     <property name="window_position">center-always</property>
-    <property name="type_hint">normal</property>
+    <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
     <property name="message_type">error</property>
