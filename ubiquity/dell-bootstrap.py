@@ -130,6 +130,8 @@ class PageGtk(PluginUI):
 
     def set_type(self,type):
         """Sets the type of recovery to do in GUI"""
+        if not self.genuine:
+            return
         if type == "automatic":
             self.automated_recovery.set_active(True)
         elif type == "interactive":
