@@ -2,6 +2,7 @@ dell-recovery (0.45) UNRELEASED; urgency=low
 
   * Remove the bootsplash theming as it may be adding an unnecessary delta
     to boot speed.
+  * Only install dell-recovery if we have an RP during the install.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 18 Mar 2010 18:25:20 -0500
 

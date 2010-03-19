@@ -608,6 +608,8 @@ class Install(InstallPlugin):
         if not genuine:
             raise RuntimeError, ("This recovery media only works on Dell Hardware.")
 
+        up,  rp  = magic.find_partitions('','')
+
         from ubiquity import install_misc
         to_install = []
 
@@ -619,7 +621,10 @@ class Install(InstallPlugin):
         #These aren't in all images, but desirable if available
         to_install.append('dkms')
         to_install.append('adobe-flashplugin')
-        to_install.append('dell-recovery')
+
+        #only install dell-recovery if we actually have an RP on the system.
+        if rp:
+            to_install.append('dell-recovery')
 
         #Stuff that is installed on all configs without fish scripts
         to_install += self.find_unconditional_debs()
