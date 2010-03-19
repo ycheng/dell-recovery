@@ -7,6 +7,10 @@ dell-recovery (0.45) UNRELEASED; urgency=low
   * Add basic support for installing from alternative partition types.
     - Support NTFS and VFAT initially
     - Don't hardcode the mount type when mounting freshly formatted partitions.
+    - Don't install grub to an NTFS RP during factory install, kexec, or post
+      reboot situations.
+  * Use udisks to find the details for the RP rather than parsing files manually
+    in /dev
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 18 Mar 2010 18:25:20 -0500
 

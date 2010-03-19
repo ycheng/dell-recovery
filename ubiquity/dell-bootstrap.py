@@ -307,21 +307,20 @@ class Page(Plugin):
         #Ignore any EDD settings - we want to just plop on the same drive with
         #the right FS label (which will be valid right now)
         #Don't you dare put a USB stick in the system with that label right now!
-        new = ''
-        for path in [ '/dev/disk/by-label/RECOVERY',
-                      '/dev/disk/by-label/OS'      ,
-                      '/dev/disk/by-label/install' ]:
-            if os.path.exists(path):
-                new = os.readlink(path).split('/').pop().strip('1234567890')
-                break
-        if new:
-            self.device = os.path.join('/dev', new)
-            self.db.set('oem-config/early_command', 'mount %s%s %s' % (self.device, RP_PART, CDROM_MOUNT))
-            self.db.set('partman-auto/disk', self.device)
-            self.db.set('grub-installer/bootdev', self.device + self.os_part)
-        else:
-            raise RuntimeError, ("Unable to find factory device (was going to use %s)" % self.device)
+        rp = magic.find_factory_rp_stats()
+        if not rp:
+            raise RuntimeError, ("Unable to find factory recovery partition (was going to use %s)" % self.device)
+
+        self.device = rp["slave"]
+        self.db.set('oem-config/early_command', 'mount %s %s' % (rp["device"], CDROM_MOUNT))
+        self.db.set('partman-auto/disk', self.device)
+        self.db.set('grub-installer/bootdev', self.device + self.os_part)
+        if rp["fs"] == "ntfs":
+            self.rp_filesystem = TYPE_NTFS
+        elif rp["fs"] == "vfat":
+            self.rp_filesystem = TYPE_VFAT
         self.debug("Fixed up device we are operating on is %s" % self.device)
+        self.debug("Detected a %s filesystem on the %s recovery partition" % (rp["fs"], rp["label"]))
 
     def prepare(self, unfiltered=False):
         type = None
@@ -413,7 +412,8 @@ class Page(Plugin):
             self.fixup_factory_devices()
             self.disable_swap()
             self.remove_extra_partitions()
-            self.install_grub()
+            if self.rp_filesystem == TYPE_VFAT:
+                self.install_grub()
         Plugin.cleanup(self)
 
     def cancel_handler(self):

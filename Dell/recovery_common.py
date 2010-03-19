@@ -127,6 +127,38 @@ def check_vendor():
         vendor = ''
     return (vendor == 'dell' or vendor == 'innotek')
 
+def find_factory_rp_stats():
+    """Uses udisks to find the RP of a system and return stats on it
+       Only use this method during bootstrap."""
+    bus = dbus.SystemBus()
+    rp = {}
+
+    try:
+        udisk_obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
+        ud = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
+        devices = ud.EnumerateDevices()
+        for device in devices:
+            dev_obj = bus.get_object('org.freedesktop.UDisks', device)
+            dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
+
+            label = dev.Get('org.freedesktop.UDisks.Device','IdLabel')
+
+            if ('RECOVERY' in label or 'install' in label or 'OS' in label):
+                rp["label" ] = label
+                rp["device"] = dev.Get('org.freedesktop.Udisks.Device','DeviceFile')
+                rp["fs"    ] = dev.Get('org.freedesktop.Udisks.Device','IdType')
+                rp["slave" ] = dev.Get('org.freedesktop.Udisks.Device','PartitionSlave')
+                break
+        if rp:
+            dev_obj = bus.get_object('org.freedesktop.UDisks', rp["slave"])
+            dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
+            rp["slave"] = dev.Get('org.freedesktop.Udisks.Device','DeviceFile')
+
+    except dbus.DBusException, e:
+        print "%s, UDisks Failed" % str(e)
+
+    return rp
+
 def find_partitions(up,rp):
     """Searches the system for utility and recovery partitions"""
     bus = dbus.SystemBus()
