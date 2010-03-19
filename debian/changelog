@@ -1,4 +1,4 @@
-dell-recovery (0.45) UNRELEASED; urgency=low
+dell-recovery (0.45) lucid; urgency=low
 
   * Remove the bootsplash theming as it may be adding an unnecessary delta
     to boot speed.
@@ -26,7 +26,7 @@ dell-recovery (0.45) UNRELEASED; urgency=low
   * Catch errors trying to cleanup during unmount on the backend.
   * Import translations from launchpad.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 18 Mar 2010 18:25:20 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 19 Mar 2010 16:08:52 -0500
 
 dell-recovery (0.44) lucid; urgency=low
 
