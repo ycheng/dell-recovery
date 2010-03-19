@@ -44,7 +44,7 @@ setup(
                 ('share/pixmaps', glob.glob("gtk/*.png")),
                 ('share/dell/bin', ['backend/recovery-media-backend']),
                 ('/etc/dbus-1/system.d/', glob.glob('backend/*.conf')),
-                ('/etc/grub.d/', ['boot/99_dell_recovery']),
+                ('share/dell', ['grub/99_dell_recovery']),
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
                 ("share/dell/bin", glob.glob("bin/create-new-uuid")),
                 ('/lib/udev/rules.d', glob.glob('udev/*')),

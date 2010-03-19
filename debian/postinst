@@ -5,11 +5,6 @@
 case "$1" in
   configure)
 
-    #we are on grub2.
-    if test -e /boot/grub/grub.cfg ; then
-      update-grub
-    fi
-
     #reload dbus so this works immediately
     if status dbus >/dev/null 2>&1; then
       service dbus reload || true

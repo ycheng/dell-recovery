@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-17 19:35-0500\n"
+"POT-Creation-Date: 2010-03-19 01:59-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,19 +92,19 @@ msgstr ""
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:409
+#: ../Dell/recovery_backend.py:413
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:556
+#: ../Dell/recovery_backend.py:562
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:603
+#: ../Dell/recovery_backend.py:609
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:645
+#: ../Dell/recovery_backend.py:651
 msgid "Building ISO"
 msgstr ""
 

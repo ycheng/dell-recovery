@@ -13,6 +13,8 @@ dell-recovery (0.45) UNRELEASED; urgency=low
       from the wrong device getting picked up early.
   * Use udisks to find the details for the RP rather than parsing files manually
     in /dev
+  * Don't install the grub.d line on all systems with dell-recovery.  Instead
+    during OOBE, detect if there is an RP and conditionally install it.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 18 Mar 2010 18:25:20 -0500
 
