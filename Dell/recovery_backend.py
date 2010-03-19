@@ -306,7 +306,10 @@ class Backend(dbus.service.Object):
             ret=subprocess.call(['umount', mnt])
             if ret is not 0:
                 print >> sys.stderr, "Error unmounting %s" % mnt
-            os.rmdir(mnt)
+            try:
+                os.rmdir(mnt)
+            except OSError, e:
+                print >> sys.stderr, "Error cleaning up: %s" % str(e)
 
     def start_sizable_progress_thread(self, str, mnt, w_size):
         """Initializes the extra progress thread, or resets it
