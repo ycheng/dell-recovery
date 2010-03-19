@@ -29,7 +29,6 @@ import subprocess
 import os
 import Dell.recovery_common as magic
 import dbus
-import shutil
 
 NAME = 'dell-recovery'
 AFTER = 'usersetup'
@@ -125,11 +124,20 @@ class Install(InstallPlugin):
         if not 'UBIQUITY_OEM_USER_CONFIG' in os.environ:
             return
 
-        up,  rp  = magic.find_partitions('','')
+        rp = magic.find_factory_rp_stats()
         if rp and os.path.exists('/usr/share/dell/99_dell_recovery'):
             if not os.path.isdir('/etc/grub.d'):
                 os.makedirs('/etc/grub.d')
-            shutil.copy('/usr/share/dell/99_dell_recovery', '/etc/grub.d')
+            import lsb_release
+            release = lsb_release.get_distro_information()
+            with open("/usr/share/dell/99_dell_recovery", "r") as base:
+                with open('/etc/grub.d/99_dell_recovery', 'w') as output:
+                    for line in base.readlines():
+                        if "#PARTITION#" in line:
+                            line = line.replace("#PARTITION#", str(rp["number"]))
+                        if "#OS#" in line:
+                            line = line.replace("#OS#", "%s %s" % (release["ID"], release["RELEASE"]))
+                        output.write(line)
             os.chmod('/etc/grub.d/99_dell_recovery', 0755)
             subprocess.call(['update-grub'])
 
@@ -138,6 +146,7 @@ class Install(InstallPlugin):
         type = progress.get('dell-recovery/destination')
         if type != "none":
             dvd, usb = magic.find_burners()
+            up,  rp  = magic.find_partitions('','')
             self.index = 0
             file = os.path.join('/tmp/dell.iso')
             try:

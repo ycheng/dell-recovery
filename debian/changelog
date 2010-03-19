@@ -22,6 +22,7 @@ dell-recovery (0.45) UNRELEASED; urgency=low
     this is really a partition containing Ubuntu.
   * Adjust spacing on the bootstrap page.
   * Don't show HDD recovery if not genuine.
+  * Dynamically fill the content of the 99_dell_recovery during OOBE.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 18 Mar 2010 18:25:20 -0500
 

@@ -147,6 +147,7 @@ def find_factory_rp_stats():
                     rp["device"] = dev.Get('org.freedesktop.Udisks.Device','DeviceFile')
                     rp["fs"    ] = dev.Get('org.freedesktop.Udisks.Device','IdType')
                     rp["slave" ] = dev.Get('org.freedesktop.Udisks.Device','PartitionSlave')
+                    rp["number"] = dev.Get('org.freedesktop.Udisks.Device','PartitionNumber')
                     break
             if rp:
                 dev_obj = bus.get_object('org.freedesktop.UDisks', rp["slave"])
