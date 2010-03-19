@@ -642,10 +642,6 @@ class Install(InstallPlugin):
         to_install.append('dkms')
         to_install.append('adobe-flashplugin')
 
-        #only install dell-recovery if we actually have an RP on the system.
-        if rp:
-            to_install.append('dell-recovery')
-
         #Stuff that is installed on all configs without fish scripts
         to_install += self.find_unconditional_debs()
         install_misc.record_installed(to_install)
@@ -655,6 +651,10 @@ class Install(InstallPlugin):
         try:
             if self.db.get('oem-config/enable') == 'true':
                 self.enable_oem_config(target)
+                #only install dell-recovery if we actually have an RP on the
+                #system and will go through OOBE
+                if rp:
+                    to_install.append('dell-recovery')
         except debconf.DebconfError, e:
             pass
 

@@ -2,7 +2,8 @@ dell-recovery (0.45) UNRELEASED; urgency=low
 
   * Remove the bootsplash theming as it may be adding an unnecessary delta
     to boot speed.
-  * Only install dell-recovery if we have an RP during the install.
+  * Only install dell-recovery if we have an RP during the install and will
+    be going through the OOBE from the Linux side.
   * Hide NTFS based WinRE partitions (whether they have linux content or not)
   * Add basic support for installing from alternative partition types.
     - Support NTFS and VFAT initially
