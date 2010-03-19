@@ -633,6 +633,18 @@ class Install(InstallPlugin):
         from ubiquity import install_misc
         to_install = []
 
+        #Determine if we are doing OOBE
+        try:
+            if self.db.get('oem-config/enable') == 'true':
+                self.enable_oem_config(target)
+                #only install dell-recovery if we actually have an RP on the
+                #system and will go through OOBE
+                if rp:
+                    to_install.append('dell-recovery')
+                
+        except debconf.DebconfError, e:
+            pass
+
         #Fixup pool to only accept stuff on /cdrom
         #This is reversed at the end of OEM-config
         if os.path.exists(CDROM_MOUNT + '/scripts/pool.sh'):
@@ -647,16 +659,6 @@ class Install(InstallPlugin):
         install_misc.record_installed(to_install)
 
         self.remove_ricoh_mmc()
-
-        try:
-            if self.db.get('oem-config/enable') == 'true':
-                self.enable_oem_config(target)
-                #only install dell-recovery if we actually have an RP on the
-                #system and will go through OOBE
-                if rp:
-                    to_install.append('dell-recovery')
-        except debconf.DebconfError, e:
-            pass
 
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
 

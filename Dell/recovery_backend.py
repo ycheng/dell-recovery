@@ -551,6 +551,11 @@ class Backend(dbus.service.Object):
         #mount the RP
         mntdir=self.request_mount(rp, sender, conn)
 
+        if not os.path.exists(os.path.join(mntdir,'.disk', 'info')):
+            print >> sys.stderr, \
+                "recovery partition is missing critical ubuntu files."
+            raise CreateFailed("Recovery partition is missing critical Ubuntu files.")
+
         #Generate BTO version string
         file=open(os.path.join(tmpdir,'bto_version'),'w')
         file.write(version + '\n')

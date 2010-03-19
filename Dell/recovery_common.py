@@ -177,7 +177,8 @@ def find_partitions(up,rp):
 
             if not up and 'DellUtility' in label:
                 up=dev.Get('org.freedesktop.UDisks.Device','DeviceFile')
-            elif not rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
+            elif not rp and (('install' in label or 'OS' in label) and 'vfat' in fs) or \
+                            ('RECOVERY' in label and 'ntfs' in fs):
                 rp=dev.Get('org.freedesktop.Udisks.Device','DeviceFile')
         return (up,rp)
     except dbus.DBusException, e:
@@ -197,7 +198,8 @@ def find_partitions(up,rp):
 
             if not up and 'DellUtility' in label:
                 up=dev.Get('org.freedesktop.DeviceKit.Disks.Device','device-file')
-            elif not rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
+            elif not rp and (('install' in label or 'OS' in label) and 'vfat' in fs) or \
+                            ('RECOVERY' in label and 'ntfs' in fs):
                 rp=dev.Get('org.freedesktop.DeviceKit.Disks.Device','device-file')
         return (up,rp)
 
@@ -217,7 +219,8 @@ def find_partitions(up,rp):
             fs = dev.GetProperty('volume.fstype')
             if not up and 'DellUtility' in label:
                 up=dev.GetProperty('block.device')
-            elif not rp and ('install' in label or 'OS' in label) and 'vfat' in fs:
+            elif not rp and (('install' in label or 'OS' in label) and 'vfat' in fs) or \
+                            ('RECOVERY' in label and 'ntfs' in fs):
                 rp=dev.GetProperty('block.device')
         return (up,rp)
     except dbus.DBusException, e:
