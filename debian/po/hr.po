@@ -1,16 +1,16 @@
-# Swedish translation for dell-recovery
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# Croatian translation for dell-recovery
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the dell-recovery package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-12 16:03-0600\n"
-"PO-Revision-Date: 2010-03-18 23:05+0000\n"
-"Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
-"Language-Team: Swedish <sv@li.org>\n"
+"PO-Revision-Date: 2010-03-18 19:58+0000\n"
+"Last-Translator: Saša Teković <Unknown>\n"
+"Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,19 +21,19 @@ msgstr ""
 #. Description
 #: ../templates:6001
 msgid "Building Dell Recovery Media..."
-msgstr "Bygger återställningsmedia för Dell..."
+msgstr "Izgradnja Dell medija oporavka..."
 
 #. Type: text
 #. Description
 #: ../templates:8001
 msgid "Opening Burner..."
-msgstr "Öppnar brännare..."
+msgstr "Otvaranje snimača..."
 
 #. Type: text
 #. Description
 #: ../templates:9001
 msgid "Recovery Type"
-msgstr "Återställningstyp"
+msgstr "Vrsta oporavka"
 
 #. Type: text
 #. Description
@@ -42,8 +42,8 @@ msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
 msgstr ""
-"Detta återställningsmedia för Dell kan användas för att återställa "
-"programvara till de ursprungliga fabriksinställningarna."
+"Ovaj se Dell medij oporavka može upotrijebiti za vraćanje izvornog "
+"tvorničkog softvera."
 
 #. Type: text
 #. Description
@@ -51,22 +51,21 @@ msgstr ""
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
-"Det rekommenderas att du säkerhetskopierar allt viktigt data innan du kör "
-"detta verktyg."
+"Preporuka je da prije pokretanja ovog alata napravite sigurnosnu kopiju "
+"važnih podataka."
 
 #. Type: text
 #. Description
 #: ../templates:12001
 msgid "Restore Linux OS partitions"
-msgstr "Återställ partitioner för Linux"
+msgstr "Vrati particije Linux OS-a"
 
 #. Type: text
 #. Description
 #: ../templates:13001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
-"Detta kommer att bygga om alla partitioner för operativsystem och "
-"växlingsutrymme till fabriksinställningarna."
+"Ovo će vratiti sve swap particije i particije OS-a u tvorničko stanje."
 
 #. Type: text
 #. Description
@@ -74,33 +73,31 @@ msgstr ""
 #. Description
 #: ../templates:14001 ../templates:17001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr "VARNING: Alla personliga filer och ändringar kommer att förloras."
+msgstr "UPOZORENJE: Sve osobne datoteke i promjene će biti izgubljene."
 
 #. Type: text
 #. Description
 #: ../templates:15001
 msgid "Restore entire hard drive."
-msgstr "Återställ hela hårddisken."
+msgstr "Vrati cijeli tvrdi disk"
 
 #. Type: text
 #. Description
 #: ../templates:16001
 msgid "This will rebuild all utility, recovery, and OS partitions."
-msgstr ""
-"Detta kommer att bygga om alla partitioner för verktyg, återställning och "
-"operativsystem."
+msgstr "Ovo će vratiti sve uslužne particije i particije OS-a i oporavka."
 
 #. Type: text
 #. Description
 #: ../templates:18001
 msgid "Restore only Linux OS partition."
-msgstr "Återställ endast partition för Linux."
+msgstr "Vrati samo particiju Linux OS-a."
 
 #. Type: text
 #. Description
 #: ../templates:19001
 msgid "This option allows you to resize any existing partitions."
-msgstr "Detta alternativ låter dig ändra storlek på befintliga partitioner."
+msgstr "Ova mogućnost vam dopušta promjenu veličine postojećih particija."
 
 #. Type: text
 #. Description
@@ -108,26 +105,25 @@ msgstr "Detta alternativ låter dig ändra storlek på befintliga partitioner."
 #. Description
 #: ../templates:20001 ../templates:32001
 msgid "ERROR: This media is only valid on Dell systems."
-msgstr "FEL: Detta media är endast giltigt på Dell-system."
+msgstr "GREŠKA: Ovaj je medij važeći samo na Dellovim sustavima."
 
 #. Type: text
 #. Description
 #: ../templates:21001
 msgid "This window will close automatically when the process is complete. "
-msgstr ""
-"Detta fönster kommer att stängas automatiskt när processen är färdig. "
+msgstr "Ovaj će se prozor automatski zatvoriti kad proces završi. "
 
 #. Type: text
 #. Description
 #: ../templates:22001
 msgid "NOTE: Please be patient, this may take a while."
-msgstr "OBSERVERA: Var god vänta, detta kan ta en stund."
+msgstr "NAPOMENA: Molim budite strpljivi, ovo može potrajati neko vrijeme."
 
 #. Type: text
 #. Description
 #: ../templates:23001
 msgid "Create Dell Recovery Media?"
-msgstr "Skapa återställningsmedia för Dell?"
+msgstr "Stvoriti Dell medij oporavka?"
 
 #. Type: text
 #. Description
@@ -136,8 +132,8 @@ msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
-"Återställningsmedia för Dell kan användas för att återställa din dator till "
-"samma tillstånd som den befann sig i när den levererades till dig."
+"Dell medij oporavka se može upotrijebiti za vraćanje sustava u prvotno "
+"stanje kakvo je bilo kada vam je on bio isporučen."
 
 #. Type: text
 #. Description
@@ -145,40 +141,37 @@ msgstr ""
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
-msgstr ""
-"Det rekommenderas starkt att du genererar ett media och lagrar det på en "
-"säker plats."
+msgstr "Preporuka je da generirate medij i spremite ga na sigurno mjesto."
 
 #. Type: text
 #. Description
 #: ../templates:26001
 msgid "Save recovery media to an external USB flash drive"
-msgstr "Spara återställningsmedia till en extern USB-lagringsenhet"
+msgstr "Spremi medij oporavka na vanjsku USB memoriju"
 
 #. Type: text
 #. Description
 #: ../templates:27001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
-msgstr ""
-"Observera: Detta kräver en USB-lagringsenhet med ungefär 2 GB ledigt utrymme."
+msgstr "Napomena: ovo zahtijeva USB memoriju s oko 2 GB slobodnog prostora."
 
 #. Type: text
 #. Description
 #: ../templates:28001
 msgid "Save recovery media to DVD"
-msgstr "Spara återställningsmedia till DVD"
+msgstr "Spremi medij oporavka na DVD"
 
 #. Type: text
 #. Description
 #: ../templates:29001
 msgid "Note: This requires writable DVD media."
-msgstr "Observera: Detta kräver ett skrivbart DVD-media."
+msgstr "Napomena: Ovo zahtijeva zapisivi DVD medij."
 
 #. Type: text
 #. Description
 #: ../templates:30001
 msgid "Don't generate recovery media at this time"
-msgstr "Generera inte återställningsmedia för tillfället"
+msgstr "Nemoj sada generirati medij oporavka"
 
 #. Type: text
 #. Description
@@ -187,47 +180,5 @@ msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
-"Återställningsmedia kan genereras senare genom att välja verktyget från "
-"System-menyn."
-
-#~ msgid "DVD+/-RW Disc"
-#~ msgstr "DVD+/-RW-skiva"
-
-#~ msgid "<activity placeholder>"
-#~ msgstr "<platshållare för aktivitet>"
-
-#~ msgid "Dell Recovery Media Creator"
-#~ msgstr "Skapa återställningsmedia för Dell"
-
-#~ msgid "Cancel Recovery Media Creator"
-#~ msgstr "Avbryt skapandet av återställningsmedia"
-
-#~ msgid "USB Flash Drive"
-#~ msgstr "USB-enhet"
-
-#~ msgid "Retry burn?"
-#~ msgstr "Bränn igen?"
-
-#~ msgid "Opening Burner"
-#~ msgstr "Öppnar brännare"
-
-#~ msgid "Media Type: "
-#~ msgstr "Mediatyp: "
-
-#~ msgid "Welcome"
-#~ msgstr "Välkommen"
-
-#~ msgid "Confirm Selections"
-#~ msgstr "Bekräfta"
-
-#~ msgid "Choose Media Type"
-#~ msgstr "Välj mediatyp"
-
-#~ msgid "Recovery Media Creation Process Complete"
-#~ msgstr "Återställningsmediat är färdigt"
-
-#~ msgid "Recovery Partition: "
-#~ msgstr "Återställningspartition: "
-
-#~ msgid "File Name: "
-#~ msgstr "Filnamn: "
+"Medij oporavka se može generirati kasnije, odabirom alata iz izbornika "
+"Sustav."

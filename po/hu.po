@@ -7,156 +7,162 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-01-19 11:06-0600\n"
-"PO-Revision-Date: 2010-01-26 14:32+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-03-19 01:59-0500\n"
+"PO-Revision-Date: 2010-03-19 01:09+0000\n"
+"Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-27 04:46+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
 msgid "Invalid utility partition"
-msgstr "Érvénytelen \"utility\" partíció"
+msgstr "Érvénytelen szervizpartíció"
 
 #: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
 msgstr ""
+" a parancssori paraméterekben. Visszatérés a DeviceKit vagy HAL alapú "
+"felismeréshez."
 
 #: ../Dell/recovery_frontend.py:109
 msgid "Invalid recovery partition"
-msgstr "Érvénytelen \"recovery\" partíció"
+msgstr "Érvénytelen helyreállítási partíció"
 
-#: ../Dell/recovery_frontend.py:164
+#: ../Dell/recovery_frontend.py:136 ../Dell/recovery_frontend.py:185
 msgid "Permission Denied"
-msgstr "Hozzáférés megtagadva."
+msgstr "Hozzáférés megtagadva"
 
-#: ../Dell/recovery_frontend.py:178
+#: ../Dell/recovery_frontend.py:199
 msgid "Opening Burner"
 msgstr "Író megnyitása"
 
-#: ../Dell/recovery_frontend.py:192
+#: ../Dell/recovery_frontend.py:213
 msgid "Recovery Media Creation Process Complete"
-msgstr "Visszaállító média létrehozó folyamat befejeződött"
+msgstr "A helyreállító adathordozó létrehozása kész"
 
-#: ../Dell/recovery_frontend.py:193
+#: ../Dell/recovery_frontend.py:214
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
+"Ha másik példányt is szeretne archiválni, akkor az előállított lemezképet a "
+"következő néven találja:\n"
 
-#: ../Dell/recovery_frontend.py:213
+#: ../Dell/recovery_frontend.py:234
 msgid "Cannot connect to dbus"
-msgstr "Kapcsolódási hiba a dbus-ra"
+msgstr "Nem sikerült kapcsolódni a D-Bushoz"
 
-#: ../Dell/recovery_frontend.py:303
+#: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
-msgstr "Üdvözöljük!"
+msgstr "Üdvözöljük"
 
-#: ../Dell/recovery_frontend.py:307
+#: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
-msgstr "Válassza ki a média típusát"
+msgstr "Válassza ki az adathordozó típusát"
 
-#: ../Dell/recovery_frontend.py:345 ../gtk/builder.ui.h:16
+#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
 msgid "ISO Image"
-msgstr "ISO Lemezkép"
-
-#: ../Dell/recovery_frontend.py:348
-msgid "Utility Partition: "
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:350
-msgid "Recovery Partition: "
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:351
-msgid "Media Type: "
-msgstr "Média típusa "
-
-#: ../Dell/recovery_frontend.py:352
-msgid "File Name: "
-msgstr "Fájlnév "
+msgstr "ISO lemezkép"
 
 #: ../Dell/recovery_frontend.py:357
+msgid "Media Type: "
+msgstr "Adathordozó típusa: "
+
+#: ../Dell/recovery_frontend.py:359
+msgid "Utility Partition: "
+msgstr "Szervizpartíció: "
+
+#: ../Dell/recovery_frontend.py:359 ../Dell/recovery_frontend.py:364
+msgid "Included"
+msgstr "Beleértve"
+
+#: ../Dell/recovery_frontend.py:362 ../Dell/recovery_frontend.py:364
+msgid "Recovery Partition: "
+msgstr "Helyreállító partíció: "
+
+#: ../Dell/recovery_frontend.py:370
 msgid "Confirm Selections"
-msgstr "Kiválasztások megerősítése"
+msgstr "Erősítse meg választásait"
 
-#: ../Dell/recovery_backend.py:440
+#: ../Dell/recovery_backend.py:392
 msgid "Adding in base image"
-msgstr ""
+msgstr "Hozzáadás az alapvető lemezképhez"
 
-#: ../Dell/recovery_backend.py:446
+#: ../Dell/recovery_backend.py:398
 msgid "Overlaying FID content"
-msgstr ""
+msgstr "FID-tartalom elhelyezése"
 
-#: ../Dell/recovery_backend.py:457
+#: ../Dell/recovery_backend.py:413
 msgid "Inserting FISH packages"
-msgstr ""
+msgstr "FISH-csomagok beszúrása"
 
-#: ../Dell/recovery_backend.py:579
+#: ../Dell/recovery_backend.py:562
 msgid "Building Dell Utility Partition"
-msgstr ""
+msgstr "Dell szervizpartíció összeállítása"
 
-#: ../Dell/recovery_backend.py:626
+#: ../Dell/recovery_backend.py:609
 msgid "Regenerating UUID / Rebuilding initramfs"
-msgstr ""
+msgstr "UUID előállítása / initramfs újjáépítése"
 
-#: ../Dell/recovery_backend.py:668
+#: ../Dell/recovery_backend.py:651
 msgid "Building ISO"
 msgstr "ISO létrehozása"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create/Assemble Dell Recovery ISO"
-msgstr ""
+msgstr "Dell helyreállító ISO létrehozása/összeállítása"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
-msgstr ""
+msgstr "BTO-verzió lekérdezése"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:3
 msgid "Query ISO Information"
-msgstr ""
+msgstr "ISO-információk lekérdezése"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
 msgid "Request closing the backend"
-msgstr ""
+msgstr "A háttérprogram bezárásának kérése"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "System policy prevents closing processes without notice"
 msgstr ""
+"A rendszer házirendje megakadályozza a folyamatok figyelmeztetés nélküli "
+"bezárását"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"
-msgstr "A rendszer jogok nem engedélyezik raw meghajtók olvasásást"
+msgstr "A rendszer házirendje megakadályozza a nyers eszközök olvasását"
 
 #: ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/recovery_media_creator.ui.h:6
 msgid "Dell Recovery Media Creator"
-msgstr "Dell Recovery Media Creator"
+msgstr "Dell helyreállító-média készítő"
 
 #: ../gtk/recovery_media_creator.ui.h:1
 msgid "<activity placeholder>"
-msgstr ""
+msgstr "<tevékenység-helykitöltő>"
 
 #: ../gtk/recovery_media_creator.ui.h:2
 msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
 msgstr ""
-"Már van iyen képfájl (lehetséges hogy egy előző futtatásból). El szeretné "
-"távolítani ezt a régi másolatot és újragenerálni a képfájlt?"
+"Már létezik lemezkép, valószínűleg egy előző futtatás eredményeként. El "
+"szeretné távolítani ezt a régi másolatot, és újra előállítani a lemezképet?"
 
 #: ../gtk/recovery_media_creator.ui.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
-msgstr "Biztos hogy megszakítja a Recovery Media létrehozás folyamatát?"
+msgstr "Biztos, hogy megszakítja a helyreállító adathordozó létrehozását?"
 
 #: ../gtk/recovery_media_creator.ui.h:4
 msgid "Cancel Recovery Media Creator"
-msgstr "Recovery Media Creator leállítása"
+msgstr "Helyreállító adathordozó előállításának megszakítása"
 
 #: ../gtk/recovery_media_creator.ui.h:5
 msgid "DVD+/-RW Disc"
@@ -164,7 +170,7 @@ msgstr "DVD+/-RW lemez"
 
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create ISO image"
-msgstr "Nincs média, ISO képfájl létrehozása"
+msgstr "Nincs adathordozó, ISO-lemezkép létrehozása"
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid ""
@@ -172,22 +178,33 @@ msgid ""
 "the computer to its factory shipped state.  You will have the option to "
 "create an USB key or DVD image."
 msgstr ""
-"Ez az alkalmazás létrehozza az OS Recovery Media-t, amely a számítógépet "
-"gyári állapotára állítja vissza. Választhat USB meghajtót vagy DVD képfájlt."
+"Ez az alkalmazás létrehoz egy rendszer-helyreállító adathordozót, amellyel a "
+"számítógépet a gyári állapotára állíthatja vissza. Választhat USB-meghajtó "
+"vagy DVD-lemezkép létrehozása között."
 
 #: ../gtk/recovery_media_creator.ui.h:9
-msgid "USB Flash Drive"
-msgstr "USB Flash Drive"
+msgid "This requires a USB flash drive with approximately 2GB free."
+msgstr "Ehhez egy USB-kulcsra lesz szükség, körülbelül 2GB szabad hellyel."
 
 #: ../gtk/recovery_media_creator.ui.h:10
+msgid "This requires writable DVD media."
+msgstr "Ehhez egy írható DVD-re lesz szükség."
+
+#: ../gtk/recovery_media_creator.ui.h:11
+msgid "USB Flash Drive"
+msgstr "USB Flash-meghajtó"
+
+#: ../gtk/recovery_media_creator.ui.h:12
 msgid "Version:"
-msgstr ""
+msgstr "Verzió:"
 
 #: ../gtk/builder.ui.h:1
 msgid ""
 "\n"
 "\n"
 msgstr ""
+"\n"
+"\n"
 
 #: ../gtk/builder.ui.h:4
 msgid ""
@@ -204,31 +221,31 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:8
 msgid "Choose Image"
-msgstr ""
+msgstr "Válasszon lemezképet"
 
 #: ../gtk/builder.ui.h:9
 msgid "Detected Recovery Partition"
-msgstr ""
+msgstr "Helyreállító partíció észlelve"
 
 #: ../gtk/builder.ui.h:10
 msgid "Extracted Directory"
-msgstr ""
+msgstr "Kibontott könyvtár"
 
 #: ../gtk/builder.ui.h:11
 msgid "FID GIT Tree"
-msgstr ""
+msgstr "FID GIT fa"
 
 #: ../gtk/builder.ui.h:12
 msgid "FID framework built into BTO image"
-msgstr ""
+msgstr "BTO-lemezképbe épített FID-keretrendszer"
 
 #: ../gtk/builder.ui.h:13
 msgid "Fetch/Update GIT Tree"
-msgstr ""
+msgstr "GIT fa lekérése/frissítése"
 
 #: ../gtk/builder.ui.h:14
 msgid "GIT Tags/Branches:"
-msgstr ""
+msgstr "GIT címkék/ágak:"
 
 #: ../gtk/builder.ui.h:15
 msgid "GIT Tree Status"
@@ -263,41 +280,49 @@ msgid ""
 "the framework built into that image."
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:1
+#: ../ubiquity/stepRecoveryMedia.ui.h:1
+msgid "<b>ERROR:</b> This media is only valid on Dell systems."
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
-"<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
-msgstr ""
-
-#: ../oem-config/stepRecoveryMedia.ui.h:2
-msgid "<b>Note:</b> This requires writable DVD media."
-msgstr ""
-
-#: ../oem-config/stepRecoveryMedia.ui.h:3
-msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr ""
-
-#: ../oem-config/stepRecoveryMedia.ui.h:4
-msgid ""
-"Dell Recovery Media can be used to restore your system to the same state as "
-"when it was first shipped to you.\n"
 "<b>It is highly recommended that you generate media and store it in a safe "
 "place.</b>"
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid ""
+"<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
+msgid "<b>Note:</b> This requires writable DVD media."
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
+msgid "<big><b>Create Dell Recovery Media?</b></big>"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
+msgid ""
+"Dell Recovery Media can be used to restore your system to the same state as "
+"when it was first shipped to you."
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
 msgstr ""

@@ -1,16 +1,16 @@
-# German translation for dell-recovery
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Croatian translation for dell-recovery
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the dell-recovery package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-19 01:59-0500\n"
-"PO-Revision-Date: 2010-03-18 16:12+0000\n"
-"Last-Translator: Steffen Eibicht <Unknown>\n"
-"Language-Team: German <de@li.org>\n"
+"PO-Revision-Date: 2010-03-18 19:50+0000\n"
+"Last-Translator: Saša Teković <Unknown>\n"
+"Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,160 +19,156 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:103
 msgid "Invalid utility partition"
-msgstr "Ungültige Werkzeugpartition"
+msgstr "Kriva uslužna particija"
 
 #: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
 msgstr ""
-" in Befehlszeilenargumenten. Auf DeviceKit oder HAL-basierte Erkennung "
-"zurückgreifen."
+" u argumentima naredbene linije.  Povratak na detekciju temeljenu na "
+"DeviceKitu ili HAL-u."
 
 #: ../Dell/recovery_frontend.py:109
 msgid "Invalid recovery partition"
-msgstr "Ungültige Wiederherstellungspartition"
+msgstr "Kriva particija oporavka"
 
 #: ../Dell/recovery_frontend.py:136 ../Dell/recovery_frontend.py:185
 msgid "Permission Denied"
-msgstr "Zugriff verweigert"
+msgstr "Pristup odbijen"
 
 #: ../Dell/recovery_frontend.py:199
 msgid "Opening Burner"
-msgstr "\"CD-Brenner öffnen"
+msgstr "Otvaranje snimača"
 
 #: ../Dell/recovery_frontend.py:213
 msgid "Recovery Media Creation Process Complete"
-msgstr "Recovery Media Erstellungsvorgang fertig"
+msgstr "Proces izrade medija oporavka dovršen"
 
 #: ../Dell/recovery_frontend.py:214
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
-"Wenn Sie eine weitere Kopie archivieren möchten: das erzeugte Abbild wurde "
-"unter folgendem Dateinamen gespeichert:\n"
+"Ako želite snimiti još jednu kopiju, generirana slika je spremljena pod "
+"nazivom:\n"
 
 #: ../Dell/recovery_frontend.py:234
 msgid "Cannot connect to dbus"
-msgstr "Keine Verbindung zum D-Bus"
+msgstr "Spajanje na dbus nije moguće"
 
 #: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
-msgstr "Willkommen"
+msgstr "Dobrodošli"
 
 #: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
-msgstr "Medientyp wählen"
+msgstr "Odaberite vrstu medija"
 
 #: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
 msgid "ISO Image"
-msgstr "ISO-Abbild"
+msgstr "ISO slika"
 
 #: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
-msgstr "Medientyp: "
+msgstr "Vrsta medija: "
 
 #: ../Dell/recovery_frontend.py:359
 msgid "Utility Partition: "
-msgstr "Dienstpartition: "
+msgstr "Uslužna particija: "
 
 #: ../Dell/recovery_frontend.py:359 ../Dell/recovery_frontend.py:364
 msgid "Included"
-msgstr "Enthalten"
+msgstr "Obuhvaćeno"
 
 #: ../Dell/recovery_frontend.py:362 ../Dell/recovery_frontend.py:364
 msgid "Recovery Partition: "
-msgstr "Wiederherstellungspartition: "
+msgstr "Particija oporavka: "
 
 #: ../Dell/recovery_frontend.py:370
 msgid "Confirm Selections"
-msgstr "Auswahloption bestätigen"
+msgstr "Potvrdi odabir"
 
 #: ../Dell/recovery_backend.py:392
 msgid "Adding in base image"
-msgstr "Dem Basisabbild hinzufügen"
+msgstr "Dodavanje u osnovnu sliku"
 
 #: ../Dell/recovery_backend.py:398
 msgid "Overlaying FID content"
-msgstr "FID-Inhalt überlagern"
+msgstr "Prekrivanje FID sadržaja"
 
 #: ../Dell/recovery_backend.py:413
 msgid "Inserting FISH packages"
-msgstr "FISH-Pakete einfügen"
+msgstr "Umetanje FISH paketa"
 
 #: ../Dell/recovery_backend.py:562
 msgid "Building Dell Utility Partition"
-msgstr "Dell Werkzeugpartition aufbauen"
+msgstr "Izgradnja Dell uslužne particije"
 
 #: ../Dell/recovery_backend.py:609
 msgid "Regenerating UUID / Rebuilding initramfs"
-msgstr "UUID neu erstellen/ initramfs wiederherstellen"
+msgstr "Regeneriranje UUID-a / ponovna izgradnja initramfsa"
 
 #: ../Dell/recovery_backend.py:651
 msgid "Building ISO"
-msgstr "Erzeuge ISO"
+msgstr "Izgradnja ISO-a"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create/Assemble Dell Recovery ISO"
-msgstr "Dell Recovery ISO erstellen/ bauen"
+msgstr "Stvori/Sastavi Dell ISO oporavka"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
-msgstr "BTO Version abfragen"
+msgstr "Upit BTO inačice"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:3
 msgid "Query ISO Information"
-msgstr "ISO Information abfragen"
+msgstr "Upit ISO informacija"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
 msgid "Request closing the backend"
-msgstr "Das Schließen des Backends anfordern"
+msgstr "Zatraži zatvaranje pozadinskog sustava"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "System policy prevents closing processes without notice"
-msgstr ""
-"Systemrichtlinie verhindert das Schließen von Prozessen ohne Benachrichigung"
+msgstr "Politika sustava sprječava zatvaranje procesa bez najave"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"
-msgstr "Systemrichtlinie verhindert das Lesen von Raw-Devices"
+msgstr "Politika sustava sprječava čitanje raw uređaja"
 
 #: ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/recovery_media_creator.ui.h:6
 msgid "Dell Recovery Media Creator"
-msgstr "Dell Media Creator-Wiederherstellungsprogramm"
+msgstr "Stvaratelj Dell medija oporavka"
 
 #: ../gtk/recovery_media_creator.ui.h:1
 msgid "<activity placeholder>"
-msgstr "<Aktivitätsplatzhalter>"
+msgstr "<activity placeholder>"
 
 #: ../gtk/recovery_media_creator.ui.h:2
 msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
 msgstr ""
-"Ein existierendes Abbild wurde gefunden (wahrscheinlich von einer vorherigen "
-"Ausführung). Möchten Sie diese alte Kopie löschen und das Abbild neu "
-"erstellen?"
+"Pronađena je postojeća slika (vjerojatno od prethodnog pokretanja). Želite "
+"li obrisati staru sliku i stvoriti novu?"
 
 #: ../gtk/recovery_media_creator.ui.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
-msgstr ""
-"Sind Sie sich sicher, dass Sie den Erstellungsprozess des "
-"Wiederherstellungsdatenträgers abbrechen möchten?"
+msgstr "Jeste li sigurni da želite otkazati proces izrade medija oporavka?"
 
 #: ../gtk/recovery_media_creator.ui.h:4
 msgid "Cancel Recovery Media Creator"
-msgstr "Recovery Media Creator abbrechen"
+msgstr "Otkaži stvaratelja medija oporavka"
 
 #: ../gtk/recovery_media_creator.ui.h:5
 msgid "DVD+/-RW Disc"
-msgstr "DVD+/-RW Disk"
+msgstr "DVD+/-RW medij"
 
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create ISO image"
-msgstr "Kein Medium, erzeuge ISO-Abbild"
+msgstr "Bez medija, stvori ISO sliku"
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid ""
@@ -180,27 +176,25 @@ msgid ""
 "the computer to its factory shipped state.  You will have the option to "
 "create an USB key or DVD image."
 msgstr ""
-"Diese Anwendung wird eine OS Rettungs-CD erstellen, die zur "
-"Wiederherstellung des Computers auf die Werkseinstellungen verwendet werden "
-"kann. Sie haben die Möglichkeit, einen USB-Stick oder ein DVD-Image zu "
-"erstellen."
+"Aplikacija će stvoriti medij oporavka OS-a, koji se može koristiti za "
+"vraćanje računala u tvorničko stanje. Imat ćete mogućnost izrade slike za "
+"USB memoriju ili DVD."
 
 #: ../gtk/recovery_media_creator.ui.h:9
 msgid "This requires a USB flash drive with approximately 2GB free."
-msgstr ""
-"Dies erfordert ein USB Flash-Laufwerk mit ca. 2 GB freiem Speicherplatz."
+msgstr "Ovo zahtijeva USB memoriju s oko 2 GB slobodnog prostora."
 
 #: ../gtk/recovery_media_creator.ui.h:10
 msgid "This requires writable DVD media."
-msgstr "Dies erfordert ein beschreibbares DVD-Medium."
+msgstr "Ovo zahtijeva zapisivi DVD medij."
 
 #: ../gtk/recovery_media_creator.ui.h:11
 msgid "USB Flash Drive"
-msgstr "USB Flash-Laufwerk"
+msgstr "USB memorija"
 
 #: ../gtk/recovery_media_creator.ui.h:12
 msgid "Version:"
-msgstr "Version:"
+msgstr "Inačica:"
 
 #: ../gtk/builder.ui.h:1
 msgid ""
@@ -216,76 +210,74 @@ msgid ""
 "This window will close automatically when the process is complete. \n"
 "<b>NOTE:</b> Please be patient, the initial fetch may take a while."
 msgstr ""
-"<b>GIT wird geholt. </b>\n"
-"Dieses Fenster wird sich nach Abschluss des Vorgangs automatisch schließen. "
-"\n"
-"<b>BEACHTEN SIE:</b> Bitte haben Sie etwas Geduld, der erste Abholvorgang "
-"kann einige Zeit in Anspruch nehmen."
+"<b>U tijeku je GIT fetch.  </b>\n"
+"Ovaj će se prozor zatvoriti automatski nakon što proces završi.\n"
+"<b>NAPOMENA:</b> Molim budite strpljivi, inicijalno preuzimanje može "
+"potrajati neko vrijeme."
 
 #: ../gtk/builder.ui.h:7
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
 msgstr ""
-"Alle zusätzlichen Treiber oder Anwendungen, die in das Abbild integriert "
-"werden sollen, können hier hinzugefügt werden."
+"Bilo koji dodatni upravljački programi ili aplikacije koje bi se trebale "
+"integrirati u sliku, mogu se dodati ovdje."
 
 #: ../gtk/builder.ui.h:8
 msgid "Choose Image"
-msgstr "Abbild wählen"
+msgstr "Odaberite sliku"
 
 #: ../gtk/builder.ui.h:9
 msgid "Detected Recovery Partition"
-msgstr "Erkannte Wiederherstellungspartition"
+msgstr "Pronađena particija oporavka"
 
 #: ../gtk/builder.ui.h:10
 msgid "Extracted Directory"
-msgstr "Extrahiertes Verzeichnis"
+msgstr "Raspakirani direktorij"
 
 #: ../gtk/builder.ui.h:11
 msgid "FID GIT Tree"
-msgstr "FID GIT Baum"
+msgstr "FID GIT stablo"
 
 #: ../gtk/builder.ui.h:12
 msgid "FID framework built into BTO image"
-msgstr "FID-Framework, in das BTO-Abbild eingebaut"
+msgstr "FID okvir ugrađen u BTO sliku"
 
 #: ../gtk/builder.ui.h:13
 msgid "Fetch/Update GIT Tree"
-msgstr "GIT-Baum abholen/ aktualisieren"
+msgstr "Dohvati/ažuriraj GIT stablo"
 
 #: ../gtk/builder.ui.h:14
 msgid "GIT Tags/Branches:"
-msgstr "GIT Tags/ Zweige:"
+msgstr "GIT oznake/ogranci:"
 
 #: ../gtk/builder.ui.h:15
 msgid "GIT Tree Status"
-msgstr "Status GIT-Baum"
+msgstr "Stanje GIT stabla"
 
 #: ../gtk/builder.ui.h:17
 msgid "Install git"
-msgstr "git installieren"
+msgstr "Instaliraj git"
 
 #: ../gtk/builder.ui.h:18
 msgid "Selected Image Details:"
-msgstr "Ausgewählte Abbild-Details:"
+msgstr "Detalji odabrane slike:"
 
 #: ../gtk/builder.ui.h:19
 msgid "Selected Overlay Details:"
-msgstr "Ausgewählte Overlay-Details:"
+msgstr "Detalji odabranog prekrivanja:"
 
 #: ../gtk/builder.ui.h:20
 msgid "Show Details"
-msgstr "Details anzeigen"
+msgstr "Prikaži detalje"
 
 #: ../gtk/builder.ui.h:21
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
 msgstr ""
-"Das Basisabbild des Betriebssystems liefert die Mehrzahl des Inhalts eines "
-"BTO-Abbilds. Es kann sich um ein Abbild eines Original-Betriebssystems "
-"(Vanilla OS) handeln oder um ein existierendes BTO-Abbild."
+"Slika osnovnog sustava osigurava većinu sadržaja za BTO sliku. Ona može biti "
+"slika Vanilla OS-a ili postojeća BTO slika."
 
 #: ../gtk/builder.ui.h:22
 msgid ""
@@ -293,92 +285,59 @@ msgid ""
 "the event that you are generating from an existing BTO image, you can use "
 "the framework built into that image."
 msgstr ""
-"Das FID-Framework ist der erste Teil eines Vanilla-Abbilds, der überlagert "
-"wird. Falls Sie aus einem existierenden BTO-Abbild erstellen, können Sie das "
-"Framework, das in dieses Abbild gebaut wurde, benutzen."
+"FID okvir je prvi dio koji preklapa dio vrha Vanilla slike. U slučaju da "
+"generiranje obavljate iz postojeće BTO slike, možete koristiti okvir ugrađen "
+"u tu sliku."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
-msgstr "<b>FEHLR:</b> Dieses Medium ist nur auf Dell-Systemen gültig."
+msgstr "<b>GREŠKA:</b> Ovaj medij je važeći samo na Dellovim sustavima."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
 "<b>It is highly recommended that you generate media and store it in a safe "
 "place.</b>"
 msgstr ""
-"<b>Es wird dringend geraten, das Medium zu erstellen und es an einem "
-"sicheren Ort abspeichern.</b>"
+"<b>Preporuka je da generirate medij i spremite ga na sigurno mjesto.</b>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
-"<b>Beachten Sie:</b> Dies erfordert ein USB Flash-Laufwerk mit ca. 2 GB "
-"freiem Speicherplatz."
+"<b>Napomena:</b> Ovo zahtijeva USB memoriju s oko 2 GB slobodnog prostora."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid "<b>Note:</b> This requires writable DVD media."
-msgstr "<b>Beachten Sie:</b> Dies erfordert ein beschreibbares DVD-Medium."
+msgstr "<b>Napomena:</b> Ovo zahtijeva zapisivi DVD medij."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr "<big><b>Dell Wiederherstellungsmedium erstellen?</b></big>"
+msgstr "<big><b>Stvoriti Dell medij oporavka?</b></big>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
-"Dell Wiederherstellungsmedien können zum Wiederherstellen Ihres Systems (in "
-"den Zustand, in dem es zu Ihnen versandt wurde) benutzt werden."
+"Dell medij oporavka se može upotrijebiti za vraćanje sustava u prvotno "
+"stanje kakvo je bilo kada vam je on bio isporučen."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
-msgstr "Wiederherstellungsmedium jetzt nicht erstellen"
+msgstr "Nemoj sada generirati medij oporavka"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
-"Das Wiederherstellungsmedium kann später erstellt werden, indem Sie das "
-"Werkzeug im System-Menü wählen."
+"Medij oporavka se može generirati kasnije, odabirom alata iz izbornika "
+"Sustav."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
-msgstr "Wiederherstellungsmedium auf DVD speichern"
+msgstr "Spremi medij oporavka na DVD"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
-msgstr ""
-"Wiederherstellungsmedium auf einem externen USB Flash-Laufwerk speichern"
-
-#~ msgid "File Name: "
-#~ msgstr "Dateiname: "
-
-#~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
-#~ "present to function."
-#~ msgstr ""
-#~ "Dieses Programm benötigt eine vorhandene Dienstprogramm- und eine "
-#~ "Linuxwiederherstellungspartition."
-
-#~ msgid "Choose Target Directory"
-#~ msgstr "Zielverzeichnis auswählen"
-
-#~ msgid "OS Release: "
-#~ msgstr "Betriebssystemversion: "
-
-#~ msgid "Generating UUID"
-#~ msgstr "Erzeuge UUID"
-
-#~ msgid "Retry burn?"
-#~ msgstr "Brennen erneut versuchen?"
-
-#~ msgid "Select a directory for the ISO"
-#~ msgstr "Wähle Verzeichnis für ISO-Abbild"
-
-#~ msgid "The media burn process failed.  Would you like to retry?"
-#~ msgstr ""
-#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch einmal "
-#~ "versuchen?"
+msgstr "Spremi medij oporavka na vanjsku USB memoriju"

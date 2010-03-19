@@ -7,105 +7,109 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-15 12:31-0600\n"
-"PO-Revision-Date: 2010-02-15 15:17+0000\n"
-"Last-Translator: Emilien Klein <emilien+ubuntu@klein.st>\n"
+"POT-Creation-Date: 2010-03-19 01:59-0500\n"
+"PO-Revision-Date: 2010-03-19 07:36+0000\n"
+"Last-Translator: Hannie Dumoleyn <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-16 04:54+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
 msgid "Invalid utility partition"
-msgstr "Ongeldige hulpmiddel partitie"
+msgstr "Ongeldige schijfpartitie"
 
 #: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
 msgstr ""
+" in opdrachtregelargumenten. Het systeem valt terug op DeviceKit of op HAL "
+"gebaseerde detectie."
 
 #: ../Dell/recovery_frontend.py:109
 msgid "Invalid recovery partition"
 msgstr "Ongeldige herstelpartitie"
 
-#: ../Dell/recovery_frontend.py:164
+#: ../Dell/recovery_frontend.py:136 ../Dell/recovery_frontend.py:185
 msgid "Permission Denied"
 msgstr "Toegang geweigerd"
 
-#: ../Dell/recovery_frontend.py:178
+#: ../Dell/recovery_frontend.py:199
 msgid "Opening Burner"
 msgstr "Brander openen"
 
-#: ../Dell/recovery_frontend.py:192
+#: ../Dell/recovery_frontend.py:213
 msgid "Recovery Media Creation Process Complete"
 msgstr "Aanmaken herstelmedia gereed"
 
-#: ../Dell/recovery_frontend.py:193
+#: ../Dell/recovery_frontend.py:214
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
+"Wilt u nog een kopie bewaren, de aangemaakte image is opgeslagen onder de "
+"bestandsnaam:\n"
 
-#: ../Dell/recovery_frontend.py:213
+#: ../Dell/recovery_frontend.py:234
 msgid "Cannot connect to dbus"
 msgstr "Kan geen verbinding maken met dbus"
 
-#: ../Dell/recovery_frontend.py:303
+#: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
 msgstr "Welkom"
 
-#: ../Dell/recovery_frontend.py:307
+#: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
 msgstr "Selecteer type media"
 
-#: ../Dell/recovery_frontend.py:345 ../gtk/builder.ui.h:16
+#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
 msgid "ISO Image"
-msgstr "ISO-beeldbestand"
+msgstr "ISO-image"
 
-#: ../Dell/recovery_frontend.py:348
-msgid "Utility Partition: "
-msgstr "Utility-partitie: "
-
-#: ../Dell/recovery_frontend.py:350
-msgid "Recovery Partition: "
-msgstr "Herstelpartitie: "
-
-#: ../Dell/recovery_frontend.py:351
+#: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
 msgstr "Type media: "
 
-#: ../Dell/recovery_frontend.py:352
-msgid "File Name: "
-msgstr "Bestandsnaam: "
+#: ../Dell/recovery_frontend.py:359
+msgid "Utility Partition: "
+msgstr "Utility-partitie: "
 
-#: ../Dell/recovery_frontend.py:357
+#: ../Dell/recovery_frontend.py:359 ../Dell/recovery_frontend.py:364
+msgid "Included"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:362 ../Dell/recovery_frontend.py:364
+msgid "Recovery Partition: "
+msgstr "Herstelpartitie: "
+
+#: ../Dell/recovery_frontend.py:370
 msgid "Confirm Selections"
 msgstr "Bevestig uw keuze"
 
-#: ../Dell/recovery_backend.py:443
+#: ../Dell/recovery_backend.py:392
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:449
+#: ../Dell/recovery_backend.py:398
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:460
+#: ../Dell/recovery_backend.py:413
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:607
+#: ../Dell/recovery_backend.py:562
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:654
+#: ../Dell/recovery_backend.py:609
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:696
+#: ../Dell/recovery_backend.py:651
 msgid "Building ISO"
 msgstr "ISO wordt aangemaakt"
 
@@ -177,10 +181,18 @@ msgstr ""
 "keuze tussen een usb-stick of een dvd-beeldbestand."
 
 #: ../gtk/recovery_media_creator.ui.h:9
+msgid "This requires a USB flash drive with approximately 2GB free."
+msgstr ""
+
+#: ../gtk/recovery_media_creator.ui.h:10
+msgid "This requires writable DVD media."
+msgstr ""
+
+#: ../gtk/recovery_media_creator.ui.h:11
 msgid "USB Flash Drive"
 msgstr "Usb-stick"
 
-#: ../gtk/recovery_media_creator.ui.h:10
+#: ../gtk/recovery_media_creator.ui.h:12
 msgid "Version:"
 msgstr "Versie:"
 
@@ -266,45 +278,56 @@ msgid ""
 "the framework built into that image."
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:1
+#: ../ubiquity/stepRecoveryMedia.ui.h:1
+msgid "<b>ERROR:</b> This media is only valid on Dell systems."
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:2
+msgid ""
+"<b>It is highly recommended that you generate media and store it in a safe "
+"place.</b>"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:3
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 "<b>Opmerking:</b> Dit vereist een USB flash drive met ongeveer 2 GB vrij."
 
-#: ../oem-config/stepRecoveryMedia.ui.h:2
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>Opmerking:</b> Dit vereist een beschrijfbare DVD schrijf."
 
-#: ../oem-config/stepRecoveryMedia.ui.h:3
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
-"when it was first shipped to you.\n"
-"<b>It is highly recommended that you generate media and store it in a safe "
-"place.</b>"
+"when it was first shipped to you."
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
 msgstr ""
 
-#: ../oem-config/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
 msgstr ""
+
+#~ msgid "File Name: "
+#~ msgstr "Bestandsnaam: "
 
 #~ msgid ""
 #~ "This tool requires that a Utility Partition and Linux Recovery partition are "

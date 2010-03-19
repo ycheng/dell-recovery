@@ -7,27 +7,172 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-02-09 12:09-0600\n"
-"PO-Revision-Date: 2010-03-09 03:05+0000\n"
-"Last-Translator: Eleanor Chen <chenyueg@gmail.com>\n"
+"POT-Creation-Date: 2010-03-12 16:03-0600\n"
+"PO-Revision-Date: 2010-03-19 01:09+0000\n"
+"Last-Translator: Aron Xu <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-10 05:12+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
 #. Description
-#: ../templates:4001
+#: ../templates:6001
 msgid "Building Dell Recovery Media..."
 msgstr "创建 Dell 恢复介质..."
 
 #. Type: text
 #. Description
-#: ../templates:6001
+#: ../templates:8001
 msgid "Opening Burner..."
 msgstr "打开刻录机..."
+
+#. Type: text
+#. Description
+#: ../templates:9001
+msgid "Recovery Type"
+msgstr "恢复类型"
+
+#. Type: text
+#. Description
+#: ../templates:10001
+msgid ""
+"This Dell Recovery Media can be used to restore the original factory "
+"software."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:11001
+msgid ""
+"It is recommended you back up all important data before running this tool."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:12001
+msgid "Restore Linux OS partitions"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:13001
+msgid "This will rebuild all OS and swap partitions to factory defaults."
+msgstr ""
+
+#. Type: text
+#. Description
+#. Type: text
+#. Description
+#: ../templates:14001 ../templates:17001
+msgid "WARNING: All personal files and changes will be lost."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:15001
+msgid "Restore entire hard drive."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:16001
+msgid "This will rebuild all utility, recovery, and OS partitions."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:18001
+msgid "Restore only Linux OS partition."
+msgstr "仅欢迎 Linux 系统分区。"
+
+#. Type: text
+#. Description
+#: ../templates:19001
+msgid "This option allows you to resize any existing partitions."
+msgstr ""
+
+#. Type: text
+#. Description
+#. Type: text
+#. Description
+#: ../templates:20001 ../templates:32001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:21001
+msgid "This window will close automatically when the process is complete. "
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:22001
+msgid "NOTE: Please be patient, this may take a while."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:23001
+msgid "Create Dell Recovery Media?"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:24001
+msgid ""
+"Dell Recovery Media can be used to restore your system to the same state as "
+"when it was first shipped to you."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:25001
+msgid ""
+"It is highly recommended that you generate media and store it in a safe "
+"place."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:26001
+msgid "Save recovery media to an external USB flash drive"
+msgstr "保存恢复盘到外接的 USB 闪存盘"
+
+#. Type: text
+#. Description
+#: ../templates:27001
+msgid "Note: This requires a USB flash drive with approximately 2GB free."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:28001
+msgid "Save recovery media to DVD"
+msgstr "保存为 DVD 恢复盘"
+
+#. Type: text
+#. Description
+#: ../templates:29001
+msgid "Note: This requires writable DVD media."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:30001
+msgid "Don't generate recovery media at this time"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:31001
+msgid ""
+"Recovery Media can be generated later by choosing the tool from the System "
+"menu."
+msgstr ""
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW 光盘"
@@ -41,9 +186,6 @@ msgstr "打开刻录机..."
 #~ msgid "ISO Image"
 #~ msgstr "ISO 镜像"
 
-#~ msgid "Recovery Partition: "
-#~ msgstr "恢复分区 "
-
 #~ msgid "File Name: "
 #~ msgstr "文件名 "
 
@@ -52,12 +194,6 @@ msgstr "打开刻录机..."
 
 #~ msgid "Choose Target Directory"
 #~ msgstr "选择目标目录"
-
-#~ msgid "Welcome"
-#~ msgstr "欢迎使用"
-
-#~ msgid "Permission Denied"
-#~ msgstr "权限禁止"
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "无法连接到 dbus"
@@ -70,12 +206,6 @@ msgstr "打开刻录机..."
 
 #~ msgid "Invalid recovery partition"
 #~ msgstr "无效的恢复分区"
-
-#~ msgid "Media Type: "
-#~ msgstr "光盘类型： "
-
-#~ msgid "Choose Media Type"
-#~ msgstr "选择光盘类型"
 
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "系统策略阻止读取 raw 设备"
@@ -114,12 +244,6 @@ msgstr "打开刻录机..."
 
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr "光盘刻录失败。要重试吗？"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "无效的公用分区"
-
-#~ msgid "Utility Partition: "
-#~ msgstr "公用分区 "
 
 #~ msgid ""
 #~ "This tool requires that a Utility Partition and Linux Recovery partition are "
