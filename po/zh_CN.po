@@ -7,19 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-22 17:49-0600\n"
-"PO-Revision-Date: 2010-03-09 00:32+0000\n"
-"Last-Translator: Yiding He <yiding.he@gmail.com>\n"
+"POT-Creation-Date: 2010-03-19 01:59-0500\n"
+"PO-Revision-Date: 2010-03-18 23:53+0000\n"
+"Last-Translator: Aron Xu <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-10 05:12+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
 msgid "Invalid utility partition"
-msgstr "无效的公用分区"
+msgstr "无效的工具分区"
 
 #: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
 msgid ""
@@ -31,57 +31,57 @@ msgstr ""
 msgid "Invalid recovery partition"
 msgstr "无效的恢复分区"
 
-#: ../Dell/recovery_frontend.py:164
+#: ../Dell/recovery_frontend.py:136 ../Dell/recovery_frontend.py:185
 msgid "Permission Denied"
-msgstr "权限禁止"
+msgstr "权限不足"
 
-#: ../Dell/recovery_frontend.py:178
+#: ../Dell/recovery_frontend.py:199
 msgid "Opening Burner"
 msgstr "打开光盘刻录器"
 
-#: ../Dell/recovery_frontend.py:192
+#: ../Dell/recovery_frontend.py:213
 msgid "Recovery Media Creation Process Complete"
 msgstr "恢复光盘创建完成"
 
-#: ../Dell/recovery_frontend.py:193
+#: ../Dell/recovery_frontend.py:214
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:213
+#: ../Dell/recovery_frontend.py:234
 msgid "Cannot connect to dbus"
 msgstr "无法连接到 dbus"
 
-#: ../Dell/recovery_frontend.py:303
+#: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
-msgstr "欢迎使用"
+msgstr "欢迎"
 
-#: ../Dell/recovery_frontend.py:307
+#: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
-msgstr "选择光盘类型"
+msgstr "选择存储介质类型："
 
-#: ../Dell/recovery_frontend.py:345 ../gtk/builder.ui.h:16
+#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
 msgid "ISO Image"
 msgstr "ISO 镜像"
 
-#: ../Dell/recovery_frontend.py:348
-msgid "Utility Partition: "
-msgstr "公用分区 "
-
-#: ../Dell/recovery_frontend.py:350
-msgid "Recovery Partition: "
-msgstr "恢复分区 "
-
-#: ../Dell/recovery_frontend.py:351
-msgid "Media Type: "
-msgstr "光盘类型： "
-
-#: ../Dell/recovery_frontend.py:352
-msgid "File Name: "
-msgstr "文件名 "
-
 #: ../Dell/recovery_frontend.py:357
+msgid "Media Type: "
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:359
+msgid "Utility Partition: "
+msgstr "工具分区 "
+
+#: ../Dell/recovery_frontend.py:359 ../Dell/recovery_frontend.py:364
+msgid "Included"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:362 ../Dell/recovery_frontend.py:364
+msgid "Recovery Partition: "
+msgstr "还原分区： "
+
+#: ../Dell/recovery_frontend.py:370
 msgid "Confirm Selections"
 msgstr "确认选择"
 
@@ -91,21 +91,21 @@ msgstr ""
 
 #: ../Dell/recovery_backend.py:398
 msgid "Overlaying FID content"
-msgstr ""
+msgstr "覆盖 FID 内容"
 
-#: ../Dell/recovery_backend.py:409
+#: ../Dell/recovery_backend.py:413
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:556
+#: ../Dell/recovery_backend.py:562
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:603
+#: ../Dell/recovery_backend.py:609
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:645
+#: ../Dell/recovery_backend.py:651
 msgid "Building ISO"
 msgstr "制作 ISO 光盘镜像"
 
@@ -172,10 +172,18 @@ msgid ""
 msgstr "本程序用来创建操作系统恢复光盘，可以把计算机还原到出厂状态。你可以选择创建一个 USB 密钥，或者是 DVD 镜像。"
 
 #: ../gtk/recovery_media_creator.ui.h:9
+msgid "This requires a USB flash drive with approximately 2GB free."
+msgstr ""
+
+#: ../gtk/recovery_media_creator.ui.h:10
+msgid "This requires writable DVD media."
+msgstr ""
+
+#: ../gtk/recovery_media_creator.ui.h:11
 msgid "USB Flash Drive"
 msgstr "USB 闪存驱动器"
 
-#: ../gtk/recovery_media_creator.ui.h:10
+#: ../gtk/recovery_media_creator.ui.h:12
 msgid "Version:"
 msgstr ""
 
@@ -267,26 +275,28 @@ msgstr "<b>错误：</b>本介质只适合 Dell 电脑使用。"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
-"<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
-msgstr "<b>提示：</b>这要求 USB 闪存盘至少有 2GB 的可用空间。"
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:3
-msgid "<b>Note:</b> This requires writable DVD media."
-msgstr "<b>提示：</b>这需要可写的 DVD 盘片。"
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:4
-msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr "<big><b>创建 Dell 恢复盘？</b></big>"
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:5
-msgid ""
-"Dell Recovery Media can be used to restore your system to the same state as "
-"when it was first shipped to you.\n"
 "<b>It is highly recommended that you generate media and store it in a safe "
 "place.</b>"
 msgstr ""
-"Dell 恢复盘可以用来恢复您的电脑系统到第一次安装好后的状态。\n"
-"<b>强烈推荐您制作一个恢复盘，然后将恢复盘放在安全的地方。</b>"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid ""
+"<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
+msgstr "<b>提示：</b>这要求 USB 闪存盘至少有 2GB 的可用空间。"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
+msgid "<b>Note:</b> This requires writable DVD media."
+msgstr "<b>提示：</b>这需要可写的 DVD 盘片。"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
+msgid "<big><b>Create Dell Recovery Media?</b></big>"
+msgstr "<big><b>创建 Dell 恢复盘？</b></big>"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
+msgid ""
+"Dell Recovery Media can be used to restore your system to the same state as "
+"when it was first shipped to you."
+msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
@@ -305,6 +315,9 @@ msgstr "将恢复介质保存为 DVD"
 #: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
 msgstr "将恢复介质保存为外接的 USB 闪存盘"
+
+#~ msgid "File Name: "
+#~ msgstr "文件名 "
 
 #~ msgid ""
 #~ "This tool requires that a Utility Partition and Linux Recovery partition are "

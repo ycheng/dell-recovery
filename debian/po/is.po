@@ -1,16 +1,16 @@
-# Swedish translation for dell-recovery
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# Icelandic translation for dell-recovery
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the dell-recovery package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-12 16:03-0600\n"
-"PO-Revision-Date: 2010-03-18 23:05+0000\n"
-"Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
-"Language-Team: Swedish <sv@li.org>\n"
+"PO-Revision-Date: 2010-03-18 15:27+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Icelandic <is@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,19 +21,19 @@ msgstr ""
 #. Description
 #: ../templates:6001
 msgid "Building Dell Recovery Media..."
-msgstr "Bygger återställningsmedia för Dell..."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:8001
 msgid "Opening Burner..."
-msgstr "Öppnar brännare..."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:9001
 msgid "Recovery Type"
-msgstr "Återställningstyp"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -42,8 +42,6 @@ msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
 msgstr ""
-"Detta återställningsmedia för Dell kan användas för att återställa "
-"programvara till de ursprungliga fabriksinställningarna."
 
 #. Type: text
 #. Description
@@ -51,22 +49,18 @@ msgstr ""
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
-"Det rekommenderas att du säkerhetskopierar allt viktigt data innan du kör "
-"detta verktyg."
 
 #. Type: text
 #. Description
 #: ../templates:12001
 msgid "Restore Linux OS partitions"
-msgstr "Återställ partitioner för Linux"
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:13001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
-"Detta kommer att bygga om alla partitioner för operativsystem och "
-"växlingsutrymme till fabriksinställningarna."
 
 #. Type: text
 #. Description
@@ -74,33 +68,31 @@ msgstr ""
 #. Description
 #: ../templates:14001 ../templates:17001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr "VARNING: Alla personliga filer och ändringar kommer att förloras."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:15001
 msgid "Restore entire hard drive."
-msgstr "Återställ hela hårddisken."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:16001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr ""
-"Detta kommer att bygga om alla partitioner för verktyg, återställning och "
-"operativsystem."
 
 #. Type: text
 #. Description
 #: ../templates:18001
 msgid "Restore only Linux OS partition."
-msgstr "Återställ endast partition för Linux."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:19001
 msgid "This option allows you to resize any existing partitions."
-msgstr "Detta alternativ låter dig ändra storlek på befintliga partitioner."
+msgstr ""
 
 #. Type: text
 #. Description
@@ -108,26 +100,25 @@ msgstr "Detta alternativ låter dig ändra storlek på befintliga partitioner."
 #. Description
 #: ../templates:20001 ../templates:32001
 msgid "ERROR: This media is only valid on Dell systems."
-msgstr "FEL: Detta media är endast giltigt på Dell-system."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:21001
 msgid "This window will close automatically when the process is complete. "
 msgstr ""
-"Detta fönster kommer att stängas automatiskt när processen är färdig. "
 
 #. Type: text
 #. Description
 #: ../templates:22001
 msgid "NOTE: Please be patient, this may take a while."
-msgstr "OBSERVERA: Var god vänta, detta kan ta en stund."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:23001
 msgid "Create Dell Recovery Media?"
-msgstr "Skapa återställningsmedia för Dell?"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -136,8 +127,6 @@ msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
-"Återställningsmedia för Dell kan användas för att återställa din dator till "
-"samma tillstånd som den befann sig i när den levererades till dig."
 
 #. Type: text
 #. Description
@@ -146,39 +135,36 @@ msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
 msgstr ""
-"Det rekommenderas starkt att du genererar ett media och lagrar det på en "
-"säker plats."
 
 #. Type: text
 #. Description
 #: ../templates:26001
 msgid "Save recovery media to an external USB flash drive"
-msgstr "Spara återställningsmedia till en extern USB-lagringsenhet"
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:27001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
 msgstr ""
-"Observera: Detta kräver en USB-lagringsenhet med ungefär 2 GB ledigt utrymme."
 
 #. Type: text
 #. Description
 #: ../templates:28001
 msgid "Save recovery media to DVD"
-msgstr "Spara återställningsmedia till DVD"
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:29001
 msgid "Note: This requires writable DVD media."
-msgstr "Observera: Detta kräver ett skrivbart DVD-media."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:30001
 msgid "Don't generate recovery media at this time"
-msgstr "Generera inte återställningsmedia för tillfället"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -187,47 +173,3 @@ msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
-"Återställningsmedia kan genereras senare genom att välja verktyget från "
-"System-menyn."
-
-#~ msgid "DVD+/-RW Disc"
-#~ msgstr "DVD+/-RW-skiva"
-
-#~ msgid "<activity placeholder>"
-#~ msgstr "<platshållare för aktivitet>"
-
-#~ msgid "Dell Recovery Media Creator"
-#~ msgstr "Skapa återställningsmedia för Dell"
-
-#~ msgid "Cancel Recovery Media Creator"
-#~ msgstr "Avbryt skapandet av återställningsmedia"
-
-#~ msgid "USB Flash Drive"
-#~ msgstr "USB-enhet"
-
-#~ msgid "Retry burn?"
-#~ msgstr "Bränn igen?"
-
-#~ msgid "Opening Burner"
-#~ msgstr "Öppnar brännare"
-
-#~ msgid "Media Type: "
-#~ msgstr "Mediatyp: "
-
-#~ msgid "Welcome"
-#~ msgstr "Välkommen"
-
-#~ msgid "Confirm Selections"
-#~ msgstr "Bekräfta"
-
-#~ msgid "Choose Media Type"
-#~ msgstr "Välj mediatyp"
-
-#~ msgid "Recovery Media Creation Process Complete"
-#~ msgstr "Återställningsmediat är färdigt"
-
-#~ msgid "Recovery Partition: "
-#~ msgstr "Återställningspartition: "
-
-#~ msgid "File Name: "
-#~ msgstr "Filnamn: "

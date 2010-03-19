@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-19 16:33-0600\n"
-"PO-Revision-Date: 2010-02-20 10:43+0000\n"
-"Last-Translator: Timo Jyrinki <timo-jyrinki@ubuntu.com>\n"
+"POT-Creation-Date: 2010-03-19 01:59-0500\n"
+"PO-Revision-Date: 2010-03-18 12:40+0000\n"
+"Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-21 04:57+0000\n"
+"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
@@ -33,19 +33,19 @@ msgstr ""
 msgid "Invalid recovery partition"
 msgstr "Epäkelpo palautusosio"
 
-#: ../Dell/recovery_frontend.py:164
+#: ../Dell/recovery_frontend.py:136 ../Dell/recovery_frontend.py:185
 msgid "Permission Denied"
 msgstr "Pääsy evätty"
 
-#: ../Dell/recovery_frontend.py:178
+#: ../Dell/recovery_frontend.py:199
 msgid "Opening Burner"
 msgstr "Avataan kirjoittajaa."
 
-#: ../Dell/recovery_frontend.py:192
+#: ../Dell/recovery_frontend.py:213
 msgid "Recovery Media Creation Process Complete"
 msgstr "Palautusmedian luominen valmis"
 
-#: ../Dell/recovery_frontend.py:193
+#: ../Dell/recovery_frontend.py:214
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
@@ -53,63 +53,63 @@ msgstr ""
 "Siltä varalta, että haluaisit arkistoida toisen kopion, on luotu levykuva "
 "tallennettu tiedostonimellä:\n"
 
-#: ../Dell/recovery_frontend.py:213
+#: ../Dell/recovery_frontend.py:234
 msgid "Cannot connect to dbus"
 msgstr "Dbusiin ei voi yhdistää"
 
-#: ../Dell/recovery_frontend.py:303
+#: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
 msgstr "Tervetuloa"
 
-#: ../Dell/recovery_frontend.py:307
+#: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
 msgstr "Valitse median tyyppi"
 
-#: ../Dell/recovery_frontend.py:345 ../gtk/builder.ui.h:16
+#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
 msgid "ISO Image"
 msgstr "ISO-levykuva"
 
-#: ../Dell/recovery_frontend.py:348
-msgid "Utility Partition: "
-msgstr "Työkaluosio: "
-
-#: ../Dell/recovery_frontend.py:350
-msgid "Recovery Partition: "
-msgstr "Palautusosio: "
-
-#: ../Dell/recovery_frontend.py:351
+#: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
 msgstr "Median tyyppi: "
 
-#: ../Dell/recovery_frontend.py:352
-msgid "File Name: "
-msgstr "Tiedostonimi: "
+#: ../Dell/recovery_frontend.py:359
+msgid "Utility Partition: "
+msgstr "Työkaluosio: "
 
-#: ../Dell/recovery_frontend.py:357
+#: ../Dell/recovery_frontend.py:359 ../Dell/recovery_frontend.py:364
+msgid "Included"
+msgstr "Sisältyy"
+
+#: ../Dell/recovery_frontend.py:362 ../Dell/recovery_frontend.py:364
+msgid "Recovery Partition: "
+msgstr "Palautusosio: "
+
+#: ../Dell/recovery_frontend.py:370
 msgid "Confirm Selections"
 msgstr "Vahvista valinnat"
 
-#: ../Dell/recovery_backend.py:391
+#: ../Dell/recovery_backend.py:392
 msgid "Adding in base image"
 msgstr "Lisätään peruslevykuvaan"
 
-#: ../Dell/recovery_backend.py:397
+#: ../Dell/recovery_backend.py:398
 msgid "Overlaying FID content"
 msgstr "Laskostetaan FID-sisältöä"
 
-#: ../Dell/recovery_backend.py:408
+#: ../Dell/recovery_backend.py:413
 msgid "Inserting FISH packages"
 msgstr "Lisätään FISH-paketteja"
 
-#: ../Dell/recovery_backend.py:555
+#: ../Dell/recovery_backend.py:562
 msgid "Building Dell Utility Partition"
 msgstr "Rakennetaan Dell-työkaluosiota"
 
-#: ../Dell/recovery_backend.py:602
+#: ../Dell/recovery_backend.py:609
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Luodaan uudelleen UUID / rakennetaan uudelleen initramfs"
 
-#: ../Dell/recovery_backend.py:644
+#: ../Dell/recovery_backend.py:651
 msgid "Building ISO"
 msgstr "Rakennetaan ISOa"
 
@@ -184,10 +184,18 @@ msgstr ""
 "luoda joko USB-tikun tai DVD-kuvan."
 
 #: ../gtk/recovery_media_creator.ui.h:9
+msgid "This requires a USB flash drive with approximately 2GB free."
+msgstr "Tämä vaatii USB-aseman, jolla on noin 2GB vapaata tilaa-"
+
+#: ../gtk/recovery_media_creator.ui.h:10
+msgid "This requires writable DVD media."
+msgstr "Tämä vaatii kirjoitettavan DVD-levyn."
+
+#: ../gtk/recovery_media_creator.ui.h:11
 msgid "USB Flash Drive"
 msgstr "USB-Flash-asema"
 
-#: ../gtk/recovery_media_creator.ui.h:10
+#: ../gtk/recovery_media_creator.ui.h:12
 msgid "Version:"
 msgstr "Versio:"
 
@@ -291,30 +299,34 @@ msgstr "<b>VIRHE:</b> Tämä media on tarkoitettu vain Dell-järjestelmille."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
+"<b>It is highly recommended that you generate media and store it in a safe "
+"place.</b>"
+msgstr ""
+"<b>Median luominen on hyvin suositeltavaa. Sijoita se luomisen jälkeen "
+"turvalliseen paikkaan.</b>"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 "<b>Huomaa:</b> Tämä vaatii USB-muistivälineen, jolla on noin 2GB vapaata "
 "tilaa."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:3
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>Huomaa:</b> Tämä vaatii kirjoitettavan DVD-levyn"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
 msgstr "<big><b>Luodaanko Dell-palautusmedia?</b></big>"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:5
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
-"when it was first shipped to you.\n"
-"<b>It is highly recommended that you generate media and store it in a safe "
-"place.</b>"
+"when it was first shipped to you."
 msgstr ""
-"Dell-palautusmediaa voidaan käyttää järjestelmän palauttamiseksi tehtaalta "
-"tulleeseen tilaan.\n"
-"<b>On hyvin suositeltavaa, että luot median ja sijoitat sen turvalliseen "
-"paikkaan.</b>"
+"Dell-palautusmedialta järjestelmä voidaan palauttaa samaan tilaan, jossa se "
+"oli vastaanottaessasi järjestelmän."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"

@@ -24,6 +24,7 @@ dell-recovery (0.45) UNRELEASED; urgency=low
   * Don't show HDD recovery if not genuine.
   * Dynamically fill the content of the 99_dell_recovery during OOBE.
   * Catch errors trying to cleanup during unmount on the backend.
+  * Import translations from launchpad.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 18 Mar 2010 18:25:20 -0500
 
