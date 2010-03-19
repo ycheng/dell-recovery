@@ -20,6 +20,7 @@ dell-recovery (0.45) UNRELEASED; urgency=low
     during OOBE, detect if there is an RP and conditionally install it.
   * During the backend's create_ubuntu function, check for .disk/info to verify
     this is really a partition containing Ubuntu.
+  * Adjust spacing on the bootstrap page.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 18 Mar 2010 18:25:20 -0500
 
