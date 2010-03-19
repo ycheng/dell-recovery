@@ -9,6 +9,8 @@ dell-recovery (0.45) UNRELEASED; urgency=low
     - Don't hardcode the mount type when mounting freshly formatted partitions.
     - Don't install grub to an NTFS RP during factory install, kexec, or post
       reboot situations.
+    - Iterate the labels before the devices.  Inefficient, but saves us trouble
+      from the wrong device getting picked up early.
   * Use udisks to find the details for the RP rather than parsing files manually
     in /dev
 
