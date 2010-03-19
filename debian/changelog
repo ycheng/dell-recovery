@@ -4,6 +4,9 @@ dell-recovery (0.45) UNRELEASED; urgency=low
     to boot speed.
   * Only install dell-recovery if we have an RP during the install.
   * Hide NTFS based WinRE partitions (whether they have linux content or not)
+  * Add basic support for installing from alternative partition types.
+    - Support NTFS and VFAT initially
+    - Don't hardcode the mount type when mounting freshly formatted partitions.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 18 Mar 2010 18:25:20 -0500
 

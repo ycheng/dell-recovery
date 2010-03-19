@@ -47,6 +47,9 @@ UP_PART =     '1'
 RP_PART =     '2'
 CDROM_MOUNT = '/cdrom'
 
+TYPE_NTFS = '07'
+TYPE_VFAT = '0b'
+
 #######################
 # Noninteractive Page #
 #######################
@@ -225,7 +228,7 @@ class Page(Plugin):
             refresh = misc.execute_root('partx', '-d', '--nr', '5-' + str(total_partitions), self.device)
             if refresh is False:
                 self.debug("Error removing extended partitions 5-%s for kernel device %s (this may be normal)'" % (total_partitions, self.device))
-                    
+
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
@@ -237,7 +240,7 @@ class Page(Plugin):
         #Set up a listen for udisks to let us know a usb device has left
         bus = dbus.SystemBus()
         bus.add_signal_receiver(reboot_machine, 'DeviceRemoved', 'org.freedesktop.UDisks')
-        
+
         self.ui.show_reboot_dialog()
 
         reboot_machine(None)
@@ -293,7 +296,7 @@ class Page(Plugin):
                     if os.path.islink(self.device):
                         os.unlink(self.device)
                     os.symlink('../../' + new, self.device)
-    
+
         #Follow the symlink
         if os.path.islink(self.device):
             self.node = os.readlink(self.device).split('/').pop()
@@ -355,6 +358,13 @@ class Page(Plugin):
             self.debug(str(e))
             self.swap_part = '4'
 
+        #Support special cases where the recovery partition isn't a linux partition
+        try:
+            self.rp_filesystem = self.db.get('dell-recovery/recovery_partition_filesystem')
+        except debconf.DebconfError, e:
+            self.debug(str(e))
+            self.rp_filesystem = TYPE_VFAT
+
         #We might try to support this
         try:
             self.kexec = misc.create_bool(self.db.get('dell-recovery/kexec'))
@@ -385,7 +395,7 @@ class Page(Plugin):
             self.disable_swap()
             with misc.raised_privileges():
                 mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
-            self.rp_builder = rp_builder(self.device, self.kexec, mem)
+            self.rp_builder = rp_builder(self.device, self.kexec, self.rp_filesystem, mem)
             self.rp_builder.exit = self.exit_ui_loops
             self.rp_builder.start()
             self.enter_ui_loop()
@@ -418,9 +428,10 @@ class Page(Plugin):
 # RP Builder Worker Thread #
 ############################
 class rp_builder(Thread):
-    def __init__(self, device, kexec, mem):
+    def __init__(self, device, kexec, rp_type, mem):
         self.device = device
         self.kexec = kexec
+        self.rp_type = rp_type
         self.mem = mem
         self.exception = None
         Thread.__init__(self)
@@ -450,12 +461,17 @@ class rp_builder(Thread):
                 with open(self.device,'wb') as out:
                     out.write(zeros.read(1024))
 
+        #double check the recovery partition type
+        if self.rp_type != TYPE_VFAT and self.rp_type != TYPE_NTFS:
+            syslog.syslog("Preseeded RP type unsuported, setting to %s" % TYPE_VFAT)
+            self.rp_type = TYPE_VFAT
+
         #Partitioner commands
         data = 'p\n'    #print current partitions (we might want them for debugging)
         data += 'n\np\n%s\n\n' % UP_PART    # New partition for UP
         data += '+' + str(up_size) + 'M\n\nt\nde\n\n'   # Size and make it type de
         data += 'n\np\n%s\n\n' % RP_PART    # New partition for RP
-        data += '+' + str(rp_size) + 'M\n\nt\n%s\n0b\n\n' % RP_PART    # Size and make it type 0b
+        data += '+' + str(rp_size) + 'M\n\nt\n%s\n%s\n\n' % (RP_PART, self.rp_type)    # Size and make it type 0b
         data += 'a\n%s\n\n' % RP_PART   # Make RP active
         data += 'w\n'   # Save and quit
         try:
@@ -480,13 +496,17 @@ class rp_builder(Thread):
                     p1 = subprocess.Popen(['gzip','-dc',CDROM_MOUNT + '/upimg.bin'], stdout=subprocess.PIPE)
                     partition.write(p1.communicate()[0])
 
-        #Build RP FS
-        fs = misc.execute_root('mkfs.msdos','-n','install',self.device + RP_PART)
+        #Build RP filesystem
+        if self.rp_type == TYPE_VFAT:
+            command = ('mkfs.msdos', '-n', 'install', self.device + RP_PART)
+        elif self.rp_type == TYPE_NTFS:
+            command = ('mkfs.ntfs', '-f', '-L', 'RECOVERY', self.device + RP_PART)
+        fs = misc.execute_root(*command)
         if fs is False:
-            raise RuntimeError, ("Error creating vfat filesystem on %s%s" % (self.device, RP_PART))
+            raise RuntimeError, ("Error creating %s filesystem on %s%s" % (self.rp_type, self.device, RP_PART))
 
         #Mount RP
-        mount = misc.execute_root('mount', '-t', 'vfat', self.device + RP_PART, '/boot')
+        mount = misc.execute_root('mount', self.device + RP_PART, '/boot')
         if mount is False:
             raise RuntimeError, ("Error mounting %s%s" % (self.device, RP_PART))
 
