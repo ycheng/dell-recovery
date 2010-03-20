@@ -1,4 +1,4 @@
-# Russian translation for dell-recovery
+# Greek translation for dell-recovery
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the dell-recovery package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-19 01:59-0500\n"
-"PO-Revision-Date: 2010-03-19 06:27+0000\n"
-"Last-Translator: Oleg Koptev <koptev.oleg@gmail.com>\n"
-"Language-Team: Russian <ru@li.org>\n"
+"PO-Revision-Date: 2010-03-19 14:20+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,7 +33,7 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:136 ../Dell/recovery_frontend.py:185
 msgid "Permission Denied"
-msgstr "Нет доступа"
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:199
 msgid "Opening Burner"
@@ -41,7 +41,7 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:213
 msgid "Recovery Media Creation Process Complete"
-msgstr "Создание диска восстановления завершено"
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:214
 msgid ""
@@ -51,23 +51,23 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:234
 msgid "Cannot connect to dbus"
-msgstr "Не могу соединииться с dbus"
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
-msgstr "Добро пожаловать!"
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
-msgstr "Выберите тип носителя"
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
 msgid "ISO Image"
-msgstr "Образ ISO"
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
-msgstr "Тип носителя: "
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:359
 msgid "Utility Partition: "
@@ -83,11 +83,11 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:370
 msgid "Confirm Selections"
-msgstr "Подтвердить выбор"
+msgstr ""
 
 #: ../Dell/recovery_backend.py:392
 msgid "Adding in base image"
-msgstr "Добавление в основной образ"
+msgstr ""
 
 #: ../Dell/recovery_backend.py:398
 msgid "Overlaying FID content"
@@ -95,7 +95,7 @@ msgstr ""
 
 #: ../Dell/recovery_backend.py:413
 msgid "Inserting FISH packages"
-msgstr "Вставка пакетов FISH"
+msgstr ""
 
 #: ../Dell/recovery_backend.py:562
 msgid "Building Dell Utility Partition"
@@ -107,7 +107,7 @@ msgstr ""
 
 #: ../Dell/recovery_backend.py:651
 msgid "Building ISO"
-msgstr "Создание образа ISO"
+msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create/Assemble Dell Recovery ISO"
@@ -115,11 +115,11 @@ msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
-msgstr "Запрос версии BTO"
+msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:3
 msgid "Query ISO Information"
-msgstr "Запрос информации об ISO"
+msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
 msgid "Request closing the backend"
@@ -136,7 +136,7 @@ msgstr ""
 #: ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/recovery_media_creator.ui.h:6
 msgid "Dell Recovery Media Creator"
-msgstr "Создание дисков восстановления Dell"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:1
 msgid "<activity placeholder>"
@@ -147,8 +147,6 @@ msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
 msgstr ""
-"Был обнаружен существующий образ (возможно от предыдущего запуска). Удалить "
-"старую копию и создать новый образ?"
 
 #: ../gtk/recovery_media_creator.ui.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
@@ -156,15 +154,15 @@ msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:4
 msgid "Cancel Recovery Media Creator"
-msgstr "Отменить работу по созданию диска восстановления"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:5
 msgid "DVD+/-RW Disc"
-msgstr "Диск DVD+/-RW"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create ISO image"
-msgstr "Нет диска, создаётся образ ISO"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid ""
@@ -172,33 +170,28 @@ msgid ""
 "the computer to its factory shipped state.  You will have the option to "
 "create an USB key or DVD image."
 msgstr ""
-"Это приложение предназначено для создания диска восстановления для возврата "
-"компьютера к фабричному состоянию. Возможно создание либо USB, либо DVD "
-"дисков."
 
 #: ../gtk/recovery_media_creator.ui.h:9
 msgid "This requires a USB flash drive with approximately 2GB free."
-msgstr "Требуется USB диск с не менее 2 Гб свободного места."
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:10
 msgid "This requires writable DVD media."
-msgstr "Требуется записываемый DVD диск."
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:11
 msgid "USB Flash Drive"
-msgstr "Съёмный USB диск (флэшка)"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:12
 msgid "Version:"
-msgstr "Версия:"
+msgstr ""
 
 #: ../gtk/builder.ui.h:1
 msgid ""
 "\n"
 "\n"
 msgstr ""
-"\n"
-"\n"
 
 #: ../gtk/builder.ui.h:4
 msgid ""
@@ -206,9 +199,6 @@ msgid ""
 "This window will close automatically when the process is complete. \n"
 "<b>NOTE:</b> Please be patient, the initial fetch may take a while."
 msgstr ""
-"<b>Осуществляется извлечение из GIT.  </b>\n"
-"Это окно закроется автоматически по окончании этого процесса. \n"
-"<b>Внимание:</b> При первом запуске процесс может занять некоторое время."
 
 #: ../gtk/builder.ui.h:7
 msgid ""
@@ -218,19 +208,19 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:8
 msgid "Choose Image"
-msgstr "Выберите образ"
+msgstr ""
 
 #: ../gtk/builder.ui.h:9
 msgid "Detected Recovery Partition"
-msgstr "Обнаружен раздел восстановления"
+msgstr ""
 
 #: ../gtk/builder.ui.h:10
 msgid "Extracted Directory"
-msgstr "Извлечённый каталог"
+msgstr ""
 
 #: ../gtk/builder.ui.h:11
 msgid "FID GIT Tree"
-msgstr "Дерево FID GIT"
+msgstr ""
 
 #: ../gtk/builder.ui.h:12
 msgid "FID framework built into BTO image"
@@ -238,7 +228,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:13
 msgid "Fetch/Update GIT Tree"
-msgstr "Извлечь/обновить дерево GIT"
+msgstr ""
 
 #: ../gtk/builder.ui.h:14
 msgid "GIT Tags/Branches:"
@@ -246,15 +236,15 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:15
 msgid "GIT Tree Status"
-msgstr "Статус дерева GIT"
+msgstr ""
 
 #: ../gtk/builder.ui.h:17
 msgid "Install git"
-msgstr "Установить git"
+msgstr ""
 
 #: ../gtk/builder.ui.h:18
 msgid "Selected Image Details:"
-msgstr "Информация о выбранном образе:"
+msgstr ""
 
 #: ../gtk/builder.ui.h:19
 msgid "Selected Overlay Details:"
@@ -262,7 +252,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:20
 msgid "Show Details"
-msgstr "Показать подробности"
+msgstr ""
 
 #: ../gtk/builder.ui.h:21
 msgid ""
@@ -291,24 +281,20 @@ msgstr ""
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
-"<b>Примечание:</b> Это действие потребует USB диск с не менее 2 Гб "
-"свободного места."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid "<b>Note:</b> This requires writable DVD media."
-msgstr "<b>Примечание:</b> Это действие потребует записываемый DVD диск."
+msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr "<big><b>Создать диск восстановления Dell?</b></big>"
+msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
-"Диск восстановления Dell может использоваться для отката к фабричному "
-"состоянию компьютера."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
@@ -322,8 +308,8 @@ msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
-msgstr "Сохранение диска восстановления на DVD"
+msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
-msgstr "Сохранение диска восстановления на USB-флэш"
+msgstr ""

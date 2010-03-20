@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-19 01:59-0500\n"
-"PO-Revision-Date: 2010-03-19 07:36+0000\n"
+"PO-Revision-Date: 2010-03-19 15:01+0000\n"
 "Last-Translator: Hannie Dumoleyn <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
+"X-Launchpad-Export-Date: 2010-03-20 04:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
 msgid "Invalid utility partition"
-msgstr "Ongeldige schijfpartitie"
+msgstr "Ongeldige hulpmiddelen-partitie"
 
 #: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
 msgid ""
@@ -63,7 +63,7 @@ msgstr "Welkom"
 
 #: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
-msgstr "Selecteer type media"
+msgstr "Selecteer mediatype"
 
 #: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
 msgid "ISO Image"
@@ -71,11 +71,11 @@ msgstr "ISO-image"
 
 #: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
-msgstr "Type media: "
+msgstr "Mediatype: "
 
 #: ../Dell/recovery_frontend.py:359
 msgid "Utility Partition: "
-msgstr "Utility-partitie: "
+msgstr "Hulpmiddelen-partitie "
 
 #: ../Dell/recovery_frontend.py:359 ../Dell/recovery_frontend.py:364
 msgid "Included"
@@ -87,7 +87,7 @@ msgstr "Herstelpartitie: "
 
 #: ../Dell/recovery_frontend.py:370
 msgid "Confirm Selections"
-msgstr "Bevestig uw keuze"
+msgstr "Bevestig uw keuzes"
 
 #: ../Dell/recovery_backend.py:392
 msgid "Adding in base image"
@@ -115,7 +115,7 @@ msgstr "ISO wordt aangemaakt"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create/Assemble Dell Recovery ISO"
-msgstr ""
+msgstr "Dell herstel-ISO aanmaken/samenstellen"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
@@ -127,11 +127,12 @@ msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
 msgid "Request closing the backend"
-msgstr ""
+msgstr "Verzoek om de backend te sluiten"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "System policy prevents closing processes without notice"
 msgstr ""
+"Systeembeleid staat niet toe dat processen zonder melding worden gesloten"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"

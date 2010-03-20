@@ -1,16 +1,16 @@
-# Ukrainian translation for dell-recovery
+# Galician translation for dell-recovery
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the dell-recovery package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-# Yuri Chornoivan <yurchor@gmail.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-12 16:03-0600\n"
-"PO-Revision-Date: 2010-03-19 16:01+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
-"Language-Team: Ukrainian <translation@linux.org.ua>\n"
+"PO-Revision-Date: 2010-03-19 13:14+0000\n"
+"Last-Translator: Francisco Diéguez <Unknown>\n"
+"Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,19 +21,19 @@ msgstr ""
 #. Description
 #: ../templates:6001
 msgid "Building Dell Recovery Media..."
-msgstr "Побудова носія для відновлення Dell..."
+msgstr "Construindo o soporte de Dell Recovery..."
 
 #. Type: text
 #. Description
 #: ../templates:8001
 msgid "Opening Burner..."
-msgstr "Відкриття програми запису..."
+msgstr "Abrindo a grabadora..."
 
 #. Type: text
 #. Description
 #: ../templates:9001
 msgid "Recovery Type"
-msgstr "Тип відновлення"
+msgstr "Tipo de recuperación"
 
 #. Type: text
 #. Description
@@ -42,8 +42,8 @@ msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
 msgstr ""
-"За допомогою цього носія для відновлення Dell ви зможете відновити початкове "
-"програмне забезпечення записане виробником обладнання."
+"Este soporte de Dell Recovery pode ser usado para restaurar o software "
+"orixianl de fábrica."
 
 #. Type: text
 #. Description
@@ -51,20 +51,21 @@ msgstr ""
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
-"Перш ніж запускати цей інструмент, будь ласка, створіть резервні копії всіх "
-"важливих для вас даних."
+"É recomendábel facer unha copia de seguridade antes de usar esta ferramenta."
 
 #. Type: text
 #. Description
 #: ../templates:12001
 msgid "Restore Linux OS partitions"
-msgstr "Відновити розділи ОС Linux"
+msgstr "Restaurar as particións do SO Linux"
 
 #. Type: text
 #. Description
 #: ../templates:13001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
-msgstr "Буде повернуто типові параметри розмітки розділів ОС та свопінгу."
+msgstr ""
+"Isto reconstruirá todas as particións do SO e de intercambio ás predefinidas "
+"polo fabricante."
 
 #. Type: text
 #. Description
@@ -72,36 +73,33 @@ msgstr "Буде повернуто типові параметри розміт
 #. Description
 #: ../templates:14001 ../templates:17001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr ""
-"ПОПЕРЕДЖЕННЯ: всі особисті файли та внесені вами до системи зміни буде "
-"втрачено."
+msgstr "AVISO: Todos os seus ficheiros e cambios persoais perderanse."
 
 #. Type: text
 #. Description
 #: ../templates:15001
 msgid "Restore entire hard drive."
-msgstr "Відновити весь жорсткий диск."
+msgstr "Restaurar todo o disco ríxido."
 
 #. Type: text
 #. Description
 #: ../templates:16001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr ""
-"Буде відтворено всі допоміжні і відновлювальні розділи, а також розділи ОС."
+"Isto reconstruirá toda as particións do SO, recuperación e intercambio."
 
 #. Type: text
 #. Description
 #: ../templates:18001
 msgid "Restore only Linux OS partition."
-msgstr "Відновити лише розділ ОС Linux."
+msgstr "Restaurar só as particións do SO Linux."
 
 #. Type: text
 #. Description
 #: ../templates:19001
 msgid "This option allows you to resize any existing partitions."
 msgstr ""
-"За допомогою цього пункту ви зможете змінити розміри будь-якого з поточних "
-"розділів."
+"Esta opción permítelle redimensionar calquera das particións existentes."
 
 #. Type: text
 #. Description
@@ -109,26 +107,25 @@ msgstr ""
 #. Description
 #: ../templates:20001 ../templates:32001
 msgid "ERROR: This media is only valid on Dell systems."
-msgstr ""
-"ПОМИЛКА: цим носієм можна скористатися лише у системах виробництва Dell."
+msgstr "ERRO: Este soporte só é válido para sistemas Dell."
 
 #. Type: text
 #. Description
 #: ../templates:21001
 msgid "This window will close automatically when the process is complete. "
-msgstr "Це вікно буде автоматично закрито після завершення операції. "
+msgstr "Esta xanela pecharase cando o proceso se complete. "
 
 #. Type: text
 #. Description
 #: ../templates:22001
 msgid "NOTE: Please be patient, this may take a while."
-msgstr "ЗАУВАЖЕННЯ: будь ласка, зачекайте."
+msgstr "NOTA: Teña paciencia, isto pode lever uns minutos."
 
 #. Type: text
 #. Description
 #: ../templates:23001
 msgid "Create Dell Recovery Media?"
-msgstr "Створити носій для відновлення Dell?"
+msgstr "Desexa crear un soporte de Recuperación de Dell?"
 
 #. Type: text
 #. Description
@@ -137,8 +134,8 @@ msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
-"Носієм для відновлення Dell можна скористатися для відновлення вашої системи "
-"до стану, у якому вам було передано її виробником обладнання."
+"O soporte de Recuperación de Dell pode usarse para restaurar o seu sistema "
+"ao mesmo estado que cando o comprou."
 
 #. Type: text
 #. Description
@@ -147,38 +144,38 @@ msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
 msgstr ""
-"Рекомендуємо вам створити такий носій і зберігати його у безпечному місці."
+"É moi recomendábel que xere un soporte e o almacene nun lugar seguro."
 
 #. Type: text
 #. Description
 #: ../templates:26001
 msgid "Save recovery media to an external USB flash drive"
-msgstr "Зберегти носій для відновлення на зовнішньому флеш-диску USB"
+msgstr "Gardar o soporte de recuperación nunha unidade flash USB externa"
 
 #. Type: text
 #. Description
 #: ../templates:27001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
 msgstr ""
-"Зауваження: на флеш-диску USB має бути приблизно 2 ГБ вільного простору."
+"Nota: Isto require unha unidade flash USB con aproximadamente 2GB libres."
 
 #. Type: text
 #. Description
 #: ../templates:28001
 msgid "Save recovery media to DVD"
-msgstr "Зберегти носій для відновлення на DVD"
+msgstr "Gardar o soporte de recuperación a un DVD"
 
 #. Type: text
 #. Description
 #: ../templates:29001
 msgid "Note: This requires writable DVD media."
-msgstr "Зауваження: вам знадобиться придатний для запису носій даних DVD."
+msgstr "Nota: Isto require un soporte DVD escribíbel."
 
 #. Type: text
 #. Description
 #: ../templates:30001
 msgid "Don't generate recovery media at this time"
-msgstr "Не створювати носія для відновлення цього разу"
+msgstr "Non xerar o soporte de recuperación neste momento"
 
 #. Type: text
 #. Description
@@ -187,5 +184,5 @@ msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
-"Носій для відновлення можна створити пізніше. Для цього слід скористатися "
-"пунктом відповідного інструменту з меню «Система»."
+"Pode xerar o soporte de recuperación máis tarde seleccionando a ferramenta "
+"no menú do sistema."
