@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-03-19 01:59-0500\n"
-"PO-Revision-Date: 2010-03-18 15:10+0000\n"
+"PO-Revision-Date: 2010-03-21 03:14+0000\n"
 "Last-Translator: Milo Casagrande <milo@casagrande.name>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
+"X-Launchpad-Export-Date: 2010-03-21 04:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
@@ -63,7 +63,7 @@ msgstr "Scegliere il tipo di supporto"
 
 #: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
 msgid "ISO Image"
-msgstr "Immagine ISO"
+msgstr ""
 
 #: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
@@ -83,7 +83,7 @@ msgstr "Partizione di recupero: "
 
 #: ../Dell/recovery_frontend.py:370
 msgid "Confirm Selections"
-msgstr "Confermare le selezioni"
+msgstr "Conferma selezioni"
 
 #: ../Dell/recovery_backend.py:392
 msgid "Adding in base image"
@@ -91,11 +91,11 @@ msgstr ""
 
 #: ../Dell/recovery_backend.py:398
 msgid "Overlaying FID content"
-msgstr ""
+msgstr "Sovrapposizione contenuto FID"
 
 #: ../Dell/recovery_backend.py:413
 msgid "Inserting FISH packages"
-msgstr ""
+msgstr "Inserimento pacchetti FISH"
 
 #: ../Dell/recovery_backend.py:562
 msgid "Building Dell Utility Partition"
@@ -103,7 +103,7 @@ msgstr ""
 
 #: ../Dell/recovery_backend.py:609
 msgid "Regenerating UUID / Rebuilding initramfs"
-msgstr ""
+msgstr "Rigenerazione UUID / Ricostruzione initramfs"
 
 #: ../Dell/recovery_backend.py:651
 msgid "Building ISO"
@@ -115,19 +115,20 @@ msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
-msgstr ""
+msgstr "Interrogazione versione BTO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:3
 msgid "Query ISO Information"
-msgstr ""
+msgstr "Interrogazione infromazioni ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
 msgid "Request closing the backend"
-msgstr ""
+msgstr "Richiesta chiusura backend"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "System policy prevents closing processes without notice"
 msgstr ""
+"La politica di sistema previene la chiusura dei processi senza avviso"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"
@@ -180,7 +181,7 @@ msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:9
 msgid "This requires a USB flash drive with approximately 2GB free."
-msgstr ""
+msgstr "È richiesta un'unità flash USB con almeno 2 GB di spazio libero."
 
 #: ../gtk/recovery_media_creator.ui.h:10
 msgid "This requires writable DVD media."
@@ -214,6 +215,8 @@ msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
 msgstr ""
+"Tutti i componenti aggiuntivi o le applicazioni da integrare nell'immagine "
+"possono essere aggiunti qui."
 
 #: ../gtk/builder.ui.h:8
 msgid "Choose Image"
@@ -221,15 +224,15 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:9
 msgid "Detected Recovery Partition"
-msgstr ""
+msgstr "Rilevata partizione di ripristino"
 
 #: ../gtk/builder.ui.h:10
 msgid "Extracted Directory"
-msgstr ""
+msgstr "Directory estratta"
 
 #: ../gtk/builder.ui.h:11
 msgid "FID GIT Tree"
-msgstr ""
+msgstr "Albero FID GIT"
 
 #: ../gtk/builder.ui.h:12
 msgid "FID framework built into BTO image"
@@ -241,7 +244,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:14
 msgid "GIT Tags/Branches:"
-msgstr ""
+msgstr "Tag/Branch GIT:"
 
 #: ../gtk/builder.ui.h:15
 msgid "GIT Tree Status"
