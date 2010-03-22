@@ -231,6 +231,46 @@ class Page(Plugin):
             if refresh is False:
                 self.debug("Error removing extended partitions 5-%s for kernel device %s (this may be normal)'" % (total_partitions, self.device))
 
+    def explode_utility_partition(self):
+        '''Explodes all content onto the utility partition
+
+           Full partition backups: upimg.bin, upimg.gz
+           File only      backups: up.zip   , up.tgz
+        '''
+        for file in ['upimg.bin', 'upimg.gz', 'up.zip', 'up.tgz']:
+            if os.path.exists(os.path.join(CDROM_MOUNT, file)):
+                #Restore full UP backup (dd)
+                if '.bin' in file or '.gz' in file:
+                    with misc.raised_privileges():
+                        with open(self.device + UP_PART, 'w') as partition:
+                            p1 = subprocess.Popen(['gzip','-dc',os.path.join(CDROM_MOUNT, file)], stdout=subprocess.PIPE)
+                            partition.write(p1.communicate()[0])
+                #Restore UP (zip/tgz)
+                elif '.zip' in file or '.tgz' in file:
+                    mount = misc.execute_root('mount', self.device + UP_PART, '/boot')
+                    if mount is False:
+                        raise RuntimeError, ("Error mounting utility partition pre-explosion.")
+                    if '.zip' in file:
+                        import zipfile
+                        archive = zipfile.ZipFile(os.path.join(CDROM_MOUNT, file))
+                    elif '.tgz' in file:
+                        import tarfile
+                        archive = tarfile.open(os.path.join(CDROM_MOUNT, file))
+                    with misc.raised_privileges():
+                        archive.extractall(path='/boot')
+                    archive.close()
+                    umount = misc.execute_root('umount', '/boot')
+                    if umount is False:
+                        raise RuntimeError, ("Error unmounting utility partition post-explosion.")
+                #Clean up UP so it's not rewritten on next boot to RP                    
+                cd_mount = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
+                if cd_mount is False:
+                    raise RuntimeError, ("Error remounting RP to clean up post explosion.")
+                with misc.raised_privileges():
+                    os.remove(os.path.join(CDROM_MOUNT, file))
+                #Don't worry about remounting the RP/remounting RO.
+                #we'll probably need to do that in grub instead
+                break
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
@@ -414,6 +454,7 @@ class Page(Plugin):
             self.fixup_factory_devices()
             self.disable_swap()
             self.remove_extra_partitions()
+            self.explode_utility_partition()
             if self.rp_filesystem == TYPE_VFAT:
                 self.install_grub()
         Plugin.cleanup(self)
@@ -443,14 +484,15 @@ class rp_builder(Thread):
 
         white_pattern = re.compile('.')
 
-        #Calculate UP#
+        #Utility partition image (dd)#
         if os.path.exists(CDROM_MOUNT + '/upimg.bin'):
             #in bytes
             up_size = int(fetch_output(['gzip','-lq',CDROM_MOUNT + '/upimg.bin']).split()[1])
             #in mbytes
             up_size = up_size / 1048576
+        #Utility partition files (tgz/zip)#
         else:
-            up_size = 0
+            up_size = 32
 
         #Calculate RP
         rp_size = magic.white_tree("size", white_pattern, CDROM_MOUNT)
@@ -491,12 +533,11 @@ class rp_builder(Thread):
                 with open(self.device,'wb') as out:
                     out.write(mbr.read(404))
 
-        #Restore UP
-        if os.path.exists(CDROM_MOUNT + '/upimg.bin'):
-            with misc.raised_privileges():
-                with open(self.device + '1','w') as partition:
-                    p1 = subprocess.Popen(['gzip','-dc',CDROM_MOUNT + '/upimg.bin'], stdout=subprocess.PIPE)
-                    partition.write(p1.communicate()[0])
+        #Build UP filesystem
+        command = ('mkfs.msdos', '-n', 'DellUtility', self.device + UP_PART)
+        fs = misc.execute_root(*command)
+        if fs is False:
+            raise RuntimeError, ("Error creating utility partition filesystem on %s%s" % (self.device, UP_PART))        
 
         #Build RP filesystem
         if self.rp_type == TYPE_VFAT:
