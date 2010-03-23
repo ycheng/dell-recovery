@@ -429,34 +429,42 @@ class Page(Plugin):
     def cleanup(self):
         #All this processing happens in cleanup because that ensures it runs for all scenarios
         type = self.db.get('dell-recovery/recovery_type')
-        # User recovery - need to copy RP
-        if type == "automatic":
-            self.fixup_recovery_devices()
-            self.ui.show_info_dialog()
-            self.disable_swap()
-            with misc.raised_privileges():
-                mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
-            self.rp_builder = rp_builder(self.device, self.kexec, self.rp_filesystem, mem)
-            self.rp_builder.exit = self.exit_ui_loops
-            self.rp_builder.start()
-            self.enter_ui_loop()
-            self.rp_builder.join()
-            if self.rp_builder.exception:
-                self.handle_exception(self.rp_builder.exception)
-            self.boot_rp()
 
-        # User recovery - resizing drives
-        elif type == "interactive":
-            self.unset_drive_preseeds()
-
-        # Factory install, post kexec, and booting from RP
-        else:
-            self.fixup_factory_devices()
-            self.disable_swap()
-            self.remove_extra_partitions()
-            self.explode_utility_partition()
-            if self.rp_filesystem == TYPE_VFAT:
-                self.install_grub()
+        try:
+            # User recovery - need to copy RP
+            if type == "automatic":
+                self.fixup_recovery_devices()
+                self.ui.show_info_dialog()
+                self.disable_swap()
+                with misc.raised_privileges():
+                    mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
+                self.rp_builder = rp_builder(self.device, self.kexec, self.rp_filesystem, mem)
+                self.rp_builder.exit = self.exit_ui_loops
+                self.rp_builder.start()
+                self.enter_ui_loop()
+                self.rp_builder.join()
+                if self.rp_builder.exception:
+                    self.handle_exception(self.rp_builder.exception)
+                self.boot_rp()
+    
+            # User recovery - resizing drives
+            elif type == "interactive":
+                self.unset_drive_preseeds()
+    
+            # Factory install, post kexec, and booting from RP
+            else:
+                self.fixup_factory_devices()
+                self.disable_swap()
+                self.remove_extra_partitions()
+                self.explode_utility_partition()
+                if self.rp_filesystem == TYPE_VFAT:
+                    self.install_grub()
+        except Exception, e:
+            #For interactive types of installs show an error then reboot
+            #Otherwise, just reboot the system
+            if type == "automatic" or type == "interactive":
+                self.handle_exception(e)
+            self.cancel_handler()
         Plugin.cleanup(self)
 
     def cancel_handler(self):

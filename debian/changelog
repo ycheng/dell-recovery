@@ -4,6 +4,8 @@ dell-recovery (0.46) UNRELEASED; urgency=low
   * Add support to also extract a .zip or .tgz for a UP rather than an image.
   * Move the UP explosion step to the beginning of install rather than during
     the RP build.
+  * Allow handling early exceptions.  For interactive type installs, show the
+    error.  For noninteractive installs, the error will be logged in syslog.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
 
