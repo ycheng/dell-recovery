@@ -134,6 +134,22 @@ def check_vendor():
         vendor = ''
     return (vendor == 'dell' or vendor == 'innotek')
 
+def process_conf_file(rp_number, original, new):
+    """Replaces all instances of a partition and OS in a conf type file
+       Generally used for things that need to touch grub"""
+    if not os.path.isdir(os.path.split(new)[0]):
+        os.makedirs(os.path.split(new)[0])
+    import lsb_release
+    release = lsb_release.get_distro_information()
+    with open(original, "r") as base:
+        with open(new, 'w') as output:
+            for line in base.readlines():
+                if "#PARTITION#" in line:
+                    line = line.replace("#PARTITION#", rp_number)
+                if "#OS#" in line:
+                    line = line.replace("#OS#", "%s %s" % (release["ID"], release["RELEASE"]))
+                output.write(line)
+
 def find_factory_rp_stats():
     """Uses udisks to find the RP of a system and return stats on it
        Only use this method during bootstrap."""

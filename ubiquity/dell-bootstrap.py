@@ -182,9 +182,18 @@ class Page(Plugin):
 
     def install_grub(self):
         """Installs grub on the recovery partition"""
+        #Mount R/W
         cd_mount   = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
         if cd_mount is False:
             raise RuntimeError, ("CD Mount failed")
+
+        #Check for a grub.cfg to start - make as necessary
+        if not os.path.exists(os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg')):
+            with misc.raised_privileges():
+                magic.process_conf_file(RP_PART, '/usr/share/dell/grub/recovery_partition.cfg', \
+                                    os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'))
+
+        #Do the actual grub installation
         bind_mount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
         if bind_mount is False:
             raise RuntimeError, ("Bind Mount failed")
@@ -561,6 +570,12 @@ class rp_builder(Thread):
         #Copy RP Files
         with misc.raised_privileges():
             magic.white_tree("copy", white_pattern, CDROM_MOUNT, '/boot')
+
+        #Check for a grub.cfg - make as necessary
+        if not os.path.exists(os.path.join('/boot', 'grub', 'grub.cfg')):
+            with misc.raised_privileges():
+                magic.process_conf_file(RP_PART, '/usr/share/dell/grub/recovery_partition.cfg', \
+                                    os.path.join('/boot', 'grub', 'grub.cfg'))
 
         #Install grub
         grub = misc.execute_root('grub-install', '--force', self.device + RP_PART)

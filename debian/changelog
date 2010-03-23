@@ -17,6 +17,10 @@ dell-recovery (0.46) UNRELEASED; urgency=low
   * Update translations from launchpad.
   * Install the 99_dell_recovery in /usr/share/dell/grub rather than
     /usr/share/dell.
+  * Move grub.cfg from the ubuntu-fid tree into dell-recovery.
+  * Move the functions for dynamically filling out grub files into
+    recovery_common.
+  * Dynamically fill grub.cfg's partition and OS information out.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
 
