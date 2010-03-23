@@ -91,6 +91,7 @@ create an USB key or DVD image."))
 
         #insert builder pages
         wizard.insert_page(self.builder_widgets.get_object('fish_page'),1)
+        wizard.insert_page(self.builder_widgets.get_object('up_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('fid_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('base_page'),1)
 
@@ -101,6 +102,7 @@ create an USB key or DVD image."))
         self.builder_fid_overlay=''
         self.builder_base_image=''
         self.bto_base=False
+        self.bto_up=False
 
         self.builder_widgets.connect_signals(self)
 
@@ -123,13 +125,26 @@ create an USB key or DVD image."))
             filter.add_pattern("*.iso")
             self.file_dialog.set_filter(filter)
             wizard.set_page_title(page,_("Choose Base OS Image"))
-            
+
         elif page == self.builder_widgets.get_object('fid_page'):
             wizard.set_page_title(page,_("Choose FID Overlay"))
             for operating_system in git_trees:
                 if operating_system == self.distributor:
                     self.builder_widgets.get_object('git_url').set_text(git_trees[operating_system])
             self.fid_toggled(None)
+
+        elif page == self.builder_widgets.get_object('up_page'):
+            wizard.set_page_title(page,_("Choose Utility Partition"))
+            if self.up:
+                self.builder_widgets.get_object('utility_hbox').set_sensitive(True)
+            filter = gtk.FileFilter()
+            filter.add_pattern("*.bin")
+            filter.add_pattern("*.gz")
+            filter.add_pattern("*.tgz")
+            filter.add_pattern("*.zip")
+
+            self.file_dialog.set_filter(filter)
+            self.up_toggled(None)
 
         elif page == self.builder_widgets.get_object('fish_page'):
             wizard.set_page_title(page,_("Choose FISH Packages"))
@@ -144,7 +159,7 @@ create an USB key or DVD image."))
 
             self.file_dialog.set_filter(filter)
             wizard.set_page_complete(page,True)
-            
+
         elif page == self.widgets.get_object('conf_page') or \
              widget == self.widgets.get_object('version'):
 
@@ -158,6 +173,9 @@ create an USB key or DVD image."))
                 output_text+= "<b>Base Image</b>: " + self.builder_base_image + '\n'
             if self.builder_fid_overlay:
                 output_text+= "<b>FID Overlay</b>: " + self.builder_fid_overlay + '\n'
+
+            if self.bto_up:
+                output_text+="<b>" + _("Utility Partition: ") + '</b>' + self.bto_up + '\n'
 
             model = self.builder_widgets.get_object('fish_liststore')
             iterator = model.get_iter_first()
@@ -188,7 +206,7 @@ create an USB key or DVD image."))
                 self.builder_fid_overlay,
                 fish_list,
                 'create_' + self.distributor,
-                self.up)
+                self.bto_up)
 
         GTKFrontend.wizard_complete(self,widget,function, args)
 
@@ -197,9 +215,47 @@ create an USB key or DVD image."))
         response = self.file_dialog.run()
         self.file_dialog.hide()
         if response == gtk.RESPONSE_OK:
-            return self.file_dialog.get_filename() 
+            return self.file_dialog.get_filename()
         else:
             return None
+
+    def up_toggled(self,widget):
+        """Called when the radio button for the Builder utility partition page is changed"""
+        up_browse_button=self.builder_widgets.get_object('up_browse_button')
+        up_page = self.builder_widgets.get_object('up_page')
+        wizard = self.widgets.get_object('wizard')
+
+        if self.builder_widgets.get_object('up_files_radio').get_active():
+            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
+            up_browse_button.set_sensitive(True)
+            wizard.set_page_complete(up_page,False)
+        else:
+            if self.builder_widgets.get_object('up_partition_radio').get_active():
+                self.bto_up = self.up
+            else:
+                self.bto_up = None
+            wizard.set_page_complete(up_page,True)
+            up_browse_button.set_sensitive(False)
+            self.up_file_chooser_picked()
+
+    def up_file_chooser_picked(self,widget=None):
+        """Called when a file is selected on the up page"""
+
+        base_page = self.builder_widgets.get_object('up_page')
+        wizard = self.widgets.get_object('wizard')
+
+        if widget == self.builder_widgets.get_object('up_browse_button'):
+            ret=self.run_file_dialog()
+            if ret is not None:
+                self.bto_up = ret
+                wizard.set_page_complete(up_page,True)
+
+        if self.bto_up:
+            output_text = "<b> Utility Partition </b>: %s" % str(self.bto_up)
+        else:
+            output_text = "No Utility Partition"
+
+        self.builder_widgets.get_object('up_details_label').set_markup(output_text)
 
     def base_toggled(self,widget):
         """Called when the radio button for the Builder base image page is changed"""
@@ -211,7 +267,7 @@ create an USB key or DVD image."))
         label.set_markup("")
         base_browse_button.set_sensitive(True)
         wizard.set_page_complete(base_page,False)
-        
+
         if self.builder_widgets.get_object('iso_image_radio').get_active():
             self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
         elif self.builder_widgets.get_object('directory_radio').get_active():
@@ -222,7 +278,7 @@ create an USB key or DVD image."))
 
     def base_file_chooser_picked(self,widget=None):
         """Called when a file is selected on the base page"""
-        
+
         base_page = self.builder_widgets.get_object('base_page')
         wizard = self.widgets.get_object('wizard')
 
@@ -256,7 +312,7 @@ create an USB key or DVD image."))
 
         if not bto_version:
             bto_version='X00'
-            
+
         #set the version string that we fetched from the image
         #or increment it if we started from a BTO base image
         if self.bto_base:
@@ -292,7 +348,7 @@ create an USB key or DVD image."))
             wizard.set_page_complete(fid_page,True)
             label.set_markup("<b>Builtin</b>: BTO Image")
             self.builder_fid_overlay=''
-            
+
         elif self.builder_widgets.get_object('git_radio').get_active():
             git_tree_hbox.set_sensitive(True)
             cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
@@ -360,7 +416,7 @@ create an USB key or DVD image."))
                 # AND
                 # [ We are in branch mode
                 #   OR
-                #   [ 
+                #   [
                 #     It contains our filter
                 #     We show X rev builds
                 #     It contains an X rev tag

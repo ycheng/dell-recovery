@@ -115,7 +115,7 @@ class GTKFrontend:
             return True
 
         (self.up,self.rp) = find_partitions(self.up,self.rp)
-        
+
         return self.rp
 
     def wizard_complete(self, widget, function=None, args=None):
@@ -355,14 +355,12 @@ class GTKFrontend:
                 type=_("ISO Image")
             text = ''
             text+="<b>" + _("Media Type: ") + '</b>' + type + '\n'
-            if self.up:
-                text+="<b>" + _("Utility Partition: ") + '</b>' + _("Included") + '\n'
             if self.rp:
                 if not "/dev" in self.rp:
                     text+="<b>" + _("Recovery Partition: ") + '</b>' + self.rp + '\n'
                 else:
                     text+="<b>" + _("Recovery Partition: ") + '</b>' + _("Included") + '\n'
-                 
+
 
             self.widgets.get_object('conf_text').set_markup(text)
 

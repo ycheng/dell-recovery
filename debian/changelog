@@ -6,6 +6,8 @@ dell-recovery (0.46) UNRELEASED; urgency=low
     the RP build.
   * Allow handling early exceptions.  For interactive type installs, show the
     error.  For noninteractive installs, the error will be logged in syslog.
+  * Offer in the frontend to produce an image with a utility partition in BTO
+    mode.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
 
