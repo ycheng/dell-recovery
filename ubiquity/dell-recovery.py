@@ -126,7 +126,7 @@ class Install(InstallPlugin):
 
         rp = magic.find_factory_rp_stats()
         if rp:
-            magic.process_conf_file(rp["number"], '/usr/share/dell/grub/99_dell_recovery',\
+            magic.process_conf_file(str(rp["number"]), '/usr/share/dell/grub/99_dell_recovery',\
                                     '/etc/grub.d/99_dell_recovery')
             os.chmod('/etc/grub.d/99_dell_recovery', 0755)
             subprocess.call(['update-grub'])
