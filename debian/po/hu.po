@@ -6,25 +6,178 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-01-14 15:13-0600\n"
-"PO-Revision-Date: 2009-11-29 20:25+0000\n"
-"Last-Translator: Peter Dajka <dajkap@gmail.com>\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"POT-Creation-Date: 2010-03-23 01:25-0500\n"
+"PO-Revision-Date: 2010-03-19 12:50+0000\n"
+"Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Launchpad-Export-Date: 2010-03-20 04:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
 #. Description
-#: ../templates:2001
+#: ../templates:7001
 msgid "Building Dell Recovery Media..."
-msgstr ""
+msgstr "Dell helyreállító adathordozó összeállítása…"
 
 #. Type: text
 #. Description
-#: ../templates:4001
+#: ../templates:9001
 msgid "Opening Burner..."
+msgstr "Író megnyitása…"
+
+#. Type: text
+#. Description
+#: ../templates:10001
+msgid ""
+"This Dell Recovery Media can be used to restore the original factory "
+"software."
 msgstr ""
+"Ezen Dell helyreállító adathordozó segítségével visszaállítható az eredeti "
+"gyári szoftver."
+
+#. Type: text
+#. Description
+#: ../templates:11001
+msgid ""
+"It is recommended you back up all important data before running this tool."
+msgstr ""
+"Az eszköz futtatása előtt ajánlott mentést készíteni minden fontos adatról."
+
+#. Type: text
+#. Description
+#: ../templates:12001
+msgid "Restore Linux OS partitions"
+msgstr "Linux partíciók helyreállítása"
+
+#. Type: text
+#. Description
+#: ../templates:13001
+msgid "This will rebuild all OS and swap partitions to factory defaults."
+msgstr ""
+"Az összes rendszer- és swap partíció visszaállítása a gyári "
+"alapértelmezésekre."
+
+#. Type: text
+#. Description
+#. Type: text
+#. Description
+#: ../templates:14001 ../templates:17001
+msgid "WARNING: All personal files and changes will be lost."
+msgstr "FIGYELMEZTETÉS: minden személyes fájl és módosítás elvész."
+
+#. Type: text
+#. Description
+#: ../templates:15001
+msgid "Restore entire hard drive."
+msgstr "Teljes merevlemez visszaállítása."
+
+#. Type: text
+#. Description
+#: ../templates:16001
+msgid "This will rebuild all utility, recovery, and OS partitions."
+msgstr "Az összes szerviz-, helyreállítási és rendszerpartíció visszaállítása."
+
+#. Type: text
+#. Description
+#: ../templates:18001
+msgid "Restore only Linux OS partition."
+msgstr "Csak a Linux rendszerpartíció helyreállítása."
+
+#. Type: text
+#. Description
+#: ../templates:19001
+msgid "This option allows you to resize any existing partitions."
+msgstr "Ez lehetővé teszi a meglévő partíciók átméretezését."
+
+#. Type: text
+#. Description
+#. Type: text
+#. Description
+#: ../templates:20001 ../templates:32001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr "HIBA: Ez az adathordozó csak Dell rendszereken érvényes."
+
+#. Type: text
+#. Description
+#: ../templates:21001
+msgid "This window will close automatically when the process is complete. "
+msgstr "Ez az ablak automatikusan bezáródik a folyamat befejeződésekor. "
+
+#. Type: text
+#. Description
+#: ../templates:22001
+msgid "NOTE: Please be patient, this may take a while."
+msgstr "MEGJEGYZÉS: Legyen türelemmel, a kiinduló lekérés sokáig tarthat."
+
+#. Type: text
+#. Description
+#: ../templates:23001
+msgid "Create Dell Recovery Media?"
+msgstr "Létrehoz Dell helyreállító adathordozót?"
+
+#. Type: text
+#. Description
+#: ../templates:24001
+msgid ""
+"Dell Recovery Media can be used to restore your system to the same state as "
+"when it was first shipped to you."
+msgstr ""
+"A Dell helyreállító adathordozó segítségével rendszere visszaállítható a "
+"gyári állapotába."
+
+#. Type: text
+#. Description
+#: ../templates:25001
+msgid ""
+"It is highly recommended that you generate media and store it in a safe "
+"place."
+msgstr "Ajánlott előállítani az adathordozót, és biztonságos helyen tartani."
+
+#. Type: text
+#. Description
+#: ../templates:26001
+msgid "Save recovery media to an external USB flash drive"
+msgstr "A helyreállító adathordozó mentése külső USB flash kulcsra."
+
+#. Type: text
+#. Description
+#: ../templates:27001
+msgid "Note: This requires a USB flash drive with approximately 2GB free."
+msgstr ""
+"Megjegyzés: Ehhez egy USB-kulcsra lesz szükség, körülbelül 2 GB szabad "
+"hellyel."
+
+#. Type: text
+#. Description
+#: ../templates:28001
+msgid "Save recovery media to DVD"
+msgstr "Helyreállító adathordozó mentése DVD-re"
+
+#. Type: text
+#. Description
+#: ../templates:29001
+msgid "Note: This requires writable DVD media."
+msgstr "Megjegyzés: Ehhez egy írható DVD-re lesz szükség."
+
+#. Type: text
+#. Description
+#: ../templates:30001
+msgid "Don't generate recovery media at this time"
+msgstr "Most nem hozok létre helyreállító adathordozót"
+
+#. Type: text
+#. Description
+#: ../templates:31001
+msgid ""
+"Recovery Media can be generated later by choosing the tool from the System "
+"menu."
+msgstr ""
+"A helyreállító adathordozó később is előállítható az eszköz kiválasztásával "
+"a Rendszer menüből."
+
+#~ msgid "Recovery Type"
+#~ msgstr "Helyreállítás típusa"

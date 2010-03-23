@@ -14,6 +14,7 @@ dell-recovery (0.46) UNRELEASED; urgency=low
   * In the backend, clear out any existing UP's in an image if we are providing
     a new one.
   * Add logic to process .zip and .tgz type UP's in the backend.
+  * Update translations from launchpad.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
 

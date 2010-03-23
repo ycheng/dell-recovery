@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-19 01:59-0500\n"
+"POT-Creation-Date: 2010-03-23 01:25-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,7 +60,7 @@ msgstr ""
 msgid "Choose Media Type"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
+#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:19
 msgid "ISO Image"
 msgstr ""
 
@@ -68,43 +68,39 @@ msgstr ""
 msgid "Media Type: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:359
-msgid "Utility Partition: "
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:359 ../Dell/recovery_frontend.py:364
-msgid "Included"
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:362 ../Dell/recovery_frontend.py:364
+#: ../Dell/recovery_frontend.py:360 ../Dell/recovery_frontend.py:362
 msgid "Recovery Partition: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:370
+#: ../Dell/recovery_frontend.py:362
+msgid "Included"
+msgstr ""
+
+#: ../Dell/recovery_frontend.py:368
 msgid "Confirm Selections"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:392
+#: ../Dell/recovery_backend.py:397
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:398
+#: ../Dell/recovery_backend.py:403
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:413
+#: ../Dell/recovery_backend.py:418
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:562
+#: ../Dell/recovery_backend.py:580
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:609
+#: ../Dell/recovery_backend.py:646
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:651
+#: ../Dell/recovery_backend.py:688
 msgid "Building ISO"
 msgstr ""
 
@@ -206,60 +202,86 @@ msgid ""
 msgstr ""
 
 #: ../gtk/builder.ui.h:8
-msgid "Choose Image"
+msgid ""
+"BTO images can optionally include a Utility Partition for diagnostic "
+"utilities."
 msgstr ""
 
 #: ../gtk/builder.ui.h:9
-msgid "Detected Recovery Partition"
+msgid "Choose Content"
 msgstr ""
 
 #: ../gtk/builder.ui.h:10
-msgid "Extracted Directory"
+msgid "Choose Image"
 msgstr ""
 
 #: ../gtk/builder.ui.h:11
-msgid "FID GIT Tree"
+msgid "Detected Recovery Partition"
 msgstr ""
 
 #: ../gtk/builder.ui.h:12
-msgid "FID framework built into BTO image"
+msgid "Detected Utility Partition"
 msgstr ""
 
 #: ../gtk/builder.ui.h:13
-msgid "Fetch/Update GIT Tree"
+msgid "Extracted Directory"
 msgstr ""
 
 #: ../gtk/builder.ui.h:14
-msgid "GIT Tags/Branches:"
+msgid "FID GIT Tree"
 msgstr ""
 
 #: ../gtk/builder.ui.h:15
-msgid "GIT Tree Status"
+msgid "FID framework built into BTO image"
+msgstr ""
+
+#: ../gtk/builder.ui.h:16
+msgid "Fetch/Update GIT Tree"
 msgstr ""
 
 #: ../gtk/builder.ui.h:17
-msgid "Install git"
+msgid "GIT Tags/Branches:"
 msgstr ""
 
 #: ../gtk/builder.ui.h:18
-msgid "Selected Image Details:"
-msgstr ""
-
-#: ../gtk/builder.ui.h:19
-msgid "Selected Overlay Details:"
+msgid "GIT Tree Status"
 msgstr ""
 
 #: ../gtk/builder.ui.h:20
-msgid "Show Details"
+msgid "Install git"
 msgstr ""
 
 #: ../gtk/builder.ui.h:21
+msgid "No additional Utility Partition"
+msgstr ""
+
+#: ../gtk/builder.ui.h:22
+msgid "Select content for Utility Partition"
+msgstr ""
+
+#: ../gtk/builder.ui.h:23
+msgid "Selected Content Details:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:24
+msgid "Selected Image Details:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:25
+msgid "Selected Overlay Details:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:26
+msgid "Show Details"
+msgstr ""
+
+#: ../gtk/builder.ui.h:27
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
 msgstr ""
 
-#: ../gtk/builder.ui.h:22
+#: ../gtk/builder.ui.h:28
 msgid ""
 "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
 "the event that you are generating from an existing BTO image, you can use "

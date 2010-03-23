@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-01-14 15:13-0600\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"POT-Creation-Date: 2010-03-23 01:25-0500\n"
 "PO-Revision-Date: 2009-04-28 22:02+0000\n"
 "Last-Translator: Ruben <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -19,18 +19,158 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:2001
+#: ../templates:7001
 msgid "Building Dell Recovery Media..."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:4001
+#: ../templates:9001
 msgid "Opening Burner..."
 msgstr ""
 
-#~ msgid "Cancel Recovery Media Creator"
-#~ msgstr "Cancelar Recovery Media Creator"
+#. Type: text
+#. Description
+#: ../templates:10001
+msgid ""
+"This Dell Recovery Media can be used to restore the original factory "
+"software."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:11001
+msgid ""
+"It is recommended you back up all important data before running this tool."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:12001
+msgid "Restore Linux OS partitions"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:13001
+msgid "This will rebuild all OS and swap partitions to factory defaults."
+msgstr ""
+
+#. Type: text
+#. Description
+#. Type: text
+#. Description
+#: ../templates:14001 ../templates:17001
+msgid "WARNING: All personal files and changes will be lost."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:15001
+msgid "Restore entire hard drive."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:16001
+msgid "This will rebuild all utility, recovery, and OS partitions."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:18001
+msgid "Restore only Linux OS partition."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:19001
+msgid "This option allows you to resize any existing partitions."
+msgstr ""
+
+#. Type: text
+#. Description
+#. Type: text
+#. Description
+#: ../templates:20001 ../templates:32001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:21001
+msgid "This window will close automatically when the process is complete. "
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:22001
+msgid "NOTE: Please be patient, this may take a while."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:23001
+#, fuzzy
+#| msgid "Dell Recovery Media Creator"
+msgid "Create Dell Recovery Media?"
+msgstr "Creador de soportes de recuperación de Dell"
+
+#. Type: text
+#. Description
+#: ../templates:24001
+msgid ""
+"Dell Recovery Media can be used to restore your system to the same state as "
+"when it was first shipped to you."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:25001
+msgid ""
+"It is highly recommended that you generate media and store it in a safe "
+"place."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:26001
+msgid "Save recovery media to an external USB flash drive"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:27001
+msgid "Note: This requires a USB flash drive with approximately 2GB free."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:28001
+#, fuzzy
+#| msgid "Cancel Recovery Media Creator"
+msgid "Save recovery media to DVD"
+msgstr "Cancelar Recovery Media Creator"
+
+#. Type: text
+#. Description
+#: ../templates:29001
+msgid "Note: This requires writable DVD media."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:30001
+msgid "Don't generate recovery media at this time"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:31001
+msgid ""
+"Recovery Media can be generated later by choosing the tool from the System "
+"menu."
+msgstr ""
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "Disco DVD+/-RW"
@@ -55,9 +195,6 @@ msgstr ""
 
 #~ msgid "Choose Media Type"
 #~ msgstr "Escoger tipo de medio"
-
-#~ msgid "Dell Recovery Media Creator"
-#~ msgstr "Creador de soportes de recuperación de Dell"
 
 #~ msgid "Retry burn?"
 #~ msgstr "¿ Reintentar grabación ?"
@@ -96,11 +233,11 @@ msgstr ""
 #~ msgstr "Imagen ISO"
 
 #~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
-#~ "present to function."
+#~ "This tool requires that a Utility Partition and Linux Recovery partition "
+#~ "are present to function."
 #~ msgstr ""
-#~ "Esta herramienta requiere de una partición de utilidad y de una partición de "
-#~ "recuperación de Linux para poder funcionar."
+#~ "Esta herramienta requiere de una partición de utilidad y de una partición "
+#~ "de recuperación de Linux para poder funcionar."
 
 #~ msgid "Utility Partition: "
 #~ msgstr "Partición de utilidad: "
@@ -110,7 +247,8 @@ msgstr ""
 
 #~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
 #~ msgstr ""
-#~ "¿Seguro que quiere cancelar el proceso de creación del Medio de Recuperación?"
+#~ "¿Seguro que quiere cancelar el proceso de creación del Medio de "
+#~ "Recuperación?"
 
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr "Ha fallado la grabación en el soporte. ¿Quiere volver a intentarlo?"
@@ -128,8 +266,8 @@ msgstr ""
 #~ msgstr "Versión del SO: "
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you like "
-#~ "to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you "
+#~ "like to remove this old copy and regenerate the image?"
 #~ msgstr ""
 #~ "Ya existe una imagen (posiblemente de una ejecución anterior). ¿Quiere "
 #~ "eliminar esta copia antigua y volver a generar la imagen?"

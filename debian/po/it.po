@@ -6,34 +6,28 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-12 16:03-0600\n"
-"PO-Revision-Date: 2010-03-18 15:51+0000\n"
-"Last-Translator: Sergio Zanchetta <primes2h@ubuntu.com>\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"POT-Creation-Date: 2010-03-23 01:25-0500\n"
+"PO-Revision-Date: 2010-03-21 03:47+0000\n"
+"Last-Translator: Milo Casagrande <milo@casagrande.name>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
+"X-Launchpad-Export-Date: 2010-03-22 04:47+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
 #. Description
-#: ../templates:6001
+#: ../templates:7001
 msgid "Building Dell Recovery Media..."
-msgstr ""
-
-#. Type: text
-#. Description
-#: ../templates:8001
-msgid "Opening Burner..."
-msgstr "Apertura masterizzatore..."
+msgstr "Creazione supporto di ripristino Dell..."
 
 #. Type: text
 #. Description
 #: ../templates:9001
-msgid "Recovery Type"
-msgstr "Tipo di ripristino"
+msgid "Opening Burner..."
+msgstr "Apertura masterizzatore..."
 
 #. Type: text
 #. Description
@@ -42,6 +36,8 @@ msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
 msgstr ""
+"Questo supporto di ripristino Dell può essere utilizzato per riportare il "
+"software alle impostazioni di fabbrica."
 
 #. Type: text
 #. Description
@@ -49,7 +45,7 @@ msgstr ""
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
-"Si raccomanda di effettuare un backup di tutti i dati importanti prima di "
+"È consigliato effettuare un backup di tutti i dati importanti prima di "
 "eseguire questa applicazione."
 
 #. Type: text
@@ -63,6 +59,8 @@ msgstr ""
 #: ../templates:13001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
+"Questo riporterà tutte le partizioni del sistema operativo e l'area di swap "
+"alle impostazioni di fabbrica predefinite."
 
 #. Type: text
 #. Description
@@ -70,7 +68,7 @@ msgstr ""
 #. Description
 #: ../templates:14001 ../templates:17001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr ""
+msgstr "Attenzione: tutti i file e le modifiche personali verranno persi."
 
 #. Type: text
 #. Description
@@ -83,6 +81,8 @@ msgstr ""
 #: ../templates:16001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr ""
+"Questo rigenererà tutte le partizioni di utilità, recupero e del sistema "
+"operativo."
 
 #. Type: text
 #. Description
@@ -103,25 +103,26 @@ msgstr ""
 #. Description
 #: ../templates:20001 ../templates:32001
 msgid "ERROR: This media is only valid on Dell systems."
-msgstr ""
+msgstr "Errore: questo supporto può essere utilizzato solo su sistemi Dell."
 
 #. Type: text
 #. Description
 #: ../templates:21001
 msgid "This window will close automatically when the process is complete. "
 msgstr ""
+"La finestra verrà chiusa automaticamente quando il processo sarà completato. "
 
 #. Type: text
 #. Description
 #: ../templates:22001
 msgid "NOTE: Please be patient, this may take a while."
-msgstr ""
+msgstr "Nota: attendere, l'operazione potrebbe impiegare alcuni minuti."
 
 #. Type: text
 #. Description
 #: ../templates:23001
 msgid "Create Dell Recovery Media?"
-msgstr ""
+msgstr "Craere supporto di ripristino Dell?"
 
 #. Type: text
 #. Description
@@ -130,6 +131,8 @@ msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
+"Il supporto di ripristino Dell può essere utilizzato per ripristinare il "
+"sistema allo stato iniziale."
 
 #. Type: text
 #. Description
@@ -137,7 +140,7 @@ msgstr ""
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
-msgstr ""
+msgstr "È consigliato generare il supporto e conservarlo in un luogo sicuro."
 
 #. Type: text
 #. Description
@@ -149,7 +152,7 @@ msgstr ""
 #. Description
 #: ../templates:27001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
-msgstr ""
+msgstr "Nota: richiede un'unità flash USB con almeno 2GB di spazio libero."
 
 #. Type: text
 #. Description
@@ -161,7 +164,7 @@ msgstr ""
 #. Description
 #: ../templates:29001
 msgid "Note: This requires writable DVD media."
-msgstr ""
+msgstr "Nota: sono richiesti supporti DVD scrivibili."
 
 #. Type: text
 #. Description
@@ -176,6 +179,11 @@ msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
+"I supporti di ripristino possono essere generati successivamente scegliendo "
+"il programma dal menù Sistema."
+
+#~ msgid "Recovery Type"
+#~ msgstr "Tipo di ripristino"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "Disco DVD+/-RW"
@@ -200,9 +208,6 @@ msgstr ""
 
 #~ msgid "Welcome"
 #~ msgstr "Benvenuti"
-
-#~ msgid "Confirm Selections"
-#~ msgstr "Confermare le selezioni"
 
 #~ msgid "Choose Media Type"
 #~ msgstr "Scegliere il tipo di supporto"

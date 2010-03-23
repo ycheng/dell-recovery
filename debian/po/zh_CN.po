@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-12 16:03-0600\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"POT-Creation-Date: 2010-03-23 01:25-0500\n"
 "PO-Revision-Date: 2010-03-19 01:09+0000\n"
 "Last-Translator: Aron Xu <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
@@ -19,21 +19,15 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:6001
+#: ../templates:7001
 msgid "Building Dell Recovery Media..."
 msgstr "创建 Dell 恢复介质..."
 
 #. Type: text
 #. Description
-#: ../templates:8001
+#: ../templates:9001
 msgid "Opening Burner..."
 msgstr "打开刻录机..."
-
-#. Type: text
-#. Description
-#: ../templates:9001
-msgid "Recovery Type"
-msgstr "恢复类型"
 
 #. Type: text
 #. Description
@@ -174,6 +168,9 @@ msgid ""
 "menu."
 msgstr ""
 
+#~ msgid "Recovery Type"
+#~ msgstr "恢复类型"
+
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW 光盘"
 
@@ -226,9 +223,11 @@ msgstr ""
 #~ msgstr "确定要取消创建恢复光盘吗？"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you like "
-#~ "to remove this old copy and regenerate the image?"
-#~ msgstr "发现已经存在的镜像(可能是上次运行产生的)。是否删除旧的镜像，并重新生成新镜像？"
+#~ "An existing image was found (possibly from a previous run).  Would you "
+#~ "like to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "发现已经存在的镜像(可能是上次运行产生的)。是否删除旧的镜像，并重新生成新镜"
+#~ "像？"
 
 #~ msgid "Dell Recovery Media Creator"
 #~ msgstr "Dell 恢复光盘创建程序"
@@ -246,8 +245,8 @@ msgstr ""
 #~ msgstr "光盘刻录失败。要重试吗？"
 
 #~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
-#~ "present to function."
+#~ "This tool requires that a Utility Partition and Linux Recovery partition "
+#~ "are present to function."
 #~ msgstr "这个工具需要一个公用分区和Linux恢复分区才能进行操作。"
 
 #~ msgid "Building UP"

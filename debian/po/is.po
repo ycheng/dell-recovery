@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-12 16:03-0600\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"POT-Creation-Date: 2010-03-23 01:25-0500\n"
 "PO-Revision-Date: 2010-03-18 15:27+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Icelandic <is@li.org>\n"
@@ -19,20 +19,14 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:6001
+#: ../templates:7001
 msgid "Building Dell Recovery Media..."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:8001
-msgid "Opening Burner..."
-msgstr ""
-
-#. Type: text
-#. Description
 #: ../templates:9001
-msgid "Recovery Type"
+msgid "Opening Burner..."
 msgstr ""
 
 #. Type: text

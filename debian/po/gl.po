@@ -1,33 +1,33 @@
-# Bulgarian translation for dell-recovery
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# Galician translation for dell-recovery
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the dell-recovery package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2010-03-23 01:25-0500\n"
-"PO-Revision-Date: 2009-06-03 17:54+0000\n"
-"Last-Translator: Krasimir Chonov <mk2616@abv.bg>\n"
-"Language-Team: Bulgarian <bg@li.org>\n"
+"PO-Revision-Date: 2010-03-19 13:14+0000\n"
+"Last-Translator: Francisco Diéguez <Unknown>\n"
+"Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Launchpad-Export-Date: 2010-03-20 04:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
 #. Description
 #: ../templates:7001
 msgid "Building Dell Recovery Media..."
-msgstr ""
+msgstr "Construindo o soporte de Dell Recovery..."
 
 #. Type: text
 #. Description
 #: ../templates:9001
 msgid "Opening Burner..."
-msgstr ""
+msgstr "Abrindo a grabadora..."
 
 #. Type: text
 #. Description
@@ -36,6 +36,8 @@ msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
 msgstr ""
+"Este soporte de Dell Recovery pode ser usado para restaurar o software "
+"orixianl de fábrica."
 
 #. Type: text
 #. Description
@@ -43,18 +45,21 @@ msgstr ""
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
+"É recomendábel facer unha copia de seguridade antes de usar esta ferramenta."
 
 #. Type: text
 #. Description
 #: ../templates:12001
 msgid "Restore Linux OS partitions"
-msgstr ""
+msgstr "Restaurar as particións do SO Linux"
 
 #. Type: text
 #. Description
 #: ../templates:13001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
+"Isto reconstruirá todas as particións do SO e de intercambio ás predefinidas "
+"polo fabricante."
 
 #. Type: text
 #. Description
@@ -62,31 +67,33 @@ msgstr ""
 #. Description
 #: ../templates:14001 ../templates:17001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr ""
+msgstr "AVISO: Todos os seus ficheiros e cambios persoais perderanse."
 
 #. Type: text
 #. Description
 #: ../templates:15001
 msgid "Restore entire hard drive."
-msgstr ""
+msgstr "Restaurar todo o disco ríxido."
 
 #. Type: text
 #. Description
 #: ../templates:16001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr ""
+"Isto reconstruirá toda as particións do SO, recuperación e intercambio."
 
 #. Type: text
 #. Description
 #: ../templates:18001
 msgid "Restore only Linux OS partition."
-msgstr ""
+msgstr "Restaurar só as particións do SO Linux."
 
 #. Type: text
 #. Description
 #: ../templates:19001
 msgid "This option allows you to resize any existing partitions."
 msgstr ""
+"Esta opción permítelle redimensionar calquera das particións existentes."
 
 #. Type: text
 #. Description
@@ -94,27 +101,25 @@ msgstr ""
 #. Description
 #: ../templates:20001 ../templates:32001
 msgid "ERROR: This media is only valid on Dell systems."
-msgstr ""
+msgstr "ERRO: Este soporte só é válido para sistemas Dell."
 
 #. Type: text
 #. Description
 #: ../templates:21001
 msgid "This window will close automatically when the process is complete. "
-msgstr ""
+msgstr "Esta xanela pecharase cando o proceso se complete. "
 
 #. Type: text
 #. Description
 #: ../templates:22001
 msgid "NOTE: Please be patient, this may take a while."
-msgstr ""
+msgstr "NOTA: Teña paciencia, isto pode lever uns minutos."
 
 #. Type: text
 #. Description
 #: ../templates:23001
-#, fuzzy
-#| msgid "Dell Recovery Media Creator"
 msgid "Create Dell Recovery Media?"
-msgstr "Създаване на Dell носител за възстановяване"
+msgstr "Desexa crear un soporte de Recuperación de Dell?"
 
 #. Type: text
 #. Description
@@ -123,6 +128,8 @@ msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
+"O soporte de Recuperación de Dell pode usarse para restaurar o seu sistema "
+"ao mesmo estado que cando o comprou."
 
 #. Type: text
 #. Description
@@ -130,39 +137,38 @@ msgstr ""
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
-msgstr ""
+msgstr "É moi recomendábel que xere un soporte e o almacene nun lugar seguro."
 
 #. Type: text
 #. Description
 #: ../templates:26001
 msgid "Save recovery media to an external USB flash drive"
-msgstr ""
+msgstr "Gardar o soporte de recuperación nunha unidade flash USB externa"
 
 #. Type: text
 #. Description
 #: ../templates:27001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
 msgstr ""
+"Nota: Isto require unha unidade flash USB con aproximadamente 2GB libres."
 
 #. Type: text
 #. Description
 #: ../templates:28001
-#, fuzzy
-#| msgid "Cancel Recovery Media Creator"
 msgid "Save recovery media to DVD"
-msgstr "Отказ"
+msgstr "Gardar o soporte de recuperación a un DVD"
 
 #. Type: text
 #. Description
 #: ../templates:29001
 msgid "Note: This requires writable DVD media."
-msgstr ""
+msgstr "Nota: Isto require un soporte DVD escribíbel."
 
 #. Type: text
 #. Description
 #: ../templates:30001
 msgid "Don't generate recovery media at this time"
-msgstr ""
+msgstr "Non xerar o soporte de recuperación neste momento"
 
 #. Type: text
 #. Description
@@ -171,63 +177,8 @@ msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
+"Pode xerar o soporte de recuperación máis tarde seleccionando a ferramenta "
+"no menú do sistema."
 
-#~ msgid "Welcome"
-#~ msgstr "Добре дошли"
-
-#~ msgid "Opening Burner"
-#~ msgstr "Отваряне на записващо устройство"
-
-#~ msgid "Recovery Media Creation Process Complete"
-#~ msgstr "Създаването на носител за възстановяване завърши"
-
-#~ msgid "Building UP"
-#~ msgstr "Изграждане"
-
-#~ msgid "Recovery Partition: "
-#~ msgstr "Дял за възстановяване: "
-
-#~ msgid "File Name: "
-#~ msgstr "Файл: "
-
-#~ msgid "Media Type: "
-#~ msgstr "Тип носител: "
-
-#~ msgid "Confirm Selections"
-#~ msgstr "Потвърждение на изборите"
-
-#~ msgid "Choose Media Type"
-#~ msgstr "Изберете тип носител"
-
-#~ msgid "Utility Partition: "
-#~ msgstr "Програма за възстановяване: "
-
-#~ msgid "OS Release: "
-#~ msgstr "Издание на ОС: "
-
-#~ msgid "ISO Image"
-#~ msgstr "ISO образ"
-
-#~ msgid "Choose Target Directory"
-#~ msgstr "Изберете целева папка"
-
-#~ msgid "Building ISO"
-#~ msgstr "Създаване на ISO"
-
-#~ msgid "DVD+/-RW Disc"
-#~ msgstr "DVD+/-RW диск"
-
-#~ msgid "<activity placeholder>"
-#~ msgstr "<activity placeholder>"
-
-#~ msgid "USB Flash Drive"
-#~ msgstr "USB флаш памет"
-
-#~ msgid "No media, create ISO image"
-#~ msgstr "Няма носител, създаване на ISO образ"
-
-#~ msgid "Select a directory for the ISO"
-#~ msgstr "Изберете папка за ISO образа"
-
-#~ msgid "Retry burn?"
-#~ msgstr "Повторен опит?"
+#~ msgid "Recovery Type"
+#~ msgstr "Tipo de recuperación"

@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-12 16:03-0600\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"POT-Creation-Date: 2010-03-23 01:25-0500\n"
 "PO-Revision-Date: 2010-03-18 23:05+0000\n"
 "Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -19,21 +19,15 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:6001
+#: ../templates:7001
 msgid "Building Dell Recovery Media..."
 msgstr "Bygger återställningsmedia för Dell..."
 
 #. Type: text
 #. Description
-#: ../templates:8001
+#: ../templates:9001
 msgid "Opening Burner..."
 msgstr "Öppnar brännare..."
-
-#. Type: text
-#. Description
-#: ../templates:9001
-msgid "Recovery Type"
-msgstr "Återställningstyp"
 
 #. Type: text
 #. Description
@@ -114,8 +108,7 @@ msgstr "FEL: Detta media är endast giltigt på Dell-system."
 #. Description
 #: ../templates:21001
 msgid "This window will close automatically when the process is complete. "
-msgstr ""
-"Detta fönster kommer att stängas automatiskt när processen är färdig. "
+msgstr "Detta fönster kommer att stängas automatiskt när processen är färdig. "
 
 #. Type: text
 #. Description
@@ -189,6 +182,9 @@ msgid ""
 msgstr ""
 "Återställningsmedia kan genereras senare genom att välja verktyget från "
 "System-menyn."
+
+#~ msgid "Recovery Type"
+#~ msgstr "Återställningstyp"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW-skiva"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-19 01:59-0500\n"
-"PO-Revision-Date: 2010-03-19 01:09+0000\n"
+"PO-Revision-Date: 2010-03-19 12:49+0000\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
+"X-Launchpad-Export-Date: 2010-03-20 04:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:103
@@ -184,7 +184,7 @@ msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:9
 msgid "This requires a USB flash drive with approximately 2GB free."
-msgstr "Ehhez egy USB-kulcsra lesz szükség, körülbelül 2GB szabad hellyel."
+msgstr "Ehhez egy USB-kulcsra lesz szükség, körülbelül 2 GB szabad hellyel."
 
 #: ../gtk/recovery_media_creator.ui.h:10
 msgid "This requires writable DVD media."
@@ -212,12 +212,17 @@ msgid ""
 "This window will close automatically when the process is complete. \n"
 "<b>NOTE:</b> Please be patient, the initial fetch may take a while."
 msgstr ""
+"<b>A GIT lekérés folyamatban van.</b>\n"
+"Ez az ablak automatikusan bezáródik a folyamat befejeződésekor. \n"
+"<b>MEGJEGYZÉS:</b> Legyen türelemmel, a kiinduló lekérés sokáig tarthat."
 
 #: ../gtk/builder.ui.h:7
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
 msgstr ""
+"A lemezképbe integrálandó kiegészítő eszközmeghajtók vagy alkalmazások itt "
+"vehetők fel."
 
 #: ../gtk/builder.ui.h:8
 msgid "Choose Image"
@@ -249,29 +254,31 @@ msgstr "GIT címkék/ágak:"
 
 #: ../gtk/builder.ui.h:15
 msgid "GIT Tree Status"
-msgstr ""
+msgstr "GIT fa állapota"
 
 #: ../gtk/builder.ui.h:17
 msgid "Install git"
-msgstr ""
+msgstr "Git telepítése"
 
 #: ../gtk/builder.ui.h:18
 msgid "Selected Image Details:"
-msgstr ""
+msgstr "Kiválasztott lemezkép részletei:"
 
 #: ../gtk/builder.ui.h:19
 msgid "Selected Overlay Details:"
-msgstr ""
+msgstr "Kiválasztott elrendezés részletei:"
 
 #: ../gtk/builder.ui.h:20
 msgid "Show Details"
-msgstr ""
+msgstr "Részletek megjelenítése"
 
 #: ../gtk/builder.ui.h:21
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
 msgstr ""
+"Az alaprendszer lemezképe biztosítja a BTO lemezkép tartalmának zömét. Ez "
+"lehet változatlan rendszer lemezkép, vagy meglévő BTO lemezkép."
 
 #: ../gtk/builder.ui.h:22
 msgid ""
@@ -279,50 +286,60 @@ msgid ""
 "the event that you are generating from an existing BTO image, you can use "
 "the framework built into that image."
 msgstr ""
+"A FID-keretrendszer a változatlan lemezképre elsőként felkerülő darab. Ha "
+"meglévő BTO lemezképből építkezik, akkor használhatja az abba a lemezképbe "
+"épített keretrendszert."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
-msgstr ""
+msgstr "<b>HIBA:</b> Ez az adathordozó csak Dell rendszereken érvényes."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
 "<b>It is highly recommended that you generate media and store it in a safe "
 "place.</b>"
 msgstr ""
+"<b>Ajánlott előállítani az adathordozót, és biztonságos helyen tartani.</b>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
+"<b>Megjegyzés:</b> Ehhez egy USB-kulcsra lesz szükség, körülbelül 2 GB "
+"szabad hellyel."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid "<b>Note:</b> This requires writable DVD media."
-msgstr ""
+msgstr "<b>Megjegyzés:</b> Ehhez egy írható DVD-re lesz szükség."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr ""
+msgstr "<big><b>Létrehoz Dell helyreállító adathordozót?</b></big>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
+"A Dell helyreállító adathordozó segítségével rendszere visszaállítható a "
+"gyári állapotába."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
-msgstr ""
+msgstr "Most nem hozok létre helyreállító adathordozót"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
+"A helyreállító adathordozó később is előállítható az eszköz kiválasztásával "
+"a Rendszer menüből."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
-msgstr ""
+msgstr "Helyreállító adathordozó mentése DVD-re"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
-msgstr ""
+msgstr "A helyreállító adathordozó mentése külső USB flash kulcsra."
