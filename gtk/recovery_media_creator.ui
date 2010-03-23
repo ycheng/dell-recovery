@@ -150,6 +150,9 @@
       <placeholder/>
     </child>
     <child>
+      <placeholder/>
+    </child>
+    <child>
       <object class="GtkLabel" id="start_page">
         <property name="visible">True</property>
         <property name="label" translatable="yes">This application will create OS Recovery Media that can be used to restore the computer to its factory shipped state.  You will have the option to create an USB key or DVD image.</property>
@@ -328,9 +331,6 @@
           </packing>
         </child>
       </object>
-      <packing>
-        <property name="page_type">intro</property>
-      </packing>
     </child>
     <child>
       <placeholder/>
