@@ -15,6 +15,8 @@ dell-recovery (0.46) UNRELEASED; urgency=low
     a new one.
   * Add logic to process .zip and .tgz type UP's in the backend.
   * Update translations from launchpad.
+  * Install the 99_dell_recovery in /usr/share/dell/grub rather than
+    /usr/share/dell.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
 

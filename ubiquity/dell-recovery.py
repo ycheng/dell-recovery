@@ -125,12 +125,12 @@ class Install(InstallPlugin):
             return
 
         rp = magic.find_factory_rp_stats()
-        if rp and os.path.exists('/usr/share/dell/99_dell_recovery'):
+        if rp and os.path.exists('/usr/share/dell/grub/99_dell_recovery'):
             if not os.path.isdir('/etc/grub.d'):
                 os.makedirs('/etc/grub.d')
             import lsb_release
             release = lsb_release.get_distro_information()
-            with open("/usr/share/dell/99_dell_recovery", "r") as base:
+            with open("/usr/share/dell/grub/99_dell_recovery", "r") as base:
                 with open('/etc/grub.d/99_dell_recovery', 'w') as output:
                     for line in base.readlines():
                         if "#PARTITION#" in line:
