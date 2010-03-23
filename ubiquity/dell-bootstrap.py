@@ -233,11 +233,8 @@ class Page(Plugin):
 
     def explode_utility_partition(self):
         '''Explodes all content onto the utility partition
-
-           Full partition backups: upimg.bin, upimg.gz
-           File only      backups: up.zip   , up.tgz
         '''
-        for file in ['upimg.bin', 'upimg.gz', 'up.zip', 'up.tgz']:
+        for file in magic.up_filenames:
             if os.path.exists(os.path.join(CDROM_MOUNT, file)):
                 #Restore full UP backup (dd)
                 if '.bin' in file or '.gz' in file:
@@ -262,7 +259,7 @@ class Page(Plugin):
                     umount = misc.execute_root('umount', '/boot')
                     if umount is False:
                         raise RuntimeError, ("Error unmounting utility partition post-explosion.")
-                #Clean up UP so it's not rewritten on next boot to RP                    
+                #Clean up UP so it's not rewritten on next boot to RP
                 cd_mount = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
                 if cd_mount is False:
                     raise RuntimeError, ("Error remounting RP to clean up post explosion.")
@@ -446,11 +443,11 @@ class Page(Plugin):
                 if self.rp_builder.exception:
                     self.handle_exception(self.rp_builder.exception)
                 self.boot_rp()
-    
+
             # User recovery - resizing drives
             elif type == "interactive":
                 self.unset_drive_preseeds()
-    
+
             # Factory install, post kexec, and booting from RP
             else:
                 self.fixup_factory_devices()
@@ -545,7 +542,7 @@ class rp_builder(Thread):
         command = ('mkfs.msdos', '-n', 'DellUtility', self.device + UP_PART)
         fs = misc.execute_root(*command)
         if fs is False:
-            raise RuntimeError, ("Error creating utility partition filesystem on %s%s" % (self.device, UP_PART))        
+            raise RuntimeError, ("Error creating utility partition filesystem on %s%s" % (self.device, UP_PART))
 
         #Build RP filesystem
         if self.rp_type == TYPE_VFAT:
@@ -692,7 +689,7 @@ class Install(InstallPlugin):
                 #system and will go through OOBE
                 if rp:
                     to_install.append('dell-recovery')
-                
+
         except debconf.DebconfError, e:
             pass
 

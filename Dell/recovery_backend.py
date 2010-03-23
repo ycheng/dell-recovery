@@ -41,6 +41,8 @@ import shutil
 import datetime
 import distutils.dir_util
 import re
+import stat
+import zipfile
 
 from Dell.recovery_common import *
 
@@ -439,6 +441,12 @@ class Backend(dbus.service.Object):
             logging.debug("assemble_image: done inserting fish")
             manifest.close()
 
+        #If a UP exists and we wanted to replace it, wipe it away
+        if up:
+            for file in up_filenames:
+                if os.path.exists(os.path.join(assembly_tmp, file)):
+                    os.remove(os.path.join(assembly_tmp, file))
+
         function=getattr(Backend,create_fn)
         function(self,up,assembly_tmp,version,iso)
 
@@ -565,15 +573,36 @@ class Backend(dbus.service.Object):
         file.write(str(datetime.date.today()) + '\n')
         file.close()
 
-        #If necessary, build the UP
-        if not os.path.exists(os.path.join(mntdir,'upimg.bin')) and up:
-            self.start_pulsable_progress_thread(_('Building Dell Utility Partition'))
-            p1 = subprocess.Popen(['dd','if=' + up,'bs=1M'], stdout=subprocess.PIPE)
-            p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
-            partition_file=open(os.path.join(tmpdir, 'upimg.bin'), "w")
-            partition_file.write(p2.communicate()[0])
-            partition_file.close()
-            self.stop_progress_thread()
+        #If necessary, include the UP
+        if up and os.path.exists(up):
+            #device node
+            if stat.S_ISBLK(os.stat(up).st_mode):
+                self.start_pulsable_progress_thread(_('Building Dell Utility Partition'))
+                p1 = subprocess.Popen(['dd','if=' + up,'bs=1M'], stdout=subprocess.PIPE)
+                p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
+                partition_file=open(os.path.join(tmpdir, 'upimg.gz'), "w")
+                partition_file.write(p2.communicate()[0])
+                partition_file.close()
+                self.stop_progress_thread()
+
+            #tgz type
+            elif tarfile.is_tarfile(up):
+                try:
+                    shutil.copy(up, os.path.join(tmpdir, 'up.tgz'))
+                except Exception, e:
+                    print >> sys.stderr, \
+                        "Error with tgz: %s." % str(e)
+                    raise CreateFailed("Error building Utility Partition : %s" % str(e))
+
+            #probably a zip
+            else:
+                try:
+                    file = zipfile.ZipFile(up)
+                    shutil.copy(up, os.path.join(tmpdir, 'up.zip'))
+                except Exception, e:
+                    print >> sys.stderr, \
+                        "Error with zipfile: %s." % str(e)
+                    raise CreateFailed("Error building Utility Partition : %s" % str(e))
 
         #Arg list
         genisoargs=['genisoimage',

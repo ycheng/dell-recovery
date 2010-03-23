@@ -10,6 +10,10 @@ dell-recovery (0.46) UNRELEASED; urgency=low
     mode.
   * Fix the frontend to declare the intro page as an intro page and all other
     pages as progress pages.
+  * Move the declarations of valid up names to recovery_common.
+  * In the backend, clear out any existing UP's in an image if we are providing
+    a new one.
+  * Add logic to process .zip and .tgz type UP's in the backend.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
 

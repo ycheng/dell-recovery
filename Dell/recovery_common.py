@@ -64,6 +64,13 @@ git_trees = { 'ubuntu': 'http://' + url + '/git/ubuntu-fid.git',
               'redhat': 'http://humbolt.us.dell.com/pub/Applications/git-internal-projects/redhat-fid.git',
             }
 
+#UP File names
+up_filenames =  [ 'upimg.bin',
+                  'upimg.gz' ,
+                  'up.zip'   ,
+                  'up.tgz'   ,
+                ]
+
 ##                ##
 ##Common Functions##
 ##                ##

@@ -138,10 +138,9 @@ create an USB key or DVD image."))
             if self.up:
                 self.builder_widgets.get_object('utility_hbox').set_sensitive(True)
             filter = gtk.FileFilter()
-            filter.add_pattern("*.bin")
-            filter.add_pattern("*.gz")
-            filter.add_pattern("*.tgz")
-            filter.add_pattern("*.zip")
+            for file in up_filenames:
+                pattern = file.split('.')[1]
+                filter.add_pattern("*.%s" % pattern)
 
             self.file_dialog.set_filter(filter)
             self.up_toggled(None)
@@ -226,6 +225,7 @@ create an USB key or DVD image."))
         wizard = self.widgets.get_object('wizard')
 
         if self.builder_widgets.get_object('up_files_radio').get_active():
+            self.builder_widgets.get_object('up_details_label').set_markup("")
             self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
             up_browse_button.set_sensitive(True)
             wizard.set_page_complete(up_page,False)
@@ -241,7 +241,7 @@ create an USB key or DVD image."))
     def up_file_chooser_picked(self,widget=None):
         """Called when a file is selected on the up page"""
 
-        base_page = self.builder_widgets.get_object('up_page')
+        up_page = self.builder_widgets.get_object('up_page')
         wizard = self.widgets.get_object('wizard')
 
         if widget == self.builder_widgets.get_object('up_browse_button'):
@@ -251,9 +251,11 @@ create an USB key or DVD image."))
                 wizard.set_page_complete(up_page,True)
 
         if self.bto_up:
-            output_text = "<b> Utility Partition </b>: %s" % str(self.bto_up)
+            call = subprocess.Popen(['file', self.bto_up], stdout=subprocess.PIPE)
+            output_text = "<b> Utility Partition </b>:\n"
+            output_text+= call.communicate()[0].replace(', ','\n')
         else:
-            output_text = "No Utility Partition"
+            output_text = "No Additional Utility Partition"
 
         self.builder_widgets.get_object('up_details_label').set_markup(output_text)
 

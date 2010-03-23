@@ -677,7 +677,7 @@ This window will close automatically when the process is complete.
                 <property name="spacing">10</property>
                 <child>
                   <object class="GtkRadioButton" id="no_up_radio">
-                    <property name="label" translatable="yes">Empty Utility Partition</property>
+                    <property name="label" translatable="yes">No additional Utility Partition</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
