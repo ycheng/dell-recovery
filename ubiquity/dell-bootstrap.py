@@ -72,6 +72,9 @@ class PageNoninteractive(PluginUI):
     def show_exception_dialog(self,e):
         pass
 
+    def show_partition_info(self, part):
+        pass
+
 ############
 # GTK Page #
 ############
@@ -89,6 +92,7 @@ class PageGtk(PluginUI):
             builder.add_from_file('/usr/share/ubiquity/gtk/stepDellBootstrap.ui')
             builder.connect_signals(self)
             self.controller = controller
+            self.icon = builder.get_object('dell_image')
             self.plugin_widgets = builder.get_object('stepDellBootstrap')
             self.automated_recovery = builder.get_object('automated_recovery')
             self.automated_recovery_box = builder.get_object('automated_recovery_box')
@@ -153,6 +157,7 @@ class PageGtk(PluginUI):
 
     def show_info_dialog(self):
         self.controller._wizard.step_label.set_markup('')
+        self.controller._wizard.quit.set_label('Cancel')
         self.controller.allow_go_forward(False)
         self.automated_recovery_box.hide()
         self.interactive_recovery_box.hide()
@@ -169,6 +174,9 @@ class PageGtk(PluginUI):
         self.err_dialog.format_secondary_text(str(e))
         self.err_dialog.run()
         self.err_dialog.hide()
+        
+    def show_partition_info(self, part):
+        self.icon.set_tooltip_markup("<b>Device:</b> %s" % part)
 
 ################
 # Debconf Page #
@@ -424,6 +432,17 @@ class Page(Plugin):
         except debconf.DebconfError:
             pass
 
+        #Clarify which device we're operating on initially in the UI
+        try:
+            if type != 'factory' and type != 'hdd':
+                self.fixup_recovery_devices()
+            else:
+                self.fixup_factory_devices()
+        except Exception, e:
+            self.handle_exception(e)
+            self.cancel_handler()
+        self.ui.show_partition_info(self.device)
+
         return (['/usr/share/ubiquity/dell-bootstrap'], ['dell-recovery/recovery_type'])
 
     def ok_handler(self):
@@ -439,7 +458,6 @@ class Page(Plugin):
         try:
             # User recovery - need to copy RP
             if type == "automatic":
-                self.fixup_recovery_devices()
                 self.ui.show_info_dialog()
                 self.disable_swap()
                 with misc.raised_privileges():
@@ -459,7 +477,6 @@ class Page(Plugin):
 
             # Factory install, post kexec, and booting from RP
             else:
-                self.fixup_factory_devices()
                 self.disable_swap()
                 self.remove_extra_partitions()
                 self.explode_utility_partition()

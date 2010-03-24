@@ -23,6 +23,8 @@ dell-recovery (0.46) UNRELEASED; urgency=low
   * Dynamically fill grub.cfg's partition and OS information out.
   * Clean up the text for the reboot dialog to clarify the action that needs
     to happen.
+  * Add a tooltip to the dell-dvd image to show the device we're working on
+    for debug purposes.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
 
