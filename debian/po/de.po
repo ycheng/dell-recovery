@@ -7,39 +7,190 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-01-14 15:13-0600\n"
-"PO-Revision-Date: 2010-01-26 14:31+0000\n"
-"Last-Translator: Henning Eggers <henning.eggers@canonical.com>\n"
+"POT-Creation-Date: 2010-03-23 01:25-0500\n"
+"PO-Revision-Date: 2010-03-23 22:18+0000\n"
+"Last-Translator: Moritz Baumann <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-27 04:46+0000\n"
+"X-Launchpad-Export-Date: 2010-03-24 04:54+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
 #. Description
-#: ../templates:2001
+#: ../templates:7001
 msgid "Building Dell Recovery Media..."
-msgstr "Erstelle Dell Wiederherstellungsmedium ..."
+msgstr "Dell-Wiederherstellungsmedium wird erstellt …"
 
 #. Type: text
 #. Description
-#: ../templates:4001
+#: ../templates:9001
 msgid "Opening Burner..."
-msgstr "Öffne Brenner ..."
+msgstr "Brenner wird geöffnet …"
+
+#. Type: text
+#. Description
+#: ../templates:10001
+msgid ""
+"This Dell Recovery Media can be used to restore the original factory "
+"software."
+msgstr ""
+"Dieses Dell-Wiederherstellungsmedium kann verwendet werden, um die "
+"ursprünglich installierte Software wiederherzustellen."
+
+#. Type: text
+#. Description
+#: ../templates:11001
+msgid ""
+"It is recommended you back up all important data before running this tool."
+msgstr ""
+"Sie sollten alle wichtigen Daten sichern, bevor Sie dieses Programm "
+"ausführen."
+
+#. Type: text
+#. Description
+#: ../templates:12001
+msgid "Restore Linux OS partitions"
+msgstr "Linux-Betriebssystempartitionen wiederherstellen"
+
+#. Type: text
+#. Description
+#: ../templates:13001
+msgid "This will rebuild all OS and swap partitions to factory defaults."
+msgstr ""
+"Stellt alle Betriebssystem- und Swap-Partitionen nach den Vorgaben wieder "
+"her."
+
+#. Type: text
+#. Description
+#. Type: text
+#. Description
+#: ../templates:14001 ../templates:17001
+msgid "WARNING: All personal files and changes will be lost."
+msgstr ""
+"WARNUNG: Alle persönlichen Daten und Änderungen werden verloren gehen."
+
+#. Type: text
+#. Description
+#: ../templates:15001
+msgid "Restore entire hard drive."
+msgstr "Gesamte Festplatte wiederherstellen."
+
+#. Type: text
+#. Description
+#: ../templates:16001
+msgid "This will rebuild all utility, recovery, and OS partitions."
+msgstr ""
+"Stellt alle Werkzeug-, Wiederherstellungs- und Betriebssystempartitionen "
+"wieder her."
+
+#. Type: text
+#. Description
+#: ../templates:18001
+msgid "Restore only Linux OS partition."
+msgstr "Nur Linux-Betriebssystempartition wiederherstellen."
+
+#. Type: text
+#. Description
+#: ../templates:19001
+msgid "This option allows you to resize any existing partitions."
+msgstr ""
+"Diese Option ermöglicht es Ihnen, die Größen aller bestehenden Partitionen "
+"zu ändern."
+
+#. Type: text
+#. Description
+#. Type: text
+#. Description
+#: ../templates:20001 ../templates:32001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr "FEHLER: Dieses Medium kann nur auf Dell-Systemen verwendet werden."
+
+#. Type: text
+#. Description
+#: ../templates:21001
+msgid "This window will close automatically when the process is complete. "
+msgstr ""
+"Dieses Fenster wird sich nach Beendigung des Vorgangs automatisch schließen. "
+
+#. Type: text
+#. Description
+#: ../templates:22001
+msgid "NOTE: Please be patient, this may take a while."
+msgstr "HINWEIS: Bitte haben Sie Geduld, dies könnte eine Weile dauern."
+
+#. Type: text
+#. Description
+#: ../templates:23001
+msgid "Create Dell Recovery Media?"
+msgstr "Dell-Wiederherstellungsmedium erstellen?"
+
+#. Type: text
+#. Description
+#: ../templates:24001
+msgid ""
+"Dell Recovery Media can be used to restore your system to the same state as "
+"when it was first shipped to you."
+msgstr ""
+"Dell-Wiederherstellungsmedien können zum Zurücksetzen Ihres Systems (in den "
+"Zustand, in dem es Ihnen geliefert wurde) benutzt werden."
+
+#. Type: text
+#. Description
+#: ../templates:25001
+msgid ""
+"It is highly recommended that you generate media and store it in a safe "
+"place."
+msgstr ""
+"Es wird dringend geraten, ein Wiederherstellungsmedium zu erstellen und an "
+"einem sicheren Ort aufzubewahren."
+
+#. Type: text
+#. Description
+#: ../templates:26001
+msgid "Save recovery media to an external USB flash drive"
+msgstr ""
+"Wiederherstellungsmedium auf einem externen USB-Flash-Laufwerk speichern"
+
+#. Type: text
+#. Description
+#: ../templates:27001
+msgid "Note: This requires a USB flash drive with approximately 2GB free."
+msgstr ""
+"HINWEIS: Ein USB-Flash-Laufwerk mit ungefähr 2GB freiem Speicher wird "
+"benötigt."
+
+#. Type: text
+#. Description
+#: ../templates:28001
+msgid "Save recovery media to DVD"
+msgstr "Wiederherstellungsmedium auf DVD speichern"
+
+#. Type: text
+#. Description
+#: ../templates:29001
+msgid "Note: This requires writable DVD media."
+msgstr "HINWEIS: Eine beschreibbare DVD wird benötigt."
+
+#. Type: text
+#. Description
+#: ../templates:30001
+msgid "Don't generate recovery media at this time"
+msgstr "Wiederherstellungsmedium jetzt nicht erstellen"
+
+#. Type: text
+#. Description
+#: ../templates:31001
+msgid ""
+"Recovery Media can be generated later by choosing the tool from the System "
+"menu."
+msgstr ""
+"Das Wiederherstellungsmedium kann später erstellt werden, indem Sie das "
+"Werkzeug im System-Menü wählen."
 
 #~ msgid "<activity placeholder>"
 #~ msgstr "<Aktivitätsplatzhalter>"
-
-#~ msgid "Cancel Recovery Media Creator"
-#~ msgstr "Recovery Media Creator abbrechen"
-
-#~ msgid "USB Flash Drive"
-#~ msgstr "USB Flash-Laufwerk"
-
-#~ msgid "Opening Burner"
-#~ msgstr "\"CD-Brenner öffnen"
 
 #~ msgid "Media Type: "
 #~ msgstr "Medientyp: "
@@ -47,20 +198,8 @@ msgstr "Öffne Brenner ..."
 #~ msgid "Welcome"
 #~ msgstr "Willkommen"
 
-#~ msgid "Confirm Selections"
-#~ msgstr "Auswahloption bestätigen"
-
 #~ msgid "Choose Media Type"
 #~ msgstr "Medientyp wählen"
-
-#~ msgid "Recovery Media Creation Process Complete"
-#~ msgstr "Recovery Media Erstellungsvorgang fertig"
-
-#~ msgid "Dell Recovery Media Creator"
-#~ msgstr "Dell Media Creator-Wiederherstellungsprogramm"
-
-#~ msgid "DVD+/-RW Disc"
-#~ msgstr "DVD+/-RW Disk"
 
 #~ msgid "Retry burn?"
 #~ msgstr "Brennen erneut versuchen?"
@@ -96,14 +235,8 @@ msgstr "Öffne Brenner ..."
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Keine Verbindung zum D-Bus"
 
-#~ msgid "Building ISO"
-#~ msgstr "Erzeuge ISO"
-
 #~ msgid "Generating UUID"
 #~ msgstr "Erzeuge UUID"
-
-#~ msgid "No media, create ISO image"
-#~ msgstr "Kein Medium, erzeuge ISO-Abbild"
 
 #~ msgid "Select a directory for the ISO"
 #~ msgstr "Wähle Verzeichnis für ISO-Abbild"
@@ -118,11 +251,6 @@ msgstr "Öffne Brenner ..."
 #~ msgstr ""
 #~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch einmal "
 #~ "versuchen?"
-
-#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
-#~ msgstr ""
-#~ "Sind sie sich sicher, dass sie den Erstellungsprozess des "
-#~ "Wiederherstellungsdatenträgers abbrechen möchten?"
 
 #~ msgid "Invalid recovery partition"
 #~ msgstr "Ungültige Wiederherstellungspartition"
