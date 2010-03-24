@@ -72,7 +72,10 @@ class PageNoninteractive(PluginUI):
     def show_exception_dialog(self,e):
         pass
 
-    def show_partition_info(self, part):
+    def get_selected_device(self):
+        pass
+
+    def populate_devices(self, devices):
         pass
 
 ############
@@ -92,10 +95,10 @@ class PageGtk(PluginUI):
             builder.add_from_file('/usr/share/ubiquity/gtk/stepDellBootstrap.ui')
             builder.connect_signals(self)
             self.controller = controller
-            self.icon = builder.get_object('dell_image')
             self.plugin_widgets = builder.get_object('stepDellBootstrap')
             self.automated_recovery = builder.get_object('automated_recovery')
             self.automated_recovery_box = builder.get_object('automated_recovery_box')
+            self.automated_combobox = builder.get_object('hard_drive_combobox')
             self.interactive_recovery = builder.get_object('interactive_recovery')
             self.interactive_recovery_box = builder.get_object('interactive_recovery_box')
             self.hdd_recovery = builder.get_object('hdd_recovery')
@@ -106,6 +109,15 @@ class PageGtk(PluginUI):
             self.info_box = builder.get_object('info_box')
             self.info_spinner = builder.get_object('info_spinner')
             self.err_dialog = builder.get_object('err_dialog')
+
+            #For debug purposes, show our /cdrom mount point on the DVD image
+            icon = builder.get_object('dell_image')
+            with open('/proc/mounts','r') as mounts:
+                for line in mounts.readlines():
+                    if '/cdrom' in line:
+                        icon.set_tooltip_markup("<b>Mounted from</b>: %s" % line.split()[0])
+                        break
+
             if not self.genuine:
                 self.interactive_recovery_box.hide()
                 self.automated_recovery_box.hide()
@@ -132,6 +144,15 @@ class PageGtk(PluginUI):
         else:
             return ""
 
+    def get_selected_device(self):
+        """Returns the selected device from the GUI"""
+        device = ''
+        model = self.automated_combobox.get_model()
+        iterator = self.automated_combobox.get_active_iter()
+        if iterator is not None:
+            device = model.get_value(iterator,0)
+        return device
+
     def set_type(self,type):
         """Sets the type of recovery to do in GUI"""
         if not self.genuine:
@@ -154,6 +175,7 @@ class PageGtk(PluginUI):
     def toggle_type(self, widget):
         """Allows the user to go forward after they've made a selection'"""
         self.controller.allow_go_forward(True)
+        self.automated_combobox.set_sensitive(self.automated_recovery.get_active())
 
     def show_info_dialog(self):
         self.controller._wizard.step_label.set_markup('')
@@ -174,10 +196,19 @@ class PageGtk(PluginUI):
         self.err_dialog.format_secondary_text(str(e))
         self.err_dialog.run()
         self.err_dialog.hide()
-        
-    def show_partition_info(self, part):
-        self.icon.set_tooltip_markup("<b>Device:</b> %s" % part)
 
+    def populate_devices(self, devices):
+        """Feeds a selection of devices into the GUI
+           devices should be an array of 2 colum arrays
+        """
+        #populate the devices
+        liststore = self.automated_combobox.get_model()
+        for device in devices:
+            liststore.append(device)
+
+        #default to the first item active (it should be sorted anyway)
+        self.automated_combobox.set_active(0)
+       
 ################
 # Debconf Page #
 ################
@@ -349,7 +380,10 @@ class Page(Plugin):
 
             #if we made it this far, add it
             devicefile = dev.Get('org.freedesktop.Udisks.Device','DeviceFile')
-            disks.append(devicefile)
+            devicemodel = dev.Get('org.freedesktop.Udisks.Device','DriveModel')
+            devicevendor = dev.Get('org.freedesktop.Udisks.Device','DriveVendor')
+            devicesize = "%i GB" % (dev.Get('org.freedesktop.Udisks.Device','DeviceSize') / 1000000000)
+            disks.append([devicefile,"%s %s %s (%s)" % (devicesize, devicevendor, devicemodel, devicefile)])
 
         #If multiple candidates were found, record in the logs
         if len(disks) == 0:
@@ -357,10 +391,13 @@ class Page(Plugin):
         if len(disks) > 1:
             disks.sort()
             self.debug("Multiple disk candidates were found: %s" % disks)
-        
-        #Always choose the first candidate
-        self.device = disks[0]
+
+        #Always choose the first candidate to start
+        self.device = disks[0][0]
         self.debug("Fixed up device we are operating on is %s" % self.device)
+
+        #populate UI
+        self.ui.populate_devices(disks)
 
     def fixup_factory_devices(self):
         #Ignore any EDD settings - we want to just plop on the same drive with
@@ -440,7 +477,6 @@ class Page(Plugin):
         except Exception, e:
             self.handle_exception(e)
             self.cancel_handler()
-        self.ui.show_partition_info(self.device)
 
         return (['/usr/share/ubiquity/dell-bootstrap'], ['dell-recovery/recovery_type'])
 
@@ -448,6 +484,9 @@ class Page(Plugin):
         """Copy answers from debconf questions"""
         type = self.ui.get_type()
         self.preseed('dell-recovery/recovery_type', type)
+        device = self.ui.get_selected_device()
+        if device:
+            self.device = device
         return Plugin.ok_handler(self)
 
     def cleanup(self):

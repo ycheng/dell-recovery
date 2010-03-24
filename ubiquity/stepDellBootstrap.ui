@@ -191,6 +191,32 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkAlignment" id="alignment6">
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="xscale">0</property>
+                    <property name="left_padding">25</property>
+                    <child>
+                      <object class="GtkComboBox" id="hard_drive_combobox">
+                        <property name="visible">True</property>
+                        <property name="sensitive">False</property>
+                        <property name="model">hard_drive_liststore</property>
+                        <child>
+                          <object class="GtkCellRendererText" id="cellrenderertext1"/>
+                          <attributes>
+                            <attribute name="text">1</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkAlignment" id="alignment3">
                     <property name="visible">True</property>
                     <property name="left_padding">25</property>
@@ -207,7 +233,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -227,7 +253,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>
@@ -489,5 +515,13 @@ and reboot your system.</property>
     <property name="xalign">0</property>
     <property name="yalign">0</property>
     <property name="icon_name">gnome-session-reboot</property>
+  </object>
+  <object class="GtkListStore" id="hard_drive_liststore">
+    <columns>
+      <!-- column-name device -->
+      <column type="gchararray"/>
+      <!-- column-name information -->
+      <column type="gchararray"/>
+    </columns>
   </object>
 </interface>

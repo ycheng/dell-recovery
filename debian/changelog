@@ -23,8 +23,8 @@ dell-recovery (0.46) UNRELEASED; urgency=low
   * Dynamically fill grub.cfg's partition and OS information out.
   * Clean up the text for the reboot dialog to clarify the action that needs
     to happen.
-  * Add a tooltip to the dell-dvd image to show the device we're working on
-    for debug purposes.
+  * Add a tooltip to the dell-dvd image to show the device the recovery media
+    is mounted on, for debug purposes.
   * Convert the swap detection unmount routine to use udisks.
   * Convert the install disk detection routine to use udisks.
   * No longer rely on the preseeded value for partman-auto/disks.  We'll be
@@ -34,6 +34,9 @@ dell-recovery (0.46) UNRELEASED; urgency=low
   * Set the default recovery partition grub menu colors to red/white rather than
     red/black to better emulate what we see in the factory with failures.
   * Detect invalid recovery partition filesystems and notify the user.
+  * Send the detected potential devices list to the frontend.
+  * Allow the user to select a different disk than the first one in the UI if
+    they would like to.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
 
