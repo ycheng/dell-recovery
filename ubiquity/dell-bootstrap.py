@@ -184,8 +184,7 @@ class PageGtk(PluginUI):
 class Page(Plugin):
     def __init__(self, frontend, db=None, ui=None):
         self.kexec = False
-        self.device = '/dev/sda'
-        self.node = ''
+        self.device = None
         Plugin.__init__(self, frontend, db, ui)
 
     def install_grub(self):
@@ -217,12 +216,21 @@ class Page(Plugin):
 
     def disable_swap(self):
         """Disables any swap partitions in use"""
-        with open('/proc/swaps','r') as swap:
-            for line in swap.readlines():
-                if self.device in line or (self.node and self.node in line):
-                    misc.execute_root('swapoff', line.split()[0])
-                    if misc is False:
-                        raise RuntimeError, ("Error disabling swap on device %s" % line.split()[0])
+        bus = dbus.SystemBus()
+
+        udisk_obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
+        ud = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
+        devices = ud.EnumerateDevices()
+        for device in devices:
+            dev_obj = bus.get_object('org.freedesktop.UDisks', device)
+            dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
+
+            #Find mounted swap
+            if dev.Get('org.freedesktop.UDisks.Device','IdType') == 'swap':
+                device = dev.Get('org.freedesktop.Udisks.Device','DeviceFile')
+                misc.execute_root('swapoff', device)
+                if misc is False:
+                    raise RuntimeError, ("Error removing swap for device %s" % device)
 
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
@@ -320,43 +328,38 @@ class Page(Plugin):
         self.db.set('partman/filter_mounted', 'true')
 
     def fixup_recovery_devices(self):
-        """Fixes self.device to not be a symlink"""
-        #Normally we do want the first edd device, but if we're booted from a USB
-        #stick, that's just not true anymore
-        if 'edd' in self.device:
-            #First read in /proc/mounts to make sure we don't accidently write over the same
-            #device we're booted from - unless it's a hard drive
-            ignore = ''
-            new = ''
-            with open('/proc/mounts','r') as f:
-                for line in f.readlines():
-                    #Mounted
-                    if '/cdrom' in line:
-                        #and isn't a hard drive
-                        device = line.split()[0]
-                        if subprocess.call(['/lib/udev/ata_id',device]) != 0:
-                            ignore = device
-                            break
-            if ignore:
-                for root,dirs,files in os.walk('/dev/'):
-                    for name in files:
-                        if name.startswith('sd'):
-                            stripped = name.strip('1234567890')
-                            if stripped in ignore:
-                                continue
-                            else:
-                                new = stripped
-            if new:
-                with misc.raised_privileges():
-                    #Check if old device already existed:
-                    if os.path.islink(self.device):
-                        os.unlink(self.device)
-                    os.symlink('../../' + new, self.device)
+        """Discovers the first hard disk to install to"""
+        bus = dbus.SystemBus()
+        disks = []
 
-        #Follow the symlink
-        if os.path.islink(self.device):
-            self.node = os.readlink(self.device).split('/').pop()
-            self.device = os.path.join(os.path.dirname(self.device), os.readlink(self.device))
+        udisk_obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
+        ud = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
+        devices = ud.EnumerateDevices()
+        for device in devices:
+            dev_obj = bus.get_object('org.freedesktop.UDisks', device)
+            dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
+
+            #Skip USB, Removable Disks, Partitions, External, Readonly
+            if dev.Get('org.freedesktop.UDisks.Device','DriveConnectionInterface') == 'usb' or \
+               dev.Get('org.freedesktop.UDisks.Device','DeviceIsRemovable') == 1 or \
+               dev.Get('org.freedesktop.UDisks.Device','DeviceIsPartition') == 1 or \
+               dev.Get('org.freedesktop.UDisks.Device','DeviceIsSystemInternal') == 0 or \
+               dev.Get('org.freedesktop.UDisks.Device','DeviceIsReadOnly') == 1 :
+                continue
+
+            #if we made it this far, add it
+            devicefile = dev.Get('org.freedesktop.Udisks.Device','DeviceFile')
+            disks.append(devicefile)
+
+        #If multiple candidates were found, record in the logs
+        if len(disks) == 0:
+            raise RuntimeError, ("Unable to find and candidate hard disks to install to.")
+        if len(disks) > 1:
+            disks.sort()
+            self.debug("Multiple disk candidates were found: %s" % disks)
+        
+        #Always choose the first candidate
+        self.device = disks[0]
         self.debug("Fixed up device we are operating on is %s" % self.device)
 
     def fixup_factory_devices(self):
@@ -375,7 +378,7 @@ class Page(Plugin):
             self.rp_filesystem = TYPE_NTFS
         elif rp["fs"] == "vfat":
             self.rp_filesystem = TYPE_VFAT
-        self.debug("Fixed up device we are operating on is %s" % self.device)
+        self.debug("Detected device we are operating on is %s" % self.device)
         self.debug("Detected a %s filesystem on the %s recovery partition" % (rp["fs"], rp["label"]))
 
     def prepare(self, unfiltered=False):
@@ -423,12 +426,6 @@ class Page(Plugin):
         #We might try to support this
         try:
             self.kexec = misc.create_bool(self.db.get('dell-recovery/kexec'))
-        except debconf.DebconfError:
-            pass
-
-        #If we are using multiple disks, we might fill this in
-        try:
-            self.device = self.db.get('partman-auto/disk')
         except debconf.DebconfError:
             pass
 

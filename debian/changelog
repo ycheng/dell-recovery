@@ -25,6 +25,10 @@ dell-recovery (0.46) UNRELEASED; urgency=low
     to happen.
   * Add a tooltip to the dell-dvd image to show the device we're working on
     for debug purposes.
+  * Convert the swap detection unmount routine to use udisks.
+  * Convert the install disk detection routine to use udisks.
+  * No longer rely on the preseeded value for partman-auto/disks.  We'll be
+    detecting entirely independently now for that.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
 
