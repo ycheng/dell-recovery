@@ -102,7 +102,7 @@ create an USB key or DVD image."))
         self.builder_fid_overlay=''
         self.builder_base_image=''
         self.bto_base=False
-        self.bto_up=False
+        self.bto_up=''
 
         self.builder_widgets.connect_signals(self)
 
@@ -233,7 +233,7 @@ create an USB key or DVD image."))
             if self.builder_widgets.get_object('up_partition_radio').get_active():
                 self.bto_up = self.up
             else:
-                self.bto_up = None
+                self.bto_up = ''
             wizard.set_page_complete(up_page,True)
             up_browse_button.set_sensitive(False)
             self.up_file_chooser_picked()
