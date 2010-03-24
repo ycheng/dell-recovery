@@ -31,6 +31,8 @@ dell-recovery (0.46) UNRELEASED; urgency=low
     detecting entirely independently now for that.
   * Since we can more accurately detect disks, don't enable EDD for any of the
     default boot options anymore.
+  * Set the default recovery partition grub menu colors to red/white rather than
+    red/black to better emulate what we see in the factory with failures.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
 
