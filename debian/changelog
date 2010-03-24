@@ -33,6 +33,7 @@ dell-recovery (0.46) UNRELEASED; urgency=low
     default boot options anymore.
   * Set the default recovery partition grub menu colors to red/white rather than
     red/black to better emulate what we see in the factory with failures.
+  * Detect invalid recovery partition filesystems and notify the user.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
 

@@ -378,6 +378,8 @@ class Page(Plugin):
             self.rp_filesystem = TYPE_NTFS
         elif rp["fs"] == "vfat":
             self.rp_filesystem = TYPE_VFAT
+        else:
+            raise RuntimeError, ("Unknown filesystem on recovery partition: %s" % rp["fs"])
         self.debug("Detected device we are operating on is %s" % self.device)
         self.debug("Detected a %s filesystem on the %s recovery partition" % (rp["fs"], rp["label"]))
 
