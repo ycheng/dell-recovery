@@ -1,6 +1,7 @@
 dell-recovery (0.47) UNRELEASED; urgency=low
 
   * Fix timestamp on stepDellBootstrap.ui to fix FTBFS.
+  * Update translations from launchpad.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Wed, 24 Mar 2010 20:11:37 -0500
 
