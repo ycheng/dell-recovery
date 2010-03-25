@@ -1,3 +1,9 @@
+dell-recovery (0.47) UNRELEASED; urgency=low
+
+  * Fix timestamp on stepDellBootstrap.ui to fix FTBFS.
+
+ -- Mario Limonciello <superm1@ubuntu.com>  Wed, 24 Mar 2010 20:11:37 -0500
+
 dell-recovery (0.46) lucid; urgency=low
 
   * Default to a 32mb UP rather than no UP if upimg.bin is missing.
