@@ -1,4 +1,4 @@
-dell-recovery (0.46) UNRELEASED; urgency=low
+dell-recovery (0.46) lucid; urgency=low
 
   * Default to a 32mb UP rather than no UP if upimg.bin is missing.
   * Add support to also extract a .zip or .tgz for a UP rather than an image.
@@ -40,7 +40,7 @@ dell-recovery (0.46) UNRELEASED; urgency=low
   * Add support for FAT32 LBA.
   * Default to FAT32 LBA.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 22 Mar 2010 16:24:58 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 24 Mar 2010 19:34:52 -0500
 
 dell-recovery (0.45) lucid; urgency=low
 
