@@ -49,6 +49,7 @@ CDROM_MOUNT = '/cdrom'
 
 TYPE_NTFS = '07'
 TYPE_VFAT = '0b'
+TYPE_VFAT_LBA = '0c'
 
 #######################
 # Noninteractive Page #
@@ -414,7 +415,7 @@ class Page(Plugin):
         if rp["fs"] == "ntfs":
             self.rp_filesystem = TYPE_NTFS
         elif rp["fs"] == "vfat":
-            self.rp_filesystem = TYPE_VFAT
+            self.rp_filesystem = TYPE_VFAT_LBA
         else:
             raise RuntimeError, ("Unknown filesystem on recovery partition: %s" % rp["fs"])
         self.debug("Detected device we are operating on is %s" % self.device)
@@ -460,7 +461,7 @@ class Page(Plugin):
             self.rp_filesystem = self.db.get('dell-recovery/recovery_partition_filesystem')
         except debconf.DebconfError, e:
             self.debug(str(e))
-            self.rp_filesystem = TYPE_VFAT
+            self.rp_filesystem = TYPE_VFAT_LBA
 
         #We might try to support this
         try:
@@ -518,7 +519,8 @@ class Page(Plugin):
                 self.disable_swap()
                 self.remove_extra_partitions()
                 self.explode_utility_partition()
-                if self.rp_filesystem == TYPE_VFAT:
+                if self.rp_filesystem == TYPE_VFAT or \
+                   self.rp_filesystem == TYPE_VFAT_LBA:
                     self.install_grub()
         except Exception, e:
             #For interactive types of installs show an error then reboot
@@ -575,9 +577,11 @@ class rp_builder(Thread):
                     out.write(zeros.read(1024))
 
         #double check the recovery partition type
-        if self.rp_type != TYPE_VFAT and self.rp_type != TYPE_NTFS:
-            syslog.syslog("Preseeded RP type unsuported, setting to %s" % TYPE_VFAT)
-            self.rp_type = TYPE_VFAT
+        if self.rp_type != TYPE_NTFS and \
+           self.rp_type != TYPE_VFAT and \
+           self.rp_type != TYPE_VFAT_LBA:
+            syslog.syslog("Preseeded RP type unsuported, setting to %s" % TYPE_VFAT_LBA)
+            self.rp_type = TYPE_VFAT_LBA
 
         #Partitioner commands
         data = 'p\n'    #print current partitions (we might want them for debugging)
@@ -609,7 +613,7 @@ class rp_builder(Thread):
             raise RuntimeError, ("Error creating utility partition filesystem on %s%s" % (self.device, UP_PART))
 
         #Build RP filesystem
-        if self.rp_type == TYPE_VFAT:
+        if self.rp_type == TYPE_VFAT or self.rp_type == TYPE_VFAT_LBA:
             command = ('mkfs.msdos', '-n', 'install', self.device + RP_PART)
         elif self.rp_type == TYPE_NTFS:
             command = ('mkfs.ntfs', '-f', '-L', 'RECOVERY', self.device + RP_PART)

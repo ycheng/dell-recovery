@@ -26,7 +26,7 @@ Description: for internal use; determines where the destination swap partition i
 
 Template: dell-recovery/recovery_partition_filesystem
 Type: string
-Default: 0b
+Default: 0c
 Description: for internal use; determines the filesystem of the recovery partition
 
 Template: dell-recovery/build_start
