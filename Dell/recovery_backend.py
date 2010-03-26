@@ -402,7 +402,7 @@ class Backend(dbus.service.Object):
         if os.path.exists(fid):
             self.report_progress(_('Overlaying FID content'),'99.0')
             if os.path.isdir(fid):
-                distutils.dir_util.copy_tree(fid,assembly_tmp,preserve_symlinks=1,verbose=1,update=0)
+                distutils.dir_util.copy_tree(fid,assembly_tmp,preserve_symlinks=0,verbose=1,update=0)
             elif tarfile.is_tarfile(fid):
                 safe_tar_extract(fid,assembly_tmp)
             logging.debug('assemble_image: done overlaying FID content')
