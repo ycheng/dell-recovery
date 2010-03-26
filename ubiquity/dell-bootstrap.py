@@ -227,10 +227,11 @@ class Page(Plugin):
             raise RuntimeError, ("CD Mount failed")
 
         #Check for a grub.cfg to start - make as necessary
-        if not os.path.exists(os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg')):
-            with misc.raised_privileges():
-                magic.process_conf_file(RP_PART, '/usr/share/dell/grub/recovery_partition.cfg', \
-                                    os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'))
+        if os.path.exists(os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg')):
+            os.remove(os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'))
+        with misc.raised_privileges():
+            magic.process_conf_file(RP_PART, '/usr/share/dell/grub/recovery_partition.cfg', \
+                                os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'))
 
         #Do the actual grub installation
         bind_mount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
@@ -631,11 +632,12 @@ class rp_builder(Thread):
         with misc.raised_privileges():
             magic.white_tree("copy", white_pattern, CDROM_MOUNT, '/boot')
 
-        #Check for a grub.cfg - make as necessary
-        if not os.path.exists(os.path.join('/boot', 'grub', 'grub.cfg')):
-            with misc.raised_privileges():
-                magic.process_conf_file(RP_PART, '/usr/share/dell/grub/recovery_partition.cfg', \
-                                    os.path.join('/boot', 'grub', 'grub.cfg'))
+        #Check for a grub.cfg - replace as necessary
+        if os.path.exists(os.path.join('/boot', 'grub', 'grub.cfg')):
+            os.remove(os.path.join('/boot', 'grub', 'grub.cfg'))
+        with misc.raised_privileges():
+            magic.process_conf_file(RP_PART, '/usr/share/dell/grub/recovery_partition.cfg', \
+                                os.path.join('/boot', 'grub', 'grub.cfg'))
 
         #Install grub
         grub = misc.execute_root('grub-install', '--force', self.device + RP_PART)

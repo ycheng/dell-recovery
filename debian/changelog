@@ -10,6 +10,7 @@ dell-recovery (0.48) UNRELEASED; urgency=low
       needed.
   * bootstrap:
     - Hide loopback devices from being offered.
+    - Always replace a grub.cfg on the recovery partition.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 26 Mar 2010 13:01:37 -0500
 
