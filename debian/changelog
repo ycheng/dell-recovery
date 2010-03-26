@@ -3,6 +3,7 @@ dell-recovery (0.48) UNRELEASED; urgency=low
   * Dell/recovery_backend.py:
     - Don't preserve symlinks on the overlay of the FID tree.  Can cause issues
       during generation.
+    - Always filter syslinux, even without a purge list.
   * debian/control:
     - Recommends for parted.
     - Drop git-core from recommends.  it will be pulled in during runtime if
