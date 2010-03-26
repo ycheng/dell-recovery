@@ -3,6 +3,8 @@ dell-recovery (0.48) UNRELEASED; urgency=low
   * Dell/recovery_backend.py:
     - Don't preserve symlinks on the overlay of the FID tree.  Can cause issues
       during generation.
+  * debian/control:
+    - Recommends for parted.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 26 Mar 2010 13:01:37 -0500
 
