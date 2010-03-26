@@ -371,11 +371,12 @@ class Page(Plugin):
             dev_obj = bus.get_object('org.freedesktop.UDisks', device)
             dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
 
-            #Skip USB, Removable Disks, Partitions, External, Readonly
+            #Skip USB, Removable Disks, Partitions, External, Loopback, Readonly
             if dev.Get('org.freedesktop.UDisks.Device','DriveConnectionInterface') == 'usb' or \
                dev.Get('org.freedesktop.UDisks.Device','DeviceIsRemovable') == 1 or \
                dev.Get('org.freedesktop.UDisks.Device','DeviceIsPartition') == 1 or \
                dev.Get('org.freedesktop.UDisks.Device','DeviceIsSystemInternal') == 0 or \
+               dev.Get('org.freedesktop.UDisks.Device','DeviceIsLinuxLoop') == 1 or \
                dev.Get('org.freedesktop.UDisks.Device','DeviceIsReadOnly') == 1 :
                 continue
 

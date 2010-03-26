@@ -7,6 +7,8 @@ dell-recovery (0.48) UNRELEASED; urgency=low
     - Recommends for parted.
     - Drop git-core from recommends.  it will be pulled in during runtime if
       needed.
+  * bootstrap:
+    - Hide loopback devices from being offered.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 26 Mar 2010 13:01:37 -0500
 
