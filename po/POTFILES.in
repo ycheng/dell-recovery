@@ -1,4 +1,5 @@
 Dell/recovery_frontend.py
+Dell/recovery_builder.py
 Dell/recovery_backend.py
 backend/com.dell.recoverymedia.policy.in
 gtk/dell-recovery-media.desktop.in

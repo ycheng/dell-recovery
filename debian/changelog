@@ -16,6 +16,8 @@ dell-recovery (0.48) UNRELEASED; urgency=low
   * Update text for reboot dialog to not tell people to take out their media
     so soon.  It's actually OK now to do an install with the media in the drive
     too.
+  * Mark all BTO image builder strings for translation too.
+  * Enable translation for all GTK based frontends, not just standard.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 26 Mar 2010 13:01:37 -0500
 

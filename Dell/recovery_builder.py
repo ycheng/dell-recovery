@@ -65,6 +65,8 @@ class GTKBuilderFrontend(GTKFrontend):
         self.builder_widgets.add_from_file(os.path.join(UIDIR,'builder.ui'))
         self.builder_widgets.connect_signals(self)
 
+        self.translate_widgets(self.builder_widgets)
+
         wizard = self.widgets.get_object('wizard')
         #wizard.resize(400,400)
         wizard.set_title(wizard.get_title() + _(" (BTO Image Builder Mode)"))

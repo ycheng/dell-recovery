@@ -48,17 +48,7 @@ class GTKFrontend:
         self.widgets.add_from_file(os.path.join(UIDIR,'recovery_media_creator.ui'))
         gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.png')
 
-        self.widgets.set_translation_domain(domain)
-        for widget in self.widgets.get_objects():
-            if isinstance(widget, gtk.Label):
-                widget.set_property('can-focus', False)
-                widget.set_text(_(widget.get_text()))
-            elif isinstance(widget, gtk.RadioButton):
-                widget.set_label(_(widget.get_label()))
-            elif isinstance(widget, gtk.Window):
-                title = widget.get_title()
-                if title:
-                    widget.set_title(_(widget.get_title()))
+        self.translate_widgets(self.widgets)
         self.widgets.connect_signals(self)
 
         self._dbus_iface = None
@@ -93,6 +83,19 @@ class GTKFrontend:
         self.ac=None
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+
+    def translate_widgets(self, widgets):
+        widgets.set_translation_domain(domain)
+        for widget in self.widgets.get_objects():
+            if isinstance(widget, gtk.Label):
+                widget.set_property('can-focus', False)
+                widget.set_text(_(widget.get_text()))
+            elif isinstance(widget, gtk.RadioButton):
+                widget.set_label(_(widget.get_label()))
+            elif isinstance(widget, gtk.Window):
+                title = widget.get_title()
+                if title:
+                    widget.set_title(_(widget.get_title()))
 
     def check_preloaded_system(self):
         """Checks that the system this tool is being run on contains a
