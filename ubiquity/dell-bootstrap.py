@@ -96,6 +96,7 @@ class PageGtk(PluginUI):
             builder.add_from_file('/usr/share/ubiquity/gtk/stepDellBootstrap.ui')
             builder.connect_signals(self)
             self.controller = controller
+            self.controller.add_builder(builder)
             self.plugin_widgets = builder.get_object('stepDellBootstrap')
             self.automated_recovery = builder.get_object('automated_recovery')
             self.automated_recovery_box = builder.get_object('automated_recovery_box')

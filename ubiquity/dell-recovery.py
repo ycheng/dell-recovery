@@ -51,6 +51,7 @@ class PageGtk(PluginUI):
                 builder = gtk.Builder()
                 builder.add_from_file('/usr/share/ubiquity/gtk/stepRecoveryMedia.ui')
                 builder.connect_signals(self)
+                self.controller.add_builder(builder)
                 self.plugin_widgets = builder.get_object('stepRecoveryMedia')
                 self.usb_media = builder.get_object('save_to_usb')
                 self.dvd_media = builder.get_object('save_to_dvd')

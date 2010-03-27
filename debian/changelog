@@ -8,11 +8,16 @@ dell-recovery (0.48) UNRELEASED; urgency=low
     - Recommends for parted.
     - Drop git-core from recommends.  it will be pulled in during runtime if
       needed.
-  * bootstrap:
+  * ubiquity/bootstrap:
     - Hide loopback devices from being offered.
     - Always replace a grub.cfg on the recovery partition.
     - Automatically propagate any extra kernel command line options (after --)
       into the installed system and any grub menu recovery options.
+    - Add the builder into the ubiquity array of builders so it can be
+      translated.
+  * ubiquity/dell-recovery:
+    - Add the builder into the ubiquity array of builders so it can be
+      translated.
   * Update text for reboot dialog to not tell people to take out their media
     so soon.  It's actually OK now to do an install with the media in the drive
     too.
