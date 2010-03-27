@@ -1,3 +1,10 @@
+dell-recovery (0.49) UNRELEASED; urgency=low
+
+  * Another correction that should help widget translation in BTO builder
+    mode.
+
+ -- Mario Limonciello <superm1@ubuntu.com>  Sat, 27 Mar 2010 12:48:58 -0500
+
 dell-recovery (0.48) lucid; urgency=low
 
   * Dell/recovery_common.py:

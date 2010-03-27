@@ -86,7 +86,7 @@ class GTKFrontend:
 
     def translate_widgets(self, widgets):
         widgets.set_translation_domain(domain)
-        for widget in self.widgets.get_objects():
+        for widget in widgets.get_objects():
             if isinstance(widget, gtk.Label):
                 widget.set_property('can-focus', False)
                 widget.set_text(_(widget.get_text()))
