@@ -368,11 +368,10 @@ class Backend(dbus.service.Object):
                         filter = "^" + folder
                     elif folder:
                         filter += "|^" + folder
+                if filter:
+                    filter += "|^syslinux"
             except IOError:
                 print  >> sys.stderr, "Error reading purge list, but file exists"
-        if filter:
-            filter += "|"
-        filter += "^syslinux"
         logging.debug('assemble_image: filter is %s' % filter)
         white_pattern=re.compile(filter)
 

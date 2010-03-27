@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-26 23:47-0500\n"
+"POT-Creation-Date: 2010-03-27 04:27-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,27 +129,27 @@ msgstr ""
 msgid "<b>ERROR</b>: git is not installed"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:398
+#: ../Dell/recovery_backend.py:381
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:404
+#: ../Dell/recovery_backend.py:387
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:419
+#: ../Dell/recovery_backend.py:402
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:581
+#: ../Dell/recovery_backend.py:564
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:647
+#: ../Dell/recovery_backend.py:620
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:689
+#: ../Dell/recovery_backend.py:654
 msgid "Building ISO"
 msgstr ""
 

@@ -7,7 +7,6 @@ dell-recovery (0.48) UNRELEASED; urgency=low
   * Dell/recovery_backend.py:
     - Don't preserve symlinks on the overlay of the FID tree.  Can cause issues
       during generation.
-    - Always filter syslinux, even without a purge list.
     - Move the walk_cleanup function out
     - Use the python version of create-new-uuid instead.
   * debian/control:
