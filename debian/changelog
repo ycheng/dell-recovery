@@ -30,6 +30,7 @@ dell-recovery (0.48) UNRELEASED; urgency=low
   * Enable translation for all GTK based frontends, not just standard.
   * create-new-uuid:
     - Drop, superceded by a python version
+  * Update translations from launchpad.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 26 Mar 2010 13:01:37 -0500
 
