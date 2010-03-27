@@ -472,8 +472,7 @@
     <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
-    <property name="text" translatable="yes">Please remove any recovery media
-and reboot your system.</property>
+    <property name="text" translatable="yes">Please reboot your system.</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox8">
         <property name="visible">True</property>

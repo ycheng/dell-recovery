@@ -13,6 +13,9 @@ dell-recovery (0.48) UNRELEASED; urgency=low
     - Always replace a grub.cfg on the recovery partition.
     - Automatically propagate any extra kernel command line options (after --)
       into the installed system and any grub menu recovery options.
+  * Update text for reboot dialog to not tell people to take out their media
+    so soon.  It's actually OK now to do an install with the media in the drive
+    too.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 26 Mar 2010 13:01:37 -0500
 
