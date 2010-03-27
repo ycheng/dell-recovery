@@ -1,4 +1,4 @@
-dell-recovery (0.48) UNRELEASED; urgency=low
+dell-recovery (0.48) lucid; urgency=low
 
   * Dell/recovery_common.py:
     - Introduce a python version of create-new-uuid that is more flexible on
@@ -32,7 +32,7 @@ dell-recovery (0.48) UNRELEASED; urgency=low
     - Drop, superceded by a python version
   * Update translations from launchpad.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 26 Mar 2010 13:01:37 -0500
+ -- Mario Limonciello <superm1@ubuntu.com>  Sat, 27 Mar 2010 05:05:35 -0500
 
 dell-recovery (0.47) lucid; urgency=low
 
