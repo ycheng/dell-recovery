@@ -1,9 +1,15 @@
 dell-recovery (0.48) UNRELEASED; urgency=low
 
+  * Dell/recovery_common.py:
+    - Introduce a python version of create-new-uuid that is more flexible on
+      names of casper uuid's and formats of initrds.
+    - Move walk_cleanup here.
   * Dell/recovery_backend.py:
     - Don't preserve symlinks on the overlay of the FID tree.  Can cause issues
       during generation.
     - Always filter syslinux, even without a purge list.
+    - Move the walk_cleanup function out
+    - Use the python version of create-new-uuid instead.
   * debian/control:
     - Recommends for parted.
     - Drop git-core from recommends.  it will be pulled in during runtime if
@@ -23,6 +29,8 @@ dell-recovery (0.48) UNRELEASED; urgency=low
     too.
   * Mark all BTO image builder strings for translation too.
   * Enable translation for all GTK based frontends, not just standard.
+  * create-new-uuid:
+    - Drop, superceded by a python version
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 26 Mar 2010 13:01:37 -0500
 

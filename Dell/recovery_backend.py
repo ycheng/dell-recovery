@@ -43,6 +43,7 @@ import distutils.dir_util
 import re
 import stat
 import zipfile
+import glob
 
 from Dell.recovery_common import *
 
@@ -237,23 +238,6 @@ class Backend(dbus.service.Object):
     # Internal API for calling from Handlers (not exported through D-BUS)
     #
 
-    def walk_cleanup(self,directory):
-        '''Cleans up a temporary directory and all it's files'''
-        if os.path.exists(directory):
-            for root,dirs,files in os.walk(directory, topdown=False):
-                for name in files:
-                    os.remove(os.path.join(root,name))
-                for name in dirs:
-                    full_name=os.path.join(root,name)
-                    if os.path.islink(full_name):
-                        os.remove(full_name)
-                    elif os.path.isdir(full_name):
-                        os.rmdir(full_name)
-                    #covers broken links
-                    else:
-                        os.remove(full_name)
-            os.rmdir(directory)
-
     def request_mount(self,rp,sender=None,conn=None):
         '''Attempts to mount the rp.
 
@@ -370,7 +354,7 @@ class Backend(dbus.service.Object):
         base_mnt = self.request_mount(base,sender,conn)
 
         assembly_tmp=tempfile.mkdtemp()
-        atexit.register(self.walk_cleanup,assembly_tmp)
+        atexit.register(walk_cleanup,assembly_tmp)
 
         #Build a filter list using re for stuff that will be purged during copy
         filter=''
@@ -558,7 +542,7 @@ class Backend(dbus.service.Object):
 
         #create temporary workspace
         tmpdir=tempfile.mkdtemp()
-        atexit.register(self.walk_cleanup,tmpdir)
+        atexit.register(walk_cleanup,tmpdir)
 
         #mount the RP
         mntdir=self.request_mount(rp, sender, conn)
@@ -631,38 +615,20 @@ class Backend(dbus.service.Object):
             '-m', os.path.join(mntdir,'isolinux'),
             '-m', os.path.join(mntdir,'bto_version')]
 
-        #Renerate UUID (only if this media supports it)
-        if os.path.exists(os.path.join(mntdir,'.disk','casper-uuid-generic')) and\
-           os.path.exists(os.path.join(mntdir,'casper')):
-            initrd=os.path.join(mntdir,'casper','initrd')
-            if os.path.exists(initrd + '.gz'):
-                initrd=initrd + '.gz'
-            elif os.path.exists(initrd + '.lz'):
-                initrd=initrd + '.lz'
-            else:
-                initrd=''
-            if initrd:
-                os.mkdir(os.path.join(tmpdir,'.disk'))
-                os.mkdir(os.path.join(tmpdir,'casper'))
-                self.start_pulsable_progress_thread(_('Regenerating UUID / Rebuilding initramfs'))
-                uuid_args = ['/usr/share/dell/bin/create-new-uuid',
-                         initrd,
-                         os.path.join(tmpdir,'casper'),
-                         tmpdir + '/.disk']
-                uuid = subprocess.Popen(uuid_args)
-                retval = uuid.poll()
-                while (retval is None):
-                    retval = uuid.poll()
-                self.stop_progress_thread()
-                if retval is not 0:
-                    print >> sys.stderr, \
-                        "create-new-uuid exited with a nonstandard return value."
-                    raise CreateFailed("create-new-uuid exited with a nonstandard return value.")
-
-                genisoargs.append('-m')
-                genisoargs.append(os.path.join(mntdir,'.disk','casper-uuid-generic'))
-                genisoargs.append('-m')
-                genisoargs.append(initrd)
+        #Renerate UUID
+        os.mkdir(os.path.join(tmpdir,'.disk'))
+        os.mkdir(os.path.join(tmpdir,'casper'))
+        self.start_pulsable_progress_thread(_('Regenerating UUID / Rebuilding initramfs'))
+        (old_initrd,
+         old_uuid) = create_new_uuid(os.path.join(mntdir, 'casper'),
+                        os.path.join(mntdir, '.disk'),
+                        os.path.join(tmpdir, 'casper'),
+                        os.path.join(tmpdir, '.disk'))
+        self.stop_progress_thread()
+        genisoargs.append('-m')
+        genisoargs.append(os.path.join('.disk', old_uuid))
+        genisoargs.append('-m')
+        genisoargs.append(os.path.join('casper', old_initrd))
 
         #if we have ran this from a USB key, we might have syslinux which will
         #break our build

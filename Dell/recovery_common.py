@@ -28,6 +28,8 @@ import subprocess
 import gobject
 import os
 import re
+import tempfile
+import glob
 
 ##                ##
 ##Common Variables##
@@ -399,6 +401,94 @@ def increment_bto_version(version):
         return 'A00'
 
     return version
+
+def walk_cleanup(directory):
+    if os.path.exists(directory):
+        for root,dirs,files in os.walk(directory, topdown=False):
+            for name in files:
+                os.remove(os.path.join(root,name))
+            for name in dirs:
+                full_name=os.path.join(root,name)
+                if os.path.islink(full_name):
+                    os.remove(full_name)
+                elif os.path.isdir(full_name):
+                    os.rmdir(full_name)
+                #covers broken links
+                else:
+                    os.remove(full_name)
+        os.rmdir(directory)
+
+def create_new_uuid(old_initrd_directory, old_casper_directory, new_initrd_directory, new_casper_directory, new_compression="auto"):
+    """ Regenerates the UUID contained in a casper initramfs using a particular compression
+        Supported compression types:
+        * auto (auto detects lzma/gzip)
+        * lzma
+        * gzip
+        * None
+
+        Returns the full path of the old initrd and casper files (for blacklisting)
+    """
+    tmpdir=tempfile.mkdtemp()
+
+    #Detect the old initramfs stuff
+    old_initrd_file = glob.glob('%s/initrd*' % old_initrd_directory)[0]
+    old_uuid_file   = glob.glob('%s/casper-uuid*' % old_casper_directory)[0]
+    print "Old initrd: %s" % old_initrd_file
+    print "Old uuid file: %s" % old_uuid_file
+
+    old_suffix = ''
+    if len(old_initrd_file.split('.')) > 1:
+        old_suffix = old_initrd_file.split('.')[1]
+
+    old_compression = ''
+    if old_suffix == "lz":
+        old_compression = "lzma"
+    elif old_suffix == "gz":
+        old_compression = "gzip"
+    print "Old suffix: %s" % old_suffix
+    print "Old compression method: %s" % old_compression
+
+    #Extract old initramfs
+    chain0 = subprocess.Popen([old_compression, '-cd', old_initrd_file, '-S', old_suffix], stdout=subprocess.PIPE)
+    chain1 = subprocess.Popen(['cpio', '-id'], stdin=chain0.stdout, cwd=tmpdir)
+    chain1.communicate()
+
+    #Generate new UUID
+    new_uuid_file = os.path.join(new_casper_directory, os.path.basename(old_uuid_file))
+    print "New uuid file: %s" % new_uuid_file
+    chain0 = subprocess.Popen(['uuidgen', '-r'], stdout=subprocess.PIPE)
+    new_uuid = chain0.communicate()[0]
+    print "New UUID: %s" % new_uuid.strip()
+    for item in [new_uuid_file, os.path.join(tmpdir, 'conf', 'uuid.conf')]:
+        with open(item, "w") as uuid_fd:
+            uuid_fd.write(new_uuid)
+
+    #Detect compression
+    new_suffix = ''
+    if new_compression == "gzip":
+        new_suffix = '.gz'
+    elif new_compression == 'lzma':
+        new_suffix = '.lz'
+    elif new_compression == "auto":
+        new_compression = old_compression
+        new_suffix = '.' + old_suffix
+    print "New suffix: %s" % new_suffix
+    print "New compression method: %s" % new_compression
+
+    #Generate new initramfs
+    new_initrd_file = os.path.join(new_initrd_directory, 'initrd' + new_suffix)
+    print "New initrd file: %s" % new_initrd_file
+    chain0 = subprocess.Popen(['find'], cwd=tmpdir, stdout=subprocess.PIPE)
+    chain1 = subprocess.Popen(['cpio', '--quiet', '--dereference', '-o', '-H', 'newc'], cwd=tmpdir, stdin=chain0.stdout, stdout=subprocess.PIPE)
+    with open(new_initrd_file, 'w') as initrd_fd:
+        if new_compression:
+            chain2 = subprocess.Popen([new_compression, '-9c'], stdin=chain1.stdout, stdout=subprocess.PIPE)
+            initrd_fd.write(chain2.communicate()[0])
+        else:
+            initrd_fd.write(chain1.communicate()[0])
+    walk_cleanup(tmpdir)
+
+    return (old_initrd_file, old_uuid_file)
 
 def dbus_sync_call_signal_wrapper(dbus_iface, fn, handler_map, *args, **kwargs):
     '''Run a D-BUS method call while receiving signals.

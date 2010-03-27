@@ -46,7 +46,6 @@ setup(
                 ('/etc/dbus-1/system.d/', glob.glob('backend/*.conf')),
                 ('share/dell/grub', glob.glob('grub/*')),
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
-                ("share/dell/bin", glob.glob("bin/create-new-uuid")),
                 ('/lib/udev/rules.d', glob.glob('udev/*')),
                 ('lib/ubiquity/plugins', glob.glob('ubiquity/*.py')),
                 ('share/ubiquity/gtk', glob.glob('ubiquity/*.ui')),

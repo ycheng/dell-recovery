@@ -646,12 +646,11 @@ class rp_builder(Thread):
 
         #Build new UUID
         if int(self.mem) >= 1000000:
-            uuid = misc.execute_root('casper-new-uuid',
-                                CDROM_MOUNT + '/casper/initrd.lz',
-                                '/boot/casper',
-                                '/boot/.disk')
-            if uuid is False:
-                raise RuntimeError, ("Error rebuilding new casper UUID")
+            with misc.raised_privileges():
+                magic.create_new_uuid(os.path.join(CDROM_MOUNT, 'casper'),
+                        os.path.join(CDROM_MOUNT, '.disk'),
+                        os.path.join('/boot', 'casper'),
+                        os.path.join('/boot', '.disk'))
         else:
             #The new UUID just fixes the installed-twice-on-same-system scenario
             #most users won't need that anyway so it's just nice to have
