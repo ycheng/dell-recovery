@@ -135,12 +135,13 @@ def check_vendor():
     return (vendor == 'dell' or vendor == 'innotek')
 
 def process_conf_file(rp_number, original, new):
-    """Replaces all instances of a partition and OS in a conf type file
+    """Replaces all instances of a partition, OS, and extra in a conf type file
        Generally used for things that need to touch grub"""
     if not os.path.isdir(os.path.split(new)[0]):
         os.makedirs(os.path.split(new)[0])
     import lsb_release
     release = lsb_release.get_distro_information()
+    extra_cmdline = find_extra_kernel_options()
     with open(original, "r") as base:
         with open(new, 'w') as output:
             for line in base.readlines():
@@ -148,7 +149,18 @@ def process_conf_file(rp_number, original, new):
                     line = line.replace("#PARTITION#", rp_number)
                 if "#OS#" in line:
                     line = line.replace("#OS#", "%s %s" % (release["ID"], release["RELEASE"]))
+                if "#EXTRA#" in line:
+                    line = line.replace("#EXTRA#", "%s" % extra_cmdline)
                 output.write(line)
+
+def find_extra_kernel_options():
+    """Finds any extra kernel command line options"""
+    with open('/proc/cmdline', 'r') as cmdline:
+        cmd = cmdline.readline().strip().split('--')
+    if len(cmd) > 1:
+        return cmd[1].strip()
+    else:
+        return ''
 
 def find_factory_rp_stats():
     """Uses udisks to find the RP of a system and return stats on it

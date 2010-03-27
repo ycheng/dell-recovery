@@ -227,11 +227,10 @@ class Page(Plugin):
             raise RuntimeError, ("CD Mount failed")
 
         #Check for a grub.cfg to start - make as necessary
-        if os.path.exists(os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg')):
-            os.remove(os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'))
-        with misc.raised_privileges():
-            magic.process_conf_file(RP_PART, '/usr/share/dell/grub/recovery_partition.cfg', \
-                                os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'))
+        if not os.path.exists(os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg')):
+            with misc.raised_privileges():
+                magic.process_conf_file(RP_PART, '/usr/share/dell/grub/recovery_partition.cfg', \
+                                    os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'))
 
         #Do the actual grub installation
         bind_mount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
@@ -745,6 +744,21 @@ class Install(InstallPlugin):
             if line.startswith('ricoh_mmc'):
                 misc.execute('rmmod',line.split()[0])
 
+    def propagate_kernel_parameters(self, target):
+        '''Copies in kernel command line parameters that were needed during
+           installation'''
+        extra = magic.find_extra_kernel_options()
+        if extra and os.path.exists(os.path.join(target, 'etc/default/grub')):
+            with open(os.path.join(target, 'etc/default/grub'),'r') as grub:
+                default_grub = grub.readlines()
+            with open(os.path.join(target, 'etc/default/grub'),'w') as grub:
+                for line in default_grub:
+                    if 'GRUB_CMDLINE_LINUX_DEFAULT' in line:
+                        line = line.replace('GRUB_CMDLINE_LINUX_DEFAULT="', 'GRUB_CMDLINE_LINUX_DEFAULT="%s ' % extra)
+                    grub.write(line)
+            from ubiquity import install_misc
+            install_misc.chrex(target, 'update-grub')
+
     def install(self, target, progress, *args, **kwargs):
         '''This is highly dependent upon being called AFTER configure_apt
         in install.  If that is ever converted into a plugin, we'll
@@ -784,6 +798,8 @@ class Install(InstallPlugin):
         install_misc.record_installed(to_install)
 
         self.remove_ricoh_mmc()
+
+        self.propagate_kernel_parameters(target)
 
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
 
