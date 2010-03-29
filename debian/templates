@@ -138,3 +138,13 @@ _Description: Recovery Media can be generated later by choosing the tool from th
 Template: ubiquity/text/genuine_recovery_warning_label
 Type: text
 _Description: ERROR: This media is only valid on Dell systems.
+
+Template: ubiquity/text/eula_heading_label
+Type: text
+_Description: Dell End User License Agreement
+
+Template: ubiquity/text/accept_button
+Type: text
+_Description: 
+ I accept the license terms.
+ (required to use your computer)

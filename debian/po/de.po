@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-23 01:25-0500\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"POT-Creation-Date: 2010-03-29 12:05-0500\n"
 "PO-Revision-Date: 2010-03-25 15:08+0000\n"
 "Last-Translator: Daniel Schury <Surst@gmx.net>\n"
 "Language-Team: German <de@li.org>\n"
@@ -19,19 +19,19 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:7001
+#: ../templates:8001
 msgid "Building Dell Recovery Media..."
 msgstr "Dell-Wiederherstellungsmedium wird erstellt …"
 
 #. Type: text
 #. Description
-#: ../templates:9001
+#: ../templates:10001
 msgid "Opening Burner..."
 msgstr "Brenner wird geöffnet …"
 
 #. Type: text
 #. Description
-#: ../templates:10001
+#: ../templates:11001
 msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
@@ -41,7 +41,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:11001
+#: ../templates:12001
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
@@ -50,13 +50,13 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:12001
+#: ../templates:13001
 msgid "Restore Linux OS partitions"
 msgstr "Linux-Betriebssystempartitionen wiederherstellen"
 
 #. Type: text
 #. Description
-#: ../templates:13001
+#: ../templates:14001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
 "Stellt alle Betriebssystem- und Swap-Partitionen nach den Vorgaben wieder "
@@ -66,20 +66,19 @@ msgstr ""
 #. Description
 #. Type: text
 #. Description
-#: ../templates:14001 ../templates:17001
+#: ../templates:15001 ../templates:18001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr ""
-"WARNUNG: Alle persönlichen Daten und Änderungen werden verloren gehen."
+msgstr "WARNUNG: Alle persönlichen Daten und Änderungen werden verloren gehen."
 
 #. Type: text
 #. Description
-#: ../templates:15001
+#: ../templates:16001
 msgid "Restore entire hard drive."
 msgstr "Gesamte Festplatte wiederherstellen."
 
 #. Type: text
 #. Description
-#: ../templates:16001
+#: ../templates:17001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr ""
 "Stellt alle Werkzeug-, Wiederherstellungs- und Betriebssystempartitionen "
@@ -87,13 +86,13 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:18001
+#: ../templates:19001
 msgid "Restore only Linux OS partition."
 msgstr "Nur Linux-Betriebssystempartition wiederherstellen."
 
 #. Type: text
 #. Description
-#: ../templates:19001
+#: ../templates:20001
 msgid "This option allows you to resize any existing partitions."
 msgstr ""
 "Diese Option ermöglicht es Ihnen, die Größen aller bestehenden Partitionen "
@@ -103,32 +102,32 @@ msgstr ""
 #. Description
 #. Type: text
 #. Description
-#: ../templates:20001 ../templates:32001
+#: ../templates:21001 ../templates:33001
 msgid "ERROR: This media is only valid on Dell systems."
 msgstr "FEHLER: Dieses Medium kann nur auf Dell-Systemen verwendet werden."
 
 #. Type: text
 #. Description
-#: ../templates:21001
+#: ../templates:22001
 msgid "This window will close automatically when the process is complete. "
 msgstr ""
 "Dieses Fenster wird sich nach Beendigung des Vorgangs automatisch schließen. "
 
 #. Type: text
 #. Description
-#: ../templates:22001
+#: ../templates:23001
 msgid "NOTE: Please be patient, this may take a while."
 msgstr "HINWEIS: Bitte haben Sie Geduld, dies könnte eine Weile dauern."
 
 #. Type: text
 #. Description
-#: ../templates:23001
+#: ../templates:24001
 msgid "Create Dell Recovery Media?"
 msgstr "Dell-Wiederherstellungsmedium erstellen?"
 
 #. Type: text
 #. Description
-#: ../templates:24001
+#: ../templates:25001
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
@@ -138,7 +137,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:25001
+#: ../templates:26001
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
@@ -148,14 +147,14 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:26001
+#: ../templates:27001
 msgid "Save recovery media to an external USB flash drive"
 msgstr ""
 "Wiederherstellungsmedium auf einem externen USB-Flash-Laufwerk speichern"
 
 #. Type: text
 #. Description
-#: ../templates:27001
+#: ../templates:28001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 "HINWEIS: Ein USB-Flash-Laufwerk mit ungefähr 2GB freiem Speicher wird "
@@ -163,31 +162,43 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:28001
+#: ../templates:29001
 msgid "Save recovery media to DVD"
 msgstr "Wiederherstellungsmedium auf DVD speichern"
 
 #. Type: text
 #. Description
-#: ../templates:29001
+#: ../templates:30001
 msgid "Note: This requires writable DVD media."
 msgstr "HINWEIS: Eine beschreibbare DVD wird benötigt."
 
 #. Type: text
 #. Description
-#: ../templates:30001
+#: ../templates:31001
 msgid "Don't generate recovery media at this time"
 msgstr "Wiederherstellungsmedium jetzt nicht erstellen"
 
 #. Type: text
 #. Description
-#: ../templates:31001
+#: ../templates:32001
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
 "Das Wiederherstellungsmedium kann später erstellt werden, indem Sie das "
 "Werkzeug im System-Menü wählen."
+
+#. Type: text
+#. Description
+#: ../templates:34001
+msgid "Dell End User License Agreement"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:35001
+msgid "I accept the license terms. (required to use your computer)"
+msgstr ""
 
 #~ msgid "<activity placeholder>"
 #~ msgstr "<Aktivitätsplatzhalter>"
@@ -226,8 +237,8 @@ msgstr ""
 #~ msgstr "Zielverzeichnis auswählen"
 
 #~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
-#~ "present to function."
+#~ "This tool requires that a Utility Partition and Linux Recovery partition "
+#~ "are present to function."
 #~ msgstr ""
 #~ "Dieses Programm benötigt eine vorhandene Dienstprogramm- und eine "
 #~ "Linuxwiederherstellungspartition."
@@ -249,8 +260,8 @@ msgstr ""
 
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr ""
-#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch einmal "
-#~ "versuchen?"
+#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch "
+#~ "einmal versuchen?"
 
 #~ msgid "Invalid recovery partition"
 #~ msgstr "Ungültige Wiederherstellungspartition"
