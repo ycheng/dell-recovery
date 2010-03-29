@@ -2,6 +2,8 @@ dell-recovery (0.49) UNRELEASED; urgency=low
 
   * Another correction that should help widget translation in BTO builder
     mode.
+  * If the media contains a pool script, then configure it to be called
+    during the oem-config early command.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Sat, 27 Mar 2010 12:48:58 -0500
 

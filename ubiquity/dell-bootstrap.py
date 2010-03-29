@@ -411,7 +411,11 @@ class Page(Plugin):
             raise RuntimeError, ("Unable to find factory recovery partition (was going to use %s)" % self.device)
 
         self.device = rp["slave"]
-        self.db.set('oem-config/early_command', 'mount %s %s' % (rp["device"], CDROM_MOUNT))
+	if os.path.exists(CDROM_MOUNT + '/scripts/pool.sh'):
+            early = '&& %s/scripts/pool.sh' % CDROM_MOUNT
+        else:
+            early = ''
+        self.db.set('oem-config/early_command', 'mount %s %s %s' % (rp["device"], CDROM_MOUNT, early))
         self.db.set('partman-auto/disk', self.device)
         self.db.set('grub-installer/bootdev', self.device + self.os_part)
         if rp["fs"] == "ntfs":
