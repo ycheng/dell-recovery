@@ -415,7 +415,7 @@ class Page(Plugin):
             early = '&& %s/scripts/pool.sh' % CDROM_MOUNT
         else:
             early = ''
-        self.db.set('oem-config/early_command', 'mount %s %s %s' % (rp["device"], CDROM_MOUNT, early))
+        self.db.set('oem-config/early_command', 'mount -o ro %s %s %s' % (rp["device"], CDROM_MOUNT, early))
         self.db.set('partman-auto/disk', self.device)
         self.db.set('grub-installer/bootdev', self.device + self.os_part)
         if rp["fs"] == "ntfs":
