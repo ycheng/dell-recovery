@@ -411,8 +411,8 @@ class Page(Plugin):
             raise RuntimeError, ("Unable to find factory recovery partition (was going to use %s)" % self.device)
 
         self.device = rp["slave"]
-	if os.path.exists(CDROM_MOUNT + '/scripts/pool.sh'):
-            early = '&& %s/scripts/pool.sh' % CDROM_MOUNT
+	if os.path.exists(self.pool_cmd):
+            early = '&& %s' % self.pool_cmd
         else:
             early = ''
         self.db.set('oem-config/early_command', 'mount -o ro %s %s %s' % (rp["device"], CDROM_MOUNT, early))
@@ -474,6 +474,14 @@ class Page(Plugin):
             self.kexec = misc.create_bool(self.db.get('dell-recovery/kexec'))
         except debconf.DebconfError:
             pass
+
+        #For rebuilding the pool in oem-config and during install
+        try:
+            self.pool_cmd = self.db.get('dell-recovery/pool_command')
+        except debconf.DebconfError, e:
+            self.debug(str(e))
+            self.pool_cmd = '/cdrom/scripts/pool.sh'
+            self.preseed('dell-recovery/pool_command', self.pool_cmd)
 
         #Clarify which device we're operating on initially in the UI
         try:
@@ -798,9 +806,13 @@ class Install(InstallPlugin):
             pass
 
         #Fixup pool to only accept stuff on /cdrom
-        #This is reversed at the end of OEM-config
-        if os.path.exists(CDROM_MOUNT + '/scripts/pool.sh'):
-            install_misc.chrex(target, CDROM_MOUNT + '/scripts/pool.sh')
+        #This is reverted during SUCCESS_SCRIPT
+        try:
+            pool_cmd = progress.get('dell-recovery/pool_command')
+            if os.path.exists(pool_cmd):
+                install_misc.chrex(target, pool_cmd)
+        except debconf.DebconfError, e:
+            pass
 
         #These aren't in all images, but desirable if available
         to_install.append('dkms')

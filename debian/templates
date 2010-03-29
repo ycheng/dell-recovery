@@ -29,6 +29,11 @@ Type: string
 Default: 0c
 Description: for internal use; determines the filesystem of the recovery partition
 
+Template: dell-recovery/pool_command
+Type: string
+Default: /cdrom/scripts/pool.sh
+Description: for internal use; determines the command used to dynamically rebuild the pool
+
 Template: dell-recovery/build_start
 Type: text
 _Description: Building Dell Recovery Media...
