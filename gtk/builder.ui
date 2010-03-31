@@ -4,6 +4,7 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkVBox" id="base_page">
     <property name="visible">True</property>
+    <property name="orientation">vertical</property>
     <property name="spacing">15</property>
     <child>
       <object class="GtkLabel" id="base_page_label">
@@ -26,6 +27,7 @@
         <child>
           <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <child>
               <object class="GtkHBox" id="hbox3">
                 <property name="visible">True</property>
@@ -176,6 +178,7 @@
     <child>
       <object class="GtkVBox" id="vbox2">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="label55">
             <property name="visible">True</property>
@@ -213,6 +216,7 @@
   </object>
   <object class="GtkVBox" id="fid_page">
     <property name="visible">True</property>
+    <property name="orientation">vertical</property>
     <property name="spacing">15</property>
     <child>
       <object class="GtkLabel" id="fid_page_label">
@@ -235,6 +239,7 @@
         <child>
           <object class="GtkVBox" id="hbox2">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <child>
               <object class="GtkHBox" id="builtin_hbox">
                 <property name="visible">True</property>
@@ -408,6 +413,7 @@
     <child>
       <object class="GtkVBox" id="vbox3">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="label3">
             <property name="visible">True</property>
@@ -483,6 +489,7 @@
   </object>
   <object class="GtkVBox" id="driver_page">
     <property name="visible">True</property>
+    <property name="orientation">vertical</property>
     <property name="spacing">15</property>
     <child>
       <object class="GtkLabel" id="driver_page_label">
@@ -575,6 +582,7 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="builder_vte_vbox">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkLabel" id="fetch_label">
@@ -647,6 +655,7 @@ This window will close automatically when the process is complete.
   </object>
   <object class="GtkVBox" id="up_page">
     <property name="visible">True</property>
+    <property name="orientation">vertical</property>
     <property name="spacing">15</property>
     <child>
       <object class="GtkLabel" id="up_info_label">
@@ -669,6 +678,7 @@ This window will close automatically when the process is complete.
         <child>
           <object class="GtkVBox" id="vbox4">
             <property name="visible">True</property>
+            <property name="orientation">vertical</property>
             <child>
               <object class="GtkHBox" id="hbox4">
                 <property name="visible">True</property>
@@ -819,6 +829,7 @@ This window will close automatically when the process is complete.
     <child>
       <object class="GtkVBox" id="vbox5">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
@@ -856,6 +867,7 @@ This window will close automatically when the process is complete.
   </object>
   <object class="GtkVBox" id="application_page">
     <property name="visible">True</property>
+    <property name="orientation">vertical</property>
     <property name="spacing">15</property>
     <child>
       <object class="GtkLabel" id="application_page_label">
@@ -976,6 +988,7 @@ This window will close automatically when the process is complete.
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkVBox" id="vbox6">
