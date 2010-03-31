@@ -1,6 +1,8 @@
 dell-recovery (0.50) UNRELEASED; urgency=low
 
   * Add some strings that may be used in a EULA plugin.
+  * GTK Frontend:
+    - Raise exceptions when having errors initializing the backend.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 29 Mar 2010 12:16:38 -0500
 

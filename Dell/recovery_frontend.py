@@ -240,7 +240,8 @@ class GTKFrontend:
                     self.destroy(None)
                     sys.exit(1)
                 else:
-                    raise
+                    self.show_alert(gtk.MESSAGE_ERROR, "Exception", str(e),
+                                    parent=self.widgets.get_object('progress_dialog'))
 
         return self._dbus_iface
 
