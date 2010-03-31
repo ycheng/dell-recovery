@@ -4,7 +4,6 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkVBox" id="base_page">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">15</property>
     <child>
       <object class="GtkLabel" id="base_page_label">
@@ -27,7 +26,6 @@
         <child>
           <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkHBox" id="hbox3">
                 <property name="visible">True</property>
@@ -178,7 +176,6 @@
     <child>
       <object class="GtkVBox" id="vbox2">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="label55">
             <property name="visible">True</property>
@@ -216,7 +213,6 @@
   </object>
   <object class="GtkVBox" id="fid_page">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">15</property>
     <child>
       <object class="GtkLabel" id="fid_page_label">
@@ -237,9 +233,8 @@
         <property name="visible">True</property>
         <property name="left_padding">15</property>
         <child>
-          <object class="GtkHBox" id="hbox2">
+          <object class="GtkVBox" id="hbox2">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkHBox" id="builtin_hbox">
                 <property name="visible">True</property>
@@ -413,7 +408,6 @@
     <child>
       <object class="GtkVBox" id="vbox3">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="label3">
             <property name="visible">True</property>
@@ -467,9 +461,9 @@
       </packing>
     </child>
   </object>
-  <object class="GtkListStore" id="fish_liststore">
+  <object class="GtkListStore" id="driver_liststore">
     <columns>
-      <!-- column-name fish_packages -->
+      <!-- column-name driver_packages -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -479,12 +473,19 @@
       <column type="gchararray"/>
     </columns>
   </object>
-  <object class="GtkVBox" id="fish_page">
+  <object class="GtkListStore" id="application_liststore">
+    <columns>
+      <!-- column-name application_packages -->
+      <column type="gchararray"/>
+      <!-- column-name srv -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkVBox" id="driver_page">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">15</property>
     <child>
-      <object class="GtkLabel" id="fish_page_label">
+      <object class="GtkLabel" id="driver_page_label">
         <property name="visible">True</property>
         <property name="xalign">0</property>
         <property name="label" translatable="yes">Any add-on drivers or applications that need to be integrated into the image can be added here.</property>
@@ -498,16 +499,16 @@
       </packing>
     </child>
     <child>
-      <object class="GtkTreeView" id="fish_treeview">
+      <object class="GtkTreeView" id="driver_treeview">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="model">fish_liststore</property>
+        <property name="model">driver_liststore</property>
         <property name="search_column">0</property>
         <property name="enable_grid_lines">horizontal</property>
         <property name="enable_tree_lines">True</property>
         <child>
           <object class="GtkTreeViewColumn" id="treeviewcolumn1">
-            <property name="title">FISH Packages</property>
+            <property name="title">Driver FISH Packages</property>
             <child>
               <object class="GtkCellRendererText" id="cellrenderertext1"/>
               <attributes>
@@ -526,13 +527,13 @@
         <property name="visible">True</property>
         <property name="layout_style">start</property>
         <child>
-          <object class="GtkButton" id="fish_add">
+          <object class="GtkButton" id="driver_add">
             <property name="label">gtk-add</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="use_stock">True</property>
-            <signal name="clicked" handler="fish_action"/>
+            <signal name="clicked" handler="driver_action"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -541,13 +542,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="fish_remove">
+          <object class="GtkButton" id="driver_remove">
             <property name="label">gtk-remove</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
             <property name="use_stock">True</property>
-            <signal name="clicked" handler="fish_action"/>
+            <signal name="clicked" handler="driver_action"/>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -574,7 +575,6 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="builder_vte_vbox">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkLabel" id="fetch_label">
@@ -647,7 +647,6 @@ This window will close automatically when the process is complete.
   </object>
   <object class="GtkVBox" id="up_page">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">15</property>
     <child>
       <object class="GtkLabel" id="up_info_label">
@@ -670,7 +669,6 @@ This window will close automatically when the process is complete.
         <child>
           <object class="GtkVBox" id="vbox4">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkHBox" id="hbox4">
                 <property name="visible">True</property>
@@ -821,7 +819,6 @@ This window will close automatically when the process is complete.
     <child>
       <object class="GtkVBox" id="vbox5">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
@@ -856,5 +853,199 @@ This window will close automatically when the process is complete.
         <property name="position">3</property>
       </packing>
     </child>
+  </object>
+  <object class="GtkVBox" id="application_page">
+    <property name="visible">True</property>
+    <property name="spacing">15</property>
+    <child>
+      <object class="GtkLabel" id="application_page_label">
+        <property name="visible">True</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">During Factory Installation, applications are only installed if the order record (SDR) refers to the service release vehicle (SRV).  This populates the possible SRVs to be queried during installation.</property>
+        <property name="wrap">True</property>
+        <property name="width_chars">82</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkTreeView" id="application_treeview">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="model">application_liststore</property>
+        <property name="headers_clickable">False</property>
+        <property name="search_column">0</property>
+        <property name="enable_grid_lines">both</property>
+        <property name="enable_tree_lines">True</property>
+        <child>
+          <object class="GtkTreeViewColumn" id="treeviewcolumn2">
+            <property name="title">Application FISH Packages</property>
+            <child>
+              <object class="GtkCellRendererText" id="application_text"/>
+              <attributes>
+                <attribute name="text">0</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="treeviewcolumn3">
+            <property name="title">SRV</property>
+            <child>
+              <object class="GtkCellRendererText" id="srv_text">
+                <property name="editable">True</property>
+                <signal name="edited" handler="calculate_srvs"/>
+              </object>
+              <attributes>
+                <attribute name="text">1</attribute>
+              </attributes>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkHButtonBox" id="hbuttonbox2">
+        <property name="visible">True</property>
+        <property name="layout_style">start</property>
+        <child>
+          <object class="GtkButton" id="application_add">
+            <property name="label">gtk-add</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="use_stock">True</property>
+            <signal name="clicked" handler="application_action"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="application_remove">
+            <property name="label">gtk-remove</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="use_stock">True</property>
+            <signal name="clicked" handler="application_action"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="position">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="srv_warning_label">
+        <property name="visible">True</property>
+        <property name="xalign">1</property>
+        <attributes>
+          <attribute name="foreground" value="#ffff00000000"/>
+        </attributes>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="position">3</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkDialog" id="srv_dialog">
+    <property name="border_width">5</property>
+    <property name="type">popup</property>
+    <property name="title" translatable="yes">SRV Entry</property>
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="type_hint">normal</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox2">
+        <property name="visible">True</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkVBox" id="vbox6">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkLabel" id="srv_question_label">
+                <property name="visible">True</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Please enter the SRV to use:</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="srv_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="has_focus">True</property>
+                <property name="is_focus">True</property>
+                <property name="invisible_char">&#x25CF;</property>
+                <property name="activates_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area2">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="srv_entry_ok">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">srv_entry_ok</action-widget>
+    </action-widgets>
   </object>
 </interface>

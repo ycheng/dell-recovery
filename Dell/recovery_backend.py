@@ -325,9 +325,9 @@ class Backend(dbus.service.Object):
         self.main_loop.quit()
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='ssasssss', out_signature='', sender_keyword='sender',
+        in_signature='ssasa{ss}ssss', out_signature='', sender_keyword='sender',
         connection_keyword='conn')
-    def assemble_image(self, base, fid, fish, create_fn, up, version, iso, sender=None, conn=None):
+    def assemble_image(self, base, fid, driver_fish, application_fish, create_fn, up, version, iso, sender=None, conn=None):
         """Takes the different pieces that would be used for a BTO image and puts them together
            base: mount point of base image (or directory)
            fid: mount point of fid overlay
@@ -391,16 +391,16 @@ class Backend(dbus.service.Object):
                 safe_tar_extract(fid,assembly_tmp)
             logging.debug('assemble_image: done overlaying FID content')
 
-        #Add in FISH content
-        length=float(len(fish))
+        #Add in driver FISH content
+        length=float(len(driver_fish))
         if length > 0:
             if os.path.exists(os.path.join(assembly_tmp,'bto_manifest')):
                 manifest=open(os.path.join(assembly_tmp,'bto_manifest'),'a')
             else:
                 manifest=open(os.path.join(assembly_tmp,'bto_manifest'),'w')
-            for fishie in fish:
-                self.report_progress(_('Inserting FISH packages'),fish.index(fishie)/length*100)
-                manifest.write(fishie + '\n')
+            for fishie in driver_fish:
+                self.report_progress(_('Inserting FISH packages'),driver_fish.index(fishie)/length*100)
+                manifest.write("driver: %s\n" % os.path.basename(fishie))
                 dest=None
                 if fishie.endswith('.deb'):
                     dest=os.path.join(assembly_tmp,'debs','main')
@@ -422,7 +422,26 @@ class Backend(dbus.service.Object):
                     if not os.path.isdir(dest):
                         os.makedirs(dest)
                     distutils.file_util.copy_file(fishie,dest,verbose=1,update=0)
-            logging.debug("assemble_image: done inserting fish")
+            logging.debug("assemble_image: done inserting driver fish")
+            manifest.close()
+
+        #Add in application FISH content
+        length=float(len(application_fish))
+        if length > 0:
+            if os.path.exists(os.path.join(assembly_tmp,'bto_manifest')):
+                manifest=open(os.path.join(assembly_tmp,'bto_manifest'),'a')
+            else:
+                manifest=open(os.path.join(assembly_tmp,'bto_manifest'),'w')
+            dest = os.path.join(assembly_tmp,'srv')
+            os.makedirs(dest)
+            for fishie in application_fish:
+                new_name = application_fish[fishie]
+                manifest.write("application: %s (%s)\n" % (os.path.basename(fishie), new_name))
+                if fishie.endswith('.zip'):
+                    new_name += '.zip'
+                elif os.path.exists(fishie) and tarfile.is_tarfile(fishie):
+                    new_name += '.tgz'
+                distutils.file_util.copy_file(fishie,os.path.join(dest,new_name),verbose=1,update=0)
             manifest.close()
 
         #If a UP exists and we wanted to replace it, wipe it away

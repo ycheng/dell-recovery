@@ -72,7 +72,7 @@ class GTKBuilderFrontend(GTKFrontend):
         wizard.set_title(wizard.get_title() + _(" (BTO Image Builder Mode)"))
 
         self.widgets.get_object('start_page').set_text(_("This application will integrate a Dell \
-OEM FID framework & FISH package set into a customized \
+OEM FID framework & driver package set into a customized \
 OS media image.  You will have the option to \
 create an USB key or DVD image."))
 
@@ -84,15 +84,18 @@ create an USB key or DVD image."))
         self.file_dialog.set_default_response(gtk.RESPONSE_OK)
 
         #Set up the VTE window for GIT stuff
-        self.builder_widgets.get_object('builder_vte_window').set_transient_for(
-            self.widgets.get_object('wizard'))
+        self.builder_widgets.get_object('builder_vte_window').set_transient_for(wizard)
         self.vte = vte.Terminal()
         self.builder_widgets.get_object('fetch_expander').add(self.vte)
         self.vte.show()
         self.vte.connect("child-exited", self.fid_vte_handler)
 
+        #popup window for SRVs
+        self.builder_widgets.get_object('srv_dialog').set_transient_for(wizard)
+
         #insert builder pages
-        wizard.insert_page(self.builder_widgets.get_object('fish_page'),1)
+        wizard.insert_page(self.builder_widgets.get_object('application_page'),1)
+        wizard.insert_page(self.builder_widgets.get_object('driver_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('up_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('fid_page'),1)
         wizard.insert_page(self.builder_widgets.get_object('base_page'),1)
@@ -147,8 +150,8 @@ create an USB key or DVD image."))
             self.file_dialog.set_filter(filter)
             self.up_toggled(None)
 
-        elif page == self.builder_widgets.get_object('fish_page'):
-            wizard.set_page_title(page,_("Choose FISH Packages"))
+        elif page == self.builder_widgets.get_object('driver_page'):
+            wizard.set_page_title(page,_("Choose Driver Packages"))
             self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
             filter = gtk.FileFilter()
             filter.add_pattern("*.tgz")
@@ -160,6 +163,17 @@ create an USB key or DVD image."))
 
             self.file_dialog.set_filter(filter)
             wizard.set_page_complete(page,True)
+
+        elif page == self.builder_widgets.get_object('application_page'):
+            wizard.set_page_title(page,_("Choose Application Packages"))
+            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
+            filter = gtk.FileFilter()
+            filter.add_pattern("*.tgz")
+            filter.add_pattern("*.tar.gz")
+            filter.add_pattern("*.zip")
+
+            self.file_dialog.set_filter(filter)
+            self.calculate_srvs(None, -1, "check")
 
         elif page == self.widgets.get_object('conf_page') or \
              widget == self.widgets.get_object('version'):
@@ -178,13 +192,17 @@ create an USB key or DVD image."))
             if self.bto_up:
                 output_text+="<b>" + _("Utility Partition: ") + '</b>' + self.bto_up + '\n'
 
-            model = self.builder_widgets.get_object('fish_liststore')
-            iterator = model.get_iter_first()
-            if iterator is not None:
-                output_text += "<b>FISH Packages</b>:\n"
-            while iterator is not None:
-                output_text+= "\t" + model.get_value(iterator,0) + '\n'
-                iterator = model.iter_next(iterator)
+            liststores = {'application_liststore' : _("Application"),
+                          'driver_liststore' : _("Driver"),
+                         } 
+            for type in liststores:
+                model = self.builder_widgets.get_object(type)
+                iterator = model.get_iter_first()
+                if iterator is not None:
+                    output_text += "<b>%s %s</b>:\n" % (liststores[type], _("Packages"))
+                while iterator is not None:
+                    output_text+= "\t" + model.get_value(iterator,0) + '\n'
+                    iterator = model.iter_next(iterator)
 
             output_text+= self.widgets.get_object('conf_text').get_label()
 
@@ -195,17 +213,29 @@ create an USB key or DVD image."))
         #update gui
         self.widgets.get_object('action').set_text('Assembling Image Components')
 
-        #build fish list
-        fish_list=[]
-        model = self.builder_widgets.get_object('fish_liststore')
+        #build driver list
+        driver_fish_list = []
+        model = self.builder_widgets.get_object('driver_liststore')
         iterator = model.get_iter_first()
         while iterator is not None:
-            fish_list.append(model.get_value(iterator,0))
+            driver_fish_list.append(model.get_value(iterator,0))
             iterator = model.iter_next(iterator)
+
+        #build application list
+        application_fish_list = {}
+        model = self.builder_widgets.get_object('application_liststore')
+        iterator = model.get_iter_first()
+        while iterator is not None:
+            path = model.get_value(iterator,0)
+            srv = model.get_value(iterator,1)
+            application_fish_list[path] = srv
+            iterator = model.iter_next(iterator)
+            
         function='assemble_image'
         args = (self.builder_base_image,
                 self.builder_fid_overlay,
-                fish_list,
+                driver_fish_list,
+                application_fish_list,
                 'create_' + self.distributor,
                 self.bto_up)
 
@@ -295,7 +325,11 @@ create an USB key or DVD image."))
         if widget == self.builder_widgets.get_object('base_browse_button'):
             ret=self.run_file_dialog()
             if ret is not None:
-                (bto_version, distributor, release, output_text) = self.backend().query_iso_information(ret)
+                try:
+                    (bto_version, distributor, release, output_text) = self.backend().query_iso_information(ret)
+                except Exception, e:
+                    self.show_alert(gtk.MESSAGE_ERROR, "Exception", str(e),
+                                    parent=self.widgets.get_object('progress_dialog'))
                 self.bto_base=not not bto_version
                 self.builder_base_image=ret
                 wizard.set_page_complete(base_page,True)
@@ -483,21 +517,116 @@ create an USB key or DVD image."))
             wizard.set_page_complete(fid_page,False)
         self.builder_widgets.get_object('fid_overlay_details_label').set_markup(output_text)
 
-    def fish_action(self,widget):
-        """Called when the add or remove buttons are pressed on the fish action page"""
-        add_button = self.builder_widgets.get_object('fish_add')
-        remove_button = self.builder_widgets.get_object('fish_remove')
-        fish_treeview = self.builder_widgets.get_object('fish_treeview')
-        model = fish_treeview.get_model()
+    def driver_action(self,widget):
+        """Called when the add or remove buttons are pressed on the driver action page"""
+        add_button = self.builder_widgets.get_object('driver_add')
+        remove_button = self.builder_widgets.get_object('driver_remove')
+        treeview = self.builder_widgets.get_object('driver_treeview')
+        model = treeview.get_model()
         if widget == add_button:
             ret=self.run_file_dialog()
             if ret is not None:
+                #test that we don't have a file named identically
+                if self.test_liststore_for_existing(model,ret):
+                    return
                 model.append([ret])
         elif widget == remove_button:
-            row = fish_treeview.get_selection().get_selected_rows()[1]
+            row = treeview.get_selection().get_selected_rows()[1]
             if len(row) > 0:
                 model.remove(model.get_iter(row[0]))
 
+    def test_liststore_for_existing(self, model, test):
+        """Tests the first column of a list store for the same content"""
+        iterator = model.get_iter_first()
+        while iterator is not None:
+            iteration_text = model.get_value(iterator,0)
+            if iteration_text == test:
+                return True
+            iterator = model.iter_next(iterator)
+        return False
+
+    def application_action(self,widget):
+        def run_srv_dialog():
+            """Runs the SRV dialog"""
+            srv_dialog = self.builder_widgets.get_object('srv_dialog')
+            srv_entry = self.builder_widgets.get_object('srv_entry')
+            wizard = self.widgets.get_object('wizard')
+            srv_entry.set_text('')
+            wizard.set_sensitive(False)
+            srv_dialog.run()
+            wizard.set_sensitive(True)
+            srv_dialog.hide()
+            srv = srv_entry.get_text().lower()
+            #double check that it's not a duplicate
+            if self.calculate_srvs(None, -1, srv):
+                return srv
+            return ""
+
+        """Called when the add or remove buttons are pressed on the driver action page"""
+        add_button = self.builder_widgets.get_object('application_add')
+        remove_button = self.builder_widgets.get_object('application_remove')
+        treeview = self.builder_widgets.get_object('application_treeview')
+
+        model = treeview.get_model()
+        if widget == add_button:
+            file_ret = self.run_file_dialog()
+            if file_ret is not None:
+                #test that we don't have a file named identically
+                if self.test_liststore_for_existing(model,file_ret):
+                    return
+                #query SRVs
+                srv = run_srv_dialog()
+                #append for reals
+                model.append([file_ret,srv])
+        elif widget == remove_button:
+            row = treeview.get_selection().get_selected_rows()[1]
+            if len(row) > 0:
+                model.remove(model.get_iter(row[0]))
+            self.calculate_srvs(None,-1, "check")
+
+    def calculate_srvs(self, widget, path, text):
+        """Verifies that no empty SRVs were defined"""
+        wizard = self.widgets.get_object('wizard')
+        page = self.builder_widgets.get_object('application_page')
+        model = self.builder_widgets.get_object('application_liststore')
+        warning = self.builder_widgets.get_object('srv_warning_label')
+
+        #ONLY ever work from lowercase
+        text = text.lower()
+
+        #if we are adding text, check all SRVs in the treeview
+        # * for duplicates
+        # * for having content
+        if text:
+            proceed = True
+            iterator = model.get_iter_first()
+            while iterator is not None:
+                if str(model.get_path(iterator)[0]) != path:
+                    iteration_text = model.get_value(iterator,1)
+                    if not iteration_text:
+                        proceed = False
+                        break
+                    if text == iteration_text:
+                        proceed = False
+                        text = ''
+                        break
+                iterator = model.iter_next(iterator)
+        else:
+            proceed = False
+
+        #if we were editing the treeview (not the popup)
+        #then add it to the list store
+        if path >= 0:
+            iterator = model.get_iter(path)
+            model.set(iterator, 1, text)
+
+        #Now that we've checked all SRVs, check showing warning and going forward
+        if proceed:
+            warning.set_text("")
+        else:
+            warning.set_text(_("All SRVs must be filled to proceed."))
+        wizard.set_page_complete(page, proceed)
+        return proceed
 
     def install_git(self,widget):
         """Launch into an installer for git"""
