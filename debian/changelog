@@ -10,6 +10,9 @@ dell-recovery (0.50) UNRELEASED; urgency=low
   * Backend:
     - Support building a folder of SRVs that will be processed in
       the ubiquity frontend.
+  * Bootstrap:
+    - Add support to scan the RP for an SDR and explode SRVs that match it.
+    - Automatically remove all SRVs after explosion.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 29 Mar 2010 12:16:38 -0500
 

@@ -37,6 +37,7 @@ import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 DBusGMainLoop(set_as_default=True)
 import syslog
+import glob
 
 NAME = 'dell-bootstrap'
 AFTER = 'language'
@@ -289,6 +290,55 @@ class Page(Plugin):
             if refresh is False:
                 self.debug("Error removing extended partitions 5-%s for kernel device %s (this may be normal)'" % (total_partitions, self.device))
 
+    def explode_sdr(self):
+        '''Explodes all content explicitly defined in an SDR
+           If no SDR was found, don't change drive at all
+        '''
+        sdr_file = glob.glob(CDROM_MOUNT + "/*SDR")[0]
+        if not sdr_file:
+            return
+
+        #RP Needs to be writable no matter what
+        cd_mount = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
+        if cd_mount is False:
+            raise RuntimeError, ("Error remounting RP to explode SDR.")
+
+        #Parse SDR
+        srv_list = []
+        with open(sdr_file, 'r') as fd:
+            sdr_lines = fd.readlines()
+        for line in sdr_lines:
+            if line.startswith('SI'):
+                columns = line.split()
+                if len(columns) > 2:
+                    #always assume lower case (in case file system is case sensitive)
+                    srv_list.append(columns[2].lower())
+        #Cleanup SDR
+        with misc.raised_privileges():
+            os.remove(sdr_file)
+
+        #Explode SRVs that match SDR
+        for srv in srv_list:
+            file = os.path.join(os.path.join(CDROM_MOUNT, 'srv','%s' % srv))
+            if os.path.exists('%s.tgz' % file):
+                import tarfile
+                archive = tarfile.open('%s.tgz' % file)
+            elif os.path.exists('%s.zip' % file):
+                import zipfile
+                archive = zipfile.ZipFile('%s.zip' % file)
+            else:
+                self.debug("Skipping SRV %s due to no file on filesystem." % srv)
+                continue
+            with misc.raised_privileges():
+                self.debug("Extracting SRV %s onto filesystem" % srv)
+                archive.extractall(path=CDROM_MOUNT)
+            archive.close()
+
+        #Cleanup any SRVs
+        if os.path.exists(os.path.join(CDROM_MOUNT, 'srv')):
+            with misc.raised_privileges():
+                magic.walk_cleanup(os.path.join(CDROM_MOUNT, 'srv'))
+
     def explode_utility_partition(self):
         '''Explodes all content onto the utility partition
         '''
@@ -533,6 +583,7 @@ class Page(Plugin):
                 self.disable_swap()
                 self.remove_extra_partitions()
                 self.explode_utility_partition()
+                self.explode_sdr()
                 if self.rp_filesystem == TYPE_VFAT or \
                    self.rp_filesystem == TYPE_VFAT_LBA:
                     self.install_grub()
