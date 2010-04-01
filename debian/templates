@@ -29,6 +29,11 @@ Type: string
 Default: 0c
 Description: for internal use; determines the filesystem of the recovery partition
 
+Template: dell-recovery/disable-driver-install
+Type: string
+Default:
+Description: for internal use; determines any *-modaliases packages that should be removed
+
 Template: dell-recovery/pool_command
 Type: string
 Default: /cdrom/scripts/pool.sh

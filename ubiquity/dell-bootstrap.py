@@ -461,7 +461,7 @@ class Page(Plugin):
             raise RuntimeError, ("Unable to find factory recovery partition (was going to use %s)" % self.device)
 
         self.device = rp["slave"]
-	if os.path.exists(self.pool_cmd):
+        if os.path.exists(self.pool_cmd):
             early = '&& %s' % self.pool_cmd
         else:
             early = ''
@@ -831,6 +831,28 @@ class Install(InstallPlugin):
             from ubiquity import install_misc
             install_misc.chrex(target, 'update-grub')
 
+    def remove_unwanted_drivers(self, progress):
+        '''Removes any drivers that were preseeded to not be wanted during postinstall'''
+        to_remove = []
+        drivers = ''
+
+        try:
+            drivers = progress.get('dell-recovery/disable-driver-install').split()
+        except debconf.DebconfError, e:
+            pass
+
+        if len(drivers) > 0:
+            from apt.cache import Cache
+            cache = Cache()
+            for driver in drivers:
+                if cache.has_key('%s-modaliases' % driver) and \
+                   cache['%s-modaliases' % driver].isInstalled:
+                    to_remove.append('%s-modaliases' % driver)
+            del cache
+
+        from ubiquity import install_misc
+        install_misc.record_removed(to_remove)
+
     def install(self, target, progress, *args, **kwargs):
         '''This is highly dependent upon being called AFTER configure_apt
         in install.  If that is ever converted into a plugin, we'll
@@ -846,7 +868,7 @@ class Install(InstallPlugin):
 
         #Determine if we are doing OOBE
         try:
-            if self.db.get('oem-config/enable') == 'true':
+            if progress.get('oem-config/enable') == 'true':
                 self.enable_oem_config(target)
                 #only install dell-recovery if we actually have an RP on the
                 #system and will go through OOBE
@@ -873,6 +895,8 @@ class Install(InstallPlugin):
         to_install += self.find_unconditional_debs()
         install_misc.record_installed(to_install)
 
+        self.remove_unwanted_drivers(progress)
+                    
         self.remove_ricoh_mmc()
 
         self.propagate_kernel_parameters(target)
