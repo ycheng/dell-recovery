@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-29 12:05-0500\n"
-"PO-Revision-Date: 2010-03-18 12:44+0000\n"
+"PO-Revision-Date: 2010-03-30 07:57+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
+"X-Launchpad-Export-Date: 2010-03-31 03:55+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -185,16 +185,13 @@ msgstr ""
 #. Description
 #: ../templates:34001
 msgid "Dell End User License Agreement"
-msgstr ""
+msgstr "Dellin loppukäyttäjän lisenssiehdot"
 
 #. Type: text
 #. Description
 #: ../templates:35001
 msgid "I accept the license terms. (required to use your computer)"
-msgstr ""
-
-#~ msgid "Recovery Type"
-#~ msgstr "Palautuksen tyyppi"
+msgstr "Hyväksyn lisenssiehdot. (vaaditaan tietokoneen käyttöön)"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW-levy"

@@ -1,6 +1,7 @@
 dell-recovery (0.51) UNRELEASED; urgency=low
 
   * Don't fail reinstall if missing an SDR.
+  * Import translations from launchpad.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 01 Apr 2010 15:07:45 -0500
 
