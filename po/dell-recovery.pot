@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-27 04:27-0500\n"
+"POT-Creation-Date: 2010-04-01 15:08-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "Invalid recovery partition"
 msgstr ""
 
 #: ../Dell/recovery_frontend.py:139 ../Dell/recovery_frontend.py:188
-#: ../Dell/recovery_builder.py:311
+#: ../Dell/recovery_builder.py:345
 msgid "Permission Denied"
 msgstr ""
 
@@ -53,31 +53,31 @@ msgstr ""
 msgid "Cannot connect to dbus"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:327
+#: ../Dell/recovery_frontend.py:328
 msgid "Welcome"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:331
+#: ../Dell/recovery_frontend.py:332
 msgid "Choose Media Type"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:358 ../gtk/builder.ui.h:19
+#: ../Dell/recovery_frontend.py:359 ../gtk/builder.ui.h:20
 msgid "ISO Image"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:360
+#: ../Dell/recovery_frontend.py:361
 msgid "Media Type: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:363 ../Dell/recovery_frontend.py:365
+#: ../Dell/recovery_frontend.py:364 ../Dell/recovery_frontend.py:366
 msgid "Recovery Partition: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:365
+#: ../Dell/recovery_frontend.py:366
 msgid "Included"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:371
+#: ../Dell/recovery_frontend.py:372
 msgid "Confirm Selections"
 msgstr ""
 
@@ -96,37 +96,57 @@ msgstr ""
 
 #: ../Dell/recovery_builder.py:74
 msgid ""
-"This application will integrate a Dell OEM FID framework & FISH package set "
-"into a customized OS media image.  You will have the option to create an USB "
-"key or DVD image."
-msgstr ""
-
-#: ../Dell/recovery_builder.py:129
-msgid "Choose Base OS Image"
+"This application will integrate a Dell OEM FID framework & driver package "
+"set into a customized OS media image.  You will have the option to create an "
+"USB key or DVD image."
 msgstr ""
 
 #: ../Dell/recovery_builder.py:132
+msgid "Choose Base OS Image"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:135
 msgid "Choose FID Overlay"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:139
+#: ../Dell/recovery_builder.py:142
 msgid "Choose Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:151
-msgid "Choose FISH Packages"
+#: ../Dell/recovery_builder.py:154
+msgid "Choose Driver Packages"
 msgstr ""
 
 #: ../Dell/recovery_builder.py:168
+msgid "Choose Application Packages"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:182
 msgid "Builder Summary"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:179
+#: ../Dell/recovery_builder.py:193
 msgid "Utility Partition: "
 msgstr ""
 
-#: ../Dell/recovery_builder.py:369
+#: ../Dell/recovery_builder.py:195
+msgid "Application"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:196
+msgid "Driver"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:202
+msgid "Packages"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:403
 msgid "<b>ERROR</b>: git is not installed"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:627
+msgid "All SRVs must be filled to proceed."
 msgstr ""
 
 #: ../Dell/recovery_backend.py:381
@@ -141,15 +161,15 @@ msgstr ""
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:564
+#: ../Dell/recovery_backend.py:583
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:620
+#: ../Dell/recovery_backend.py:639
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:654
+#: ../Dell/recovery_backend.py:673
 msgid "Building ISO"
 msgstr ""
 
@@ -273,64 +293,79 @@ msgid "Detected Utility Partition"
 msgstr ""
 
 #: ../gtk/builder.ui.h:13
-msgid "Extracted Directory"
+msgid ""
+"During Factory Installation, applications are only installed if the order "
+"record (SDR) refers to the service release vehicle (SRV).  This populates "
+"the possible SRVs to be queried during installation."
 msgstr ""
 
 #: ../gtk/builder.ui.h:14
-msgid "FID GIT Tree"
+msgid "Extracted Directory"
 msgstr ""
 
 #: ../gtk/builder.ui.h:15
-msgid "FID framework built into BTO image"
+msgid "FID GIT Tree"
 msgstr ""
 
 #: ../gtk/builder.ui.h:16
-msgid "Fetch/Update GIT Tree"
+msgid "FID framework built into BTO image"
 msgstr ""
 
 #: ../gtk/builder.ui.h:17
-msgid "GIT Tags/Branches:"
+msgid "Fetch/Update GIT Tree"
 msgstr ""
 
 #: ../gtk/builder.ui.h:18
+msgid "GIT Tags/Branches:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:19
 msgid "GIT Tree Status"
 msgstr ""
 
-#: ../gtk/builder.ui.h:20
+#: ../gtk/builder.ui.h:21
 msgid "Install git"
 msgstr ""
 
-#: ../gtk/builder.ui.h:21
+#: ../gtk/builder.ui.h:22
 msgid "No additional Utility Partition"
 msgstr ""
 
-#: ../gtk/builder.ui.h:22
-msgid "Select content for Utility Partition"
-msgstr ""
-
 #: ../gtk/builder.ui.h:23
-msgid "Selected Content Details:"
+msgid "Please enter the SRV to use:"
 msgstr ""
 
 #: ../gtk/builder.ui.h:24
-msgid "Selected Image Details:"
+msgid "SRV Entry"
 msgstr ""
 
 #: ../gtk/builder.ui.h:25
-msgid "Selected Overlay Details:"
+msgid "Select content for Utility Partition"
 msgstr ""
 
 #: ../gtk/builder.ui.h:26
-msgid "Show Details"
+msgid "Selected Content Details:"
 msgstr ""
 
 #: ../gtk/builder.ui.h:27
+msgid "Selected Image Details:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:28
+msgid "Selected Overlay Details:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:29
+msgid "Show Details"
+msgstr ""
+
+#: ../gtk/builder.ui.h:30
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
 msgstr ""
 
-#: ../gtk/builder.ui.h:28
+#: ../gtk/builder.ui.h:31
 msgid ""
 "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
 "the event that you are generating from an existing BTO image, you can use "
