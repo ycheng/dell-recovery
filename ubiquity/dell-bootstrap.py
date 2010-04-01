@@ -113,13 +113,16 @@ class PageGtk(PluginUI):
             self.info_spinner = builder.get_object('info_spinner')
             self.err_dialog = builder.get_object('err_dialog')
 
-            #For debug purposes, show our /cdrom mount point on the DVD image
+            #For debug purposes
             icon = builder.get_object('dell_image')
             with open('/proc/mounts','r') as mounts:
                 for line in mounts.readlines():
                     if '/cdrom' in line:
                         icon.set_tooltip_markup("<b>Mounted from</b>: %s" % line.split()[0])
                         break
+            if 'UBIQUITY_DEBUG' in os.environ and 'UBIQUITY_ONLY' in os.environ and \
+                os.path.exists('/usr/bin/gnome-terminal'):
+                subprocess.Popen(['gnome-terminal'])
 
             if not self.genuine:
                 self.interactive_recovery_box.hide()

@@ -5,6 +5,7 @@ dell-recovery (0.51) UNRELEASED; urgency=low
   * Add a new template: dell-recovery/disable-driver-install, which will block
     the installation of a preseeded list of drivers during postinstall phase 
     from Jockey.
+  * When running in ubiquity debug mode, spawn a terminal to use.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 01 Apr 2010 15:07:45 -0500
 
