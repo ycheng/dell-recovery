@@ -136,7 +136,7 @@ def check_vendor():
         vendor = ''
     return (vendor == 'dell' or vendor == 'innotek')
 
-def process_conf_file(rp_number, original, new):
+def process_conf_file(original, new, rp_number, dual_seed=''):
     """Replaces all instances of a partition, OS, and extra in a conf type file
        Generally used for things that need to touch grub"""
     if not os.path.isdir(os.path.split(new)[0]):
@@ -153,6 +153,8 @@ def process_conf_file(rp_number, original, new):
                     line = line.replace("#OS#", "%s %s" % (release["ID"], release["RELEASE"]))
                 if "#EXTRA#" in line:
                     line = line.replace("#EXTRA#", "%s" % extra_cmdline)
+                if '#DUAL#' in line:
+                    line = line.replace("#DUAL#", "%s"  % dual_seed)
                 output.write(line)
 
 def find_extra_kernel_options():

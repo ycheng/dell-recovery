@@ -6,6 +6,14 @@ dell-recovery (0.51) UNRELEASED; urgency=low
     the installation of a preseeded list of drivers during postinstall phase 
     from Jockey.
   * When running in ubiquity debug mode, spawn a terminal to use.
+  * Add a new dual boot template used to enable a dual boot preseed.
+  * Propagate the dual boot parameters through the command line on installation
+  * Add a new template: dell-recovery/dual_boot_seed.
+    - This template's primary purpose is to add an additional seed to stack on
+      the default seed.
+    - When configured, the dell-recovery, dell-oobe, and dell-eula packages will
+      not be installed.
+    - For this to work, you need to be using casper 1.215 or later.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 01 Apr 2010 15:07:45 -0500
 

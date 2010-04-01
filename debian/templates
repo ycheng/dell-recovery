@@ -39,6 +39,11 @@ Type: string
 Default: /cdrom/scripts/pool.sh
 Description: for internal use; determines the command used to dynamically rebuild the pool
 
+Template: dell-recovery/dual_boot_seed
+Type: string
+Default: 
+Description: for internal use; when preseeded, enables the use of a stacked dual boot seed
+
 Template: dell-recovery/build_start
 Type: text
 _Description: Building Dell Recovery Media...

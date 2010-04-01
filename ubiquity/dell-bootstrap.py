@@ -234,8 +234,9 @@ class Page(Plugin):
         #Check for a grub.cfg to start - make as necessary
         if not os.path.exists(os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg')):
             with misc.raised_privileges():
-                magic.process_conf_file(RP_PART, '/usr/share/dell/grub/recovery_partition.cfg', \
-                                    os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'))
+                magic.process_conf_file('/usr/share/dell/grub/recovery_partition.cfg', \
+                                        os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'), \
+                                        RP_PART, self.dual)
 
         #Do the actual grub installation
         bind_mount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
@@ -536,6 +537,13 @@ class Page(Plugin):
             self.pool_cmd = '/cdrom/scripts/pool.sh'
             self.preseed('dell-recovery/pool_command', self.pool_cmd)
 
+        #When running a dual boot install, this is useful
+        try:
+            self.dual = self.db.get('dell-recovery/dual_boot_seed')
+        except debconf.DebconfError, e:
+            self.debug(str(e))
+            self.dual = ''
+
         #Clarify which device we're operating on initially in the UI
         try:
             if type != 'factory' and type != 'hdd':
@@ -568,7 +576,7 @@ class Page(Plugin):
                 self.disable_swap()
                 with misc.raised_privileges():
                     mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
-                self.rp_builder = rp_builder(self.device, self.kexec, self.rp_filesystem, mem)
+                self.rp_builder = rp_builder(self.device, self.kexec, self.rp_filesystem, mem, self.dual)
                 self.rp_builder.exit = self.exit_ui_loops
                 self.rp_builder.start()
                 self.enter_ui_loop()
@@ -610,11 +618,12 @@ class Page(Plugin):
 # RP Builder Worker Thread #
 ############################
 class rp_builder(Thread):
-    def __init__(self, device, kexec, rp_type, mem):
+    def __init__(self, device, kexec, rp_type, mem, dual):
         self.device = device
         self.kexec = kexec
         self.rp_type = rp_type
         self.mem = mem
+        self.dual = dual
         self.exception = None
         Thread.__init__(self)
 
@@ -702,8 +711,9 @@ class rp_builder(Thread):
         if os.path.exists(os.path.join('/boot', 'grub', 'grub.cfg')):
             os.remove(os.path.join('/boot', 'grub', 'grub.cfg'))
         with misc.raised_privileges():
-            magic.process_conf_file(RP_PART, '/usr/share/dell/grub/recovery_partition.cfg', \
-                                os.path.join('/boot', 'grub', 'grub.cfg'))
+            magic.process_conf_file('/usr/share/dell/grub/recovery_partition.cfg', \
+                                    os.path.join('/boot', 'grub', 'grub.cfg'),     \
+                                    RP_PART, self.dual)
 
         #Install grub
         grub = misc.execute_root('grub-install', '--force', self.device + RP_PART)
@@ -787,11 +797,17 @@ class Install(InstallPlugin):
             sections = apt_pkg.ParseSection(control)
             return sections["Package"]
 
+        #process debs/main
         to_install = []
         if os.path.isdir(CDROM_MOUNT + '/debs/main'):
             for file in os.listdir(CDROM_MOUNT + '/debs/main'):
                 if '.deb' in file:
                     to_install.append(parse(os.path.join(CDROM_MOUNT + '/debs/main',file)))
+
+        #These aren't in all images, but desirable if available
+        to_install.append('dkms')
+        to_install.append('adobe-flashplugin')
+
         return to_install
 
     def enable_oem_config(self, target):
@@ -853,8 +869,7 @@ class Install(InstallPlugin):
                     to_remove.append('%s-modaliases' % driver)
             del cache
 
-        from ubiquity import install_misc
-        install_misc.record_removed(to_remove)
+        return to_remove
 
     def install(self, target, progress, *args, **kwargs):
         '''This is highly dependent upon being called AFTER configure_apt
@@ -868,16 +883,12 @@ class Install(InstallPlugin):
 
         from ubiquity import install_misc
         to_install = []
+        to_remove  = []
 
         #Determine if we are doing OOBE
         try:
             if progress.get('oem-config/enable') == 'true':
                 self.enable_oem_config(target)
-                #only install dell-recovery if we actually have an RP on the
-                #system and will go through OOBE
-                if rp:
-                    to_install.append('dell-recovery')
-
         except debconf.DebconfError, e:
             pass
 
@@ -890,19 +901,35 @@ class Install(InstallPlugin):
         except debconf.DebconfError, e:
             pass
 
-        #These aren't in all images, but desirable if available
-        to_install.append('dkms')
-        to_install.append('adobe-flashplugin')
-
         #Stuff that is installed on all configs without fish scripts
         to_install += self.find_unconditional_debs()
-        install_misc.record_installed(to_install)
+
+        #Query Dual boot or not
+        try:
+            dual = self.db.get('dell-recovery/dual_boot_seed')
+        except debconf.DebconfError, e:
+            dual = ''
+
+        #we don't want EULA, DesktopUI or dell-recovery in dual mode
+        if dual:
+            for package in ['dell-eula', 'dell-oobe', 'dell-recovery']:
+                try:
+                    to_install.remove(package)
+                    to_remove.append(package)
+                except ValueError:
+                    continue
+        #install dell-recovery in non dual mode only if there is an RP
+        elif rp:
+            to_install.append('dell-recovery')
 
         self.remove_unwanted_drivers(progress)
                     
         self.remove_ricoh_mmc()
 
         self.propagate_kernel_parameters(target)
+
+        install_misc.record_installed(to_install)
+        install_misc.record_removed(to_remove)
 
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
 
