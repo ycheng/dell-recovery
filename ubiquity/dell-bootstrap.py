@@ -294,7 +294,7 @@ class Page(Plugin):
         '''Explodes all content explicitly defined in an SDR
            If no SDR was found, don't change drive at all
         '''
-        sdr_file = glob.glob(CDROM_MOUNT + "/*SDR")[0]
+        sdr_file = glob.glob(CDROM_MOUNT + "/*SDR")
         if not sdr_file:
             return
 
@@ -305,7 +305,7 @@ class Page(Plugin):
 
         #Parse SDR
         srv_list = []
-        with open(sdr_file, 'r') as fd:
+        with open(sdr_file[0], 'r') as fd:
             sdr_lines = fd.readlines()
         for line in sdr_lines:
             if line.startswith('SI'):
@@ -315,7 +315,7 @@ class Page(Plugin):
                     srv_list.append(columns[2].lower())
         #Cleanup SDR
         with misc.raised_privileges():
-            os.remove(sdr_file)
+            os.remove(sdr_file[0])
 
         #Explode SRVs that match SDR
         for srv in srv_list:
