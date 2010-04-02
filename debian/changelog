@@ -1,4 +1,4 @@
-dell-recovery (0.51) UNRELEASED; urgency=low
+dell-recovery (0.51) lucid; urgency=low
 
   * Don't fail reinstall if missing an SDR.
   * Import translations from launchpad.
@@ -15,7 +15,7 @@ dell-recovery (0.51) UNRELEASED; urgency=low
       not be installed.
     - For this to work, you need to be using casper 1.215 or later.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 01 Apr 2010 15:07:45 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 01 Apr 2010 19:07:49 -0500
 
 dell-recovery (0.50) lucid; urgency=low
 
