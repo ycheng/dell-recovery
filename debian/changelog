@@ -2,6 +2,7 @@ dell-recovery (0.52) UNRELEASED; urgency=low
 
   * dell-bootstrap:
     - Actually append drivers to the to_remove list
+    - Allow multiple drivers to be blocked from install (by comma separated list).
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 05 Apr 2010 13:26:04 -0500
 

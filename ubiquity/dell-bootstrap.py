@@ -856,7 +856,7 @@ class Install(InstallPlugin):
         drivers = ''
 
         try:
-            drivers = progress.get('dell-recovery/disable-driver-install').split()
+            drivers = progress.get('dell-recovery/disable-driver-install').split(',')
         except debconf.DebconfError, e:
             pass
 
