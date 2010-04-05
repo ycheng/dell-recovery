@@ -136,6 +136,16 @@ def check_vendor():
         vendor = ''
     return (vendor == 'dell' or vendor == 'innotek')
 
+def check_version():
+    """Returns the currently installed version of the tool"""
+    try:
+        import apt.cache
+        cache = apt.cache.Cache()
+        if cache['dell-recovery'].isInstalled:
+            return cache['dell-recovery'].installed.version
+    except Exception, e:
+        return "unknown"
+
 def process_conf_file(original, new, rp_number, dual_seed=''):
     """Replaces all instances of a partition, OS, and extra in a conf type file
        Generally used for things that need to touch grub"""

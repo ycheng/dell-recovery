@@ -23,7 +23,7 @@
 
 from Dell.recovery_frontend import GTKFrontend
 from Dell.recovery_builder import GTKBuilderFrontend
-from Dell.recovery_common import find_partitions
+from Dell.recovery_common import find_partitions, check_version
 import optparse
 import os
 
@@ -39,8 +39,6 @@ def check_builder(builder,rp):
         if answer == gtk.RESPONSE_YES:
             builder = True
     return builder
-
-
 
 target=os.path.join(os.getenv('HOME'),'Download')
 if not os.path.isdir(target):
@@ -59,6 +57,8 @@ parser.set_defaults(
     xrev=False,
     branch=False
     )
+parser.add_option('-c', '--check-version', dest='checkversion', action='store_true',
+                  help='Show the version information.')
 parser.add_option('-u', '--up', dest='up',
                   help='Override detected utility partition with this file.')
 parser.add_option('-r', '--rp', dest='rp',
@@ -80,22 +80,25 @@ parser.add_option('--override-branch-mode', dest='branch', action='store_true',
 (options, args) = parser.parse_args()
 
 if __name__ == '__main__':
-    up,rp=find_partitions(options.up,options.rp)
-    builder=check_builder(options.builder,rp)
-
-    args = (up,
-            rp,
-            options.version,
-            options.media,
-            options.target,
-            options.overwrite,
-            options.xrev,
-            options.branch)
-
-    if builder:
-        frontend = GTKBuilderFrontend(*args)
-          
+    if options.checkversion:
+        print "Version: %s" % check_version()
     else:
-        frontend = GTKFrontend(*args)
+        up,rp=find_partitions(options.up,options.rp)
+        builder=check_builder(options.builder,rp)
+    
+        args = (up,
+                rp,
+                options.version,
+                options.media,
+                options.target,
+                options.overwrite,
+                options.xrev,
+                options.branch)
 
-    frontend.run()
+        if builder:
+            frontend = GTKBuilderFrontend(*args)
+              
+        else:
+            frontend = GTKFrontend(*args)
+
+        frontend.run()
