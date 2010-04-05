@@ -549,6 +549,89 @@ class Backend(dbus.service.Object):
 
         return (version,date)
 
+    @dbus.service.method(DBUS_INTERFACE_NAME,
+        in_signature='ss', out_signature='b', sender_keyword='sender',
+        connection_keyword='conn')
+    def query_have_dell_recovery(self, rp, framework, sender=None, conn=None):
+        '''Checks if the given image and BTO framework contain the dell-recovery
+           package suite'''
+
+        def run_isoinfo_command(cmd):
+            """Returns the output of an isoinfo command"""
+            invokation = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+            out, err = invokation.communicate()
+            if invokation.returncode is None:
+                invokation.wait()
+            return out
+
+        def check_mentions(input):
+            '''Checks if given file mentions dell-recovery'''
+            for line in input.split('\n'):
+                if 'dell-recovery' in line:
+                    return True
+            return False
+
+        found = False
+
+        #RP is an ISO
+        if os.path.isfile(rp) and rp.endswith('.iso'):
+            #first find the interesting files
+            cmd = ['isoinfo', '-J', '-i', rp, '-f']
+            logging.debug("query_have_dell_recovery: Checking %s" % rp)
+            files = run_isoinfo_command(cmd)
+            interesting_files = []
+            for file in files.split('\n'):
+                if 'dell-recovery' in file and (file.endswith('.deb') or file.endswith('.rpm')):
+                    logging.debug("query_have_dell_recovery: Found %s" % file)
+                    found = True
+                    break
+                elif file.endswith('.manifest'):
+                    interesting_files.append(file)
+                    logging.debug("query_have_dell_recovery: Appending %s to interesting_files" % file)
+
+            if not found:
+                for file in interesting_files:
+                    cmd = ['isoinfo', '-J', '-i', rp, '-x', file]
+                    logging.debug("query_have_dell_recovery: Checking %s " % file)
+                    if check_mentions(run_isoinfo_command(cmd)):
+                        logging.debug("query_have_dell_recovery: Found in %s" % file)
+                        found = True
+                        break
+        #RP is Mount point or directory
+        else:
+            #Search for a flat file first (or a manifest for later)
+            logging.debug("query_have_dell_recovery: Searching mount point %s" % rp)
+            interesting_files = []
+            for root, dirs,files in os.walk(rp, topdown=False):
+                for name in files:
+                    if 'dell-recovery' in name and (name.endswith('.deb') or name.endswith('.rpm')):
+                        found = True
+                        logging.debug("query_have_dell_recovery: Found in %s" % os.path.join(root,name))
+                        break
+                    elif name.endswith('.manifest'):
+                        interesting_files.append(os.path.join(root,name))
+                        logging.debug("query_have_dell_recovery: Appending %s to interesting_files" % os.path.join(root,name))
+
+            if not found:
+                for file in interesting_files:
+                    with open(file,'r') as fd:
+                        output = fd.read()
+                    if check_mentions(output):
+                        logging.debug("query_have_dell_recovery: Found in %s" % file)
+                        found = True
+                        break
+
+        #If we didn't find it in the ISO, search the framework
+        if not found and framework:
+            logging.debug("query_have_dell_recovery: Searching framework %s" % framework)
+            for root, dirs,files in os.walk(framework, topdown=False):
+                for name in files:
+                    if 'dell-recovery' in name and (name.endswith('.deb') or name.endswith('.rpm')):
+                        found = True
+                        logging.debug("query_have_dell_recovery: Found in %s" % os.path.join(root,name))
+                        break
+
+        return found
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature='ssss', out_signature='', sender_keyword='sender',

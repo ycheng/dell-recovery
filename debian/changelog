@@ -8,6 +8,9 @@ dell-recovery (0.52) UNRELEASED; urgency=low
       than before.
   * Add an argument to check the currently installed version.
   * Only import GTK for the necessary pieces.
+  * backend:
+    - Add a new function: query_have_dell_recovery that will determine if a 
+      dell-recovery deb or rpm is on the filesystem of an image or in a BTO tree.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 05 Apr 2010 13:26:04 -0500
 
