@@ -922,7 +922,7 @@ class Install(InstallPlugin):
         elif rp:
             to_install.append('dell-recovery')
 
-        self.remove_unwanted_drivers(progress)
+        to_remove += self.remove_unwanted_drivers(progress)
                     
         self.remove_ricoh_mmc()
 
