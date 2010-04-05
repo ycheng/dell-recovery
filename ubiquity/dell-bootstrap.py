@@ -132,15 +132,40 @@ class PageGtk(PluginUI):
                 self.interactive_recovery.set_sensitive(False)
                 builder.get_object('genuine_box').show()
 
+    def force_translations(self):
+        '''Forces any specified language on the command line to be the effective
+           translated language in the UI
+
+           We have to do it this way because we are preseeding the language during
+           actual installs to english regardless, and don't want to change that
+           behavior.'''
+        with open('/proc/cmdline', 'r') as fd:
+            items = fd.readline()
+        lang = ''
+        for item in items.split():
+            if 'debian-installer/language' in item:
+                item = item.split('=')
+                if len(item) > 1:
+                    lang = item[1]
+                break
+        if lang:
+            self.controller.translate(lang=lang, just_me=False, not_me=False)
+
     def plugin_get_current_page(self):
-        import gtk
+        #are we real?
         if not self.genuine:
             self.controller.allow_go_forward(False)
+
+        #Try to force a translation set
+        self.force_translations()
+        
         #The widget has been added into the top level by now, so we can change top level stuff
+        import gtk
         window = self.plugin_widgets.get_parent_window()
-        window.set_title('Dell Recovery')
         window.set_functions(gtk.gdk.FUNC_RESIZE | gtk.gdk.FUNC_MOVE)
+        window.set_title('Dell Recovery')
         self.controller._wizard.step_label.set_sensitive(False)
+
         return self.plugin_widgets
 
     def get_type(self):

@@ -4,6 +4,8 @@ dell-recovery (0.52) UNRELEASED; urgency=low
     - Actually append drivers to the to_remove list
     - Allow multiple drivers to be blocked from install (by comma separated list).
     - On the debug image, output the version number.
+    - Enable some level of translation.  It's still got some issues, but is better
+      than before.
   * Add an argument to check the currently installed version.
   * Only import GTK for the necessary pieces.
 
