@@ -114,10 +114,12 @@ class PageGtk(PluginUI):
 
             #For debug purposes
             icon = builder.get_object('dell_image')
+            with misc.raised_privileges():
+                version = magic.check_version()
             with open('/proc/mounts','r') as mounts:
                 for line in mounts.readlines():
                     if '/cdrom' in line:
-                        icon.set_tooltip_markup("<b>Mounted from</b>: %s" % line.split()[0])
+                        icon.set_tooltip_markup("<b>Version</b>: %s\n<b>Mounted from</b>: %s" % (version,line.split()[0]))
                         break
             if 'UBIQUITY_DEBUG' in os.environ and 'UBIQUITY_ONLY' in os.environ and \
                 os.path.exists('/usr/bin/gnome-terminal'):
