@@ -4,6 +4,7 @@ dell-recovery (0.52) UNRELEASED; urgency=low
     - Actually append drivers to the to_remove list
     - Allow multiple drivers to be blocked from install (by comma separated list).
   * Add an argument to check the currently installed version.
+  * Only import GTK for the necessary pieces.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 05 Apr 2010 13:26:04 -0500
 

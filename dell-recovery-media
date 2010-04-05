@@ -3,7 +3,7 @@
 #
 # Dell Recovery Media Launcher Script
 #
-# Copyright (C) 2008 Dell Inc,
+# Copyright (C) 2008-2010 Dell Inc,
 #   Author: Mario Limonciello
 #
 # This is free software; you can redistribute it and/or modify it under
@@ -21,8 +21,6 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
-from Dell.recovery_frontend import GTKFrontend
-from Dell.recovery_builder import GTKBuilderFrontend
 from Dell.recovery_common import find_partitions, check_version
 import optparse
 import os
@@ -96,9 +94,10 @@ if __name__ == '__main__':
                 options.branch)
 
         if builder:
+            from Dell.recovery_builder import GTKBuilderFrontend
             frontend = GTKBuilderFrontend(*args)
-              
         else:
+            from Dell.recovery_frontend import GTKFrontend
             frontend = GTKFrontend(*args)
 
         frontend.run()

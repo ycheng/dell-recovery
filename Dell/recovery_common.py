@@ -3,7 +3,7 @@
 #
 # «recovery_common» - Misc Functions and variables that are useful in many areas
 #
-# Copyright (C) 2009, Dell Inc.
+# Copyright (C) 2009-2010, Dell Inc.
 #
 # Author:
 #  - Mario Limonciello <Mario_Limonciello@Dell.com>

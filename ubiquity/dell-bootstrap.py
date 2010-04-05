@@ -31,7 +31,6 @@ import Dell.recovery_common as magic
 import subprocess
 import os
 import re
-import gtk
 import shutil
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
@@ -132,6 +131,7 @@ class PageGtk(PluginUI):
                 builder.get_object('genuine_box').show()
 
     def plugin_get_current_page(self):
+        import gtk
         if not self.genuine:
             self.controller.allow_go_forward(False)
         #The widget has been added into the top level by now, so we can change top level stuff
