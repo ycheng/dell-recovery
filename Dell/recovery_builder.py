@@ -137,6 +137,9 @@ create an USB key or DVD image."))
 
         elif page == self.builder_widgets.get_object('fid_page'):
             wizard.set_page_title(page,_("Choose FID Overlay"))
+            self.builder_widgets.get_object('install_git_button').hide()
+            self.builder_widgets.get_object('add_dell_recovery_button').hide()
+
             for operating_system in git_trees:
                 if operating_system == self.distributor:
                     self.builder_widgets.get_object('git_url').set_text(git_trees[operating_system])

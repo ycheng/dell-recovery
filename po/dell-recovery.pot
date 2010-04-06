@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-05 20:40-0500\n"
+"POT-Creation-Date: 2010-04-05 22:21-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,68 +16,68 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../Dell/recovery_frontend.py:106
+#: ../Dell/recovery_frontend.py:102
 msgid "Invalid utility partition"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:106 ../Dell/recovery_frontend.py:112
+#: ../Dell/recovery_frontend.py:102 ../Dell/recovery_frontend.py:108
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:112
+#: ../Dell/recovery_frontend.py:108
 msgid "Invalid recovery partition"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:139 ../Dell/recovery_frontend.py:188
-#: ../Dell/recovery_builder.py:350
+#: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
+#: ../Dell/recovery_builder.py:353
 msgid "Permission Denied"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:202
+#: ../Dell/recovery_frontend.py:198
 msgid "Opening Burner"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:216
+#: ../Dell/recovery_frontend.py:212
 msgid "Recovery Media Creation Process Complete"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:217
+#: ../Dell/recovery_frontend.py:213
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:237
+#: ../Dell/recovery_frontend.py:233
 msgid "Cannot connect to dbus"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:328
+#: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:332
+#: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:359 ../gtk/builder.ui.h:25
+#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:25
 msgid "ISO Image"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:361
+#: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:364 ../Dell/recovery_frontend.py:366
+#: ../Dell/recovery_frontend.py:360 ../Dell/recovery_frontend.py:362
 msgid "Recovery Partition: "
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:366
+#: ../Dell/recovery_frontend.py:362
 msgid "Included"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:372
+#: ../Dell/recovery_frontend.py:368
 msgid "Confirm Selections"
 msgstr ""
 
@@ -101,59 +101,59 @@ msgid ""
 "USB key or DVD image."
 msgstr ""
 
-#: ../Dell/recovery_builder.py:133
+#: ../Dell/recovery_builder.py:136
 msgid "Choose Base OS Image"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:136
+#: ../Dell/recovery_builder.py:139
 msgid "Choose FID Overlay"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:143
+#: ../Dell/recovery_builder.py:146
 msgid "Choose Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:155
+#: ../Dell/recovery_builder.py:158
 msgid "Choose Driver Packages"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:169
+#: ../Dell/recovery_builder.py:172
 msgid "Choose Application Packages"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:183
+#: ../Dell/recovery_builder.py:186
 msgid "Builder Summary"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:194
+#: ../Dell/recovery_builder.py:197
 msgid "Utility Partition: "
 msgstr ""
 
-#: ../Dell/recovery_builder.py:196
+#: ../Dell/recovery_builder.py:199
 msgid "Application"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:197
+#: ../Dell/recovery_builder.py:200
 msgid "Driver"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:203
+#: ../Dell/recovery_builder.py:206
 msgid "Packages"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:408
+#: ../Dell/recovery_builder.py:411
 msgid "<b>ERROR</b>: git is not installed"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:526
+#: ../Dell/recovery_builder.py:529
 msgid "Missing Dell-Recovery"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:526
+#: ../Dell/recovery_builder.py:529
 msgid "Not present in ISO or GIT tree"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:641
+#: ../Dell/recovery_builder.py:644
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
@@ -169,15 +169,15 @@ msgstr ""
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:674
+#: ../Dell/recovery_backend.py:679
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:730
+#: ../Dell/recovery_backend.py:735
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:764
+#: ../Dell/recovery_backend.py:769
 msgid "Building ISO"
 msgstr ""
 
