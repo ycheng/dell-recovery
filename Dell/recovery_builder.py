@@ -401,7 +401,7 @@ create an USB key or DVD image."))
         elif self.builder_widgets.get_object('git_radio').get_active():
             git_tree_hbox.set_sensitive(True)
             cwd=os.path.join(os.environ["HOME"],'.config','dell-recovery',self.distributor + '-fid')
-            if os.path.exists(cwd):
+            if os.path.exists(cwd) and os.path.exists('/usr/bin/git'):
                 self.fid_vte_handler(self.builder_widgets.get_object('git_radio'))
 
     def fid_fetch_button_clicked(self,widget):
@@ -415,9 +415,10 @@ create an USB key or DVD image."))
             if not self.ac:
                 try:
                     self.ac = client.AptClient()
-                    self.builder_widgets.get_object('install_git_button').show()
                 except NameError:
                     pass
+            if self.ac:
+                self.builder_widgets.get_object('install_git_button').show()
             wizard.set_page_complete(fid_page,False)
         else:
             output_text=''
@@ -681,9 +682,10 @@ create an USB key or DVD image."))
             if not self.ac:
                 try:
                     self.ac = client.AptClient()
-                    self.builder_widgets.get_object('add_dell_recovery_repack_button').show()
                 except NameError:
                     pass
+            if self.ac:
+                self.builder_widgets.get_object('add_dell_recovery_repack_button').show()
             self.builder_widgets.get_object('build_dell_recovery_button').set_sensitive(False)
         else:
             self.builder_widgets.get_object('build_dell_recovery_button').set_sensitive(True)
