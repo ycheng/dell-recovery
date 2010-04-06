@@ -325,9 +325,9 @@ class Backend(dbus.service.Object):
         self.main_loop.quit()
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='ssasa{ss}ssss', out_signature='', sender_keyword='sender',
+        in_signature='ssasa{ss}sssss', out_signature='', sender_keyword='sender',
         connection_keyword='conn')
-    def assemble_image(self, base, fid, driver_fish, application_fish, create_fn, up, version, iso, sender=None, conn=None):
+    def assemble_image(self, base, fid, driver_fish, application_fish, dell_recovery_package, create_fn, up, version, iso, sender=None, conn=None):
         """Takes the different pieces that would be used for a BTO image and puts them together
            base: mount point of base image (or directory)
            fid: mount point of fid overlay
@@ -449,6 +449,19 @@ class Backend(dbus.service.Object):
             for file in up_filenames:
                 if os.path.exists(os.path.join(assembly_tmp, file)):
                     os.remove(os.path.join(assembly_tmp, file))
+
+        #If dell-recovery needs to be injected into the image
+        if dell_recovery_package:
+            dest = os.path.join(assembly_tmp, 'debs')
+            if not os.path.isdir(dest):
+                os.makedirs(dest)
+            if 'dpkg-repack' in dell_recovery_package:
+                logging.debug("Repacking dell-recovery using dpkg-repack")
+                call = subprocess.Popen(['dpkg-repack', 'dell-recovery'], cwd=dest)
+                (out,err) = call.communicate()
+            else:
+                logging.debug("Adding manually included dell-recovery package, %s" % dell_recovery_package)
+                distutils.file_util.copy_file(dell_recovery_package, dest)
 
         function=getattr(Backend,create_fn)
         function(self,up,assembly_tmp,version,iso)

@@ -81,6 +81,8 @@ if __name__ == '__main__':
     if options.checkversion:
         print "Version: %s" % check_version()
     else:
+        import dbus.mainloop.glib
+        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         up,rp=find_partitions(options.up,options.rp)
         builder=check_builder(options.builder,rp)
     

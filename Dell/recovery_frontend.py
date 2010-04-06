@@ -28,8 +28,6 @@ import subprocess
 import dbus
 import sys
 
-import dbus.mainloop.glib
-
 import gtk
 
 from Dell.recovery_common import *
@@ -81,8 +79,6 @@ class GTKFrontend:
         self.branch=branch
 
         self.ac=None
-
-        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
     def translate_widgets(self, widgets):
         widgets.set_translation_domain(domain)

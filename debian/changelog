@@ -11,6 +11,9 @@ dell-recovery (0.52) UNRELEASED; urgency=low
   * backend:
     - Add a new function: query_have_dell_recovery that will determine if a 
       dell-recovery deb or rpm is on the filesystem of an image or in a BTO tree.
+  * builder:
+    - If dell-recovery isn't included in the chosen image or in the chosen FID
+      tree, then support injecting it into the image.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 05 Apr 2010 13:26:04 -0500
 

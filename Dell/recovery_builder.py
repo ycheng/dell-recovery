@@ -90,6 +90,9 @@ create an USB key or DVD image."))
         self.vte.show()
         self.vte.connect("child-exited", self.fid_vte_handler)
 
+        #setup the possible dialog for adding dell-recovery package in
+        self.builder_widgets.get_object('builder_add_dell_recovery_window').set_transient_for(wizard)
+
         #popup window for SRVs
         self.builder_widgets.get_object('srv_dialog').set_transient_for(wizard)
 
@@ -108,6 +111,7 @@ create an USB key or DVD image."))
         self.builder_base_image=''
         self.bto_base=False
         self.bto_up=''
+        self.add_dell_recovery_deb=''
 
         self.builder_widgets.connect_signals(self)
 
@@ -204,6 +208,9 @@ create an USB key or DVD image."))
                     output_text+= "\t" + model.get_value(iterator,0) + '\n'
                     iterator = model.iter_next(iterator)
 
+            if self.add_dell_recovery_deb:
+                output_text+="<b>Inject Dell Recovery Package</b>: " + self.add_dell_recovery_deb + '\n'
+
             output_text+= self.widgets.get_object('conf_text').get_label()
 
             self.widgets.get_object('conf_text').set_markup(output_text)
@@ -236,6 +243,7 @@ create an USB key or DVD image."))
                 self.builder_fid_overlay,
                 driver_fish_list,
                 application_fish_list,
+                self.add_dell_recovery_deb,
                 'create_' + self.distributor,
                 self.bto_up)
 
@@ -512,7 +520,16 @@ create an USB key or DVD image."))
                 self.widgets.get_object('version').set_text('X00')
 
             output_text = "<b>GIT Tree</b>, Version: %s" % active_tag
-            wizard.set_page_complete(fid_page,True)
+
+            #if we have a valid tag, check now to make sure that we have dell-recovery
+            if self.backend().query_have_dell_recovery(self.builder_base_image,
+                                                       self.builder_fid_overlay) or self.add_dell_recovery_deb:
+                wizard.set_page_complete(fid_page,True)
+            else:
+                output_text += "\n<b>%s</b>, %s" % (_("Missing Dell-Recovery"), _("Not present in ISO or GIT tree"))
+                wizard.set_page_complete(fid_page,False)
+                self.builder_widgets.get_object('add_dell_recovery_button').show()
+            
         else:
             wizard.set_page_complete(fid_page,False)
         self.builder_widgets.get_object('fid_overlay_details_label').set_markup(output_text)
@@ -628,10 +645,14 @@ create an USB key or DVD image."))
         wizard.set_page_complete(page, proceed)
         return proceed
 
-    def install_git(self,widget):
-        """Launch into an installer for git"""
-        widget.hide()
-        t = self.ac.install_packages(['git-core'],
+    def install_app(self,widget):
+        """Launch into an installer for git or dpkg-repack"""
+        packages = []
+        if widget == self.builder_widgets.get_object('install_git_button'):
+            packages = ['git-core']
+        else:
+            packages = ['dpkg-repack']
+        t = self.ac.install_packages(packages,
                                     wait=False,
                                     reply_handler=None,
                                     error_handler=None)
@@ -647,3 +668,72 @@ create an USB key or DVD image."))
                             message_format=msg)
             error.run()
             error.hide()
+        widget.hide()
+
+    def add_dell_recovery_clicked(self, widget):
+        """Launches a dialog to add dell-recovery to the image"""
+        widget.hide()
+        #check if dpkg-repack is available
+        if not os.path.exists('/usr/bin/dpkg-repack'):
+            if not self.ac:
+                try:
+                    self.ac = client.AptClient()
+                    self.builder_widgets.get_object('add_dell_recovery_repack_button').show()
+                except NameError:
+                    pass
+            self.builder_widgets.get_object('build_dell_recovery_button').set_sensitive(False)
+        else:
+            self.builder_widgets.get_object('build_dell_recovery_button').set_sensitive(True)
+        self.builder_widgets.get_object('builder_add_dell_recovery_window').show()
+
+    def add_dell_recovery_closed(self, widget):
+        ok_button = self.builder_widgets.get_object('builder_add_ok')
+        fid_page  = self.builder_widgets.get_object('fid_page')
+        wizard = self.widgets.get_object('wizard')
+        window = self.builder_widgets.get_object('builder_add_dell_recovery_window')
+
+        if widget == ok_button:
+            wizard.set_page_complete(fid_page,True)
+        else:
+            wizard.set_page_complete(fid_page,False)
+            self.add_dell_recovery_deb = ''
+        window.hide()
+        self.fid_git_changed(None)
+
+    def add_dell_recovery_toggled(self, widget):
+        """Toggles the active selection in the add dell-recovery to image page"""
+        build_radio = self.builder_widgets.get_object('build_dell_recovery_button')
+        browse_radio = self.builder_widgets.get_object('provide_dell_recovery_button')
+        browse_button = self.builder_widgets.get_object('provide_dell_recovery_browse_button')
+        ok_button = self.builder_widgets.get_object('builder_add_ok')
+
+        if build_radio.get_active():
+            ok_button.set_sensitive(True)
+            browse_button.set_sensitive(False)
+            self.add_dell_recovery_deb = 'dpkg-repack'
+        elif browse_radio.get_active():
+            ok_button.set_sensitive(False)
+            browse_button.set_sensitive(True)
+            self.add_dell_recovery_deb = ''
+
+    def provide_dell_recovery_file_chooser_picked(self,widget=None):
+        """Called when a file is selected on the add dell-recovery page"""
+
+        ok_button = self.builder_widgets.get_object('builder_add_ok')
+        filter = gtk.FileFilter()
+        filter.add_pattern("*.deb")
+        self.file_dialog.set_filter(filter)
+            
+        ret=self.run_file_dialog()
+        if ret is not None:
+            import apt_inst
+            import apt_pkg
+            control = apt_inst.debExtractControl(open(ret))
+            sections = apt_pkg.ParseSection(control)
+            if sections["Package"] != 'dell-recovery':
+                self.add_dell_recovery_deb = ''
+            else:
+                self.add_dell_recovery_deb = ret
+
+        if self.add_dell_recovery_deb:
+            ok_button.set_sensitive(True)
