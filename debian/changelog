@@ -1,4 +1,4 @@
-dell-recovery (0.52) UNRELEASED; urgency=low
+dell-recovery (0.52) lucid; urgency=low
 
   * dell-bootstrap:
     - Actually append drivers to the to_remove list
@@ -19,7 +19,7 @@ dell-recovery (0.52) UNRELEASED; urgency=low
   * Catch exceptions when errors happen installing packages.
   * Import translations from launchpad.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 05 Apr 2010 13:26:04 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 05 Apr 2010 22:50:45 -0500
 
 dell-recovery (0.51) lucid; urgency=low
 
