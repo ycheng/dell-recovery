@@ -652,26 +652,28 @@ create an USB key or DVD image."))
     def install_app(self,widget):
         """Launch into an installer for git or dpkg-repack"""
         packages = []
+        wizard=self.widgets.get_object('wizard')
         if widget == self.builder_widgets.get_object('install_git_button'):
             packages = ['git-core']
         else:
             packages = ['dpkg-repack']
-        t = self.ac.install_packages(packages,
+        try:
+            t = self.ac.install_packages(packages,
                                     wait=False,
                                     reply_handler=None,
                                     error_handler=None)
-        wizard=self.widgets.get_object('wizard')
-        dialog = AptProgressDialog(t, parent=wizard)
-        try:
+            
+            dialog = AptProgressDialog(t, parent=wizard)
             dialog.run()
             super(AptProgressDialog, dialog).run()
         except dbus.exceptions.DBusException, e:
-            msg = str(e)
-            error = gtk.MessageDialog(parent=wizard, type=gtk.MESSAGE_ERROR,
-                            buttons=gtk.BUTTONS_CLOSE,
-                            message_format=msg)
-            error.run()
-            error.hide()
+            if e._dbus_error_name == "org.freedesktop.PolicyKit.Error.NotAuthorized":
+                header = _("Permission Denied")
+            else:
+                header = 'DBus Exception'
+            self.show_alert(gtk.MESSAGE_ERROR, header, str(e),
+                        parent=self.widgets.get_object('wizard'))
+
         widget.hide()
 
     def add_dell_recovery_clicked(self, widget):

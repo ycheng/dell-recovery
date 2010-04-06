@@ -16,6 +16,7 @@ dell-recovery (0.52) UNRELEASED; urgency=low
       tree, then support injecting it into the image.
     - Make sure to clean up dynamic buttons when necessary.
   * Don't allow building the list store if git was installed and removed.
+  * Catch exceptions when errors happen installing packages.
   * Import translations from launchpad.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 05 Apr 2010 13:26:04 -0500
