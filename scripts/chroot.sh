@@ -89,6 +89,8 @@ fi
 
 #Make sure fifuncs and target_chroot are available
 if [ ! -d $TARGET/usr/share/dell ]; then
+    mkdir -p $TARGET/usr/share/dell
+    DIR_CLEANUP="$TARGET/usr/share/dell $DIR_CLEANUP"
     mount --bind /usr/share/dell $TARGET/usr/share/dell
     MOUNT_CLEANUP="$TARGET/usr/share/dell $MOUNT_CLEANUP"
 fi
@@ -99,6 +101,11 @@ chroot $TARGET /usr/share/dell/scripts/target_chroot.sh
 for mountpoint in $MOUNT_CLEANUP;
 do
     umount -l $mountpoint
+done
+
+for directory in $DIR_CLEANUP;
+do
+    rm -rf $directory
 done
 
 chroot $TARGET chattr -a $LOG/chroot.sh.log
