@@ -864,7 +864,7 @@ class Install(InstallPlugin):
             if 'dell-recovery/' in extra:
                 new = ''
                 for item in extra.split():
-                    if not 'dell-recovery/' in item:
+                    if not 'dell-recovery/' in item and not 'debian-installer/' in item:
                         new+='%s ' % item
                 extra = new.strip()
             #read/write new grub
