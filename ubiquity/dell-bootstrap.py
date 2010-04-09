@@ -300,7 +300,7 @@ class Page(Plugin):
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
         #First set the new partition active
-        active = misc.execute_root('sfdisk', '-A' + RP_PART, self.device)
+        active = misc.execute_root('sfdisk', '-A%s' % self.fail_partition, self.device)
         if active is False:
             self.debug("Failed to set partition %s active on %s" % (RP_PART, self.device))
         #check for extended partitions
@@ -436,6 +436,7 @@ class Page(Plugin):
                      'oem-config/early_command',
                      'oem-config/late_command',
                      'dell-recovery/active_partition',
+                     'dell-recovery/fail_partition',
                      'ubiquity/reboot' ]:
             self.db.fset(key, 'seen', 'false')
             self.db.set(key, '')
@@ -571,6 +572,12 @@ class Page(Plugin):
         except debconf.DebconfError, e:
             self.debug(str(e))
             self.dual = ''
+
+        #In case the install fails, this is where we boot to
+        try:
+            self.fail_partition = self.db.get('dell-recovery/fail_partition')
+        except debconf.DebconfError, e:
+            self.fail_partition = RP_PART
 
         #Clarify which device we're operating on initially in the UI
         try:

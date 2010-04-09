@@ -11,6 +11,8 @@ dell-recovery (0.53) UNRELEASED; urgency=low
   * Don't copy kernel command line parameters to the extra debug options in the
     recovery partition grub.cfg
   * Don't propagate debian-installer preseeds through.
+  * Add a preseedsable template to mark which partition should be active
+    after a failed installation.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Fri, 09 Apr 2010 09:48:56 -0500
 

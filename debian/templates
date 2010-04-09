@@ -34,6 +34,11 @@ Type: string
 Default: 3
 Description: for internal use; sets which partition is active after successful installation
 
+Template: dell-recovery/fail_partition
+Type: string
+Default: 2
+Description: for internal use; sets which partition is active after failed installation
+
 Template: dell-recovery/disable-driver-install
 Type: string
 Default:
