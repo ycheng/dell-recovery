@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-05 22:21-0500\n"
+"POT-Creation-Date: 2010-04-09 14:13-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "Invalid recovery partition"
 msgstr ""
 
 #: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
-#: ../Dell/recovery_builder.py:353
+#: ../Dell/recovery_builder.py:356 ../Dell/recovery_builder.py:671
 msgid "Permission Denied"
 msgstr ""
 
@@ -109,51 +109,51 @@ msgstr ""
 msgid "Choose FID Overlay"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:146
+#: ../Dell/recovery_builder.py:149
 msgid "Choose Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:158
+#: ../Dell/recovery_builder.py:161
 msgid "Choose Driver Packages"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:172
+#: ../Dell/recovery_builder.py:175
 msgid "Choose Application Packages"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:186
+#: ../Dell/recovery_builder.py:189
 msgid "Builder Summary"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:197
+#: ../Dell/recovery_builder.py:200
 msgid "Utility Partition: "
 msgstr ""
 
-#: ../Dell/recovery_builder.py:199
+#: ../Dell/recovery_builder.py:202
 msgid "Application"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:200
+#: ../Dell/recovery_builder.py:203
 msgid "Driver"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:206
+#: ../Dell/recovery_builder.py:209
 msgid "Packages"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:411
+#: ../Dell/recovery_builder.py:414
 msgid "<b>ERROR</b>: git is not installed"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:529
+#: ../Dell/recovery_builder.py:533
 msgid "Missing Dell-Recovery"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:529
+#: ../Dell/recovery_builder.py:533
 msgid "Not present in ISO or GIT tree"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:644
+#: ../Dell/recovery_builder.py:648
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 

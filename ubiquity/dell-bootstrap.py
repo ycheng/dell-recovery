@@ -920,6 +920,20 @@ class Install(InstallPlugin):
         except debconf.DebconfError, e:
             pass
 
+        #The last thing to do is set an active partition
+        #This happens at the end of success command
+        active = ''
+        try:
+            active = progress.get('dell-recovery/active_partition')
+        except debconf.DebconfError, e:
+            pass
+        disk = progress.get('partman-auto/disk')
+        if not active.isdigit():
+            active = '3'
+        with open('/tmp/set_active_partition', 'w') as fd:
+            fd.write('sfdisk -A%s %s\n' % (active, disk))
+        os.chmod('/tmp/set_active_partition', 0755)
+
         #Fixup pool to only accept stuff on /cdrom
         #This is reverted during SUCCESS_SCRIPT
         try:

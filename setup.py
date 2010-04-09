@@ -43,6 +43,7 @@ setup(
     data_files=[("share/dell", glob.glob("gtk/*.ui")),
                 ('share/pixmaps', glob.glob("gtk/*.png")),
                 ('share/dell/bin', ['backend/recovery-media-backend']),
+                ('share/dell/scripts', glob.glob('scripts/*')),
                 ('/etc/dbus-1/system.d/', glob.glob('backend/*.conf')),
                 ('share/dell/grub', glob.glob('grub/*')),
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
