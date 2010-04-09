@@ -29,6 +29,11 @@ Type: string
 Default: 0c
 Description: for internal use; determines the filesystem of the recovery partition
 
+Template: dell-recovery/active_partition
+Type: string
+Default: 3
+Description: for internal use; sets which partition is active after successful installation
+
 Template: dell-recovery/disable-driver-install
 Type: string
 Default:
