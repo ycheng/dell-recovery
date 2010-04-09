@@ -573,11 +573,21 @@ class Page(Plugin):
             self.debug(str(e))
             self.dual = ''
 
+        #If we are successful, this is where we boot to
+        try:
+            self.pass_partition = self.db.get('dell-recovery/active_partition')
+        except debconf.DebconfError, e:
+            self.debug(str(e))
+            self.pass_partition = self.os_part
+            self.preseed('dell-recovery/active_partition', self.pass_partition)
+
         #In case the install fails, this is where we boot to
         try:
             self.fail_partition = self.db.get('dell-recovery/fail_partition')
         except debconf.DebconfError, e:
+            self.debug(str(e))
             self.fail_partition = RP_PART
+            self.preseed('dell-recovery/fail_partition', self.fail_partition)
 
         #Clarify which device we're operating on initially in the UI
         try:
@@ -934,12 +944,11 @@ class Install(InstallPlugin):
             active = progress.get('dell-recovery/active_partition')
         except debconf.DebconfError, e:
             pass
-        disk = progress.get('partman-auto/disk')
-        if not active.isdigit():
-            active = '3'
-        with open('/tmp/set_active_partition', 'w') as fd:
-            fd.write('sfdisk -A%s %s\n' % (active, disk))
-        os.chmod('/tmp/set_active_partition', 0755)
+        if active.isdigit():
+            disk = progress.get('partman-auto/disk')
+            with open('/tmp/set_active_partition', 'w') as fd:
+                fd.write('sfdisk -A%s %s\n' % (active, disk))
+            os.chmod('/tmp/set_active_partition', 0755)
 
         #Fixup pool to only accept stuff on /cdrom
         #This is reverted during SUCCESS_SCRIPT
