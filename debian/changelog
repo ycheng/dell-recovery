@@ -15,6 +15,8 @@ dell-recovery (0.53) UNRELEASED; urgency=low
     after a failed installation.
   * If active or failed partition isn't preseeded, set a sane default for the 
     resize case.
+  * Don't propagate any ubiquity (automatic-ubiquity, debug-ubiquity) kernel
+    command lines through to the actual system install.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Fri, 09 Apr 2010 09:48:56 -0500
 
