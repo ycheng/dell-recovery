@@ -88,11 +88,11 @@ if ! mount | grep "$TARGET/media/cdrom"; then
 fi
 
 #Make sure fifuncs and target_chroot are available
-if [ ! -d $TARGET/usr/share/dell ]; then
-    mkdir -p $TARGET/usr/share/dell
-    DIR_CLEANUP="$TARGET/usr/share/dell $DIR_CLEANUP"
-    mount --bind /usr/share/dell $TARGET/usr/share/dell
-    MOUNT_CLEANUP="$TARGET/usr/share/dell $MOUNT_CLEANUP"
+if [ ! -d $TARGET/usr/share/dell/scripts ]; then
+    mkdir -p $TARGET/usr/share/dell/scripts
+    DIR_CLEANUP="$TARGET/usr/share/dell/scripts $DIR_CLEANUP"
+    mount --bind /usr/share/dell/scripts $TARGET/usr/share/dell/scripts
+    MOUNT_CLEANUP="$TARGET/usr/share/dell/scripts $MOUNT_CLEANUP"
 fi
 
 #Run chroot scripts
