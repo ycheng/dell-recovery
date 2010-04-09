@@ -8,6 +8,8 @@ dell-recovery (0.53) UNRELEASED; urgency=low
       but they will also be removed after execution.
   * Produce a shell script to make sure that sfdisk is called on the right
     device.
+  * Don't copy kernel command line parameters to the extra debug options in the
+    recovery partition grub.cfg
 
  -- Mario Limonciello <superm1@ubuntu.com>  Fri, 09 Apr 2010 09:48:56 -0500
 
