@@ -1,0 +1,59 @@
+#!/bin/sh
+#
+#       <SUCCESS-SCRIPT>
+#
+#       Called in the event that postinstall (chroot) steps complete successfully
+#
+#       Copyright 2008-2010 Dell Inc.
+#           Mario Limonciello <Mario_Limonciello@Dell.com>
+#           Hatim Amro <Hatim_Amro@Dell.com>
+#           Michael E Brown <Michael_E_Brown@Dell.com>
+#
+#       This program is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 2 of the License, or
+#       (at your option) any later version.
+#
+#       This program is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#
+#       You should have received a copy of the GNU General Public License
+#       along with this program; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
+
+# BE AWARE THAT THIS SCRIPT IS CALLED FROM OUTSIDE THE CHROOT.
+# The OS is mounted under $TARGET
+
+. /usr/share/dell/scripts/fifuncs "target"
+
+set -x
+set -e
+
+IFHALT "(SUCCESS) Clean-Up .."
+
+#This will be rebuilt before OEM config
+rm -f $TARGET/etc/apt/sources.list.d/dell.list
+
+if [ "$BOOTDEV" = "$TARGETDEV" ]; then
+    mount -o remount,rw /cdrom
+    IFHALT "Resetting grub fail state"
+    [ -s /cdrom/grub/grubenv ] || rm -f /cdrom/grub/grubenv
+    mkdir -p /cdrom/grub
+    grub-editenv /cdrom/grub/grubenv unset recordfail
+
+    #If we have another script to run, do it
+    if [ -f /cdrom/scripts/chroot-scripts/SUCCESS-SCRIPT ]; then
+        IFHALT "(SUCCESS) Report to logs.. Done!"
+        /cdrom/scripts/chroot-scripts/SUCCESS-SCRIPT
+        rm -f /cdrom/scripts/chroot-scripts/SUCCESS-SCRIPT
+        rm -f /cdrom/scripts/chroot-scripts/FAIL-SCRIPT
+    fi
+
+    #Set the right partition active now that we're done
+    /tmp/set_active_partition
+fi
+
+IFHALT "(SUCCESS) Clean-Up .. Done!"
