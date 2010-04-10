@@ -189,7 +189,8 @@ class PageGtk(PluginUI):
         iterator = self.automated_combobox.get_active_iter()
         if iterator is not None:
             device = model.get_value(iterator,0)
-        return device
+            size = model.get_value(iterator,1)
+        return (device, size)
 
     def set_type(self,type):
         """Sets the type of recovery to do in GUI"""
@@ -242,7 +243,7 @@ class PageGtk(PluginUI):
 
     def populate_devices(self, devices):
         """Feeds a selection of devices into the GUI
-           devices should be an array of 2 colum arrays
+           devices should be an array of 3 column arrays
         """
         #populate the devices
         liststore = self.automated_combobox.get_model()
@@ -259,6 +260,7 @@ class Page(Plugin):
     def __init__(self, frontend, db=None, ui=None):
         self.kexec = False
         self.device = None
+        self.device_size = 0
         Plugin.__init__(self, frontend, db, ui)
 
     def install_grub(self):
@@ -481,8 +483,9 @@ class Page(Plugin):
             devicefile = dev.Get('org.freedesktop.Udisks.Device','DeviceFile')
             devicemodel = dev.Get('org.freedesktop.Udisks.Device','DriveModel')
             devicevendor = dev.Get('org.freedesktop.Udisks.Device','DriveVendor')
-            devicesize = "%i GB" % (dev.Get('org.freedesktop.Udisks.Device','DeviceSize') / 1000000000)
-            disks.append([devicefile,"%s %s %s (%s)" % (devicesize, devicevendor, devicemodel, devicefile)])
+            devicesize = dev.Get('org.freedesktop.Udisks.Device','DeviceSize')
+            devicesize_gb = "%i" % (devicesize / 1000000000)
+            disks.append([devicefile, devicesize, "%s GB %s %s (%s)" % (devicesize_gb, devicevendor, devicemodel, devicefile)])
 
         #If multiple candidates were found, record in the logs
         if len(disks) == 0:
@@ -618,9 +621,11 @@ class Page(Plugin):
         """Copy answers from debconf questions"""
         type = self.ui.get_type()
         self.preseed('dell-recovery/recovery_type', type)
-        device = self.ui.get_selected_device()
+        (device, size) = self.ui.get_selected_device()
         if device:
             self.device = device
+        if size:
+            self.device_size = size
         return Plugin.ok_handler(self)
 
     def cleanup(self):
@@ -634,7 +639,7 @@ class Page(Plugin):
                 self.disable_swap()
                 with misc.raised_privileges():
                     mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
-                self.rp_builder = rp_builder(self.device, self.kexec, self.rp_filesystem, mem, self.dual)
+                self.rp_builder = rp_builder(self.device, self.device_size, self.kexec, self.rp_filesystem, mem, self.dual)
                 self.rp_builder.exit = self.exit_ui_loops
                 self.rp_builder.start()
                 self.enter_ui_loop()
@@ -676,8 +681,9 @@ class Page(Plugin):
 # RP Builder Worker Thread #
 ############################
 class rp_builder(Thread):
-    def __init__(self, device, kexec, rp_type, mem, dual):
+    def __init__(self, device, size, kexec, rp_type, mem, dual):
         self.device = device
+        self.device_size = size
         self.kexec = kexec
         self.rp_type = rp_type
         self.mem = mem
@@ -718,14 +724,24 @@ class rp_builder(Thread):
             syslog.syslog("Preseeded RP type unsuported, setting to %s" % TYPE_VFAT_LBA)
             self.rp_type = TYPE_VFAT_LBA
 
-        #Partitioner commands
+        ##Partitioner##
         data = 'p\n'    #print current partitions (we might want them for debugging)
         data += 'n\np\n%s\n\n' % UP_PART    # New partition for UP
         data += '+' + str(up_size) + 'M\n\nt\nde\n\n'   # Size and make it type de
         data += 'n\np\n%s\n\n' % RP_PART    # New partition for RP
-        data += '+' + str(rp_size) + 'M\n\nt\n%s\n%s\n\n' % (RP_PART, self.rp_type)    # Size and make it type 0b
+        data += '+' + str(rp_size) + 'M\n\nt\n%s\n%s\n\n' % (RP_PART, self.rp_type)    # Size and make it right type
         data += 'a\n%s\n\n' % RP_PART   # Make RP active
-        data += 'w\n'   # Save and quit
+
+        #Dual boot creates more partitions
+        if self.dual:
+            my_os_part = 5120 #mb
+            other_os_part = (int(self.device_size) / 1048576) - up_size - rp_size - my_os_part
+            data += 'n\np\n%s\n\n' % '3' # New partition for Other OS
+            data += '+' + str(other_os_part) + 'M\n\nt\n%s\n%s\n\n' % ('3', TYPE_NTFS) # Size and make it right type
+            data += 'n\np\n\n\n' # New partition for Our OS pieces
+            data += 't\n%s\n%s\n\n' % ('4', TYPE_VFAT_LBA) # make it right type
+        #Save and quit
+        data += 'w\n'
         try:
             with misc.raised_privileges():
                 fetch_output(['fdisk', self.device], data)
@@ -780,6 +796,15 @@ class rp_builder(Thread):
             grub = misc.execute_root('grub-install', '--force', self.device + RP_PART)
             if grub is False:
                 raise RuntimeError, ("Error installing grub to %s%s" % (self.device, RP_PART))
+
+        #If dual boot, then prepare the other partitions
+        else:
+            commands = [('mkfs.ntfs' , '-f', '-L', 'OS', self.device + '3'),
+                        ('mkfs.msdos', '-n', 'ubuntu'  , self.device + '4')]
+            for command in commands:
+                fs = misc.execute_root(*command)
+                if fs is False:
+                    raise RuntimeError, ("Error creating additional filesystem")
 
         #Build new UUID
         if int(self.mem) >= 1000000:

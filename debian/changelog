@@ -18,6 +18,8 @@ dell-recovery (0.53) UNRELEASED; urgency=low
   * Don't propagate any ubiquity (automatic-ubiquity, debug-ubiquity) kernel
     command lines through to the actual system install.
   * When in dual boot mode, don't install grub onto the RP.
+  * When in dual boot mode, calculate the size of and produce additional
+    partitions for the other OS to install into.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Fri, 09 Apr 2010 09:48:56 -0500
 

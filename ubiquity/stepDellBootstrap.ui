@@ -204,7 +204,7 @@
                         <child>
                           <object class="GtkCellRendererText" id="cellrenderertext1"/>
                           <attributes>
-                            <attribute name="text">1</attribute>
+                            <attribute name="text">2</attribute>
                           </attributes>
                         </child>
                       </object>
@@ -518,6 +518,8 @@
   <object class="GtkListStore" id="hard_drive_liststore">
     <columns>
       <!-- column-name device -->
+      <column type="gchararray"/>
+      <!-- column-name size -->
       <column type="gchararray"/>
       <!-- column-name information -->
       <column type="gchararray"/>
