@@ -22,6 +22,7 @@ dell-recovery (0.53) UNRELEASED; urgency=low
     partitions for the other OS to install into.
   * When in dual boot mode, install grub onto the 4th partition so that install
     can kick itself off.
+  * When in dual boot mode, don't offer the resize options.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Fri, 09 Apr 2010 09:48:56 -0500
 

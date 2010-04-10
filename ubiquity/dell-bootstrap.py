@@ -64,6 +64,9 @@ class PageNoninteractive(PluginUI):
     def set_type(self,type):
         pass
 
+    def set_dual(self):
+        pass
+
     def show_info_dialog(self):
         pass
 
@@ -210,6 +213,11 @@ class PageGtk(PluginUI):
                 self.automated_recovery_box.hide()
                 self.interactive_recovery.set_sensitive(False)
                 self.automated_recovery.set_sensitive(False)
+
+    def set_dual(self):
+        """Marks the UI as dual boot mode"""
+        self.interactive_recovery_box.hide()
+        self.interactive_recovery.set_sensitive(False)
 
     def toggle_type(self, widget):
         """Allows the user to go forward after they've made a selection'"""
@@ -585,6 +593,8 @@ class Page(Plugin):
         #When running a dual boot install, this is useful
         try:
             self.dual = self.db.get('dell-recovery/dual_boot_seed')
+            if self.dual:
+                self.ui.set_dual()
         except debconf.DebconfError, e:
             self.debug(str(e))
             self.dual = ''
