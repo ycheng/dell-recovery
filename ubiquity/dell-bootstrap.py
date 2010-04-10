@@ -781,30 +781,41 @@ class rp_builder(Thread):
         with misc.raised_privileges():
             magic.white_tree("copy", white_pattern, CDROM_MOUNT, '/boot')
 
-        #Only prepare grub if this won't be a dual boot
-        if not self.dual:
-            #Check for a grub.cfg - replace as necessary
-            if os.path.exists(os.path.join('/boot', 'grub', 'grub.cfg')):
-                with misc.raised_privileges():
-                    os.remove(os.path.join('/boot', 'grub', 'grub.cfg'))
-            with misc.raised_privileges():
-                magic.process_conf_file('/usr/share/dell/grub/recovery_partition.cfg', \
-                                        os.path.join('/boot', 'grub', 'grub.cfg'),     \
-                                        RP_PART, self.dual)
-    
-            #Install grub (or configure our boot setup)
-            grub = misc.execute_root('grub-install', '--force', self.device + RP_PART)
-            if grub is False:
-                raise RuntimeError, ("Error installing grub to %s%s" % (self.device, RP_PART))
 
         #If dual boot, then prepare the other partitions
-        else:
+        if self.dual:
             commands = [('mkfs.ntfs' , '-f', '-L', 'OS', self.device + '3'),
                         ('mkfs.msdos', '-n', 'ubuntu'  , self.device + '4')]
             for command in commands:
                 fs = misc.execute_root(*command)
                 if fs is False:
                     raise RuntimeError, ("Error creating additional filesystem")
+
+            grub_part = '4'
+
+            mount = misc.execute_root('mount', self.device + grub_part, '/boot')
+            if mount is False:
+                raise RuntimeError, ("Error mounting %s%s" % (self.device, grub_part))
+        else:
+            grub_part = RP_PART
+
+        #Check for a grub.cfg - replace as necessary
+        if os.path.exists(os.path.join('/boot', 'grub', 'grub.cfg')):
+            with misc.raised_privileges():
+                os.remove(os.path.join('/boot', 'grub', 'grub.cfg'))
+        with misc.raised_privileges():
+            magic.process_conf_file('/usr/share/dell/grub/recovery_partition.cfg', \
+                                    os.path.join('/boot', 'grub', 'grub.cfg'),     \
+                                    RP_PART, self.dual)
+
+        #Install grub
+        grub = misc.execute_root('grub-install', '--force', self.device + grub_part)
+        if grub is False:
+            raise RuntimeError, ("Error installing grub to %s%s" % (self.device, RP_PART))
+
+        #dual boot needs primary #4 unmounted
+        if self.dual:
+            misc.execute_root('umount', '/boot')
 
         #Build new UUID
         if int(self.mem) >= 1000000:

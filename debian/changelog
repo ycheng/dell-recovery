@@ -20,6 +20,8 @@ dell-recovery (0.53) UNRELEASED; urgency=low
   * When in dual boot mode, don't install grub onto the RP.
   * When in dual boot mode, calculate the size of and produce additional
     partitions for the other OS to install into.
+  * When in dual boot mode, install grub onto the 4th partition so that install
+    can kick itself off.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Fri, 09 Apr 2010 09:48:56 -0500
 
