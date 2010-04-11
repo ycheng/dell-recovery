@@ -7,21 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-23 01:25-0500\n"
-"PO-Revision-Date: 2010-03-23 22:20+0000\n"
+"POT-Creation-Date: 2010-04-05 22:21-0500\n"
+"PO-Revision-Date: 2010-04-07 18:48+0000\n"
 "Last-Translator: Moritz Baumann <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-24 04:54+0000\n"
+"X-Launchpad-Export-Date: 2010-04-08 07:19+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:103
+#: ../Dell/recovery_frontend.py:102
 msgid "Invalid utility partition"
 msgstr "Ungültige Werkzeugpartition"
 
-#: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
+#: ../Dell/recovery_frontend.py:102 ../Dell/recovery_frontend.py:108
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
@@ -29,23 +29,24 @@ msgstr ""
 " in Befehlszeilenargumenten. Auf DeviceKit- oder HAL-basierte Erkennung "
 "zurückgreifen."
 
-#: ../Dell/recovery_frontend.py:109
+#: ../Dell/recovery_frontend.py:108
 msgid "Invalid recovery partition"
 msgstr "Ungültige Wiederherstellungspartition"
 
-#: ../Dell/recovery_frontend.py:136 ../Dell/recovery_frontend.py:185
+#: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
+#: ../Dell/recovery_builder.py:353
 msgid "Permission Denied"
 msgstr "Zugriff verweigert"
 
-#: ../Dell/recovery_frontend.py:199
+#: ../Dell/recovery_frontend.py:198
 msgid "Opening Burner"
 msgstr "Brenner wird geöffnet"
 
-#: ../Dell/recovery_frontend.py:213
+#: ../Dell/recovery_frontend.py:212
 msgid "Recovery Media Creation Process Complete"
 msgstr "Erstellungsvorgang des Wiederherstellungsmediums abgeschlossen"
 
-#: ../Dell/recovery_frontend.py:214
+#: ../Dell/recovery_frontend.py:213
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
@@ -53,7 +54,7 @@ msgstr ""
 "Wenn Sie eine weitere Kopie archivieren möchten: das erzeugte Abbild wurde "
 "unter folgendem Dateinamen gespeichert:\n"
 
-#: ../Dell/recovery_frontend.py:234
+#: ../Dell/recovery_frontend.py:233
 msgid "Cannot connect to dbus"
 msgstr "Keine Verbindung zum D-Bus"
 
@@ -65,7 +66,7 @@ msgstr "Willkommen"
 msgid "Choose Media Type"
 msgstr "Medientyp wählen"
 
-#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:19
+#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:25
 msgid "ISO Image"
 msgstr "ISO-Abbild"
 
@@ -85,27 +86,103 @@ msgstr "Enthalten"
 msgid "Confirm Selections"
 msgstr "Auswahl bestätigen"
 
-#: ../Dell/recovery_backend.py:397
+#: ../Dell/recovery_builder.py:54
+msgid "python-vte is missing"
+msgstr "python-vte fehlt"
+
+#: ../Dell/recovery_builder.py:55
+msgid "Builder mode requires python-vte to function"
+msgstr ""
+
+#. wizard.resize(400,400)
+#: ../Dell/recovery_builder.py:72
+msgid " (BTO Image Builder Mode)"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:74
+msgid ""
+"This application will integrate a Dell OEM FID framework & driver package "
+"set into a customized OS media image.  You will have the option to create an "
+"USB key or DVD image."
+msgstr ""
+
+#: ../Dell/recovery_builder.py:136
+msgid "Choose Base OS Image"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:139
+msgid "Choose FID Overlay"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:146
+msgid "Choose Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:158
+msgid "Choose Driver Packages"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:172
+msgid "Choose Application Packages"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:186
+msgid "Builder Summary"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:197
+msgid "Utility Partition: "
+msgstr "Dienstpartition: "
+
+#: ../Dell/recovery_builder.py:199
+msgid "Application"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:200
+msgid "Driver"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:206
+msgid "Packages"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:411
+msgid "<b>ERROR</b>: git is not installed"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:529
+msgid "Missing Dell-Recovery"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:529
+msgid "Not present in ISO or GIT tree"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:644
+msgid "All SRVs must be filled to proceed."
+msgstr ""
+
+#: ../Dell/recovery_backend.py:381
 msgid "Adding in base image"
 msgstr "Dem Basisabbild hinzufügen"
 
-#: ../Dell/recovery_backend.py:403
+#: ../Dell/recovery_backend.py:387
 msgid "Overlaying FID content"
 msgstr "FID-Inhalt wird überlagert"
 
-#: ../Dell/recovery_backend.py:418
+#: ../Dell/recovery_backend.py:402
 msgid "Inserting FISH packages"
 msgstr "FISH-Pakete werden eingefügt"
 
-#: ../Dell/recovery_backend.py:580
+#: ../Dell/recovery_backend.py:679
 msgid "Building Dell Utility Partition"
 msgstr "Dell-Werkzeugpartition wird erstellt"
 
-#: ../Dell/recovery_backend.py:646
+#: ../Dell/recovery_backend.py:735
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "UUID wird neu erstellt / initramfs wird neu erzeugt"
 
-#: ../Dell/recovery_backend.py:688
+#: ../Dell/recovery_backend.py:769
 msgid "Building ISO"
 msgstr "ISO wird erstellt"
 
@@ -219,6 +296,14 @@ msgstr ""
 "einige Zeit in Anspruch nehmen."
 
 #: ../gtk/builder.ui.h:7
+msgid "Add Dell Recovery"
+msgstr ""
+
+#: ../gtk/builder.ui.h:8
+msgid "Add dell-recovery"
+msgstr ""
+
+#: ../gtk/builder.ui.h:9
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
@@ -226,7 +311,7 @@ msgstr ""
 "Alle zusätzlichen Treiber oder Anwendungen, die in das Abbild integriert "
 "werden sollen, können hier hinzugefügt werden."
 
-#: ../gtk/builder.ui.h:8
+#: ../gtk/builder.ui.h:10
 msgid ""
 "BTO images can optionally include a Utility Partition for diagnostic "
 "utilities."
@@ -234,75 +319,106 @@ msgstr ""
 "BTO-Abbilder können wahlweise eine Werkzeugpartition für Diagnosewerkzeuge "
 "beinhalten."
 
-#: ../gtk/builder.ui.h:9
+#: ../gtk/builder.ui.h:11
+msgid "Browse for a dell-recovery package"
+msgstr ""
+
+#: ../gtk/builder.ui.h:12
+msgid "Build dell-recovery package from this system"
+msgstr ""
+
+#: ../gtk/builder.ui.h:13
 msgid "Choose Content"
 msgstr "Inhalt auswählen"
 
-#: ../gtk/builder.ui.h:10
+#: ../gtk/builder.ui.h:14
 msgid "Choose Image"
 msgstr "Abbild wählen"
 
-#: ../gtk/builder.ui.h:11
+#: ../gtk/builder.ui.h:15
+msgid "Choose package"
+msgstr ""
+
+#: ../gtk/builder.ui.h:16
 msgid "Detected Recovery Partition"
 msgstr "Erkannte Wiederherstellungspartition"
 
-#: ../gtk/builder.ui.h:12
+#: ../gtk/builder.ui.h:17
 msgid "Detected Utility Partition"
 msgstr "Erkannte Werkzeugpartition"
 
-#: ../gtk/builder.ui.h:13
+#: ../gtk/builder.ui.h:18
+msgid ""
+"During Factory Installation, applications are only installed if the order "
+"record (SDR) refers to the service release vehicle (SRV).  This populates "
+"the possible SRVs to be queried during installation."
+msgstr ""
+
+#: ../gtk/builder.ui.h:19
 msgid "Extracted Directory"
 msgstr "Extrahiertes Verzeichnis"
 
-#: ../gtk/builder.ui.h:14
+#: ../gtk/builder.ui.h:20
 msgid "FID GIT Tree"
 msgstr "FID-GIT-Baum"
 
-#: ../gtk/builder.ui.h:15
+#: ../gtk/builder.ui.h:21
 msgid "FID framework built into BTO image"
 msgstr "In das BTO-Abbild eingebautes FID-Gerüst"
 
-#: ../gtk/builder.ui.h:16
+#: ../gtk/builder.ui.h:22
 msgid "Fetch/Update GIT Tree"
 msgstr "GIT-Baum abholen/aktualisieren"
 
-#: ../gtk/builder.ui.h:17
+#: ../gtk/builder.ui.h:23
 msgid "GIT Tags/Branches:"
 msgstr "GIT-Tags/-Zweige:"
 
-#: ../gtk/builder.ui.h:18
+#: ../gtk/builder.ui.h:24
 msgid "GIT Tree Status"
 msgstr "Status GIT-Baum"
 
-#: ../gtk/builder.ui.h:20
+#: ../gtk/builder.ui.h:26
+msgid "Install dpkg-repack"
+msgstr ""
+
+#: ../gtk/builder.ui.h:27
 msgid "Install git"
 msgstr "git installieren"
 
-#: ../gtk/builder.ui.h:21
+#: ../gtk/builder.ui.h:28
 msgid "No additional Utility Partition"
 msgstr "Keine zusätzliche Werkzeugpartition"
 
-#: ../gtk/builder.ui.h:22
+#: ../gtk/builder.ui.h:29
+msgid "Please enter the SRV to use:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:30
+msgid "SRV Entry"
+msgstr ""
+
+#: ../gtk/builder.ui.h:31
 msgid "Select content for Utility Partition"
 msgstr "Wählen Sie den Inhalt für die Werkzeugpartition aus"
 
-#: ../gtk/builder.ui.h:23
+#: ../gtk/builder.ui.h:32
 msgid "Selected Content Details:"
 msgstr "Details zum ausgewählten Inhalt"
 
-#: ../gtk/builder.ui.h:24
+#: ../gtk/builder.ui.h:33
 msgid "Selected Image Details:"
 msgstr "Details zum ausgewählten Abbild:"
 
-#: ../gtk/builder.ui.h:25
+#: ../gtk/builder.ui.h:34
 msgid "Selected Overlay Details:"
 msgstr "Details zum ausgewählten Overlay:"
 
-#: ../gtk/builder.ui.h:26
+#: ../gtk/builder.ui.h:35
 msgid "Show Details"
 msgstr "Details anzeigen"
 
-#: ../gtk/builder.ui.h:27
+#: ../gtk/builder.ui.h:36
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
@@ -311,7 +427,7 @@ msgstr ""
 "Abbilds. Es kann sich um ein unverändertes Betriebssystemabbild handeln oder "
 "um ein existierendes BTO-Abbild."
 
-#: ../gtk/builder.ui.h:28
+#: ../gtk/builder.ui.h:37
 msgid ""
 "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
 "the event that you are generating from an existing BTO image, you can use "
@@ -320,6 +436,13 @@ msgstr ""
 "Das FID-Gerüst ist der erste Teil, der über das ursprüngliche Abbild gelegt "
 "wird. Falls Sie aus einem existierenden BTO-Abbild erstellen, können Sie das "
 "Gerüst, das in dieses Abbild gebaut wurde, benutzen."
+
+#: ../gtk/builder.ui.h:38
+msgid ""
+"The combination of the image and GIT tree you have provided do not supply "
+"the necessary dell-recovery package.  It will have to be injected into the "
+"image separately."
+msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
@@ -380,9 +503,6 @@ msgstr ""
 
 #~ msgid "File Name: "
 #~ msgstr "Dateiname: "
-
-#~ msgid "Utility Partition: "
-#~ msgstr "Dienstpartition: "
 
 #~ msgid ""
 #~ "This tool requires that a Utility Partition and Linux Recovery partition are "

@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-29 12:05-0500\n"
-"PO-Revision-Date: 2010-03-25 15:08+0000\n"
-"Last-Translator: Daniel Schury <Surst@gmx.net>\n"
+"PO-Revision-Date: 2010-04-07 18:47+0000\n"
+"Last-Translator: Moritz Baumann <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-26 04:49+0000\n"
+"X-Launchpad-Export-Date: 2010-04-08 07:19+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -68,7 +68,8 @@ msgstr ""
 #. Description
 #: ../templates:15001 ../templates:18001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr "WARNUNG: Alle persönlichen Daten und Änderungen werden verloren gehen."
+msgstr ""
+"WARNUNG: Alle persönlichen Daten und Änderungen werden verloren gehen."
 
 #. Type: text
 #. Description
@@ -192,13 +193,15 @@ msgstr ""
 #. Description
 #: ../templates:34001
 msgid "Dell End User License Agreement"
-msgstr ""
+msgstr "Dell-Endbenutzer-Lizenzvereinbarung"
 
 #. Type: text
 #. Description
 #: ../templates:35001
 msgid "I accept the license terms. (required to use your computer)"
 msgstr ""
+"Ich akzeptiere die Lizenzbestimmungen. (notwendig, um Ihren Rechner zu "
+"benutzen)"
 
 #~ msgid "<activity placeholder>"
 #~ msgstr "<Aktivitätsplatzhalter>"
@@ -237,8 +240,8 @@ msgstr ""
 #~ msgstr "Zielverzeichnis auswählen"
 
 #~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
 #~ msgstr ""
 #~ "Dieses Programm benötigt eine vorhandene Dienstprogramm- und eine "
 #~ "Linuxwiederherstellungspartition."
@@ -260,8 +263,8 @@ msgstr ""
 
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr ""
-#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch "
-#~ "einmal versuchen?"
+#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch einmal "
+#~ "versuchen?"
 
 #~ msgid "Invalid recovery partition"
 #~ msgstr "Ungültige Wiederherstellungspartition"
