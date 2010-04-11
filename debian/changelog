@@ -1,10 +1,10 @@
-dell-recovery (0.54) UNRELEASED; urgency=low
+dell-recovery (0.54) lucid; urgency=low
 
   * Fix a crash in HDD mode from get_selected_device not being initialized
     in that context.
   * Import translations from launchpad.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Sun, 11 Apr 2010 00:29:18 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Sun, 11 Apr 2010 00:38:17 -0500
 
 dell-recovery (0.53) lucid; urgency=low
 
