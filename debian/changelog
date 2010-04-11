@@ -1,4 +1,4 @@
-dell-recovery (0.53) UNRELEASED; urgency=low
+dell-recovery (0.53) lucid; urgency=low
 
   * Add a preseedable template to mark which partition should be active
     after a successful installation.
@@ -24,7 +24,7 @@ dell-recovery (0.53) UNRELEASED; urgency=low
     can kick itself off.
   * When in dual boot mode, don't offer the resize options.
 
- -- Mario Limonciello <superm1@ubuntu.com>  Fri, 09 Apr 2010 09:48:56 -0500
+ -- Mario Limonciello <superm1@ubuntu.com>  Sat, 10 Apr 2010 10:30:05 -0500
 
 dell-recovery (0.52) lucid; urgency=low
 
