@@ -187,7 +187,7 @@ class PageGtk(PluginUI):
 
     def get_selected_device(self):
         """Returns the selected device from the GUI"""
-        device = ''
+        device = size = ''
         model = self.automated_combobox.get_model()
         iterator = self.automated_combobox.get_active_iter()
         if iterator is not None:
