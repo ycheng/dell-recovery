@@ -48,6 +48,7 @@ RP_PART =     '2'
 CDROM_MOUNT = '/cdrom'
 
 TYPE_NTFS = '07'
+TYPE_NTFS_RE = '27'
 TYPE_VFAT = '0b'
 TYPE_VFAT_LBA = '0c'
 
@@ -526,7 +527,7 @@ class Page(Plugin):
         self.db.set('partman-auto/disk', self.device)
         self.db.set('grub-installer/bootdev', self.device + self.os_part)
         if rp["fs"] == "ntfs":
-            self.rp_filesystem = TYPE_NTFS
+            self.rp_filesystem = TYPE_NTFS_RE
         elif rp["fs"] == "vfat":
             self.rp_filesystem = TYPE_VFAT_LBA
         else:
@@ -729,6 +730,7 @@ class rp_builder(Thread):
 
         #double check the recovery partition type
         if self.rp_type != TYPE_NTFS and \
+           self.rp_type != TYPE_NTFS_RE and \
            self.rp_type != TYPE_VFAT and \
            self.rp_type != TYPE_VFAT_LBA:
             syslog.syslog("Preseeded RP type unsuported, setting to %s" % TYPE_VFAT_LBA)
@@ -776,7 +778,7 @@ class rp_builder(Thread):
         #Build RP filesystem
         if self.rp_type == TYPE_VFAT or self.rp_type == TYPE_VFAT_LBA:
             command = ('mkfs.msdos', '-n', 'install', self.device + RP_PART)
-        elif self.rp_type == TYPE_NTFS:
+        elif self.rp_type == TYPE_NTFS or self.rp_type == TYPE_NTFS_RE:
             command = ('mkfs.ntfs', '-f', '-L', 'RECOVERY', self.device + RP_PART)
         fs = misc.execute_root(*command)
         if fs is False:
