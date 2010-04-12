@@ -707,15 +707,16 @@ class rp_builder(Thread):
 
         white_pattern = re.compile('.')
 
-        #Utility partition image (dd)#
-        if os.path.exists(CDROM_MOUNT + '/upimg.bin'):
-            #in bytes
-            up_size = int(fetch_output(['gzip','-lq',CDROM_MOUNT + '/upimg.bin']).split()[1])
-            #in mbytes
-            up_size = up_size / 1048576
         #Utility partition files (tgz/zip)#
-        else:
-            up_size = 32
+        up_size = 32
+
+        #Utility partition image (dd)#
+        for file in in magic.up_filenames:
+            if 'img' in file and os.path.exists(os.path.join(CDROM_MOUNT, file)):
+                #in bytes
+                up_size = int(fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, file)]).split()[1])
+                #in mbytes
+                up_size = up_size / 1048576
 
         #Calculate RP
         rp_size = magic.white_tree("size", white_pattern, CDROM_MOUNT)
