@@ -711,7 +711,7 @@ class rp_builder(Thread):
         up_size = 32
 
         #Utility partition image (dd)#
-        for file in in magic.up_filenames:
+        for file in magic.up_filenames:
             if 'img' in file and os.path.exists(os.path.join(CDROM_MOUNT, file)):
                 #in bytes
                 up_size = int(fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, file)]).split()[1])
