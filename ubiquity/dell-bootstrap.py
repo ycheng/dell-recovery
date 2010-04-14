@@ -690,7 +690,8 @@ class Page(Plugin):
         except Exception, e:
             #For interactive types of installs show an error then reboot
             #Otherwise, just reboot the system
-            if type == "automatic" or type == "interactive":
+            if type == "automatic" or type == "interactive" or \
+               ('UBIQUITY_DEBUG' in os.environ and 'UBIQUITY_ONLY' in os.environ):
                 self.handle_exception(e)
             self.cancel_handler()
         Plugin.cleanup(self)
