@@ -400,6 +400,7 @@ class Page(Plugin):
             mount = misc.execute_root('mount', self.device + UP_PART, '/boot')
             if mount is False:
                 raise RuntimeError, ("Error mounting utility partition pre-explosion.")
+            import zipfile
             archive = zipfile.ZipFile(os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip'))
             with misc.raised_privileges():
                 archive.extractall(path='/boot')
@@ -438,6 +439,14 @@ class Page(Plugin):
                 #Don't worry about remounting the RP/remounting RO.
                 #we'll probably need to do that in grub instead
                 break
+        #If we didn't include an autoexec.bat (as is the case from normal DellDiags releases)
+        #Then make the files we need to be automatically bootable
+        if not os.path.exists('/boot/autoexec.bat') and os.path.exists('/boot/autoexec.up'):
+            with misc.raised_privileges():
+                shutil.copy('/boot/autoexec.up','/boot/autoexec.bat')
+        if not os.path.exists('/boot/config.sys') and os.path.exists('/boot/config.up'):
+            with misc.raised_privileges():
+                shutil.copy('/boot/config.up','/boot/config.sys')
         if mount:
             umount = misc.execute_root('umount', '/boot')
             if umount is False:

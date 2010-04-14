@@ -14,6 +14,8 @@ dell-recovery (0.55) UNRELEASED; urgency=low
     - Drop recommends for syslinux since we use our own mbr now.
   * When operating in ubiquity debug mode, expose exceptions even if we're
     in a factory boot.
+  * If we didn't include an autoexec.bat/config.sys (as is the case from normal
+    DellDiags releases), then make the files we need to be bootable.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Sun, 11 Apr 2010 22:00:04 -0500
 
