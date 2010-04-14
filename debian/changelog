@@ -29,6 +29,9 @@ dell-recovery (0.55) UNRELEASED; urgency=low
       dell-bootstrap plugin.
   * Fix translation support.  We should be able to load translations for all
     widgets now.
+  * Introduce a 3rd ubiquity plugin that forces the title of the parent window.
+    This is necessary because bootstrap runs before the language page, which
+    which reset the title again.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Sun, 11 Apr 2010 22:00:04 -0500
 
