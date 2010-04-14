@@ -22,6 +22,13 @@ dell-recovery (0.55) UNRELEASED; urgency=low
   * Replace dell-dvd png with an svg so that is scales better at high resolution.
   * Filter extra kernel command line arguments in all scenarios, not just if
     dell-recovery is in the kernel command line.
+  * Shuffle the dell-bootstrap plugin to come before language again.
+    - This will allow us to use debian-installer/language to preseed the install
+      to a particular language.
+    - This also allows the rest of the UI to be customized besides just the
+      dell-bootstrap plugin.
+  * Fix translation support.  We should be able to load translations for all
+    widgets now.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Sun, 11 Apr 2010 22:00:04 -0500
 

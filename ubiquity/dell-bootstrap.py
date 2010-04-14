@@ -39,7 +39,7 @@ import syslog
 import glob
 
 NAME = 'dell-bootstrap'
-AFTER = 'language'
+BEFORE = 'language'
 WEIGHT = 12
 OEM = False
 
@@ -56,6 +56,9 @@ TYPE_VFAT_LBA = '0c'
 # Noninteractive Page #
 #######################
 class PageNoninteractive(PluginUI):
+    def __init__(self, controller, *args, **kwargs):
+        self.controller = controller
+    
     def get_type(self):
         '''For the noninteractive frontend, get_type always returns an empty str
             This is because the noninteractive frontend always runs in "factory"
@@ -90,6 +93,10 @@ class PageNoninteractive(PluginUI):
 # GTK Page #
 ############
 class PageGtk(PluginUI):
+    #OK, so we're not "really" a language page
+    #We are just cheating a little bit to make sure our widgets are translated
+    plugin_is_language = True
+
     def __init__(self, controller, *args, **kwargs):
         self.plugin_widgets = None
 
@@ -141,33 +148,11 @@ class PageGtk(PluginUI):
                 self.interactive_recovery.set_sensitive(False)
                 builder.get_object('genuine_box').show()
 
-    def force_translations(self):
-        '''Forces any specified language on the command line to be the effective
-           translated language in the UI
-
-           We have to do it this way because we are preseeding the language during
-           actual installs to english regardless, and don't want to change that
-           behavior.'''
-        with open('/proc/cmdline', 'r') as fd:
-            items = fd.readline()
-        lang = ''
-        for item in items.split():
-            if 'debian-installer/language' in item:
-                item = item.split('=')
-                if len(item) > 1:
-                    lang = item[1]
-                break
-        if lang:
-            self.controller.translate(lang=lang, just_me=False, not_me=False)
-
     def plugin_get_current_page(self):
         #are we real?
         if not self.genuine:
             self.controller.allow_go_forward(False)
 
-        #Try to force a translation set
-        self.force_translations()
-        
         #The widget has been added into the top level by now, so we can change top level stuff
         import gtk
         window = self.plugin_widgets.get_parent_window()
@@ -640,6 +625,14 @@ class Page(Plugin):
             self.fail_partition = RP_PART
             self.preseed('dell-recovery/fail_partition', self.fail_partition)
 
+        #set the language in the UI
+        try:
+            language = self.db.get('debian-installer/language')
+            self.preseed('debian-installer/locale', language)
+            self.ui.controller.translate(language)
+        except debconf.DebconfError, e:
+            pass
+
         #Clarify which device we're operating on initially in the UI
         try:
             if type != 'factory' and type != 'hdd':
@@ -703,6 +696,9 @@ class Page(Plugin):
                ('UBIQUITY_DEBUG' in os.environ and 'UBIQUITY_ONLY' in os.environ):
                 self.handle_exception(e)
             self.cancel_handler()
+
+        #translate languages
+        self.ui.controller.translate(just_me=False, not_me=True, reget=True)
         Plugin.cleanup(self)
 
     def cancel_handler(self):
