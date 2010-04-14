@@ -2,6 +2,16 @@ dell-recovery (0.55) UNRELEASED; urgency=low
 
   * Add support for type 0x27 partitions (NTFS Win7 Recovery partition).
   * When first building the UP, check for all possible upimg filenames.
+  * Add two binary files taken directory from factory process that are used
+    to produce a compatible MBR and PBR such that DellDiags can be launched
+    from a BIOS menu.
+  * Use some crafty maneuvering to create the UP using parted rather than
+    mkfs.vfat.  The latter appears to not properly fill out bytes 11-35 of
+    the PBR causing it to not be bootable.
+  * Take the necessary bytes out of the two binary files to place them in
+    place, making the PBR properly bootable.
+  * debian/control:
+    - Drop recommends for syslinux since we use our own mbr now.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Sun, 11 Apr 2010 22:00:04 -0500
 

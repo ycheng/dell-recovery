@@ -394,6 +394,18 @@ class Page(Plugin):
     def explode_utility_partition(self):
         '''Explodes all content onto the utility partition
         '''
+        mount = False
+        #If we have DRMK available, explode that first
+        if os.path.exists(os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip')):
+            mount = misc.execute_root('mount', self.device + UP_PART, '/boot')
+            if mount is False:
+                raise RuntimeError, ("Error mounting utility partition pre-explosion.")
+            archive = zipfile.ZipFile(os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip'))
+            with misc.raised_privileges():
+                archive.extractall(path='/boot')
+            archive.close()
+
+        #Now check for additional UP content to explode
         for file in magic.up_filenames:
             if os.path.exists(os.path.join(CDROM_MOUNT, file)):
                 #Restore full UP backup (dd)
@@ -404,9 +416,10 @@ class Page(Plugin):
                             partition.write(p1.communicate()[0])
                 #Restore UP (zip/tgz)
                 elif '.zip' in file or '.tgz' in file:
-                    mount = misc.execute_root('mount', self.device + UP_PART, '/boot')
-                    if mount is False:
-                        raise RuntimeError, ("Error mounting utility partition pre-explosion.")
+                    if not mount:
+                        mount = misc.execute_root('mount', self.device + UP_PART, '/boot')
+                        if mount is False:
+                            raise RuntimeError, ("Error mounting utility partition pre-explosion.")
                     if '.zip' in file:
                         import zipfile
                         archive = zipfile.ZipFile(os.path.join(CDROM_MOUNT, file))
@@ -416,9 +429,6 @@ class Page(Plugin):
                     with misc.raised_privileges():
                         archive.extractall(path='/boot')
                     archive.close()
-                    umount = misc.execute_root('umount', '/boot')
-                    if umount is False:
-                        raise RuntimeError, ("Error unmounting utility partition post-explosion.")
                 #Clean up UP so it's not rewritten on next boot to RP
                 cd_mount = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
                 if cd_mount is False:
@@ -428,6 +438,11 @@ class Page(Plugin):
                 #Don't worry about remounting the RP/remounting RO.
                 #we'll probably need to do that in grub instead
                 break
+        if mount:
+            umount = misc.execute_root('umount', '/boot')
+            if umount is False:
+                raise RuntimeError, ("Error unmounting utility partition post-explosion.")
+
 
     def boot_rp(self):
         """attempts to kexec a new kernel and falls back to a reboot"""
@@ -765,16 +780,32 @@ class rp_builder(Thread):
                 raise RuntimeError, e
 
         #Create a DOS MBR
-        with open('/usr/lib/syslinux/mbr.bin','rb')as mbr:
+        with open('/usr/share/dell/up/mbr.bin','rb') as mbr:
             with misc.raised_privileges():
                 with open(self.device,'wb') as out:
-                    out.write(mbr.read(404))
+                    out.write(mbr.read(440))
 
-        #Build UP filesystem
-        command = ('mkfs.msdos', '-n', 'DellUtility', self.device + UP_PART)
+        ## Build UP filesystem ##
+         #It'd be great to use mkfs.msdos, but it fails to create some important 
+         #FAT attributes that cause it to not be bootable
+        command = ('parted', '-s', self.device, 'mkfs', UP_PART , 'fat16')
         fs = misc.execute_root(*command)
         if fs is False:
             raise RuntimeError, ("Error creating utility partition filesystem on %s%s" % (self.device, UP_PART))
+        
+         #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
+        data = 't\n%s\nde\n\nw\n' % UP_PART
+        with misc.raised_privileges():
+            fetch_output(['fdisk', self.device], data)
+
+         #build the bootsector of the partition
+        with open('/usr/share/dell/up/up.bs','rb') as rfd:
+            with misc.raised_privileges():
+                with open(self.device + UP_PART,'wb') as wfd:
+                    wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
+                    rfd.seek(43)
+                    wfd.seek(43)
+                    wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
 
         #Build RP filesystem
         if self.rp_type == TYPE_VFAT or self.rp_type == TYPE_VFAT_LBA:

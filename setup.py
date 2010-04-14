@@ -46,6 +46,7 @@ setup(
                 ('share/dell/scripts', glob.glob('scripts/*')),
                 ('/etc/dbus-1/system.d/', glob.glob('backend/*.conf')),
                 ('share/dell/grub', glob.glob('grub/*')),
+                ('share/dell/up', glob.glob('up/*')),
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
                 ('/lib/udev/rules.d', glob.glob('udev/*')),
                 ('lib/ubiquity/plugins', glob.glob('ubiquity/*.py')),
