@@ -20,6 +20,8 @@ dell-recovery (0.55) UNRELEASED; urgency=low
   * Do a better job at filtering command line options that shouldn't propagate
     to the target system.
   * Replace dell-dvd png with an svg so that is scales better at high resolution.
+  * Filter extra kernel command line arguments in all scenarios, not just if
+    dell-recovery is in the kernel command line.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Sun, 11 Apr 2010 22:00:04 -0500
 

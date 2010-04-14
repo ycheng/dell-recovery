@@ -981,17 +981,15 @@ class Install(InstallPlugin):
         '''Copies in kernel command line parameters that were needed during
            installation'''
         extra = magic.find_extra_kernel_options()
+        new = ''
+        for item in extra.split():
+            if not 'dell-recovery/'    in item and \
+               not 'debian-installer/' in item and \
+               not 'ubiquity'          in item:
+                new+='%s ' % item
+        extra = new.strip()
 
         if extra and os.path.exists(os.path.join(target, 'etc/default/grub')):
-            #strip out dell-recovery specific options
-            if 'dell-recovery/' in extra:
-                new = ''
-                for item in extra.split():
-                    if not 'dell-recovery/'    in item and \
-                       not 'debian-installer/' in item and \
-                       not 'ubiquity'          in item:
-                        new+='%s ' % item
-                extra = new.strip()
             #read/write new grub
             with open(os.path.join(target, 'etc/default/grub'),'r') as grub:
                 default_grub = grub.readlines()
