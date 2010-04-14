@@ -628,8 +628,9 @@ class Page(Plugin):
         #set the language in the UI
         try:
             language = self.db.get('debian-installer/language')
-            self.preseed('debian-installer/locale', language)
-            self.ui.controller.translate(language)
+            if language:
+                self.preseed('debian-installer/locale', language)
+                self.ui.controller.translate(language)
         except debconf.DebconfError, e:
             pass
 
