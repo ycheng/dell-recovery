@@ -44,7 +44,7 @@ class GTKFrontend:
         gettext.textdomain(domain)
         self.widgets = gtk.Builder()
         self.widgets.add_from_file(os.path.join(UIDIR,'recovery_media_creator.ui'))
-        gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.png')
+        gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
 
         self.translate_widgets(self.widgets)
         self.widgets.connect_signals(self)
