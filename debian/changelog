@@ -1,4 +1,4 @@
-dell-recovery (0.55) UNRELEASED; urgency=low
+dell-recovery (0.55) lucid; urgency=low
 
   * Add support for type 0x27 partitions (NTFS Win7 Recovery partition).
   * When first building the UP, check for all possible upimg filenames.
@@ -37,7 +37,7 @@ dell-recovery (0.55) UNRELEASED; urgency=low
   * Adjust the names of some of the templates to not show items as bold in
     the bootstrap plugin.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Sun, 11 Apr 2010 22:00:04 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 15 Apr 2010 00:55:47 -0500
 
 dell-recovery (0.54) lucid; urgency=low
 
