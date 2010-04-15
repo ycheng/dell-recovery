@@ -31,12 +31,19 @@ OEM = False
 from ubiquity.plugin import *
 
 class PageGtk(PluginUI):
+    '''This plugin is a hack really, but it should at least accomplish it's
+       primary task, keeping the title sane'''
     def __init__(self, controller, *args, **kwargs):
+        self.plugin_widgets = None
+        #If we are in factory mode there will be nothing here and this page stays away
+        with open('/proc/cmdline','r') as fd:
+            if 'dell-recovery/recovery_type' not in fd.readline():
+                return
+        self.controller = controller
         import gtk
         self.plugin_widgets = gtk.Label()
 
     def plugin_get_current_page(self):
-        import gtk
-        window = self.plugin_widgets.get_parent_window()
-        window.set_title('Dell Recovery')
-        return None
+        self.plugin_widgets.get_parent_window().set_title('Dell Recovery')
+        self.controller.go_forward()
+        return self.plugin_widgets
