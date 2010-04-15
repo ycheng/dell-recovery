@@ -1,3 +1,13 @@
+dell-recovery (0.56) UNRELEASED; urgency=low
+
+  * Handle the exception that no casper UUID or no initrd are in the image by
+    displaying it more nicely.
+    - Although we can probably work around this, it will be troublesome down
+      the road, so it's better to catch it and notify the user it's a broken
+      image.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 15 Apr 2010 15:06:27 -0500
+
 dell-recovery (0.55) lucid; urgency=low
 
   * Add support for type 0x27 partitions (NTFS Win7 Recovery partition).

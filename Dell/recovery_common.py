@@ -443,8 +443,17 @@ def create_new_uuid(old_initrd_directory, old_casper_directory, new_initrd_direc
     tmpdir=tempfile.mkdtemp()
 
     #Detect the old initramfs stuff
-    old_initrd_file = glob.glob('%s/initrd*' % old_initrd_directory)[0]
-    old_uuid_file   = glob.glob('%s/casper-uuid*' % old_casper_directory)[0]
+    try:
+        old_initrd_file = glob.glob('%s/initrd*' % old_initrd_directory)[0]
+    except Exception, e:
+        print str(e)
+        raise dbus.DBusException,("Missing initrd in image.")
+    try:
+        old_uuid_file   = glob.glob('%s/casper-uuid*' % old_casper_directory)[0]
+    except Exception, e:
+        print str(e)
+        raise dbus.DBusException, ("Missing casper UUID in image.")
+
     print "Old initrd: %s" % old_initrd_file
     print "Old uuid file: %s" % old_uuid_file
 

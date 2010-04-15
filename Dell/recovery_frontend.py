@@ -181,10 +181,10 @@ class GTKFrontend:
                                               *args)
             except dbus.DBusException, e:
                 if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
-                    header = _("Permission Denied")
+                    self.show_alert(gtk.MESSAGE_ERROR, _("Permission Denied"),
+                            parent=self.widgets.get_object('progress_dialog'))
                 else:
-                    header = str(e)
-                self.show_alert(gtk.MESSAGE_ERROR, header,
+                    self.show_alert(gtk.MESSAGE_ERROR, "Exception", e.get_dbus_message(),
                             parent=self.widgets.get_object('progress_dialog'))
                 self.widgets.get_object('progress_dialog').hide()
                 self.widgets.get_object('wizard').show()
