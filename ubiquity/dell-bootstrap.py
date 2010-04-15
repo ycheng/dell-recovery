@@ -628,11 +628,19 @@ class Page(Plugin):
         #set the language in the UI
         try:
             language = self.db.get('debian-installer/language')
-            if language:
-                self.preseed('debian-installer/locale', language)
-                self.ui.controller.translate(language)
         except debconf.DebconfError, e:
-            pass
+            language = ''
+        if not language:
+            with open('/proc/cmdline', 'r') as fd:
+                for item in fd.readline().split():
+                    if 'locale=' in item:
+                        items = item.split('=')
+                        if len(items) > 1:
+                            language = items[1]
+                            break
+        if language:
+            self.preseed('debian-installer/locale', language)
+            self.ui.controller.translate(language)
 
         #Clarify which device we're operating on initially in the UI
         try:
@@ -982,6 +990,8 @@ class Install(InstallPlugin):
         for item in extra.split():
             if not 'dell-recovery/'    in item and \
                not 'debian-installer/' in item and \
+               not 'console-setup/'    in item and \
+               not 'locale='           in item and \
                not 'ubiquity'          in item:
                 new+='%s ' % item
         extra = new.strip()

@@ -5,6 +5,9 @@ dell-recovery (0.56) UNRELEASED; urgency=low
     - Although we can probably work around this, it will be troublesome down
       the road, so it's better to catch it and notify the user it's a broken
       image.
+  * Try harder to detect the locale chosen at bootstrap.
+  * Filter more gfxboot menu selections from propagating through the system
+    from the locale that they had selected.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 15 Apr 2010 15:06:27 -0500
 
