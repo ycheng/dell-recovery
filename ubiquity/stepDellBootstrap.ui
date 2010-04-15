@@ -382,7 +382,7 @@
           <object class="GtkVBox" id="info_box">
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkLabel" id="label1">
+              <object class="GtkLabel" id="status_warning_label">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">&lt;b&gt;Building Recovery Partition&lt;/b&gt;</property>
@@ -393,7 +393,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="status_warning_label">
+              <object class="GtkLabel" id="status_info_label">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="yalign">0</property>

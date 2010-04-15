@@ -110,11 +110,11 @@ Template: ubiquity/text/genuine_bootstrap_warning_label
 Type: text
 _Description: ERROR: This media is only valid on Dell systems.
 
-Template: ubiquity/text/status_label
-Type: text
-_Description: This window will close automatically when the process is complete. 
-
 Template: ubiquity/text/status_warning_label
+Type: text
+_Description: Building Recovery Partition
+
+Template: ubiquity/text/status_info_label
 Type: text
 _Description: NOTE: Please be patient, this may take a while.
 
