@@ -8,6 +8,8 @@ dell-recovery (0.56) UNRELEASED; urgency=low
   * Try harder to detect the locale chosen at bootstrap.
   * Filter more gfxboot menu selections from propagating through the system
     from the locale that they had selected.
+  * Default to use git:// protocol rather than http://.  It's far quicker for
+    checkouts anyhow.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 15 Apr 2010 15:06:27 -0500
 

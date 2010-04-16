@@ -62,7 +62,7 @@ if 'INTRANET' in os.environ:
 else:
     url="linux.dell.com"
 
-git_trees = { 'ubuntu': 'http://' + url + '/git/ubuntu-fid.git',
+git_trees = { 'ubuntu': 'git://' + url + '/ubuntu-fid.git',
               'redhat': 'http://humbolt.us.dell.com/pub/Applications/git-internal-projects/redhat-fid.git',
             }
 
