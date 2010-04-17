@@ -7,21 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-19 01:59-0500\n"
-"PO-Revision-Date: 2010-03-19 12:49+0000\n"
+"POT-Creation-Date: 2010-04-15 00:50-0500\n"
+"PO-Revision-Date: 2010-04-16 21:48+0000\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-20 04:48+0000\n"
+"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:103
+#: ../Dell/recovery_frontend.py:102
 msgid "Invalid utility partition"
 msgstr "Érvénytelen szervizpartíció"
 
-#: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
+#: ../Dell/recovery_frontend.py:102 ../Dell/recovery_frontend.py:108
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
@@ -29,23 +29,24 @@ msgstr ""
 " a parancssori paraméterekben. Visszatérés a DeviceKit vagy HAL alapú "
 "felismeréshez."
 
-#: ../Dell/recovery_frontend.py:109
+#: ../Dell/recovery_frontend.py:108
 msgid "Invalid recovery partition"
 msgstr "Érvénytelen helyreállítási partíció"
 
-#: ../Dell/recovery_frontend.py:136 ../Dell/recovery_frontend.py:185
+#: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
+#: ../Dell/recovery_builder.py:356 ../Dell/recovery_builder.py:671
 msgid "Permission Denied"
 msgstr "Hozzáférés megtagadva"
 
-#: ../Dell/recovery_frontend.py:199
+#: ../Dell/recovery_frontend.py:198
 msgid "Opening Burner"
 msgstr "Író megnyitása"
 
-#: ../Dell/recovery_frontend.py:213
+#: ../Dell/recovery_frontend.py:212
 msgid "Recovery Media Creation Process Complete"
 msgstr "A helyreállító adathordozó létrehozása kész"
 
-#: ../Dell/recovery_frontend.py:214
+#: ../Dell/recovery_frontend.py:213
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
@@ -53,7 +54,7 @@ msgstr ""
 "Ha másik példányt is szeretne archiválni, akkor az előállított lemezképet a "
 "következő néven találja:\n"
 
-#: ../Dell/recovery_frontend.py:234
+#: ../Dell/recovery_frontend.py:233
 msgid "Cannot connect to dbus"
 msgstr "Nem sikerült kapcsolódni a D-Bushoz"
 
@@ -65,7 +66,7 @@ msgstr "Üdvözöljük"
 msgid "Choose Media Type"
 msgstr "Válassza ki az adathordozó típusát"
 
-#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
+#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:25
 msgid "ISO Image"
 msgstr "ISO lemezkép"
 
@@ -73,43 +74,118 @@ msgstr "ISO lemezkép"
 msgid "Media Type: "
 msgstr "Adathordozó típusa: "
 
-#: ../Dell/recovery_frontend.py:359
-msgid "Utility Partition: "
-msgstr "Szervizpartíció: "
-
-#: ../Dell/recovery_frontend.py:359 ../Dell/recovery_frontend.py:364
-msgid "Included"
-msgstr "Beleértve"
-
-#: ../Dell/recovery_frontend.py:362 ../Dell/recovery_frontend.py:364
+#: ../Dell/recovery_frontend.py:360 ../Dell/recovery_frontend.py:362
 msgid "Recovery Partition: "
 msgstr "Helyreállító partíció: "
 
-#: ../Dell/recovery_frontend.py:370
+#: ../Dell/recovery_frontend.py:362
+msgid "Included"
+msgstr "Beleértve"
+
+#: ../Dell/recovery_frontend.py:368
 msgid "Confirm Selections"
 msgstr "Erősítse meg választásait"
 
-#: ../Dell/recovery_backend.py:392
+#: ../Dell/recovery_builder.py:54
+msgid "python-vte is missing"
+msgstr "A python-vte hiányzik"
+
+#: ../Dell/recovery_builder.py:55
+msgid "Builder mode requires python-vte to function"
+msgstr "Az összeállító mód működéséhez a python-vte szükséges"
+
+#. wizard.resize(400,400)
+#: ../Dell/recovery_builder.py:72
+msgid " (BTO Image Builder Mode)"
+msgstr " (BTO lemezkép-összeállító mód)"
+
+#: ../Dell/recovery_builder.py:74
+msgid ""
+"This application will integrate a Dell OEM FID framework & driver package "
+"set into a customized OS media image.  You will have the option to create an "
+"USB key or DVD image."
+msgstr ""
+"Ez az alkalmazás a Dell OEM FID keretrendszert és meghajtócsomagot egy "
+"személyre szabott rendszerlemezképbe fogja integrálni. Lehetősége van USB-"
+"kulcsot vagy DVD-lemezképet létrehozni."
+
+#: ../Dell/recovery_builder.py:136
+msgid "Choose Base OS Image"
+msgstr "Válassza ki az alap rendszerlemezképet"
+
+#: ../Dell/recovery_builder.py:139
+msgid "Choose FID Overlay"
+msgstr "Válassza ki a FID-elrendezést"
+
+#: ../Dell/recovery_builder.py:149
+msgid "Choose Utility Partition"
+msgstr "Válassza ki a szervizpartíciót"
+
+#: ../Dell/recovery_builder.py:161
+msgid "Choose Driver Packages"
+msgstr "Válassza ki az eszközmeghajtó-csomagokat"
+
+#: ../Dell/recovery_builder.py:175
+msgid "Choose Application Packages"
+msgstr "Válassza ki az alkalmazáscsomagokat"
+
+#: ../Dell/recovery_builder.py:189
+msgid "Builder Summary"
+msgstr "Összegzés"
+
+#: ../Dell/recovery_builder.py:200
+msgid "Utility Partition: "
+msgstr "Szervizpartíció: "
+
+#: ../Dell/recovery_builder.py:202
+msgid "Application"
+msgstr "Alkalmazás"
+
+#: ../Dell/recovery_builder.py:203
+msgid "Driver"
+msgstr "Meghajtó"
+
+#: ../Dell/recovery_builder.py:209
+msgid "Packages"
+msgstr "Csomagok"
+
+#: ../Dell/recovery_builder.py:414
+msgid "<b>ERROR</b>: git is not installed"
+msgstr "<b>HIBA</b>: a git nincs telepítve"
+
+#: ../Dell/recovery_builder.py:533
+msgid "Missing Dell-Recovery"
+msgstr "Hiányzó Dell helyreállító"
+
+#: ../Dell/recovery_builder.py:533
+msgid "Not present in ISO or GIT tree"
+msgstr "Nincs jelen az ISO-ban vagy a GIT fában"
+
+#: ../Dell/recovery_builder.py:648
+msgid "All SRVs must be filled to proceed."
+msgstr "A folytatáshoz minden SRV-t ki kell tölteni."
+
+#: ../Dell/recovery_backend.py:381
 msgid "Adding in base image"
 msgstr "Hozzáadás az alapvető lemezképhez"
 
-#: ../Dell/recovery_backend.py:398
+#: ../Dell/recovery_backend.py:387
 msgid "Overlaying FID content"
 msgstr "FID-tartalom elhelyezése"
 
-#: ../Dell/recovery_backend.py:413
+#: ../Dell/recovery_backend.py:402
 msgid "Inserting FISH packages"
 msgstr "FISH-csomagok beszúrása"
 
-#: ../Dell/recovery_backend.py:562
+#: ../Dell/recovery_backend.py:679
 msgid "Building Dell Utility Partition"
 msgstr "Dell szervizpartíció összeállítása"
 
-#: ../Dell/recovery_backend.py:609
+#: ../Dell/recovery_backend.py:735
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "UUID előállítása / initramfs újjáépítése"
 
-#: ../Dell/recovery_backend.py:651
+#: ../Dell/recovery_backend.py:769
 msgid "Building ISO"
 msgstr "ISO létrehozása"
 
@@ -217,6 +293,14 @@ msgstr ""
 "<b>MEGJEGYZÉS:</b> Legyen türelemmel, a kiinduló lekérés sokáig tarthat."
 
 #: ../gtk/builder.ui.h:7
+msgid "Add Dell Recovery"
+msgstr "Dell helyreállító hozzáadása"
+
+#: ../gtk/builder.ui.h:8
+msgid "Add dell-recovery"
+msgstr "Dell helyreállító hozzáadása"
+
+#: ../gtk/builder.ui.h:9
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
@@ -224,55 +308,117 @@ msgstr ""
 "A lemezképbe integrálandó kiegészítő eszközmeghajtók vagy alkalmazások itt "
 "vehetők fel."
 
-#: ../gtk/builder.ui.h:8
+#: ../gtk/builder.ui.h:10
+msgid ""
+"BTO images can optionally include a Utility Partition for diagnostic "
+"utilities."
+msgstr ""
+"A BTO lemezképek tartalmazhatnak egy szervizpartíciót a diagnosztikai "
+"segédprogramok számára."
+
+#: ../gtk/builder.ui.h:11
+msgid "Browse for a dell-recovery package"
+msgstr "Dell helyreállító csomag tallózása"
+
+#: ../gtk/builder.ui.h:12
+msgid "Build dell-recovery package from this system"
+msgstr "Dell helyreállító csomag összeállítása a rendszerből"
+
+#: ../gtk/builder.ui.h:13
+msgid "Choose Content"
+msgstr "Válassza ki a tartalmat"
+
+#: ../gtk/builder.ui.h:14
 msgid "Choose Image"
 msgstr "Válasszon lemezképet"
 
-#: ../gtk/builder.ui.h:9
+#: ../gtk/builder.ui.h:15
+msgid "Choose package"
+msgstr "Válassza ki a csomagot"
+
+#: ../gtk/builder.ui.h:16
 msgid "Detected Recovery Partition"
 msgstr "Helyreállító partíció észlelve"
 
-#: ../gtk/builder.ui.h:10
+#: ../gtk/builder.ui.h:17
+msgid "Detected Utility Partition"
+msgstr "Szervizpartíció észlelve"
+
+#: ../gtk/builder.ui.h:18
+msgid ""
+"During Factory Installation, applications are only installed if the order "
+"record (SDR) refers to the service release vehicle (SRV).  This populates "
+"the possible SRVs to be queried during installation."
+msgstr ""
+"A gyári telepítés során az alkalmazások csak akkor kerülnek telepítésre, ha "
+"a rendelési rekord (SDR) a SRV-re hivatkozik. Ez feltölti a telepítés során "
+"lekérdezhető lehetséges SRV-ket."
+
+#: ../gtk/builder.ui.h:19
 msgid "Extracted Directory"
 msgstr "Kibontott könyvtár"
 
-#: ../gtk/builder.ui.h:11
+#: ../gtk/builder.ui.h:20
 msgid "FID GIT Tree"
 msgstr "FID GIT fa"
 
-#: ../gtk/builder.ui.h:12
+#: ../gtk/builder.ui.h:21
 msgid "FID framework built into BTO image"
 msgstr "BTO-lemezképbe épített FID-keretrendszer"
 
-#: ../gtk/builder.ui.h:13
+#: ../gtk/builder.ui.h:22
 msgid "Fetch/Update GIT Tree"
 msgstr "GIT fa lekérése/frissítése"
 
-#: ../gtk/builder.ui.h:14
+#: ../gtk/builder.ui.h:23
 msgid "GIT Tags/Branches:"
 msgstr "GIT címkék/ágak:"
 
-#: ../gtk/builder.ui.h:15
+#: ../gtk/builder.ui.h:24
 msgid "GIT Tree Status"
 msgstr "GIT fa állapota"
 
-#: ../gtk/builder.ui.h:17
+#: ../gtk/builder.ui.h:26
+msgid "Install dpkg-repack"
+msgstr "A dpkg-repack telepítése"
+
+#: ../gtk/builder.ui.h:27
 msgid "Install git"
 msgstr "Git telepítése"
 
-#: ../gtk/builder.ui.h:18
+#: ../gtk/builder.ui.h:28
+msgid "No additional Utility Partition"
+msgstr "Nincs további szervizpartíció"
+
+#: ../gtk/builder.ui.h:29
+msgid "Please enter the SRV to use:"
+msgstr "Adja meg a használandó SRV-t:"
+
+#: ../gtk/builder.ui.h:30
+msgid "SRV Entry"
+msgstr "SRV-bejegyzés"
+
+#: ../gtk/builder.ui.h:31
+msgid "Select content for Utility Partition"
+msgstr "Válassza ki a szervizpartíció tartalmát"
+
+#: ../gtk/builder.ui.h:32
+msgid "Selected Content Details:"
+msgstr "Kiválasztott tartalom részletei"
+
+#: ../gtk/builder.ui.h:33
 msgid "Selected Image Details:"
 msgstr "Kiválasztott lemezkép részletei:"
 
-#: ../gtk/builder.ui.h:19
+#: ../gtk/builder.ui.h:34
 msgid "Selected Overlay Details:"
 msgstr "Kiválasztott elrendezés részletei:"
 
-#: ../gtk/builder.ui.h:20
+#: ../gtk/builder.ui.h:35
 msgid "Show Details"
 msgstr "Részletek megjelenítése"
 
-#: ../gtk/builder.ui.h:21
+#: ../gtk/builder.ui.h:36
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
@@ -280,7 +426,7 @@ msgstr ""
 "Az alaprendszer lemezképe biztosítja a BTO lemezkép tartalmának zömét. Ez "
 "lehet változatlan rendszer lemezkép, vagy meglévő BTO lemezkép."
 
-#: ../gtk/builder.ui.h:22
+#: ../gtk/builder.ui.h:37
 msgid ""
 "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
 "the event that you are generating from an existing BTO image, you can use "
@@ -289,6 +435,15 @@ msgstr ""
 "A FID-keretrendszer a változatlan lemezképre elsőként felkerülő darab. Ha "
 "meglévő BTO lemezképből építkezik, akkor használhatja az abba a lemezképbe "
 "épített keretrendszert."
+
+#: ../gtk/builder.ui.h:38
+msgid ""
+"The combination of the image and GIT tree you have provided do not supply "
+"the necessary dell-recovery package.  It will have to be injected into the "
+"image separately."
+msgstr ""
+"A lemezkép és a GIT fa megadott kombinációja nem tartalmazza a szükséges "
+"dell-recovery csomagot. A lemezképbe külön kell beszúrni."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
