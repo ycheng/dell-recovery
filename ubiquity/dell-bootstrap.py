@@ -350,9 +350,6 @@ class Page(Plugin):
                 if len(columns) > 2:
                     #always assume lower case (in case file system is case sensitive)
                     srv_list.append(columns[2].lower())
-        #Cleanup SDR
-        with misc.raised_privileges():
-            os.remove(sdr_file[0])
 
         #Explode SRVs that match SDR
         for srv in srv_list:
@@ -370,11 +367,6 @@ class Page(Plugin):
                 self.debug("Extracting SRV %s onto filesystem" % srv)
                 archive.extractall(path=CDROM_MOUNT)
             archive.close()
-
-        #Cleanup any SRVs
-        if os.path.exists(os.path.join(CDROM_MOUNT, 'srv')):
-            with misc.raised_privileges():
-                magic.walk_cleanup(os.path.join(CDROM_MOUNT, 'srv'))
 
     def explode_utility_partition(self):
         '''Explodes all content onto the utility partition
@@ -415,15 +407,6 @@ class Page(Plugin):
                     with misc.raised_privileges():
                         archive.extractall(path='/boot')
                     archive.close()
-                #Clean up UP so it's not rewritten on next boot to RP
-                cd_mount = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
-                if cd_mount is False:
-                    raise RuntimeError, ("Error remounting RP to clean up post explosion.")
-                with misc.raised_privileges():
-                    os.remove(os.path.join(CDROM_MOUNT, file))
-                #Don't worry about remounting the RP/remounting RO.
-                #we'll probably need to do that in grub instead
-                break
         #If we didn't include an autoexec.bat (as is the case from normal DellDiags releases)
         #Then make the files we need to be automatically bootable
         if not os.path.exists('/boot/autoexec.bat') and os.path.exists('/boot/autoexec.up'):
