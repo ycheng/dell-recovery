@@ -17,6 +17,7 @@ dell-recovery (0.56) UNRELEASED; urgency=low
     clipped when translations are loaded.
   * Move gtk.Spinner into an eventbox so that glade doesn't nuke it every time
     the gtk.Builder file is modified.
+  * Fix up the padding a little bit on the create recovery media page.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 15 Apr 2010 15:06:27 -0500
 
