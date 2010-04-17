@@ -13,6 +13,10 @@ dell-recovery (0.56) UNRELEASED; urgency=low
   * Render the icon at 128x128 to avoid GTK warnings.
   * Don't remove any items during SDR or UP explosion.  Rely on them being
     cleaned up at during the success command instead.
+  * Shuffle the widgets around on the bootstrap page so that they stop getting
+    clipped when translations are loaded.
+  * Move gtk.Spinner into an eventbox so that glade doesn't nuke it every time
+    the gtk.Builder file is modified.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 15 Apr 2010 15:06:27 -0500
 

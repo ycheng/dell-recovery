@@ -125,7 +125,8 @@ class PageGtk(PluginUI):
             self.dual_dialog = builder.get_object('dual_dialog')
             self.dual_dialog.set_title('Dell Recovery')
             self.info_box = builder.get_object('info_box')
-            self.info_spinner = builder.get_object('info_spinner')
+            self.info_spinner = gtk.Spinner()
+            builder.get_object('info_spinner_box').add(self.info_spinner)
             self.err_dialog = builder.get_object('err_dialog')
 
             #For debug purposes
@@ -216,7 +217,7 @@ class PageGtk(PluginUI):
         self.controller.allow_go_forward(False)
         self.automated_recovery_box.hide()
         self.interactive_recovery_box.hide()
-        self.info_box.show()
+        self.info_box.show_all()
         self.info_spinner.start()
 
     def show_reboot_dialog(self):

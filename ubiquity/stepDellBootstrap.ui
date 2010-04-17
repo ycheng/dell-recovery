@@ -5,69 +5,71 @@
   <object class="GtkVBox" id="stepDellBootstrap">
     <property name="visible">True</property>
     <property name="border_width">6</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">120</property>
+    <property name="spacing">50</property>
     <child>
-      <object class="GtkHBox" id="hbox1">
+      <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
         <child>
           <object class="GtkImage" id="dell_image">
             <property name="visible">True</property>
-            <property name="xalign">1</property>
-            <property name="pixel_size">48</property>
+            <property name="pixel_size">128</property>
             <property name="icon_name">dell-dvd</property>
           </object>
           <packing>
-            <property name="expand">False</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkVBox" id="vbox5">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="bootstrap_information_label">
-                <property name="width_request">650</property>
+                <property name="width_request">600</property>
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="xpad">25</property>
                 <property name="label" translatable="yes">This Dell Recovery Media can be used to restore the original factory software.</property>
                 <property name="use_markup">True</property>
                 <property name="wrap">True</property>
               </object>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkLabel" id="bootstrap_warning_label">
+                <property name="width_request">600</property>
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
-                <property name="xpad">25</property>
                 <property name="label" translatable="yes">&lt;b&gt;It is recommended you back up all important data before running this tool.&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
+                <property name="wrap">True</property>
               </object>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </object>
           <packing>
+            <property name="padding">11</property>
             <property name="position">1</property>
           </packing>
         </child>
       </object>
       <packing>
         <property name="expand">False</property>
+        <property name="fill">False</property>
         <property name="position">0</property>
       </packing>
     </child>
     <child>
       <object class="GtkVBox" id="vbox2">
+        <property name="width_request">600</property>
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">30</property>
+        <property name="spacing">20</property>
         <child>
           <object class="GtkHBox" id="hdd_recovery_box">
             <child>
@@ -85,7 +87,6 @@
             <child>
               <object class="GtkVBox" id="vbox4">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkRadioButton" id="hdd_recovery">
@@ -109,11 +110,13 @@
                     <property name="left_padding">25</property>
                     <child>
                       <object class="GtkLabel" id="hdd_info">
+                        <property name="width_request">600</property>
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="yalign">0</property>
                         <property name="label" translatable="yes">This will rebuild all OS and swap partitions to factory defaults.</property>
                         <property name="use_markup">True</property>
+                        <property name="wrap">True</property>
                       </object>
                     </child>
                   </object>
@@ -129,11 +132,13 @@
                     <property name="left_padding">25</property>
                     <child>
                       <object class="GtkLabel" id="hdd_warning_label">
+                        <property name="width_request">600</property>
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="yalign">0</property>
                         <property name="label" translatable="yes">&lt;b&gt;WARNING: &lt;/b&gt;All personal files and changes will be lost.</property>
                         <property name="use_markup">True</property>
+                        <property name="wrap">True</property>
                       </object>
                     </child>
                   </object>
@@ -172,7 +177,6 @@
             <child>
               <object class="GtkVBox" id="vbox">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkRadioButton" id="automated_recovery">
@@ -222,11 +226,13 @@
                     <property name="left_padding">25</property>
                     <child>
                       <object class="GtkLabel" id="automated_info">
+                        <property name="width_request">600</property>
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="yalign">0</property>
                         <property name="label" translatable="yes">This will rebuild all utility, recovery, and OS partitions.</property>
                         <property name="use_markup">True</property>
+                        <property name="wrap">True</property>
                       </object>
                     </child>
                   </object>
@@ -242,11 +248,13 @@
                     <property name="left_padding">25</property>
                     <child>
                       <object class="GtkLabel" id="automated_warning_label">
+                        <property name="width_request">600</property>
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="yalign">0</property>
                         <property name="label" translatable="yes">&lt;b&gt;WARNING: &lt;/b&gt;All personal files and changes will be lost.</property>
                         <property name="use_markup">True</property>
+                        <property name="wrap">True</property>
                       </object>
                     </child>
                   </object>
@@ -274,7 +282,7 @@
               <object class="GtkImage" id="image3">
                 <property name="visible">True</property>
                 <property name="pixel_size">48</property>
-                <property name="icon_name">desktop</property>
+                <property name="icon_name">distributor-logo</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -285,7 +293,6 @@
             <child>
               <object class="GtkVBox" id="vbox3">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <object class="GtkRadioButton" id="interactive_recovery">
@@ -310,11 +317,13 @@
                     <property name="left_padding">25</property>
                     <child>
                       <object class="GtkLabel" id="interactive_info">
+                        <property name="width_request">600</property>
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="yalign">0</property>
                         <property name="label" translatable="yes">This option allows you to resize any existing partitions.</property>
                         <property name="use_markup">True</property>
+                        <property name="wrap">True</property>
                       </object>
                     </child>
                   </object>
@@ -380,15 +389,18 @@
         </child>
         <child>
           <object class="GtkVBox" id="info_box">
-            <property name="orientation">vertical</property>
+            <property name="spacing">5</property>
             <child>
               <object class="GtkLabel" id="status_warning_label">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">&lt;b&gt;Building Recovery Partition&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
+                <property name="wrap">True</property>
               </object>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -399,6 +411,7 @@
                 <property name="yalign">0</property>
                 <property name="label" translatable="yes">&lt;b&gt;NOTE:&lt;/b&gt; Please be patient, this may take a while.</property>
                 <property name="use_markup">True</property>
+                <property name="wrap">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -407,29 +420,28 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinner" id="info_spinner">
+              <object class="GtkEventBox" id="info_spinner_box">
                 <property name="visible">True</property>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">5</property>
           </packing>
         </child>
       </object>
       <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
         <property name="position">1</property>
       </packing>
-    </child>
-    <child>
-      <placeholder/>
     </child>
   </object>
   <object class="GtkMessageDialog" id="err_dialog">
@@ -444,7 +456,6 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox4">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
           <object class="GtkHButtonBox" id="dialog-action_area4">
@@ -476,7 +487,6 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox8">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
           <object class="GtkHButtonBox" id="dialog-action_area8">
