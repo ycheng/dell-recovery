@@ -213,7 +213,7 @@ class PageGtk(PluginUI):
 
     def show_info_dialog(self):
         self.controller._wizard.step_label.set_markup('')
-        self.controller._wizard.quit.set_label('Cancel')
+        self.controller._wizard.quit.set_label(self.controller.get_string('ubiquity/imported/cancel'))
         self.controller.allow_go_forward(False)
         self.automated_recovery_box.hide()
         self.interactive_recovery_box.hide()

@@ -19,6 +19,7 @@ dell-recovery (0.56) UNRELEASED; urgency=low
     the gtk.Builder file is modified.
   * Fix up the padding a little bit on the create recovery media page.
   * Import translations from launchpad.
+  * Set the cancel button to an imported Cancel rather than always english.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 15 Apr 2010 15:06:27 -0500
 
