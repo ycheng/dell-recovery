@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-04-15 00:48-0500\n"
-"PO-Revision-Date: 2010-03-19 01:09+0000\n"
-"Last-Translator: Aron Xu <Unknown>\n"
+"PO-Revision-Date: 2010-04-16 09:15+0000\n"
+"Last-Translator: Eleanor Chen <chenyueg@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
+"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -35,26 +35,26 @@ msgstr "打开刻录机..."
 msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
-msgstr ""
+msgstr "此 Dell 还原镜像可以用来恢复到出厂系统。"
 
 #. Type: text
 #. Description
 #: ../templates:16001
 msgid ""
 "It is recommended you back up all important data before running this tool."
-msgstr ""
+msgstr "在运行此工具前，建议备份您所有的重要数据和信息。"
 
 #. Type: text
 #. Description
 #: ../templates:17001
 msgid "Restore Linux OS partitions"
-msgstr ""
+msgstr "恢复 Linux 操作系统分区"
 
 #. Type: text
 #. Description
 #: ../templates:18001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
-msgstr ""
+msgstr "重新建立所有操作系统和 swap 分区回到出厂状态。"
 
 #. Type: text
 #. Description
@@ -62,19 +62,19 @@ msgstr ""
 #. Description
 #: ../templates:19001 ../templates:22001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr ""
+msgstr "警告： 所有个人文件和设定都会丢失。"
 
 #. Type: text
 #. Description
 #: ../templates:20001
 msgid "Restore entire hard drive."
-msgstr ""
+msgstr "还原整个硬盘"
 
 #. Type: text
 #. Description
 #: ../templates:21001
 msgid "This will rebuild all utility, recovery, and OS partitions."
-msgstr ""
+msgstr "重新建立所有 utility 分区, 还原分区和操作系统分区。"
 
 #. Type: text
 #. Description
@@ -86,7 +86,7 @@ msgstr "仅欢迎 Linux 系统分区。"
 #. Description
 #: ../templates:24001
 msgid "This option allows you to resize any existing partitions."
-msgstr ""
+msgstr "此选项允许您重新分配现有分区大小。"
 
 #. Type: text
 #. Description
@@ -94,27 +94,25 @@ msgstr ""
 #. Description
 #: ../templates:25001 ../templates:37001
 msgid "ERROR: This media is only valid on Dell systems."
-msgstr ""
+msgstr "错误：此光盘只能用于 Dell 系统。"
 
 #. Type: text
 #. Description
 #: ../templates:26001
-#, fuzzy
-#| msgid "Invalid recovery partition"
 msgid "Building Recovery Partition"
-msgstr "无效的恢复分区"
+msgstr "制作还原分区"
 
 #. Type: text
 #. Description
 #: ../templates:27001
 msgid "NOTE: Please be patient, this may take a while."
-msgstr ""
+msgstr "注意： 正在运行，请稍候。"
 
 #. Type: text
 #. Description
 #: ../templates:28001
 msgid "Create Dell Recovery Media?"
-msgstr ""
+msgstr "需要创建 Dell 还原盘吗？"
 
 #. Type: text
 #. Description
@@ -130,7 +128,7 @@ msgstr ""
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
-msgstr ""
+msgstr "强烈建议您创建还原盘，然后把它存放在安全的地方。"
 
 #. Type: text
 #. Description
@@ -142,7 +140,7 @@ msgstr "保存恢复盘到外接的 USB 闪存盘"
 #. Description
 #: ../templates:32001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
-msgstr ""
+msgstr "注意： 需要大约 2G 空间的 USB 驱动盘。"
 
 #. Type: text
 #. Description
@@ -154,7 +152,7 @@ msgstr "保存为 DVD 恢复盘"
 #. Description
 #: ../templates:34001
 msgid "Note: This requires writable DVD media."
-msgstr ""
+msgstr "注意：需要可写入的 DVD 光盘。"
 
 #. Type: text
 #. Description
@@ -174,16 +172,13 @@ msgstr ""
 #. Description
 #: ../templates:38001
 msgid "Dell End User License Agreement"
-msgstr ""
+msgstr "Dell 最终用户协议"
 
 #. Type: text
 #. Description
 #: ../templates:39001
 msgid "I accept the license terms. (required to use your computer)"
-msgstr ""
-
-#~ msgid "Recovery Type"
-#~ msgstr "恢复类型"
+msgstr "我同意此协议（使用此计算机）"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW 光盘"
@@ -215,6 +210,9 @@ msgstr ""
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "恢复光盘创建完成"
 
+#~ msgid "Invalid recovery partition"
+#~ msgstr "无效的恢复分区"
+
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "系统策略阻止读取 raw 设备"
 
@@ -234,11 +232,9 @@ msgstr ""
 #~ msgstr "确定要取消创建恢复光盘吗？"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you "
-#~ "like to remove this old copy and regenerate the image?"
-#~ msgstr ""
-#~ "发现已经存在的镜像(可能是上次运行产生的)。是否删除旧的镜像，并重新生成新镜"
-#~ "像？"
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
+#~ msgstr "发现已经存在的镜像(可能是上次运行产生的)。是否删除旧的镜像，并重新生成新镜像？"
 
 #~ msgid "Dell Recovery Media Creator"
 #~ msgstr "Dell 恢复光盘创建程序"
@@ -256,8 +252,8 @@ msgstr ""
 #~ msgstr "光盘刻录失败。要重试吗？"
 
 #~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
 #~ msgstr "这个工具需要一个公用分区和Linux恢复分区才能进行操作。"
 
 #~ msgid "Building UP"

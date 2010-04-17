@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-04-15 00:48-0500\n"
-"PO-Revision-Date: 2010-03-19 12:50+0000\n"
+"PO-Revision-Date: 2010-04-16 18:16+0000\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-20 04:48+0000\n"
+"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -79,7 +79,8 @@ msgstr "Teljes merevlemez visszaállítása."
 #. Description
 #: ../templates:21001
 msgid "This will rebuild all utility, recovery, and OS partitions."
-msgstr "Az összes szerviz-, helyreállítási és rendszerpartíció visszaállítása."
+msgstr ""
+"Az összes szerviz-, helyreállítási és rendszerpartíció visszaállítása."
 
 #. Type: text
 #. Description
@@ -104,10 +105,8 @@ msgstr "HIBA: Ez az adathordozó csak Dell rendszereken érvényes."
 #. Type: text
 #. Description
 #: ../templates:26001
-#, fuzzy
-#| msgid "Building Dell Recovery Media..."
 msgid "Building Recovery Partition"
-msgstr "Dell helyreállító adathordozó összeállítása…"
+msgstr "Helyreállítási partíció építése"
 
 #. Type: text
 #. Description
@@ -185,16 +184,10 @@ msgstr ""
 #. Description
 #: ../templates:38001
 msgid "Dell End User License Agreement"
-msgstr ""
+msgstr "Dell végfelhasználói licencszerződés"
 
 #. Type: text
 #. Description
 #: ../templates:39001
 msgid "I accept the license terms. (required to use your computer)"
-msgstr ""
-
-#~ msgid "This window will close automatically when the process is complete. "
-#~ msgstr "Ez az ablak automatikusan bezáródik a folyamat befejeződésekor. "
-
-#~ msgid "Recovery Type"
-#~ msgstr "Helyreállítás típusa"
+msgstr "Elfogadom a licencfeltételeket (kötelező a számítógép használatához)"

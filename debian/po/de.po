@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-04-15 00:48-0500\n"
-"PO-Revision-Date: 2010-04-07 18:47+0000\n"
+"PO-Revision-Date: 2010-04-16 17:07+0000\n"
 "Last-Translator: Moritz Baumann <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-08 07:19+0000\n"
+"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -68,7 +68,8 @@ msgstr ""
 #. Description
 #: ../templates:19001 ../templates:22001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr "WARNUNG: Alle persönlichen Daten und Änderungen werden verloren gehen."
+msgstr ""
+"WARNUNG: Alle persönlichen Daten und Änderungen werden verloren gehen."
 
 #. Type: text
 #. Description
@@ -109,10 +110,8 @@ msgstr "FEHLER: Dieses Medium kann nur auf Dell-Systemen verwendet werden."
 #. Type: text
 #. Description
 #: ../templates:26001
-#, fuzzy
-#| msgid "Recovery Partition: "
 msgid "Building Recovery Partition"
-msgstr "Wiederherstellungspartition: "
+msgstr "Wiederherstellungspartition wird erstellt"
 
 #. Type: text
 #. Description
@@ -203,11 +202,6 @@ msgstr ""
 "Ich akzeptiere die Lizenzbestimmungen. (notwendig, um Ihren Rechner zu "
 "benutzen)"
 
-#~ msgid "This window will close automatically when the process is complete. "
-#~ msgstr ""
-#~ "Dieses Fenster wird sich nach Beendigung des Vorgangs automatisch "
-#~ "schließen. "
-
 #~ msgid "<activity placeholder>"
 #~ msgstr "<Aktivitätsplatzhalter>"
 
@@ -222,6 +216,9 @@ msgstr ""
 
 #~ msgid "Retry burn?"
 #~ msgstr "Brennen erneut versuchen?"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Wiederherstellungspartition: "
 
 #~ msgid "File Name: "
 #~ msgstr "Dateiname: "
@@ -242,8 +239,8 @@ msgstr ""
 #~ msgstr "Zielverzeichnis auswählen"
 
 #~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
 #~ msgstr ""
 #~ "Dieses Programm benötigt eine vorhandene Dienstprogramm- und eine "
 #~ "Linuxwiederherstellungspartition."
@@ -265,8 +262,8 @@ msgstr ""
 
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr ""
-#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch "
-#~ "einmal versuchen?"
+#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch einmal "
+#~ "versuchen?"
 
 #~ msgid "Invalid recovery partition"
 #~ msgstr "Ungültige Wiederherstellungspartition"

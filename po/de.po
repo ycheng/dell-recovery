@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-05 22:21-0500\n"
-"PO-Revision-Date: 2010-04-07 18:48+0000\n"
+"POT-Creation-Date: 2010-04-15 00:50-0500\n"
+"PO-Revision-Date: 2010-04-16 18:03+0000\n"
 "Last-Translator: Moritz Baumann <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-08 07:19+0000\n"
+"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:102
@@ -34,7 +34,7 @@ msgid "Invalid recovery partition"
 msgstr "Ungültige Wiederherstellungspartition"
 
 #: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
-#: ../Dell/recovery_builder.py:353
+#: ../Dell/recovery_builder.py:356 ../Dell/recovery_builder.py:671
 msgid "Permission Denied"
 msgstr "Zugriff verweigert"
 
@@ -93,11 +93,12 @@ msgstr "python-vte fehlt"
 #: ../Dell/recovery_builder.py:55
 msgid "Builder mode requires python-vte to function"
 msgstr ""
+"Der Erstellungsmodus benötigt python-vte, um korrekt zu funktionieren"
 
 #. wizard.resize(400,400)
 #: ../Dell/recovery_builder.py:72
 msgid " (BTO Image Builder Mode)"
-msgstr ""
+msgstr " (BTO-Abbild-Erstellungsmodus)"
 
 #: ../Dell/recovery_builder.py:74
 msgid ""
@@ -105,62 +106,65 @@ msgid ""
 "set into a customized OS media image.  You will have the option to create an "
 "USB key or DVD image."
 msgstr ""
+"Diese Anwendung wird ein Dell-OEM-FID-Gerüst- und Treiberpaketsatz in ein "
+"angepasstes Betriebssystemmedienabbild integrieren.  Ihnen wird angeboten, "
+"einen USB-Stick oder ein DVD-Abbild zu erstellen."
 
 #: ../Dell/recovery_builder.py:136
 msgid "Choose Base OS Image"
-msgstr ""
+msgstr "Wählen Sie das Basis-Betriebssystemsabbild"
 
 #: ../Dell/recovery_builder.py:139
 msgid "Choose FID Overlay"
-msgstr ""
+msgstr "Wählen Sie das FID-Overlay"
 
-#: ../Dell/recovery_builder.py:146
+#: ../Dell/recovery_builder.py:149
 msgid "Choose Utility Partition"
-msgstr ""
+msgstr "Wählen Sie die Warkzeugpartition"
 
-#: ../Dell/recovery_builder.py:158
+#: ../Dell/recovery_builder.py:161
 msgid "Choose Driver Packages"
-msgstr ""
+msgstr "Wählen Sie die Treiberpakete"
 
-#: ../Dell/recovery_builder.py:172
+#: ../Dell/recovery_builder.py:175
 msgid "Choose Application Packages"
-msgstr ""
+msgstr "Wählen Sie die Anwendungspakete"
 
-#: ../Dell/recovery_builder.py:186
+#: ../Dell/recovery_builder.py:189
 msgid "Builder Summary"
-msgstr ""
+msgstr "Zusammenfassung"
 
-#: ../Dell/recovery_builder.py:197
+#: ../Dell/recovery_builder.py:200
 msgid "Utility Partition: "
 msgstr "Dienstpartition: "
 
-#: ../Dell/recovery_builder.py:199
+#: ../Dell/recovery_builder.py:202
 msgid "Application"
-msgstr ""
+msgstr "Anwendung"
 
-#: ../Dell/recovery_builder.py:200
+#: ../Dell/recovery_builder.py:203
 msgid "Driver"
-msgstr ""
+msgstr "Treiber"
 
-#: ../Dell/recovery_builder.py:206
+#: ../Dell/recovery_builder.py:209
 msgid "Packages"
-msgstr ""
+msgstr "Pakete"
 
-#: ../Dell/recovery_builder.py:411
+#: ../Dell/recovery_builder.py:414
 msgid "<b>ERROR</b>: git is not installed"
-msgstr ""
+msgstr "<b>FEHLER:</b> git ist nicht installiert"
 
-#: ../Dell/recovery_builder.py:529
+#: ../Dell/recovery_builder.py:533
 msgid "Missing Dell-Recovery"
-msgstr ""
+msgstr "Dell-Recovery fehlt"
 
-#: ../Dell/recovery_builder.py:529
+#: ../Dell/recovery_builder.py:533
 msgid "Not present in ISO or GIT tree"
-msgstr ""
+msgstr "Nicht in ISO oder Git-Baum vorhanden"
 
-#: ../Dell/recovery_builder.py:644
+#: ../Dell/recovery_builder.py:648
 msgid "All SRVs must be filled to proceed."
-msgstr ""
+msgstr "Alle SRVs müssen ausgefüllt werden, um fortzufahren."
 
 #: ../Dell/recovery_backend.py:381
 msgid "Adding in base image"
@@ -297,11 +301,11 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:7
 msgid "Add Dell Recovery"
-msgstr ""
+msgstr "Dell-Recovery hinzufügen"
 
 #: ../gtk/builder.ui.h:8
 msgid "Add dell-recovery"
-msgstr ""
+msgstr "dell-recovery hinzufügen"
 
 #: ../gtk/builder.ui.h:9
 msgid ""
@@ -321,11 +325,11 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:11
 msgid "Browse for a dell-recovery package"
-msgstr ""
+msgstr "Nach einem dell-recovery-Paket suchen"
 
 #: ../gtk/builder.ui.h:12
 msgid "Build dell-recovery package from this system"
-msgstr ""
+msgstr "dell-recovery-Paket aus diesem System erstellen"
 
 #: ../gtk/builder.ui.h:13
 msgid "Choose Content"
@@ -337,7 +341,7 @@ msgstr "Abbild wählen"
 
 #: ../gtk/builder.ui.h:15
 msgid "Choose package"
-msgstr ""
+msgstr "Paket wählen"
 
 #: ../gtk/builder.ui.h:16
 msgid "Detected Recovery Partition"
@@ -380,7 +384,7 @@ msgstr "Status GIT-Baum"
 
 #: ../gtk/builder.ui.h:26
 msgid "Install dpkg-repack"
-msgstr ""
+msgstr "dpkg-repack installieren"
 
 #: ../gtk/builder.ui.h:27
 msgid "Install git"
@@ -392,11 +396,11 @@ msgstr "Keine zusätzliche Werkzeugpartition"
 
 #: ../gtk/builder.ui.h:29
 msgid "Please enter the SRV to use:"
-msgstr ""
+msgstr "Geben Sie bitte ein, welches SRV verwendet werden soll:"
 
 #: ../gtk/builder.ui.h:30
 msgid "SRV Entry"
-msgstr ""
+msgstr "SRV-Eintrag"
 
 #: ../gtk/builder.ui.h:31
 msgid "Select content for Utility Partition"
@@ -443,6 +447,9 @@ msgid ""
 "the necessary dell-recovery package.  It will have to be injected into the "
 "image separately."
 msgstr ""
+"Die Kombination aus gewähltem Abbild und GIT-Baum enthält nicht das "
+"benötigte Paket dell-recovery. Dieses muss nun manuell ins Abbild eingefügt "
+"werden."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."

@@ -7,21 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-19 01:59-0500\n"
-"PO-Revision-Date: 2010-03-19 16:27+0000\n"
+"POT-Creation-Date: 2010-04-15 00:50-0500\n"
+"PO-Revision-Date: 2010-04-16 19:37+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-20 04:48+0000\n"
+"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:103
+#: ../Dell/recovery_frontend.py:102
 msgid "Invalid utility partition"
 msgstr "Некоректний допоміжний розділ"
 
-#: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
+#: ../Dell/recovery_frontend.py:102 ../Dell/recovery_frontend.py:108
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
@@ -29,23 +29,24 @@ msgstr ""
 " у параметрах командного рядка. Повертаємося до визначення, заснованого на "
 "DeviceKit або HAL."
 
-#: ../Dell/recovery_frontend.py:109
+#: ../Dell/recovery_frontend.py:108
 msgid "Invalid recovery partition"
 msgstr "Некоректний розділ для відновлення"
 
-#: ../Dell/recovery_frontend.py:136 ../Dell/recovery_frontend.py:185
+#: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
+#: ../Dell/recovery_builder.py:356 ../Dell/recovery_builder.py:671
 msgid "Permission Denied"
 msgstr "Відмовлено у доступі"
 
-#: ../Dell/recovery_frontend.py:199
+#: ../Dell/recovery_frontend.py:198
 msgid "Opening Burner"
 msgstr "Відкриття програми запису"
 
-#: ../Dell/recovery_frontend.py:213
+#: ../Dell/recovery_frontend.py:212
 msgid "Recovery Media Creation Process Complete"
 msgstr "Процес створення носія для відновлення завершено"
 
-#: ../Dell/recovery_frontend.py:214
+#: ../Dell/recovery_frontend.py:213
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
@@ -53,7 +54,7 @@ msgstr ""
 "Якщо ви бажаєте створити архів з ще однією копією, створений образ було "
 "збережено до файла з назвою:\n"
 
-#: ../Dell/recovery_frontend.py:234
+#: ../Dell/recovery_frontend.py:233
 msgid "Cannot connect to dbus"
 msgstr "Не вдалося встановити зв’язок з D-Bus"
 
@@ -65,7 +66,7 @@ msgstr "Вітаємо"
 msgid "Choose Media Type"
 msgstr "Вибір типу носія"
 
-#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
+#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:25
 msgid "ISO Image"
 msgstr "Образ ISO"
 
@@ -73,43 +74,118 @@ msgstr "Образ ISO"
 msgid "Media Type: "
 msgstr "Тип носія: "
 
-#: ../Dell/recovery_frontend.py:359
-msgid "Utility Partition: "
-msgstr "Допоміжний розділ: "
-
-#: ../Dell/recovery_frontend.py:359 ../Dell/recovery_frontend.py:364
-msgid "Included"
-msgstr "Включено"
-
-#: ../Dell/recovery_frontend.py:362 ../Dell/recovery_frontend.py:364
+#: ../Dell/recovery_frontend.py:360 ../Dell/recovery_frontend.py:362
 msgid "Recovery Partition: "
 msgstr "Розділ для відновлення: "
 
-#: ../Dell/recovery_frontend.py:370
+#: ../Dell/recovery_frontend.py:362
+msgid "Included"
+msgstr "Включено"
+
+#: ../Dell/recovery_frontend.py:368
 msgid "Confirm Selections"
 msgstr "Підтвердити вибір"
 
-#: ../Dell/recovery_backend.py:392
+#: ../Dell/recovery_builder.py:54
+msgid "python-vte is missing"
+msgstr "Не виявлено python-vte"
+
+#: ../Dell/recovery_builder.py:55
+msgid "Builder mode requires python-vte to function"
+msgstr "Для роботи у режимі збирання потрібен пакунок python-vte"
+
+#. wizard.resize(400,400)
+#: ../Dell/recovery_builder.py:72
+msgid " (BTO Image Builder Mode)"
+msgstr " (Режим збирання образу BTO)"
+
+#: ../Dell/recovery_builder.py:74
+msgid ""
+"This application will integrate a Dell OEM FID framework & driver package "
+"set into a customized OS media image.  You will have the option to create an "
+"USB key or DVD image."
+msgstr ""
+"За допомогою цієї програми можна поєднати оболонку Dell OEM FID і набір "
+"пакунків з драйверами у один налаштований образ носія ОС. Ви зможете вибрати "
+"один з варіантів: створення образу флеш-картки USB або образу DVD."
+
+#: ../Dell/recovery_builder.py:136
+msgid "Choose Base OS Image"
+msgstr "Виберіть базовий образ ОС"
+
+#: ../Dell/recovery_builder.py:139
+msgid "Choose FID Overlay"
+msgstr "Виберіть додаток FID"
+
+#: ../Dell/recovery_builder.py:149
+msgid "Choose Utility Partition"
+msgstr "Виберіть допоміжний розділ"
+
+#: ../Dell/recovery_builder.py:161
+msgid "Choose Driver Packages"
+msgstr "Виберіть пакунки драйверів"
+
+#: ../Dell/recovery_builder.py:175
+msgid "Choose Application Packages"
+msgstr "Виберіть пакунки програм"
+
+#: ../Dell/recovery_builder.py:189
+msgid "Builder Summary"
+msgstr "Резюме збирання"
+
+#: ../Dell/recovery_builder.py:200
+msgid "Utility Partition: "
+msgstr "Допоміжний розділ: "
+
+#: ../Dell/recovery_builder.py:202
+msgid "Application"
+msgstr "Програма"
+
+#: ../Dell/recovery_builder.py:203
+msgid "Driver"
+msgstr "Драйвер"
+
+#: ../Dell/recovery_builder.py:209
+msgid "Packages"
+msgstr "Пакунки"
+
+#: ../Dell/recovery_builder.py:414
+msgid "<b>ERROR</b>: git is not installed"
+msgstr "<b>ПОМИЛКА</b>: git не встановлено"
+
+#: ../Dell/recovery_builder.py:533
+msgid "Missing Dell-Recovery"
+msgstr "Не виявлено Dell-Recovery"
+
+#: ../Dell/recovery_builder.py:533
+msgid "Not present in ISO or GIT tree"
+msgstr "Немає на ISO або у дереві GIT"
+
+#: ../Dell/recovery_builder.py:648
+msgid "All SRVs must be filled to proceed."
+msgstr "Щоб перейти до наступного кроку, слід вказати всі SRV."
+
+#: ../Dell/recovery_backend.py:381
 msgid "Adding in base image"
 msgstr "Додавання до основного образу"
 
-#: ../Dell/recovery_backend.py:398
+#: ../Dell/recovery_backend.py:387
 msgid "Overlaying FID content"
 msgstr "Додаткові дані FID"
 
-#: ../Dell/recovery_backend.py:413
+#: ../Dell/recovery_backend.py:402
 msgid "Inserting FISH packages"
 msgstr "Вставка пакунків FISH"
 
-#: ../Dell/recovery_backend.py:562
+#: ../Dell/recovery_backend.py:679
 msgid "Building Dell Utility Partition"
 msgstr "Створення допоміжного розділу Dell"
 
-#: ../Dell/recovery_backend.py:609
+#: ../Dell/recovery_backend.py:735
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Повторне створення UUID / Перебудова initramfs"
 
-#: ../Dell/recovery_backend.py:651
+#: ../Dell/recovery_backend.py:769
 msgid "Building ISO"
 msgstr "Створення ISO"
 
@@ -221,6 +297,14 @@ msgstr ""
 "бути досить тривалим."
 
 #: ../gtk/builder.ui.h:7
+msgid "Add Dell Recovery"
+msgstr "Додати Dell Recovery"
+
+#: ../gtk/builder.ui.h:8
+msgid "Add dell-recovery"
+msgstr "Додати dell-recovery"
+
+#: ../gtk/builder.ui.h:9
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
@@ -228,55 +312,117 @@ msgstr ""
 "Тут можна додати будь-які додаткові драйвери і програми, які слід "
 "інтегрувати до образу."
 
-#: ../gtk/builder.ui.h:8
+#: ../gtk/builder.ui.h:10
+msgid ""
+"BTO images can optionally include a Utility Partition for diagnostic "
+"utilities."
+msgstr ""
+"Образи BTO можуть додатково включати допоміжний розділ для діагностичних "
+"програм."
+
+#: ../gtk/builder.ui.h:11
+msgid "Browse for a dell-recovery package"
+msgstr "Вказати пакунок dell-recovery"
+
+#: ../gtk/builder.ui.h:12
+msgid "Build dell-recovery package from this system"
+msgstr "Зібрати пакунок dell-recovery за цією системою"
+
+#: ../gtk/builder.ui.h:13
+msgid "Choose Content"
+msgstr "Виберіть вміст"
+
+#: ../gtk/builder.ui.h:14
 msgid "Choose Image"
 msgstr "Вибір образу"
 
-#: ../gtk/builder.ui.h:9
+#: ../gtk/builder.ui.h:15
+msgid "Choose package"
+msgstr "Виберіть пакунок"
+
+#: ../gtk/builder.ui.h:16
 msgid "Detected Recovery Partition"
 msgstr "Виявлений розділ для відновлення"
 
-#: ../gtk/builder.ui.h:10
+#: ../gtk/builder.ui.h:17
+msgid "Detected Utility Partition"
+msgstr "Виявлений допоміжний розділ"
+
+#: ../gtk/builder.ui.h:18
+msgid ""
+"During Factory Installation, applications are only installed if the order "
+"record (SDR) refers to the service release vehicle (SRV).  This populates "
+"the possible SRVs to be queried during installation."
+msgstr ""
+"Програми встановлюються виробником, лише якщо запис порядку (SDR) "
+"посилається на засіб надання випусків (SRV).  Таким чином, під час "
+"встановлення виконується опитування всіх можливих SRV."
+
+#: ../gtk/builder.ui.h:19
 msgid "Extracted Directory"
 msgstr "Каталог видобування"
 
-#: ../gtk/builder.ui.h:11
+#: ../gtk/builder.ui.h:20
 msgid "FID GIT Tree"
 msgstr "GIT-дерево FID"
 
-#: ../gtk/builder.ui.h:12
+#: ../gtk/builder.ui.h:21
 msgid "FID framework built into BTO image"
 msgstr "Оболонка FID, вбудована до образу BTO"
 
-#: ../gtk/builder.ui.h:13
+#: ../gtk/builder.ui.h:22
 msgid "Fetch/Update GIT Tree"
 msgstr "Отримати/Оновити GIT-дерево"
 
-#: ../gtk/builder.ui.h:14
+#: ../gtk/builder.ui.h:23
 msgid "GIT Tags/Branches:"
 msgstr "Випуски/Версії GIT:"
 
-#: ../gtk/builder.ui.h:15
+#: ../gtk/builder.ui.h:24
 msgid "GIT Tree Status"
 msgstr "Стан GIT-дерева"
 
-#: ../gtk/builder.ui.h:17
+#: ../gtk/builder.ui.h:26
+msgid "Install dpkg-repack"
+msgstr "Встановити dpkg-repack"
+
+#: ../gtk/builder.ui.h:27
 msgid "Install git"
 msgstr "Встановити git"
 
-#: ../gtk/builder.ui.h:18
+#: ../gtk/builder.ui.h:28
+msgid "No additional Utility Partition"
+msgstr "Не виявлено додаткового допоміжного розділу"
+
+#: ../gtk/builder.ui.h:29
+msgid "Please enter the SRV to use:"
+msgstr "Вкажіть SRV, який слід використати:"
+
+#: ../gtk/builder.ui.h:30
+msgid "SRV Entry"
+msgstr "Запис SRV"
+
+#: ../gtk/builder.ui.h:31
+msgid "Select content for Utility Partition"
+msgstr "Визначте вміст допоміжного розділу"
+
+#: ../gtk/builder.ui.h:32
+msgid "Selected Content Details:"
+msgstr "Подробиці щодо вибраних даних:"
+
+#: ../gtk/builder.ui.h:33
 msgid "Selected Image Details:"
 msgstr "Параметри позначеного образу:"
 
-#: ../gtk/builder.ui.h:19
+#: ../gtk/builder.ui.h:34
 msgid "Selected Overlay Details:"
 msgstr "Параметри позначеного сховища:"
 
-#: ../gtk/builder.ui.h:20
+#: ../gtk/builder.ui.h:35
 msgid "Show Details"
 msgstr "Показати подробиці"
 
-#: ../gtk/builder.ui.h:21
+#: ../gtk/builder.ui.h:36
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
@@ -284,7 +430,7 @@ msgstr ""
 "Образ ОС Base (базовий) містить переважну частину даних для образу BTO. Цим "
 "образом може бути образ ОС Vanilla (початковий) або поточний образ BTO."
 
-#: ../gtk/builder.ui.h:22
+#: ../gtk/builder.ui.h:37
 msgid ""
 "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
 "the event that you are generating from an existing BTO image, you can use "
@@ -293,6 +439,15 @@ msgstr ""
 "Оболонка FID — це початковий набір даних, які буде дописано до образу "
 "Vanilla. Якщо ви створюєте носій на основі поточного образу BTO, ви можете "
 "скористатися оболонкою, вбудованою до цього образу."
+
+#: ../gtk/builder.ui.h:38
+msgid ""
+"The combination of the image and GIT tree you have provided do not supply "
+"the necessary dell-recovery package.  It will have to be injected into the "
+"image separately."
+msgstr ""
+"Поєднання образу та дерева GIT, яке ви вказали, не містить необхідного "
+"пакунка dell-recovery. Його доведеться додати до образу окремо."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
