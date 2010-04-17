@@ -10,6 +10,7 @@ dell-recovery (0.56) UNRELEASED; urgency=low
     from the locale that they had selected.
   * Default to use git:// protocol rather than http://.  It's far quicker for
     checkouts anyhow.
+  * Render the icon at 128x128 to avoid GTK warnings.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 15 Apr 2010 15:06:27 -0500
 
