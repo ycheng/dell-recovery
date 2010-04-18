@@ -7,52 +7,56 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-04-15 00:50-0500\n"
-"PO-Revision-Date: 2010-04-16 18:01+0000\n"
+"POT-Creation-Date: 2010-04-17 10:53-0500\n"
+"PO-Revision-Date: 2010-04-17 12:05+0000\n"
 "Last-Translator: David Planella <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
+"X-Launchpad-Export-Date: 2010-04-18 03:50+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:102
 msgid "Invalid utility partition"
-msgstr ""
+msgstr "Partició d'eines no vàlida"
 
 #: ../Dell/recovery_frontend.py:102 ../Dell/recovery_frontend.py:108
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
 msgstr ""
+" en arguments de la línia d'ordres. S'intentarà la detecció basada en el "
+"DeviceKit o en la HAL."
 
 #: ../Dell/recovery_frontend.py:108
 msgid "Invalid recovery partition"
-msgstr ""
+msgstr "Partició de recuperació no vàlida"
 
 #: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
 #: ../Dell/recovery_builder.py:356 ../Dell/recovery_builder.py:671
 msgid "Permission Denied"
-msgstr ""
+msgstr "S'ha denegat el permís"
 
 #: ../Dell/recovery_frontend.py:198
 msgid "Opening Burner"
-msgstr ""
+msgstr "S'està obrint l'enregistrador"
 
 #: ../Dell/recovery_frontend.py:212
 msgid "Recovery Media Creation Process Complete"
-msgstr ""
+msgstr "S'ha completat el procés de creació del suport de recuperació"
 
 #: ../Dell/recovery_frontend.py:213
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
+"Si voleu arxivar una altra còpia, la imatge generada s'ha emmagatzemat amb "
+"el nom:\n"
 
 #: ../Dell/recovery_frontend.py:233
 msgid "Cannot connect to dbus"
-msgstr ""
+msgstr "No s'ha pogut connectar amb el Dbus"
 
 #: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
@@ -60,40 +64,41 @@ msgstr "Us donem la benvinguda"
 
 #: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
-msgstr ""
+msgstr "Escolliu el tipus de suport"
 
 #: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:25
 msgid "ISO Image"
-msgstr ""
+msgstr "Imatge ISO"
 
 #: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
-msgstr ""
+msgstr "Tipus de suport: "
 
 #: ../Dell/recovery_frontend.py:360 ../Dell/recovery_frontend.py:362
 msgid "Recovery Partition: "
-msgstr ""
+msgstr "Partició de recuperació: "
 
 #: ../Dell/recovery_frontend.py:362
 msgid "Included"
-msgstr ""
+msgstr "Inclòs"
 
 #: ../Dell/recovery_frontend.py:368
 msgid "Confirm Selections"
-msgstr ""
+msgstr "Confirmeu les seleccions"
 
 #: ../Dell/recovery_builder.py:54
 msgid "python-vte is missing"
-msgstr ""
+msgstr "Manca el paquet python-vte"
 
 #: ../Dell/recovery_builder.py:55
 msgid "Builder mode requires python-vte to function"
 msgstr ""
+"El mode de creació requereix el paquet python-vte per poder funcionar"
 
 #. wizard.resize(400,400)
 #: ../Dell/recovery_builder.py:72
 msgid " (BTO Image Builder Mode)"
-msgstr ""
+msgstr " (mode de creació d'imatge BTO)"
 
 #: ../Dell/recovery_builder.py:74
 msgid ""
@@ -104,7 +109,7 @@ msgstr ""
 
 #: ../Dell/recovery_builder.py:136
 msgid "Choose Base OS Image"
-msgstr ""
+msgstr "Escolliu la imatge base del sistema operatiu"
 
 #: ../Dell/recovery_builder.py:139
 msgid "Choose FID Overlay"
@@ -112,47 +117,47 @@ msgstr ""
 
 #: ../Dell/recovery_builder.py:149
 msgid "Choose Utility Partition"
-msgstr ""
+msgstr "Escolliu la utilitat de partició"
 
 #: ../Dell/recovery_builder.py:161
 msgid "Choose Driver Packages"
-msgstr ""
+msgstr "Escolliu els paquets de controladors"
 
 #: ../Dell/recovery_builder.py:175
 msgid "Choose Application Packages"
-msgstr ""
+msgstr "Escolliu els paquets d'aplicació"
 
 #: ../Dell/recovery_builder.py:189
 msgid "Builder Summary"
-msgstr ""
+msgstr "Resum del creador"
 
 #: ../Dell/recovery_builder.py:200
 msgid "Utility Partition: "
-msgstr ""
+msgstr "Partició d'eines: "
 
 #: ../Dell/recovery_builder.py:202
 msgid "Application"
-msgstr ""
+msgstr "Aplicació"
 
 #: ../Dell/recovery_builder.py:203
 msgid "Driver"
-msgstr ""
+msgstr "Controlador"
 
 #: ../Dell/recovery_builder.py:209
 msgid "Packages"
-msgstr ""
+msgstr "Paquets"
 
 #: ../Dell/recovery_builder.py:414
 msgid "<b>ERROR</b>: git is not installed"
-msgstr ""
+msgstr "<b>ERROR</b>: el Git no està instal·lat"
 
 #: ../Dell/recovery_builder.py:533
 msgid "Missing Dell-Recovery"
-msgstr ""
+msgstr "Manca l'eina de recuperació de Dell"
 
 #: ../Dell/recovery_builder.py:533
 msgid "Not present in ISO or GIT tree"
-msgstr ""
+msgstr "No és a l'ISO o a l'arbre del Git"
 
 #: ../Dell/recovery_builder.py:648
 msgid "All SRVs must be filled to proceed."
@@ -160,7 +165,7 @@ msgstr ""
 
 #: ../Dell/recovery_backend.py:381
 msgid "Adding in base image"
-msgstr ""
+msgstr "S'està afegint a la imatge base"
 
 #: ../Dell/recovery_backend.py:387
 msgid "Overlaying FID content"
@@ -168,19 +173,19 @@ msgstr ""
 
 #: ../Dell/recovery_backend.py:402
 msgid "Inserting FISH packages"
-msgstr ""
+msgstr "S'estan afegint els paquets FISH"
 
 #: ../Dell/recovery_backend.py:679
 msgid "Building Dell Utility Partition"
-msgstr ""
+msgstr "S'està creant la partició d'eines de Dell"
 
 #: ../Dell/recovery_backend.py:735
 msgid "Regenerating UUID / Rebuilding initramfs"
-msgstr ""
+msgstr "S'està regenerant l'UUID / recreant l'initramfs"
 
 #: ../Dell/recovery_backend.py:769
 msgid "Building ISO"
-msgstr ""
+msgstr "S'està creant l'ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create/Assemble Dell Recovery ISO"
@@ -188,15 +193,15 @@ msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
-msgstr ""
+msgstr "Sol·licitud de la versió de BTO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:3
 msgid "Query ISO Information"
-msgstr ""
+msgstr "Sol·licitud d'informació de l'ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
 msgid "Request closing the backend"
-msgstr ""
+msgstr "Sol·licitud de tancament del rerefons"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "System policy prevents closing processes without notice"
@@ -204,12 +209,12 @@ msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"
-msgstr ""
+msgstr "La política del sistema no permet llegir dispositius en cru"
 
 #: ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/recovery_media_creator.ui.h:6
 msgid "Dell Recovery Media Creator"
-msgstr ""
+msgstr "Creador de suports de l'eina de recuperació de Dell"
 
 #: ../gtk/recovery_media_creator.ui.h:1
 msgid "<activity placeholder>"
@@ -224,18 +229,19 @@ msgstr ""
 #: ../gtk/recovery_media_creator.ui.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
 msgstr ""
+"Segur que voleu cancel·lar el procés de creació del suport de recuperació?"
 
 #: ../gtk/recovery_media_creator.ui.h:4
 msgid "Cancel Recovery Media Creator"
-msgstr ""
+msgstr "Cancel·la el creador de suports de recuperació"
 
 #: ../gtk/recovery_media_creator.ui.h:5
 msgid "DVD+/-RW Disc"
-msgstr ""
+msgstr "Disc DVD+/-RW"
 
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create ISO image"
-msgstr ""
+msgstr "No hi ha cap suport, creació d'una imatge ISO"
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid ""
@@ -247,24 +253,28 @@ msgstr ""
 #: ../gtk/recovery_media_creator.ui.h:9
 msgid "This requires a USB flash drive with approximately 2GB free."
 msgstr ""
+"Això requereix un llapis de memòria USB amb aproximadament 2 GB d'espai "
+"disponible."
 
 #: ../gtk/recovery_media_creator.ui.h:10
 msgid "This requires writable DVD media."
-msgstr ""
+msgstr "Això requereix un suport DVD enregistrable."
 
 #: ../gtk/recovery_media_creator.ui.h:11
 msgid "USB Flash Drive"
-msgstr ""
+msgstr "Llapis de memòria USB"
 
 #: ../gtk/recovery_media_creator.ui.h:12
 msgid "Version:"
-msgstr ""
+msgstr "Versió:"
 
 #: ../gtk/builder.ui.h:1
 msgid ""
 "\n"
 "\n"
 msgstr ""
+"\n"
+"\n"
 
 #: ../gtk/builder.ui.h:4
 msgid ""
@@ -307,7 +317,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:14
 msgid "Choose Image"
-msgstr ""
+msgstr "Escolliu la imatge"
 
 #: ../gtk/builder.ui.h:15
 msgid "Choose package"
