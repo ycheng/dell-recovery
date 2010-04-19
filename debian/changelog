@@ -1,3 +1,9 @@
+dell-recovery (0.57) UNRELEASED; urgency=low
+
+  * Import translations from launchpad.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 19 Apr 2010 11:09:49 -0500
+
 dell-recovery (0.56) lucid; urgency=low
 
   * Handle the exception that no casper UUID or no initrd are in the image by

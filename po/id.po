@@ -1,16 +1,16 @@
-# Brazilian Portuguese translation for dell-recovery
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Indonesian translation for dell-recovery
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the dell-recovery package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-04-17 10:53-0500\n"
-"PO-Revision-Date: 2010-04-17 01:29+0000\n"
-"Last-Translator: André Gondim <andregondim@ubuntu.com>\n"
-"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"PO-Revision-Date: 2010-04-17 12:06+0000\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:102
 msgid "Invalid utility partition"
-msgstr "Partição utilitária inválida"
+msgstr "Partisi utilitas tidak valid"
 
 #: ../Dell/recovery_frontend.py:102 ../Dell/recovery_frontend.py:108
 msgid ""
@@ -29,71 +29,73 @@ msgstr ""
 
 #: ../Dell/recovery_frontend.py:108
 msgid "Invalid recovery partition"
-msgstr "Partição de recuperação inválida."
+msgstr "Partisi pemulihan tidak valid"
 
 #: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
 #: ../Dell/recovery_builder.py:356 ../Dell/recovery_builder.py:671
 msgid "Permission Denied"
-msgstr "Permissão Negada."
+msgstr "Izin Ditolak"
 
 #: ../Dell/recovery_frontend.py:198
 msgid "Opening Burner"
-msgstr "Abrindo gravador"
+msgstr "Membuka Pembakar"
 
 #: ../Dell/recovery_frontend.py:212
 msgid "Recovery Media Creation Process Complete"
-msgstr "Concluído o processo de criação do Recovery Media"
+msgstr "Proses Pembuatan Media Pemulihan Selesai"
 
 #: ../Dell/recovery_frontend.py:213
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
+"Bila Anda ingin mengarsip salinan lain, image yang dibuat telah disimpan "
+"dengan nama berkas:\n"
 
 #: ../Dell/recovery_frontend.py:233
 msgid "Cannot connect to dbus"
-msgstr "Impossível conectar ao dbus"
+msgstr "Tak bisa menyambung ke dbus"
 
 #: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
-msgstr "Bem-vindo"
+msgstr "Selamat Datang"
 
 #: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
-msgstr "Escolher o tipo de mídia"
+msgstr "Pilih Tipe Media"
 
 #: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:25
 msgid "ISO Image"
-msgstr "Imagem ISO"
+msgstr "Image ISO"
 
 #: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
-msgstr "Tipo de mídia: "
+msgstr "Tipe Media: "
 
 #: ../Dell/recovery_frontend.py:360 ../Dell/recovery_frontend.py:362
 msgid "Recovery Partition: "
-msgstr "Partição de Recuperação: "
+msgstr "Partisi Pemulihan: "
 
 #: ../Dell/recovery_frontend.py:362
 msgid "Included"
-msgstr "Incluído"
+msgstr "Termasuk"
 
 #: ../Dell/recovery_frontend.py:368
 msgid "Confirm Selections"
-msgstr "Confirmar seleções"
+msgstr "Konfirmasi Pilihan"
 
 #: ../Dell/recovery_builder.py:54
 msgid "python-vte is missing"
-msgstr "python-vte perdido"
+msgstr "python-vte hilang"
 
 #: ../Dell/recovery_builder.py:55
 msgid "Builder mode requires python-vte to function"
-msgstr ""
+msgstr "Moda pembangun memerlukan python-vte agar berfungsi"
 
 #. wizard.resize(400,400)
 #: ../Dell/recovery_builder.py:72
 msgid " (BTO Image Builder Mode)"
-msgstr ""
+msgstr " (Mode Pembangun Image BTO)"
 
 #: ../Dell/recovery_builder.py:74
 msgid ""
@@ -104,7 +106,7 @@ msgstr ""
 
 #: ../Dell/recovery_builder.py:136
 msgid "Choose Base OS Image"
-msgstr ""
+msgstr "Pilih Image OS Dasar"
 
 #: ../Dell/recovery_builder.py:139
 msgid "Choose FID Overlay"
@@ -112,27 +114,27 @@ msgstr ""
 
 #: ../Dell/recovery_builder.py:149
 msgid "Choose Utility Partition"
-msgstr ""
+msgstr "Pilih Partisi Utilitas"
 
 #: ../Dell/recovery_builder.py:161
 msgid "Choose Driver Packages"
-msgstr ""
+msgstr "Pilih Paket Driver"
 
 #: ../Dell/recovery_builder.py:175
 msgid "Choose Application Packages"
-msgstr ""
+msgstr "Pilih Paket Aplikasi"
 
 #: ../Dell/recovery_builder.py:189
 msgid "Builder Summary"
-msgstr ""
+msgstr "Ringkasan Pembangun"
 
 #: ../Dell/recovery_builder.py:200
 msgid "Utility Partition: "
-msgstr "Partição Utilitária: "
+msgstr "Partisi Utilitas: "
 
 #: ../Dell/recovery_builder.py:202
 msgid "Application"
-msgstr "Aplicativo"
+msgstr "Aplikasi"
 
 #: ../Dell/recovery_builder.py:203
 msgid "Driver"
@@ -140,11 +142,11 @@ msgstr "Driver"
 
 #: ../Dell/recovery_builder.py:209
 msgid "Packages"
-msgstr ""
+msgstr "Paket"
 
 #: ../Dell/recovery_builder.py:414
 msgid "<b>ERROR</b>: git is not installed"
-msgstr ""
+msgstr "<b>GALAT</b>: git tidak terpasang"
 
 #: ../Dell/recovery_builder.py:533
 msgid "Missing Dell-Recovery"
@@ -160,7 +162,7 @@ msgstr ""
 
 #: ../Dell/recovery_backend.py:381
 msgid "Adding in base image"
-msgstr ""
+msgstr "Menambahkan image dasar"
 
 #: ../Dell/recovery_backend.py:387
 msgid "Overlaying FID content"
@@ -168,11 +170,11 @@ msgstr ""
 
 #: ../Dell/recovery_backend.py:402
 msgid "Inserting FISH packages"
-msgstr ""
+msgstr "Menyisipkan paket FISH"
 
 #: ../Dell/recovery_backend.py:679
 msgid "Building Dell Utility Partition"
-msgstr ""
+msgstr "Membangun Partisi Utilitas Dell"
 
 #: ../Dell/recovery_backend.py:735
 msgid "Regenerating UUID / Rebuilding initramfs"
@@ -180,7 +182,7 @@ msgstr ""
 
 #: ../Dell/recovery_backend.py:769
 msgid "Building ISO"
-msgstr "Construindo a ISO"
+msgstr "Membangun ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create/Assemble Dell Recovery ISO"
@@ -204,42 +206,38 @@ msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"
-msgstr "Política do sistema impede a leitura de dispositivos raw"
+msgstr ""
 
 #: ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/recovery_media_creator.ui.h:6
 msgid "Dell Recovery Media Creator"
-msgstr "Criador de mídia de recuperação Dell"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:1
 msgid "<activity placeholder>"
-msgstr "<espaço reservado para atividades>"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:2
 msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
 msgstr ""
-"Uma imagem existente foi encontrada (possivelmente de uma execução "
-"anterior). Você deseja remover essa cópia antiga e regerar a imagem?"
 
 #: ../gtk/recovery_media_creator.ui.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
 msgstr ""
-"Você tem certeza que quer cancelar o processo de criação da Mídia de "
-"Recuperação?"
 
 #: ../gtk/recovery_media_creator.ui.h:4
 msgid "Cancel Recovery Media Creator"
-msgstr "Cancelar o Recovery Media Creator"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:5
 msgid "DVD+/-RW Disc"
-msgstr "Disco DVD+/-RW"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create ISO image"
-msgstr "Nenhuma mídia, criar imagem ISO"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid ""
@@ -247,9 +245,6 @@ msgid ""
 "the computer to its factory shipped state.  You will have the option to "
 "create an USB key or DVD image."
 msgstr ""
-"Este pedido vai criar OS Recuperação Mídia que pode ser usado para restaurar "
-"o computador ao seu estado embarcados fábrica. Você terá a opção de criar "
-"uma chave USB ou DVD imagem."
 
 #: ../gtk/recovery_media_creator.ui.h:9
 msgid "This requires a USB flash drive with approximately 2GB free."
@@ -261,19 +256,17 @@ msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:11
 msgid "USB Flash Drive"
-msgstr "Unidade Flash USB"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:12
 msgid "Version:"
-msgstr "Versão:"
+msgstr ""
 
 #: ../gtk/builder.ui.h:1
 msgid ""
 "\n"
 "\n"
 msgstr ""
-"\n"
-"\n"
 
 #: ../gtk/builder.ui.h:4
 msgid ""
@@ -316,7 +309,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:14
 msgid "Choose Image"
-msgstr "Escolher imagem"
+msgstr ""
 
 #: ../gtk/builder.ui.h:15
 msgid "Choose package"
@@ -399,7 +392,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:35
 msgid "Show Details"
-msgstr "Mostrar detalhes"
+msgstr ""
 
 #: ../gtk/builder.ui.h:36
 msgid ""
@@ -467,35 +460,3 @@ msgstr ""
 #: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
 msgstr ""
-
-#~ msgid "File Name: "
-#~ msgstr "Nome do Arquivo: "
-
-#~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
-#~ "present to function."
-#~ msgstr ""
-#~ "Esta ferramente requer que uma Partição Utilitária e uma partição Linux de "
-#~ "Recuperação estejam presentes para seu funcionamento."
-
-#~ msgid "Choose Target Directory"
-#~ msgstr "Escolher Diretório de Destino"
-
-#~ msgid "OS Release: "
-#~ msgstr "Versão do SO: "
-
-#~ msgid "Building UP"
-#~ msgstr "Construindo UP"
-
-#~ msgid "Generating UUID"
-#~ msgstr "Gerando UUID"
-
-#~ msgid "Retry burn?"
-#~ msgstr "Tentar gravar novamente?"
-
-#~ msgid "Select a directory for the ISO"
-#~ msgstr "Selecione um diretório para a ISO"
-
-#~ msgid "The media burn process failed.  Would you like to retry?"
-#~ msgstr ""
-#~ "O processo de gravação da mídia flahou. Você deseja tentar novamente?"
