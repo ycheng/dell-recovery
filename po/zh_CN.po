@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-17 10:53-0500\n"
-"PO-Revision-Date: 2010-04-17 08:48+0000\n"
+"PO-Revision-Date: 2010-04-18 09:19+0000\n"
 "Last-Translator: Aron Xu <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-18 03:50+0000\n"
+"X-Launchpad-Export-Date: 2010-04-19 03:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:102
@@ -88,7 +88,7 @@ msgstr "缺少 python-vte"
 
 #: ../Dell/recovery_builder.py:55
 msgid "Builder mode requires python-vte to function"
-msgstr ""
+msgstr "使用创建模式需要预先安装 python-vte"
 
 #. wizard.resize(400,400)
 #: ../Dell/recovery_builder.py:72
@@ -100,7 +100,7 @@ msgid ""
 "This application will integrate a Dell OEM FID framework & driver package "
 "set into a customized OS media image.  You will have the option to create an "
 "USB key or DVD image."
-msgstr ""
+msgstr "此应用程序可以导入 Dell OEM FID 构架和驱动程序包来定制 OS 镜像。您可以生成 USB 存储盘或 DVD 光盘。"
 
 #: ../Dell/recovery_builder.py:136
 msgid "Choose Base OS Image"
@@ -160,7 +160,7 @@ msgstr "必须填写所有 SRV 后才能继续。"
 
 #: ../Dell/recovery_backend.py:381
 msgid "Adding in base image"
-msgstr ""
+msgstr "添加到原始镜像"
 
 #: ../Dell/recovery_backend.py:387
 msgid "Overlaying FID content"
@@ -176,7 +176,7 @@ msgstr "建立 Dell 工具分区"
 
 #: ../Dell/recovery_backend.py:735
 msgid "Regenerating UUID / Rebuilding initramfs"
-msgstr ""
+msgstr "重新生成 UUID / 重新构建 initramfs"
 
 #: ../Dell/recovery_backend.py:769
 msgid "Building ISO"
@@ -184,7 +184,7 @@ msgstr "制作 ISO 光盘镜像"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create/Assemble Dell Recovery ISO"
-msgstr ""
+msgstr "创建/集成 Dell 系统恢复 ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
@@ -274,6 +274,9 @@ msgid ""
 "This window will close automatically when the process is complete. \n"
 "<b>NOTE:</b> Please be patient, the initial fetch may take a while."
 msgstr ""
+"<b>GIT 正在执行 fetch 操作。</b>\n"
+"进程完成后，本窗口将自动关闭。 \n"
+"<b>提示：</b>初始的 fetch 操作要一点时间，请耐心等待。"
 
 #: ../gtk/builder.ui.h:7
 msgid "Add Dell Recovery"
