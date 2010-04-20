@@ -1,6 +1,7 @@
 dell-recovery (0.57) UNRELEASED; urgency=low
 
   * Import translations from launchpad.
+  * Add the ability to disable nvidia driver installation during install too.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 19 Apr 2010 11:09:49 -0500
 

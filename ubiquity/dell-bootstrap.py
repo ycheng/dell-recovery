@@ -1006,7 +1006,11 @@ class Install(InstallPlugin):
             from apt.cache import Cache
             cache = Cache()
             for driver in drivers:
-                if cache.has_key('%s-modaliases' % driver) and \
+                if 'nvidia' in driver:
+                    for key in cache.keys():
+                        if 'nvidia' in key and cache[key].isInstalled:
+                            to_remove.append(key)
+                elif cache.has_key('%s-modaliases' % driver) and \
                    cache['%s-modaliases' % driver].isInstalled:
                     to_remove.append('%s-modaliases' % driver)
             del cache
