@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-17 10:53-0500\n"
-"PO-Revision-Date: 2010-04-18 07:41+0000\n"
+"PO-Revision-Date: 2010-04-19 06:50+0000\n"
 "Last-Translator: Hannie Dumoleyn <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-19 03:46+0000\n"
+"X-Launchpad-Export-Date: 2010-04-20 03:34+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:102
@@ -44,15 +44,15 @@ msgstr "Brander openen"
 
 #: ../Dell/recovery_frontend.py:212
 msgid "Recovery Media Creation Process Complete"
-msgstr "Aanmaken herstelmedia gereed"
+msgstr "Aanmaken herstelmedium gereed"
 
 #: ../Dell/recovery_frontend.py:213
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
-"Wilt u nog een kopie bewaren, de aangemaakte image is opgeslagen onder de "
-"bestandsnaam:\n"
+"Wilt u nog een kopie bewaren, het aangemaakte beeldbestand is opgeslagen "
+"onder de bestandsnaam:\n"
 
 #: ../Dell/recovery_frontend.py:233
 msgid "Cannot connect to dbus"
@@ -68,7 +68,7 @@ msgstr "Selecteer mediatype"
 
 #: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:25
 msgid "ISO Image"
-msgstr "ISO-image"
+msgstr "ISO-beeldbestand"
 
 #: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
@@ -106,7 +106,8 @@ msgid ""
 "USB key or DVD image."
 msgstr ""
 "Deze toepassing zal een Dell OEM FID-framework en een set stuurprogramma's "
-"integreren in een aangepaste OS-media-image."
+"integreren in een aangepast OS-media-beeldbestand. U kunt kiezen tussen een "
+"beeldbestand aanmaken op usb-stick of dvd-schijf."
 
 #: ../Dell/recovery_builder.py:136
 msgid "Choose Base OS Image"
