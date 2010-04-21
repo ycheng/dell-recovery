@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-04-15 00:48-0500\n"
-"PO-Revision-Date: 2010-04-16 09:15+0000\n"
-"Last-Translator: Eleanor Chen <chenyueg@gmail.com>\n"
+"PO-Revision-Date: 2010-04-20 12:29+0000\n"
+"Last-Translator: Careone <zzbusagain@yahoo.com.cn>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
+"X-Launchpad-Export-Date: 2010-04-21 04:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -120,7 +120,7 @@ msgstr "需要创建 Dell 还原盘吗？"
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
-msgstr ""
+msgstr "Dell 还原盘可以把您的电脑恢复到出厂系统。"
 
 #. Type: text
 #. Description
@@ -158,7 +158,7 @@ msgstr "注意：需要可写入的 DVD 光盘。"
 #. Description
 #: ../templates:35001
 msgid "Don't generate recovery media at this time"
-msgstr ""
+msgstr "这次不生成恢复盘"
 
 #. Type: text
 #. Description
@@ -166,7 +166,7 @@ msgstr ""
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
-msgstr ""
+msgstr "可以在“系统”菜单里选择“工具”，稍后再生成恢复盘。"
 
 #. Type: text
 #. Description
@@ -207,9 +207,6 @@ msgstr "我同意此协议（使用此计算机）"
 #~ msgid "Opening Burner"
 #~ msgstr "打开光盘刻录器"
 
-#~ msgid "Recovery Media Creation Process Complete"
-#~ msgstr "恢复光盘创建完成"
-
 #~ msgid "Invalid recovery partition"
 #~ msgstr "无效的恢复分区"
 
@@ -222,14 +219,8 @@ msgstr "我同意此协议（使用此计算机）"
 #~ msgid "Generating UUID"
 #~ msgstr "生成 UUID"
 
-#~ msgid "Cancel Recovery Media Creator"
-#~ msgstr "取消恢复光盘创建程序"
-
 #~ msgid "Building ISO"
 #~ msgstr "制作 ISO 光盘镜像"
-
-#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
-#~ msgstr "确定要取消创建恢复光盘吗？"
 
 #~ msgid ""
 #~ "An existing image was found (possibly from a previous run).  Would you like "
