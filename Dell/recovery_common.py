@@ -356,8 +356,6 @@ def find_burners():
 def match_system_device(bus, vendor, device):
     '''Attempts to match the vendor and device combination to the system on the specified bus
        Allows the following formats:
-       str (eg '1234')
-       int (eg 1234)
        base 16 int (eg 0x1234)
        base 16 int in a str (eg '0x1234')
     '''
@@ -372,8 +370,8 @@ def match_system_device(bus, vendor, device):
                     with open(os.path.join(root,file),'r') as filehandle:
                         device = filehandle.readline().strip('\n')
             if vendor and device:
-                if ( int(vendor,16) == int(check_vendor) or vendor.strip('0x') == check_vendor ) and \
-                   ( int(device,16) == int(check_device) or device.strip('0x') == check_device ) :
+                if ( int(vendor,16) == int(check_vendor)) and \
+                   ( int(device,16) == int(check_device)) :
                    return True
             if not files:
                 for dir in [os.path.join(root, d) for d in dirs]:
@@ -387,12 +385,8 @@ def match_system_device(bus, vendor, device):
 
     if type(vendor) == str and '0x' in vendor:
         vendor = int(vendor,16)
-    elif type(vendor) == int:
-        vendor = str(vendor)
     if type(device) == str and '0x' in device:
         device = int(device,16)
-    elif type(device) == int:
-        device = str(device)
 
     return recursive_check_ids('/sys/bus/%s/devices' % bus, vendor, device)
 

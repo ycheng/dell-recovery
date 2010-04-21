@@ -8,6 +8,9 @@ dell-recovery (0.57) UNRELEASED; urgency=low
   * Add a script to call the DKMS autoinstallation script to catch any modules
     that may have failed to build/install during install such as PAE kernels. 
     (LP: #563906)
+  * match_system_device: Don't allow matching anything without a 0x preceding it.
+    - Still allows base 16 ints
+    - Still allows base 16 ints encapsulated in a string
 
   [ James Ferguson ]
   * match_system_device: Don't recursively follow symlinks after the first
