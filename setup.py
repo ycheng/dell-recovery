@@ -44,6 +44,7 @@ setup(
                 ('share/pixmaps', glob.glob("gtk/*.svg")),
                 ('share/dell/bin', ['backend/recovery-media-backend']),
                 ('share/dell/scripts', glob.glob('scripts/*')),
+                ('share/dell/scripts/non-negotiable', glob.glob('chroot_scripts/*')),
                 ('/etc/dbus-1/system.d/', glob.glob('backend/*.conf')),
                 ('share/dell/grub', glob.glob('grub/*')),
                 ('share/dell/up', glob.glob('up/*')),

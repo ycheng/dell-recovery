@@ -2,6 +2,11 @@ dell-recovery (0.57) UNRELEASED; urgency=low
 
   * Import translations from launchpad.
   * Add the ability to disable nvidia driver installation during install too.
+  * Add an additional postinstallation script directory for non-negotiable items
+    shipped with this package.
+  * Add a script to call the DKMS autoinstallation script to catch any modules
+    that may have failed to build/install during install such as PAE kernels. 
+    (LP: #563906)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 19 Apr 2010 11:09:49 -0500
 
