@@ -361,7 +361,7 @@ def match_system_device(bus, vendor, device):
        base 16 int (eg 0x1234)
        base 16 int in a str (eg '0x1234')
     '''
-    def recursive_check_ids(directory, check_vendor, check_device):
+    def recursive_check_ids(directory, check_vendor, check_device, exclude_links=False):
         vendor = device = ''
         for root, dirs, files in os.walk(directory, topdown=False):
             for file in files:
@@ -376,8 +376,9 @@ def match_system_device(bus, vendor, device):
                    ( int(device,16) == int(check_device) or device.strip('0x') == check_device ) :
                    return True
             if not files:
-                for dir in dirs:
-                    if recursive_check_ids(os.path.join(root,dir), check_vendor, check_device):
+                for dir in [os.path.join(root, d) for d in dirs]:
+                    if not (exclude_links and os.path.islink(dir)) and \
+                        recursive_check_ids(dir, check_vendor, check_device, True):
                         return True
         return False
 
