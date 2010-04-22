@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-05 22:21-0500\n"
-"PO-Revision-Date: 2010-04-06 08:16+0000\n"
+"POT-Creation-Date: 2010-04-17 10:53-0500\n"
+"PO-Revision-Date: 2010-04-21 15:11+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-07 03:47+0000\n"
+"X-Launchpad-Export-Date: 2010-04-22 03:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:102
@@ -34,7 +34,7 @@ msgid "Invalid recovery partition"
 msgstr "Epäkelpo palautusosio"
 
 #: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
-#: ../Dell/recovery_builder.py:353
+#: ../Dell/recovery_builder.py:356 ../Dell/recovery_builder.py:671
 msgid "Permission Denied"
 msgstr "Pääsy evätty"
 
@@ -105,6 +105,9 @@ msgid ""
 "set into a customized OS media image.  You will have the option to create an "
 "USB key or DVD image."
 msgstr ""
+"Tämä luo mukautetun käyttöjärjestelmämedian integroimalla Dellin OEM FID -"
+"kehysohjelmiston ja ajuripakettikokoelman. Voit luoda joko USB-tikun tai DVD-"
+"levykuvan."
 
 #: ../Dell/recovery_builder.py:136
 msgid "Choose Base OS Image"
@@ -114,53 +117,53 @@ msgstr "Valitse käyttöjärjestelmän peruslevykuva"
 msgid "Choose FID Overlay"
 msgstr "Valitse FID-laskostus"
 
-#: ../Dell/recovery_builder.py:146
+#: ../Dell/recovery_builder.py:149
 msgid "Choose Utility Partition"
 msgstr "Valitse työkaluosio"
 
-#: ../Dell/recovery_builder.py:158
+#: ../Dell/recovery_builder.py:161
 msgid "Choose Driver Packages"
 msgstr "Valitse ajuripaketit"
 
-#: ../Dell/recovery_builder.py:172
+#: ../Dell/recovery_builder.py:175
 msgid "Choose Application Packages"
 msgstr "Valitse sovelluspaketit"
 
-#: ../Dell/recovery_builder.py:186
+#: ../Dell/recovery_builder.py:189
 msgid "Builder Summary"
 msgstr "Rakennuksen yhteenveto"
 
-#: ../Dell/recovery_builder.py:197
+#: ../Dell/recovery_builder.py:200
 msgid "Utility Partition: "
 msgstr "Työkaluosio: "
 
-#: ../Dell/recovery_builder.py:199
+#: ../Dell/recovery_builder.py:202
 msgid "Application"
 msgstr "Sovellus"
 
-#: ../Dell/recovery_builder.py:200
+#: ../Dell/recovery_builder.py:203
 msgid "Driver"
 msgstr "Ajuri"
 
-#: ../Dell/recovery_builder.py:206
+#: ../Dell/recovery_builder.py:209
 msgid "Packages"
 msgstr "Paketit"
 
-#: ../Dell/recovery_builder.py:411
+#: ../Dell/recovery_builder.py:414
 msgid "<b>ERROR</b>: git is not installed"
 msgstr "<b>VIRHE</b>: git-ohjelmaa ei ole asennettu"
 
-#: ../Dell/recovery_builder.py:529
+#: ../Dell/recovery_builder.py:533
 msgid "Missing Dell-Recovery"
-msgstr ""
+msgstr "Puuttuva ”Dell-Recovery”"
 
-#: ../Dell/recovery_builder.py:529
+#: ../Dell/recovery_builder.py:533
 msgid "Not present in ISO or GIT tree"
-msgstr ""
+msgstr "Ei saatavalla ISOssa tai GIT-puussa"
 
-#: ../Dell/recovery_builder.py:644
+#: ../Dell/recovery_builder.py:648
 msgid "All SRVs must be filled to proceed."
-msgstr ""
+msgstr "Kaikki SRV:t tulee olla täytetty, jotta voidaan jatkaa."
 
 #: ../Dell/recovery_backend.py:381
 msgid "Adding in base image"
@@ -293,11 +296,11 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:7
 msgid "Add Dell Recovery"
-msgstr ""
+msgstr "Lisää ”Dell Recovery”"
 
 #: ../gtk/builder.ui.h:8
 msgid "Add dell-recovery"
-msgstr ""
+msgstr "Lisää ”dell-recovery”"
 
 #: ../gtk/builder.ui.h:9
 msgid ""
@@ -317,11 +320,11 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:11
 msgid "Browse for a dell-recovery package"
-msgstr ""
+msgstr "Selaa etsiäksesi dell-recovery-pakettia"
 
 #: ../gtk/builder.ui.h:12
 msgid "Build dell-recovery package from this system"
-msgstr ""
+msgstr "Rakenna dell-recovery-paketti tästä järjestelmästä"
 
 #: ../gtk/builder.ui.h:13
 msgid "Choose Content"
@@ -349,6 +352,9 @@ msgid ""
 "record (SDR) refers to the service release vehicle (SRV).  This populates "
 "the possible SRVs to be queried during installation."
 msgstr ""
+"Tehdasasennuksen aikana sovelluksia asennetaan vain, jos tilausrekisteri "
+"(”SDR”) viittaa SRV:hen (”service release vehicle”). Tämä sisältää "
+"asennuksen aikana kyseltävät mahdolliset SRV:t."
 
 #: ../gtk/builder.ui.h:19
 msgid "Extracted Directory"
@@ -376,7 +382,7 @@ msgstr "GIT-puun tila"
 
 #: ../gtk/builder.ui.h:26
 msgid "Install dpkg-repack"
-msgstr ""
+msgstr "Asenna dpkg-repack"
 
 #: ../gtk/builder.ui.h:27
 msgid "Install git"
@@ -388,11 +394,11 @@ msgstr "Ei ylimääräistä työkaluosiota"
 
 #: ../gtk/builder.ui.h:29
 msgid "Please enter the SRV to use:"
-msgstr ""
+msgstr "Syötä käytettävä SRV:"
 
 #: ../gtk/builder.ui.h:30
 msgid "SRV Entry"
-msgstr ""
+msgstr "SRV:n syöttö"
 
 #: ../gtk/builder.ui.h:31
 msgid "Select content for Utility Partition"
@@ -439,6 +445,8 @@ msgid ""
 "the necessary dell-recovery package.  It will have to be injected into the "
 "image separately."
 msgstr ""
+"Tarjotut levykuva ja GIT-puu eivät sisällä tarvittavaa dell-recovery-"
+"pakettia. Se tulee sisällyttää levykuvaan erikseen."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
