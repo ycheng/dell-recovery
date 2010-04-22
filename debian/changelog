@@ -11,6 +11,8 @@ dell-recovery (0.57) UNRELEASED; urgency=low
   * match_system_device: Don't allow matching anything without a 0x preceding it.
     - Still allows base 16 ints
     - Still allows base 16 ints encapsulated in a string
+  * Invert topdown for match system device.
+  * Ignore devices / vendor id that are too long.
 
   [ James Ferguson ]
   * match_system_device: Don't recursively follow symlinks after the first

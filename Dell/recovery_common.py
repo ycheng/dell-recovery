@@ -359,25 +359,32 @@ def match_system_device(bus, vendor, device):
        base 16 int (eg 0x1234)
        base 16 int in a str (eg '0x1234')
     '''
-    def recursive_check_ids(directory, check_vendor, check_device, exclude_links=False):
+    def recursive_check_ids(directory, check_vendor, check_device, depth=1):
         vendor = device = ''
-        for root, dirs, files in os.walk(directory, topdown=False):
+        for root, dirs, files in os.walk(directory, topdown=True):
             for file in files:
-                if file == 'vendor' or file == 'idVendor':
+                if not vendor and (file == 'idVendor' or file == 'vendor'):
                     with open(os.path.join(root,file),'r') as filehandle:
                         vendor = filehandle.readline().strip('\n')
-                elif file == 'device' or file == 'idProduct':
+                    if len(vendor) > 4 and '0x' not in vendor:
+                        vendor = ''
+                elif not device and (file == 'idProduct' or file == 'device'):
                     with open(os.path.join(root,file),'r') as filehandle:
                         device = filehandle.readline().strip('\n')
+                    if len(device) > 4 and '0x' not in device:
+                        device = ''
             if vendor and device:
                 if ( int(vendor,16) == int(check_vendor)) and \
                    ( int(device,16) == int(check_device)) :
                    return True
+                else:
+                    #reset devices so they aren't checked multiple times needlessly
+                    vendor = device = ''
             if not files:
-                for dir in [os.path.join(root, d) for d in dirs]:
-                    if not (exclude_links and os.path.islink(dir)) and \
-                        recursive_check_ids(dir, check_vendor, check_device, True):
-                        return True
+                if depth > 0:
+                    for dir in [os.path.join(root, d) for d in dirs]:
+                        if recursive_check_ids(dir, check_vendor, check_device, depth-1):
+                            return True
         return False
 
     if bus != "usb" and bus != "pci":
