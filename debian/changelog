@@ -1,4 +1,4 @@
-dell-recovery (0.57) UNRELEASED; urgency=low
+dell-recovery (0.57) lucid; urgency=low
 
   [ Mario Limonciello ]
   * Import translations from launchpad.
@@ -19,7 +19,7 @@ dell-recovery (0.57) UNRELEASED; urgency=low
   * match_system_device: Don't recursively follow symlinks after the first
     level.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 19 Apr 2010 11:09:49 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 21 Apr 2010 23:12:35 -0500
 
 dell-recovery (0.56) lucid; urgency=low
 
