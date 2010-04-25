@@ -7,93 +7,95 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-01 15:08-0500\n"
-"PO-Revision-Date: 2010-04-01 12:04+0000\n"
-"Last-Translator: Sergio Zanchetta <primes2h@ubuntu.com>\n"
+"POT-Creation-Date: 2010-04-17 10:53-0500\n"
+"PO-Revision-Date: 2010-04-24 11:53+0000\n"
+"Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-02 03:43+0000\n"
+"X-Launchpad-Export-Date: 2010-04-25 03:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:106
+#: ../Dell/recovery_frontend.py:102
 msgid "Invalid utility partition"
 msgstr "Partizione di utilità non valida"
 
-#: ../Dell/recovery_frontend.py:106 ../Dell/recovery_frontend.py:112
+#: ../Dell/recovery_frontend.py:102 ../Dell/recovery_frontend.py:108
 msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:112
+#: ../Dell/recovery_frontend.py:108
 msgid "Invalid recovery partition"
 msgstr "Partizione di recupero non valida"
 
-#: ../Dell/recovery_frontend.py:139 ../Dell/recovery_frontend.py:188
-#: ../Dell/recovery_builder.py:345
+#: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
+#: ../Dell/recovery_builder.py:356 ../Dell/recovery_builder.py:671
 msgid "Permission Denied"
 msgstr "Permesso negato"
 
-#: ../Dell/recovery_frontend.py:202
+#: ../Dell/recovery_frontend.py:198
 msgid "Opening Burner"
 msgstr "Apertura del masterizzatore"
 
-#: ../Dell/recovery_frontend.py:216
+#: ../Dell/recovery_frontend.py:212
 msgid "Recovery Media Creation Process Complete"
 msgstr "Processo di creazione del supporto di recupero completato"
 
-#: ../Dell/recovery_frontend.py:217
+#: ../Dell/recovery_frontend.py:213
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
+"Per creare un'altra copia, l'immagine generata è stata salvata nel file:\n"
 
-#: ../Dell/recovery_frontend.py:237
+#: ../Dell/recovery_frontend.py:233
 msgid "Cannot connect to dbus"
 msgstr "Impossibile connettersi a D-Bus"
 
-#: ../Dell/recovery_frontend.py:328
+#: ../Dell/recovery_frontend.py:324
 msgid "Welcome"
 msgstr "Benvenuti"
 
-#: ../Dell/recovery_frontend.py:332
+#: ../Dell/recovery_frontend.py:328
 msgid "Choose Media Type"
 msgstr "Scegliere il tipo di supporto"
 
-#: ../Dell/recovery_frontend.py:359 ../gtk/builder.ui.h:20
+#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:25
 msgid "ISO Image"
-msgstr ""
+msgstr "Immagine ISO"
 
-#: ../Dell/recovery_frontend.py:361
+#: ../Dell/recovery_frontend.py:357
 msgid "Media Type: "
 msgstr "Tipo di supporto: "
 
-#: ../Dell/recovery_frontend.py:364 ../Dell/recovery_frontend.py:366
+#: ../Dell/recovery_frontend.py:360 ../Dell/recovery_frontend.py:362
 msgid "Recovery Partition: "
 msgstr "Partizione di recupero: "
 
-#: ../Dell/recovery_frontend.py:366
+#: ../Dell/recovery_frontend.py:362
 msgid "Included"
-msgstr ""
+msgstr "aggiunta"
 
-#: ../Dell/recovery_frontend.py:372
+#: ../Dell/recovery_frontend.py:368
 msgid "Confirm Selections"
 msgstr "Conferma selezioni"
 
 #: ../Dell/recovery_builder.py:54
 msgid "python-vte is missing"
-msgstr ""
+msgstr "ptython-vte mancante"
 
 #: ../Dell/recovery_builder.py:55
 msgid "Builder mode requires python-vte to function"
 msgstr ""
+"La modalità «generazione immagine» richiede python-vte per funzionare"
 
 #. wizard.resize(400,400)
 #: ../Dell/recovery_builder.py:72
 msgid " (BTO Image Builder Mode)"
-msgstr ""
+msgstr " (BTO Modalità creazione immagine)"
 
 #: ../Dell/recovery_builder.py:74
 msgid ""
@@ -101,52 +103,63 @@ msgid ""
 "set into a customized OS media image.  You will have the option to create an "
 "USB key or DVD image."
 msgstr ""
+"Questa applicazione permette di integrare un framework Dell OEM FID e un "
+"pacchetto di drivernell'immagine personalizzata del sistema operativo. È "
+"possibile creare sia una chiavetta USB che un'immagine DVD."
 
-#: ../Dell/recovery_builder.py:132
+#: ../Dell/recovery_builder.py:136
 msgid "Choose Base OS Image"
-msgstr ""
+msgstr "Scegliere la base dell'immagine del sistema operativo"
 
-#: ../Dell/recovery_builder.py:135
+#: ../Dell/recovery_builder.py:139
 msgid "Choose FID Overlay"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:142
+#: ../Dell/recovery_builder.py:149
 msgid "Choose Utility Partition"
-msgstr ""
+msgstr "Scegliere la partizione di utilità"
 
-#: ../Dell/recovery_builder.py:154
+#: ../Dell/recovery_builder.py:161
 msgid "Choose Driver Packages"
-msgstr ""
+msgstr "Scegliere i pacchetti dei driver"
 
-#: ../Dell/recovery_builder.py:168
+#: ../Dell/recovery_builder.py:175
 msgid "Choose Application Packages"
-msgstr ""
+msgstr "Scegliere i pacchetti dell'applicazione"
 
-#: ../Dell/recovery_builder.py:182
+#: ../Dell/recovery_builder.py:189
 msgid "Builder Summary"
 msgstr ""
 
-#: ../Dell/recovery_builder.py:193
+#: ../Dell/recovery_builder.py:200
 msgid "Utility Partition: "
 msgstr "Partizione di utilità: "
 
-#: ../Dell/recovery_builder.py:195
-msgid "Application"
-msgstr ""
-
-#: ../Dell/recovery_builder.py:196
-msgid "Driver"
-msgstr ""
-
 #: ../Dell/recovery_builder.py:202
+msgid "Application"
+msgstr "Applicazione"
+
+#: ../Dell/recovery_builder.py:203
+msgid "Driver"
+msgstr "Driver"
+
+#: ../Dell/recovery_builder.py:209
 msgid "Packages"
-msgstr ""
+msgstr "Pacchetti"
 
-#: ../Dell/recovery_builder.py:403
+#: ../Dell/recovery_builder.py:414
 msgid "<b>ERROR</b>: git is not installed"
-msgstr ""
+msgstr "<b>ERRORE</b>: git non è installato"
 
-#: ../Dell/recovery_builder.py:627
+#: ../Dell/recovery_builder.py:533
+msgid "Missing Dell-Recovery"
+msgstr "Dell-Recovery mancante"
+
+#: ../Dell/recovery_builder.py:533
+msgid "Not present in ISO or GIT tree"
+msgstr "Non è presente nella ISO o in GIT"
+
+#: ../Dell/recovery_builder.py:648
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
@@ -162,21 +175,21 @@ msgstr "Sovrapposizione contenuto FID"
 msgid "Inserting FISH packages"
 msgstr "Inserimento pacchetti FISH"
 
-#: ../Dell/recovery_backend.py:583
+#: ../Dell/recovery_backend.py:679
 msgid "Building Dell Utility Partition"
-msgstr ""
+msgstr "Creazione della partizione di utilità Dell"
 
-#: ../Dell/recovery_backend.py:639
+#: ../Dell/recovery_backend.py:735
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Rigenerazione UUID / Ricostruzione initramfs"
 
-#: ../Dell/recovery_backend.py:673
+#: ../Dell/recovery_backend.py:769
 msgid "Building ISO"
 msgstr "Generazione ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
 msgid "Create/Assemble Dell Recovery ISO"
-msgstr ""
+msgstr "Creazione/Assemblaggio ISO recupero Dell"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
@@ -276,6 +289,14 @@ msgid ""
 msgstr ""
 
 #: ../gtk/builder.ui.h:7
+msgid "Add Dell Recovery"
+msgstr "Aggiungi Dell Recovery"
+
+#: ../gtk/builder.ui.h:8
+msgid "Add dell-recovery"
+msgstr ""
+
+#: ../gtk/builder.ui.h:9
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
@@ -283,106 +304,132 @@ msgstr ""
 "Tutti i componenti aggiuntivi o le applicazioni da integrare nell'immagine "
 "possono essere aggiunti qui."
 
-#: ../gtk/builder.ui.h:8
+#: ../gtk/builder.ui.h:10
 msgid ""
 "BTO images can optionally include a Utility Partition for diagnostic "
 "utilities."
 msgstr ""
 
-#: ../gtk/builder.ui.h:9
-msgid "Choose Content"
+#: ../gtk/builder.ui.h:11
+msgid "Browse for a dell-recovery package"
 msgstr ""
 
-#: ../gtk/builder.ui.h:10
+#: ../gtk/builder.ui.h:12
+msgid "Build dell-recovery package from this system"
+msgstr "Genera un pacchetto dell-recovery del sistema"
+
+#: ../gtk/builder.ui.h:13
+msgid "Choose Content"
+msgstr "Scegliere contenuto"
+
+#: ../gtk/builder.ui.h:14
 msgid "Choose Image"
 msgstr ""
 
-#: ../gtk/builder.ui.h:11
+#: ../gtk/builder.ui.h:15
+msgid "Choose package"
+msgstr ""
+
+#: ../gtk/builder.ui.h:16
 msgid "Detected Recovery Partition"
 msgstr "Rilevata partizione di ripristino"
 
-#: ../gtk/builder.ui.h:12
+#: ../gtk/builder.ui.h:17
 msgid "Detected Utility Partition"
-msgstr ""
+msgstr "Rilevata partizione di utilità"
 
-#: ../gtk/builder.ui.h:13
+#: ../gtk/builder.ui.h:18
 msgid ""
 "During Factory Installation, applications are only installed if the order "
 "record (SDR) refers to the service release vehicle (SRV).  This populates "
 "the possible SRVs to be queried during installation."
 msgstr ""
 
-#: ../gtk/builder.ui.h:14
+#: ../gtk/builder.ui.h:19
 msgid "Extracted Directory"
 msgstr "Directory estratta"
 
-#: ../gtk/builder.ui.h:15
+#: ../gtk/builder.ui.h:20
 msgid "FID GIT Tree"
 msgstr "Albero FID GIT"
 
-#: ../gtk/builder.ui.h:16
+#: ../gtk/builder.ui.h:21
 msgid "FID framework built into BTO image"
 msgstr ""
 
-#: ../gtk/builder.ui.h:17
+#: ../gtk/builder.ui.h:22
 msgid "Fetch/Update GIT Tree"
 msgstr ""
 
-#: ../gtk/builder.ui.h:18
+#: ../gtk/builder.ui.h:23
 msgid "GIT Tags/Branches:"
 msgstr "Tag/Branch GIT:"
 
-#: ../gtk/builder.ui.h:19
+#: ../gtk/builder.ui.h:24
 msgid "GIT Tree Status"
 msgstr ""
 
-#: ../gtk/builder.ui.h:21
-msgid "Install git"
-msgstr ""
-
-#: ../gtk/builder.ui.h:22
-msgid "No additional Utility Partition"
-msgstr ""
-
-#: ../gtk/builder.ui.h:23
-msgid "Please enter the SRV to use:"
-msgstr ""
-
-#: ../gtk/builder.ui.h:24
-msgid "SRV Entry"
-msgstr ""
-
-#: ../gtk/builder.ui.h:25
-msgid "Select content for Utility Partition"
-msgstr ""
-
 #: ../gtk/builder.ui.h:26
-msgid "Selected Content Details:"
+msgid "Install dpkg-repack"
 msgstr ""
 
 #: ../gtk/builder.ui.h:27
+msgid "Install git"
+msgstr ""
+
+#: ../gtk/builder.ui.h:28
+msgid "No additional Utility Partition"
+msgstr "Nessuna partizione di utilità aggiuntiva"
+
+#: ../gtk/builder.ui.h:29
+msgid "Please enter the SRV to use:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:30
+msgid "SRV Entry"
+msgstr ""
+
+#: ../gtk/builder.ui.h:31
+msgid "Select content for Utility Partition"
+msgstr "Selezionare il contenuto della prtizione di utilità"
+
+#: ../gtk/builder.ui.h:32
+msgid "Selected Content Details:"
+msgstr "Dettagli del contenuto selezionato:"
+
+#: ../gtk/builder.ui.h:33
 msgid "Selected Image Details:"
 msgstr "Dettagli dell'immagine selezionata:"
 
-#: ../gtk/builder.ui.h:28
+#: ../gtk/builder.ui.h:34
 msgid "Selected Overlay Details:"
 msgstr ""
 
-#: ../gtk/builder.ui.h:29
+#: ../gtk/builder.ui.h:35
 msgid "Show Details"
 msgstr "Mostra dettagli"
 
-#: ../gtk/builder.ui.h:30
+#: ../gtk/builder.ui.h:36
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
 msgstr ""
+"L'immagine di base del sistema operativo fornisce la maggior parte dei "
+"contenuti per un'immagine \"BTO\". Può essere un'immagine \"Vanilla\" del "
+"sistema operativo o un'immagine \"BTO\" esistente."
 
-#: ../gtk/builder.ui.h:31
+#: ../gtk/builder.ui.h:37
 msgid ""
 "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
 "the event that you are generating from an existing BTO image, you can use "
 "the framework built into that image."
+msgstr ""
+
+#: ../gtk/builder.ui.h:38
+msgid ""
+"The combination of the image and GIT tree you have provided do not supply "
+"the necessary dell-recovery package.  It will have to be injected into the "
+"image separately."
 msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
