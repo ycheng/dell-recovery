@@ -1,3 +1,10 @@
+dell-recovery (0.58) UNRELEASED; urgency=low
+
+  * Adjust alignment from ubiquity changes in v2.2.23.
+    - Bootstrap page now has yalign 0 and no fixed width
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 26 Apr 2010 13:30:41 -0500
+
 dell-recovery (0.57) lucid; urgency=low
 
   [ Mario Limonciello ]
