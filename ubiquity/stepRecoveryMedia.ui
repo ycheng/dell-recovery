@@ -56,8 +56,8 @@
                 <property name="visible">True</property>
                 <child>
                   <object class="GtkLabel" id="recovery_information_label">
-                    <property name="width_request">800</property>
                     <property name="visible">True</property>
+                    <property name="xalign">0</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Dell Recovery Media can be used to restore your system to the same state as when it was first shipped to you.</property>
                     <property name="use_markup">True</property>
@@ -71,9 +71,9 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="recovery_warning_label">
-                    <property name="width_request">800</property>
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
+                    <property name="yalign">0</property>
                     <property name="label" translatable="yes">&lt;b&gt;It is highly recommended that you generate media and store it in a safe place.&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
@@ -99,7 +99,7 @@
         </child>
         <child>
           <object class="GtkVBox" id="vbox2">
-            <property name="width_request">800</property>
+            <property name="width_request">600</property>
             <property name="visible">True</property>
             <property name="spacing">15</property>
             <child>
@@ -140,7 +140,6 @@
                         <property name="left_padding">25</property>
                         <child>
                           <object class="GtkLabel" id="usb_warning_label">
-                            <property name="width_request">800</property>
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
                             <property name="yalign">0</property>
@@ -202,7 +201,6 @@
                         <property name="left_padding">25</property>
                         <child>
                           <object class="GtkLabel" id="dvd_warning_label">
-                            <property name="width_request">800</property>
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
                             <property name="yalign">0</property>
@@ -264,7 +262,6 @@
                         <property name="left_padding">25</property>
                         <child>
                           <object class="GtkLabel" id="no_media_warning">
-                            <property name="width_request">800</property>
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
                             <property name="yalign">0</property>
@@ -303,9 +300,9 @@
                 </child>
                 <child>
                   <object class="GtkLabel" id="genuine_recovery_warning_label">
-                    <property name="width_request">800</property>
                     <property name="visible">True</property>
-                    <property name="xalign">0.05000000074505806</property>
+                    <property name="xalign">0</property>
+                    <property name="xalign">0</property>
                     <property name="label" translatable="yes">&lt;b&gt;ERROR:&lt;/b&gt; This media is only valid on Dell systems.</property>
                     <property name="use_markup">True</property>
                     <property name="wrap">True</property>
