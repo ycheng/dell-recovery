@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-17 10:53-0500\n"
-"PO-Revision-Date: 2010-04-24 11:53+0000\n"
+"POT-Creation-Date: 2010-04-26 13:31-0500\n"
+"PO-Revision-Date: 2010-04-26 14:06+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-25 03:46+0000\n"
+"X-Launchpad-Export-Date: 2010-04-27 03:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:102
@@ -26,6 +26,8 @@ msgid ""
 " in command line arguments.  Falling back to DeviceKit or HAL based "
 "detection."
 msgstr ""
+" negli argomenti alla riga di comando. Provare con DeviceKit o con il "
+"rilevamento basato su HAL."
 
 #: ../Dell/recovery_frontend.py:108
 msgid "Invalid recovery partition"
@@ -89,8 +91,7 @@ msgstr "ptython-vte mancante"
 
 #: ../Dell/recovery_builder.py:55
 msgid "Builder mode requires python-vte to function"
-msgstr ""
-"La modalità «generazione immagine» richiede python-vte per funzionare"
+msgstr "La modalità «creazione immagine» richiede python-vte per funzionare"
 
 #. wizard.resize(400,400)
 #: ../Dell/recovery_builder.py:72
@@ -113,7 +114,7 @@ msgstr "Scegliere la base dell'immagine del sistema operativo"
 
 #: ../Dell/recovery_builder.py:139
 msgid "Choose FID Overlay"
-msgstr ""
+msgstr "Scegliere FID sovrapposto"
 
 #: ../Dell/recovery_builder.py:149
 msgid "Choose Utility Partition"
@@ -129,7 +130,7 @@ msgstr "Scegliere i pacchetti dell'applicazione"
 
 #: ../Dell/recovery_builder.py:189
 msgid "Builder Summary"
-msgstr ""
+msgstr "Sommario creazione immagine"
 
 #: ../Dell/recovery_builder.py:200
 msgid "Utility Partition: "
@@ -149,7 +150,7 @@ msgstr "Pacchetti"
 
 #: ../Dell/recovery_builder.py:414
 msgid "<b>ERROR</b>: git is not installed"
-msgstr "<b>ERRORE</b>: git non è installato"
+msgstr "<b>Errore:</b> git non è installato"
 
 #: ../Dell/recovery_builder.py:533
 msgid "Missing Dell-Recovery"
@@ -157,15 +158,15 @@ msgstr "Dell-Recovery mancante"
 
 #: ../Dell/recovery_builder.py:533
 msgid "Not present in ISO or GIT tree"
-msgstr "Non è presente nella ISO o in GIT"
+msgstr "Non è presente nella ISO o nell'albero GIT"
 
 #: ../Dell/recovery_builder.py:648
 msgid "All SRVs must be filled to proceed."
-msgstr ""
+msgstr "Tutti gli SRV devonon essere riempiti per procedere."
 
 #: ../Dell/recovery_backend.py:381
 msgid "Adding in base image"
-msgstr ""
+msgstr "Aggiunta all'immagine di base"
 
 #: ../Dell/recovery_backend.py:387
 msgid "Overlaying FID content"
@@ -287,6 +288,9 @@ msgid ""
 "This window will close automatically when the process is complete. \n"
 "<b>NOTE:</b> Please be patient, the initial fetch may take a while."
 msgstr ""
+"<b>GIT in avanzamento.</b>\n"
+"Questa finestra si chiuderà automaticamente al completamento del processo. \n"
+"<b>NOTA:</b>  attendere, l'operazione potrebbe impiegare alcuni minuti."
 
 #: ../gtk/builder.ui.h:7
 msgid "Add Dell Recovery"
@@ -294,7 +298,7 @@ msgstr "Aggiungi Dell Recovery"
 
 #: ../gtk/builder.ui.h:8
 msgid "Add dell-recovery"
-msgstr ""
+msgstr "Aggiungere dell-recovery"
 
 #: ../gtk/builder.ui.h:9
 msgid ""
@@ -309,10 +313,12 @@ msgid ""
 "BTO images can optionally include a Utility Partition for diagnostic "
 "utilities."
 msgstr ""
+"Le immagini BTO possono opzionalmente contenere un partizione di utilità per "
+"la diagnostica."
 
 #: ../gtk/builder.ui.h:11
 msgid "Browse for a dell-recovery package"
-msgstr ""
+msgstr "Ricercare tutti i pacchetti dell-recovery"
 
 #: ../gtk/builder.ui.h:12
 msgid "Build dell-recovery package from this system"
@@ -324,11 +330,11 @@ msgstr "Scegliere contenuto"
 
 #: ../gtk/builder.ui.h:14
 msgid "Choose Image"
-msgstr ""
+msgstr "Scegliere immagine"
 
 #: ../gtk/builder.ui.h:15
 msgid "Choose package"
-msgstr ""
+msgstr "Scegliere pacchetto"
 
 #: ../gtk/builder.ui.h:16
 msgid "Detected Recovery Partition"
@@ -344,6 +350,10 @@ msgid ""
 "record (SDR) refers to the service release vehicle (SRV).  This populates "
 "the possible SRVs to be queried during installation."
 msgstr ""
+"Durante l'installazione delle impostazioni di fabbrica, le applicazioni "
+"vengono installate solo se l'ordine dei record (SDR) fa riferimento ad un "
+"SRV, aumentando la possibiltà che questo venga interrogato durante "
+"l'installazione."
 
 #: ../gtk/builder.ui.h:19
 msgid "Extracted Directory"
@@ -355,11 +365,11 @@ msgstr "Albero FID GIT"
 
 #: ../gtk/builder.ui.h:21
 msgid "FID framework built into BTO image"
-msgstr ""
+msgstr "Ambiente FID creato nell'immagine BTO"
 
 #: ../gtk/builder.ui.h:22
 msgid "Fetch/Update GIT Tree"
-msgstr ""
+msgstr "Recuperare/Aggiornare l'albero GIT"
 
 #: ../gtk/builder.ui.h:23
 msgid "GIT Tags/Branches:"
@@ -367,15 +377,15 @@ msgstr "Tag/Branch GIT:"
 
 #: ../gtk/builder.ui.h:24
 msgid "GIT Tree Status"
-msgstr ""
+msgstr "Stato albero GIT"
 
 #: ../gtk/builder.ui.h:26
 msgid "Install dpkg-repack"
-msgstr ""
+msgstr "Installare dpkg-repack"
 
 #: ../gtk/builder.ui.h:27
 msgid "Install git"
-msgstr ""
+msgstr "Installare git"
 
 #: ../gtk/builder.ui.h:28
 msgid "No additional Utility Partition"
@@ -383,15 +393,15 @@ msgstr "Nessuna partizione di utilità aggiuntiva"
 
 #: ../gtk/builder.ui.h:29
 msgid "Please enter the SRV to use:"
-msgstr ""
+msgstr "inserire SRV da utilizzare:"
 
 #: ../gtk/builder.ui.h:30
 msgid "SRV Entry"
-msgstr ""
+msgstr "Voce SRV"
 
 #: ../gtk/builder.ui.h:31
 msgid "Select content for Utility Partition"
-msgstr "Selezionare il contenuto della prtizione di utilità"
+msgstr "Selezionare il contenuto della partizione di utilità"
 
 #: ../gtk/builder.ui.h:32
 msgid "Selected Content Details:"
@@ -403,7 +413,7 @@ msgstr "Dettagli dell'immagine selezionata:"
 
 #: ../gtk/builder.ui.h:34
 msgid "Selected Overlay Details:"
-msgstr ""
+msgstr "Dettagli sovrapposti selezionati:"
 
 #: ../gtk/builder.ui.h:35
 msgid "Show Details"
@@ -424,6 +434,9 @@ msgid ""
 "the event that you are generating from an existing BTO image, you can use "
 "the framework built into that image."
 msgstr ""
+"L'ambiente FID è il primo pezzo sovrapposto a una immagine \"Vanilla\". Nel "
+"caso si generi una immagine \"BTO\" da una esistente, è possibile utilizzare "
+"un ambiente creato dentro l'immagine."
 
 #: ../gtk/builder.ui.h:38
 msgid ""
@@ -431,21 +444,28 @@ msgid ""
 "the necessary dell-recovery package.  It will have to be injected into the "
 "image separately."
 msgstr ""
+"La combinazione tra l'immagine e l'albero GIT selezionato non fornisce il "
+"pacchetto dell-recovery necessario. Verrà aggiunto all'immagine "
+"separatamente."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
-msgstr "<b>ERRORE.</b> Questo supporto è valido solamente su sistemi Dell."
+msgstr "Errore: questo supporto può essere utilizzato solo su sistemi Dell."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
 "<b>It is highly recommended that you generate media and store it in a safe "
 "place.</b>"
 msgstr ""
+"<b>È consigliato creare un supporto di ripristino e conservarlo in ul luogo "
+"sicuro.</b>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
+"<b>Nota:</b> è richiesta una unità flash USB con almeno 2 GB di spazio "
+"libero."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid "<b>Note:</b> This requires writable DVD media."
@@ -460,24 +480,28 @@ msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
+"Il supporto di ripristino Dell può essere utilizzato per ripristinare il "
+"sistema allo stato iniziale."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
-msgstr ""
+msgstr "Non generare supporti di ripristino in questo momento"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
+"I supporti di ripristino possono essere generati successivamente scegliendo "
+"il programma dal menù Sistema."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
-msgstr ""
+msgstr "Salvare il supporto di ripristino in un DVD"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
-msgstr ""
+msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
 
 #~ msgid "Retry burn?"
 #~ msgstr "Ritenta masterizzazione?"
