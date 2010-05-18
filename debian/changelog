@@ -1,3 +1,14 @@
+dell-recovery (0.59) UNRELEASED; urgency=low
+
+  * Add a new preseedable option to set a disk layout (supports mbr or gpt).
+    - During install if we are in GPT mode (but not EFI), then install grub
+      to the partition as our success failover
+  * If we detect /proc/efi on the system, force the disk layout to gpt.
+  * Use efibootmgr to twiddle the NVRAM to set the active device if on
+    an EFI system.
+
+ -- Mario Limonciello <superm1@ubuntu.com>  Wed, 12 May 2010 03:44:28 +0200
+
 dell-recovery (0.58) lucid; urgency=low
 
   * Adjust alignment from ubiquity changes in v2.2.23.

@@ -43,8 +43,9 @@ BEFORE = 'language'
 WEIGHT = 12
 OEM = False
 
-UP_PART =     '1'
-RP_PART =     '2'
+EFI_PART =     '1'
+UP_PART  =     '1'
+RP_PART  =     '2'
 CDROM_MOUNT = '/cdrom'
 
 TYPE_NTFS = '07'
@@ -256,10 +257,17 @@ class Page(Plugin):
         self.kexec = False
         self.device = None
         self.device_size = 0
+        self.efi = False
         Plugin.__init__(self, frontend, db, ui)
 
     def install_grub(self):
         """Installs grub on the recovery partition"""
+
+        #If we are GPT, we will have been started a different way.
+        #Don't actually install grub onto the RP in that scenario
+        if self.disk_layout == 'gpt':
+            return
+
         #Mount R/W
         cd_mount   = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
         if cd_mount is False:
@@ -306,10 +314,11 @@ class Page(Plugin):
 
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
-        #First set the new partition active
-        active = misc.execute_root('sfdisk', '-A%s' % self.fail_partition, self.device)
-        if active is False:
-            self.debug("Failed to set partition %s active on %s" % (RP_PART, self.device))
+        if self.disk_layout == 'mbr':
+            #First set the new partition active
+            active = misc.execute_root('sfdisk', '-A%s' % self.fail_partition, self.device)
+            if active is False:
+                self.debug("Failed to set partition %s active on %s" % (RP_PART, self.device))
         #check for extended partitions
         with misc.raised_privileges():
             total_partitions = len(fetch_output(['partx', self.device]).split('\n'))-1
@@ -372,6 +381,11 @@ class Page(Plugin):
     def explode_utility_partition(self):
         '''Explodes all content onto the utility partition
         '''
+        #For now on GPT we don't include an UP since we can't boot
+        # 16 bit code as necessary for the UP to be working
+        if self.disk_layout == 'gpt':
+            return
+
         mount = False
         #If we have DRMK available, explode that first
         if os.path.exists(os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip')):
@@ -593,21 +607,40 @@ class Page(Plugin):
             self.debug(str(e))
             self.dual = ''
 
-        #If we are successful, this is where we boot to
+        #If we are successful for an MBR install, this is where we boot to
         try:
-            self.pass_partition = self.db.get('dell-recovery/active_partition')
+            pass_partition = self.db.get('dell-recovery/active_partition')
         except debconf.DebconfError, e:
             self.debug(str(e))
-            self.pass_partition = self.os_part
-            self.preseed('dell-recovery/active_partition', self.pass_partition)
+            self.preseed('dell-recovery/active_partition', self.os_part)
 
-        #In case the install fails, this is where we boot to
+        #In case an MBR install fails, this is where we boot to
         try:
             self.fail_partition = self.db.get('dell-recovery/fail_partition')
         except debconf.DebconfError, e:
             self.debug(str(e))
             self.fail_partition = RP_PART
             self.preseed('dell-recovery/fail_partition', self.fail_partition)
+
+        #The requested disk layout type
+        #This is generally for debug purposes, but will be overridden if we
+        #determine that we are actually going to be doing an EFI install
+        try:
+            self.disk_layout = self.db.get('dell-recovery/disk_layout')
+        except debconf.DebconfError, e:
+            self.debug(str(e))
+            self.disk_layout = 'mbr'
+            self.preseed('dell-recovery/disk_layout', self.disk_layout)
+
+        #If we detect that we are booted into uEFI mode, then we only want
+        #to do a GPT install.  Actually a MBR install would work in most
+        #cases, but we can't make assumptions about 16-bit anymore (and
+        #preparing a UP because of it)
+        if os.path.isdir('/proc/efi'):
+            self.efi = True
+            self.disk_layout = 'gpt'
+            #Force efibootmgr to set the EFI system partition active when done
+            self.preseed('dell-recovery/active_partition', EFI_PART)
 
         #set the language in the UI
         try:
@@ -660,7 +693,7 @@ class Page(Plugin):
                 self.disable_swap()
                 with misc.raised_privileges():
                     mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
-                self.rp_builder = rp_builder(self.device, self.device_size, self.kexec, self.rp_filesystem, mem, self.dual)
+                self.rp_builder = rp_builder(self.device, self.device_size, self.kexec, self.rp_filesystem, mem, self.dual, self.disk_layout, self.efi)
                 self.rp_builder.exit = self.exit_ui_loops
                 self.rp_builder.start()
                 self.enter_ui_loop()
@@ -706,13 +739,15 @@ class Page(Plugin):
 # RP Builder Worker Thread #
 ############################
 class rp_builder(Thread):
-    def __init__(self, device, size, kexec, rp_type, mem, dual):
+    def __init__(self, device, size, kexec, rp_type, mem, dual, disk_layout, efi):
         self.device = device
         self.device_size = size
         self.kexec = kexec
         self.rp_type = rp_type
         self.mem = mem
         self.dual = dual
+        self.disk_layout = disk_layout
+        self.efi = efi
         self.exception = None
         Thread.__init__(self)
 
@@ -721,27 +756,18 @@ class rp_builder(Thread):
 
         white_pattern = re.compile('.')
 
-        #Utility partition files (tgz/zip)#
-        up_size = 32
-
-        #Utility partition image (dd)#
-        for file in magic.up_filenames:
-            if 'img' in file and os.path.exists(os.path.join(CDROM_MOUNT, file)):
-                #in bytes
-                up_size = int(fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, file)]).split()[1])
-                #in mbytes
-                up_size = up_size / 1048576
-
         #Calculate RP
         rp_size = magic.white_tree("size", white_pattern, CDROM_MOUNT)
         #in mbytes
         rp_size = (rp_size / 1048576) + cushion
 
-        #Zero out the MBR
+        #Zero out the area of the partition tables on the disk
         with open('/dev/zero','rb') as zeros:
             with misc.raised_privileges():
                 with open(self.device,'wb') as out:
-                    out.write(zeros.read(1024))
+                    #See http://en.wikipedia.org/wiki/GUID_Partition_Table
+                    #For why we need to zero out so much of the disk to start
+                    out.write(zeros.read(16384))
 
         #double check the recovery partition type
         if self.rp_type != TYPE_NTFS and \
@@ -751,60 +777,88 @@ class rp_builder(Thread):
             syslog.syslog("Preseeded RP type unsuported, setting to %s" % TYPE_VFAT_LBA)
             self.rp_type = TYPE_VFAT_LBA
 
-        ##Partitioner##
-        data = 'p\n'    #print current partitions (we might want them for debugging)
-        data += 'n\np\n%s\n\n' % UP_PART    # New partition for UP
-        data += '+' + str(up_size) + 'M\n\nt\nde\n\n'   # Size and make it type de
-        data += 'n\np\n%s\n\n' % RP_PART    # New partition for RP
-        data += '+' + str(rp_size) + 'M\n\nt\n%s\n%s\n\n' % (RP_PART, self.rp_type)    # Size and make it right type
-        data += 'a\n%s\n\n' % RP_PART   # Make RP active
+        if self.disk_layout == 'mbr':
+            #Utility partition files (tgz/zip)#
+            up_size = 32
 
-        #Dual boot creates more partitions
-        if self.dual:
-            my_os_part = 5120 #mb
-            other_os_part = (int(self.device_size) / 1048576) - up_size - rp_size - my_os_part
-            data += 'n\np\n%s\n\n' % '3' # New partition for Other OS
-            data += '+' + str(other_os_part) + 'M\n\nt\n%s\n%s\n\n' % ('3', TYPE_NTFS) # Size and make it right type
-            data += 'n\np\n\n\n' # New partition for Our OS pieces
-            data += 't\n%s\n%s\n\n' % ('4', TYPE_VFAT_LBA) # make it right type
-        #Save and quit
-        data += 'w\n'
-        try:
+            #Utility partition image (dd)#
+            for file in magic.up_filenames:
+                if 'img' in file and os.path.exists(os.path.join(CDROM_MOUNT, file)):
+                    #in bytes
+                    up_size = int(fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, file)]).split()[1])
+                    #in mbytes
+                    up_size = up_size / 1048576
+
+
+            ##Partitioner##
+            data = 'p\n'    #print current partitions (we might want them for debugging)
+            data += 'n\np\n%s\n\n' % UP_PART    # New partition for UP
+            data += '+' + str(up_size) + 'M\n\nt\nde\n\n'   # Size and make it type de
+            data += 'n\np\n%s\n\n' % RP_PART    # New partition for RP
+            data += '+' + str(rp_size) + 'M\n\nt\n%s\n%s\n\n' % (RP_PART, self.rp_type)    # Size and make it right type
+            data += 'a\n%s\n\n' % RP_PART   # Make RP active
+
+            #Dual boot creates more partitions
+            if self.dual:
+                my_os_part = 5120 #mb
+                other_os_part = (int(self.device_size) / 1048576) - up_size - rp_size - my_os_part
+                data += 'n\np\n%s\n\n' % '3' # New partition for Other OS
+                data += '+' + str(other_os_part) + 'M\n\nt\n%s\n%s\n\n' % ('3', TYPE_NTFS) # Size and make it right type
+                data += 'n\np\n\n\n' # New partition for Our OS pieces
+                data += 't\n%s\n%s\n\n' % ('4', TYPE_VFAT_LBA) # make it right type
+            #Save and quit
+            data += 'w\n'
+            try:
+                with misc.raised_privileges():
+                    fetch_output(['fdisk', self.device], data)
+            except RuntimeError, e:
+                #If we have a failure, try to re-read using partprobe
+                probe = misc.execute_root('partprobe', self.device)
+                if probe is False:
+                    raise RuntimeError, e
+
+            #Create a DOS MBR
+            with open('/usr/share/dell/up/mbr.bin','rb') as mbr:
+                with misc.raised_privileges():
+                    with open(self.device,'wb') as out:
+                        out.write(mbr.read(440))
+
+            ## Build UP filesystem ##
+             #It'd be great to use mkfs.msdos, but it fails to create some important 
+             #FAT attributes that cause it to not be bootable
+            command = ('parted', '-s', self.device, 'mkfs', UP_PART , 'fat16')
+            fs = misc.execute_root(*command)
+            if fs is False:
+                raise RuntimeError, ("Error creating utility partition filesystem on %s%s" % (self.device, UP_PART))
+        
+             #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
+            data = 't\n%s\nde\n\nw\n' % UP_PART
             with misc.raised_privileges():
                 fetch_output(['fdisk', self.device], data)
-        except RuntimeError, e:
-            #If we have a failure, try to re-read using partprobe
-            probe = misc.execute_root('partprobe', self.device)
-            if probe is False:
-                raise RuntimeError, e
 
-        #Create a DOS MBR
-        with open('/usr/share/dell/up/mbr.bin','rb') as mbr:
-            with misc.raised_privileges():
-                with open(self.device,'wb') as out:
-                    out.write(mbr.read(440))
+             #build the bootsector of the partition
+            with open('/usr/share/dell/up/up.bs','rb') as rfd:
+                with misc.raised_privileges():
+                    with open(self.device + UP_PART,'wb') as wfd:
+                        wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
+                        rfd.seek(43)
+                        wfd.seek(43)
+                        wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
 
-        ## Build UP filesystem ##
-         #It'd be great to use mkfs.msdos, but it fails to create some important 
-         #FAT attributes that cause it to not be bootable
-        command = ('parted', '-s', self.device, 'mkfs', UP_PART , 'fat16')
-        fs = misc.execute_root(*command)
-        if fs is False:
-            raise RuntimeError, ("Error creating utility partition filesystem on %s%s" % (self.device, UP_PART))
-        
-         #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
-        data = 't\n%s\nde\n\nw\n' % UP_PART
-        with misc.raised_privileges():
-            fetch_output(['fdisk', self.device], data)
+            #By default we install grub to the RP (in dual boot this changes)
+            grub_part = RP_PART
+        #GPT Layout
+        elif self.disk_layout == 'gpt':
+            raise RuntimeError, ("GPT Is not yet supported in dell-recovery.")
 
-         #build the bootsector of the partition
-        with open('/usr/share/dell/up/up.bs','rb') as rfd:
-            with misc.raised_privileges():
-                with open(self.device + UP_PART,'wb') as wfd:
-                    wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
-                    rfd.seek(43)
-                    wfd.seek(43)
-                    wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
+            if self.dual:
+                raise RuntimeError, ("Dual boot is not yet supported when configuring the disk as gpt.")
+
+            #GPT Doesn't support active partitions, so we must install directly to the disk rather than
+            #partition
+            grub_part = ''
+        else:
+            raise RuntimeError, ("Unsupported disk layout: %s" % self.disk_layout)
 
         #Build RP filesystem
         if self.rp_type == TYPE_VFAT or self.rp_type == TYPE_VFAT_LBA:
@@ -839,8 +893,6 @@ class rp_builder(Thread):
             mount = misc.execute_root('mount', self.device + grub_part, '/boot')
             if mount is False:
                 raise RuntimeError, ("Error mounting %s%s" % (self.device, grub_part))
-        else:
-            grub_part = RP_PART
 
         #Check for a grub.cfg - replace as necessary
         if os.path.exists(os.path.join('/boot', 'grub', 'grub.cfg')):
@@ -852,9 +904,12 @@ class rp_builder(Thread):
                                     RP_PART, self.dual)
 
         #Install grub
-        grub = misc.execute_root('grub-install', '--force', self.device + grub_part)
-        if grub is False:
-            raise RuntimeError, ("Error installing grub to %s%s" % (self.device, RP_PART))
+        if self.efi:
+            raise RuntimeError, ("EFI install of GRUB is not yet supported.  You may be able to manually do it though.")
+        else:
+            grub = misc.execute_root('grub-install', '--force', self.device + grub_part)
+            if grub is False:
+                raise RuntimeError, ("Error installing grub to %s%s" % (self.device, RP_PART))
 
         #dual boot needs primary #4 unmounted
         if self.dual:
@@ -1045,10 +1100,33 @@ class Install(InstallPlugin):
             active = progress.get('dell-recovery/active_partition')
         except debconf.DebconfError, e:
             pass
+        try:
+            layout = progress.get('dell-recovery/disk_layout')
+        except debconf.DebconfError, e:
+            layout = 'mbr'
+
         if active.isdigit():
             disk = progress.get('partman-auto/disk')
             with open('/tmp/set_active_partition', 'w') as fd:
-                fd.write('sfdisk -A%s %s\n' % (active, disk))
+                #If we have an MBR, we use the active partition bit in it
+                if layout == 'mbr':
+                    fd.write('sfdisk -A%s %s\n' % (active, disk))
+                #If we have GPT, we need to go down other paths
+                elif layout == 'gpt':
+                    #If we're booted in EFI mode, then we set the active partition in NVRAM
+                    if os.path.isdir('/proc/efi'):
+                        # --disk: disk to boot to
+                        # --label: label shown in firmware boot list
+                        # --create: creates a bootnum in that list
+                        # --active: sets the new bootnum active
+                        # --write-signature: writes a special signature to MBR if needed
+                        # --part: partition containing EFI cool beans
+                        # --loader: the name of the loader we are choosing
+                        fd.write('efibootmbr --disk %s --part %s --label Ubuntu --create --active --write-signature --loader /\grub.efi\n' % (disk,active))
+                    #If we're not booted to EFI mode, we need to reinstall grub to 
+                    #set the active partition again - it's on the MBR
+                    else:
+                        fd.write('grub-install --no-floppy %s\n' % disk)
             os.chmod('/tmp/set_active_partition', 0755)
 
         #Fixup pool to only accept stuff on /cdrom
