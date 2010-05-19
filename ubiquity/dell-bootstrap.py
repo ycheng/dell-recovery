@@ -756,6 +756,17 @@ class rp_builder(Thread):
 
         white_pattern = re.compile('.')
 
+        #Things we know ahead of time will cause us to error out
+        if self.disk_layout == 'gpt':
+            raise RuntimeError, ("GPT disk layout is not yet supported in dell-recovery.")
+
+            if self.dual:
+                raise RuntimeError, ("Dual boot is not yet supported when configuring the disk as GPT.")
+        elif self.disk_layout == 'mbr':
+            pass
+        else:
+            raise RuntimeError, ("Unsupported disk layout: %s" % self.disk_layout)
+
         #Calculate RP
         rp_size = magic.white_tree("size", white_pattern, CDROM_MOUNT)
         #in mbytes
@@ -788,7 +799,6 @@ class rp_builder(Thread):
                     up_size = int(fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, file)]).split()[1])
                     #in mbytes
                     up_size = up_size / 1048576
-
 
             ##Partitioner##
             data = 'p\n'    #print current partitions (we might want them for debugging)
@@ -849,16 +859,9 @@ class rp_builder(Thread):
             grub_part = RP_PART
         #GPT Layout
         elif self.disk_layout == 'gpt':
-            raise RuntimeError, ("GPT Is not yet supported in dell-recovery.")
-
-            if self.dual:
-                raise RuntimeError, ("Dual boot is not yet supported when configuring the disk as gpt.")
-
             #GPT Doesn't support active partitions, so we must install directly to the disk rather than
             #partition
             grub_part = ''
-        else:
-            raise RuntimeError, ("Unsupported disk layout: %s" % self.disk_layout)
 
         #Build RP filesystem
         if self.rp_type == TYPE_VFAT or self.rp_type == TYPE_VFAT_LBA:
