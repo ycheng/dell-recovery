@@ -314,7 +314,7 @@ class Page(Plugin):
 
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
-        if self.disk_layout == 'mbr':
+        if self.disk_layout == 'msdos':
             #First set the new partition active
             active = misc.execute_root('sfdisk', '-A%s' % self.fail_partition, self.device)
             if active is False:
@@ -629,7 +629,7 @@ class Page(Plugin):
             self.disk_layout = self.db.get('dell-recovery/disk_layout')
         except debconf.DebconfError, e:
             self.debug(str(e))
-            self.disk_layout = 'mbr'
+            self.disk_layout = 'msdos'
             self.preseed('dell-recovery/disk_layout', self.disk_layout)
 
         #If we detect that we are booted into uEFI mode, then we only want
@@ -762,7 +762,7 @@ class rp_builder(Thread):
 
             if self.dual:
                 raise RuntimeError, ("Dual boot is not yet supported when configuring the disk as GPT.")
-        elif self.disk_layout == 'mbr':
+        elif self.disk_layout == 'msdos':
             pass
         else:
             raise RuntimeError, ("Unsupported disk layout: %s" % self.disk_layout)
@@ -788,7 +788,7 @@ class rp_builder(Thread):
             syslog.syslog("Preseeded RP type unsuported, setting to %s" % TYPE_VFAT_LBA)
             self.rp_type = TYPE_VFAT_LBA
 
-        if self.disk_layout == 'mbr':
+        if self.disk_layout == 'msdos':
             #Utility partition files (tgz/zip)#
             up_size = 32
 
@@ -1106,13 +1106,13 @@ class Install(InstallPlugin):
         try:
             layout = progress.get('dell-recovery/disk_layout')
         except debconf.DebconfError, e:
-            layout = 'mbr'
+            layout = 'msdos'
 
         if active.isdigit():
             disk = progress.get('partman-auto/disk')
             with open('/tmp/set_active_partition', 'w') as fd:
                 #If we have an MBR, we use the active partition bit in it
-                if layout == 'mbr':
+                if layout == 'msdos':
                     fd.write('sfdisk -A%s %s\n' % (active, disk))
                 #If we have GPT, we need to go down other paths
                 elif layout == 'gpt':
