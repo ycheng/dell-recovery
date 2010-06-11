@@ -6,6 +6,12 @@ dell-recovery (0.59) UNRELEASED; urgency=low
   * If we detect /proc/efi on the system, force the disk layout to gpt.
   * Use efibootmgr to twiddle the NVRAM to set the active device if on
     an EFI system.
+  * Drop old fdisk based hacks for making partition tables when in mbr
+    mode.  
+    - Now use a parted wrapper.  
+    - python-parted would be nice to use, but would add another dependency.
+    - parted_server/partman would be nice too, but are a little cumbersome
+      to work with outside the context of d-i or ubiquity partitioning.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Wed, 12 May 2010 03:44:28 +0200
 

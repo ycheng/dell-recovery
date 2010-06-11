@@ -44,8 +44,8 @@ WEIGHT = 12
 OEM = False
 
 EFI_PART =     '1'
-UP_PART  =     '1'
-RP_PART  =     '2'
+STANDARD_UP_PARTITION  =     '1'
+STANDARD_RP_PARTITION  =     '2'
 CDROM_MOUNT = '/cdrom'
 
 TYPE_NTFS = '07'
@@ -278,13 +278,13 @@ class Page(Plugin):
             with misc.raised_privileges():
                 magic.process_conf_file('/usr/share/dell/grub/recovery_partition.cfg', \
                                         os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'), \
-                                        RP_PART, self.dual)
+                                        STANDARD_RP_PARTITION, self.dual)
 
         #Do the actual grub installation
         bind_mount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
         if bind_mount is False:
             raise RuntimeError, ("Bind Mount failed")
-        grub_inst  = misc.execute_root('grub-install', '--force', self.device + RP_PART)
+        grub_inst  = misc.execute_root('grub-install', '--force', self.device + STANDARD_RP_PARTITION)
         if grub_inst is False:
             raise RuntimeError, ("Grub install failed")
         unbind_mount = misc.execute_root('umount', '/boot')
@@ -318,7 +318,7 @@ class Page(Plugin):
             #First set the new partition active
             active = misc.execute_root('sfdisk', '-A%s' % self.fail_partition, self.device)
             if active is False:
-                self.debug("Failed to set partition %s active on %s" % (RP_PART, self.device))
+                self.debug("Failed to set partition %s active on %s" % (STANDARD_RP_PARTITION, self.device))
         #check for extended partitions
         with misc.raised_privileges():
             total_partitions = len(fetch_output(['partx', self.device]).split('\n'))-1
@@ -389,7 +389,7 @@ class Page(Plugin):
         mount = False
         #If we have DRMK available, explode that first
         if os.path.exists(os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip')):
-            mount = misc.execute_root('mount', self.device + UP_PART, '/boot')
+            mount = misc.execute_root('mount', self.device + STANDARD_UP_PARTITION, '/boot')
             if mount is False:
                 raise RuntimeError, ("Error mounting utility partition pre-explosion.")
             import zipfile
@@ -404,13 +404,13 @@ class Page(Plugin):
                 #Restore full UP backup (dd)
                 if '.bin' in file or '.gz' in file:
                     with misc.raised_privileges():
-                        with open(self.device + UP_PART, 'w') as partition:
+                        with open(self.device + STANDARD_UP_PARTITION, 'w') as partition:
                             p1 = subprocess.Popen(['gzip','-dc',os.path.join(CDROM_MOUNT, file)], stdout=subprocess.PIPE)
                             partition.write(p1.communicate()[0])
                 #Restore UP (zip/tgz)
                 elif '.zip' in file or '.tgz' in file:
                     if not mount:
-                        mount = misc.execute_root('mount', self.device + UP_PART, '/boot')
+                        mount = misc.execute_root('mount', self.device + STANDARD_UP_PARTITION, '/boot')
                         if mount is False:
                             raise RuntimeError, ("Error mounting utility partition pre-explosion.")
                     if '.zip' in file:
@@ -619,7 +619,7 @@ class Page(Plugin):
             self.fail_partition = self.db.get('dell-recovery/fail_partition')
         except debconf.DebconfError, e:
             self.debug(str(e))
-            self.fail_partition = RP_PART
+            self.fail_partition = STANDARD_RP_PARTITION
             self.preseed('dell-recovery/fail_partition', self.fail_partition)
 
         #The requested disk layout type
@@ -752,7 +752,11 @@ class rp_builder(Thread):
         Thread.__init__(self)
 
     def build_rp(self, cushion=300):
-        """Copies content to the recovery partition"""
+        """Copies content to the recovery partition using a parted wrapper.
+
+           This might be better implemented in python-parted or parted_server/partman,
+           but those would require extra dependencies, and are generally more complex
+           than necessary for what needs to be accomplished here."""
 
         white_pattern = re.compile('.')
 
@@ -767,28 +771,39 @@ class rp_builder(Thread):
         else:
             raise RuntimeError, ("Unsupported disk layout: %s" % self.disk_layout)
 
-        #Calculate RP
+        #Adjust recovery partition type to something parted will recognize
+        if self.rp_type == TYPE_NTFS or \
+           self.rp_type == TYPE_NTFS_RE:
+            self.rp_type = 'ntfs'
+        elif self.rp_type == TYPE_VFAT or \
+             self.rp_type == TYPE_VFAT_LBA:
+            self.rp_type = 'fat32'
+        else:
+            raise RuntimeError, ("Unsupported recovery partition filesystem: %s" % self.rp_type)
+
+        #Default partition numbers
+        self.up_part   = STANDARD_UP_PARTITION
+        self.rp_part   = STANDARD_RP_PARTITION
+        self.grub_part = STANDARD_RP_PARTITION
+
+        #Calculate RP size
         rp_size = magic.white_tree("size", white_pattern, CDROM_MOUNT)
         #in mbytes
         rp_size = (rp_size / 1048576) + cushion
 
-        #Zero out the area of the partition tables on the disk
-        with open('/dev/zero','rb') as zeros:
-            with misc.raised_privileges():
-                with open(self.device,'wb') as out:
-                    #See http://en.wikipedia.org/wiki/GUID_Partition_Table
-                    #For why we need to zero out so much of the disk to start
-                    out.write(zeros.read(16384))
-
-        #double check the recovery partition type
-        if self.rp_type != TYPE_NTFS and \
-           self.rp_type != TYPE_NTFS_RE and \
-           self.rp_type != TYPE_VFAT and \
-           self.rp_type != TYPE_VFAT_LBA:
-            syslog.syslog("Preseeded RP type unsuported, setting to %s" % TYPE_VFAT_LBA)
-            self.rp_type = TYPE_VFAT_LBA
+        # Build new partition table
+        command = ('parted', '-s', self.device, 'mklabel', self.disk_layout)
+        result = misc.execute_root(*command)
+        if result is False:
+            raise RuntimeError, ("Error creating new partition table %s on %s" % (self.disk_layout, self.device))
 
         if self.disk_layout == 'msdos':
+            #Create a DRMK MBR
+            with open('/usr/share/dell/up/mbr.bin','rb') as mbr:
+                with misc.raised_privileges():
+                    with open(self.device,'wb') as out:
+                        out.write(mbr.read(440))
+
             #Utility partition files (tgz/zip)#
             up_size = 32
 
@@ -800,102 +815,89 @@ class rp_builder(Thread):
                     #in mbytes
                     up_size = up_size / 1048576
 
-            ##Partitioner##
-            data = 'p\n'    #print current partitions (we might want them for debugging)
-            data += 'n\np\n%s\n\n' % UP_PART    # New partition for UP
-            data += '+' + str(up_size) + 'M\n\nt\nde\n\n'   # Size and make it type de
-            data += 'n\np\n%s\n\n' % RP_PART    # New partition for RP
-            data += '+' + str(rp_size) + 'M\n\nt\n%s\n%s\n\n' % (RP_PART, self.rp_type)    # Size and make it right type
-            data += 'a\n%s\n\n' % RP_PART   # Make RP active
+            #Build UP
+            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '0', str(up_size))
+            result = misc.execute_root(*command)
+            if result is False:
+                raise RuntimeError, ("Error creating new %s mb utility partition on %s" % (up_size, self.device))
 
-            #Dual boot creates more partitions
-            if self.dual:
-                my_os_part = 5120 #mb
-                other_os_part = (int(self.device_size) / 1048576) - up_size - rp_size - my_os_part
-                data += 'n\np\n%s\n\n' % '3' # New partition for Other OS
-                data += '+' + str(other_os_part) + 'M\n\nt\n%s\n%s\n\n' % ('3', TYPE_NTFS) # Size and make it right type
-                data += 'n\np\n\n\n' # New partition for Our OS pieces
-                data += 't\n%s\n%s\n\n' % ('4', TYPE_VFAT_LBA) # make it right type
-            #Save and quit
-            data += 'w\n'
-            try:
-                with misc.raised_privileges():
-                    fetch_output(['fdisk', self.device], data)
-            except RuntimeError, e:
-                #If we have a failure, try to re-read using partprobe
-                probe = misc.execute_root('partprobe', self.device)
-                if probe is False:
-                    raise RuntimeError, e
-
-            #Create a DOS MBR
-            with open('/usr/share/dell/up/mbr.bin','rb') as mbr:
-                with misc.raised_privileges():
-                    with open(self.device,'wb') as out:
-                        out.write(mbr.read(440))
-
-            ## Build UP filesystem ##
-             #It'd be great to use mkfs.msdos, but it fails to create some important 
-             #FAT attributes that cause it to not be bootable
-            command = ('parted', '-s', self.device, 'mkfs', UP_PART , 'fat16')
-            fs = misc.execute_root(*command)
-            if fs is False:
-                raise RuntimeError, ("Error creating utility partition filesystem on %s%s" % (self.device, UP_PART))
-        
-             #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
-            data = 't\n%s\nde\n\nw\n' % UP_PART
+            #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
+            data = 't\nde\n\nw\n'
             with misc.raised_privileges():
                 fetch_output(['fdisk', self.device], data)
 
-             #build the bootsector of the partition
+            #build the bootsector of the partition
             with open('/usr/share/dell/up/up.bs','rb') as rfd:
                 with misc.raised_privileges():
-                    with open(self.device + UP_PART,'wb') as wfd:
+                    with open(self.device + self.up_part,'wb') as wfd:
                         wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
                         rfd.seek(43)
                         wfd.seek(43)
                         wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
 
-            #By default we install grub to the RP (in dual boot this changes)
-            grub_part = RP_PART
+            #Build RP
+            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', self.rp_type, str(up_size), str(up_size + rp_size))
+            result = misc.execute_root(*command)
+            if result is False:
+                raise RuntimeError, ("Error creating new %s mb recovery partition on %s" % (rp_size, self.device))
+
+            #Set RP active (bootable)
+            command = ('parted', '-s', self.device, 'set', self.rp_part, 'boot', 'on')
+            result = misc.execute_root(*command)
+            if result is False:
+                raise RuntimeError, ("Error setting recovery partition active %s" % (self.device))
+
+            #Dual boot creates more partitions
+            if self.dual:
+                my_os_part = 5120 #mb
+                other_os_part_end = (int(self.device_size) / 1048576) - my_os_part
+
+                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'ntfs', str(up_size + rp_size), str(other_os_part_end)),
+                            ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'fat32', str(other_os_part_end), str(other_os_part_end + my_os_part)),
+                            ('mkfs.ntfs' , '-f', '-L', 'OS', self.device + '3'),
+                            ('mkfs.msdos', '-n', 'ubuntu'  , self.device + '4')]
+                for command in commands:
+                    fs = misc.execute_root(*command)
+                    if fs is False:
+                        raise RuntimeError, ("Error building dual boot partitions")
+
+                #Grub needs to be on the 4th partition to kick off the ubuntu install
+                self.grub_part = '4'
+
         #GPT Layout
         elif self.disk_layout == 'gpt':
+            #no UP in gpt
+            self.up_part = ''
             #GPT Doesn't support active partitions, so we must install directly to the disk rather than
             #partition
-            grub_part = ''
+            self.grub_part = ''
+            self.rp_part = '1'
 
         #Build RP filesystem
-        if self.rp_type == TYPE_VFAT or self.rp_type == TYPE_VFAT_LBA:
-            command = ('mkfs.msdos', '-n', 'install', self.device + RP_PART)
-        elif self.rp_type == TYPE_NTFS or self.rp_type == TYPE_NTFS_RE:
-            command = ('mkfs.ntfs', '-f', '-L', 'RECOVERY', self.device + RP_PART)
+        if self.rp_type == 'fat32':
+            command = ('mkfs.msdos', '-n', 'install', self.device + self.rp_part)
+        elif self.rp_type == 'ntfs':
+            command = ('mkfs.ntfs', '-f', '-L', 'RECOVERY', self.device + self.rp_part)
         fs = misc.execute_root(*command)
         if fs is False:
-            raise RuntimeError, ("Error creating %s filesystem on %s%s" % (self.rp_type, self.device, RP_PART))
+            raise RuntimeError, ("Error creating %s filesystem on %s%s" % (self.rp_type, self.device, self.rp_part))
 
         #Mount RP
-        mount = misc.execute_root('mount', self.device + RP_PART, '/boot')
+        mount = misc.execute_root('mount', self.device + self.rp_part, '/boot')
         if mount is False:
-            raise RuntimeError, ("Error mounting %s%s" % (self.device, RP_PART))
+            raise RuntimeError, ("Error mounting %s%s" % (self.device, self.rp_part))
 
         #Copy RP Files
         with misc.raised_privileges():
             magic.white_tree("copy", white_pattern, CDROM_MOUNT, '/boot')
 
 
-        #If dual boot, then prepare the other partitions
+
+        #If dual boot, mount the proper /boot partition first
         if self.dual:
-            commands = [('mkfs.ntfs' , '-f', '-L', 'OS', self.device + '3'),
-                        ('mkfs.msdos', '-n', 'ubuntu'  , self.device + '4')]
-            for command in commands:
-                fs = misc.execute_root(*command)
-                if fs is False:
-                    raise RuntimeError, ("Error creating additional filesystem")
-
-            grub_part = '4'
-
-            mount = misc.execute_root('mount', self.device + grub_part, '/boot')
+            mount = misc.execute_root('mount', self.device + self.grub_part, '/boot')
             if mount is False:
-                raise RuntimeError, ("Error mounting %s%s" % (self.device, grub_part))
+                raise RuntimeError, ("Error mounting %s%s" % (self.device, self.grub_part))
 
         #Check for a grub.cfg - replace as necessary
         if os.path.exists(os.path.join('/boot', 'grub', 'grub.cfg')):
@@ -904,15 +906,15 @@ class rp_builder(Thread):
         with misc.raised_privileges():
             magic.process_conf_file('/usr/share/dell/grub/recovery_partition.cfg', \
                                     os.path.join('/boot', 'grub', 'grub.cfg'),     \
-                                    RP_PART, self.dual)
+                                    self.rp_part, self.dual)
 
         #Install grub
         if self.efi:
             raise RuntimeError, ("EFI install of GRUB is not yet supported.  You may be able to manually do it though.")
         else:
-            grub = misc.execute_root('grub-install', '--force', self.device + grub_part)
+            grub = misc.execute_root('grub-install', '--force', self.device + self.grub_part)
             if grub is False:
-                raise RuntimeError, ("Error installing grub to %s%s" % (self.device, RP_PART))
+                raise RuntimeError, ("Error installing grub to %s%s" % (self.device, STANDARD_RP_PARTITION))
 
         #dual boot needs primary #4 unmounted
         if self.dual:
