@@ -318,7 +318,7 @@ class Page(Plugin):
             #First set the new partition active
             active = misc.execute_root('sfdisk', '-A%s' % self.fail_partition, self.device)
             if active is False:
-                self.debug("Failed to set partition %s active on %s" % (STANDARD_RP_PARTITION, self.device))
+                self.debug("Failed to set partition %s active on %s" % (self.fail_partition, self.device))
         #check for extended partitions
         with misc.raised_privileges():
             total_partitions = len(fetch_output(['partx', self.device]).split('\n'))-1
