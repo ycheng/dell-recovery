@@ -14,6 +14,7 @@ dell-recovery (0.59) UNRELEASED; urgency=low
       to work with outside the context of d-i or ubiquity partitioning.
   * Don't try to build a recovery partition if we detect that we are booted
     to the same device.
+  * Drop kexec support.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Wed, 12 May 2010 03:44:28 +0200
 

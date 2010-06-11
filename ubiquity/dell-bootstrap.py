@@ -254,7 +254,6 @@ class PageGtk(PluginUI):
 ################
 class Page(Plugin):
     def __init__(self, frontend, db=None, ui=None):
-        self.kexec = False
         self.device = None
         self.device_size = 0
         self.efi = False
@@ -437,11 +436,8 @@ class Page(Plugin):
 
 
     def boot_rp(self):
-        """attempts to kexec a new kernel and falls back to a reboot"""
+        """reboots the system"""
         subprocess.call(['/etc/init.d/casper','stop'])
-
-        if self.kexec and os.path.exists(CDROM_MOUNT + '/misc/kexec'):
-            shutil.copy(CDROM_MOUNT + '/misc/kexec', '/tmp')
 
         #Set up a listen for udisks to let us know a usb device has left
         bus = dbus.SystemBus()
@@ -584,12 +580,6 @@ class Page(Plugin):
             self.debug(str(e))
             self.rp_filesystem = TYPE_VFAT_LBA
 
-        #We might try to support this
-        try:
-            self.kexec = misc.create_bool(self.db.get('dell-recovery/kexec'))
-        except debconf.DebconfError:
-            pass
-
         #For rebuilding the pool in oem-config and during install
         try:
             self.pool_cmd = self.db.get('dell-recovery/pool_command')
@@ -693,7 +683,7 @@ class Page(Plugin):
                 self.disable_swap()
                 with misc.raised_privileges():
                     mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
-                self.rp_builder = rp_builder(self.device, self.device_size, self.kexec, self.rp_filesystem, mem, self.dual, self.disk_layout, self.efi)
+                self.rp_builder = rp_builder(self.device, self.device_size, self.rp_filesystem, mem, self.dual, self.disk_layout, self.efi)
                 self.rp_builder.exit = self.exit_ui_loops
                 self.rp_builder.start()
                 self.enter_ui_loop()
@@ -706,7 +696,7 @@ class Page(Plugin):
             elif type == "interactive":
                 self.unset_drive_preseeds()
 
-            # Factory install, post kexec, and booting from RP
+            # Factory install, and booting from RP
             else:
                 self.disable_swap()
                 self.remove_extra_partitions()
@@ -739,10 +729,9 @@ class Page(Plugin):
 # RP Builder Worker Thread #
 ############################
 class rp_builder(Thread):
-    def __init__(self, device, size, kexec, rp_type, mem, dual, disk_layout, efi):
+    def __init__(self, device, size, rp_type, mem, dual, disk_layout, efi):
         self.device = device
         self.device_size = size
-        self.kexec = kexec
         self.rp_type = rp_type
         self.mem = mem
         self.dual = dual
@@ -943,17 +932,6 @@ manually to proceed.")
             #most users won't need that anyway so it's just nice to have
             syslog.syslog("Skipping casper UUID build due to low memory")
 
-        #Load kexec kernel
-        if self.kexec and os.path.exists(CDROM_MOUNT + '/misc/kexec'):
-            with open('/proc/cmdline') as file:
-                cmdline = file.readline().strip('\n').replace('dell-recovery/recovery_type=dvd','dell-recovery/recovery_type=factory').replace('dell-recovery/recovery_type=hdd','dell-recovery/recovery_type=factory')
-                kexec_run = misc.execute_root(CDROM_MOUNT + '/misc/kexec',
-                          '-l', '/boot/casper/vmlinuz',
-                          '--initrd=/boot/casper/initrd.lz',
-                          '--command-line="' + cmdline + '"')
-                if kexec_run is False:
-                    syslog.syslog("kexec loading of kernel and initrd failed")
-
         misc.execute_root('umount', '/boot')
 
     def exit(self):
@@ -982,11 +960,6 @@ def fetch_output(cmd, data=None):
     return out
 
 def reboot_machine(objpath):
-    if os.path.exists('/tmp/kexec'):
-        kexec = misc.execute_root('/tmp/kexec', '-e')
-        if kexec is False:
-            syslog.syslog("unable to kexec")
-
     reboot_cmd = '/sbin/reboot'
     reboot = misc.execute_root(reboot_cmd,'-n')
     if reboot is False:
