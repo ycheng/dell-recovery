@@ -1,4 +1,4 @@
-dell-recovery (0.59) UNRELEASED; urgency=low
+dell-recovery (0.59) maverick; urgency=low
 
   * Add a new preseedable option to set a disk layout (supports mbr or gpt).
     - During install if we are in GPT mode (but not EFI), then install grub
@@ -18,7 +18,7 @@ dell-recovery (0.59) UNRELEASED; urgency=low
   * When working in gpt mode, workaround a partman-partitioning bug that
     would otherwise prevent the bootloader from being installed.
 
- -- Mario Limonciello <superm1@ubuntu.com>  Wed, 12 May 2010 03:44:28 +0200
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 11 Jun 2010 16:33:48 -0500
 
 dell-recovery (0.58) lucid; urgency=low
 
