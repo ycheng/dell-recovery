@@ -28,11 +28,13 @@ Template: dell-recovery/active_partition
 Type: string
 Default: 3
 Description: for internal use; sets which partition is active after successful installation
+ This is only used when the disk_layout is 'msdos'.  It will otherwise be ignored.
 
 Template: dell-recovery/fail_partition
 Type: string
 Default: 2
 Description: for internal use; sets which partition is active after failed installation
+ This is only used when the disk layout is 'msdos'.  It will otherwise be ignored.
 
 Template: dell-recovery/disable-driver-install
 Type: string

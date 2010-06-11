@@ -43,7 +43,7 @@ BEFORE = 'language'
 WEIGHT = 12
 OEM = False
 
-EFI_PART =     '1'
+STANDARD_EFI_PARTITION =     '1'
 STANDARD_UP_PARTITION  =     '1'
 STANDARD_RP_PARTITION  =     '2'
 CDROM_MOUNT = '/cdrom'
@@ -528,7 +528,12 @@ class Page(Plugin):
             early = ''
         self.db.set('oem-config/early_command', 'mount -o ro %s %s %s' % (rp["device"], CDROM_MOUNT, early))
         self.db.set('partman-auto/disk', self.device)
-        self.db.set('grub-installer/bootdev', self.device + self.os_part)
+
+        if self.disk_layout == 'msdos':
+            self.db.set('grub-installer/bootdev', self.device + self.os_part)
+        elif self.disk_layout == 'gpt':
+            self.db.set('grub-installer/bootdev', self.device)
+
         if rp["fs"] == "ntfs":
             self.rp_filesystem = TYPE_NTFS_RE
         elif rp["fs"] == "vfat":
@@ -629,8 +634,11 @@ class Page(Plugin):
         if os.path.isdir('/proc/efi'):
             self.efi = True
             self.disk_layout = 'gpt'
-            #Force efibootmgr to set the EFI system partition active when done
-            self.preseed('dell-recovery/active_partition', EFI_PART)
+
+        #Default in EFI case, but also possible in MBR case
+        if self.disk_layout == 'gpt':
+            #Force EFI partition or bios_grub partition active
+            self.preseed('dell-recovery/active_partition', STANDARD_EFI_PARTITION)
 
         #set the language in the UI
         try:
@@ -751,8 +759,6 @@ class rp_builder(Thread):
 
         #Things we know ahead of time will cause us to error out
         if self.disk_layout == 'gpt':
-            raise RuntimeError, ("GPT disk layout is not yet supported in dell-recovery.")
-
             if self.dual:
                 raise RuntimeError, ("Dual boot is not yet supported when configuring the disk as GPT.")
         elif self.disk_layout == 'msdos':
@@ -866,12 +872,33 @@ manually to proceed.")
 
         #GPT Layout
         elif self.disk_layout == 'gpt':
-            #no UP in gpt
+            #In GPT we don't have a UP, but instead a BIOS grub partition
             self.up_part = ''
+            if self.efi:
+                grub_size = 50
+                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpartfs', 'primary', 'fat32', '0', str(grub_size)),
+                            ('parted', '-s', self.device, 'set', '1', 'boot', 'on')]
+            else:
+                grub_size = 1.5
+                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'biosboot', '0', str(grub_size)),
+                            ('parted', '-s', self.device, 'set', '1', 'bios_grub', 'on')]
+            for command in commands:
+                fs = misc.execute_root(*command)
+                if fs is False:
+                    if self.efi:
+                        raise RuntimeError, ("Error creating new %s mb EFI boot partition on %s" % (grub_size, self.device))
+                    else:
+                        raise RuntimeError, ("Error creating new %s mb grub partition on %s" % (grub_size, self.device))
+
             #GPT Doesn't support active partitions, so we must install directly to the disk rather than
             #partition
             self.grub_part = ''
-            self.rp_part = '1'
+
+            #Build RP
+            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(grub_size), str(rp_size + grub_size))
+            result = misc.execute_root(*command)
+            if result is False:
+                raise RuntimeError, ("Error creating new %s mb recovery partition on %s" % (rp_size, self.device))
 
         #Build RP filesystem
         if self.rp_type == 'fat32':
@@ -890,8 +917,6 @@ manually to proceed.")
         #Copy RP Files
         with misc.raised_privileges():
             magic.white_tree("copy", white_pattern, CDROM_MOUNT, '/boot')
-
-
 
         #If dual boot, mount the proper /boot partition first
         if self.dual:
@@ -1112,9 +1137,14 @@ class Install(InstallPlugin):
                         # --part: partition containing EFI cool beans
                         # --loader: the name of the loader we are choosing
                         fd.write('efibootmbr --disk %s --part %s --label Ubuntu --create --active --write-signature --loader /\grub.efi\n' % (disk,active))
-                    #If we're not booted to EFI mode, we need to reinstall grub to 
-                    #set the active partition again - it's on the MBR
+                    #If we're not booted to EFI mode, but using GPT,
                     else:
+                        #See https://bugs.launchpad.net/ubuntu/+source/partman-partitioning/+bug/592813
+                        #for why we need to have this workaround in the first place
+                        result = misc.execute_root('parted', '-s', disk, 'set', active, 'bios_grub', 'on')
+                        if result is False:
+                            raise RuntimeError, ("Error working around bug 592813.")
+                        
                         fd.write('grub-install --no-floppy %s\n' % disk)
             os.chmod('/tmp/set_active_partition', 0755)
 
