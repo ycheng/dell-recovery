@@ -771,6 +771,17 @@ class rp_builder(Thread):
         else:
             raise RuntimeError, ("Unsupported disk layout: %s" % self.disk_layout)
 
+        #Check if we are booted from same device as target
+        with open('/proc/mounts','r') as mounts:
+            for line in mounts.readlines():
+                if '/cdrom' in line:
+                    mounted_device = line.split()[0]
+                    break
+        if self.device in mounted_device:
+            raise RuntimeError, ("Attempting to install to the same device as booted from.\n\
+You will need to clear the contents of the recovery partition\n\
+manually to proceed.")
+
         #Adjust recovery partition type to something parted will recognize
         if self.rp_type == TYPE_NTFS or \
            self.rp_type == TYPE_NTFS_RE:

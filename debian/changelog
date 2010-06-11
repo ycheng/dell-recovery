@@ -12,6 +12,8 @@ dell-recovery (0.59) UNRELEASED; urgency=low
     - python-parted would be nice to use, but would add another dependency.
     - parted_server/partman would be nice too, but are a little cumbersome
       to work with outside the context of d-i or ubiquity partitioning.
+  * Don't try to build a recovery partition if we detect that we are booted
+    to the same device.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Wed, 12 May 2010 03:44:28 +0200
 
