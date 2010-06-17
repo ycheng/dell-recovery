@@ -761,20 +761,24 @@ class Backend(dbus.service.Object):
         #ISO Creation
         p3 = subprocess.Popen(genisoargs,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         retval = p3.poll()
+        output = ""
         while (retval is None):
-            output = p3.stderr.readline()
-            if ( output != "" ):
+            stdout = p3.stderr.readline()
+            if stdout != "":
+                output = stdout
+            if output:
                 progress = output.split()[0]
                 if (progress[-1:] == '%'):
                     self.report_progress(_('Building ISO'),progress[:-1])
             retval = p3.poll()
         if retval is not 0:
             print >> sys.stderr, genisoargs
+            print >> sys.stderr, output.strip()
             print >> sys.stderr, p3.stderr.readlines()
             print >> sys.stderr, p3.stdout.readlines()
             print >> sys.stderr, \
                 "genisoimage exited with a nonstandard return value."
-            raise CreateFailed("genisoimage exited with a nonstandard return value.")
+            raise CreateFailed("ISO Building exited unexpectedly:\n%s" % output.strip())
 
     @dbus.service.signal(DBUS_INTERFACE_NAME)
     def report_progress(self, progress_str, percent):
