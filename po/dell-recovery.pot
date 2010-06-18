@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-11 00:21-0500\n"
+"POT-Creation-Date: 2010-06-18 13:29-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -125,6 +125,26 @@ msgstr ""
 msgid "Builder Summary"
 msgstr ""
 
+#: ../Dell/recovery_builder.py:190
+msgid "Base Image Distributor"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:191
+msgid "Base Image Release"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:193
+msgid "BTO Base Image"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:195
+msgid "Base Image"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:197
+msgid "FID Overlay"
+msgstr ""
+
 #: ../Dell/recovery_builder.py:200
 msgid "Utility Partition: "
 msgstr ""
@@ -141,6 +161,27 @@ msgstr ""
 msgid "Packages"
 msgstr ""
 
+#: ../Dell/recovery_builder.py:215
+msgid "Inject Dell Recovery Package"
+msgstr ""
+
+#. update gui
+#: ../Dell/recovery_builder.py:224
+msgid "Assembling Image Components"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:298
+msgid "Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:301
+msgid "No Additional Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:342
+msgid "Exception"
+msgstr ""
+
 #: ../Dell/recovery_builder.py:414
 msgid "<b>ERROR</b>: git is not installed"
 msgstr ""
@@ -155,6 +196,10 @@ msgstr ""
 
 #: ../Dell/recovery_builder.py:648
 msgid "All SRVs must be filled to proceed."
+msgstr ""
+
+#: ../Dell/recovery_builder.py:673
+msgid "DBus Exception"
 msgstr ""
 
 #: ../Dell/recovery_backend.py:381
@@ -177,7 +222,7 @@ msgstr ""
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:769
+#: ../Dell/recovery_backend.py:772
 msgid "Building ISO"
 msgstr ""
 

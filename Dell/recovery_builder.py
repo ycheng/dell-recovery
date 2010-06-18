@@ -187,14 +187,14 @@ create an USB key or DVD image."))
 
             if page:
                 wizard.set_page_title(page,_("Builder Summary"))
-            output_text = "<b>Base Image Distributor</b>: " + self.distributor + '\n'
-            output_text+= "<b>Base Image Release</b>: " + self.release + '\n'
+            output_text = "<b>" + _("Base Image Distributor") + "</b>: " + self.distributor + '\n'
+            output_text+= "<b>" + _("Base Image Release") + "</b>: " + self.release + '\n'
             if self.bto_base:
-                output_text+= "<b>BTO Base Image</b>: " + self.builder_base_image + '\n'
+                output_text+= "<b>" + _("BTO Base Image") + "</b>: " + self.builder_base_image + '\n'
             else:
-                output_text+= "<b>Base Image</b>: " + self.builder_base_image + '\n'
+                output_text+= "<b>" + _("Base Image") + "</b>: " + self.builder_base_image + '\n'
             if self.builder_fid_overlay:
-                output_text+= "<b>FID Overlay</b>: " + self.builder_fid_overlay + '\n'
+                output_text+= "<b>" + _("FID Overlay") + "</b>: " + self.builder_fid_overlay + '\n'
 
             if self.bto_up:
                 output_text+="<b>" + _("Utility Partition: ") + '</b>' + self.bto_up + '\n'
@@ -212,7 +212,7 @@ create an USB key or DVD image."))
                     iterator = model.iter_next(iterator)
 
             if self.add_dell_recovery_deb:
-                output_text+="<b>Inject Dell Recovery Package</b>: " + self.add_dell_recovery_deb + '\n'
+                output_text+="<b>" + _("Inject Dell Recovery Package") + "</b>: " + self.add_dell_recovery_deb + '\n'
 
             output_text+= self.widgets.get_object('conf_text').get_label()
 
@@ -221,7 +221,7 @@ create an USB key or DVD image."))
     def wizard_complete(self, widget):
         """Finished answering wizard questions, and can continue process"""
         #update gui
-        self.widgets.get_object('action').set_text('Assembling Image Components')
+        self.widgets.get_object('action').set_text(_('Assembling Image Components'))
 
         #build driver list
         driver_fish_list = []
@@ -295,10 +295,10 @@ create an USB key or DVD image."))
 
         if self.bto_up:
             call = subprocess.Popen(['file', self.bto_up], stdout=subprocess.PIPE)
-            output_text = "<b> Utility Partition </b>:\n"
+            output_text = "<b>" + _("Utility Partition") + "</b>:\n"
             output_text+= call.communicate()[0].replace(', ','\n')
         else:
-            output_text = "No Additional Utility Partition"
+            output_text = _("No Additional Utility Partition")
 
         self.builder_widgets.get_object('up_details_label').set_markup(output_text)
 
@@ -339,7 +339,7 @@ create an USB key or DVD image."))
                 try:
                     (bto_version, distributor, release, output_text) = self.backend().query_iso_information(ret)
                 except Exception, e:
-                    self.show_alert(gtk.MESSAGE_ERROR, "Exception", str(e),
+                    self.show_alert(gtk.MESSAGE_ERROR, _("Exception"), str(e),
                                     parent=self.widgets.get_object('progress_dialog'))
                 self.bto_base=not not bto_version
                 self.builder_base_image=ret
@@ -670,7 +670,7 @@ create an USB key or DVD image."))
             if e._dbus_error_name == "org.freedesktop.PolicyKit.Error.NotAuthorized":
                 header = _("Permission Denied")
             else:
-                header = 'DBus Exception'
+                header = _('DBus Exception')
             self.show_alert(gtk.MESSAGE_ERROR, header, str(e),
                         parent=self.widgets.get_object('wizard'))
 
