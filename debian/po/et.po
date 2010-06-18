@@ -1,33 +1,33 @@
-# Italian translation for dell-recovery
-# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# Estonian translation for dell-recovery
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the dell-recovery package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-04-15 00:48-0500\n"
-"PO-Revision-Date: 2010-04-26 14:09+0000\n"
-"Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
-"Language-Team: Italian <it@li.org>\n"
+"PO-Revision-Date: 2010-05-19 19:47+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-27 03:43+0000\n"
+"X-Launchpad-Export-Date: 2010-05-20 05:28+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
 #. Description
 #: ../templates:12001
 msgid "Building Dell Recovery Media..."
-msgstr "Creazione supporto di ripristino Dell..."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:14001
 msgid "Opening Burner..."
-msgstr "Apertura masterizzatore..."
+msgstr ""
 
 #. Type: text
 #. Description
@@ -36,8 +36,6 @@ msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
 msgstr ""
-"Questo supporto di ripristino Dell può essere utilizzato per riportare il "
-"software alle impostazioni di fabbrica."
 
 #. Type: text
 #. Description
@@ -45,22 +43,18 @@ msgstr ""
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
-"È consigliato effettuare un backup di tutti i dati importanti prima di "
-"eseguire questa applicazione."
 
 #. Type: text
 #. Description
 #: ../templates:17001
 msgid "Restore Linux OS partitions"
-msgstr "Ripristina le partizioni del sistema operativo Linux"
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:18001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
-"Questo riporterà tutte le partizioni del sistema operativo e l'area di swap "
-"alle impostazioni di fabbrica predefinite."
 
 #. Type: text
 #. Description
@@ -68,34 +62,31 @@ msgstr ""
 #. Description
 #: ../templates:19001 ../templates:22001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr "Attenzione: tutti i file e le modifiche personali verranno persi."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:20001
 msgid "Restore entire hard drive."
-msgstr "Ripristina l'intero disco."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:21001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr ""
-"Questo rigenererà tutte le partizioni di utilità, recupero e del sistema "
-"operativo."
 
 #. Type: text
 #. Description
 #: ../templates:23001
 msgid "Restore only Linux OS partition."
-msgstr "Ripristina solo la partizione Linux."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:24001
 msgid "This option allows you to resize any existing partitions."
 msgstr ""
-"Questa opzione permette di ridimensionare qualsiasi partizione esistente."
 
 #. Type: text
 #. Description
@@ -103,25 +94,25 @@ msgstr ""
 #. Description
 #: ../templates:25001 ../templates:37001
 msgid "ERROR: This media is only valid on Dell systems."
-msgstr "Errore: questo supporto può essere utilizzato solo su sistemi Dell."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:26001
 msgid "Building Recovery Partition"
-msgstr "Creazione partizione di ripristino"
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:27001
 msgid "NOTE: Please be patient, this may take a while."
-msgstr "Nota: attendere, l'operazione potrebbe impiegare alcuni minuti."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:28001
 msgid "Create Dell Recovery Media?"
-msgstr "Craere supporto di ripristino Dell?"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -130,8 +121,6 @@ msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
-"Il supporto di ripristino Dell può essere utilizzato per ripristinare il "
-"sistema allo stato iniziale."
 
 #. Type: text
 #. Description
@@ -139,37 +128,37 @@ msgstr ""
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
-msgstr "È consigliato generare il supporto e conservarlo in un luogo sicuro."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:31001
 msgid "Save recovery media to an external USB flash drive"
-msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:32001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
-msgstr "Nota: richiede un'unità flash USB con almeno 2GB di spazio libero."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:33001
 msgid "Save recovery media to DVD"
-msgstr "Salvare il supporto di ripristino in un DVD"
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:34001
 msgid "Note: This requires writable DVD media."
-msgstr "Nota: sono richiesti supporti DVD scrivibili."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:35001
 msgid "Don't generate recovery media at this time"
-msgstr "Non generare supporti di ripristino in questo momento"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -178,52 +167,15 @@ msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
-"I supporti di ripristino possono essere generati successivamente scegliendo "
-"il programma dal menù Sistema."
 
 #. Type: text
 #. Description
 #: ../templates:38001
 msgid "Dell End User License Agreement"
-msgstr "Accordo di licenza per l'utente finale"
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:39001
 msgid "I accept the license terms. (required to use your computer)"
 msgstr ""
-"Accetto i termini della licenza. (Necessario per poter utilizzare il "
-"computer)"
-
-#~ msgid "DVD+/-RW Disc"
-#~ msgstr "Disco DVD+/-RW"
-
-#~ msgid "<activity placeholder>"
-#~ msgstr "<segnaposto attività>"
-
-#~ msgid "Dell Recovery Media Creator"
-#~ msgstr "Creazione supporto di recupero Dell"
-
-#~ msgid "Cancel Recovery Media Creator"
-#~ msgstr "Annulla creazione supporto di recupero"
-
-#~ msgid "USB Flash Drive"
-#~ msgstr "Unità flash USB"
-
-#~ msgid "Opening Burner"
-#~ msgstr "Apertura del masterizzatore"
-
-#~ msgid "Media Type: "
-#~ msgstr "Tipo di supporto: "
-
-#~ msgid "Welcome"
-#~ msgstr "Benvenuti"
-
-#~ msgid "Choose Media Type"
-#~ msgstr "Scegliere il tipo di supporto"
-
-#~ msgid "Recovery Media Creation Process Complete"
-#~ msgstr "Processo di creazione del supporto di recupero completato"
-
-#~ msgid "Retry burn?"
-#~ msgstr "Ritenta masterizzazione?"

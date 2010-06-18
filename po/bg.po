@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-05 22:21-0500\n"
-"PO-Revision-Date: 2010-04-06 21:39+0000\n"
+"POT-Creation-Date: 2010-04-26 13:31-0500\n"
+"PO-Revision-Date: 2010-05-26 08:51+0000\n"
 "Last-Translator: Boyan Sotirov <lz1dsb@abv.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-07 03:47+0000\n"
+"X-Launchpad-Export-Date: 2010-05-27 03:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:102
@@ -33,7 +33,7 @@ msgid "Invalid recovery partition"
 msgstr "Невалиден дял за възстанавяване"
 
 #: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
-#: ../Dell/recovery_builder.py:353
+#: ../Dell/recovery_builder.py:356 ../Dell/recovery_builder.py:671
 msgid "Permission Denied"
 msgstr "Достъпът отказан"
 
@@ -116,51 +116,51 @@ msgstr "Изберете основен имидж на операционна �
 msgid "Choose FID Overlay"
 msgstr "Изберете FID припокриване"
 
-#: ../Dell/recovery_builder.py:146
+#: ../Dell/recovery_builder.py:149
 msgid "Choose Utility Partition"
 msgstr "Изберете ютилити дял"
 
-#: ../Dell/recovery_builder.py:158
+#: ../Dell/recovery_builder.py:161
 msgid "Choose Driver Packages"
 msgstr "Изберете пакити драйвери"
 
-#: ../Dell/recovery_builder.py:172
+#: ../Dell/recovery_builder.py:175
 msgid "Choose Application Packages"
-msgstr ""
+msgstr "Изберете приложни пакети"
 
-#: ../Dell/recovery_builder.py:186
+#: ../Dell/recovery_builder.py:189
 msgid "Builder Summary"
-msgstr ""
+msgstr "Обобщение на изграгдащата програма"
 
-#: ../Dell/recovery_builder.py:197
+#: ../Dell/recovery_builder.py:200
 msgid "Utility Partition: "
 msgstr "Програма за възстановяване: "
 
-#: ../Dell/recovery_builder.py:199
+#: ../Dell/recovery_builder.py:202
 msgid "Application"
 msgstr "Приложение"
 
-#: ../Dell/recovery_builder.py:200
+#: ../Dell/recovery_builder.py:203
 msgid "Driver"
 msgstr "Драйвер"
 
-#: ../Dell/recovery_builder.py:206
+#: ../Dell/recovery_builder.py:209
 msgid "Packages"
 msgstr "Пакети"
 
-#: ../Dell/recovery_builder.py:411
+#: ../Dell/recovery_builder.py:414
 msgid "<b>ERROR</b>: git is not installed"
 msgstr "<b>ГРЕШКА</b>: git не е инсталиран"
 
-#: ../Dell/recovery_builder.py:529
+#: ../Dell/recovery_builder.py:533
 msgid "Missing Dell-Recovery"
 msgstr "Липсващ Dell-Recovery"
 
-#: ../Dell/recovery_builder.py:529
+#: ../Dell/recovery_builder.py:533
 msgid "Not present in ISO or GIT tree"
 msgstr "Не налично в ISO или GIT дървото"
 
-#: ../Dell/recovery_builder.py:644
+#: ../Dell/recovery_builder.py:648
 msgid "All SRVs must be filled to proceed."
 msgstr "Всички SRV трябва да бъдат попълнени за продължаване."
 
@@ -170,7 +170,7 @@ msgstr "Добявяне в базовия имидж"
 
 #: ../Dell/recovery_backend.py:387
 msgid "Overlaying FID content"
-msgstr ""
+msgstr "Покриване на FID съдържанието"
 
 #: ../Dell/recovery_backend.py:402
 msgid "Inserting FISH packages"
@@ -194,15 +194,15 @@ msgstr "Създаване/Сглобяване на Dell Recovery ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
-msgstr ""
+msgstr "Запитване за BTO версия"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:3
 msgid "Query ISO Information"
-msgstr ""
+msgstr "Запитване за ISO информация"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
 msgid "Request closing the backend"
-msgstr ""
+msgstr "Заявка за затваряне на бекенда"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "System policy prevents closing processes without notice"
@@ -211,6 +211,7 @@ msgstr "Системните политики не позволяват затв
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents reading raw devices"
 msgstr ""
+"Системните политики не позволяват четенето на блокови (raw) устройства"
 
 #: ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/recovery_media_creator.ui.h:6
@@ -350,6 +351,9 @@ msgid ""
 "record (SDR) refers to the service release vehicle (SRV).  This populates "
 "the possible SRVs to be queried during installation."
 msgstr ""
+"По време на фабричната инсталация, приложенията са инсталирани само ако реда "
+"на записа (SDR) има референция към SRV (Service Release Vehicle). Това дава "
+"възможност SRV-та да бъдат запитвани по време на инсталацията."
 
 #: ../gtk/builder.ui.h:19
 msgid "Extracted Directory"
@@ -420,6 +424,8 @@ msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
 msgstr ""
+"Базовият имидж на операционната система предоставя основното съдържание за "
+"BTO имиджа. Той може да бъде Vanilla OS имидж, или съществуващ BTO имидж."
 
 #: ../gtk/builder.ui.h:37
 msgid ""
@@ -490,7 +496,7 @@ msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
-msgstr ""
+msgstr "Запазване на носителя за възстановяване на DVD"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
