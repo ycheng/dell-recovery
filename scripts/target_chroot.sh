@@ -48,13 +48,7 @@ do
         echo "running chroot script: $i"  > /dev/tty12
         IFHALT $i
         ext=`echo $i | sed 's/^.*\.//'`
-        if [ $ext == "sh" ]; then
-            . $i
-        elif [  $ext == "py" ]; then
-            python $i
-        else
-            $i
-        fi
+        $i
     done
 done
 IFHALT "Done with chroot scripts"
