@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-26 13:31-0500\n"
-"PO-Revision-Date: 2010-05-26 05:35+0000\n"
+"POT-Creation-Date: 2010-06-18 13:29-0500\n"
+"PO-Revision-Date: 2010-06-27 06:20+0000\n"
 "Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-05-27 03:43+0000\n"
+"X-Launchpad-Export-Date: 2010-06-28 03:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:102
@@ -118,7 +118,7 @@ msgstr "Elija la utilidad de partición"
 
 #: ../Dell/recovery_builder.py:161
 msgid "Choose Driver Packages"
-msgstr ""
+msgstr "Elija los paquetes del controlador"
 
 #: ../Dell/recovery_builder.py:175
 msgid "Choose Application Packages"
@@ -126,6 +126,26 @@ msgstr "Elija los paquetes de aplicación"
 
 #: ../Dell/recovery_builder.py:189
 msgid "Builder Summary"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:190
+msgid "Base Image Distributor"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:191
+msgid "Base Image Release"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:193
+msgid "BTO Base Image"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:195
+msgid "Base Image"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:197
+msgid "FID Overlay"
 msgstr ""
 
 #: ../Dell/recovery_builder.py:200
@@ -144,6 +164,27 @@ msgstr "Controlador"
 msgid "Packages"
 msgstr "Paquetes"
 
+#: ../Dell/recovery_builder.py:215
+msgid "Inject Dell Recovery Package"
+msgstr ""
+
+#. update gui
+#: ../Dell/recovery_builder.py:224
+msgid "Assembling Image Components"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:298
+msgid "Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:301
+msgid "No Additional Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_builder.py:342
+msgid "Exception"
+msgstr ""
+
 #: ../Dell/recovery_builder.py:414
 msgid "<b>ERROR</b>: git is not installed"
 msgstr "<b>ERROR</b>: git no está instalado"
@@ -160,9 +201,13 @@ msgstr "No esta presente en el árbol ISO o GIT"
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
+#: ../Dell/recovery_builder.py:673
+msgid "DBus Exception"
+msgstr ""
+
 #: ../Dell/recovery_backend.py:381
 msgid "Adding in base image"
-msgstr "Añadiendo imagen base"
+msgstr "Añadiendo en la imagen base"
 
 #: ../Dell/recovery_backend.py:387
 msgid "Overlaying FID content"
@@ -180,7 +225,7 @@ msgstr ""
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Regenerando UUID / Reconstruyendo initramfs"
 
-#: ../Dell/recovery_backend.py:769
+#: ../Dell/recovery_backend.py:772
 msgid "Building ISO"
 msgstr "Creando ISO"
 
@@ -306,7 +351,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:11
 msgid "Browse for a dell-recovery package"
-msgstr ""
+msgstr "Búsqueda de un paquete de recuperación de Dell"
 
 #: ../gtk/builder.ui.h:12
 msgid "Build dell-recovery package from this system"
@@ -314,7 +359,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:13
 msgid "Choose Content"
-msgstr ""
+msgstr "Elegir contenido"
 
 #: ../gtk/builder.ui.h:14
 msgid "Choose Image"
@@ -322,11 +367,11 @@ msgstr "Escoger Imagen"
 
 #: ../gtk/builder.ui.h:15
 msgid "Choose package"
-msgstr ""
+msgstr "Elija el paquete"
 
 #: ../gtk/builder.ui.h:16
 msgid "Detected Recovery Partition"
-msgstr ""
+msgstr "Detectada partición de recuperación"
 
 #: ../gtk/builder.ui.h:17
 msgid "Detected Utility Partition"
@@ -341,7 +386,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:19
 msgid "Extracted Directory"
-msgstr ""
+msgstr "Directorio extraído"
 
 #: ../gtk/builder.ui.h:20
 msgid "FID GIT Tree"
@@ -361,11 +406,11 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:24
 msgid "GIT Tree Status"
-msgstr ""
+msgstr "Estado de árbol GIT"
 
 #: ../gtk/builder.ui.h:26
 msgid "Install dpkg-repack"
-msgstr ""
+msgstr "Instalar dpkg-repack"
 
 #: ../gtk/builder.ui.h:27
 msgid "Install git"
@@ -381,7 +426,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:30
 msgid "SRV Entry"
-msgstr ""
+msgstr "Entrada SRV"
 
 #: ../gtk/builder.ui.h:31
 msgid "Select content for Utility Partition"
@@ -389,7 +434,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:32
 msgid "Selected Content Details:"
-msgstr ""
+msgstr "Detalles de contenido seleccionados:"
 
 #: ../gtk/builder.ui.h:33
 msgid "Selected Image Details:"
