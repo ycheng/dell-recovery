@@ -8,6 +8,8 @@ dell-recovery (0.60) UNRELEASED; urgency=low
     shell.  This means all scripts need #!/bin/sh or #!/bin/python at the top.
   * If FIST is found, don't extract the UP.  This means factory process ( of
     some sort )
+  * Reverse the order of calling /tmp/set_active_partition and SUCCESS_SCRIPT
+    to prevent problems with BTO Anywhere.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Jun 2010 15:09:45 -0500
 

@@ -44,16 +44,16 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     mkdir -p /cdrom/grub
     grub-editenv /cdrom/grub/grubenv unset recordfail
 
+    #Set the right partition active now that we're done
+    /tmp/set_active_partition
+
     #If we have another script to run, do it
     if [ -f /cdrom/scripts/chroot-scripts/SUCCESS-SCRIPT ]; then
-        IFHALT "(SUCCESS) Report to logs.. Done!"
         /cdrom/scripts/chroot-scripts/SUCCESS-SCRIPT
         rm -f /cdrom/scripts/chroot-scripts/SUCCESS-SCRIPT
         rm -f /cdrom/scripts/chroot-scripts/FAIL-SCRIPT
+        IFHALT "(SUCCESS) Report to logs.. Done!"
     fi
-
-    #Set the right partition active now that we're done
-    /tmp/set_active_partition
 fi
 
 IFHALT "(SUCCESS) Clean-Up .. Done!"
