@@ -380,9 +380,21 @@ class Page(Plugin):
     def explode_utility_partition(self):
         '''Explodes all content onto the utility partition
         '''
+
+        #Check if we have FIST on the system.  FIST indicates this is running
+        #through factory process (of some sort) and the UP will be written
+        #out outside of our control
+        from apt.cache import Cache
+        cache = Cache()
+        for key in cache.keys():
+            if key == 'fist' and cache[key].isInstalled:
+                self.debug("FIST was found, not building a UP.")
+                return
+
         #For now on GPT we don't include an UP since we can't boot
         # 16 bit code as necessary for the UP to be working
         if self.disk_layout == 'gpt':
+            self.debug("A GPT layout was found, not building a UP.")
             return
 
         mount = False

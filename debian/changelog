@@ -5,7 +5,9 @@ dell-recovery (0.60) UNRELEASED; urgency=low
   * Merge translations from launchpad.
   * Mark some more strings translatable that previously weren't.
   * For FISH scripts, just execute them rather than special casing python and
-   shell.  This means all scripts need #!/bin/sh or #!/bin/python at the top.
+    shell.  This means all scripts need #!/bin/sh or #!/bin/python at the top.
+  * If FIST is found, don't extract the UP.  This means factory process ( of
+    some sort )
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Jun 2010 15:09:45 -0500
 
