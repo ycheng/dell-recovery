@@ -27,6 +27,6 @@
 
 IFHALT "Check all DKMS modules are built"
 if [ -x /usr/lib/dkms/dkms_autoinstaller ]; then
-    exec /usr/lib/dkms/dkms_autoinstaller start
+    /usr/lib/dkms/dkms_autoinstaller start
 fi
 IFHALT "Done with final DKMS module build check"

@@ -10,6 +10,7 @@ dell-recovery (0.60) UNRELEASED; urgency=low
     some sort )
   * Reverse the order of calling /tmp/set_active_partition and SUCCESS_SCRIPT
     to prevent problems with BTO Anywhere.
+  * When calling scripts in non-negotiable, don't use exec. (LP: #602414)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Jun 2010 15:09:45 -0500
 
