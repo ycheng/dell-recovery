@@ -141,7 +141,7 @@ def check_version():
     try:
         import apt.cache
         cache = apt.cache.Cache()
-        if cache['dell-recovery'].isInstalled:
+        if cache['dell-recovery'].is_installed:
             return cache['dell-recovery'].installed.version
     except Exception, e:
         return "unknown"

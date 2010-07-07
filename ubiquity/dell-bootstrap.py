@@ -387,7 +387,7 @@ class Page(Plugin):
         from apt.cache import Cache
         cache = Cache()
         for key in cache.keys():
-            if key == 'fist' and cache[key].isInstalled:
+            if key == 'fist' and cache[key].is_installed:
                 self.debug("FIST was found, not building a UP.")
                 return
 
@@ -1089,10 +1089,10 @@ class Install(InstallPlugin):
             for driver in drivers:
                 if 'nvidia' in driver:
                     for key in cache.keys():
-                        if 'nvidia' in key and cache[key].isInstalled:
+                        if 'nvidia' in key and cache[key].is_installed:
                             to_remove.append(key)
                 elif cache.has_key('%s-modaliases' % driver) and \
-                   cache['%s-modaliases' % driver].isInstalled:
+                   cache['%s-modaliases' % driver].is_installed:
                     to_remove.append('%s-modaliases' % driver)
             del cache
 
