@@ -197,6 +197,10 @@ def find_factory_rp_stats():
                     rp["fs"    ] = dev.Get('org.freedesktop.Udisks.Device','IdType')
                     rp["slave" ] = dev.Get('org.freedesktop.Udisks.Device','PartitionSlave')
                     rp["number"] = dev.Get('org.freedesktop.Udisks.Device','PartitionNumber')
+                    parent_path = dev.Get('org.freedesktop.Udisks.Device','PartitionSlave')
+                    parent_obj  = bus.get_object('org.freedesktop.UDisks', parent_path)
+                    parent_dev  = dbus.Interface(parent_obj, 'org.freedesktop.DBus.Properties')
+                    rp["size_gb"] = parent_dev.Get('org.freedesktop.Udisks.Device','DeviceSize') / 1000000000
                     break
             if rp:
                 dev_obj = bus.get_object('org.freedesktop.UDisks', rp["slave"])

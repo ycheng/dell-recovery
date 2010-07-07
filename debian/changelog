@@ -12,6 +12,12 @@ dell-recovery (0.60) UNRELEASED; urgency=low
     to prevent problems with BTO Anywhere.
   * When calling scripts in non-negotiable, don't use exec. (LP: #602414)
   * Update for deprecated isInstalled to use is_installed instead.
+  * Add a new tri-state knob for configuring the behavior of swap
+    dell-recovery/swap = (true, [dynamic], false)
+    - false will force swap on
+    - false will force swap off
+    - dynamic (default) will detect small drives (<=64GB).  If one of these 
+      is found, disable the creation of a swap partition. (LP: #601780)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Jun 2010 15:09:45 -0500
 

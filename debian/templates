@@ -41,6 +41,11 @@ Type: string
 Default:
 Description: for internal use; determines any *-modaliases packages that should be removed
 
+Template: dell-recovery/swap
+Type: string
+Default: dynamic
+Description: for internal use; determines swap behavior; binary enable (true/false) or dynamically determined based on disk size (dynamic)
+
 Template: dell-recovery/pool_command
 Type: string
 Default: /cdrom/scripts/pool.sh

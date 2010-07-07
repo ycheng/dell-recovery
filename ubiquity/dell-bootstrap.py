@@ -311,6 +311,23 @@ class Page(Plugin):
                 if misc is False:
                     raise RuntimeError, ("Error removing swap for device %s" % device)
 
+    def clean_recipe(self):
+        """Cleans up the recipe to remove swap if we have a small drive"""
+
+        #don't mess with dual boot recipes
+        if self.dual:
+            return
+
+        #If we are in dynamic (dell-recovery/swap=dynamic) and small drive 
+        #   or we explicitly disabled (dell-recovery/swap=false)
+        if (self.swap == "dynamic" and self.disk_size <= 64) or not self.swap:
+            self.debug("Running a recipe fixup (swap setting: %s, size: %i)" % (self.swap, self.disk_size))
+            try:
+                recipe = self.db.get('partman-auto/expert_recipe')
+                self.db.set('partman-auto/expert_recipe', recipe.split('.')[0] + '.')
+            except debconf.DebconfError, e:
+                pass
+
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
         if self.disk_layout == 'msdos':
@@ -318,9 +335,14 @@ class Page(Plugin):
             active = misc.execute_root('sfdisk', '-A%s' % self.fail_partition, self.device)
             if active is False:
                 self.debug("Failed to set partition %s active on %s" % (self.fail_partition, self.device))
-        #check for extended partitions
-        with misc.raised_privileges():
-            total_partitions = len(fetch_output(['partx', self.device]).split('\n'))-1
+        #check for small disks.  on small disks, don't look for extended or delete swap.
+        if (self.swap == "dynamic" and self.disk_size <= 64) or not self.swap:
+            self.swap_part = ''
+            total_partitions = 0
+        else:
+            #check for extended partitions
+            with misc.raised_privileges():
+                total_partitions = len(fetch_output(['partx', self.device]).split('\n'))-1
         #remove extras
         for number in (self.os_part, self.swap_part):
             if number.isdigit():
@@ -552,6 +574,9 @@ class Page(Plugin):
             self.rp_filesystem = TYPE_VFAT_LBA
         else:
             raise RuntimeError, ("Unknown filesystem on recovery partition: %s" % rp["fs"])
+
+        self.disk_size = rp["size_gb"]
+
         self.debug("Detected device we are operating on is %s" % self.device)
         self.debug("Detected a %s filesystem on the %s recovery partition" % (rp["fs"], rp["label"]))
 
@@ -639,6 +664,15 @@ class Page(Plugin):
             self.disk_layout = 'msdos'
             self.preseed('dell-recovery/disk_layout', self.disk_layout)
 
+        #Behavior of the swap partition
+        try:
+            self.swap = self.db.get('dell-recovery/swap')
+            if self.swap != "dynamic":
+                self.swap = misc.create_bool(self.swap)
+        except debconf.DebconfError, e:
+            self.debug(str(e))
+            self.swap = 'dynamic'
+
         #If we detect that we are booted into uEFI mode, then we only want
         #to do a GPT install.  Actually a MBR install would work in most
         #cases, but we can't make assumptions about 16-bit anymore (and
@@ -719,6 +753,7 @@ class Page(Plugin):
             # Factory install, and booting from RP
             else:
                 self.disable_swap()
+                self.clean_recipe()
                 self.remove_extra_partitions()
                 self.explode_utility_partition()
                 self.explode_sdr()
