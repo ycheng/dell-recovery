@@ -139,9 +139,6 @@ class PageGtk(PluginUI):
                     if '/cdrom' in line:
                         icon.set_tooltip_markup("<b>Version</b>: %s\n<b>Mounted from</b>: %s" % (version,line.split()[0]))
                         break
-            if 'UBIQUITY_DEBUG' in os.environ and 'UBIQUITY_ONLY' in os.environ and \
-                os.path.exists('/usr/bin/gnome-terminal'):
-                subprocess.Popen(['gnome-terminal'])
 
             if not self.genuine:
                 self.interactive_recovery_box.hide()

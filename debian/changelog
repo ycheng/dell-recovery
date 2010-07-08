@@ -18,6 +18,8 @@ dell-recovery (0.60) UNRELEASED; urgency=low
     - false will force swap off
     - dynamic (default) will detect small drives (<=64GB).  If one of these 
       is found, disable the creation of a swap partition. (LP: #601780)
+  * Disable terminal spawning if debug-ubiquity mode is enabled since the
+    same effect can be achieved with ctrl-alt-T.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Jun 2010 15:09:45 -0500
 
