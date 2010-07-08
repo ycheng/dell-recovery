@@ -20,6 +20,8 @@ dell-recovery (0.60) UNRELEASED; urgency=low
       is found, disable the creation of a swap partition. (LP: #601780)
   * Disable terminal spawning if debug-ubiquity mode is enabled since the
     same effect can be achieved with ctrl-alt-T.
+  * Drop support for running in virtualbox.  If it's actually desirable, vbox
+    has support to modify the DMI information.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Jun 2010 15:09:45 -0500
 

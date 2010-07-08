@@ -134,7 +134,7 @@ def check_vendor():
             vendor = file.readline().split()[0].lower()
     else:
         vendor = ''
-    return (vendor == 'dell' or vendor == 'innotek')
+    return (vendor == 'dell')
 
 def check_version():
     """Returns the currently installed version of the tool"""
