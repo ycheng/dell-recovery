@@ -1,4 +1,4 @@
-dell-recovery (0.60) UNRELEASED; urgency=low
+dell-recovery (0.60) maverick; urgency=low
 
   * When genisoimage fails, be more informative in it's error message
     to the user about why it may have failed.
