@@ -146,7 +146,7 @@ def check_version():
     except Exception, e:
         return "unknown"
 
-def process_conf_file(original, new, rp_number, dual_seed=''):
+def process_conf_file(original, new, uuid, rp_number, dual_seed=''):
     """Replaces all instances of a partition, OS, and extra in a conf type file
        Generally used for things that need to touch grub"""
     if not os.path.isdir(os.path.split(new)[0]):
@@ -154,9 +154,17 @@ def process_conf_file(original, new, rp_number, dual_seed=''):
     import lsb_release
     release = lsb_release.get_distro_information()
     extra_cmdline = find_extra_kernel_options()
+
+    #starting with 10.10, we replace the whole drive string (/dev/sdX,msdosY)
+    #earlier releases are hardcoded to (hd0,Y)
+    if float(release["RELEASE"]) >= 10.10:
+        rp_number = 'msdos' + rp_number
+
     with open(original, "r") as base:
         with open(new, 'w') as output:
             for line in base.readlines():
+                if "#UUID#" in line:
+                    line = line.replace("#UUID#", uuid)
                 if "#PARTITION#" in line:
                     line = line.replace("#PARTITION#", rp_number)
                 if "#OS#" in line:
@@ -197,10 +205,11 @@ def find_factory_rp_stats():
                     rp["fs"    ] = dev.Get('org.freedesktop.Udisks.Device','IdType')
                     rp["slave" ] = dev.Get('org.freedesktop.Udisks.Device','PartitionSlave')
                     rp["number"] = dev.Get('org.freedesktop.Udisks.Device','PartitionNumber')
-                    parent_path = dev.Get('org.freedesktop.Udisks.Device','PartitionSlave')
-                    parent_obj  = bus.get_object('org.freedesktop.UDisks', parent_path)
-                    parent_dev  = dbus.Interface(parent_obj, 'org.freedesktop.DBus.Properties')
-                    rp["size_gb"] = parent_dev.Get('org.freedesktop.Udisks.Device','DeviceSize') / 1000000000
+                    rp["parent"] = dev.Get('org.freedesktop.Udisks.Device','PartitionSlave')
+                    rp["uuid"]   = dev.Get('org.freedesktop.Udisks.Device','IdUuid')
+                    parent_obj   = bus.get_object('org.freedesktop.UDisks', rp["parent"])
+                    parent_dev   = dbus.Interface(parent_obj, 'org.freedesktop.DBus.Properties')
+                    rp["size_gb"]= parent_dev.Get('org.freedesktop.Udisks.Device','DeviceSize') / 1000000000
                     break
             if rp:
                 dev_obj = bus.get_object('org.freedesktop.UDisks', rp["slave"])

@@ -274,7 +274,7 @@ class Page(Plugin):
             with misc.raised_privileges():
                 magic.process_conf_file('/usr/share/dell/grub/recovery_partition.cfg', \
                                         os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'), \
-                                        STANDARD_RP_PARTITION, self.dual)
+                                        rp["uuid"], STANDARD_RP_PARTITION, self.dual)
 
         #Do the actual grub installation
         bind_mount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
@@ -573,6 +573,7 @@ class Page(Plugin):
             raise RuntimeError, ("Unknown filesystem on recovery partition: %s" % rp["fs"])
 
         self.disk_size = rp["size_gb"]
+        self.uuid = rp["uuid"]
 
         self.debug("Detected device we are operating on is %s" % self.device)
         self.debug("Detected a %s filesystem on the %s recovery partition" % (rp["fs"], rp["label"]))
@@ -968,6 +969,14 @@ manually to proceed.")
             if mount is False:
                 raise RuntimeError, ("Error mounting %s%s" % (self.device, self.grub_part))
 
+        #find uuid of drive
+        with misc.raised_privileges():
+            blkid = fetch_output(['blkid', self.device + self.rp_part, "-p", "-o", "udev"]).split('\n')
+            for item in blkid:
+                if item.startswith('ID_FS_UUID'):
+                    uuid = item.split('=')[1]
+                    break
+
         #Check for a grub.cfg - replace as necessary
         if os.path.exists(os.path.join('/boot', 'grub', 'grub.cfg')):
             with misc.raised_privileges():
@@ -975,7 +984,7 @@ manually to proceed.")
         with misc.raised_privileges():
             magic.process_conf_file('/usr/share/dell/grub/recovery_partition.cfg', \
                                     os.path.join('/boot', 'grub', 'grub.cfg'),     \
-                                    self.rp_part, self.dual)
+                                    uuid, self.rp_part, self.dual)
 
         #Install grub
         if self.efi:

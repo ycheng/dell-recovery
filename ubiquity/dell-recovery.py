@@ -129,7 +129,7 @@ class Install(InstallPlugin):
         if rp:
             magic.process_conf_file('/usr/share/dell/grub/99_dell_recovery', \
                                     '/etc/grub.d/99_dell_recovery',          \
-                                    str(rp["number"]))
+                                    str(rp["uuid"]),str(rp["number"]))
             os.chmod('/etc/grub.d/99_dell_recovery', 0755)
             subprocess.call(['update-grub'])
 

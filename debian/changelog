@@ -22,6 +22,10 @@ dell-recovery (0.60) UNRELEASED; urgency=low
     same effect can be achieved with ctrl-alt-T.
   * Drop support for running in virtualbox.  If it's actually desirable, vbox
     has support to modify the DMI information.
+  * For grub conffiles, write out in the new 10.10 syntax when working with
+    newer media.
+  * Write out a UUID to search for in the grub conffile in the event that it's
+    not actually on hd0.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Jun 2010 15:09:45 -0500
 
