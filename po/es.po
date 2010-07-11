@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-18 13:29-0500\n"
-"PO-Revision-Date: 2010-06-30 06:01+0000\n"
+"POT-Creation-Date: 2010-07-07 17:40-0500\n"
+"PO-Revision-Date: 2010-07-10 06:40+0000\n"
 "Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-07-01 03:45+0000\n"
+"X-Launchpad-Export-Date: 2010-07-11 03:42+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_frontend.py:102
@@ -126,7 +126,7 @@ msgstr "Elija los paquetes de aplicación"
 
 #: ../Dell/recovery_builder.py:189
 msgid "Builder Summary"
-msgstr ""
+msgstr "Resumen del constructor"
 
 #: ../Dell/recovery_builder.py:190
 msgid "Base Image Distributor"
@@ -243,7 +243,7 @@ msgstr "Consultar información de ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
 msgid "Request closing the backend"
-msgstr ""
+msgstr "Petición de cierre del motor"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "System policy prevents closing processes without notice"
@@ -402,7 +402,7 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:23
 msgid "GIT Tags/Branches:"
-msgstr ""
+msgstr "Etiquetas GIT/Ramas:"
 
 #: ../gtk/builder.ui.h:24
 msgid "GIT Tree Status"
@@ -442,7 +442,7 @@ msgstr "Detalles de la imagen seleccionada:"
 
 #: ../gtk/builder.ui.h:34
 msgid "Selected Overlay Details:"
-msgstr ""
+msgstr "Detalles de superposición seleccionados:"
 
 #: ../gtk/builder.ui.h:35
 msgid "Show Details"
