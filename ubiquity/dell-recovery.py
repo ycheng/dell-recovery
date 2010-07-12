@@ -69,6 +69,8 @@ class PageGtk(PluginUI):
                 self.debug('Could not create Dell Recovery page: %s', e)
                 self.plugin_widgets = None
         else:
+            if note oem:
+                pass
             if not rp:
                 self.debug('Disabling %s because of problems with partitions: up[%s] and rp[%s]', NAME, up, rp)
             self.plugin_widgets = None

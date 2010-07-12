@@ -1,6 +1,8 @@
 dell-recovery (0.61) UNRELEASED; urgency=low
 
   * Be clearer in the logging what "Fixed up device" means.
+  * Don't show an error for being unable to run dell-recovery in non-oem
+    mode.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 12 Jul 2010 18:45:36 -0500
 
