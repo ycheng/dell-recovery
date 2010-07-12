@@ -539,7 +539,7 @@ class Page(Plugin):
 
         #Always choose the first candidate to start
         self.device = disks[0][0]
-        self.debug("Fixed up device we are operating on is %s" % self.device)
+        self.debug("Initially selected candidate disk: %s" % self.device)
 
         #populate UI
         self.ui.populate_devices(disks)

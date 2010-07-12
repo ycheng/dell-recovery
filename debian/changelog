@@ -1,3 +1,9 @@
+dell-recovery (0.61) UNRELEASED; urgency=low
+
+  * Be clearer in the logging what "Fixed up device" means.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 12 Jul 2010 18:45:36 -0500
+
 dell-recovery (0.60) maverick; urgency=low
 
   * When genisoimage fails, be more informative in it's error message
