@@ -5,6 +5,9 @@ dell-recovery (0.61) UNRELEASED; urgency=low
     mode.
   * Don't override the ubiquity title with a hack anymore.  Rely on doing
     this via ubiquity/custom_title_text in the preseed.
+  * Make adjustments to be compatible with the ubiquity Maverick redesign.
+    - Don't modify step_label.
+    - Add a plugin_title key so that we show title_section.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 12 Jul 2010 18:45:36 -0500
 

@@ -94,6 +94,8 @@ class PageNoninteractive(PluginUI):
 # GTK Page #
 ############
 class PageGtk(PluginUI):
+    plugin_title = 'ubiquity/text/recovery_type_title'
+
     #OK, so we're not "really" a language page
     #We are just cheating a little bit to make sure our widgets are translated
     plugin_is_language = True
@@ -156,7 +158,6 @@ class PageGtk(PluginUI):
         import gtk
         window = self.plugin_widgets.get_parent_window()
         window.set_functions(gtk.gdk.FUNC_RESIZE | gtk.gdk.FUNC_MOVE)
-        self.controller._wizard.step_label.set_sensitive(False)
 
         return self.plugin_widgets
 
@@ -209,7 +210,6 @@ class PageGtk(PluginUI):
         self.automated_combobox.set_sensitive(self.automated_recovery.get_active())
 
     def show_info_dialog(self):
-        self.controller._wizard.step_label.set_markup('')
         self.controller._wizard.quit.set_label(self.controller.get_string('ubiquity/imported/cancel'))
         self.controller.allow_go_forward(False)
         self.automated_recovery_box.hide()
