@@ -156,7 +156,6 @@ class PageGtk(PluginUI):
         import gtk
         window = self.plugin_widgets.get_parent_window()
         window.set_functions(gtk.gdk.FUNC_RESIZE | gtk.gdk.FUNC_MOVE)
-        window.set_title('Dell Recovery')
         self.controller._wizard.step_label.set_sensitive(False)
 
         return self.plugin_widgets
