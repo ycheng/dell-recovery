@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-07 17:40-0500\n"
+"POT-Creation-Date: 2010-07-21 01:12-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -214,15 +214,15 @@ msgstr ""
 msgid "Inserting FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:679
+#: ../Dell/recovery_backend.py:721
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:735
+#: ../Dell/recovery_backend.py:777
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:772
+#: ../Dell/recovery_backend.py:814
 msgid "Building ISO"
 msgstr ""
 
@@ -243,10 +243,18 @@ msgid "Request closing the backend"
 msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
-msgid "System policy prevents closing processes without notice"
+msgid "Restore to Factory state"
 msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
+msgid "System policy prevents changing system bootup"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:7
+msgid "System policy prevents closing processes without notice"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:8
 msgid "System policy prevents reading raw devices"
 msgstr ""
 

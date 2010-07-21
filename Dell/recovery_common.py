@@ -569,6 +569,9 @@ def dbus_sync_call_signal_wrapper(dbus_iface, fn, handler_map, *args, **kwargs):
 ## Common Classes ##
 ##                ##
 
+class RestoreFailed(dbus.DBusException):
+    _dbus_error_name = 'com.dell.RecoveryMedia.RestoreFailedException'
+
 class CreateFailed(dbus.DBusException):
     _dbus_error_name = 'com.dell.RecoveryMedia.CreateFailedException'
 

@@ -647,6 +647,49 @@ class Backend(dbus.service.Object):
         return found
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
+        in_signature='', out_signature='', sender_keyword='sender',
+        connection_keyword='conn')
+    def enable_boot_to_restore(self, sender=None, conn=None):
+        self._reset_timeout()
+        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.restore')
+
+        #find our one time boot entry
+        if not os.path.exists("/etc/grub.d/99_dell_recovery"):
+            raise RestoreFailed("missing 99_dell_recovery to parse")
+
+        with open('/etc/grub.d/99_dell_recovery') as rfd:
+            dell_rec_file = rfd.readlines()
+
+        entry=False
+        for line in dell_rec_file:
+            if "menuentry" in line:
+                split = line.split('"')
+                if len(split) > 1:
+                    entry = '"' + split[1] + '"'
+                    break
+
+        if not entry:
+            raise RestoreFailed("unable to parse 99_dell_recovery for entry to boot")
+
+        #set us up to boot saved entries
+        with open('/etc/default/grub','r') as rfd:
+            default_grub = rfd.readlines()
+        with open('/etc/default/grub','w') as wfd:
+            for line in default_grub:
+                if line.startswith("GRUB_DEFAULT="):
+                    line="GRUB_DEFAULT=saved\n"
+                wfd.write(line)
+
+        ret=subprocess.call(['/usr/sbin/update-grub'])
+        if ret is not 0:
+            raise RestoreFailed("error updating grub configuration")
+
+        ret=subprocess.call(['/usr/sbin/grub-reboot', entry])
+        if ret is not 0:
+            raise RestoreFailed("error setting one time grub entry")
+
+
+    @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature='ssss', out_signature='', sender_keyword='sender',
         connection_keyword='conn')
     def create_ubuntu(self, up, rp, version, iso, sender=None, conn=None):
