@@ -1055,7 +1055,7 @@ class Install(InstallPlugin):
         def parse(file):
             """ read a deb """
             control = apt_inst.debExtractControl(open(file))
-            sections = apt_pkg.ParseSection(control)
+            sections = apt_pkg.TagSection(control)
             return sections["Package"]
 
         #process debs/main

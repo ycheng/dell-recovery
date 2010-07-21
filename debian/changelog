@@ -8,6 +8,7 @@ dell-recovery (0.61) UNRELEASED; urgency=low
   * Make adjustments to be compatible with the ubiquity Maverick redesign.
     - Don't modify step_label.
     - Add a plugin_title key so that we show title_section.
+  * Update deprecated ParseSection for TagSection in dell-bootstrap.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 12 Jul 2010 18:45:36 -0500
 
