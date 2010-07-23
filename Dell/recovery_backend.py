@@ -357,23 +357,23 @@ class Backend(dbus.service.Object):
         atexit.register(walk_cleanup,assembly_tmp)
 
         #Build a filter list using re for stuff that will be purged during copy
-        filter=''
+        purge_filter=''
         purge_list_file=os.path.join(fid,'..','examples','purgedvd.lst')
         if os.path.exists(purge_list_file):
             try:
                 purge_list = open(purge_list_file).readlines()
                 for line in purge_list:
                     folder=line.strip('\n')
-                    if not filter and folder:
-                        filter = "^" + folder
+                    if not purge_filter and folder:
+                        purge_filter = "^" + folder
                     elif folder:
-                        filter += "|^" + folder
-                if filter:
-                    filter += "|^syslinux"
+                        purge_filter += "|^" + folder
+                if purge_filter:
+                    purge_filter += "|^syslinux"
             except IOError:
                 print  >> sys.stderr, "Error reading purge list, but file exists"
-        logging.debug('assemble_image: filter is %s' % filter)
-        white_pattern=re.compile(filter)
+        logging.debug('assemble_image: purge_filter is %s' % purge_filter)
+        white_pattern=re.compile(purge_filter)
 
 
         #copy the base iso/mnt point/etc
