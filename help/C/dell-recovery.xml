@@ -185,6 +185,17 @@
         A Dell logo will appear.  If you speak a non-english language, press any key to interrupt this screen
         and select your language.
         </para>
+        <figure id="languages">
+          <title>Language Selector</title>
+          <screenshot>
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="figures/language_list.png"
+                           format="PNG"/>
+              </imageobject>
+            </mediaobject>
+          </screenshot>
+        </figure>
         <para>
         You will be brought to a recovery screen allowing you to rebuild entirely to factory state, or to resize
         your existing OS install.  If you choose the second option, the installer will not build a utility partition
