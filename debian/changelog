@@ -16,6 +16,7 @@ dell-recovery (0.61) UNRELEASED; urgency=low
     allowing the use of menus, more dialogs, and launching restoration
     directly from a frontend.
   * Cleanup a variety of warnings that pylint was throwing.
+  * Update translations from launchpad.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 12 Jul 2010 18:45:36 -0500
 
