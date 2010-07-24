@@ -23,6 +23,15 @@
                   <object class="GtkMenu" id="help_menu">
                     <property name="visible">True</property>
                     <child>
+                      <object class="GtkImageMenuItem" id="get_help_menu_item">
+                        <property name="label">Dell Recovery Help</property>
+                        <property name="visible">True</property>
+                        <property name="image">image1</property>
+                        <property name="use_stock">False</property>
+                        <signal name="activate" handler="get_help_menu_item_clicked"/>
+                      </object>
+                    </child>
+                    <child>
                       <object class="GtkImageMenuItem" id="about_menu_item">
                         <property name="label">gtk-about</property>
                         <property name="visible">True</property>
@@ -46,9 +55,11 @@
             <property name="visible">True</property>
             <property name="n_rows">2</property>
             <property name="n_columns">3</property>
+            <property name="row_spacing">10</property>
             <child>
               <object class="GtkLabel" id="build_os_media_label">
                 <property name="visible">True</property>
+                <property name="xalign">0</property>
                 <property name="xpad">15</property>
                 <property name="label" translatable="yes">This will create OS Recovery Media that can be used to restore the computer to its factory shipped state.  You will have the option to create an USB key or DVD image.</property>
                 <property name="wrap">True</property>
@@ -56,13 +67,13 @@
               <packing>
                 <property name="left_attach">2</property>
                 <property name="right_attach">3</property>
-                <property name="x_options"></property>
                 <property name="y_options">GTK_EXPAND</property>
               </packing>
             </child>
             <child>
               <object class="GtkLabel" id="restore_system_label">
                 <property name="visible">True</property>
+                <property name="xalign">0</property>
                 <property name="xpad">15</property>
                 <property name="label" translatable="yes">This will restore the system to the factory shipped state using the recovery partition stored on the hard drive.</property>
                 <property name="wrap">True</property>
@@ -72,7 +83,6 @@
                 <property name="right_attach">3</property>
                 <property name="top_attach">1</property>
                 <property name="bottom_attach">2</property>
-                <property name="x_options"></property>
                 <property name="y_options">GTK_EXPAND</property>
               </packing>
             </child>
@@ -143,5 +153,9 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="stock">gtk-help</property>
   </object>
 </interface>

@@ -27,6 +27,7 @@ import os
 import subprocess
 import dbus
 import sys
+import glib
 
 import gtk
 
@@ -110,6 +111,13 @@ class DellRecoveryToolGTK:
 
     def build_os_media_clicked(self, widget):
         self.tool_widgets.get_object('tool_selector').set_sensitive(False)
+
+    def get_help_menu_item_clicked(self, widget):
+        """Invoke the help for this app"""
+        # run yelp
+        p = subprocess.Popen(["yelp","ghelp:dell-recovery"])
+        # collect the exit status (otherwise we leave zombies)
+        glib.timeout_add_seconds(1, lambda p: p.poll() == None, p)
 
     def about_menu_item_clicked(self, widget):
         if not self.about_box:

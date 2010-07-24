@@ -57,6 +57,7 @@ setup(
 
     cmdclass = { 'build': build_extra.build_extra,
                  'build_i18n': build_i18n.build_i18n,
+                 "build_help" : build_help.build_help,
                  'build_icons': build_icons.build_icons,
                  'clean': clean_i18n.clean_i18n,
                }

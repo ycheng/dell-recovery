@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-23 19:39-0500\n"
+"POT-Creation-Date: 2010-07-23 23:24-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,22 +16,22 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../Dell/recovery_gtk.py:78
+#: ../Dell/recovery_gtk.py:79
 msgid "Cannot connect to dbus"
 msgstr ""
 
-#: ../Dell/recovery_gtk.py:104 ../Dell/recovery_basic_gtk.py:114
+#: ../Dell/recovery_gtk.py:105 ../Dell/recovery_basic_gtk.py:114
 #: ../Dell/recovery_basic_gtk.py:163 ../Dell/recovery_advanced_gtk.py:364
 #: ../Dell/recovery_advanced_gtk.py:679
 msgid "Permission Denied"
 msgstr ""
 
-#: ../Dell/recovery_gtk.py:118 ../gtk/dell-recovery-media.desktop.in.h:1
+#: ../Dell/recovery_gtk.py:126 ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/tool_selector.ui.h:2
 msgid "Dell Recovery"
 msgstr ""
 
-#: ../Dell/recovery_gtk.py:119
+#: ../Dell/recovery_gtk.py:127
 msgid "Copyright 2008-2010 Dell Inc."
 msgstr ""
 
@@ -97,9 +97,9 @@ msgstr ""
 
 #: ../Dell/recovery_advanced_gtk.py:75
 msgid ""
-"This tool will integrate a Dell OEM FID framework & driver package set into "
-"a customized OS media image.  You will have the option to create an USB key "
-"or DVD image."
+"This will integrate a Dell OEM FID framework & driver package set into a "
+"customized OS media image.  You will have the option to create an USB key or "
+"DVD image."
 msgstr ""
 
 #: ../Dell/recovery_advanced_gtk.py:144
@@ -467,15 +467,15 @@ msgstr ""
 
 #: ../gtk/tool_selector.ui.h:4
 msgid ""
-"This tool will create OS Recovery Media that can be used to restore the "
-"computer to its factory shipped state.  You will have the option to create "
-"an USB key or DVD image."
+"This will create OS Recovery Media that can be used to restore the computer "
+"to its factory shipped state.  You will have the option to create an USB key "
+"or DVD image."
 msgstr ""
 
 #: ../gtk/tool_selector.ui.h:5
 msgid ""
-"This tool will restore the system to the factory shipped state using the "
-"recovery partition stored on the hard drive."
+"This will restore the system to the factory shipped state using the recovery "
+"partition stored on the hard drive."
 msgstr ""
 
 #: ../gtk/tool_selector.ui.h:6
