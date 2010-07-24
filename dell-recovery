@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# Dell Recovery Media Launcher Script
+# Dell Recovery
 #
-# Copyright (C) 2008-2010 Dell Inc,
+# Copyright (C) 2010 Dell Inc,
 #   Author: Mario Limonciello
 #
 # This is free software; you can redistribute it and/or modify it under
@@ -24,19 +24,6 @@
 from Dell.recovery_common import find_partitions, check_version
 import optparse
 import os
-
-def check_builder(builder,rp):
-    """Determines if we should run in builder mode"""
-    if not rp and not builder:
-        import gtk
-        dialog=gtk.MessageDialog(type=gtk.MESSAGE_QUESTION,
-                                 buttons=gtk.BUTTONS_YES_NO,
-                                 message_format="This tool requires that a Linux Recovery partition is present to function normally. Would you like to run in BTO Image Builder Mode?")
-        answer=dialog.run()
-        dialog.hide()
-        if answer == gtk.RESPONSE_YES:
-            builder = True
-    return builder
 
 target=os.path.join(os.getenv('HOME'),'Download')
 if not os.path.isdir(target):
@@ -77,6 +64,8 @@ parser.add_option('--override-branch-mode', dest='branch', action='store_true',
                   help='Show branches instead of tags in builder mode.  This is most useful when the tip of the branch is known stable.')
 (options, args) = parser.parse_args()
 
+
+
 if __name__ == '__main__':
     if options.checkversion:
         print "Version: %s" % check_version()
@@ -84,22 +73,25 @@ if __name__ == '__main__':
         import dbus.mainloop.glib
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         up,rp=find_partitions(options.up,options.rp)
-        builder=check_builder(options.builder,rp)
+
+        #If we don't find an RP, assume builder mode.
+        if not rp and not options.builder:
+            options.builder = True
     
         args = (up,
                 rp,
                 options.version,
                 options.media,
-                options.target,
-                options.overwrite,
-                options.xrev,
-                options.branch)
+                options.target)
 
-        if builder:
-            from Dell.recovery_builder import GTKBuilderFrontend
-            frontend = GTKBuilderFrontend(*args)
+        if options.builder:
+            from Dell.recovery_advanced_gtk import AdvancedGeneratorGTK
+            args += (options.overwrite,
+                     options.xrev,
+                     options.branch)
+            tool = AdvancedGeneratorGTK(*args)
         else:
-            from Dell.recovery_frontend import GTKFrontend
-            frontend = GTKFrontend(*args)
+            from Dell.recovery_basic_gtk import BasicGeneratorGTK
+            tool = BasicGeneratorGTK(*args)
 
-        frontend.run()
+        tool.run()

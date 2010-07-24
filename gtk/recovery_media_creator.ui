@@ -153,19 +153,14 @@
       <placeholder/>
     </child>
     <child>
-      <object class="GtkLabel" id="start_page">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">This application will create OS Recovery Media that can be used to restore the computer to its factory shipped state.  You will have the option to create an USB key or DVD image.</property>
-        <property name="wrap">True</property>
-      </object>
-      <packing>
-        <property name="page_type">intro</property>
-      </packing>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
     </child>
     <child>
       <object class="GtkVBox" id="media_type_page">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkHBox" id="dvd_box">
             <property name="visible">True</property>
@@ -189,7 +184,6 @@
             <child>
               <object class="GtkVBox" id="vbox2">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkRadioButton" id="dvdbutton">
                     <property name="label" translatable="yes">DVD+/-RW Disc</property>
@@ -251,7 +245,6 @@
             <child>
               <object class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkRadioButton" id="usbbutton">
                     <property name="label" translatable="yes">USB Flash Drive</property>
@@ -369,7 +362,6 @@
         <child>
           <object class="GtkVBox" id="vbox111">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel" id="conf_text">
                 <property name="visible">True</property>

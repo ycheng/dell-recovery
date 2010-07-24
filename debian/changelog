@@ -12,6 +12,9 @@ dell-recovery (0.61) UNRELEASED; urgency=low
   * Add a new method to the backend that causes the system to be prepared
     to run in recovery mode on the next boot.
   * Correct usage of the builtin function 'filter'.  Thanks Peter Petrakis.
+  * Add basic support for a new start page that isn't part of GTKAsssitant
+    allowing the use of menus, more dialogs, and launching restoration
+    directly from a frontend.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 12 Jul 2010 18:45:36 -0500
 

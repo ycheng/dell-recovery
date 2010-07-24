@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# «recovery_builder» - Dell Recovery DVD Creator
+# «recovery_advanced_gtk» - Dell Recovery Media Builder
 #
 # Copyright (C) 2010, Dell Inc.
 #
@@ -28,7 +28,8 @@ import sys
 import gtk
 import subprocess
 
-from Dell.recovery_frontend import GTKFrontend
+from Dell.recovery_gtk import DellRecoveryToolGTK
+from Dell.recovery_basic_gtk import BasicGeneratorGTK
 from Dell.recovery_common import *
 
 try:
@@ -44,7 +45,7 @@ except ImportError:
 import gettext
 from gettext import gettext as _
 
-class GTKBuilderFrontend(GTKFrontend):
+class AdvancedGeneratorGTK(BasicGeneratorGTK):
 
     def __init__(self,up,rp,version,media,target,overwrite,xrev,branch):
         """Inserts builder widgets into the Gtk.Assistant"""
@@ -58,7 +59,7 @@ class GTKBuilderFrontend(GTKFrontend):
             sys.exit(1)
 
         #Run the normal init first
-        GTKFrontend.__init__(self,up,rp,version,media,target,overwrite,xrev,branch)
+        BasicGeneratorGTK.__init__(self,up,rp,version,media,target)
 
         #Build our extra GUI in
         self.builder_widgets=gtk.Builder()
@@ -71,7 +72,7 @@ class GTKBuilderFrontend(GTKFrontend):
         #wizard.resize(400,400)
         wizard.set_title(wizard.get_title() + _(" (BTO Image Builder Mode)"))
 
-        self.widgets.get_object('start_page').set_text(_("This application will integrate a Dell \
+        self.tool_widgets.get_object('build_os_media_label').set_text(_("This will integrate a Dell \
 OEM FID framework & driver package set into a customized \
 OS media image.  You will have the option to \
 create an USB key or DVD image."))
@@ -97,16 +98,19 @@ create an USB key or DVD image."))
         self.builder_widgets.get_object('srv_dialog').set_transient_for(wizard)
 
         #insert builder pages
-        wizard.insert_page(self.builder_widgets.get_object('application_page'),1)
-        wizard.insert_page(self.builder_widgets.get_object('driver_page'),1)
-        wizard.insert_page(self.builder_widgets.get_object('up_page'),1)
-        wizard.insert_page(self.builder_widgets.get_object('fid_page'),1)
-        wizard.insert_page(self.builder_widgets.get_object('base_page'),1)
+        wizard.insert_page(self.builder_widgets.get_object('application_page'),0)
+        wizard.insert_page(self.builder_widgets.get_object('driver_page'),0)
+        wizard.insert_page(self.builder_widgets.get_object('up_page'),0)
+        wizard.insert_page(self.builder_widgets.get_object('fid_page'),0)
+        wizard.insert_page(self.builder_widgets.get_object('base_page'),0)
 
         #improve the summary
         self.widgets.get_object('version_hbox').show()
 
         #builder variable defaults
+        self.overwrite=overwrite
+        self.xrev=xrev
+        self.branch=branch
         self.builder_fid_overlay=''
         self.builder_base_image=''
         self.bto_base=False
@@ -115,16 +119,20 @@ create an USB key or DVD image."))
 
         self.builder_widgets.connect_signals(self)
 
-    def run(self):
-        """Main method for launching the frontend, this needs to be overridden
-           because it may be ran from a non-preloaded system"""
+    def build_os_media_clicked(self, widget):
+        """Overridden method to make us generate OS media"""
+        #hide the main page
+        DellRecoveryToolGTK.build_os_media_clicked(self,None)
+
+        #show our page
         self.widgets.get_object('wizard').show()
-        gtk.main()
+
+        self.tool_widgets.get_object('tool_selector').hide()
 
     def build_page(self,widget,page=None):
         """Processes output that should be done on a builder page"""
         #Do the normal processing first
-        GTKFrontend.build_page(self,widget,page)
+        BasicGeneratorGTK.build_page(self,widget,page)
 
         wizard = self.widgets.get_object('wizard')
         if page == self.builder_widgets.get_object('base_page'):
@@ -250,7 +258,7 @@ create an USB key or DVD image."))
                 'create_' + self.distributor,
                 self.bto_up)
 
-        GTKFrontend.wizard_complete(self,widget,function, args)
+        BasicGeneratorGTK.wizard_complete(self,widget,function, args)
 
     def run_file_dialog(self):
         """Browses all files under a particular filter"""

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 #
-# «recovery_frontend» - Dell Recovery DVD Creator
+# «recovery_basic_gtk» - Dell Recovery Media Generator
 #
 # Copyright (C) 2008-2010, Dell Inc.
 #
@@ -30,14 +30,18 @@ import sys
 
 import gtk
 
+from Dell.recovery_gtk import DellRecoveryToolGTK
 from Dell.recovery_common import *
 
 #Translation support
 import gettext
 from gettext import gettext as _
 
-class GTKFrontend:
-    def __init__(self,up,rp,version,media,target,overwrite,xrev,branch):
+class BasicGeneratorGTK(DellRecoveryToolGTK):
+    def __init__(self,up,rp,version,media,target):
+
+        #Run the normal init first
+        DellRecoveryToolGTK.__init__(self,rp)
 
         #setup locales
         gettext.bindtextdomain(domain, LOCALEDIR)
@@ -68,30 +72,13 @@ class GTKFrontend:
             if item in self.distributor:
                 self.distributor=self.distributor.split(item)[0]
 
-        #set any command line arguments
+        #set any command line arguments for this frontend
         self.up=up
-        self.rp=rp
         self.widgets.get_object('version').set_text(version)
         self.media=media
         self.path=target
-        self.overwrite=overwrite
-        self.xrev=xrev
-        self.branch=branch
 
         self.ac=None
-
-    def translate_widgets(self, widgets):
-        widgets.set_translation_domain(domain)
-        for widget in widgets.get_objects():
-            if isinstance(widget, gtk.Label):
-                widget.set_property('can-focus', False)
-                widget.set_text(_(widget.get_text()))
-            elif isinstance(widget, gtk.RadioButton):
-                widget.set_label(_(widget.get_label()))
-            elif isinstance(widget, gtk.Window):
-                title = widget.get_title()
-                if title:
-                    widget.set_title(_(widget.get_title()))
 
     def check_preloaded_system(self):
         """Checks that the system this tool is being run on contains a
@@ -99,16 +86,8 @@ class GTKFrontend:
 
         #check any command line arguments
         if self.up and not os.path.exists(self.up):
-            header=_("Invalid utility partition") + _(" in command line arguments.  Falling back to DeviceKit or HAL based detection.")
-            inst = None
-            self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                parent=self.widgets.get_object('progress_dialog'))
             self.up=None
         if self.rp and not os.path.exists(self.rp):
-            header=_("Invalid recovery partition") + _(" in command line arguments.  Falling back to DeviceKit or HAL based detection.")
-            inst = None
-            self.show_alert(gtk.MESSAGE_ERROR, header, inst,
-                parent=self.widgets.get_object('progress_dialog'))
             self.rp=None
         if self.up and self.rp:
             return True
@@ -216,76 +195,25 @@ class GTKFrontend:
 
         self.destroy(None)
 
-#### Polkit enhanced ###
-    def backend(self):
-        '''Return D-BUS backend client interface.
-
-        This gets initialized lazily.
-        '''
-        if self._dbus_iface is None:
-            try:
-                bus = dbus.SystemBus()
-                self._dbus_iface = dbus.Interface(bus.get_object(DBUS_BUS_NAME, '/RecoveryMedia'),
-                                                  DBUS_INTERFACE_NAME)
-            except Exception, e:
-                if hasattr(e, '_dbus_error_name') and e._dbus_error_name == \
-                    'org.freedesktop.DBus.Error.FileNotFound':
-                    header = _("Cannot connect to dbus")
-                    self.show_alert(gtk.MESSAGE_ERROR, header,
-                        parent=self.widgets.get_object('progress_dialog'))
-                    self.destroy(None)
-                    sys.exit(1)
-                else:
-                    self.show_alert(gtk.MESSAGE_ERROR, "Exception", str(e),
-                                    parent=self.widgets.get_object('progress_dialog'))
-
-        return self._dbus_iface
-
 #### GUI Functions ###
 # This application is functional via command line by using the above functions #
 
-    def run(self):
+    def build_os_media_clicked(self, widget):
+        """Overridden method to make us generate OS media"""
         if not self.check_preloaded_system():
+            header=_("Unable to proceed")
+            inst=_("System does not appear to contain Dell factory installed partition layout.")
+            self.show_alert(gtk.MESSAGE_ERROR, header, inst,
+                parent=self.widgets.get_object('wizard'))
             return
 
+        #hide the main page
+        DellRecoveryToolGTK.build_os_media_clicked(self,None)
+
+        #show our page
         self.widgets.get_object('wizard').show()
-        gtk.main()
 
-    def hide_progress(self):
-        """Hides the progress bar"""
-        self.widgets.get_object('progress_dialog').hide()
-        while gtk.events_pending():
-            gtk.main_iteration()
-
-    def show_alert(self, type, header, body=None, details=None, parent=None):
-        if parent is not None:
-             self.widgets.get_object('dialog_hig').set_transient_for(parent)
-        else:
-             self.widgets.get_object('dialog_hig').set_transient_for(self.widgets.get_object('progress_dialog'))
-
-        message = "<b><big>%s</big></b>" % header
-        if not body == None:
-             message = "%s\n\n%s" % (message, body)
-        self.widgets.get_object('label_hig').set_markup(message)
-
-        if not details == None:
-             buffer = self.widgets.get_object('textview_hig').get_buffer()
-             buffer.set_text(str(details))
-             self.widgets.get_object('expander_hig').set_expanded(False)
-             self.widgets.get_object('expander_hig').show()
-
-        if type == gtk.MESSAGE_ERROR:
-             self.widgets.get_object('image_hig').set_property("stock", "gtk-dialog-error")
-        elif type == gtk.MESSAGE_WARNING:
-             self.widgets.get_object('image_hig').set_property("stock", "gtk-dialog-warning")
-        elif type == gtk.MESSAGE_INFO:
-             self.widgets.get_object('image_hig').set_property("stock", "gtk-dialog-info")
-
-        res = self.widgets.get_object('dialog_hig').run()
-        self.widgets.get_object('dialog_hig').hide()
-        if res == gtk.RESPONSE_CLOSE:
-            return True
-        return False
+        self.tool_widgets.get_object('tool_selector').hide()
 
     def check_close(self, widget, args=None):
         """Asks the user before closing the dialog"""
@@ -296,13 +224,11 @@ class GTKFrontend:
             self.widgets.get_object('close_dialog').hide()
         return True
 
-    def show_question(self,dialog):
-        """Presents the user with a question"""
-        response = dialog.run()
-        dialog.hide()
-        if response == gtk.RESPONSE_YES:
-            return True
-        return False
+    def hide_progress(self):
+        """Hides the progress bar"""
+        self.widgets.get_object('progress_dialog').hide()
+        while gtk.events_pending():
+            gtk.main_iteration()
 
     def update_progress_gui(self,progress_text,progress):
         """Updates the progressbar to show what we are working on"""
@@ -320,11 +246,7 @@ class GTKFrontend:
     def build_page(self,widget,page=None):
         """Prepares our GTK assistant"""
 
-        if page == self.widgets.get_object('start_page'):
-            self.widgets.get_object('wizard').set_page_title(page,_("Welcome"))
-
-            self.widgets.get_object('wizard').set_page_complete(page,True)
-        elif page == self.widgets.get_object('media_type_page'):
+        if page == self.widgets.get_object('media_type_page'):
             self.widgets.get_object('wizard').set_page_title(page,_("Choose Media Type"))
             #fill in command line args
             if self.media == "dvd":
@@ -367,19 +289,3 @@ class GTKFrontend:
             if page:
                 self.widgets.get_object('wizard').set_page_title(page,_("Confirm Selections"))
                 self.widgets.get_object('wizard').set_page_complete(page,True)
-
-    def ignore(*args):
-        """Ignores a signal"""
-        return True
-
-    def destroy(self, widget=None, data=None):
-        try:
-            if self._dbus_iface is not None:
-                self.backend().request_exit()
-        except dbus.DBusException, e:
-            if hasattr(e, '_dbus_error_name') and e._dbus_error_name == \
-                    'org.freedesktop.DBus.Error.ServiceUnknown':
-                pass
-            else:
-                print "Received %s when closing DBus service" % str(e)
-        gtk.main_quit()
