@@ -28,7 +28,7 @@
                         <property name="visible">True</property>
                         <property name="image">image1</property>
                         <property name="use_stock">False</property>
-                        <signal name="activate" handler="get_help_menu_item_clicked"/>
+                        <signal name="activate" handler="menu_item_clicked"/>
                       </object>
                     </child>
                     <child>
@@ -37,7 +37,7 @@
                         <property name="visible">True</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="about_menu_item_clicked"/>
+                        <signal name="activate" handler="menu_item_clicked"/>
                       </object>
                     </child>
                   </object>
@@ -92,7 +92,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <signal name="clicked" handler="build_os_media_clicked"/>
+                <signal name="clicked" handler="top_button_clicked"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -107,7 +107,7 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <signal name="clicked" handler="restore_system_clicked"/>
+                <signal name="clicked" handler="top_button_clicked"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -157,5 +157,81 @@
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="stock">gtk-help</property>
+  </object>
+  <object class="GtkDialog" id="dialog_hig">
+    <property name="border_width">6</property>
+    <property name="title" translatable="yes">Dell Recovery Media Creator</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox6">
+        <property name="visible">True</property>
+        <property name="spacing">12</property>
+        <child>
+          <object class="GtkHBox" id="hbox4">
+            <property name="visible">True</property>
+            <property name="border_width">6</property>
+            <property name="spacing">12</property>
+            <child>
+              <object class="GtkImage" id="image_hig">
+                <property name="visible">True</property>
+                <property name="xalign">0</property>
+                <property name="yalign">0</property>
+                <property name="stock">gtk-dialog-error</property>
+                <property name="icon-size">6</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_hig">
+                <property name="visible">True</property>
+                <property name="use_markup">True</property>
+                <property name="wrap">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area6">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="button3">
+                <property name="label">gtk-close</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-7">button3</action-widget>
+    </action-widgets>
   </object>
 </interface>

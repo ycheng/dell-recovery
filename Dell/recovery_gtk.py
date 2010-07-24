@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU General Public License along
 # with this application; if not, write to the Free Software Foundation, Inc., 51
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-##################################################################################
+################################################################################
 
 import os
 import subprocess
@@ -31,35 +31,38 @@ import glib
 
 import gtk
 
-from Dell.recovery_common import *
+from Dell.recovery_common import (DOMAIN, LOCALEDIR, UIDIR, DBUS_INTERFACE_NAME,
+                                  DBUS_BUS_NAME, dbus_sync_call_signal_wrapper,
+                                  PermissionDeniedByPolicy, check_version)
 
 #Translation support
-import gettext
 from gettext import gettext as _
+from gettext import bindtextdomain, textdomain
 
 class DellRecoveryToolGTK:
-    def __init__(self,rp):
+    """GTK implementation of the Dell Recovery suite for Linux"""
+    def __init__(self, recovery):
 
         #setup locales
-        gettext.bindtextdomain(domain, LOCALEDIR)
-        gettext.textdomain(domain)
+        bindtextdomain(DOMAIN, LOCALEDIR)
+        textdomain(DOMAIN)
         self.tool_widgets = gtk.Builder()
-        self.tool_widgets.add_from_file(os.path.join(UIDIR,'tool_selector.ui'))
+        self.tool_widgets.add_from_file(os.path.join(UIDIR, 'tool_selector.ui'))
         gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
 
-        self.translate_widgets(self.tool_widgets)
+        translate_widgets(self.tool_widgets)
         self.tool_widgets.connect_signals(self)
 
-        #hide restore from HDD unless there is an RP
-        if not rp:
-            for object in ['button', 'image', 'label']:
-                self.tool_widgets.get_object('restore_system_' + object).hide()
+        #hide restore from HDD unless there is a recovery partition
+        if not recovery:
+            for item in ['button', 'image', 'label']:
+                self.tool_widgets.get_object('restore_system_' + item).hide()
 
         #about dialog
         self.about_box = None
 
         #variables
-        self.rp = rp
+        self.rp = recovery
         self._dbus_iface = None
 
 #### Polkit enhanced ###
@@ -71,147 +74,154 @@ class DellRecoveryToolGTK:
         if self._dbus_iface is None:
             try:
                 bus = dbus.SystemBus()
-                self._dbus_iface = dbus.Interface(bus.get_object(DBUS_BUS_NAME, '/RecoveryMedia'),
+                self._dbus_iface = dbus.Interface(bus.get_object(DBUS_BUS_NAME,
+                                                  '/RecoveryMedia'),
                                                   DBUS_INTERFACE_NAME)
-            except Exception, e:
-                if hasattr(e, '_dbus_error_name') and e._dbus_error_name == \
-                    'org.freedesktop.DBus.Error.FileNotFound':
-                    header = _("Cannot connect to dbus")
-                    self.show_alert(gtk.MESSAGE_ERROR, header,
-                        parent=self.widgets.get_object('progress_dialog'))
-                    self.destroy(None)
-                    sys.exit(1)
-                else:
-                    self.show_alert(gtk.MESSAGE_ERROR, "Exception", str(e),
-                                    parent=self.widgets.get_object('progress_dialog'))
+            except dbus.DBusException, msg:
+                self.dbus_exception_handler(msg)
+                sys.exit(1)
+            except Exception, msg:
+                self.show_alert(gtk.MESSAGE_ERROR, "Exception", str(msg),
+                           parent=self.tool_widgets.get_object('tool_selector'))
 
         return self._dbus_iface
 
+    def dbus_exception_handler(self, msg, parent=None, fallback=None):
+        """Common handler used for dbus type exceptions"""
+        if msg.get_dbus_name() == 'org.freedesktop.DBus.Error.FileNotFound':
+            text = _("Cannot connect to dbus")
+        if msg.get_dbus_name() == PermissionDeniedByPolicy._dbus_error_name:
+            text = _("Permission Denied")
+        else:
+            text = msg.get_dbus_message()
+
+        if not parent:
+            parent = self.tool_widgets.get_object('tool_selector')
+
+        self.show_alert(gtk.MESSAGE_ERROR, _("Exception"), text, parent)
+
+        if fallback:
+            parent.hide()
+            fallback.show()
 
 #### Callbacks ###
-    def restore_system_clicked(self, widget):
-        try:
+    def top_button_clicked(self, widget):
+        """Callback for a button pushed in the main UI"""
+        #Restore System Button
+        if widget == self.tool_widgets.get_object('restore_system_button'):
+            tool_selector = self.tool_widgets.get_object('tool_selector')
+            try:
+                tool_selector.set_sensitive(False)
+                dbus_sync_call_signal_wrapper(self.backend(),
+                                              "enable_boot_to_restore",
+                                              {})
+                bus = dbus.SessionBus()
+                obj = bus.get_object('org.gnome.SessionManager',
+                                     '/org/gnome/SessionManager')
+                iface = dbus.Interface(obj, 'org.gnome.SessionManager')
+                iface.RequestReboot()
+                self.destroy()
+            except dbus.DBusException, msg:
+                self.dbus_exception_handler(msg)
+            tool_selector.set_sensitive(True)
+            
+            #don't do further processing
+            return False
+        #Restore Media Button
+        elif widget == self.tool_widgets.get_object('build_os_media_button'):
             self.tool_widgets.get_object('tool_selector').set_sensitive(False)
-            dbus_sync_call_signal_wrapper(self.backend(),
-                                          "enable_boot_to_restore",
-                                          {})
-            bus = dbus.SessionBus()
-            obj = bus.get_object('org.gnome.SessionManager', '/org/gnome/SessionManager')
-            iface = dbus.Interface(obj, 'org.gnome.SessionManager')
-            iface.RequestReboot()
-            self.destroy()
-        except dbus.DBusException, e:
-            if e._dbus_error_name == PermissionDeniedByPolicy._dbus_error_name:
-                header = _("Permission Denied")
-            else:
-                header = str(e)
-            self.show_alert(gtk.MESSAGE_ERROR, header,
-                        parent=self.tool_widgets.get_object('tool_selector'))
-        self.tool_widgets.get_object('tool_selector').set_sensitive(True)
 
-    def build_os_media_clicked(self, widget):
-        self.tool_widgets.get_object('tool_selector').set_sensitive(False)
+            #continue
+            return True
 
-    def get_help_menu_item_clicked(self, widget):
-        """Invoke the help for this app"""
-        # run yelp
-        p = subprocess.Popen(["yelp","ghelp:dell-recovery"])
-        # collect the exit status (otherwise we leave zombies)
-        glib.timeout_add_seconds(1, lambda p: p.poll() == None, p)
-
-    def about_menu_item_clicked(self, widget):
-        if not self.about_box:
-            self.about_box = gtk.AboutDialog()
-            self.about_box.set_version(check_version())
-            self.about_box.set_name(_("Dell Recovery"))
-            self.about_box.set_copyright(_("Copyright 2008-2010 Dell Inc."))
-            self.about_box.set_website("http://www.dell.com/ubuntu")
-            self.about_box.set_authors(["Mario Limonciello"])
-            self.about_box.set_destroy_with_parent(True)
-            self.about_box.set_modal(True)
-            self.about_box.set_transient_for(self.tool_widgets.get_object('tool_selector'))
-        self.tool_widgets.get_object('tool_selector').set_sensitive(False)
-        self.about_box.run()
-        self.about_box.hide()
-        self.tool_widgets.get_object('tool_selector').set_sensitive(True)
-        
+    def menu_item_clicked(self, widget):
+        """Callback for help menu items"""
+        if widget == self.tool_widgets.get_object('get_help_menu_item'):
+            # run yelp
+            proc = subprocess.Popen(["yelp", "ghelp:dell-recovery"])
+            # collect the exit status (otherwise we leave zombies)
+            glib.timeout_add_seconds(1, lambda proc: proc.poll() == None, proc)
+        elif widget == self.tool_widgets.get_object('about_menu_item'):
+            tool_selector = self.tool_widgets.get_object('tool_selector')
+            if not self.about_box:
+                self.about_box = gtk.AboutDialog()
+                self.about_box.set_version(check_version())
+                self.about_box.set_name(_("Dell Recovery"))
+                self.about_box.set_copyright(_("Copyright 2008-2010 Dell Inc."))
+                self.about_box.set_website("http://www.dell.com/ubuntu")
+                self.about_box.set_authors(["Mario Limonciello"])
+                self.about_box.set_destroy_with_parent(True)
+                self.about_box.set_modal(True)
+                self.about_box.set_transient_for(tool_selector)
+            tool_selector.set_sensitive(False)
+            self.about_box.run()
+            self.about_box.hide()
+            tool_selector.set_sensitive(True)
 
 #### GUI Functions ###
 # This application is functional via command line by using the above functions #
 
-    def translate_widgets(self,widgets):
-        widgets.set_translation_domain(domain)
-        for widget in widgets.get_objects():
-            if isinstance(widget, gtk.Label):
-                widget.set_property('can-focus', False)
-                widget.set_text(_(widget.get_text()))
-            elif isinstance(widget, gtk.RadioButton):
-                widget.set_label(_(widget.get_label()))
-            elif isinstance(widget, gtk.Window):
-                title = widget.get_title()
-                if title:
-                    widget.set_title(_(widget.get_title()))
+
 
     def run(self):
+        """Runs the GTK application's main functions"""
         self.tool_widgets.get_object('tool_selector').show()
         gtk.main()
 
-    def hide_progress(self):
-        """Hides the progress bar"""
-        self.widgets.get_object('progress_dialog').hide()
-        while gtk.events_pending():
-            gtk.main_iteration()
-
-    def show_alert(self, type, header, body=None, details=None, parent=None):
+    def show_alert(self, alert_type, header, body=None, parent=None):
+        """Displays an alert message"""
+        dialog_hig = self.tool_widgets.get_object('dialog_hig')
+        label_hig  = self.tool_widgets.get_object('label_hig')
+        image_hig  = self.tool_widgets.get_object('image_hig')
+        tool_selector = self.tool_widgets.get_object('tool_selector')
+        
         if parent is not None:
-             self.widgets.get_object('dialog_hig').set_transient_for(parent)
+            dialog_hig.set_transient_for(parent)
         else:
-             self.widgets.get_object('dialog_hig').set_transient_for(self.widgets.get_object('progress_dialog'))
+            dialog_hig.set_transient_for(tool_selector)
 
         message = "<b><big>%s</big></b>" % header
         if not body == None:
-             message = "%s\n\n%s" % (message, body)
-        self.widgets.get_object('label_hig').set_markup(message)
+            message = "%s\n\n%s" % (message, body)
+        label_hig.set_markup(message)
+        
+        if alert_type == gtk.MESSAGE_ERROR:
+            image_hig.set_property("stock", "gtk-dialog-error")
+        elif alert_type == gtk.MESSAGE_WARNING:
+            image_hig.set_property("stock", "gtk-dialog-warning")
+        elif alert_type == gtk.MESSAGE_INFO:
+            image_hig.set_property("stock", "gtk-dialog-info")
 
-        if not details == None:
-             buffer = self.widgets.get_object('textview_hig').get_buffer()
-             buffer.set_text(str(details))
-             self.widgets.get_object('expander_hig').set_expanded(False)
-             self.widgets.get_object('expander_hig').show()
-
-        if type == gtk.MESSAGE_ERROR:
-             self.widgets.get_object('image_hig').set_property("stock", "gtk-dialog-error")
-        elif type == gtk.MESSAGE_WARNING:
-             self.widgets.get_object('image_hig').set_property("stock", "gtk-dialog-warning")
-        elif type == gtk.MESSAGE_INFO:
-             self.widgets.get_object('image_hig').set_property("stock", "gtk-dialog-info")
-
-        res = self.widgets.get_object('dialog_hig').run()
-        self.widgets.get_object('dialog_hig').hide()
+        res = self.tool_widgets.get_object('dialog_hig').run()
+        self.tool_widgets.get_object('dialog_hig').hide()
         if res == gtk.RESPONSE_CLOSE:
             return True
         return False
 
-    def show_question(self,dialog):
-        """Presents the user with a question"""
-        response = dialog.run()
-        dialog.hide()
-        if response == gtk.RESPONSE_YES:
-            return True
-        return False
-
-    def ignore(*args):
-        """Ignores a signal"""
-        return True
-
     def destroy(self, widget=None, data=None):
+        """Closes any open backend connections and stops GTK threads"""
         try:
             if self._dbus_iface is not None:
                 self.backend().request_exit()
-        except dbus.DBusException, e:
-            if hasattr(e, '_dbus_error_name') and e._dbus_error_name == \
+        except dbus.DBusException, msg:
+            if hasattr(msg, '_dbus_error_name') and msg.get_dbus_name() == \
                     'org.freedesktop.DBus.Error.ServiceUnknown':
                 pass
             else:
-                print "Received %s when closing DBus service" % str(e)
+                print "%s when closing DBus service from %s (data: %s)" % \
+                                             (str(msg), widget.get_name(), data)
         gtk.main_quit()
+
+def translate_widgets(widgets):
+    """Translates all widgets to the specified domain"""
+    widgets.set_translation_domain(DOMAIN)
+    for widget in widgets.get_objects():
+        if isinstance(widget, gtk.Label):
+            widget.set_property('can-focus', False)
+            widget.set_text(_(widget.get_text()))
+        elif isinstance(widget, gtk.RadioButton):
+            widget.set_label(_(widget.get_label()))
+        elif isinstance(widget, gtk.Window):
+            title = widget.get_title()
+            if title:
+                widget.set_title(_(widget.get_title()))

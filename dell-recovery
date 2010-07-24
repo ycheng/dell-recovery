@@ -72,22 +72,22 @@ if __name__ == '__main__':
     else:
         import dbus.mainloop.glib
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-        up,rp=find_partitions(options.up,options.rp)
+        utility, recovery = find_partitions(options.up,options.rp)
 
         #If we don't find an RP, assume builder mode.
-        if not rp and not options.builder:
+        if not recovery and not options.builder:
             options.builder = True
     
-        args = (up,
-                rp,
+        args = (utility,
+                recovery,
                 options.version,
                 options.media,
-                options.target)
+                options.target,
+                options.overwrite)
 
         if options.builder:
             from Dell.recovery_advanced_gtk import AdvancedGeneratorGTK
-            args += (options.overwrite,
-                     options.xrev,
+            args += (options.xrev,
                      options.branch)
             tool = AdvancedGeneratorGTK(*args)
         else:

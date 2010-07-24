@@ -66,7 +66,7 @@ class PageNoninteractive(PluginUI):
             mode, which expects such a str""'''
         return ""
 
-    def set_type(self,type):
+    def set_type(self, type):
         pass
 
     def set_dual(self):
@@ -81,7 +81,7 @@ class PageNoninteractive(PluginUI):
     def show_dual_dialog(self):
         pass
 
-    def show_exception_dialog(self,e):
+    def show_exception_dialog(self, e):
         pass
 
     def get_selected_device(self):
@@ -136,10 +136,10 @@ class PageGtk(PluginUI):
             icon = builder.get_object('dell_image')
             with misc.raised_privileges():
                 version = magic.check_version()
-            with open('/proc/mounts','r') as mounts:
+            with open('/proc/mounts', 'r') as mounts:
                 for line in mounts.readlines():
                     if '/cdrom' in line:
-                        icon.set_tooltip_markup("<b>Version</b>: %s\n<b>Mounted from</b>: %s" % (version,line.split()[0]))
+                        icon.set_tooltip_markup("<b>Version</b>: %s\n<b>Mounted from</b>: %s" % (version, line.split()[0]))
                         break
 
             if not self.genuine:
@@ -176,11 +176,11 @@ class PageGtk(PluginUI):
         model = self.automated_combobox.get_model()
         iterator = self.automated_combobox.get_active_iter()
         if iterator is not None:
-            device = model.get_value(iterator,0)
-            size = model.get_value(iterator,1)
+            device = model.get_value(iterator, 0)
+            size = model.get_value(iterator, 1)
         return (device, size)
 
-    def set_type(self,type):
+    def set_type(self, type):
         """Sets the type of recovery to do in GUI"""
         if not self.genuine:
             return
@@ -301,8 +301,8 @@ class Page(Plugin):
             dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
 
             #Find mounted swap
-            if dev.Get('org.freedesktop.UDisks.Device','IdType') == 'swap':
-                device = dev.Get('org.freedesktop.Udisks.Device','DeviceFile')
+            if dev.Get('org.freedesktop.UDisks.Device', 'IdType') == 'swap':
+                device = dev.Get('org.freedesktop.Udisks.Device', 'DeviceFile')
                 misc.execute_root('swapoff', device)
                 if misc is False:
                     raise RuntimeError, ("Error removing swap for device %s" % device)
@@ -380,7 +380,7 @@ class Page(Plugin):
 
         #Explode SRVs that match SDR
         for srv in srv_list:
-            file = os.path.join(os.path.join(CDROM_MOUNT, 'srv','%s' % srv))
+            file = os.path.join(os.path.join(CDROM_MOUNT, 'srv', '%s' % srv))
             if os.path.exists('%s.tgz' % file):
                 import tarfile
                 archive = tarfile.open('%s.tgz' % file)
@@ -428,13 +428,13 @@ class Page(Plugin):
             archive.close()
 
         #Now check for additional UP content to explode
-        for file in magic.up_filenames:
+        for file in magic.UP_FILENAMES:
             if os.path.exists(os.path.join(CDROM_MOUNT, file)):
                 #Restore full UP backup (dd)
                 if '.bin' in file or '.gz' in file:
                     with misc.raised_privileges():
                         with open(self.device + STANDARD_UP_PARTITION, 'w') as partition:
-                            p1 = subprocess.Popen(['gzip','-dc',os.path.join(CDROM_MOUNT, file)], stdout=subprocess.PIPE)
+                            p1 = subprocess.Popen(['gzip', '-dc', os.path.join(CDROM_MOUNT, file)], stdout=subprocess.PIPE)
                             partition.write(p1.communicate()[0])
                 #Restore UP (zip/tgz)
                 elif '.zip' in file or '.tgz' in file:
@@ -455,10 +455,10 @@ class Page(Plugin):
         #Then make the files we need to be automatically bootable
         if not os.path.exists('/boot/autoexec.bat') and os.path.exists('/boot/autoexec.up'):
             with misc.raised_privileges():
-                shutil.copy('/boot/autoexec.up','/boot/autoexec.bat')
+                shutil.copy('/boot/autoexec.up', '/boot/autoexec.bat')
         if not os.path.exists('/boot/config.sys') and os.path.exists('/boot/config.up'):
             with misc.raised_privileges():
-                shutil.copy('/boot/config.up','/boot/config.sys')
+                shutil.copy('/boot/config.up', '/boot/config.sys')
         if mount:
             umount = misc.execute_root('umount', '/boot')
             if umount is False:
@@ -467,7 +467,7 @@ class Page(Plugin):
 
     def boot_rp(self):
         """reboots the system"""
-        subprocess.call(['/etc/init.d/casper','stop'])
+        subprocess.call(['/etc/init.d/casper', 'stop'])
 
         #Set up a listen for udisks to let us know a usb device has left
         bus = dbus.SystemBus()
@@ -513,19 +513,19 @@ class Page(Plugin):
             dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
 
             #Skip USB, Removable Disks, Partitions, External, Loopback, Readonly
-            if dev.Get('org.freedesktop.UDisks.Device','DriveConnectionInterface') == 'usb' or \
-               dev.Get('org.freedesktop.UDisks.Device','DeviceIsRemovable') == 1 or \
-               dev.Get('org.freedesktop.UDisks.Device','DeviceIsPartition') == 1 or \
-               dev.Get('org.freedesktop.UDisks.Device','DeviceIsSystemInternal') == 0 or \
-               dev.Get('org.freedesktop.UDisks.Device','DeviceIsLinuxLoop') == 1 or \
-               dev.Get('org.freedesktop.UDisks.Device','DeviceIsReadOnly') == 1 :
+            if dev.Get('org.freedesktop.UDisks.Device', 'DriveConnectionInterface') == 'usb' or \
+               dev.Get('org.freedesktop.UDisks.Device', 'DeviceIsRemovable') == 1 or \
+               dev.Get('org.freedesktop.UDisks.Device', 'DeviceIsPartition') == 1 or \
+               dev.Get('org.freedesktop.UDisks.Device', 'DeviceIsSystemInternal') == 0 or \
+               dev.Get('org.freedesktop.UDisks.Device', 'DeviceIsLinuxLoop') == 1 or \
+               dev.Get('org.freedesktop.UDisks.Device', 'DeviceIsReadOnly') == 1 :
                 continue
 
             #if we made it this far, add it
-            devicefile = dev.Get('org.freedesktop.Udisks.Device','DeviceFile')
-            devicemodel = dev.Get('org.freedesktop.Udisks.Device','DriveModel')
-            devicevendor = dev.Get('org.freedesktop.Udisks.Device','DriveVendor')
-            devicesize = dev.Get('org.freedesktop.Udisks.Device','DeviceSize')
+            devicefile = dev.Get('org.freedesktop.Udisks.Device',   'DeviceFile')
+            devicemodel = dev.Get('org.freedesktop.Udisks.Device',  'DriveModel')
+            devicevendor = dev.Get('org.freedesktop.Udisks.Device', 'DriveVendor')
+            devicesize = dev.Get('org.freedesktop.Udisks.Device',   'DeviceSize')
             devicesize_gb = "%i" % (devicesize / 1000000000)
             disks.append([devicefile, devicesize, "%s GB %s %s (%s)" % (devicesize_gb, devicevendor, devicemodel, devicefile)])
 
@@ -583,7 +583,7 @@ class Page(Plugin):
             type = self.db.get('dell-recovery/recovery_type')
             #These require interactivity - so don't fly by even if --automatic
             if type != 'factory':
-                self.db.set('dell-recovery/recovery_type','')
+                self.db.set('dell-recovery/recovery_type', '')
                 self.db.fset('dell-recovery/recovery_type', 'seen', 'false')
             else:
                 self.db.fset('dell-recovery/recovery_type', 'seen', 'true')
@@ -771,7 +771,7 @@ class Page(Plugin):
 
     def cancel_handler(self):
         """Called when we don't want to perform recovery'"""
-        misc.execute_root('reboot','-n')
+        misc.execute_root('reboot', '-n')
 
     def handle_exception(self, e):
         self.debug(str(e))
@@ -811,7 +811,7 @@ class rp_builder(Thread):
             raise RuntimeError, ("Unsupported disk layout: %s" % self.disk_layout)
 
         #Check if we are booted from same device as target
-        with open('/proc/mounts','r') as mounts:
+        with open('/proc/mounts', 'r') as mounts:
             for line in mounts.readlines():
                 if '/cdrom' in line:
                     mounted_device = line.split()[0]
@@ -849,16 +849,16 @@ manually to proceed.")
 
         if self.disk_layout == 'msdos':
             #Create a DRMK MBR
-            with open('/usr/share/dell/up/mbr.bin','rb') as mbr:
+            with open('/usr/share/dell/up/mbr.bin', 'rb') as mbr:
                 with misc.raised_privileges():
-                    with open(self.device,'wb') as out:
+                    with open(self.device, 'wb') as out:
                         out.write(mbr.read(440))
 
             #Utility partition files (tgz/zip)#
             up_size = 32
 
             #Utility partition image (dd)#
-            for file in magic.up_filenames:
+            for file in magic.UP_FILENAMES:
                 if 'img' in file and os.path.exists(os.path.join(CDROM_MOUNT, file)):
                     #in bytes
                     up_size = int(fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, file)]).split()[1])
@@ -877,9 +877,9 @@ manually to proceed.")
                 fetch_output(['fdisk', self.device], data)
 
             #build the bootsector of the partition
-            with open('/usr/share/dell/up/up.bs','rb') as rfd:
+            with open('/usr/share/dell/up/up.bs', 'rb') as rfd:
                 with misc.raised_privileges():
-                    with open(self.device + self.up_part,'wb') as wfd:
+                    with open(self.device + self.up_part, 'wb') as wfd:
                         wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
                         rfd.seek(43)
                         wfd.seek(43)
@@ -1027,7 +1027,7 @@ manually to proceed.")
 def fetch_output(cmd, data=None):
     '''Helper function to just read the output from a command'''
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-    (out,err) = proc.communicate(data)
+    (out, err) = proc.communicate(data)
     if proc.returncode is None:
         proc.wait()
     if proc.returncode != 0:
@@ -1038,7 +1038,7 @@ def fetch_output(cmd, data=None):
 
 def reboot_machine(objpath):
     reboot_cmd = '/sbin/reboot'
-    reboot = misc.execute_root(reboot_cmd,'-n')
+    reboot = misc.execute_root(reboot_cmd, '-n')
     if reboot is False:
         raise RuntimeError, ("Reboot failed")
 
@@ -1063,7 +1063,7 @@ class Install(InstallPlugin):
         if os.path.isdir(CDROM_MOUNT + '/debs/main'):
             for file in os.listdir(CDROM_MOUNT + '/debs/main'):
                 if '.deb' in file:
-                    to_install.append(parse(os.path.join(CDROM_MOUNT + '/debs/main',file)))
+                    to_install.append(parse(os.path.join(CDROM_MOUNT + '/debs/main', file)))
 
         #These aren't in all images, but desirable if available
         to_install.append('dkms')
@@ -1073,10 +1073,10 @@ class Install(InstallPlugin):
 
     def enable_oem_config(self, target):
         '''Enables OEM config on the target'''
-        oem_dir = os.path.join(target,'var/lib/oem-config')
+        oem_dir = os.path.join(target, 'var/lib/oem-config')
         if not os.path.exists(oem_dir):
             os.makedirs(oem_dir)
-        with open(os.path.join(oem_dir,'run'),'w'):
+        with open(os.path.join(oem_dir, 'run'), 'w'):
             pass
 
     def remove_ricoh_mmc(self):
@@ -1085,7 +1085,7 @@ class Install(InstallPlugin):
         lsmod = fetch_output('lsmod').split('\n')
         for line in lsmod:
             if line.startswith('ricoh_mmc'):
-                misc.execute('rmmod',line.split()[0])
+                misc.execute('rmmod', line.split()[0])
 
     def propagate_kernel_parameters(self, target):
         '''Copies in kernel command line parameters that were needed during
@@ -1103,9 +1103,9 @@ class Install(InstallPlugin):
 
         if extra and os.path.exists(os.path.join(target, 'etc/default/grub')):
             #read/write new grub
-            with open(os.path.join(target, 'etc/default/grub'),'r') as grub:
+            with open(os.path.join(target, 'etc/default/grub'), 'r') as grub:
                 default_grub = grub.readlines()
-            with open(os.path.join(target, 'etc/default/grub'),'w') as grub:
+            with open(os.path.join(target, 'etc/default/grub'), 'w') as grub:
                 for line in default_grub:
                     if 'GRUB_CMDLINE_LINUX_DEFAULT' in line:
                         line = line.replace('GRUB_CMDLINE_LINUX_DEFAULT="', 'GRUB_CMDLINE_LINUX_DEFAULT="%s ' % extra)
@@ -1146,7 +1146,7 @@ class Install(InstallPlugin):
         if not genuine:
             raise RuntimeError, ("This recovery media only works on Dell Hardware.")
 
-        up,  rp  = magic.find_partitions('','')
+        up,  rp  = magic.find_partitions('', '')
 
         from ubiquity import install_misc
         to_install = []
@@ -1188,7 +1188,7 @@ class Install(InstallPlugin):
                         # --write-signature: writes a special signature to MBR if needed
                         # --part: partition containing EFI cool beans
                         # --loader: the name of the loader we are choosing
-                        fd.write('efibootmbr --disk %s --part %s --label Ubuntu --create --active --write-signature --loader /\grub.efi\n' % (disk,active))
+                        fd.write('efibootmbr --disk %s --part %s --label Ubuntu --create --active --write-signature --loader /\grub.efi\n' % (disk, active))
                     #If we're not booted to EFI mode, but using GPT,
                     else:
                         #See https://bugs.launchpad.net/ubuntu/+source/partman-partitioning/+bug/592813

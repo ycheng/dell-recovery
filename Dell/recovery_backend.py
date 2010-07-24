@@ -32,7 +32,6 @@ import dbus.service
 import dbus.mainloop.glib
 from threading import Thread, Event
 
-import getopt
 import atexit
 import tempfile
 import subprocess
@@ -40,65 +39,82 @@ import tarfile
 import shutil
 import datetime
 import distutils.dir_util
-import re
 import stat
 import zipfile
-import glob
 
-from Dell.recovery_common import *
+from Dell.recovery_common import (DOMAIN, LOCALEDIR, UP_FILENAMES,
+                                  walk_cleanup, create_new_uuid, white_tree,
+                                  DBUS_BUS_NAME, DBUS_INTERFACE_NAME,
+                                  RestoreFailed, CreateFailed,
+                                  PermissionDeniedByPolicy)
+
+#Translation support
+from gettext import gettext as _
+from gettext import bindtextdomain, textdomain
+
 
 #--------------------------------------------------------------------#
 #Borrowed from USB-Creator initially
-#Used for emitting progress for subcalls that don't use stdout nicely
-class progress_by_size(Thread):
-    def __init__(self, str, device, to_write):
+class ProgressBySize(Thread):
+    """Used for emitting progress for subcalls that don't nicely use stdout'"""
+    def __init__(self, input_str, device, to_write):
         Thread.__init__(self)
         self._stopevent = Event()
-        self.str=str
+        self.str = input_str
         self.to_write = to_write
         self.device = device
         statvfs = os.statvfs(device)
         self.start_free = statvfs.f_bsize * statvfs.f_bavail
 
-    def progress(self, str, per):
+    def progress(self, input_str, percent):
+        """Function intended to be overridden to the correct external function
+        """
         pass
 
     def run(self):
+        """Runs the thread"""
         try:
             while not self._stopevent.isSet():
                 statvfs = os.statvfs(self.device)
                 free = statvfs.f_bsize * statvfs.f_bavail
                 written = self.start_free - free
-                v = int((written / float(self.to_write)) * 100)
+                veecent = int((written / float(self.to_write)) * 100)
                 if callable(self.progress):
-                    self.progress(self.str,v)
+                    self.progress(self.str, veecent)
                 self._stopevent.wait(2)
         except Exception:
             logging.exception('Could not update progress:')
 
     def join(self, timeout=None):
+        """Stops the thread"""
         self._stopevent.set()
         Thread.join(self, timeout)
 
-class progress_by_pulse(Thread):
-    def __init__(self,str):
+class ProgressByPulse(Thread):
+    """Used for emitting the thought of progress for subcalls that don't show
+       anything'"""
+    def __init__(self, input_str):
         Thread.__init__(self)
         self._stopevent = Event()
-        self.str = str
+        self.str = input_str
 
-    def progress(self, str, per):
+    def progress(self, input_str, percent):
+        """Function intended to be overridden to the correct external function
+        """
         pass
 
     def run(self):
+        """Runs the thread"""
         try:
             while not self._stopevent.isSet():
                 if callable(self.progress):
-                    self.progress(self.str,"-1")
+                    self.progress(self.str, "-1")
                 self._stopevent.wait(.5)
         except Exception:
             logging.exception('Could not update progress:')
 
     def join(self, timeout=None):
+        """Stops the thread"""
         self._stopevent.set()
         Thread.join(self, timeout)
 
@@ -117,11 +133,23 @@ class Backend(dbus.service.Object):
     #
 
     def __init__(self):
+        dbus.service.Object.__init__(self)
+
+        #initialize variables that will be used during create and run
+        self.bus = None
+        self.main_loop = None
+        self._timeout = False
+        self.dbus_name = None
+        
         # cached D-BUS interfaces for _check_polkit_privilege()
         self.dbus_info = None
         self.polkit = None
         self.progress_thread = None
         self.enforce_polkit = True
+
+        #Enable translation for strings used
+        bindtextdomain(DOMAIN, LOCALEDIR)
+        textdomain(DOMAIN)
 
     def run_dbus_service(self, timeout=None, send_usr1=False):
         '''Run D-BUS server.
@@ -136,10 +164,11 @@ class Backend(dbus.service.Object):
         self.main_loop = gobject.MainLoop()
         self._timeout = False
         if timeout:
-            def _t():
+            def _quit():
+                """This function is ran at the end of timeout"""
                 self.main_loop.quit()
                 return True
-            gobject.timeout_add(timeout * 1000, _t)
+            gobject.timeout_add(timeout * 1000, _quit)
 
         # send parent process a signal that we are ready now
         if send_usr1:
@@ -152,15 +181,13 @@ class Backend(dbus.service.Object):
             self.main_loop.run()
 
     @classmethod
-    def create_dbus_server(klass, session_bus=False):
+    def create_dbus_server(cls, session_bus=False):
         '''Return a D-BUS server backend instance.
 
         Normally this connects to the system bus. Set session_bus to True to
         connect to the session bus (for testing).
 
         '''
-        import dbus.mainloop.glib
-
         backend = Backend()
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         if session_bus:
@@ -170,7 +197,7 @@ class Backend(dbus.service.Object):
             backend.bus = dbus.SystemBus()
         try:
             backend.dbus_name = dbus.service.BusName(DBUS_BUS_NAME, backend.bus)
-        except dbus.exceptions.DBusException,msg:
+        except dbus.exceptions.DBusException, msg:
             logging.error("Exception when spawning dbus service")
             logging.error(msg)
             return None
@@ -217,12 +244,13 @@ class Backend(dbus.service.Object):
                 'org.freedesktop.PolicyKit1.Authority')
         try:
             # we don't need is_challenge return here, since we call with AllowUserInteraction
-            (is_auth, _, details) = self.polkit.CheckAuthorization(
+            (is_auth, unused, details) = self.polkit.CheckAuthorization(
                     ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1),
                         'start-time': dbus.UInt64(0, variant_level=1)}),
                     privilege, {'': ''}, dbus.UInt32(1), '', timeout=600)
-        except dbus.DBusException, e:
-            if e._dbus_error_name == 'org.freedesktop.DBus.Error.ServiceUnknown':
+        except dbus.DBusException, msg:
+            if msg.get_dbus_name() == \
+                                    'org.freedesktop.DBus.Error.ServiceUnknown':
                 # polkitd timed out, connect again
                 self.polkit = None
                 return self._check_polkit_privilege(sender, conn, privilege)
@@ -230,77 +258,81 @@ class Backend(dbus.service.Object):
                 raise
 
         if not is_auth:
-            logging.debug('_check_polkit_privilege: sender %s on connection %s pid %i is not authorized for %s: %s' %
-                    (sender, conn, pid, privilege, str(details)))
+            logging.debug('_check_polkit_privilege: sender %s on connection %s pid %i is not authorized for %s: %s',
+                    sender, conn, pid, privilege, str(details))
             raise PermissionDeniedByPolicy(privilege)
 
     #
     # Internal API for calling from Handlers (not exported through D-BUS)
     #
 
-    def request_mount(self,rp,sender=None,conn=None):
-        '''Attempts to mount the rp.
+    def request_mount(self, recovery, sender=None, conn=None):
+        '''Attempts to mount the recovery partition
 
            If successful, return mntdir.
            If we find that it's already mounted elsewhere, return that mount
            If unsuccessful, return an empty string
         '''
         #Work around issues sending a UTF-8 directory over dbus
-        rp = rp.encode('utf8')
+        recovery = recovery.encode('utf8')
 
         #In this is just a directory
-        if os.path.isdir(rp):
-            return rp
+        if os.path.isdir(recovery):
+            return recovery
 
         #check for an existing mount
-        command=subprocess.Popen(['mount'],stdout=subprocess.PIPE)
-        output=command.communicate()[0].split('\n')
+        command = subprocess.Popen(['mount'], stdout=subprocess.PIPE)
+        output = command.communicate()[0].split('\n')
         for line in output:
-            processed_line=line.split()
-            if len(processed_line) > 0 and processed_line[0] == rp:
+            processed_line = line.split()
+            if len(processed_line) > 0 and processed_line[0] == recovery:
                 return processed_line[2]
 
         #if not already, mounted, produce a mount point
-        mntdir=tempfile.mkdtemp()
-        mnt_args = ['mount','-r',rp, mntdir]
-        if ".iso" in rp:
-            mnt_args.insert(1,'loop')
-            mnt_args.insert(1,'-o')
+        mntdir = tempfile.mkdtemp()
+        mnt_args = ['mount', '-r', recovery, mntdir]
+        if ".iso" in recovery:
+            mnt_args.insert(1, 'loop')
+            mnt_args.insert(1, '-o')
         else:
-            self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.create')
-        command=subprocess.Popen(mnt_args,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        output=command.communicate()
-        ret=command.wait()
+            self._check_polkit_privilege(sender, conn,
+                                                'com.dell.recoverymedia.create')
+        command = subprocess.Popen(mnt_args,
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE)
+        output = command.communicate()
+        ret = command.wait()
         if ret is not 0:
             os.rmdir(mntdir)
             if ret == 32:
                 try:
-                    mntdir=output[1].strip('\n').split('on')[1].strip(' ')
+                    mntdir = output[1].strip('\n').split('on')[1].strip(' ')
                 except IndexError:
-                    mntdir=''
+                    mntdir = ''
                     logging.warning("IndexError when operating on output string")
             else:
-                mntdir=''
+                mntdir = ''
                 logging.warning("Unable to mount recovery partition")
                 logging.warning(output)
         else:
-            atexit.register(self.unmount_drive,mntdir)
+            atexit.register(self._unmount_drive, mntdir)
         return mntdir
 
-    def unmount_drive(self,mnt):
+    def _unmount_drive(self, mnt):
+        """Unmounts something mounted at a particular mount point"""
         if os.path.exists(mnt):
-            ret=subprocess.call(['umount', mnt])
+            ret = subprocess.call(['umount', mnt])
             if ret is not 0:
                 print >> sys.stderr, "Error unmounting %s" % mnt
             try:
                 os.rmdir(mnt)
-            except OSError, e:
-                print >> sys.stderr, "Error cleaning up: %s" % str(e)
+            except OSError, msg:
+                print >> sys.stderr, "Error cleaning up: %s" % str(msg)
 
-    def start_sizable_progress_thread(self, str, mnt, w_size):
+    def start_sizable_progress_thread(self, input_str, mnt, w_size):
         """Initializes the extra progress thread, or resets it
            if it already exists'"""
-        self.progress_thread = progress_by_size(str, mnt, w_size)
+        self.progress_thread = ProgressBySize(input_str, mnt, w_size)
         self.progress_thread.progress = self.report_progress
         self.progress_thread.start()
 
@@ -308,16 +340,17 @@ class Backend(dbus.service.Object):
         """Stops the extra thread for reporting progress"""
         self.progress_thread.join()
 
-    def start_pulsable_progress_thread(self, str):
-        self.progress_thread = progress_by_pulse(str)
+    def start_pulsable_progress_thread(self, input_str):
+        """Starts the extra thread for pulsing progress in the UI"""
+        self.progress_thread = ProgressByPulse(input_str)
         self.progress_thread.progress = self.report_progress
         self.progress_thread.start()
     #
     # Client API (through D-BUS)
     #
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='', out_signature='', sender_keyword='sender',
-        connection_keyword='conn')
+        in_signature = '', out_signature = '', sender_keyword = 'sender',
+        connection_keyword = 'conn')
     def request_exit(self, sender=None, conn=None):
         """Closes the backend and cleans up"""
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.request_exit')
@@ -325,45 +358,46 @@ class Backend(dbus.service.Object):
         self.main_loop.quit()
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='ssasa{ss}sssss', out_signature='', sender_keyword='sender',
-        connection_keyword='conn')
-    def assemble_image(self, base, fid, driver_fish, application_fish, dell_recovery_package, create_fn, up, version, iso, sender=None, conn=None):
-        """Takes the different pieces that would be used for a BTO image and puts them together
+        in_signature = 'ssasa{ss}sssss', out_signature = '', sender_keyword = 'sender',
+        connection_keyword = 'conn')
+    def assemble_image(self, base, fid, driver_fish, application_fish,
+                       dell_recovery_package, create_fn, utility,
+                       version, iso, sender=None, conn=None):
+        """Assemble pieces that would be used for building a BTO image.
            base: mount point of base image (or directory)
            fid: mount point of fid overlay
            fish: list of packages to fish
            create_fn: function to call for creation of ISO
-           up: utility partition
+           utility: utility partition
            version: version for ISO creation purposes
            iso: iso file name to create"""
 
-        def safe_tar_extract(filename,destination):
+        def safe_tar_extract(filename, destination):
             """Safely extracts a tarball into destination"""
-            file=tarfile.open(filename)
-            dangerous_file=False
-            for name in file.getnames():
-                if name.startswith('..') or name.startswith('/'):
-                    dangerous_file=True
-                    break
-            if not dangerous_file:
-                file.extractall(destination)
-            file.close()
+            with tarfile.open(filename) as rfd:
+                dangerous_file = False
+                for name in rfd.getnames():
+                    if name.startswith('..') or name.startswith('/'):
+                        dangerous_file = True
+                        break
+                if not dangerous_file:
+                    rfd.extractall(destination)
 
         self._reset_timeout()
 
-        base_mnt = self.request_mount(base,sender,conn)
+        base_mnt = self.request_mount(base, sender, conn)
 
-        assembly_tmp=tempfile.mkdtemp()
-        atexit.register(walk_cleanup,assembly_tmp)
+        assembly_tmp = tempfile.mkdtemp()
+        atexit.register(walk_cleanup, assembly_tmp)
 
         #Build a filter list using re for stuff that will be purged during copy
-        purge_filter=''
-        purge_list_file=os.path.join(fid,'..','examples','purgedvd.lst')
+        purge_filter = ''
+        purge_list_file = os.path.join(fid, '..', 'examples', 'purgedvd.lst')
         if os.path.exists(purge_list_file):
             try:
                 purge_list = open(purge_list_file).readlines()
                 for line in purge_list:
-                    folder=line.strip('\n')
+                    folder = line.strip('\n')
                     if not purge_filter and folder:
                         purge_filter = "^" + folder
                     elif folder:
@@ -371,68 +405,74 @@ class Backend(dbus.service.Object):
                 if purge_filter:
                     purge_filter += "|^syslinux"
             except IOError:
-                print  >> sys.stderr, "Error reading purge list, but file exists"
-        logging.debug('assemble_image: purge_filter is %s' % purge_filter)
-        white_pattern=re.compile(purge_filter)
+                print >> sys.stderr, "Error reading purge list, but file exists"
+        logging.debug('assemble_image: purge_filter is %s', purge_filter)
+        white_pattern = re.compile(purge_filter)
 
 
         #copy the base iso/mnt point/etc
-        w_size=white_tree("size", white_pattern, base_mnt)
-        self.start_sizable_progress_thread(_('Adding in base image'), assembly_tmp, w_size)
+        w_size = white_tree("size", white_pattern, base_mnt)
+        self.start_sizable_progress_thread(_('Adding in base image'),
+                                           assembly_tmp,
+                                           w_size)
         white_tree("copy", white_pattern, base_mnt, assembly_tmp)
         self.stop_progress_thread()
 
         #Add in FID content
         if os.path.exists(fid):
-            self.report_progress(_('Overlaying FID content'),'99.0')
+            self.report_progress(_('Overlaying FID content'), '99.0')
             if os.path.isdir(fid):
-                distutils.dir_util.copy_tree(fid,assembly_tmp,preserve_symlinks=0,verbose=1,update=0)
+                distutils.dir_util.copy_tree(fid, assembly_tmp,
+                                             preserve_symlinks=0,
+                                             verbose=1, update=0)
             elif tarfile.is_tarfile(fid):
-                safe_tar_extract(fid,assembly_tmp)
+                safe_tar_extract(fid, assembly_tmp)
             logging.debug('assemble_image: done overlaying FID content')
 
         #Add in driver FISH content
-        length=float(len(driver_fish))
+        length = float(len(driver_fish))
         if length > 0:
-            if os.path.exists(os.path.join(assembly_tmp,'bto_manifest')):
-                manifest=open(os.path.join(assembly_tmp,'bto_manifest'),'a')
+            if os.path.exists(os.path.join(assembly_tmp, 'bto_manifest')):
+                manifest = open(os.path.join(assembly_tmp, 'bto_manifest'), 'a')
             else:
-                manifest=open(os.path.join(assembly_tmp,'bto_manifest'),'w')
+                manifest = open(os.path.join(assembly_tmp, 'bto_manifest'), 'w')
             for fishie in driver_fish:
-                self.report_progress(_('Inserting FISH packages'),driver_fish.index(fishie)/length*100)
+                self.report_progress(_('Inserting FISH packages'),
+                                     driver_fish.index(fishie)/length*100)
                 manifest.write("driver: %s\n" % os.path.basename(fishie))
-                dest=None
+                dest = None
                 if fishie.endswith('.deb'):
-                    dest=os.path.join(assembly_tmp,'debs','main')
-                    logging.debug("assemble_image: Copying debian archive fishie %s" % fishie)
+                    dest = os.path.join(assembly_tmp, 'debs', 'main')
+                    logging.debug("assemble_image: Copying debian archive fishie %s", fishie)
                 elif fishie.endswith('.pdf'):
-                    dest=os.path.join(assembly_tmp,'docs')
-                    logging.debug("assemble_image: Copying document fishie fishie %s" % fishie)
+                    dest = os.path.join(assembly_tmp, 'docs')
+                    logging.debug("assemble_image: Copying document fishie fishie %s", fishie)
                 elif fishie.endswith('.py') or fishie.endswith('.sh'):
-                    dest=os.path.join(assembly_tmp,'scripts','chroot-scripts','fish')
-                    logging.debug("assemble_image: Copying python or shell fishie %s" % fishie)
+                    dest = os.path.join(assembly_tmp, 'scripts', 'chroot-scripts', 'fish')
+                    logging.debug("assemble_image: Copying python or shell fishie %s", fishie)
                 elif os.path.exists(fishie) and tarfile.is_tarfile(fishie):
-                    safe_tar_extract(fishie,assembly_tmp)
-                    logging.debug("assemble_image: Extracting tar fishie %s" % fishie)
+                    safe_tar_extract(fishie, assembly_tmp)
+                    logging.debug("assemble_image: Extracting tar fishie %s", fishie)
                 else:
-                    logging.debug("assemble_image: ignoring fishie %s" % fishie)
+                    logging.debug("assemble_image: ignoring fishie %s", fishie)
 
                 #If we just do a flat copy
                 if dest is not None:
                     if not os.path.isdir(dest):
                         os.makedirs(dest)
-                    distutils.file_util.copy_file(fishie,dest,verbose=1,update=0)
+                    distutils.file_util.copy_file(fishie, dest,
+                                                  verbose=1, update=0)
             logging.debug("assemble_image: done inserting driver fish")
             manifest.close()
 
         #Add in application FISH content
-        length=float(len(application_fish))
+        length = float(len(application_fish))
         if length > 0:
-            if os.path.exists(os.path.join(assembly_tmp,'bto_manifest')):
-                manifest=open(os.path.join(assembly_tmp,'bto_manifest'),'a')
+            if os.path.exists(os.path.join(assembly_tmp, 'bto_manifest')):
+                manifest = open(os.path.join(assembly_tmp, 'bto_manifest'), 'a')
             else:
-                manifest=open(os.path.join(assembly_tmp,'bto_manifest'),'w')
-            dest = os.path.join(assembly_tmp,'srv')
+                manifest = open(os.path.join(assembly_tmp, 'bto_manifest'), 'w')
+            dest = os.path.join(assembly_tmp, 'srv')
             os.makedirs(dest)
             for fishie in application_fish:
                 new_name = application_fish[fishie]
@@ -441,14 +481,16 @@ class Backend(dbus.service.Object):
                     new_name += '.zip'
                 elif os.path.exists(fishie) and tarfile.is_tarfile(fishie):
                     new_name += '.tgz'
-                distutils.file_util.copy_file(fishie,os.path.join(dest,new_name),verbose=1,update=0)
+                distutils.file_util.copy_file(fishie,
+                                              os.path.join(dest, new_name),
+                                              verbose=1, update=0)
             manifest.close()
 
-        #If a UP exists and we wanted to replace it, wipe it away
-        if up:
-            for file in up_filenames:
-                if os.path.exists(os.path.join(assembly_tmp, file)):
-                    os.remove(os.path.join(assembly_tmp, file))
+        #If a utility partition exists and we wanted to replace it, wipe it away
+        if utility:
+            for fname in UP_FILENAMES:
+                if os.path.exists(os.path.join(assembly_tmp, fname)):
+                    os.remove(os.path.join(assembly_tmp, fname))
 
         #If dell-recovery needs to be injected into the image
         if dell_recovery_package:
@@ -458,38 +500,40 @@ class Backend(dbus.service.Object):
             if 'dpkg-repack' in dell_recovery_package:
                 logging.debug("Repacking dell-recovery using dpkg-repack")
                 call = subprocess.Popen(['dpkg-repack', 'dell-recovery'], cwd=dest)
-                (out,err) = call.communicate()
+                (out, err) = call.communicate()
             else:
-                logging.debug("Adding manually included dell-recovery package, %s" % dell_recovery_package)
+                logging.debug("Adding manually included dell-recovery package, %s", dell_recovery_package)
                 distutils.file_util.copy_file(dell_recovery_package, dest)
 
-        function=getattr(Backend,create_fn)
-        function(self,up,assembly_tmp,version,iso)
+        function = getattr(Backend, create_fn)
+        function(self, utility, assembly_tmp, version, iso)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='s', out_signature='ssss', sender_keyword='sender',
-        connection_keyword='conn')
+        in_signature = 's', out_signature = 'ssss', sender_keyword = 'sender',
+        connection_keyword = 'conn')
     def query_iso_information(self, iso, sender=None, conn=None):
         """Queries what type of ISO this is.  This same method will be used regardless
            of OS."""
-        def find_float(str):
+        def find_float(input_str):
             """Finds the floating point number in a string"""
-            for piece in str.split():
+            for piece in input_str.split():
                 try:
-                    release=float(piece)
+                    release = float(piece)
                 except ValueError:
                     continue
+                logging.debug("query_iso_information: find_float found %d", release)
                 return piece
             return ''
 
         self._reset_timeout()
-        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.query_iso_information')
+        self._check_polkit_privilege(sender, conn,
+                                'com.dell.recoverymedia.query_iso_information')
 
 
-        (bto_version,bto_date) = self.query_bto_version(iso, sender, conn)
+        (bto_version, bto_date) = self.query_bto_version(iso, sender, conn)
 
-        distributor_string='Unknown Base Image'
-        distributor=''
+        distributor_str = 'Unknown Base Image'
+        distributor = ''
 
         #Ubuntu disks have .disk/info
         if os.path.isfile(iso) and iso.endswith('.iso'):
@@ -499,49 +543,52 @@ class Backend(dbus.service.Object):
             if invokation.returncode is None:
                 invokation.wait()
             if out:
-                distributor_string = out
-                distributor="ubuntu"
+                distributor_str = out
+                distributor = "ubuntu"
+            if err:
+                logging.debug("error during isoinfo invokation: %s", err)
         else:
             mntdir = self.request_mount(iso, sender, conn)
 
-            if os.path.exists(os.path.join(mntdir,'.disk','info')):
-                file=open(os.path.join(mntdir,'.disk','info'),'r')
-                distributor_string=file.readline().strip('\n')
-                file.close()
-                distributor="ubuntu"
+            if os.path.exists(os.path.join(mntdir, '.disk', 'info')):
+                with open(os.path.join(mntdir, '.disk', 'info'), 'r') as rfd:
+                    distributor_str = rfd.readline().strip('\n')
+                distributor = "ubuntu"
 
             #RHEL disks have .discinfo
-            elif os.path.exists(os.path.join(mntdir,'.discinfo')):
-                file=open(os.path.join(mntdir,'.discinfo'),'r')
-                timestamp=file.readline().strip('\n')
-                distributor_string=file.readline().strip('\n')
-                arch=file.readline().strip('\n')
-                distributor="redhat"
-                distributor_string += ' ' + arch
+            elif os.path.exists(os.path.join(mntdir, '.discinfo')):
+                with open(os.path.join(mntdir, '.discinfo'), 'r') as rfd:
+                    timestamp = rfd.readline().strip('\n')
+                    distributor_string = rfd.readline().strip('\n')
+                    arch = rfd.readline().strip('\n')
+                distributor = "redhat"
+                distributor_str += ' ' + arch
 
-        release=find_float(distributor_string)
+        release = find_float(distributor_str)
 
         if bto_version and bto_date:
-            distributor_string="<b>Dell BTO Image</b>, version %s built on %s\n%s" %(bto_version.split('.')[0], bto_date, distributor_string)
+            distributor_str = "<b>Dell BTO Image</b>, version %s built on %s\n%s" % (bto_version.split('.')[0], bto_date, distributor_str)
         else:
-            bto_version=''
+            bto_version = ''
 
-        return (bto_version, distributor, release, distributor_string)
+        return (bto_version, distributor, release, distributor_str)
 
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='s', out_signature='ss', sender_keyword='sender',
-        connection_keyword='conn')
-    def query_bto_version(self, rp, sender=None, conn=None):
+        in_signature = 's', out_signature = 'ss', sender_keyword = 'sender',
+        connection_keyword = 'conn')
+    def query_bto_version(self, recovery, sender=None, conn=None):
+        """Queries the BTO version number internally stored in an ISO or RP"""
         self._reset_timeout()
-        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.query_bto_version')
+        self._check_polkit_privilege(sender, conn,
+                                    'com.dell.recoverymedia.query_bto_version')
 
-        #mount the RP
-        version=''
-        date=''
+        #mount the recovery partition
+        version = ''
+        date = ''
 
-        if os.path.isfile(rp) and rp.endswith('.iso'):
-            cmd = ['isoinfo', '-J', '-i', rp, '-x', '/bto_version']
+        if os.path.isfile(recovery) and recovery.endswith('.iso'):
+            cmd = ['isoinfo', '-J', '-i', recovery, '-x', '/bto_version']
             invokation = subprocess.Popen(cmd, stdout=subprocess.PIPE)
             out, err = invokation.communicate()
             if invokation.returncode is None:
@@ -553,19 +600,18 @@ class Backend(dbus.service.Object):
                     date = out[1]
 
         else:
-            mntdir = self.request_mount(rp, sender, conn)
-            if os.path.exists(os.path.join(mntdir,'bto_version')):
-                file=open(os.path.join(mntdir,'bto_version'),'r')
-                version=file.readline().strip('\n')
-                date=file.readline().strip('\n')
-                file.close()
+            mntdir = self.request_mount(recovery, sender, conn)
+            if os.path.exists(os.path.join(mntdir, 'bto_version')):
+                with open(os.path.join(mntdir, 'bto_version'), 'r') as rfd:
+                    version = rfd.readline().strip('\n')
+                    date = rfd.readline().strip('\n')
 
-        return (version,date)
+        return (version, date)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='ss', out_signature='b', sender_keyword='sender',
-        connection_keyword='conn')
-    def query_have_dell_recovery(self, rp, framework, sender=None, conn=None):
+        in_signature = 'ss', out_signature = 'b', sender_keyword = 'sender',
+        connection_keyword = 'conn')
+    def query_have_dell_recovery(self, recovery, framework, sender=None, conn=None):
         '''Checks if the given image and BTO framework contain the dell-recovery
            package suite'''
 
@@ -575,81 +621,83 @@ class Backend(dbus.service.Object):
             out, err = invokation.communicate()
             if invokation.returncode is None:
                 invokation.wait()
+            if err:
+                logging.debug("error invoking isoinfo: %s", err)
             return out
 
-        def check_mentions(input):
+        def check_mentions(feed):
             '''Checks if given file mentions dell-recovery'''
-            for line in input.split('\n'):
+            for line in feed.split('\n'):
                 if 'dell-recovery' in line:
                     return True
             return False
 
         found = False
 
-        #RP is an ISO
-        if os.path.isfile(rp) and rp.endswith('.iso'):
+        #Recovery Partition is an ISO
+        if os.path.isfile(recovery) and recovery.endswith('.iso'):
             #first find the interesting files
-            cmd = ['isoinfo', '-J', '-i', rp, '-f']
-            logging.debug("query_have_dell_recovery: Checking %s" % rp)
-            files = run_isoinfo_command(cmd)
+            cmd = ['isoinfo', '-J', '-i', recovery, '-f']
+            logging.debug("query_have_dell_recovery: Checking %s", recovery)
             interesting_files = []
-            for file in files.split('\n'):
-                if 'dell-recovery' in file and (file.endswith('.deb') or file.endswith('.rpm')):
-                    logging.debug("query_have_dell_recovery: Found %s" % file)
+            for fname in run_isoinfo_command(cmd).split('\n'):
+                if 'dell-recovery' in fname and (fname.endswith('.deb') or fname.endswith('.rpm')):
+                    logging.debug("query_have_dell_recovery: Found %s", fname)
                     found = True
                     break
-                elif file.endswith('.manifest'):
-                    interesting_files.append(file)
-                    logging.debug("query_have_dell_recovery: Appending %s to interesting_files" % file)
+                elif fname.endswith('.manifest'):
+                    interesting_files.append(fname)
+                    logging.debug("query_have_dell_recovery: Appending %s to interesting_files", fname)
 
             if not found:
-                for file in interesting_files:
-                    cmd = ['isoinfo', '-J', '-i', rp, '-x', file]
-                    logging.debug("query_have_dell_recovery: Checking %s " % file)
+                for fname in interesting_files:
+                    cmd = ['isoinfo', '-J', '-i', recovery, '-x', fname]
+                    logging.debug("query_have_dell_recovery: Checking %s ", fname)
                     if check_mentions(run_isoinfo_command(cmd)):
-                        logging.debug("query_have_dell_recovery: Found in %s" % file)
+                        logging.debug("query_have_dell_recovery: Found in %s", fname)
                         found = True
                         break
-        #RP is Mount point or directory
+        #Recovery partition is mount point or directory
         else:
             #Search for a flat file first (or a manifest for later)
-            logging.debug("query_have_dell_recovery: Searching mount point %s" % rp)
+            logging.debug("query_have_dell_recovery: Searching mount point %s", recovery)
             interesting_files = []
-            for root, dirs,files in os.walk(rp, topdown=False):
-                for name in files:
-                    if 'dell-recovery' in name and (name.endswith('.deb') or name.endswith('.rpm')):
+            for root, dirs, files in os.walk(recovery, topdown=False):
+                for fname in files:
+                    if 'dell-recovery' in fname and (fname.endswith('.deb') or fname.endswith('.rpm')):
                         found = True
-                        logging.debug("query_have_dell_recovery: Found in %s" % os.path.join(root,name))
+                        logging.debug("query_have_dell_recovery: Found in %s", os.path.join(root, fname))
                         break
-                    elif name.endswith('.manifest'):
-                        interesting_files.append(os.path.join(root,name))
-                        logging.debug("query_have_dell_recovery: Appending %s to interesting_files" % os.path.join(root,name))
+                    elif fname.endswith('.manifest'):
+                        interesting_files.append(os.path.join(root, fname))
+                        logging.debug("query_have_dell_recovery: Appending %s to interesting_files", os.path.join(root, fname))
 
             if not found:
-                for file in interesting_files:
-                    with open(file,'r') as fd:
-                        output = fd.read()
+                for fname in interesting_files:
+                    with open(fname, 'r') as rfd:
+                        output = rfd.read()
                     if check_mentions(output):
-                        logging.debug("query_have_dell_recovery: Found in %s" % file)
+                        logging.debug("query_have_dell_recovery: Found in %s", fname)
                         found = True
                         break
 
         #If we didn't find it in the ISO, search the framework
         if not found and framework:
-            logging.debug("query_have_dell_recovery: Searching framework %s" % framework)
-            for root, dirs,files in os.walk(framework, topdown=False):
+            logging.debug("query_have_dell_recovery: Searching framework %s", framework)
+            for root, dirs, files in os.walk(framework, topdown=False):
                 for name in files:
                     if 'dell-recovery' in name and (name.endswith('.deb') or name.endswith('.rpm')):
                         found = True
-                        logging.debug("query_have_dell_recovery: Found in %s" % os.path.join(root,name))
+                        logging.debug("query_have_dell_recovery: Found in %s", os.path.join(root, name))
                         break
 
         return found
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='', out_signature='', sender_keyword='sender',
-        connection_keyword='conn')
+        in_signature = '', out_signature = '', sender_keyword = 'sender',
+        connection_keyword = 'conn')
     def enable_boot_to_restore(self, sender=None, conn=None):
+        """Enables the default one-time boot option to be recovery"""
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.restore')
 
@@ -660,7 +708,7 @@ class Backend(dbus.service.Object):
         with open('/etc/grub.d/99_dell_recovery') as rfd:
             dell_rec_file = rfd.readlines()
 
-        entry=False
+        entry = False
         for line in dell_rec_file:
             if "menuentry" in line:
                 split = line.split('"')
@@ -669,85 +717,92 @@ class Backend(dbus.service.Object):
                     break
 
         if not entry:
-            raise RestoreFailed("unable to parse 99_dell_recovery for entry to boot")
+            raise RestoreFailed("Error parsing 99_dell_recovery for bootentry.")
 
         #set us up to boot saved entries
-        with open('/etc/default/grub','r') as rfd:
+        with open('/etc/default/grub', 'r') as rfd:
             default_grub = rfd.readlines()
-        with open('/etc/default/grub','w') as wfd:
+        with open('/etc/default/grub', 'w') as wfd:
             for line in default_grub:
                 if line.startswith("GRUB_DEFAULT="):
-                    line="GRUB_DEFAULT=saved\n"
+                    line = "GRUB_DEFAULT=saved\n"
                 wfd.write(line)
 
-        ret=subprocess.call(['/usr/sbin/update-grub'])
+        ret = subprocess.call(['/usr/sbin/update-grub'])
         if ret is not 0:
             raise RestoreFailed("error updating grub configuration")
 
-        ret=subprocess.call(['/usr/sbin/grub-reboot', entry])
+        ret = subprocess.call(['/usr/sbin/grub-reboot', entry])
         if ret is not 0:
             raise RestoreFailed("error setting one time grub entry")
 
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature='ssss', out_signature='', sender_keyword='sender',
-        connection_keyword='conn')
-    def create_ubuntu(self, up, rp, version, iso, sender=None, conn=None):
-
+        in_signature = 'ssss', out_signature = '', sender_keyword = 'sender',
+        connection_keyword = 'conn')
+    def create_ubuntu(self, utility, recovery, version, iso, sender=None, conn=None):
+        """Creates Ubuntu compatible recovery media"""
         self._reset_timeout()
-        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.create')
+        self._check_polkit_privilege(sender, conn,
+                                                'com.dell.recoverymedia.create')
 
         #create temporary workspace
-        tmpdir=tempfile.mkdtemp()
-        atexit.register(walk_cleanup,tmpdir)
+        tmpdir = tempfile.mkdtemp()
+        atexit.register(walk_cleanup, tmpdir)
 
-        #mount the RP
-        mntdir=self.request_mount(rp, sender, conn)
+        #mount the recovery partition
+        mntdir = self.request_mount(recovery, sender, conn)
 
-        if not os.path.exists(os.path.join(mntdir,'.disk', 'info')):
+        if not os.path.exists(os.path.join(mntdir, '.disk', 'info')):
             print >> sys.stderr, \
                 "recovery partition is missing critical ubuntu files."
             raise CreateFailed("Recovery partition is missing critical Ubuntu files.")
 
         #Generate BTO version string
-        file=open(os.path.join(tmpdir,'bto_version'),'w')
-        file.write(version + '\n')
-        file.write(str(datetime.date.today()) + '\n')
-        file.close()
+        with open(os.path.join(tmpdir, 'bto_version'), 'w') as wfd:
+            wfd.write(version + '\n')
+            wfd.write(str(datetime.date.today()) + '\n')
 
-        #If necessary, include the UP
-        if up and os.path.exists(up):
+        #If necessary, include the utility partition
+        if utility and os.path.exists(utility):
             #device node
-            if stat.S_ISBLK(os.stat(up).st_mode):
-                self.start_pulsable_progress_thread(_('Building Dell Utility Partition'))
-                p1 = subprocess.Popen(['dd','if=' + up,'bs=1M'], stdout=subprocess.PIPE)
-                p2 = subprocess.Popen(['gzip','-c'], stdin=p1.stdout, stdout=subprocess.PIPE)
-                partition_file=open(os.path.join(tmpdir, 'upimg.gz'), "w")
-                partition_file.write(p2.communicate()[0])
+            if stat.S_ISBLK(os.stat(utility).st_mode):
+                self.start_pulsable_progress_thread(
+                    _('Building Dell Utility Partition'))
+
+                seg1 = subprocess.Popen(['dd', 'if=' + utility, 'bs=1M'],
+                                      stdout=subprocess.PIPE)
+                seg2 = subprocess.Popen(['gzip', '-c'],
+                                      stdin=seg1.stdout,
+                                      stdout=subprocess.PIPE)
+                partition_file = open(os.path.join(tmpdir, 'upimg.gz'), "w")
+                partition_file.write(seg2.communicate()[0])
                 partition_file.close()
                 self.stop_progress_thread()
 
             #tgz type
-            elif tarfile.is_tarfile(up):
+            elif tarfile.is_tarfile(utility):
                 try:
-                    shutil.copy(up, os.path.join(tmpdir, 'up.tgz'))
-                except Exception, e:
+                    shutil.copy(utility, os.path.join(tmpdir, 'up.tgz'))
+                except Exception, msg:
                     print >> sys.stderr, \
-                        "Error with tgz: %s." % str(e)
-                    raise CreateFailed("Error building Utility Partition : %s" % str(e))
+                        "Error with tgz: %s." % str(msg)
+                    raise CreateFailed("Error building Utility Partition : %s" %
+                                       str(msg))
 
             #probably a zip
             else:
                 try:
-                    file = zipfile.ZipFile(up)
-                    shutil.copy(up, os.path.join(tmpdir, 'up.zip'))
-                except Exception, e:
+                    zip_obj = zipfile.ZipFile(utility)
+                    shutil.copy(utility, os.path.join(tmpdir, 'up.zip'))
+                except Exception, msg:
                     print >> sys.stderr, \
-                        "Error with zipfile: %s." % str(e)
-                    raise CreateFailed("Error building Utility Partition : %s" % str(e))
+                        "Error with zipfile: %s." % str(msg)
+                    raise CreateFailed("Error building Utility Partition : %s" %
+                                       str(msg))
 
         #Arg list
-        genisoargs=['genisoimage',
+        genisoargs = ['genisoimage',
             '-o', iso,
             '-input-charset', 'utf-8',
             '-b', 'isolinux/isolinux.bin',
@@ -769,12 +824,12 @@ class Backend(dbus.service.Object):
             '-m', '*.sys',
             '-m', 'syslinux',
             '-m', 'syslinux.cfg',
-            '-m', os.path.join(mntdir,'isolinux'),
-            '-m', os.path.join(mntdir,'bto_version')]
+            '-m', os.path.join(mntdir, 'isolinux'),
+            '-m', os.path.join(mntdir, 'bto_version')]
 
         #Renerate UUID
-        os.mkdir(os.path.join(tmpdir,'.disk'))
-        os.mkdir(os.path.join(tmpdir,'casper'))
+        os.mkdir(os.path.join(tmpdir, '.disk'))
+        os.mkdir(os.path.join(tmpdir, 'casper'))
         self.start_pulsable_progress_thread(_('Regenerating UUID / Rebuilding initramfs'))
         (old_initrd,
          old_uuid) = create_new_uuid(os.path.join(mntdir, 'casper'),
@@ -789,39 +844,42 @@ class Backend(dbus.service.Object):
 
         #if we have ran this from a USB key, we might have syslinux which will
         #break our build
-        if os.path.exists(os.path.join(mntdir,'syslinux')):
-            shutil.copytree(os.path.join(mntdir,'syslinux'), os.path.join(tmpdir,'isolinux'))
-            if os.path.exists(os.path.join(tmpdir,'isolinux','syslinux.cfg')):
-                shutil.move(os.path.join(tmpdir,'isolinux','syslinux.cfg'), os.path.join(tmpdir,'isolinux','isolinux.cfg'))
+        if os.path.exists(os.path.join(mntdir, 'syslinux')):
+            shutil.copytree(os.path.join(mntdir, 'syslinux'), os.path.join(tmpdir, 'isolinux'))
+            if os.path.exists(os.path.join(tmpdir, 'isolinux', 'syslinux.cfg')):
+                shutil.move(os.path.join(tmpdir, 'isolinux', 'syslinux.cfg'), os.path.join(tmpdir, 'isolinux', 'isolinux.cfg'))
         else:
             #Copy boot section for ISO to somewhere writable
-            shutil.copytree(os.path.join(mntdir,'isolinux'), os.path.join(tmpdir,'isolinux'))
+            shutil.copytree(os.path.join(mntdir, 'isolinux'), os.path.join(tmpdir, 'isolinux'))
 
         #Directories to install
         genisoargs.append(tmpdir + '/')
         genisoargs.append(mntdir + '/')
 
         #ISO Creation
-        p3 = subprocess.Popen(genisoargs,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        retval = p3.poll()
+        seg1 = subprocess.Popen(genisoargs,
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE)
+        retval = seg1.poll()
         output = ""
         while (retval is None):
-            stdout = p3.stderr.readline()
+            stdout = seg1.stderr.readline()
             if stdout != "":
                 output = stdout
             if output:
                 progress = output.split()[0]
                 if (progress[-1:] == '%'):
-                    self.report_progress(_('Building ISO'),progress[:-1])
-            retval = p3.poll()
+                    self.report_progress(_('Building ISO'), progress[:-1])
+            retval = seg1.poll()
         if retval is not 0:
             print >> sys.stderr, genisoargs
             print >> sys.stderr, output.strip()
-            print >> sys.stderr, p3.stderr.readlines()
-            print >> sys.stderr, p3.stdout.readlines()
+            print >> sys.stderr, seg1.stderr.readlines()
+            print >> sys.stderr, seg1.stdout.readlines()
             print >> sys.stderr, \
                 "genisoimage exited with a nonstandard return value."
-            raise CreateFailed("ISO Building exited unexpectedly:\n%s" % output.strip())
+            raise CreateFailed("ISO Building exited unexpectedly:\n%s" %
+                               output.strip())
 
     @dbus.service.signal(DBUS_INTERFACE_NAME)
     def report_progress(self, progress_str, percent):
