@@ -665,7 +665,7 @@ class Backend(dbus.service.Object):
             if "menuentry" in line:
                 split = line.split('"')
                 if len(split) > 1:
-                    entry = '"' + split[1] + '"'
+                    entry = split[1]
                     break
 
         if not entry:
