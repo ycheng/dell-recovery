@@ -467,11 +467,16 @@ class Page(Plugin):
 
     def boot_rp(self):
         """reboots the system"""
-        subprocess.call(['/etc/init.d/casper', 'stop'])
+        with open ('/proc/cmdline', 'r') as rfd:
+            noprompt = 'noprompt' in rfd.readline()
 
-        #Set up a listen for udisks to let us know a usb device has left
-        bus = dbus.SystemBus()
-        bus.add_signal_receiver(reboot_machine, 'DeviceRemoved', 'org.freedesktop.UDisks')
+        #only cache casper if it's not going to ask the user to eject the media
+        if noprompt:
+            #Set up a listen for udisks to let us know a usb device has left
+            subprocess.call(['/etc/init.d/casper', 'stop'])
+
+            bus = dbus.SystemBus()
+            bus.add_signal_receiver(reboot_machine, 'DeviceRemoved', 'org.freedesktop.UDisks')
 
         if self.dual:
             self.ui.show_dual_dialog()
