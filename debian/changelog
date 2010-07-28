@@ -4,6 +4,13 @@ dell-recovery (0.62) UNRELEASED; urgency=low
     casper running when VT7 is active by not running casper stop if
     'noprompt' is not present in /proc/cmdline.
   * Add a (hidden) advanced settings popup window for dell-bootstrap.
+  * New side effects for the advanced settings popup:
+    - All advanced configuration options get propogated to the /proc/cmdline
+      used during installation (off the RP).
+    - The number of callbacks, set_, and get_ functions needed to be reduced
+      to allow code to be reused.
+    - All template questions that were used a lot were reused multiple times
+      now have common definitions to avoid keeping the strings all over.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 27 Jul 2010 12:48:35 -0500
 
