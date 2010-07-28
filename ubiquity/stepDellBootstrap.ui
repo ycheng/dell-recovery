@@ -10,7 +10,7 @@
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
         <child>
-          <object class="GtkEventBox" id="eventbox1">
+          <object class="GtkEventBox" id="dell_image_box">
             <property name="visible">True</property>
             <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
             <signal name="button_press_event" handler="toggle_advanced"/>
@@ -723,7 +723,7 @@ After your additional OS installation completes, mark the 4th partition active t
           </packing>
         </child>
         <child>
-          <object class="GtkTable" id="table1">
+          <object class="GtkTable" id="advanced_table">
             <property name="visible">True</property>
             <property name="n_rows">6</property>
             <property name="n_columns">2</property>

@@ -140,6 +140,7 @@ class PageGtk(PluginUI):
             icon = builder.get_object('dell_image')
             icon.set_tooltip_markup("Dell Recovery Advanced Options")
             self.advanced_page = builder.get_object('advanced_window')
+            self.advanced_table = builder.get_object('advanced_table')
             self.version_detail = builder.get_object('version_detail')
             self.mount_detail = builder.get_object('mountpoint_detail')
             self.proprietary_combobox = builder.get_object('disable_proprietary_driver_combobox')
@@ -151,8 +152,8 @@ class PageGtk(PluginUI):
 
             #check if we are genuine
             if not self.genuine:
+                self.advanced_table.set_sensitive(False)
                 self.interactive_recovery_box.hide()
-                self.icon.set_sensitive(False)
                 self.automated_recovery_box.hide()
                 self.automated_recovery.set_sensitive(False)
                 self.interactive_recovery.set_sensitive(False)
@@ -202,6 +203,7 @@ class PageGtk(PluginUI):
             if type != "factory":
                 self.controller.allow_go_forward(False)
             if type == "hdd":
+                self.advanced_table.set_sensitive(False)
                 self.hdd_recovery_box.show()
                 self.interactive_recovery_box.hide()
                 self.automated_recovery_box.hide()
@@ -298,7 +300,7 @@ class PageGtk(PluginUI):
                     combobox.set_active(0)
 
             #dual boot mode. ui changes for this
-            if item == DUAL_BOOT_QUESTION:
+            if item == DUAL_BOOT_QUESTION and self.genuine:
                 if value:
                     self.interactive_recovery_box.hide()
                 else:
@@ -815,7 +817,6 @@ class Page(Plugin):
             self.preseed(ACTIVE_PARTITION_QUESTION, STANDARD_EFI_PARTITION)
 
         #Fill in UI data
-        self.ui.set_type(type)
         self.ui.set_advanced("mount", mount)
         self.ui.set_advanced('version', version)
         self.ui.set_advanced(DUAL_BOOT_QUESTION, self.dual)
@@ -825,6 +826,7 @@ class Page(Plugin):
         self.ui.set_advanced(DRIVER_INSTALL_QUESTION, proprietary)
         self.ui.set_advanced(RP_FILESYSTEM_QUESTION, self.rp_filesystem)
         self.ui.set_advanced("efi", self.efi)
+        self.ui.set_type(type)
 
         #set the language in the UI
         try:

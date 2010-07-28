@@ -11,6 +11,10 @@ dell-recovery (0.62) UNRELEASED; urgency=low
       to allow code to be reused.
     - All template questions that were used a lot were reused multiple times
       now have common definitions to avoid keeping the strings all over.
+    - Set the table of advanced features inactive when running on non-genuine
+      HW and also when running in HDD recovery mode.
+  * Set type as the last action in updating the UI to avoid dual boot settings
+    mucking with it.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 27 Jul 2010 12:48:35 -0500
 
