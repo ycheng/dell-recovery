@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-24 17:32-0500\n"
+"POT-Creation-Date: 2010-07-27 20:22-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,27 +177,27 @@ msgstr ""
 msgid "Assembling Image Components"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:319
+#: ../Dell/recovery_advanced_gtk.py:320
 msgid "Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:322
+#: ../Dell/recovery_advanced_gtk.py:323
 msgid "No Additional Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:434
+#: ../Dell/recovery_advanced_gtk.py:439
 msgid "<b>ERROR</b>: git is not installed"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:580
+#: ../Dell/recovery_advanced_gtk.py:586
 msgid "Missing Dell-Recovery"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:581
+#: ../Dell/recovery_advanced_gtk.py:587
 msgid "Not present in ISO or GIT tree"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:697
+#: ../Dell/recovery_advanced_gtk.py:703
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 

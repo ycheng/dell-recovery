@@ -148,14 +148,29 @@ def check_version():
         print >> sys.stderr, "Error checking dell-recovery version: %s" % msg
         return "unknown"
 
-def process_conf_file(original, new, uuid, rp_number, dual_seed=''):
+def process_conf_file(original, new, uuid, rp_number, dual_seed='', ako=''):
     """Replaces all instances of a partition, OS, and extra in a conf type file
        Generally used for things that need to touch grub"""
     if not os.path.isdir(os.path.split(new)[0]):
         os.makedirs(os.path.split(new)[0])
     import lsb_release
     release = lsb_release.get_distro_information()
-    extra_cmdline = find_extra_kernel_options()
+
+    extra_cmdline = ako
+    if extra_cmdline:
+        #remove any duplicate entries
+        ka_list = find_extra_kernel_options().split(' ')
+        ako_list = extra_cmdline.split(' ')
+        for var in ka_list:
+            found = False
+            for item in ako_list:
+                left = item.split('=')[0].strip()
+                if left and left in var:
+                    found = True
+            if not found:
+                extra_cmdline += ' ' + var
+    else:
+        extra_cmdline = find_extra_kernel_options()
 
     #starting with 10.10, we replace the whole drive string (/dev/sdX,msdosY)
     #earlier releases are hardcoded to (hd0,Y)

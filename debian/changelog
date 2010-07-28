@@ -3,6 +3,7 @@ dell-recovery (0.62) UNRELEASED; urgency=low
   * Work around a bug with interactions between a non-KMS plymouth and
     casper running when VT7 is active by not running casper stop if
     'noprompt' is not present in /proc/cmdline.
+  * Add a (hidden) advanced settings popup window for dell-bootstrap.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 27 Jul 2010 12:48:35 -0500
 

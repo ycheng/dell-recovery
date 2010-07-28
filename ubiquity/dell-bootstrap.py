@@ -53,6 +53,16 @@ TYPE_NTFS_RE = '27'
 TYPE_VFAT = '0b'
 TYPE_VFAT_LBA = '0c'
 
+#Continually Reused ubiquity templates
+RECOVERY_TYPE_QUESTION =  'dell-recovery/recovery_type'
+DUAL_BOOT_QUESTION = 'dell-recovery/dual_boot_seed'
+ACTIVE_PARTITION_QUESTION = 'dell-recovery/active_partition'
+FAIL_PARTITION_QUESTION = 'dell-recovery/fail_partition'
+DISK_LAYOUT_QUESTION = 'dell-recovery/disk_layout'
+SWAP_QUESTION = 'dell-recovery/swap'
+RP_FILESYSTEM_QUESTION = 'dell-recovery/recovery_partition_filesystem'
+DRIVER_INSTALL_QUESTION = 'dell-recovery/disable-driver-install'
+
 #######################
 # Noninteractive Page #
 #######################
@@ -69,19 +79,7 @@ class PageNoninteractive(PluginUI):
     def set_type(self, type):
         pass
 
-    def set_dual(self):
-        pass
-
-    def show_info_dialog(self):
-        pass
-
-    def show_reboot_dialog(self):
-        pass
-
-    def show_dual_dialog(self):
-        pass
-
-    def show_exception_dialog(self, e):
+    def show_dialog(self, which, data = None):
         pass
 
     def get_selected_device(self):
@@ -89,6 +87,12 @@ class PageNoninteractive(PluginUI):
 
     def populate_devices(self, devices):
         pass
+
+    def set_advanced(self, item, value):
+        pass
+
+    def get_advanced(self, item):
+        return ''
 
 ############
 # GTK Page #
@@ -132,18 +136,23 @@ class PageGtk(PluginUI):
             builder.get_object('info_spinner_box').add(self.info_spinner)
             self.err_dialog = builder.get_object('err_dialog')
 
-            #For debug purposes
+            #advanced page widgets
             icon = builder.get_object('dell_image')
-            with misc.raised_privileges():
-                version = magic.check_version()
-            with open('/proc/mounts', 'r') as mounts:
-                for line in mounts.readlines():
-                    if '/cdrom' in line:
-                        icon.set_tooltip_markup("<b>Version</b>: %s\n<b>Mounted from</b>: %s" % (version, line.split()[0]))
-                        break
+            icon.set_tooltip_markup("Dell Recovery Advanced Options")
+            self.advanced_page = builder.get_object('advanced_window')
+            self.version_detail = builder.get_object('version_detail')
+            self.mount_detail = builder.get_object('mountpoint_detail')
+            self.proprietary_combobox = builder.get_object('disable_proprietary_driver_combobox')
+            self.dual_combobox = builder.get_object('dual_combobox')
+            self.active_partition_combobox = builder.get_object('active_partition_combobox')
+            self.rp_filesystem_combobox = builder.get_object('recovery_partition_filesystem_checkbox')
+            self.disk_layout_combobox = builder.get_object('disk_layout_combobox')
+            self.swap_combobox = builder.get_object('swap_behavior_combobox')
 
+            #check if we are genuine
             if not self.genuine:
                 self.interactive_recovery_box.hide()
+                self.icon.set_sensitive(False)
                 self.automated_recovery_box.hide()
                 self.automated_recovery.set_sensitive(False)
                 self.interactive_recovery.set_sensitive(False)
@@ -199,39 +208,34 @@ class PageGtk(PluginUI):
                 self.interactive_recovery.set_sensitive(False)
                 self.automated_recovery.set_sensitive(False)
 
-    def set_dual(self):
-        """Marks the UI as dual boot mode"""
-        self.interactive_recovery_box.hide()
-        self.interactive_recovery.set_sensitive(False)
-
     def toggle_type(self, widget):
         """Allows the user to go forward after they've made a selection'"""
         self.controller.allow_go_forward(True)
         self.automated_combobox.set_sensitive(self.automated_recovery.get_active())
 
-    def show_info_dialog(self):
-        self.controller._wizard.quit.set_label(self.controller.get_string('ubiquity/imported/cancel'))
-        self.controller.allow_go_forward(False)
-        self.automated_recovery_box.hide()
-        self.interactive_recovery_box.hide()
-        self.info_box.show_all()
-        self.info_spinner.start()
+    def show_dialog(self, which, data = None):
+        """Shows a dialog"""
+        if which == "info":
+            self.controller._wizard.quit.set_label(self.controller.get_string('ubiquity/imported/cancel'))
+            self.controller.allow_go_forward(False)
+            self.automated_recovery_box.hide()
+            self.interactive_recovery_box.hide()
+            self.info_box.show_all()
+            self.info_spinner.start()
+        else:
+            self.info_spinner.stop()
+            if which == "exception":
+                self.err_dialog.format_secondary_text(str(data))
+                self.err_dialog.run()
+                self.err_dialog.hide()
+                return
 
-    def show_reboot_dialog(self):
-        self.controller.toggle_top_level()
-        self.info_spinner.stop()
-        self.reboot_dialog.run()
+            self.controller.toggle_top_level()
+            if which == "reboot":
+                self.reboot_dialog.run()
 
-    def show_dual_dialog(self):
-        self.controller.toggle_top_level()
-        self.info_spinner.stop()
-        self.dual_dialog.run()
-
-    def show_exception_dialog(self, e):
-        self.info_spinner.stop()
-        self.err_dialog.format_secondary_text(str(e))
-        self.err_dialog.run()
-        self.err_dialog.hide()
+            elif which == DUAL_BOOT_QUESTION:
+                self.dual_dialog.run()
 
     def populate_devices(self, devices):
         """Feeds a selection of devices into the GUI
@@ -244,7 +248,106 @@ class PageGtk(PluginUI):
 
         #default to the first item active (it should be sorted anyway)
         self.automated_combobox.set_active(0)
-       
+
+    ##                      ##
+    ## Advanced GUI options ##
+    ##                      ##
+    def toggle_advanced(self, widget, data = None):
+        """Shows the advanced page"""
+        self.plugin_widgets.set_sensitive(False)
+        self.advanced_page.run()
+        self.advanced_page.hide()
+        self.plugin_widgets.set_sensitive(True)
+
+    def _map_combobox(self, item):
+        """Maps a combobox to a question"""
+        combobox = None
+        if item == DRIVER_INSTALL_QUESTION:
+            combobox = self.proprietary_combobox
+        elif item == ACTIVE_PARTITION_QUESTION:
+            combobox = self.active_partition_combobox
+        elif item == RP_FILESYSTEM_QUESTION:
+            combobox = self.rp_filesystem_combobox
+        elif item == DISK_LAYOUT_QUESTION:
+            combobox = self.disk_layout_combobox
+        elif item == SWAP_QUESTION:
+            combobox = self.swap_combobox
+        elif item == DUAL_BOOT_QUESTION:
+            combobox = self.dual_combobox
+        return combobox
+
+    def set_advanced(self, item, value):
+        """Populates the options that should be available on the advanced page"""
+
+        if item == 'efi' and value:
+            self.disk_layout_combobox.set_sensitive(False)
+            self.active_partition_combobox.set_sensitive(False)
+            self.dualboot_checkbox.set_sensitive(False)
+        elif item == "version":
+            self.version_detail.set_markup("Version: %s" % value)
+        elif item == "mount":
+            self.mount_detail.set_markup("Mounted From: %s" % value)
+        else:
+            combobox = self._map_combobox(item)
+            if combobox:
+                iterator = find_item_iterator(combobox, value)
+                if iterator is not None:
+                    combobox.set_active_iter(iterator)
+                else:
+                    syslog.syslog("DEBUG: setting %s to %s failed" % (item,value) )
+                    combobox.set_active(0)
+
+            #dual boot mode. ui changes for this
+            if item == DUAL_BOOT_QUESTION:
+                if value:
+                    self.interactive_recovery_box.hide()
+                else:
+                    self.interactive_recovery_box.show()
+                self.interactive_recovery.set_sensitive(not value)
+
+    def get_advanced(self, item):
+        """Returns the value in an advanced key"""
+        combobox = self._map_combobox(item)
+        if combobox:
+            return combobox.get_active_text()
+        else:
+            return self.dualboot_checkbox.get_active()
+ 
+    def advanced_callback(self, widget, data = None):
+        """Callback when an advanced widget is toggled"""
+        if widget == self.proprietary_combobox:
+            #nothing changes if we change proprietary drivers currently
+            pass
+        elif widget == self.active_partition_combobox:
+            #nothing changes if we change active partition currently
+            pass
+        elif widget == self.rp_filesystem_combobox:
+            #nothing changes if we change RP filesystem currently
+            pass
+        elif widget == self.swap_combobox:
+            #nothing change if we change swap currently
+            pass
+        else:
+            model = widget.get_model()
+            iterator = widget.get_active_iter()
+            if iterator is not None:
+                answer = model.get_value(iterator, 0)
+                
+            if widget == self.disk_layout_combobox:
+                if answer == "gpt":
+                    find_n_set_iterator(self.active_partition_combobox, STANDARD_EFI_PARTITION)
+                    self.active_partition_combobox.set_sensitive(False)
+                else:
+                    self.active_partition_combobox.set_sensitive(True)
+            elif widget == self.dual_combobox:
+                #set the type back to msdos
+                find_n_set_iterator(self.disk_layout_combobox, "msdos")
+                #don't allow changing to GPT when dualboot
+                self.disk_layout_combobox.set_sensitive(not answer)
+                #hide in the UI - this is a little special because it hides
+                #some basic settings too
+                self.set_advanced(DUAL_BOOT_QUESTION, answer)
+
 ################
 # Debconf Page #
 ################
@@ -253,6 +356,7 @@ class Page(Plugin):
         self.device = None
         self.device_size = 0
         self.efi = False
+        self.additional_kernel_options = ''
         Plugin.__init__(self, frontend, db, ui)
 
     def install_grub(self):
@@ -479,10 +583,12 @@ class Page(Plugin):
             bus.add_signal_receiver(reboot_machine, 'DeviceRemoved', 'org.freedesktop.UDisks')
 
         if self.dual:
-            self.ui.show_dual_dialog()
+            dialog = DUAL_BOOT_QUESTION
         else:
-            self.ui.show_reboot_dialog()
+            dialog = "reboot"
 
+        self.ui.show_dialog(dialog)
+        
         reboot_machine(None)
 
     def unset_drive_preseeds(self):
@@ -583,15 +689,30 @@ class Page(Plugin):
         self.debug("Detected a %s filesystem on the %s recovery partition" % (rp["fs"], rp["label"]))
 
     def prepare(self, unfiltered=False):
+        #version
+        with misc.raised_privileges():
+            version = magic.check_version()
+        self.debug("dell-bootstrap: version %s" % version)
+        
+        #mountpoint
+        mount = ''
+        with open('/proc/mounts', 'r') as mounts:
+            for line in mounts.readlines():
+                if '/cdrom' in line:
+                    mount = line.split()[0]
+                    break
+        self.debug("dell-bootstrap: mounted from %s" % mount)
+
+        #recovery type
         type = None
         try:
-            type = self.db.get('dell-recovery/recovery_type')
+            type = self.db.get(RECOVERY_TYPE_QUESTION)
             #These require interactivity - so don't fly by even if --automatic
             if type != 'factory':
-                self.db.set('dell-recovery/recovery_type', '')
-                self.db.fset('dell-recovery/recovery_type', 'seen', 'false')
+                self.db.set(RECOVERY_TYPE_QUESTION, '')
+                self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'false')
             else:
-                self.db.fset('dell-recovery/recovery_type', 'seen', 'true')
+                self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'true')
         except debconf.DebconfError, e:
             self.debug(str(e))
             #TODO superm1 : 2-18-10
@@ -599,10 +720,9 @@ class Page(Plugin):
             # where the template wasn't registered at package install
             # work around it by assuming no template == factory
             type = 'factory'
-            self.db.register('debian-installer/dummy', 'dell-recovery/recovery_type')
-            self.db.set('dell-recovery/recovery_type', type)
-            self.db.fset('dell-recovery/recovery_type', 'seen', 'true')
-        self.ui.set_type(type)
+            self.db.register('debian-installer/dummy', RECOVERY_TYPE_QUESTION)
+            self.db.set(RECOVERY_TYPE_QUESTION, type)
+            self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'true')
 
         #In case we preseeded the partitions we need installed to
         try:
@@ -619,7 +739,7 @@ class Page(Plugin):
 
         #Support special cases where the recovery partition isn't a linux partition
         try:
-            self.rp_filesystem = self.db.get('dell-recovery/recovery_partition_filesystem')
+            self.rp_filesystem = self.db.get(RP_FILESYSTEM_QUESTION)
         except debconf.DebconfError, e:
             self.debug(str(e))
             self.rp_filesystem = TYPE_VFAT_LBA
@@ -632,48 +752,54 @@ class Page(Plugin):
             self.pool_cmd = '/cdrom/scripts/pool.sh'
             self.preseed('dell-recovery/pool_command', self.pool_cmd)
 
-        #When running a dual boot install, this is useful
+        #Check if we are set in dual-boot mode
         try:
-            self.dual = self.db.get('dell-recovery/dual_boot_seed')
-            if self.dual:
-                self.ui.set_dual()
+            self.dual = self.db.get(DUAL_BOOT_QUESTION)
         except debconf.DebconfError, e:
             self.debug(str(e))
             self.dual = ''
 
         #If we are successful for an MBR install, this is where we boot to
         try:
-            pass_partition = self.db.get('dell-recovery/active_partition')
+            pass_partition = self.db.get(ACTIVE_PARTITION_QUESTION)
         except debconf.DebconfError, e:
             self.debug(str(e))
-            self.preseed('dell-recovery/active_partition', self.os_part)
+            pass_partition = self.os_part
+            self.preseed(ACTIVE_PARTITION_QUESTION, pass_partition)
 
         #In case an MBR install fails, this is where we boot to
         try:
-            self.fail_partition = self.db.get('dell-recovery/fail_partition')
+            self.fail_partition = self.db.get(FAIL_PARTITION_QUESTION)
         except debconf.DebconfError, e:
             self.debug(str(e))
             self.fail_partition = STANDARD_RP_PARTITION
-            self.preseed('dell-recovery/fail_partition', self.fail_partition)
+            self.preseed(FAIL_PARTITION_QUESTION, self.fail_partition)
 
         #The requested disk layout type
         #This is generally for debug purposes, but will be overridden if we
         #determine that we are actually going to be doing an EFI install
         try:
-            self.disk_layout = self.db.get('dell-recovery/disk_layout')
+            self.disk_layout = self.db.get(DISK_LAYOUT_QUESTION)
         except debconf.DebconfError, e:
             self.debug(str(e))
             self.disk_layout = 'msdos'
-            self.preseed('dell-recovery/disk_layout', self.disk_layout)
+            self.preseed(DISK_LAYOUT_QUESTION, self.disk_layout)
 
         #Behavior of the swap partition
         try:
-            self.swap = self.db.get('dell-recovery/swap')
+            self.swap = self.db.get(SWAP_QUESTION)
             if self.swap != "dynamic":
                 self.swap = misc.create_bool(self.swap)
         except debconf.DebconfError, e:
             self.debug(str(e))
             self.swap = 'dynamic'
+
+        #Proprietary driver installation preventions
+        try:
+            proprietary = self.db.get(DRIVER_INSTALL_QUESTION)
+        except debconf.DebconfError, e:
+            self.debug(str(e))
+            proprietary = ''
 
         #If we detect that we are booted into uEFI mode, then we only want
         #to do a GPT install.  Actually a MBR install would work in most
@@ -686,7 +812,19 @@ class Page(Plugin):
         #Default in EFI case, but also possible in MBR case
         if self.disk_layout == 'gpt':
             #Force EFI partition or bios_grub partition active
-            self.preseed('dell-recovery/active_partition', STANDARD_EFI_PARTITION)
+            self.preseed(ACTIVE_PARTITION_QUESTION, STANDARD_EFI_PARTITION)
+
+        #Fill in UI data
+        self.ui.set_type(type)
+        self.ui.set_advanced("mount", mount)
+        self.ui.set_advanced('version', version)
+        self.ui.set_advanced(DUAL_BOOT_QUESTION, self.dual)
+        self.ui.set_advanced(ACTIVE_PARTITION_QUESTION, pass_partition)
+        self.ui.set_advanced(DISK_LAYOUT_QUESTION, self.disk_layout)
+        self.ui.set_advanced(SWAP_QUESTION, self.swap)
+        self.ui.set_advanced(DRIVER_INSTALL_QUESTION, proprietary)
+        self.ui.set_advanced(RP_FILESYSTEM_QUESTION, self.rp_filesystem)
+        self.ui.set_advanced("efi", self.efi)
 
         #set the language in the UI
         try:
@@ -694,8 +832,8 @@ class Page(Plugin):
         except debconf.DebconfError, e:
             language = ''
         if not language:
-            with open('/proc/cmdline', 'r') as fd:
-                for item in fd.readline().split():
+            with open('/proc/cmdline', 'r') as rfd:
+                for item in rfd.readline().split():
                     if 'locale=' in item:
                         items = item.split('=')
                         if len(items) > 1:
@@ -715,17 +853,38 @@ class Page(Plugin):
             self.handle_exception(e)
             self.cancel_handler()
 
-        return (['/usr/share/ubiquity/dell-bootstrap'], ['dell-recovery/recovery_type'])
+        return (['/usr/share/ubiquity/dell-bootstrap'], [RECOVERY_TYPE_QUESTION])
 
     def ok_handler(self):
         """Copy answers from debconf questions"""
+        #basic questions
         type = self.ui.get_type()
-        self.preseed('dell-recovery/recovery_type', type)
+        self.debug("dell-bootstrap: recovery type set to %s" % type)
+        self.preseed(RECOVERY_TYPE_QUESTION, type)
         (device, size) = self.ui.get_selected_device()
         if device:
             self.device = device
         if size:
             self.device_size = size
+
+        #advanced questions
+        for question in [DUAL_BOOT_QUESTION,
+                         ACTIVE_PARTITION_QUESTION,
+                         DISK_LAYOUT_QUESTION,
+                         SWAP_QUESTION,
+                         DRIVER_INSTALL_QUESTION,
+                         RP_FILESYSTEM_QUESTION]:
+            answer = self.ui.get_advanced(question)
+            if answer:
+                self.debug("dell-bootstrap: advanced option %s set to %s" % (question, answer))
+                self.additional_kernel_options += question + "=" + answer + " "
+                if question == RP_FILESYSTEM_QUESTION:
+                    self.rp_filesystem = answer
+                elif question == DISK_LAYOUT_QUESTION:
+                    self.disk_layout = answer
+                elif question == DUAL_BOOT_QUESTION:
+                    self.dual = answer
+
         return Plugin.ok_handler(self)
 
     def cleanup(self):
@@ -735,11 +894,18 @@ class Page(Plugin):
         try:
             # User recovery - need to copy RP
             if type == "automatic":
-                self.ui.show_info_dialog()
+                self.ui.show_dialog("info")
                 self.disable_swap()
                 with misc.raised_privileges():
                     mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
-                self.rp_builder = rp_builder(self.device, self.device_size, self.rp_filesystem, mem, self.dual, self.disk_layout, self.efi)
+                self.rp_builder = rp_builder(self.device, 
+                                             self.device_size,
+                                             self.rp_filesystem,
+                                             mem,
+                                             self.dual,
+                                             self.disk_layout,
+                                             self.efi,
+                                             self.additional_kernel_options)
                 self.rp_builder.exit = self.exit_ui_loops
                 self.rp_builder.start()
                 self.enter_ui_loop()
@@ -780,13 +946,13 @@ class Page(Plugin):
 
     def handle_exception(self, e):
         self.debug(str(e))
-        self.ui.show_exception_dialog(e)
+        self.ui.show_dialog("exception", e)
 
 ############################
 # RP Builder Worker Thread #
 ############################
 class rp_builder(Thread):
-    def __init__(self, device, size, rp_type, mem, dual, disk_layout, efi):
+    def __init__(self, device, size, rp_type, mem, dual, disk_layout, efi, ak):
         self.device = device
         self.device_size = size
         self.rp_type = rp_type
@@ -794,6 +960,7 @@ class rp_builder(Thread):
         self.dual = dual
         self.disk_layout = disk_layout
         self.efi = efi
+        self.additional_kernel_options = ak
         self.exception = None
         Thread.__init__(self)
 
@@ -988,7 +1155,7 @@ manually to proceed.")
         with misc.raised_privileges():
             magic.process_conf_file('/usr/share/dell/grub/recovery_partition.cfg', \
                                     os.path.join('/boot', 'grub', 'grub.cfg'),     \
-                                    uuid, self.rp_part, self.dual)
+                                    uuid, self.rp_part, self.dual, self.additional_kernel_options)
 
         #Install grub
         if self.efi:
@@ -1046,6 +1213,23 @@ def reboot_machine(objpath):
     reboot = misc.execute_root(reboot_cmd, '-n')
     if reboot is False:
         raise RuntimeError, ("Reboot failed")
+
+def find_item_iterator(combobox, value, column = 0):
+    """Searches a combobox for a value and returns the iterator that matches"""
+    model = combobox.get_model()
+    iterator = model.get_iter_first()
+    while iterator is not None:
+        if value == model.get_value(iterator, column):
+            break
+        iterator = model.iter_next(iterator)
+    return iterator
+
+def find_n_set_iterator(combobox, value, column = 0):
+    """Searches a combobox for a value, and sets the iterator to that value if
+       it's found"""
+    iterator = find_item_iterator(combobox, value, column)
+    if iterator is not None:
+        combobox.set_active_iter(iterator)
 
 ###########################################
 # Commands Processed During Install class #
@@ -1124,7 +1308,7 @@ class Install(InstallPlugin):
         drivers = ''
 
         try:
-            drivers = progress.get('dell-recovery/disable-driver-install').split(',')
+            drivers = progress.get(DRIVER_INSTALL_QUESTION).split(',')
         except debconf.DebconfError, e:
             pass
 
@@ -1168,11 +1352,11 @@ class Install(InstallPlugin):
         #This happens at the end of success command
         active = ''
         try:
-            active = progress.get('dell-recovery/active_partition')
+            active = progress.get(ACTIVE_PARTITION_QUESTION)
         except debconf.DebconfError, e:
             pass
         try:
-            layout = progress.get('dell-recovery/disk_layout')
+            layout = progress.get(DISK_LAYOUT_QUESTION)
         except debconf.DebconfError, e:
             layout = 'msdos'
 
@@ -1219,7 +1403,7 @@ class Install(InstallPlugin):
 
         #Query Dual boot or not
         try:
-            dual = self.db.get('dell-recovery/dual_boot_seed')
+            dual = self.db.get(DUAL_BOOT_QUESTION)
         except debconf.DebconfError, e:
             dual = ''
 
