@@ -1,4 +1,4 @@
-dell-recovery (0.62) UNRELEASED; urgency=low
+dell-recovery (0.62) maverick; urgency=low
 
   * Work around a bug with interactions between a non-KMS plymouth and
     casper running when VT7 is active by not running casper stop if
@@ -20,7 +20,7 @@ dell-recovery (0.62) UNRELEASED; urgency=low
   * Merge in the dell-default-ui plugin from dell-oobe (which is now unnecessary).
   * Merge translations from launchpad.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 27 Jul 2010 12:48:35 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 02 Aug 2010 18:37:18 -0500
 
 dell-recovery (0.61) maverick; urgency=low
 
