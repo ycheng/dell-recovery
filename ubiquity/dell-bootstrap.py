@@ -62,6 +62,7 @@ DISK_LAYOUT_QUESTION = 'dell-recovery/disk_layout'
 SWAP_QUESTION = 'dell-recovery/swap'
 RP_FILESYSTEM_QUESTION = 'dell-recovery/recovery_partition_filesystem'
 DRIVER_INSTALL_QUESTION = 'dell-recovery/disable-driver-install'
+USER_INTERFACE_QUESTION = 'dell-oobe/user-interface'
 
 #######################
 # Noninteractive Page #
@@ -149,6 +150,7 @@ class PageGtk(PluginUI):
             self.rp_filesystem_combobox = builder.get_object('recovery_partition_filesystem_checkbox')
             self.disk_layout_combobox = builder.get_object('disk_layout_combobox')
             self.swap_combobox = builder.get_object('swap_behavior_combobox')
+            self.ui_combobox = builder.get_object('default_ui_combobox')
 
             #check if we are genuine
             if not self.genuine:
@@ -264,7 +266,9 @@ class PageGtk(PluginUI):
     def _map_combobox(self, item):
         """Maps a combobox to a question"""
         combobox = None
-        if item == DRIVER_INSTALL_QUESTION:
+        if item == USER_INTERFACE_QUESTION:
+            combobox = self.ui_combobox
+        elif item == DRIVER_INSTALL_QUESTION:
             combobox = self.proprietary_combobox
         elif item == ACTIVE_PARTITION_QUESTION:
             combobox = self.active_partition_combobox
@@ -803,6 +807,13 @@ class Page(Plugin):
             self.debug(str(e))
             proprietary = ''
 
+        #default UI
+        try:
+            ui = self.db.get(USER_INTERFACE_QUESTION)
+        except debconf.DebconfError, e:
+            self.debug(str(e))
+            ui = 'dynamic'
+            
         #If we detect that we are booted into uEFI mode, then we only want
         #to do a GPT install.  Actually a MBR install would work in most
         #cases, but we can't make assumptions about 16-bit anymore (and
@@ -824,6 +835,7 @@ class Page(Plugin):
         self.ui.set_advanced(DISK_LAYOUT_QUESTION, self.disk_layout)
         self.ui.set_advanced(SWAP_QUESTION, self.swap)
         self.ui.set_advanced(DRIVER_INSTALL_QUESTION, proprietary)
+        self.ui.set_advanced(USER_INTERFACE_QUESTION, ui)
         self.ui.set_advanced(RP_FILESYSTEM_QUESTION, self.rp_filesystem)
         self.ui.set_advanced("efi", self.efi)
         self.ui.set_type(type)
@@ -875,6 +887,7 @@ class Page(Plugin):
                          DISK_LAYOUT_QUESTION,
                          SWAP_QUESTION,
                          DRIVER_INSTALL_QUESTION,
+                         USER_INTERFACE_QUESTION,
                          RP_FILESYSTEM_QUESTION]:
             answer = self.ui.get_advanced(question)
             if answer:
@@ -1284,11 +1297,12 @@ class Install(InstallPlugin):
         extra = magic.find_extra_kernel_options()
         new = ''
         for item in extra.split():
-            if not 'dell-recovery/'    in item and \
-               not 'debian-installer/' in item and \
-               not 'console-setup/'    in item and \
-               not 'locale='           in item and \
-               not 'ubiquity'          in item:
+            if not 'dell-recovery/'                   in item and \
+               not 'dell-oobe/user-interface=dynamic' in item and \
+               not 'debian-installer/'                in item and \
+               not 'console-setup/'                   in item and \
+               not 'locale='                          in item and \
+               not 'ubiquity'                         in item:
                 new+='%s ' % item
         extra = new.strip()
 
@@ -1409,9 +1423,9 @@ class Install(InstallPlugin):
         except debconf.DebconfError, e:
             dual = ''
 
-        #we don't want EULA, DesktopUI or dell-recovery in dual mode
+        #we don't want EULA or dell-recovery in dual mode
         if dual:
-            for package in ['dell-eula', 'dell-oobe', 'dell-recovery']:
+            for package in ['dell-eula', 'dell-recovery']:
                 try:
                     to_install.remove(package)
                     to_remove.append(package)

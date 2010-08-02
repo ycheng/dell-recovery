@@ -17,6 +17,7 @@ dell-recovery (0.62) UNRELEASED; urgency=low
     mucking with it.
   * Drop the dell-language ubiquity plugin.  It was only used to keep a constant
     title, which ubiqutiy now has support for.
+  * Merge in the dell-default-ui plugin from dell-oobe (which is now unnecessary).
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 27 Jul 2010 12:48:35 -0500
 

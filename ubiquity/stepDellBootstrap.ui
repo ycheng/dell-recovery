@@ -725,7 +725,7 @@ After your additional OS installation completes, mark the 4th partition active t
         <child>
           <object class="GtkTable" id="advanced_table">
             <property name="visible">True</property>
-            <property name="n_rows">6</property>
+            <property name="n_rows">7</property>
             <property name="n_columns">2</property>
             <property name="column_spacing">10</property>
             <property name="row_spacing">10</property>
@@ -908,6 +908,36 @@ After your additional OS installation completes, mark the 4th partition active t
                 <property name="y_options"></property>
               </packing>
             </child>
+            <child>
+              <object class="GtkLabel" id="label10">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">User Interface</property>
+              </object>
+              <packing>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkComboBox" id="default_ui_combobox">
+                <property name="visible">True</property>
+                <property name="model">ui_liststore</property>
+                <child>
+                  <object class="GtkCellRendererText" id="cellrenderertext10"/>
+                  <attributes>
+                    <attribute name="text">1</attribute>
+                  </attributes>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="position">5</property>
@@ -980,6 +1010,28 @@ After your additional OS installation completes, mark the 4th partition active t
       <row>
         <col id="0" translatable="yes"></col>
         <col id="1" translatable="yes">Disabled</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkListStore" id="ui_liststore">
+    <columns>
+      <!-- column-name ui -->
+      <column type="gchararray"/>
+      <!-- column-name friendly name -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">dynamic</col>
+        <col id="1" translatable="yes">dynamic</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">une</col>
+        <col id="1" translatable="yes">Desktop Edition</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">ude</col>
+        <col id="1" translatable="yes">Netbook Edition</col>
       </row>
     </data>
   </object>
