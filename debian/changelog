@@ -1,3 +1,10 @@
+dell-recovery (0.63) UNRELEASED; urgency=low
+
+  * Fix a regression with tgz type fish packages from previous pylint cleanup
+    due to tarfile not containing an __exit__ method.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 04 Aug 2010 13:29:18 -0500
+
 dell-recovery (0.62) maverick; urgency=low
 
   * Work around a bug with interactions between a non-KMS plymouth and

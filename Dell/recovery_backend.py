@@ -374,14 +374,16 @@ class Backend(dbus.service.Object):
 
         def safe_tar_extract(filename, destination):
             """Safely extracts a tarball into destination"""
-            with tarfile.open(filename) as rfd:
-                dangerous_file = False
-                for name in rfd.getnames():
-                    if name.startswith('..') or name.startswith('/'):
-                        dangerous_file = True
-                        break
-                if not dangerous_file:
-                    rfd.extractall(destination)
+            logging.debug('safe_tar_extract: %s to %s', (filename, destination))
+            rfd = tarfile.open(filename)
+            dangerous_file = False
+            for name in rfd.getnames():
+                if name.startswith('..') or name.startswith('/'):
+                    dangerous_file = True
+                    break
+            if not dangerous_file:
+                rfd.extractall(destination)
+            rfd.close()
 
         self._reset_timeout()
 
