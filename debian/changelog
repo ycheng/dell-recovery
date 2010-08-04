@@ -2,6 +2,9 @@ dell-recovery (0.63) UNRELEASED; urgency=low
 
   * Fix a regression with tgz type fish packages from previous pylint cleanup
     due to tarfile not containing an __exit__ method.
+  * When operating on a newer ubiquity version, hide the progress_section
+    at window bottom.
+  * Drop the title string on the bootstrap page.  It looks funny.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 04 Aug 2010 13:29:18 -0500
 

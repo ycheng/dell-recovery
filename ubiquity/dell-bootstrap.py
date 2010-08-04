@@ -99,8 +99,6 @@ class PageNoninteractive(PluginUI):
 # GTK Page #
 ############
 class PageGtk(PluginUI):
-    plugin_title = 'ubiquity/text/recovery_type_title'
-
     #OK, so we're not "really" a language page
     #We are just cheating a little bit to make sure our widgets are translated
     plugin_is_language = True
@@ -167,9 +165,9 @@ class PageGtk(PluginUI):
             self.controller.allow_go_forward(False)
 
         #The widget has been added into the top level by now, so we can change top level stuff
-        import gtk
-        window = self.plugin_widgets.get_parent_window()
-        window.set_functions(gtk.gdk.FUNC_RESIZE | gtk.gdk.FUNC_MOVE)
+        if 'UBIQUITY_AUTOMATIC' in os.environ and \
+                            hasattr(self.controller, 'toggle_progress_section'):
+            progress_section = self.controller.toggle_progress_section()
 
         return self.plugin_widgets
 
