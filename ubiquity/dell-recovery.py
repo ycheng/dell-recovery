@@ -39,6 +39,8 @@ rotational_characters=['\\','|','/','|']
 
 #Gtk widgets
 class PageGtk(PluginUI):
+    plugin_title = 'ubiquity/text/recovery_heading_label'
+
     def __init__(self, controller, *args, **kwargs):
         self.controller = controller
         up,  rp  = magic.find_partitions('','')

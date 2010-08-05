@@ -140,7 +140,7 @@ _Description: NOTE: Please be patient, this may take a while.
 
 Template: ubiquity/text/recovery_heading_label
 Type: text
-_Description: Create Dell Recovery Media?
+_Description: Create Dell Recovery Media
 
 Template: ubiquity/text/recovery_information_label
 Type: text
