@@ -1300,6 +1300,7 @@ class Install(InstallPlugin):
                not 'debian-installer/'                in item and \
                not 'console-setup/'                   in item and \
                not 'locale='                          in item and \
+               not 'BOOT_IMAGE='                      in item and \
                not 'ubiquity'                         in item:
                 new+='%s ' % item
         extra = new.strip()
