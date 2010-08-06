@@ -30,8 +30,6 @@ import gobject
 import dbus
 import dbus.service
 import dbus.mainloop.glib
-from threading import Thread, Event
-
 import atexit
 import tempfile
 import subprocess
@@ -47,78 +45,11 @@ from Dell.recovery_common import (DOMAIN, LOCALEDIR, UP_FILENAMES,
                                   DBUS_BUS_NAME, DBUS_INTERFACE_NAME,
                                   RestoreFailed, CreateFailed,
                                   PermissionDeniedByPolicy)
+from Dell.recovery_threading import ProgressByPulse, ProgressBySize
 
 #Translation support
 from gettext import gettext as _
 from gettext import bindtextdomain, textdomain
-
-
-#--------------------------------------------------------------------#
-#Borrowed from USB-Creator initially
-class ProgressBySize(Thread):
-    """Used for emitting progress for subcalls that don't nicely use stdout'"""
-    def __init__(self, input_str, device, to_write):
-        Thread.__init__(self)
-        self._stopevent = Event()
-        self.str = input_str
-        self.to_write = to_write
-        self.device = device
-        statvfs = os.statvfs(device)
-        self.start_free = statvfs.f_bsize * statvfs.f_bavail
-
-    def progress(self, input_str, percent):
-        """Function intended to be overridden to the correct external function
-        """
-        pass
-
-    def run(self):
-        """Runs the thread"""
-        try:
-            while not self._stopevent.isSet():
-                statvfs = os.statvfs(self.device)
-                free = statvfs.f_bsize * statvfs.f_bavail
-                written = self.start_free - free
-                veecent = int((written / float(self.to_write)) * 100)
-                if callable(self.progress):
-                    self.progress(self.str, veecent)
-                self._stopevent.wait(2)
-        except Exception:
-            logging.exception('Could not update progress:')
-
-    def join(self, timeout=None):
-        """Stops the thread"""
-        self._stopevent.set()
-        Thread.join(self, timeout)
-
-class ProgressByPulse(Thread):
-    """Used for emitting the thought of progress for subcalls that don't show
-       anything'"""
-    def __init__(self, input_str):
-        Thread.__init__(self)
-        self._stopevent = Event()
-        self.str = input_str
-
-    def progress(self, input_str, percent):
-        """Function intended to be overridden to the correct external function
-        """
-        pass
-
-    def run(self):
-        """Runs the thread"""
-        try:
-            while not self._stopevent.isSet():
-                if callable(self.progress):
-                    self.progress(self.str, "-1")
-                self._stopevent.wait(.5)
-        except Exception:
-            logging.exception('Could not update progress:')
-
-    def join(self, timeout=None):
-        """Stops the thread"""
-        self._stopevent.set()
-        Thread.join(self, timeout)
-
-#--------------------------------------------------------------------#
 
 class Backend(dbus.service.Object):
     '''Backend manager.

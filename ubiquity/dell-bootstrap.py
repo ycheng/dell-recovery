@@ -26,6 +26,7 @@
 from ubiquity.plugin import *
 from ubiquity import misc
 from threading import Thread, Event
+from Dell.recovery_threading import ProgressBySize
 import debconf
 import Dell.recovery_common as magic
 import subprocess
@@ -163,13 +164,15 @@ class PageGtk(PluginUI):
         #are we real?
         if not self.genuine:
             self.controller.allow_go_forward(False)
-
-        #The widget has been added into the top level by now, so we can change top level stuff
-        if 'UBIQUITY_AUTOMATIC' in os.environ and \
-                            hasattr(self.controller, 'toggle_progress_section'):
-            progress_section = self.controller.toggle_progress_section()
+        self.toggle_progress()
 
         return self.plugin_widgets
+
+    def toggle_progress(self):
+        """Toggles the progress bar for RP build"""
+        if 'UBIQUITY_AUTOMATIC' in os.environ and \
+                            hasattr(self.controller, 'toggle_progress_section'):
+            self.controller.toggle_progress_section()
 
     def get_type(self):
         """Returns the type of recovery to do from GUI"""
@@ -224,6 +227,7 @@ class PageGtk(PluginUI):
             self.interactive_recovery_box.hide()
             self.info_box.show_all()
             self.info_spinner.start()
+            self.toggle_progress()
         else:
             self.info_spinner.stop()
             if which == "exception":
@@ -900,6 +904,11 @@ class Page(Plugin):
 
         return Plugin.ok_handler(self)
 
+    def report_progress(self, info, percent):
+        """Reports to the frontend an update about th progress"""
+        self.frontend.debconf_progress_info(info)
+        self.frontend.debconf_progress_set(percent)
+
     def cleanup(self):
         #All this processing happens in cleanup because that ensures it runs for all scenarios
         type = self.db.get('dell-recovery/recovery_type')
@@ -911,6 +920,13 @@ class Page(Plugin):
                 self.disable_swap()
                 with misc.raised_privileges():
                     mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
+                #init progress bar and size thread
+                self.frontend.debconf_progress_start(0, 100, "")
+                size_thread = ProgressBySize("Copying Files",
+                                               "/boot",
+                                               "0")
+                size_thread.progress = self.report_progress
+                #init builder
                 self.rp_builder = rp_builder(self.device, 
                                              self.device_size,
                                              self.rp_filesystem,
@@ -918,8 +934,10 @@ class Page(Plugin):
                                              self.dual,
                                              self.disk_layout,
                                              self.efi,
-                                             self.additional_kernel_options)
+                                             self.additional_kernel_options,
+                                             size_thread)
                 self.rp_builder.exit = self.exit_ui_loops
+                self.rp_builder.status = self.report_progress
                 self.rp_builder.start()
                 self.enter_ui_loop()
                 self.rp_builder.join()
@@ -965,7 +983,7 @@ class Page(Plugin):
 # RP Builder Worker Thread #
 ############################
 class rp_builder(Thread):
-    def __init__(self, device, size, rp_type, mem, dual, disk_layout, efi, ak):
+    def __init__(self, device, size, rp_type, mem, dual, disk_layout, efi, ak, sizing_thread):
         self.device = device
         self.device_size = size
         self.rp_type = rp_type
@@ -975,6 +993,7 @@ class rp_builder(Thread):
         self.efi = efi
         self.additional_kernel_options = ak
         self.exception = None
+        self.file_size_thread = sizing_thread
         Thread.__init__(self)
 
     def build_rp(self, cushion=300):
@@ -1024,7 +1043,7 @@ manually to proceed.")
         #Calculate RP size
         rp_size = magic.white_tree("size", white_pattern, CDROM_MOUNT)
         #in mbytes
-        rp_size = (rp_size / 1048576) + cushion
+        rp_size_mb = (rp_size / 1048576) + cushion
 
         # Build new partition table
         command = ('parted', '-s', self.device, 'mklabel', self.disk_layout)
@@ -1032,6 +1051,7 @@ manually to proceed.")
         if result is False:
             raise RuntimeError, ("Error creating new partition table %s on %s" % (self.disk_layout, self.device))
 
+        self.status("Creating Partitions", 1)
         if self.disk_layout == 'msdos':
             #Create a DRMK MBR
             with open('/usr/share/dell/up/mbr.bin', 'rb') as mbr:
@@ -1071,10 +1091,10 @@ manually to proceed.")
                         wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
 
             #Build RP
-            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', self.rp_type, str(up_size), str(up_size + rp_size))
+            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', self.rp_type, str(up_size), str(up_size + rp_size_mb))
             result = misc.execute_root(*command)
             if result is False:
-                raise RuntimeError, ("Error creating new %s mb recovery partition on %s" % (rp_size, self.device))
+                raise RuntimeError, ("Error creating new %s mb recovery partition on %s" % (rp_size_mb, self.device))
 
             #Set RP active (bootable)
             command = ('parted', '-s', self.device, 'set', self.rp_part, 'boot', 'on')
@@ -1087,7 +1107,7 @@ manually to proceed.")
                 my_os_part = 5120 #mb
                 other_os_part_end = (int(self.device_size) / 1048576) - my_os_part
 
-                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'ntfs', str(up_size + rp_size), str(other_os_part_end)),
+                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'ntfs', str(up_size + rp_size_mb), str(other_os_part_end)),
                             ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'fat32', str(other_os_part_end), str(other_os_part_end + my_os_part)),
                             ('mkfs.ntfs' , '-f', '-L', 'OS', self.device + '3'),
                             ('mkfs.msdos', '-n', 'ubuntu'  , self.device + '4')]
@@ -1124,12 +1144,13 @@ manually to proceed.")
             self.grub_part = ''
 
             #Build RP
-            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(grub_size), str(rp_size + grub_size))
+            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(grub_size), str(rp_size_mb + grub_size))
             result = misc.execute_root(*command)
             if result is False:
-                raise RuntimeError, ("Error creating new %s mb recovery partition on %s" % (rp_size, self.device))
+                raise RuntimeError, ("Error creating new %s mb recovery partition on %s" % (rp_size_mb, self.device))
 
         #Build RP filesystem
+        self.status("Formatting Partitions", 2)
         if self.rp_type == 'fat32':
             command = ('mkfs.msdos', '-n', 'install', self.device + self.rp_part)
         elif self.rp_type == 'ntfs':
@@ -1143,9 +1164,17 @@ manually to proceed.")
         if mount is False:
             raise RuntimeError, ("Error mounting %s%s" % (self.device, self.rp_part))
 
+        #Update status and start the file size thread
+        self.file_size_thread.reset_write(rp_size)
+        self.file_size_thread.set_scale_factor(85)
+        self.file_size_thread.set_starting_value(2)
+        self.file_size_thread.start()
+
         #Copy RP Files
         with misc.raised_privileges():
             magic.white_tree("copy", white_pattern, CDROM_MOUNT, '/boot')
+
+        self.file_size_thread.join()
 
         #If dual boot, mount the proper /boot partition first
         if self.dual:
@@ -1171,6 +1200,7 @@ manually to proceed.")
                                     uuid, self.rp_part, self.dual, self.additional_kernel_options)
 
         #Install grub
+        self.status("Installing GRUB", 88)
         if self.efi:
             raise RuntimeError, ("EFI install of GRUB is not yet supported.  You may be able to manually do it though.")
         else:
@@ -1184,6 +1214,7 @@ manually to proceed.")
 
         #Build new UUID
         if int(self.mem) >= 1000000:
+            self.status("Regenerating UUID / initramfs", 90)
             with misc.raised_privileges():
                 magic.create_new_uuid(os.path.join(CDROM_MOUNT, 'casper'),
                         os.path.join(CDROM_MOUNT, '.disk'),
@@ -1197,6 +1228,9 @@ manually to proceed.")
         misc.execute_root('umount', '/boot')
 
     def exit(self):
+        pass
+
+    def status(self, info, percent):
         pass
 
     def run(self):

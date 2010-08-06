@@ -1,3 +1,10 @@
+dell-recovery (0.64) UNRELEASED; urgency=low
+
+  * Use the newly available progress bar from all ubiquity plugins to display
+    status while building the RP.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 06 Aug 2010 08:39:15 -0500
+
 dell-recovery (0.63) maverick; urgency=low
 
   * Fix a regression with tgz type fish packages from previous pylint cleanup
