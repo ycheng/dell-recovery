@@ -2,6 +2,8 @@ dell-recovery (0.64) UNRELEASED; urgency=low
 
   * Use the newly available progress bar from all ubiquity plugins to display
     status while building the RP.
+  * Split out the propagated kernel options into their own file, to make sure
+    they are common to the RP after install too.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 06 Aug 2010 08:39:15 -0500
 

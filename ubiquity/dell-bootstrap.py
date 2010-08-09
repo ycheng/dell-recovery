@@ -381,11 +381,14 @@ class Page(Plugin):
             raise RuntimeError, ("CD Mount failed")
 
         #Check for a grub.cfg to start - make as necessary
-        if not os.path.exists(os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg')):
-            with misc.raised_privileges():
-                magic.process_conf_file('/usr/share/dell/grub/recovery_partition.cfg', \
-                                        os.path.join(CDROM_MOUNT, 'grub', 'grub.cfg'), \
-                                        rp["uuid"], STANDARD_RP_PARTITION, self.dual)
+        files = {'recovery_partition.cfg': 'grub.cfg',
+                 'common.cfg' : 'common.cfg'}
+        for item in files:
+            if not os.path.exists(os.path.join(CDROM_MOUNT, 'grub', files[item])):
+                with misc.raised_privileges():
+                    magic.process_conf_file('/usr/share/dell/grub/' + item,   \
+                              os.path.join(CDROM_MOUNT, 'grub', files[item]), \
+                              rp["uuid"], STANDARD_RP_PARTITION, self.dual)
 
         #Do the actual grub installation
         bind_mount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
@@ -1191,13 +1194,18 @@ manually to proceed.")
                     break
 
         #Check for a grub.cfg - replace as necessary
-        if os.path.exists(os.path.join('/boot', 'grub', 'grub.cfg')):
+        files = {'recovery_partition.cfg': 'grub.cfg',
+                 'common.cfg' : 'common.cfg'} 
+        for item in files:
+            if os.path.exists(os.path.join('/boot', 'grub', files[item])):
+                with misc.raised_privileges():
+                    os.remove(os.path.join('/boot', 'grub', files[item]))
+
             with misc.raised_privileges():
-                os.remove(os.path.join('/boot', 'grub', 'grub.cfg'))
-        with misc.raised_privileges():
-            magic.process_conf_file('/usr/share/dell/grub/recovery_partition.cfg', \
-                                    os.path.join('/boot', 'grub', 'grub.cfg'),     \
-                                    uuid, self.rp_part, self.dual, self.additional_kernel_options)
+                magic.process_conf_file('/usr/share/dell/grub/' + item, \
+                                   os.path.join('/boot', 'grub', files[item]),\
+                                   uuid, self.rp_part, self.dual, \
+                                   self.additional_kernel_options)
 
         #Install grub
         self.status("Installing GRUB", 88)
