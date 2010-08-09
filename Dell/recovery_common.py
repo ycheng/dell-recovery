@@ -167,7 +167,8 @@ def process_conf_file(original, new, uuid, rp_number, dual_seed='', ako=''):
                 left = item.split('=')[0].strip()
                 if left and left in var:
                     found = True
-            if not found:
+            #propagate anything but BOOT_IMAGE (it gets added from isolinux)
+            if not found and not 'BOOT_IMAGE' in var:
                 extra_cmdline += ' ' + var
     else:
         extra_cmdline = find_extra_kernel_options()

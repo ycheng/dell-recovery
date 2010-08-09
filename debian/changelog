@@ -4,6 +4,7 @@ dell-recovery (0.64) UNRELEASED; urgency=low
     status while building the RP.
   * Split out the propagated kernel options into their own file, to make sure
     they are common to the RP after install too.
+  * Make sure that BOOT_IMAGE is not propagating into the RP.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 06 Aug 2010 08:39:15 -0500
 
