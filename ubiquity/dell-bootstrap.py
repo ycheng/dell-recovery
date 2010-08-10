@@ -1055,7 +1055,7 @@ manually to proceed.")
         #Calculate RP size
         rp_size = magic.white_tree("size", white_pattern, CDROM_MOUNT)
         #in mbytes
-        rp_size_mb = (rp_size / 1048576) + cushion
+        rp_size_mb = (rp_size / 1000000) + cushion
 
         # Build new partition table
         command = ('parted', '-s', self.device, 'mklabel', self.disk_layout)
@@ -1117,7 +1117,7 @@ manually to proceed.")
             #Dual boot creates more partitions
             if self.dual:
                 my_os_part = 5120 #mb
-                other_os_part_end = (int(self.device_size) / 1048576) - my_os_part
+                other_os_part_end = (int(self.device_size) / 1000000) - my_os_part
 
                 commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'ntfs', str(up_size + rp_size_mb), str(other_os_part_end)),
                             ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'fat32', str(other_os_part_end), str(other_os_part_end + my_os_part)),
