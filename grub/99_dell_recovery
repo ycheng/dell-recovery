@@ -5,8 +5,12 @@ source /usr/lib/grub/grub-mkconfig_lib
 cat << EOF
 menuentry "Restore #OS# to factory state" {
         set root='(hd0,#PARTITION#)'
-	search --no-floppy --fs-uuid --set #UUID#
-        source  /grub/common.cfg
+        search --no-floppy --fs-uuid --set #UUID#
+        if [ -s /grub/common.cfg ]; then
+            source /grub/common.cfg
+        else
+            set options="preseed/file=/cdrom/preseed/ubuntu.seed boot=casper automatic-ubiquity noprompt quiet splash"
+        fi
         linux   /casper/vmlinuz dell-recovery/recovery_type=hdd \$options
 	initrd	/casper/initrd.lz
 }
