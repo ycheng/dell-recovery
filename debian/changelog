@@ -1,5 +1,6 @@
 dell-recovery (0.64) UNRELEASED; urgency=low
 
+  [ Mario Limonciello ]
   * Use the newly available progress bar from all ubiquity plugins to display
     status while building the RP.
   * Split out the propagated kernel options into their own file, to make sure
@@ -7,6 +8,10 @@ dell-recovery (0.64) UNRELEASED; urgency=low
   * If common.cfg is missing, don't flip out.
   * Make sure that BOOT_IMAGE is not propagating into the RP.
   * Always output the name of the plugin in debug strings.
+
+  [ Peter Petrakis ]
+  * Record the base iso used in the bto_manifest
+  * Calculate the md5sum of each driver fish and record it in bto_md5sum
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 06 Aug 2010 08:39:15 -0500
 
