@@ -188,7 +188,7 @@ def process_conf_file(original, new, uuid, rp_number, dual_seed='', ako=''):
                 if "#OS#" in line:
                     line = line.replace("#OS#", "%s %s" % (release["ID"], release["RELEASE"]))
                 if "#EXTRA#" in line:
-                    line = line.replace("#EXTRA#", "%s" % extra_cmdline)
+                    line = line.replace("#EXTRA#", "%s" % extra_cmdline.strip())
                 if '#DUAL#' in line:
                     line = line.replace("#DUAL#", "%s"  % dual_seed)
                 output.write(line)

@@ -12,6 +12,7 @@ dell-recovery (0.64) UNRELEASED; urgency=low
   * Correct a rounding regression with the switch to parted for making partitions.
   * Add some additional debugging for all installs to share more about the creation
     of the UP and grub.
+  * Strip the stray characters at the end of extra command line.
 
   [ Peter Petrakis ]
   * Record the base iso used in the bto_manifest
