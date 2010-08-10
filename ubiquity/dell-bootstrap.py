@@ -388,7 +388,7 @@ class Page(Plugin):
                 with misc.raised_privileges():
                     magic.process_conf_file('/usr/share/dell/grub/' + item,   \
                               os.path.join(CDROM_MOUNT, 'grub', files[item]), \
-                              rp["uuid"], STANDARD_RP_PARTITION, self.dual)
+                              self.uuid, STANDARD_RP_PARTITION, self.dual)
 
         #Do the actual grub installation
         bind_mount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
@@ -437,7 +437,7 @@ class Page(Plugin):
                 recipe = self.db.get('partman-auto/expert_recipe')
                 self.db.set('partman-auto/expert_recipe', recipe.split('.')[0] + '.')
             except debconf.DebconfError, e:
-                pass
+                self.debug(str(e))
 
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
