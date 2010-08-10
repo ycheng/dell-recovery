@@ -1075,7 +1075,7 @@ manually to proceed.")
                     #in bytes
                     up_size = int(fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, file)]).split()[1])
                     #in mbytes
-                    up_size = up_size / 1048576
+                    up_size = up_size / 1000000
 
             #Build UP
             command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '0', str(up_size))

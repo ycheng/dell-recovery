@@ -9,6 +9,7 @@ dell-recovery (0.64) UNRELEASED; urgency=low
   * Make sure that BOOT_IMAGE is not propagating into the RP.
   * Always output the name of the plugin in debug strings.
   * Fix backwards list for une/ude in UI chooser.
+  * Correct a rounding regression with the switch to parted for making partitions.
 
   [ Peter Petrakis ]
   * Record the base iso used in the bto_manifest
