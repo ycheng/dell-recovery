@@ -10,6 +10,8 @@ dell-recovery (0.64) UNRELEASED; urgency=low
   * Always output the name of the plugin in debug strings.
   * Fix backwards list for une/ude in UI chooser.
   * Correct a rounding regression with the switch to parted for making partitions.
+  * Add some additional debugging for all installs to share more about the creation
+    of the UP and grub.
 
   [ Peter Petrakis ]
   * Record the base iso used in the bto_manifest

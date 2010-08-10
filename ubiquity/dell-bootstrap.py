@@ -379,6 +379,8 @@ class Page(Plugin):
         if self.disk_layout == 'gpt':
             return
 
+        self.log("Installing GRUB to %s" % self.device + STANDARD_RP_PARTITION)
+
         #Mount R/W
         cd_mount   = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
         if cd_mount is False:
@@ -537,6 +539,7 @@ class Page(Plugin):
         mount = False
         #If we have DRMK available, explode that first
         if os.path.exists(os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip')):
+            self.log("Extracting DRMK onto utility partition %s" % self.device + STANDARD_UP_PARTITION)
             mount = misc.execute_root('mount', self.device + STANDARD_UP_PARTITION, '/boot')
             if mount is False:
                 raise RuntimeError, ("Error mounting utility partition pre-explosion.")
@@ -551,12 +554,14 @@ class Page(Plugin):
             if os.path.exists(os.path.join(CDROM_MOUNT, file)):
                 #Restore full UP backup (dd)
                 if '.bin' in file or '.gz' in file:
+                    self.log("Exploding utility partition from %s" % file)
                     with misc.raised_privileges():
                         with open(self.device + STANDARD_UP_PARTITION, 'w') as partition:
                             p1 = subprocess.Popen(['gzip', '-dc', os.path.join(CDROM_MOUNT, file)], stdout=subprocess.PIPE)
                             partition.write(p1.communicate()[0])
                 #Restore UP (zip/tgz)
                 elif '.zip' in file or '.tgz' in file:
+                    self.log("Extracting utility partition from %s" % file)
                     if not mount:
                         mount = misc.execute_root('mount', self.device + STANDARD_UP_PARTITION, '/boot')
                         if mount is False:
