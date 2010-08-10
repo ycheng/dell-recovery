@@ -39,6 +39,7 @@ import datetime
 import distutils.dir_util
 import stat
 import zipfile
+from hashlib import md5
 
 from Dell.recovery_common import (DOMAIN, LOCALEDIR, UP_FILENAMES,
                                   walk_cleanup, create_new_uuid, white_tree,
@@ -422,6 +423,18 @@ class Backend(dbus.service.Object):
                                               os.path.join(dest, new_name),
                                               verbose=1, update=0)
             manifest.close()
+
+        # calculate md5sums for all driver packages and write them out
+        list_progress = (lambda i,l: l.index(i)/float(len(l)) * 100)
+        with open(os.path.join(assembly_tmp, 'bto_md5sum'), 'w') as md5_file:
+            for fishie in driver_fish:
+                self.report_progress(_('Calculating FISH MD5SUMs'),
+                    list_progress(fishie, driver_fish))
+                with open(fishie, 'r') as fish:
+                    tmp = md5(fish.read())
+                    md5_file.write("%s %s\n" % (tmp.hexdigest(),
+                        os.path.basename(fishie)))
+        self.report_progress(_('Calculating FISH MD5SUMs'), 100)
 
         #If a utility partition exists and we wanted to replace it, wipe it away
         if utility:
