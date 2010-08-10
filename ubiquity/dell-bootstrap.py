@@ -1244,9 +1244,8 @@ manually to proceed.")
 
         #backup syslog to RP
         with misc.raised_privileges():
-            for file in ["syslog", "debug"]:
-                shutil.copy(os.path.join("/var/log", file),
-                            os.path.join('/boot', "bto_" + file))
+            shutil.copy("/var/log/syslog", "/boot/bto_syslog")
+            shutil.copy("/var/log/installer/debug", "/boot/bto_debug")
 
         misc.execute_root('umount', '/boot')
 
