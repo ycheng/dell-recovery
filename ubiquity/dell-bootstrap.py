@@ -1242,6 +1242,12 @@ manually to proceed.")
             #most users won't need that anyway so it's just nice to have
             syslog.syslog("Skipping casper UUID build due to low memory")
 
+        #backup syslog to RP
+        with misc.raised_privileges():
+            for file in ["syslog", "debug"]:
+                shutil.copy(os.path.join("/var/log", file),
+                            os.path.join('/boot', "bto_" + file))
+
         misc.execute_root('umount', '/boot')
 
     def exit(self):
