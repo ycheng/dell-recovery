@@ -367,6 +367,10 @@ class Page(Plugin):
         self.additional_kernel_options = ''
         Plugin.__init__(self, frontend, db, ui)
 
+    def log(self, error):
+        """Outputs a debugging string to /var/log/installer/debug"""
+        self.debug("%s: %s" % (NAME, error))
+
     def install_grub(self):
         """Installs grub on the recovery partition"""
 
@@ -432,12 +436,12 @@ class Page(Plugin):
         #If we are in dynamic (dell-recovery/swap=dynamic) and small drive 
         #   or we explicitly disabled (dell-recovery/swap=false)
         if (self.swap == "dynamic" and self.disk_size <= 64) or not self.swap:
-            self.debug("Running a recipe fixup (swap setting: %s, size: %i)" % (self.swap, self.disk_size))
+            self.log("Running a recipe fixup (swap setting: %s, size: %i)" % (self.swap, self.disk_size))
             try:
                 recipe = self.db.get('partman-auto/expert_recipe')
                 self.db.set('partman-auto/expert_recipe', recipe.split('.')[0] + '.')
             except debconf.DebconfError, e:
-                self.debug(str(e))
+                self.log(str(e))
 
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
@@ -445,7 +449,7 @@ class Page(Plugin):
             #First set the new partition active
             active = misc.execute_root('sfdisk', '-A%s' % self.fail_partition, self.device)
             if active is False:
-                self.debug("Failed to set partition %s active on %s" % (self.fail_partition, self.device))
+                self.log("Failed to set partition %s active on %s" % (self.fail_partition, self.device))
         #check for small disks.  on small disks, don't look for extended or delete swap.
         if (self.swap == "dynamic" and self.disk_size <= 64) or not self.swap:
             self.swap_part = ''
@@ -459,15 +463,15 @@ class Page(Plugin):
             if number.isdigit():
                 remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
                 if remove is False:
-                    self.debug("Error removing partition number: %s on %s (this may be normal)'" % (number, self.device))
+                    self.log("Error removing partition number: %s on %s (this may be normal)'" % (number, self.device))
                 refresh = misc.execute_root('partx', '-d', '--nr', number, self.device)
                 if refresh is False:
-                    self.debug("Error updating partition %s for kernel device %s (this may be normal)'" % (number, self.device))
+                    self.log("Error updating partition %s for kernel device %s (this may be normal)'" % (number, self.device))
         #if there were extended, cleanup
         if total_partitions > 4:
             refresh = misc.execute_root('partx', '-d', '--nr', '5-' + str(total_partitions), self.device)
             if refresh is False:
-                self.debug("Error removing extended partitions 5-%s for kernel device %s (this may be normal)'" % (total_partitions, self.device))
+                self.log("Error removing extended partitions 5-%s for kernel device %s (this may be normal)'" % (total_partitions, self.device))
 
     def explode_sdr(self):
         '''Explodes all content explicitly defined in an SDR
@@ -503,10 +507,10 @@ class Page(Plugin):
                 import zipfile
                 archive = zipfile.ZipFile('%s.zip' % file)
             else:
-                self.debug("Skipping SRV %s due to no file on filesystem." % srv)
+                self.log("Skipping SRV %s due to no file on filesystem." % srv)
                 continue
             with misc.raised_privileges():
-                self.debug("Extracting SRV %s onto filesystem" % srv)
+                self.log("Extracting SRV %s onto filesystem" % srv)
                 archive.extractall(path=CDROM_MOUNT)
             archive.close()
 
@@ -521,13 +525,13 @@ class Page(Plugin):
         cache = Cache()
         for key in cache.keys():
             if key == 'fist' and cache[key].is_installed:
-                self.debug("FIST was found, not building a UP.")
+                self.log("FIST was found, not building a UP.")
                 return
 
         #For now on GPT we don't include an UP since we can't boot
         # 16 bit code as necessary for the UP to be working
         if self.disk_layout == 'gpt':
-            self.debug("A GPT layout was found, not building a UP.")
+            self.log("A GPT layout was found, not building a UP.")
             return
 
         mount = False
@@ -656,11 +660,11 @@ class Page(Plugin):
             raise RuntimeError, ("Unable to find and candidate hard disks to install to.")
         if len(disks) > 1:
             disks.sort()
-            self.debug("Multiple disk candidates were found: %s" % disks)
+            self.log("Multiple disk candidates were found: %s" % disks)
 
         #Always choose the first candidate to start
         self.device = disks[0][0]
-        self.debug("Initially selected candidate disk: %s" % self.device)
+        self.log("Initially selected candidate disk: %s" % self.device)
 
         #populate UI
         self.ui.populate_devices(disks)
@@ -696,14 +700,14 @@ class Page(Plugin):
         self.disk_size = rp["size_gb"]
         self.uuid = rp["uuid"]
 
-        self.debug("Detected device we are operating on is %s" % self.device)
-        self.debug("Detected a %s filesystem on the %s recovery partition" % (rp["fs"], rp["label"]))
+        self.log("Detected device we are operating on is %s" % self.device)
+        self.log("Detected a %s filesystem on the %s recovery partition" % (rp["fs"], rp["label"]))
 
     def prepare(self, unfiltered=False):
         #version
         with misc.raised_privileges():
             version = magic.check_version()
-        self.debug("dell-bootstrap: version %s" % version)
+        self.log("version %s" % version)
         
         #mountpoint
         mount = ''
@@ -712,7 +716,7 @@ class Page(Plugin):
                 if '/cdrom' in line:
                     mount = line.split()[0]
                     break
-        self.debug("dell-bootstrap: mounted from %s" % mount)
+        self.log("mounted from %s" % mount)
 
         #recovery type
         type = None
@@ -725,7 +729,7 @@ class Page(Plugin):
             else:
                 self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'true')
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             #TODO superm1 : 2-18-10
             # if the template doesn't exist, this might be a casper bug
             # where the template wasn't registered at package install
@@ -739,27 +743,27 @@ class Page(Plugin):
         try:
             self.os_part = self.db.get('dell-recovery/os_partition')
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             self.os_part = '3'
 
         try:
             self.swap_part = self.db.get('dell-recovery/swap_partition')
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             self.swap_part = '4'
 
         #Support special cases where the recovery partition isn't a linux partition
         try:
             self.rp_filesystem = self.db.get(RP_FILESYSTEM_QUESTION)
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             self.rp_filesystem = TYPE_VFAT_LBA
 
         #For rebuilding the pool in oem-config and during install
         try:
             self.pool_cmd = self.db.get('dell-recovery/pool_command')
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             self.pool_cmd = '/cdrom/scripts/pool.sh'
             self.preseed('dell-recovery/pool_command', self.pool_cmd)
 
@@ -767,14 +771,14 @@ class Page(Plugin):
         try:
             self.dual = self.db.get(DUAL_BOOT_QUESTION)
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             self.dual = ''
 
         #If we are successful for an MBR install, this is where we boot to
         try:
             pass_partition = self.db.get(ACTIVE_PARTITION_QUESTION)
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             pass_partition = self.os_part
             self.preseed(ACTIVE_PARTITION_QUESTION, pass_partition)
 
@@ -782,7 +786,7 @@ class Page(Plugin):
         try:
             self.fail_partition = self.db.get(FAIL_PARTITION_QUESTION)
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             self.fail_partition = STANDARD_RP_PARTITION
             self.preseed(FAIL_PARTITION_QUESTION, self.fail_partition)
 
@@ -792,7 +796,7 @@ class Page(Plugin):
         try:
             self.disk_layout = self.db.get(DISK_LAYOUT_QUESTION)
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             self.disk_layout = 'msdos'
             self.preseed(DISK_LAYOUT_QUESTION, self.disk_layout)
 
@@ -802,21 +806,21 @@ class Page(Plugin):
             if self.swap != "dynamic":
                 self.swap = misc.create_bool(self.swap)
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             self.swap = 'dynamic'
 
         #Proprietary driver installation preventions
         try:
             proprietary = self.db.get(DRIVER_INSTALL_QUESTION)
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             proprietary = ''
 
         #default UI
         try:
             ui = self.db.get(USER_INTERFACE_QUESTION)
         except debconf.DebconfError, e:
-            self.debug(str(e))
+            self.log(str(e))
             ui = 'dynamic'
             
         #If we detect that we are booted into uEFI mode, then we only want
@@ -878,7 +882,7 @@ class Page(Plugin):
         """Copy answers from debconf questions"""
         #basic questions
         type = self.ui.get_type()
-        self.debug("dell-bootstrap: recovery type set to %s" % type)
+        self.log("recovery type set to %s" % type)
         self.preseed(RECOVERY_TYPE_QUESTION, type)
         (device, size) = self.ui.get_selected_device()
         if device:
@@ -896,7 +900,7 @@ class Page(Plugin):
                          RP_FILESYSTEM_QUESTION]:
             answer = self.ui.get_advanced(question)
             if answer:
-                self.debug("dell-bootstrap: advanced option %s set to %s" % (question, answer))
+                self.log("advanced option %s set to %s" % (question, answer))
                 self.additional_kernel_options += question + "=" + answer + " "
                 if question == RP_FILESYSTEM_QUESTION:
                     self.rp_filesystem = answer
@@ -979,7 +983,7 @@ class Page(Plugin):
         misc.execute_root('reboot', '-n')
 
     def handle_exception(self, e):
-        self.debug(str(e))
+        self.log(str(e))
         self.ui.show_dialog("exception", e)
 
 ############################

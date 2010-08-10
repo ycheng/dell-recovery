@@ -6,6 +6,7 @@ dell-recovery (0.64) UNRELEASED; urgency=low
     they are common to the RP after install too.
   * If common.cfg is missing, don't flip out.
   * Make sure that BOOT_IMAGE is not propagating into the RP.
+  * Always output the name of the plugin in debug strings.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 06 Aug 2010 08:39:15 -0500
 
