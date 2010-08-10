@@ -369,6 +369,10 @@ class Backend(dbus.service.Object):
                 manifest = open(os.path.join(assembly_tmp, 'bto_manifest'), 'a')
             else:
                 manifest = open(os.path.join(assembly_tmp, 'bto_manifest'), 'w')
+
+            # record the base iso used
+            manifest.write("base: %s\n" % os.path.basename(base))
+
             for fishie in driver_fish:
                 self.report_progress(_('Inserting FISH packages'),
                                      driver_fish.index(fishie)/length*100)
