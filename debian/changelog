@@ -1,4 +1,4 @@
-dell-recovery (0.64) UNRELEASED; urgency=low
+dell-recovery (0.64) maverick; urgency=low
 
   [ Mario Limonciello ]
   * Use the newly available progress bar from all ubiquity plugins to display
@@ -21,7 +21,7 @@ dell-recovery (0.64) UNRELEASED; urgency=low
   * Record the base iso used in the bto_manifest
   * Calculate the md5sum of each driver fish and record it in bto_md5sum
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 06 Aug 2010 08:39:15 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 10 Aug 2010 20:16:46 -0500
 
 dell-recovery (0.63) maverick; urgency=low
 
