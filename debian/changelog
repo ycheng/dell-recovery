@@ -14,6 +14,8 @@ dell-recovery (0.64) UNRELEASED; urgency=low
     of the UP and grub.
   * Strip the stray characters at the end of extra command line.
   * Backup the logs to the RP at the end of building RP for later debug purposes.
+  * When booting grub from partition 4, search that partition before the rp for
+    a common.cfg
 
   [ Peter Petrakis ]
   * Record the base iso used in the bto_manifest
