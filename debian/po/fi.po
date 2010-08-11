@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-04-15 00:48-0500\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"POT-Creation-Date: 2010-08-10 20:15-0500\n"
 "PO-Revision-Date: 2010-04-21 15:05+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -19,19 +19,33 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:12001
+#: ../templates:14001
 msgid "Building Dell Recovery Media..."
 msgstr "Rakennetaan Dell-palautusmediaa..."
 
 #. Type: text
 #. Description
-#: ../templates:14001
+#: ../templates:16001
 msgid "Opening Burner..."
 msgstr "Avataan kirjoittajaa..."
 
 #. Type: text
 #. Description
-#: ../templates:15001
+#: ../templates:17001
+#, fuzzy
+#| msgid "Create Dell Recovery Media?"
+msgid "Dell Recovery"
+msgstr "Luodaanko Dell-palautusmedia?"
+
+#. Type: text
+#. Description
+#: ../templates:18001
+msgid "Recovery Type"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:19001
 msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
@@ -40,7 +54,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:16001
+#: ../templates:20001
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
@@ -49,13 +63,13 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:17001
+#: ../templates:21001
 msgid "Restore Linux OS partitions"
 msgstr "Palauta Linux-käyttöjärjestelmäosiot"
 
 #. Type: text
 #. Description
-#: ../templates:18001
+#: ../templates:22001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
 "Tämä rakentaa uudelleen kaikki käyttöjärjestelmä- ja sivutusosiot "
@@ -65,32 +79,32 @@ msgstr ""
 #. Description
 #. Type: text
 #. Description
-#: ../templates:19001 ../templates:22001
+#: ../templates:23001 ../templates:26001
 msgid "WARNING: All personal files and changes will be lost."
 msgstr "VAROITUS: Kaikki henkilökohtaiset tiedot ja muutokset hävitetään."
 
 #. Type: text
 #. Description
-#: ../templates:20001
+#: ../templates:24001
 msgid "Restore entire hard drive."
 msgstr "Palauta koko kiintolevy."
 
 #. Type: text
 #. Description
-#: ../templates:21001
+#: ../templates:25001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr ""
 "Tämä rakentaa kaikki työkalu-, palautus- ja käyttöjärjestelmäosiot uudelleen."
 
 #. Type: text
 #. Description
-#: ../templates:23001
+#: ../templates:27001
 msgid "Restore only Linux OS partition."
 msgstr "Palauta vain Linux-käyttöjärjestelmäosio."
 
 #. Type: text
 #. Description
-#: ../templates:24001
+#: ../templates:28001
 msgid "This option allows you to resize any existing partitions."
 msgstr "Tällä valinnalla voidaan muuttaa olemassa olevien osioiden kokoa."
 
@@ -98,32 +112,34 @@ msgstr "Tällä valinnalla voidaan muuttaa olemassa olevien osioiden kokoa."
 #. Description
 #. Type: text
 #. Description
-#: ../templates:25001 ../templates:37001
+#: ../templates:29001 ../templates:41001
 msgid "ERROR: This media is only valid on Dell systems."
 msgstr "VIRHE: Tämä media on kelvollinen vain Dell-järjestelmissä."
 
 #. Type: text
 #. Description
-#: ../templates:26001
+#: ../templates:30001
 msgid "Building Recovery Partition"
 msgstr "Rakennetaan palautusosiota"
 
 #. Type: text
 #. Description
-#: ../templates:27001
+#: ../templates:31001
 msgid "NOTE: Please be patient, this may take a while."
 msgstr ""
 "HUOM: Ole kärsivällinen, toiminnon suorittaminen saattaa kestään pitkään."
 
 #. Type: text
 #. Description
-#: ../templates:28001
-msgid "Create Dell Recovery Media?"
+#: ../templates:32001
+#, fuzzy
+#| msgid "Create Dell Recovery Media?"
+msgid "Create Dell Recovery Media"
 msgstr "Luodaanko Dell-palautusmedia?"
 
 #. Type: text
 #. Description
-#: ../templates:29001
+#: ../templates:33001
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
@@ -133,7 +149,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:30001
+#: ../templates:34001
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
@@ -143,37 +159,37 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:31001
+#: ../templates:35001
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Tallenna palautusmedia ulkoiselle USB-muistivälineelle"
 
 #. Type: text
 #. Description
-#: ../templates:32001
+#: ../templates:36001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
 msgstr "Huom: Tämä vaatii USB-muistitikun, jolla on noin 2GB vapaata tilaa."
 
 #. Type: text
 #. Description
-#: ../templates:33001
+#: ../templates:37001
 msgid "Save recovery media to DVD"
 msgstr "Tallenna palautusmedia DVD-levylle"
 
 #. Type: text
 #. Description
-#: ../templates:34001
+#: ../templates:38001
 msgid "Note: This requires writable DVD media."
 msgstr "Huom: Tämä vaatii kirjoitettavan DVD-levyn."
 
 #. Type: text
 #. Description
-#: ../templates:35001
+#: ../templates:39001
 msgid "Don't generate recovery media at this time"
 msgstr "Älä luo palautusmediaa tällä kertaa"
 
 #. Type: text
 #. Description
-#: ../templates:36001
+#: ../templates:40001
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -183,13 +199,13 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:38001
+#: ../templates:42001
 msgid "Dell End User License Agreement"
 msgstr "Dellin loppukäyttäjän lisenssiehdot"
 
 #. Type: text
 #. Description
-#: ../templates:39001
+#: ../templates:43001
 msgid "I accept the license terms. (required to use your computer)"
 msgstr "Hyväksyn lisenssiehdot. (vaaditaan tietokoneen käyttöön)"
 

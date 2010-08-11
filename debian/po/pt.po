@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-04-15 00:48-0500\n"
+"POT-Creation-Date: 2010-08-10 20:15-0500\n"
 "PO-Revision-Date: 2010-01-20 02:43+0000\n"
 "Last-Translator: Henrique P. Machado <zehrique@ubuntu.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -19,19 +19,33 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:12001
+#: ../templates:14001
 msgid "Building Dell Recovery Media..."
 msgstr "Construindo a Mídia de recuperação Dell"
 
 #. Type: text
 #. Description
-#: ../templates:14001
+#: ../templates:16001
 msgid "Opening Burner..."
 msgstr "Abrindo o gravador..."
 
 #. Type: text
 #. Description
-#: ../templates:15001
+#: ../templates:17001
+#, fuzzy
+#| msgid "Dell Recovery Media Creator"
+msgid "Dell Recovery"
+msgstr "Dell Recovery Media Creator"
+
+#. Type: text
+#. Description
+#: ../templates:18001
+msgid "Recovery Type"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:19001
 msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
@@ -39,20 +53,20 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:16001
+#: ../templates:20001
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:17001
+#: ../templates:21001
 msgid "Restore Linux OS partitions"
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:18001
+#: ../templates:22001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
 
@@ -60,31 +74,31 @@ msgstr ""
 #. Description
 #. Type: text
 #. Description
-#: ../templates:19001 ../templates:22001
+#: ../templates:23001 ../templates:26001
 msgid "WARNING: All personal files and changes will be lost."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:20001
+#: ../templates:24001
 msgid "Restore entire hard drive."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:21001
+#: ../templates:25001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:23001
+#: ../templates:27001
 msgid "Restore only Linux OS partition."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:24001
+#: ../templates:28001
 msgid "This option allows you to resize any existing partitions."
 msgstr ""
 
@@ -92,13 +106,13 @@ msgstr ""
 #. Description
 #. Type: text
 #. Description
-#: ../templates:25001 ../templates:37001
+#: ../templates:29001 ../templates:41001
 msgid "ERROR: This media is only valid on Dell systems."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:26001
+#: ../templates:30001
 #, fuzzy
 #| msgid "Recovery Partition: "
 msgid "Building Recovery Partition"
@@ -106,21 +120,21 @@ msgstr "Recuperação de partição: "
 
 #. Type: text
 #. Description
-#: ../templates:27001
+#: ../templates:31001
 msgid "NOTE: Please be patient, this may take a while."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:28001
+#: ../templates:32001
 #, fuzzy
 #| msgid "Dell Recovery Media Creator"
-msgid "Create Dell Recovery Media?"
+msgid "Create Dell Recovery Media"
 msgstr "Dell Recovery Media Creator"
 
 #. Type: text
 #. Description
-#: ../templates:29001
+#: ../templates:33001
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
@@ -128,7 +142,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:30001
+#: ../templates:34001
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
@@ -136,19 +150,19 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:31001
+#: ../templates:35001
 msgid "Save recovery media to an external USB flash drive"
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:32001
+#: ../templates:36001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:33001
+#: ../templates:37001
 #, fuzzy
 #| msgid "Cancel Recovery Media Creator"
 msgid "Save recovery media to DVD"
@@ -156,19 +170,19 @@ msgstr "Cancelar Recovery Media Creator"
 
 #. Type: text
 #. Description
-#: ../templates:34001
+#: ../templates:38001
 msgid "Note: This requires writable DVD media."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:35001
+#: ../templates:39001
 msgid "Don't generate recovery media at this time"
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:36001
+#: ../templates:40001
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -176,13 +190,13 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:38001
+#: ../templates:42001
 msgid "Dell End User License Agreement"
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:39001
+#: ../templates:43001
 msgid "I accept the license terms. (required to use your computer)"
 msgstr ""
 
