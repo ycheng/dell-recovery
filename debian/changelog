@@ -1,3 +1,9 @@
+dell-recovery (0.65) UNRELEASED; urgency=low
+
+  * Save files in XDG Downloads directory by default (LP: #616671)
+
+ -- supermario <Mario_Limonciello@Dell.com>  Thu, 12 Aug 2010 09:50:31 -0500
+
 dell-recovery (0.64) maverick; urgency=low
 
   [ Mario Limonciello ]
