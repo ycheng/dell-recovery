@@ -479,6 +479,8 @@ class Backend(dbus.service.Object):
         self._check_polkit_privilege(sender, conn,
                                 'com.dell.recoverymedia.query_iso_information')
 
+        #re-encode to utf8
+        iso = iso.encode('utf8')
 
         (bto_version, bto_date) = self.query_bto_version(iso, sender, conn)
 
