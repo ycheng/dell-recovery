@@ -24,7 +24,6 @@
 ##################################################################################
 
 from ubiquity.plugin import *
-from ubiquity import misc
 import subprocess
 import os
 import Dell.recovery_common as magic
