@@ -4,6 +4,7 @@ dell-recovery (0.65) UNRELEASED; urgency=low
   * Re-encode strings to utf8 when checking ISOs in builder mode. (LP: #616663)
   * Remove unused misc import in dell-recovery ubiquity plugin.
   * If choosing resize mode, still hide the UI pieces that make the page grow.
+  * Clean up pylint warnings and errors in the ubiquity plugins.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 16 Aug 2010 10:20:04 -0500
 

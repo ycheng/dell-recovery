@@ -23,30 +23,32 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
-from ubiquity.plugin import *
+from ubiquity.plugin import PluginUI, InstallPlugin, Plugin
 import subprocess
 import os
 import Dell.recovery_common as magic
 import dbus
+import syslog
 
 NAME = 'dell-recovery'
 AFTER = 'usersetup'
 BEFORE = None
 WEIGHT = 12
 
-rotational_characters=['\\','|','/','|']
+ROTATIONAL_CHAR = ['\\', '|', '/', '|']
 
 #Gtk widgets
 class PageGtk(PluginUI):
+    """GTK frontend for the dell-recovery oem-config plugin"""
     plugin_title = 'ubiquity/text/recovery_heading_label'
 
     def __init__(self, controller, *args, **kwargs):
         self.controller = controller
-        up,  rp  = magic.find_partitions('','')
+        upart, rpart  = magic.find_partitions('','')
         dvd, usb = magic.find_burners()
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
         self.genuine = magic.check_vendor()
-        if oem and (dvd or usb) and (rp or not self.genuine):
+        if oem and (dvd or usb) and (rpart or not self.genuine):
             try:
                 import gtk
                 builder = gtk.Builder()
@@ -66,17 +68,21 @@ class PageGtk(PluginUI):
                     builder.get_object('dvd_box').hide()
                     builder.get_object('none_box').hide()
                     builder.get_object('genuine_box').show()
-            except Exception, e:
-                self.debug('Could not create Dell Recovery page: %s', e)
+            except Exception, err:
+                syslog.syslog('Could not create Dell Recovery page: %s', err)
                 self.plugin_widgets = None
         else:
             if not oem:
                 pass
-            if not rp:
-                self.debug('Disabling %s because of problems with partitions: up[%s] and rp[%s]', NAME, up, rp)
+            if not rpart:
+                syslog.syslog('%s: partition problems with up[%s] and rp[%s]'
+                % (NAME, upart, rpart))
             self.plugin_widgets = None
 
+        PluginUI.__init__(self, controller, *args, **kwargs)
+
     def plugin_get_current_page(self):
+        """Called when ubiquity tries to realize this page."""
         if not self.genuine:
             self.controller.allow_go_forward(False)
         return self.plugin_widgets
@@ -90,112 +96,131 @@ class PageGtk(PluginUI):
         else:
             return "none"
 
-    def set_type(self,type):
+    def set_type(self, value):
         """Sets the type of recovery to do in GUI"""
-        if type == "usb":
+        if value == "usb":
             self.usb_media.set_active(True)
-        elif type == "dvd":
+        elif value == "dvd":
             self.dvd_media.set_active(True)
         else:
             self.none_media.set_active(True)
 
 class Page(Plugin):
+    """Debconf driven page for the dell-recovery oem-config plugin"""
     def prepare(self, unfiltered=False):
+        """Prepares the debconf plugin"""
         destination = self.db.get('dell-recovery/destination')
         self.ui.set_type(destination)
         return Plugin.prepare(self, unfiltered=unfiltered)
 
     def ok_handler(self):
+        """Handler ran when OK is pressed"""
         destination = self.ui.get_type()
         self.preseed('dell-recovery/destination', destination)
         Plugin.ok_handler(self)
 
 class Install(InstallPlugin):
-    def update_progress_gui(self, progress_text, progress_percent):
-        """Function called by the backend to update the progress in a frontend"""
-        self.progress.substitute('dell-recovery/build_progress', 'MESSAGE', progress_text)
+    """The dell-recovery media creator install time ubiquity plugin"""
+    def __init__(self, frontend, db=None, ui=None):
+        self.index = 0
+        self.progress = None
+        InstallPlugin.__init__(self, frontend, db, ui)
+
+    def log(self, error):
+        """Outputs a debugging string to /var/log/installer/debug"""
+        self.debug("%s: %s" % (NAME, error))
+        
+    def _update_progress_gui(self, progress_text, progress_percent):
+        """Function called by the backend to update the progress in frontend"""
+        self.progress.substitute('dell-recovery/build_progress', 'MESSAGE', \
+                                                                  progress_text)
         if float(progress_percent) < 0:
-            if self.index >= len(rotational_characters):
+            if self.index >= len(ROTATIONAL_CHAR):
                 self.index = 0
-            progress_percent = rotational_characters[self.index]
+            progress_percent = ROTATIONAL_CHAR[self.index]
             self.index += 1
         else:
             progress_percent += "%"
-        self.progress.substitute('dell-recovery/build_progress', 'PERCENT', progress_percent)
+        self.progress.substitute('dell-recovery/build_progress', 'PERCENT', \
+                                                               progress_percent)
         self.progress.info('dell-recovery/build_progress')
 
     def install(self, target, progress, *args, **kwargs):
+        """Perform actual install time activities for oem-config"""
         if not 'UBIQUITY_OEM_USER_CONFIG' in os.environ:
             return
 
-        rp = magic.find_factory_rp_stats()
-        if rp:
+        rpart = magic.find_factory_rp_stats()
+        if rpart:
             magic.process_conf_file('/usr/share/dell/grub/99_dell_recovery', \
                                     '/etc/grub.d/99_dell_recovery',          \
-                                    str(rp["uuid"]),str(rp["number"]))
+                                    str(rpart["uuid"]), str(rpart["number"]))
             os.chmod('/etc/grub.d/99_dell_recovery', 0755)
             subprocess.call(['update-grub'])
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-        self.progress=progress
-        type = progress.get('dell-recovery/destination')
-        if type != "none":
+        self.progress = progress
+        rec_type = progress.get('dell-recovery/destination')
+        if rec_type != "none":
             dvd, usb = magic.find_burners()
-            up,  rp  = magic.find_partitions('','')
+            upart, rpart  = magic.find_partitions('', '')
             self.index = 0
-            file = os.path.join('/tmp/dell.iso')
+            fname = os.path.join('/tmp/dell.iso')
             try:
                 bus = dbus.SystemBus()
-                dbus_iface = dbus.Interface(bus.get_object(magic.DBUS_BUS_NAME, '/RecoveryMedia'),
+                dbus_iface = dbus.Interface(bus.get_object(magic.DBUS_BUS_NAME,
+                                            '/RecoveryMedia'),
                                             magic.DBUS_INTERFACE_NAME)
-            except Exception, e:
-                self.debug('Exception in %s install function, creating dbus backend: %s', NAME, str(e))
+            except Exception, err:
+                self.log('install function exception while creating dbus backend: %s' % str(err))
                 return
 
             progress.info('dell-recovery/build_start')
 
             #Determine internal version number of image
-            (version,date) = dbus_iface.query_bto_version(rp)
+            (version, date) = dbus_iface.query_bto_version(rpart)
             version = magic.increment_bto_version(version)
+            self.log("Generating recovery media from %s : %s" % (version, date))
 
             #Build image
             try:
                 magic.dbus_sync_call_signal_wrapper(dbus_iface,
                                                     'create_ubuntu',
-                                                    {'report_progress':self.update_progress_gui},
-                                                    up,
-                                                    rp,
+                                                    {'report_progress':self._update_progress_gui},
+                                                    upart,
+                                                    rpart,
                                                     version,
-                                                    file)
-            except dbus.DBusException, e:
-                self.debug('Exception in %s install function calling backend: %s', NAME, str(e))
+                                                    fname)
+            except dbus.DBusException, err:
+                self.log('install function exception while calling backend: %s' % str(err))
                 return
 
             #Close backend
             try:
                 dbus_iface.request_exit()
-            except dbus.DBusException, e:
-                if hasattr(e, '_dbus_error_name') and e._dbus_error_name == \
+            except dbus.DBusException, err:
+                if hasattr(err, '_dbus_error_name') and err._dbus_error_name == \
                         'org.freedesktop.DBus.Error.ServiceUnknown':
                     pass
                 else:
-                    sys.debug("Received %s when closing recovery-media-backend DBus service",str(e))
+                    self.log("Received %s when closing recovery-media-backend" \
+                                                                     % str(err))
                     return
 
             #Launch burning tool
-            if type == "dvd":
-                cmd=dvd + [file]
-            elif type == "usb":
-                cmd=usb + [file]
+            if rec_type == "dvd":
+                cmd = dvd + [fname]
+            elif rec_type == "usb":
+                cmd = usb + [fname]
             else:
-                cmd=None
+                cmd = None
             if cmd:
                 progress.info('dell-recovery/burning')
                 subprocess.call(cmd)
 
             #Clean up when done
-            if os.path.exists(file):
-                os.remove(file)
+            if os.path.exists(fname):
+                os.remove(fname)
 
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
 

@@ -21,11 +21,11 @@
 # You should have received a copy of the GNU General Public License along
 # with this application; if not, write to the Free Software Foundation, Inc., 51
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-##################################################################################
+################################################################################
 
-from ubiquity.plugin import *
+from ubiquity.plugin import InstallPlugin, Plugin, PluginUI
 from ubiquity import misc
-from threading import Thread, Event
+from threading import Thread
 from Dell.recovery_threading import ProgressBySize
 import debconf
 import Dell.recovery_common as magic
@@ -38,6 +38,8 @@ from dbus.mainloop.glib import DBusGMainLoop
 DBusGMainLoop(set_as_default=True)
 import syslog
 import glob
+import zipfile
+import tarfile
 
 NAME = 'dell-bootstrap'
 BEFORE = 'language'
@@ -69,8 +71,10 @@ USER_INTERFACE_QUESTION = 'dell-oobe/user-interface'
 # Noninteractive Page #
 #######################
 class PageNoninteractive(PluginUI):
+    """Non-Interactive frontend for the dell-bootstrap ubiquity plugin"""
     def __init__(self, controller, *args, **kwargs):
         self.controller = controller
+        PluginUI.__init__(self, controller, *args, **kwargs)
     
     def get_type(self):
         '''For the noninteractive frontend, get_type always returns an empty str
@@ -78,28 +82,35 @@ class PageNoninteractive(PluginUI):
             mode, which expects such a str""'''
         return ""
 
-    def set_type(self, type):
+    def set_type(self, value):
+        """Empty skeleton function for the non-interactive UI"""
         pass
 
     def show_dialog(self, which, data = None):
+        """Empty skeleton function for the non-interactive UI"""
         pass
 
     def get_selected_device(self):
+        """Empty skeleton function for the non-interactive UI"""
         pass
 
     def populate_devices(self, devices):
+        """Empty skeleton function for the non-interactive UI"""
         pass
 
     def set_advanced(self, item, value):
+        """Empty skeleton function for the non-interactive UI"""
         pass
 
     def get_advanced(self, item):
+        """Empty skeleton function for the non-interactive UI"""
         return ''
 
 ############
 # GTK Page #
 ############
 class PageGtk(PluginUI):
+    """GTK frontend for the dell-bootstrap ubiquity plugin"""
     #OK, so we're not "really" a language page
     #We are just cheating a little bit to make sure our widgets are translated
     plugin_is_language = True
@@ -160,7 +171,13 @@ class PageGtk(PluginUI):
                 self.interactive_recovery.set_sensitive(False)
                 builder.get_object('genuine_box').show()
 
+            PluginUI.__init__(self, controller, *args, **kwargs)
+
     def plugin_get_current_page(self):
+        """Called when ubiquity tries to realize this page.
+           * Disable the progress bar
+           * Check whether we are on genuine hardware
+        """
         #are we real?
         if not self.genuine:
             self.controller.allow_go_forward(False)
@@ -193,19 +210,19 @@ class PageGtk(PluginUI):
             size = model.get_value(iterator, 1)
         return (device, size)
 
-    def set_type(self, type):
+    def set_type(self, value):
         """Sets the type of recovery to do in GUI"""
         if not self.genuine:
             return
-        if type == "automatic":
+        if value == "automatic":
             self.automated_recovery.set_active(True)
-        elif type == "interactive":
+        elif value == "interactive":
             self.interactive_recovery.set_active(True)
         else:
             self.hidden_radio.set_active(True)
-            if type != "factory":
+            if value != "factory":
                 self.controller.allow_go_forward(False)
-            if type == "hdd":
+            if value == "hdd":
                 self.advanced_table.set_sensitive(False)
                 self.hdd_recovery_box.show()
                 self.interactive_recovery_box.hide()
@@ -221,7 +238,8 @@ class PageGtk(PluginUI):
     def show_dialog(self, which, data = None):
         """Shows a dialog"""
         if which == "info":
-            self.controller._wizard.quit.set_label(self.controller.get_string('ubiquity/imported/cancel'))
+            self.controller._wizard.quit.set_label(
+                         self.controller.get_string('ubiquity/imported/cancel'))
             self.controller.allow_go_forward(False)
             self.automated_recovery_box.hide()
             self.interactive_recovery_box.hide()
@@ -288,12 +306,12 @@ class PageGtk(PluginUI):
         return combobox
 
     def set_advanced(self, item, value):
-        """Populates the options that should be available on the advanced page"""
+        """Populates the options that should be on the advanced page"""
 
         if item == 'efi' and value:
             self.disk_layout_combobox.set_sensitive(False)
             self.active_partition_combobox.set_sensitive(False)
-            self.dualboot_checkbox.set_sensitive(False)
+            self.dual_combobox.set_sensitive(False)
         elif item == "version":
             self.version_detail.set_markup("Version: %s" % value)
         elif item == "mount":
@@ -305,7 +323,8 @@ class PageGtk(PluginUI):
                 if iterator is not None:
                     combobox.set_active_iter(iterator)
                 else:
-                    syslog.syslog("DEBUG: setting %s to %s failed" % (item,value) )
+                    syslog.syslog("DEBUG: setting %s to %s failed" % \
+                                                                  (item, value))
                     combobox.set_active(0)
 
             #dual boot mode. ui changes for this
@@ -322,7 +341,7 @@ class PageGtk(PluginUI):
         if combobox:
             return combobox.get_active_text()
         else:
-            return self.dualboot_checkbox.get_active()
+            return ""
  
     def advanced_callback(self, widget, data = None):
         """Callback when an advanced widget is toggled"""
@@ -346,7 +365,8 @@ class PageGtk(PluginUI):
                 
             if widget == self.disk_layout_combobox:
                 if answer == "gpt":
-                    find_n_set_iterator(self.active_partition_combobox, STANDARD_EFI_PARTITION)
+                    find_n_set_iterator(self.active_partition_combobox, \
+                                                         STANDARD_EFI_PARTITION)
                     self.active_partition_combobox.set_sensitive(False)
                 else:
                     self.active_partition_combobox.set_sensitive(True)
@@ -363,11 +383,26 @@ class PageGtk(PluginUI):
 # Debconf Page #
 ################
 class Page(Plugin):
+    """Debconf driven page for the dell-bootstrap ubiquity plugin"""
     def __init__(self, frontend, db=None, ui=None):
         self.device = None
         self.device_size = 0
         self.efi = False
         self.additional_kernel_options = ''
+        self.rp_builder = None
+        self.os_part = None
+        self.disk_size = None
+        self.rp_filesystem = None
+        self.fail_partition = None
+        self.disk_layout = None
+        self.swap_part = None
+        self.swap = None
+        self.dual = None
+        self.pool_cmd = None
+        self.uuid = None
+        self.up_part = None
+        self.rp_part = None
+        self.grub_part = None
         Plugin.__init__(self, frontend, db, ui)
 
     def log(self, error):
@@ -400,16 +435,17 @@ class Page(Plugin):
                               self.uuid, STANDARD_RP_PARTITION, self.dual)
 
         #Do the actual grub installation
-        bind_mount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
-        if bind_mount is False:
+        bmount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
+        if bmount is False:
             raise RuntimeError, ("Bind Mount failed")
-        grub_inst  = misc.execute_root('grub-install', '--force', self.device + STANDARD_RP_PARTITION)
+        grub_inst  = misc.execute_root('grub-install', '--force', \
+                                            self.device + STANDARD_RP_PARTITION)
         if grub_inst is False:
             raise RuntimeError, ("Grub install failed")
         unbind_mount = misc.execute_root('umount', '/boot')
         if unbind_mount is False:
             raise RuntimeError, ("Unmount /boot failed")
-        uncd_mount   = misc.execute_root('mount', '-o', 'remount,ro', CDROM_MOUNT)
+        uncd_mount = misc.execute_root('mount', '-o', 'remount,ro', CDROM_MOUNT)
         if uncd_mount is False:
             raise RuntimeError, ("Uncd mount failed")
 
@@ -418,8 +454,8 @@ class Page(Plugin):
         bus = dbus.SystemBus()
 
         udisk_obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
-        ud = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
-        devices = ud.EnumerateDevices()
+        udisk_int = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
+        devices = udisk_int.EnumerateDevices()
         for device in devices:
             dev_obj = bus.get_object('org.freedesktop.UDisks', device)
             dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
@@ -429,7 +465,8 @@ class Page(Plugin):
                 device = dev.Get('org.freedesktop.Udisks.Device', 'DeviceFile')
                 misc.execute_root('swapoff', device)
                 if misc is False:
-                    raise RuntimeError, ("Error removing swap for device %s" % device)
+                    raise RuntimeError, ("Error removing swap for device %s" % \
+                                                                         device)
 
     def clean_recipe(self):
         """Cleans up the recipe to remove swap if we have a small drive"""
@@ -441,21 +478,26 @@ class Page(Plugin):
         #If we are in dynamic (dell-recovery/swap=dynamic) and small drive 
         #   or we explicitly disabled (dell-recovery/swap=false)
         if (self.swap == "dynamic" and self.disk_size <= 64) or not self.swap:
-            self.log("Running a recipe fixup (swap setting: %s, size: %i)" % (self.swap, self.disk_size))
+            self.log("Running a recipe fixup (swap setting: %s, size: %i)" % \
+                                                    (self.swap, self.disk_size))
             try:
                 recipe = self.db.get('partman-auto/expert_recipe')
-                self.db.set('partman-auto/expert_recipe', recipe.split('.')[0] + '.')
-            except debconf.DebconfError, e:
-                self.log(str(e))
+                self.db.set('partman-auto/expert_recipe',
+                                                     recipe.split('.')[0] + '.')
+            except debconf.DebconfError, err:
+                self.log(str(err))
 
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
         if self.disk_layout == 'msdos':
             #First set the new partition active
-            active = misc.execute_root('sfdisk', '-A%s' % self.fail_partition, self.device)
+            active = misc.execute_root('sfdisk', '-A%s' % self.fail_partition, \
+                                                                    self.device)
             if active is False:
-                self.log("Failed to set partition %s active on %s" % (self.fail_partition, self.device))
-        #check for small disks.  on small disks, don't look for extended or delete swap.
+                self.log("Failed to set partition %s active on %s" % \
+                                             (self.fail_partition, self.device))
+        #check for small disks.
+        #on small disks, don't look for extended or delete swap.
         if (self.swap == "dynamic" and self.disk_size <= 64) or not self.swap:
             self.swap_part = ''
             total_partitions = 0
@@ -493,26 +535,24 @@ class Page(Plugin):
 
         #Parse SDR
         srv_list = []
-        with open(sdr_file[0], 'r') as fd:
-            sdr_lines = fd.readlines()
+        with open(sdr_file[0], 'r') as rfd:
+            sdr_lines = rfd.readlines()
         for line in sdr_lines:
             if line.startswith('SI'):
                 columns = line.split()
                 if len(columns) > 2:
-                    #always assume lower case (in case file system is case sensitive)
+                    #always assume lower case (in case case sensitive FS)
                     srv_list.append(columns[2].lower())
 
         #Explode SRVs that match SDR
         for srv in srv_list:
-            file = os.path.join(os.path.join(CDROM_MOUNT, 'srv', '%s' % srv))
-            if os.path.exists('%s.tgz' % file):
-                import tarfile
-                archive = tarfile.open('%s.tgz' % file)
-            elif os.path.exists('%s.zip' % file):
-                import zipfile
-                archive = zipfile.ZipFile('%s.zip' % file)
+            fname = os.path.join(os.path.join(CDROM_MOUNT, 'srv', '%s' % srv))
+            if os.path.exists('%s.tgz' % fname):
+                archive = tarfile.open('%s.tgz' % fname)
+            elif os.path.exists('%s.zip' % fname):
+                archive = zipfile.ZipFile('%s.zip' % fname)
             else:
-                self.log("Skipping SRV %s due to no file on filesystem." % srv)
+                self.log("Skipping SRV %s. No file on filesystem." % srv)
                 continue
             with misc.raised_privileges():
                 self.log("Extracting SRV %s onto filesystem" % srv)
@@ -546,35 +586,32 @@ class Page(Plugin):
             mount = misc.execute_root('mount', self.device + STANDARD_UP_PARTITION, '/boot')
             if mount is False:
                 raise RuntimeError, ("Error mounting utility partition pre-explosion.")
-            import zipfile
             archive = zipfile.ZipFile(os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip'))
             with misc.raised_privileges():
                 archive.extractall(path='/boot')
             archive.close()
 
         #Now check for additional UP content to explode
-        for file in magic.UP_FILENAMES:
-            if os.path.exists(os.path.join(CDROM_MOUNT, file)):
+        for fname in magic.UP_FILENAMES:
+            if os.path.exists(os.path.join(CDROM_MOUNT, fname)):
                 #Restore full UP backup (dd)
-                if '.bin' in file or '.gz' in file:
-                    self.log("Exploding utility partition from %s" % file)
+                if '.bin' in fname or '.gz' in fname:
+                    self.log("Exploding utility partition from %s" % fname)
                     with misc.raised_privileges():
                         with open(self.device + STANDARD_UP_PARTITION, 'w') as partition:
-                            p1 = subprocess.Popen(['gzip', '-dc', os.path.join(CDROM_MOUNT, file)], stdout=subprocess.PIPE)
+                            p1 = subprocess.Popen(['gzip', '-dc', os.path.join(CDROM_MOUNT, fname)], stdout=subprocess.PIPE)
                             partition.write(p1.communicate()[0])
                 #Restore UP (zip/tgz)
-                elif '.zip' in file or '.tgz' in file:
-                    self.log("Extracting utility partition from %s" % file)
+                elif '.zip' in fname or '.tgz' in fname:
+                    self.log("Extracting utility partition from %s" % fname)
                     if not mount:
                         mount = misc.execute_root('mount', self.device + STANDARD_UP_PARTITION, '/boot')
                         if mount is False:
                             raise RuntimeError, ("Error mounting utility partition pre-explosion.")
-                    if '.zip' in file:
-                        import zipfile
-                        archive = zipfile.ZipFile(os.path.join(CDROM_MOUNT, file))
+                    if '.zip' in fname:
+                        archive = zipfile.ZipFile(os.path.join(CDROM_MOUNT, fname))
                     elif '.tgz' in file:
-                        import tarfile
-                        archive = tarfile.open(os.path.join(CDROM_MOUNT, file))
+                        archive = tarfile.open(os.path.join(CDROM_MOUNT, fname))
                     with misc.raised_privileges():
                         archive.extractall(path='/boot')
                     archive.close()
@@ -640,8 +677,8 @@ class Page(Plugin):
         disks = []
 
         udisk_obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
-        ud = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
-        devices = ud.EnumerateDevices()
+        udi = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
+        devices = udi.EnumerateDevices()
         for device in devices:
             dev_obj = bus.get_object('org.freedesktop.UDisks', device)
             dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
@@ -678,19 +715,20 @@ class Page(Plugin):
         self.ui.populate_devices(disks)
 
     def fixup_factory_devices(self):
+        """Find the factory recovery partition, and re-adjust preseeds to use that data"""
         #Ignore any EDD settings - we want to just plop on the same drive with
         #the right FS label (which will be valid right now)
         #Don't you dare put a USB stick in the system with that label right now!
-        rp = magic.find_factory_rp_stats()
-        if not rp:
+        rec_part = magic.find_factory_rp_stats()
+        if not rec_part:
             raise RuntimeError, ("Unable to find factory recovery partition (was going to use %s)" % self.device)
 
-        self.device = rp["slave"]
+        self.device = rec_part["slave"]
         if os.path.exists(self.pool_cmd):
             early = '&& %s' % self.pool_cmd
         else:
             early = ''
-        self.db.set('oem-config/early_command', 'mount -o ro %s %s %s' % (rp["device"], CDROM_MOUNT, early))
+        self.db.set('oem-config/early_command', 'mount -o ro %s %s %s' % (rec_part["device"], CDROM_MOUNT, early))
         self.db.set('partman-auto/disk', self.device)
 
         if self.disk_layout == 'msdos':
@@ -698,20 +736,21 @@ class Page(Plugin):
         elif self.disk_layout == 'gpt':
             self.db.set('grub-installer/bootdev', self.device)
 
-        if rp["fs"] == "ntfs":
+        if rec_part["fs"] == "ntfs":
             self.rp_filesystem = TYPE_NTFS_RE
-        elif rp["fs"] == "vfat":
+        elif rec_part["fs"] == "vfat":
             self.rp_filesystem = TYPE_VFAT_LBA
         else:
-            raise RuntimeError, ("Unknown filesystem on recovery partition: %s" % rp["fs"])
+            raise RuntimeError, ("Unknown filesystem on recovery partition: %s" % rec_part["fs"])
 
-        self.disk_size = rp["size_gb"]
-        self.uuid = rp["uuid"]
+        self.disk_size = rec_part["size_gb"]
+        self.uuid = rec_part["uuid"]
 
         self.log("Detected device we are operating on is %s" % self.device)
-        self.log("Detected a %s filesystem on the %s recovery partition" % (rp["fs"], rp["label"]))
+        self.log("Detected a %s filesystem on the %s recovery partition" % (rec_part["fs"], rec_part["label"]))
 
     def prepare(self, unfiltered=False):
+        """Prepare the Debconf portion of the plugin and gather all data"""
         #version
         with misc.raised_privileges():
             version = magic.check_version()
@@ -727,74 +766,70 @@ class Page(Plugin):
         self.log("mounted from %s" % mount)
 
         #recovery type
-        type = None
+        rec_type = None
         try:
-            type = self.db.get(RECOVERY_TYPE_QUESTION)
+            rec_type = self.db.get(RECOVERY_TYPE_QUESTION)
             #These require interactivity - so don't fly by even if --automatic
-            if type != 'factory':
+            if rec_type != 'factory':
                 self.db.set(RECOVERY_TYPE_QUESTION, '')
                 self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'false')
             else:
                 self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'true')
-        except debconf.DebconfError, e:
-            self.log(str(e))
-            #TODO superm1 : 2-18-10
-            # if the template doesn't exist, this might be a casper bug
-            # where the template wasn't registered at package install
-            # work around it by assuming no template == factory
-            type = 'factory'
+        except debconf.DebconfError, err:
+            self.log(str(err))
+            rec_type = 'factory'
             self.db.register('debian-installer/dummy', RECOVERY_TYPE_QUESTION)
-            self.db.set(RECOVERY_TYPE_QUESTION, type)
+            self.db.set(RECOVERY_TYPE_QUESTION, rec_type)
             self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'true')
 
         #In case we preseeded the partitions we need installed to
         try:
             self.os_part = self.db.get('dell-recovery/os_partition')
-        except debconf.DebconfError, e:
-            self.log(str(e))
+        except debconf.DebconfError, err:
+            self.log(str(err))
             self.os_part = '3'
 
         try:
             self.swap_part = self.db.get('dell-recovery/swap_partition')
-        except debconf.DebconfError, e:
-            self.log(str(e))
+        except debconf.DebconfError, err:
+            self.log(str(err))
             self.swap_part = '4'
 
-        #Support special cases where the recovery partition isn't a linux partition
+        #Support cases where the recovery partition isn't a linux partition
         try:
             self.rp_filesystem = self.db.get(RP_FILESYSTEM_QUESTION)
-        except debconf.DebconfError, e:
-            self.log(str(e))
+        except debconf.DebconfError, err:
+            self.log(str(err))
             self.rp_filesystem = TYPE_VFAT_LBA
 
         #For rebuilding the pool in oem-config and during install
         try:
             self.pool_cmd = self.db.get('dell-recovery/pool_command')
-        except debconf.DebconfError, e:
-            self.log(str(e))
+        except debconf.DebconfError, err:
+            self.log(str(err))
             self.pool_cmd = '/cdrom/scripts/pool.sh'
             self.preseed('dell-recovery/pool_command', self.pool_cmd)
 
         #Check if we are set in dual-boot mode
         try:
             self.dual = self.db.get(DUAL_BOOT_QUESTION)
-        except debconf.DebconfError, e:
-            self.log(str(e))
+        except debconf.DebconfError, err:
+            self.log(str(err))
             self.dual = ''
 
         #If we are successful for an MBR install, this is where we boot to
         try:
             pass_partition = self.db.get(ACTIVE_PARTITION_QUESTION)
-        except debconf.DebconfError, e:
-            self.log(str(e))
+        except debconf.DebconfError, err:
+            self.log(str(err))
             pass_partition = self.os_part
             self.preseed(ACTIVE_PARTITION_QUESTION, pass_partition)
 
         #In case an MBR install fails, this is where we boot to
         try:
             self.fail_partition = self.db.get(FAIL_PARTITION_QUESTION)
-        except debconf.DebconfError, e:
-            self.log(str(e))
+        except debconf.DebconfError, err:
+            self.log(str(err))
             self.fail_partition = STANDARD_RP_PARTITION
             self.preseed(FAIL_PARTITION_QUESTION, self.fail_partition)
 
@@ -803,8 +838,8 @@ class Page(Plugin):
         #determine that we are actually going to be doing an EFI install
         try:
             self.disk_layout = self.db.get(DISK_LAYOUT_QUESTION)
-        except debconf.DebconfError, e:
-            self.log(str(e))
+        except debconf.DebconfError, err:
+            self.log(str(err))
             self.disk_layout = 'msdos'
             self.preseed(DISK_LAYOUT_QUESTION, self.disk_layout)
 
@@ -813,23 +848,23 @@ class Page(Plugin):
             self.swap = self.db.get(SWAP_QUESTION)
             if self.swap != "dynamic":
                 self.swap = misc.create_bool(self.swap)
-        except debconf.DebconfError, e:
-            self.log(str(e))
+        except debconf.DebconfError, err:
+            self.log(str(err))
             self.swap = 'dynamic'
 
         #Proprietary driver installation preventions
         try:
             proprietary = self.db.get(DRIVER_INSTALL_QUESTION)
-        except debconf.DebconfError, e:
-            self.log(str(e))
+        except debconf.DebconfError, err:
+            self.log(str(err))
             proprietary = ''
 
         #default UI
         try:
-            ui = self.db.get(USER_INTERFACE_QUESTION)
-        except debconf.DebconfError, e:
-            self.log(str(e))
-            ui = 'dynamic'
+            user_interface = self.db.get(USER_INTERFACE_QUESTION)
+        except debconf.DebconfError, err:
+            self.log(str(err))
+            user_interface = 'dynamic'
             
         #If we detect that we are booted into uEFI mode, then we only want
         #to do a GPT install.  Actually a MBR install would work in most
@@ -845,22 +880,24 @@ class Page(Plugin):
             self.preseed(ACTIVE_PARTITION_QUESTION, STANDARD_EFI_PARTITION)
 
         #Fill in UI data
-        self.ui.set_advanced("mount", mount)
-        self.ui.set_advanced('version', version)
-        self.ui.set_advanced(DUAL_BOOT_QUESTION, self.dual)
-        self.ui.set_advanced(ACTIVE_PARTITION_QUESTION, pass_partition)
-        self.ui.set_advanced(DISK_LAYOUT_QUESTION, self.disk_layout)
-        self.ui.set_advanced(SWAP_QUESTION, self.swap)
-        self.ui.set_advanced(DRIVER_INSTALL_QUESTION, proprietary)
-        self.ui.set_advanced(USER_INTERFACE_QUESTION, ui)
-        self.ui.set_advanced(RP_FILESYSTEM_QUESTION, self.rp_filesystem)
-        self.ui.set_advanced("efi", self.efi)
-        self.ui.set_type(type)
+        twiddle = {"mount": mount,
+                   "version": version,
+                   DUAL_BOOT_QUESTION: self.dual,
+                   ACTIVE_PARTITION_QUESTION: pass_partition,
+                   DISK_LAYOUT_QUESTION: self.disk_layout,
+                   SWAP_QUESTION: self.swap,
+                   DRIVER_INSTALL_QUESTION: proprietary,
+                   USER_INTERFACE_QUESTION: user_interface,
+                   RP_FILESYSTEM_QUESTION: self.rp_filesystem,
+                   "efi": self.efi}
+        for twaddle in twiddle:
+            self.ui.set_advanced(twaddle, twiddle[twaddle])
+        self.ui.set_type(rec_type)
 
         #set the language in the UI
         try:
             language = self.db.get('debian-installer/language')
-        except debconf.DebconfError, e:
+        except debconf.DebconfError:
             language = ''
         if not language:
             with open('/proc/cmdline', 'r') as rfd:
@@ -876,12 +913,12 @@ class Page(Plugin):
 
         #Clarify which device we're operating on initially in the UI
         try:
-            if type != 'factory' and type != 'hdd':
+            if rec_type != 'factory' and rec_type != 'hdd':
                 self.fixup_recovery_devices()
             else:
                 self.fixup_factory_devices()
-        except Exception, e:
-            self.handle_exception(e)
+        except Exception, err:
+            self.handle_exception(err)
             self.cancel_handler()
 
         return (['/usr/share/ubiquity/dell-bootstrap'], [RECOVERY_TYPE_QUESTION])
@@ -889,9 +926,9 @@ class Page(Plugin):
     def ok_handler(self):
         """Copy answers from debconf questions"""
         #basic questions
-        type = self.ui.get_type()
-        self.log("recovery type set to %s" % type)
-        self.preseed(RECOVERY_TYPE_QUESTION, type)
+        rec_type = self.ui.get_type()
+        self.log("recovery type set to %s" % rec_type)
+        self.preseed(RECOVERY_TYPE_QUESTION, rec_type)
         (device, size) = self.ui.get_selected_device()
         if device:
             self.device = device
@@ -925,12 +962,17 @@ class Page(Plugin):
         self.frontend.debconf_progress_set(percent)
 
     def cleanup(self):
-        #All this processing happens in cleanup because that ensures it runs for all scenarios
-        type = self.db.get('dell-recovery/recovery_type')
+        """Do all the real processing for this plugin.
+           * This has to be done here because ok_handler won't run in a fully
+             automated load, and we need to run all steps in all scenarios
+           * Run is the wrong time too because it runs before the user can
+             answer potential questions
+        """
+        rec_type = self.db.get('dell-recovery/recovery_type')
 
         try:
             # User recovery - need to copy RP
-            if type == "automatic":
+            if rec_type == "automatic":
                 self.ui.show_dialog("info")
                 self.disable_swap()
                 with misc.raised_privileges():
@@ -942,15 +984,15 @@ class Page(Plugin):
                                                "0")
                 size_thread.progress = self.report_progress
                 #init builder
-                self.rp_builder = rp_builder(self.device, 
-                                             self.device_size,
-                                             self.rp_filesystem,
-                                             mem,
-                                             self.dual,
-                                             self.disk_layout,
-                                             self.efi,
-                                             self.additional_kernel_options,
-                                             size_thread)
+                self.rp_builder = RPbuilder(self.device, 
+                                            self.device_size,
+                                            self.rp_filesystem,
+                                            mem,
+                                            self.dual,
+                                            self.disk_layout,
+                                            self.efi,
+                                            self.additional_kernel_options,
+                                            size_thread)
                 self.rp_builder.exit = self.exit_ui_loops
                 self.rp_builder.status = self.report_progress
                 self.rp_builder.start()
@@ -961,7 +1003,7 @@ class Page(Plugin):
                 self.boot_rp()
 
             # User recovery - resizing drives
-            elif type == "interactive":
+            elif rec_type == "interactive":
                 self.ui.show_dialog("forward")
                 self.unset_drive_preseeds()
 
@@ -975,12 +1017,12 @@ class Page(Plugin):
                 if self.rp_filesystem == TYPE_VFAT or \
                    self.rp_filesystem == TYPE_VFAT_LBA:
                     self.install_grub()
-        except Exception, e:
+        except Exception, err:
             #For interactive types of installs show an error then reboot
             #Otherwise, just reboot the system
-            if type == "automatic" or type == "interactive" or \
+            if rec_type == "automatic" or rec_type == "interactive" or \
                ('UBIQUITY_DEBUG' in os.environ and 'UBIQUITY_ONLY' in os.environ):
-                self.handle_exception(e)
+                self.handle_exception(err)
             self.cancel_handler()
 
         #translate languages
@@ -991,15 +1033,17 @@ class Page(Plugin):
         """Called when we don't want to perform recovery'"""
         misc.execute_root('reboot', '-n')
 
-    def handle_exception(self, e):
-        self.log(str(e))
-        self.ui.show_dialog("exception", e)
+    def handle_exception(self, err):
+        """Handle all exceptions thrown by any part of the application"""
+        self.log(str(err))
+        self.ui.show_dialog("exception", err)
 
 ############################
 # RP Builder Worker Thread #
 ############################
-class rp_builder(Thread):
-    def __init__(self, device, size, rp_type, mem, dual, disk_layout, efi, ak, sizing_thread):
+class RPbuilder(Thread):
+    """The recovery partition builder worker thread"""
+    def __init__(self, device, size, rp_type, mem, dual, disk_layout, efi, ako, sizing_thread):
         self.device = device
         self.device_size = size
         self.rp_type = rp_type
@@ -1007,7 +1051,7 @@ class rp_builder(Thread):
         self.dual = dual
         self.disk_layout = disk_layout
         self.efi = efi
-        self.additional_kernel_options = ak
+        self.additional_kernel_options = ako
         self.exception = None
         self.file_size_thread = sizing_thread
         Thread.__init__(self)
@@ -1052,9 +1096,9 @@ manually to proceed.")
             raise RuntimeError, ("Unsupported recovery partition filesystem: %s" % self.rp_type)
 
         #Default partition numbers
-        self.up_part   = STANDARD_UP_PARTITION
-        self.rp_part   = STANDARD_RP_PARTITION
-        self.grub_part = STANDARD_RP_PARTITION
+        up_part   = STANDARD_UP_PARTITION
+        rp_part   = STANDARD_RP_PARTITION
+        grub_part = STANDARD_RP_PARTITION
 
         #Calculate RP size
         rp_size = magic.white_tree("size", white_pattern, CDROM_MOUNT)
@@ -1079,10 +1123,12 @@ manually to proceed.")
             up_size = 32
 
             #Utility partition image (dd)#
-            for file in magic.UP_FILENAMES:
-                if 'img' in file and os.path.exists(os.path.join(CDROM_MOUNT, file)):
+            for fname in magic.UP_FILENAMES:
+                if 'img' in fname and os.path.exists(os.path.join(CDROM_MOUNT, fname)):
+                    #in a string
+                    up_size = fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, fname)])
                     #in bytes
-                    up_size = int(fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, file)]).split()[1])
+                    up_size = int(up_size.split()[1])
                     #in mbytes
                     up_size = up_size / 1000000
 
@@ -1100,7 +1146,7 @@ manually to proceed.")
             #build the bootsector of the partition
             with open('/usr/share/dell/up/up.bs', 'rb') as rfd:
                 with misc.raised_privileges():
-                    with open(self.device + self.up_part, 'wb') as wfd:
+                    with open(self.device + up_part, 'wb') as wfd:
                         wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
                         rfd.seek(43)
                         wfd.seek(43)
@@ -1113,7 +1159,7 @@ manually to proceed.")
                 raise RuntimeError, ("Error creating new %s mb recovery partition on %s" % (rp_size_mb, self.device))
 
             #Set RP active (bootable)
-            command = ('parted', '-s', self.device, 'set', self.rp_part, 'boot', 'on')
+            command = ('parted', '-s', self.device, 'set', rp_part, 'boot', 'on')
             result = misc.execute_root(*command)
             if result is False:
                 raise RuntimeError, ("Error setting recovery partition active %s" % (self.device))
@@ -1128,17 +1174,17 @@ manually to proceed.")
                             ('mkfs.ntfs' , '-f', '-L', 'OS', self.device + '3'),
                             ('mkfs.msdos', '-n', 'ubuntu'  , self.device + '4')]
                 for command in commands:
-                    fs = misc.execute_root(*command)
-                    if fs is False:
+                    result = misc.execute_root(*command)
+                    if result is False:
                         raise RuntimeError, ("Error building dual boot partitions")
 
                 #Grub needs to be on the 4th partition to kick off the ubuntu install
-                self.grub_part = '4'
+                grub_part = '4'
 
         #GPT Layout
         elif self.disk_layout == 'gpt':
             #In GPT we don't have a UP, but instead a BIOS grub partition
-            self.up_part = ''
+            up_part = ''
             if self.efi:
                 grub_size = 50
                 commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpartfs', 'primary', 'fat32', '0', str(grub_size)),
@@ -1148,8 +1194,8 @@ manually to proceed.")
                 commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'biosboot', '0', str(grub_size)),
                             ('parted', '-s', self.device, 'set', '1', 'bios_grub', 'on')]
             for command in commands:
-                fs = misc.execute_root(*command)
-                if fs is False:
+                result = misc.execute_root(*command)
+                if result is False:
                     if self.efi:
                         raise RuntimeError, ("Error creating new %s mb EFI boot partition on %s" % (grub_size, self.device))
                     else:
@@ -1157,7 +1203,7 @@ manually to proceed.")
 
             #GPT Doesn't support active partitions, so we must install directly to the disk rather than
             #partition
-            self.grub_part = ''
+            grub_part = ''
 
             #Build RP
             command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(grub_size), str(rp_size_mb + grub_size))
@@ -1168,17 +1214,17 @@ manually to proceed.")
         #Build RP filesystem
         self.status("Formatting Partitions", 2)
         if self.rp_type == 'fat32':
-            command = ('mkfs.msdos', '-n', 'install', self.device + self.rp_part)
+            command = ('mkfs.msdos', '-n', 'install', self.device + rp_part)
         elif self.rp_type == 'ntfs':
-            command = ('mkfs.ntfs', '-f', '-L', 'RECOVERY', self.device + self.rp_part)
-        fs = misc.execute_root(*command)
-        if fs is False:
-            raise RuntimeError, ("Error creating %s filesystem on %s%s" % (self.rp_type, self.device, self.rp_part))
+            command = ('mkfs.ntfs', '-f', '-L', 'RECOVERY', self.device + rp_part)
+        result = misc.execute_root(*command)
+        if result is False:
+            raise RuntimeError, ("Error creating %s filesystem on %s%s" % (self.rp_type, self.device, rp_part))
 
         #Mount RP
-        mount = misc.execute_root('mount', self.device + self.rp_part, '/boot')
+        mount = misc.execute_root('mount', self.device + rp_part, '/boot')
         if mount is False:
-            raise RuntimeError, ("Error mounting %s%s" % (self.device, self.rp_part))
+            raise RuntimeError, ("Error mounting %s%s" % (self.device, rp_part))
 
         #Update status and start the file size thread
         self.file_size_thread.reset_write(rp_size)
@@ -1194,13 +1240,13 @@ manually to proceed.")
 
         #If dual boot, mount the proper /boot partition first
         if self.dual:
-            mount = misc.execute_root('mount', self.device + self.grub_part, '/boot')
+            mount = misc.execute_root('mount', self.device + grub_part, '/boot')
             if mount is False:
-                raise RuntimeError, ("Error mounting %s%s" % (self.device, self.grub_part))
+                raise RuntimeError, ("Error mounting %s%s" % (self.device, grub_part))
 
         #find uuid of drive
         with misc.raised_privileges():
-            blkid = fetch_output(['blkid', self.device + self.rp_part, "-p", "-o", "udev"]).split('\n')
+            blkid = fetch_output(['blkid', self.device + rp_part, "-p", "-o", "udev"]).split('\n')
             for item in blkid:
                 if item.startswith('ID_FS_UUID'):
                     uuid = item.split('=')[1]
@@ -1217,7 +1263,7 @@ manually to proceed.")
             with misc.raised_privileges():
                 magic.process_conf_file('/usr/share/dell/grub/' + item, \
                                    os.path.join('/boot', 'grub', files[item]),\
-                                   uuid, self.rp_part, self.dual, \
+                                   uuid, rp_part, self.dual, \
                                    self.additional_kernel_options)
 
         #Install grub
@@ -1225,7 +1271,7 @@ manually to proceed.")
         if self.efi:
             raise RuntimeError, ("EFI install of GRUB is not yet supported.  You may be able to manually do it though.")
         else:
-            grub = misc.execute_root('grub-install', '--force', self.device + self.grub_part)
+            grub = misc.execute_root('grub-install', '--force', self.device + grub_part)
             if grub is False:
                 raise RuntimeError, ("Error installing grub to %s%s" % (self.device, STANDARD_RP_PARTITION))
 
@@ -1254,16 +1300,19 @@ manually to proceed.")
         misc.execute_root('umount', '/boot')
 
     def exit(self):
+        """Function to request the builder thread to close"""
         pass
 
     def status(self, info, percent):
+        """Stub function for passing data back up"""
         pass
 
     def run(self):
+        """Start the RP builder thread"""
         try:
             self.build_rp()
-        except Exception, e:
-            self.exception = e
+        except Exception, err:
+            self.exception = err
         self.exit()
 
 ####################
@@ -1271,7 +1320,9 @@ manually to proceed.")
 ####################
 def fetch_output(cmd, data=None):
     '''Helper function to just read the output from a command'''
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE,
+                                 stdin=subprocess.PIPE)
     (out, err) = proc.communicate(data)
     if proc.returncode is None:
         proc.wait()
@@ -1282,10 +1333,11 @@ def fetch_output(cmd, data=None):
     return out
 
 def reboot_machine(objpath):
+    """Reboots the machine"""
     reboot_cmd = '/sbin/reboot'
     reboot = misc.execute_root(reboot_cmd, '-n')
     if reboot is False:
-        raise RuntimeError, ("Reboot failed")
+        raise RuntimeError, ("Reboot failed from %s" % str(objpath))
 
 def find_item_iterator(combobox, value, column = 0):
     """Searches a combobox for a value and returns the iterator that matches"""
@@ -1308,38 +1360,38 @@ def find_n_set_iterator(combobox, value, column = 0):
 # Commands Processed During Install class #
 ###########################################
 class Install(InstallPlugin):
+    """The install time dell-bootstrap ubiquity plugin"""
+    
+    def __init__(self, frontend, db=None, ui=None):
+        self.progress = None
+        self.target = None
+        InstallPlugin.__init__(self, frontend, db, ui)
+
     def find_unconditional_debs(self):
         '''Finds any debs from debs/main that we want unconditionally installed
            (but ONLY the latest version on the media)'''
         import apt_inst
         import apt_pkg
 
-        def parse(file):
+        def parse(fname):
             """ read a deb """
-            control = apt_inst.debExtractControl(open(file))
+            control = apt_inst.debExtractControl(open(fname))
             sections = apt_pkg.TagSection(control)
             return sections["Package"]
 
         #process debs/main
         to_install = []
-        if os.path.isdir(CDROM_MOUNT + '/debs/main'):
-            for file in os.listdir(CDROM_MOUNT + '/debs/main'):
-                if '.deb' in file:
-                    to_install.append(parse(os.path.join(CDROM_MOUNT + '/debs/main', file)))
+        repo = os.path.join(CDROM_MOUNT, 'debs', 'main')
+        if os.path.isdir(repo):
+            for fname in os.listdir(repo):
+                if '.deb' in fname:
+                    to_install.append(parse(os.path.join(repo, fname)))
 
         #These aren't in all images, but desirable if available
         to_install.append('dkms')
         to_install.append('adobe-flashplugin')
 
         return to_install
-
-    def enable_oem_config(self, target):
-        '''Enables OEM config on the target'''
-        oem_dir = os.path.join(target, 'var/lib/oem-config')
-        if not os.path.exists(oem_dir):
-            os.makedirs(oem_dir)
-        with open(os.path.join(oem_dir, 'run'), 'w'):
-            pass
 
     def remove_ricoh_mmc(self):
         '''Removes the ricoh_mmc kernel module which is known to cause problems
@@ -1349,7 +1401,15 @@ class Install(InstallPlugin):
             if line.startswith('ricoh_mmc'):
                 misc.execute('rmmod', line.split()[0])
 
-    def propagate_kernel_parameters(self, target):
+    def enable_oem_config(self):
+        '''Enables OEM config on the target'''
+        oem_dir = os.path.join(self.target, 'var/lib/oem-config')
+        if not os.path.exists(oem_dir):
+            os.makedirs(oem_dir)
+        with open(os.path.join(oem_dir, 'run'), 'w'):
+            pass
+
+    def propagate_kernel_parameters(self):
         '''Copies in kernel command line parameters that were needed during
            installation'''
         extra = magic.find_extra_kernel_options()
@@ -1362,29 +1422,31 @@ class Install(InstallPlugin):
                not 'locale='                          in item and \
                not 'BOOT_IMAGE='                      in item and \
                not 'ubiquity'                         in item:
-                new+='%s ' % item
+                new += '%s ' % item
         extra = new.strip()
 
-        if extra and os.path.exists(os.path.join(target, 'etc/default/grub')):
+        grubf = os.path.join(self.target, 'etc/default/grub')
+        if extra and os.path.exists(grubf):
             #read/write new grub
-            with open(os.path.join(target, 'etc/default/grub'), 'r') as grub:
-                default_grub = grub.readlines()
-            with open(os.path.join(target, 'etc/default/grub'), 'w') as grub:
+            with open(grubf, 'r') as rfd:
+                default_grub = rfd.readlines()
+            with open(grubf, 'w') as wfd:
                 for line in default_grub:
                     if 'GRUB_CMDLINE_LINUX_DEFAULT' in line:
-                        line = line.replace('GRUB_CMDLINE_LINUX_DEFAULT="', 'GRUB_CMDLINE_LINUX_DEFAULT="%s ' % extra)
-                    grub.write(line)
+                        line = line.replace('GRUB_CMDLINE_LINUX_DEFAULT="', \
+                                      'GRUB_CMDLINE_LINUX_DEFAULT="%s ' % extra)
+                    wfd.write(line)
             from ubiquity import install_misc
-            install_misc.chrex(target, 'update-grub')
+            install_misc.chrex(self.target, 'update-grub')
 
-    def remove_unwanted_drivers(self, progress):
-        '''Removes any drivers that were preseeded to not be wanted during postinstall'''
+    def remove_unwanted_drivers(self):
+        '''Removes drivers that were preseeded to not used for postinstall'''
         to_remove = []
         drivers = ''
 
         try:
-            drivers = progress.get(DRIVER_INSTALL_QUESTION).split(',')
-        except debconf.DebconfError, e:
+            drivers = self.progress.get(DRIVER_INSTALL_QUESTION).split(',')
+        except debconf.DebconfError:
             pass
 
         if len(drivers) > 0:
@@ -1408,9 +1470,12 @@ class Install(InstallPlugin):
         have some major problems!'''
         genuine = magic.check_vendor()
         if not genuine:
-            raise RuntimeError, ("This recovery media only works on Dell Hardware.")
+            raise RuntimeError, ("This recovery media requires Dell Hardware.")
 
-        up,  rp  = magic.find_partitions('', '')
+        self.target = target
+        self.progress = progress
+
+        utility_part,  rec_part  = magic.find_partitions('', '')
 
         from ubiquity import install_misc
         to_install = []
@@ -1419,8 +1484,8 @@ class Install(InstallPlugin):
         #Determine if we are doing OOBE
         try:
             if progress.get('oem-config/enable') == 'true':
-                self.enable_oem_config(target)
-        except debconf.DebconfError, e:
+                self.enable_oem_config()
+        except debconf.DebconfError:
             pass
 
         #The last thing to do is set an active partition
@@ -1428,31 +1493,32 @@ class Install(InstallPlugin):
         active = ''
         try:
             active = progress.get(ACTIVE_PARTITION_QUESTION)
-        except debconf.DebconfError, e:
+        except debconf.DebconfError:
             pass
         try:
             layout = progress.get(DISK_LAYOUT_QUESTION)
-        except debconf.DebconfError, e:
+        except debconf.DebconfError:
             layout = 'msdos'
 
         if active.isdigit():
             disk = progress.get('partman-auto/disk')
-            with open('/tmp/set_active_partition', 'w') as fd:
+            with open('/tmp/set_active_partition', 'w') as wfd:
                 #If we have an MBR, we use the active partition bit in it
                 if layout == 'msdos':
-                    fd.write('sfdisk -A%s %s\n' % (active, disk))
+                    wfd.write('sfdisk -A%s %s\n' % (active, disk))
                 #If we have GPT, we need to go down other paths
                 elif layout == 'gpt':
-                    #If we're booted in EFI mode, then we set the active partition in NVRAM
+                    #If we're booted in EFI mode, then we set the
+                    # active partition in NVRAM
                     if os.path.isdir('/proc/efi'):
                         # --disk: disk to boot to
                         # --label: label shown in firmware boot list
                         # --create: creates a bootnum in that list
                         # --active: sets the new bootnum active
-                        # --write-signature: writes a special signature to MBR if needed
+                        # --write-signature: writes a special signature to MBR
                         # --part: partition containing EFI cool beans
                         # --loader: the name of the loader we are choosing
-                        fd.write('efibootmbr --disk %s --part %s --label Ubuntu --create --active --write-signature --loader /\grub.efi\n' % (disk, active))
+                        wfd.write('efibootmbr --disk %s --part %s --label Ubuntu --create --active --write-signature --loader /\grub.efi\n' % (disk, active))
                     #If we're not booted to EFI mode, but using GPT,
                     else:
                         #See https://bugs.launchpad.net/ubuntu/+source/partman-partitioning/+bug/592813
@@ -1461,7 +1527,7 @@ class Install(InstallPlugin):
                         if result is False:
                             raise RuntimeError, ("Error working around bug 592813.")
                         
-                        fd.write('grub-install --no-floppy %s\n' % disk)
+                        wfd.write('grub-install --no-floppy %s\n' % disk)
             os.chmod('/tmp/set_active_partition', 0755)
 
         #Fixup pool to only accept stuff on /cdrom
@@ -1470,7 +1536,7 @@ class Install(InstallPlugin):
             pool_cmd = progress.get('dell-recovery/pool_command')
             if os.path.exists(pool_cmd):
                 install_misc.chrex(target, pool_cmd)
-        except debconf.DebconfError, e:
+        except debconf.DebconfError:
             pass
 
         #Stuff that is installed on all configs without fish scripts
@@ -1479,7 +1545,7 @@ class Install(InstallPlugin):
         #Query Dual boot or not
         try:
             dual = self.db.get(DUAL_BOOT_QUESTION)
-        except debconf.DebconfError, e:
+        except debconf.DebconfError:
             dual = ''
 
         #we don't want EULA or dell-recovery in dual mode
@@ -1491,14 +1557,14 @@ class Install(InstallPlugin):
                 except ValueError:
                     continue
         #install dell-recovery in non dual mode only if there is an RP
-        elif rp:
+        elif rec_part:
             to_install.append('dell-recovery')
 
-        to_remove += self.remove_unwanted_drivers(progress)
+        to_remove += self.remove_unwanted_drivers()
                     
         self.remove_ricoh_mmc()
 
-        self.propagate_kernel_parameters(target)
+        self.propagate_kernel_parameters()
 
         install_misc.record_installed(to_install)
         install_misc.record_removed(to_remove)
