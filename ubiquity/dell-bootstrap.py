@@ -228,6 +228,9 @@ class PageGtk(PluginUI):
             self.info_box.show_all()
             self.info_spinner.start()
             self.toggle_progress()
+        elif which == "forward":
+            self.automated_recovery_box.hide()
+            self.interactive_recovery_box.hide()
         else:
             self.info_spinner.stop()
             if which == "exception":
@@ -959,6 +962,7 @@ class Page(Plugin):
 
             # User recovery - resizing drives
             elif type == "interactive":
+                self.ui.show_dialog("forward")
                 self.unset_drive_preseeds()
 
             # Factory install, and booting from RP
