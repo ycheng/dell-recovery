@@ -1,4 +1,4 @@
-dell-recovery (0.65) UNRELEASED; urgency=low
+dell-recovery (0.65) maverick; urgency=low
 
   [ Mario Limonciello ]
   * Save files in XDG Downloads directory by default (LP: #616671)
@@ -13,7 +13,7 @@ dell-recovery (0.65) UNRELEASED; urgency=low
   [ Peter Petrakis ]
   * Add bto-autobuilder for standalone build features. (LP: #619452)
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 16 Aug 2010 10:20:04 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 17 Aug 2010 15:42:17 -0500
 
 dell-recovery (0.64) maverick; urgency=low
 
