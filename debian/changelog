@@ -1,5 +1,6 @@
 dell-recovery (0.65) UNRELEASED; urgency=low
 
+  [ Mario Limonciello ]
   * Save files in XDG Downloads directory by default (LP: #616671)
   * Re-encode strings to utf8 when checking ISOs in builder mode. (LP: #616663)
   * Remove unused misc import in dell-recovery ubiquity plugin.
@@ -8,6 +9,9 @@ dell-recovery (0.65) UNRELEASED; urgency=low
   * Don't allow the bootstrap plugin to run if not in automatic mode.
   * Hide the plugin_widgets page in factory mode to prevent the app from
     growing and showing the wrong sized slideshow.
+
+  [ Peter Petrakis ]
+  * Merge the bto-autobuilder branch to add standalone build features.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 16 Aug 2010 10:20:04 -0500
 
