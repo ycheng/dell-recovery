@@ -13,7 +13,9 @@ Coding Style:
 '''
 
 import os, sys, subprocess, optparse, re, tempfile
-from   Dell.recovery_common import *
+from Dell.recovery_common import DBUS_BUS_NAME, DBUS_INTERFACE_NAME, \
+                                 GIT_TREES, check_version,           \
+                                 dbus_sync_call_signal_wrapper
 import dbus.mainloop.glib
 from datetime import datetime
 
@@ -29,7 +31,6 @@ except ImportError:
     print >> sys.stderr, 'Error: python-progressbar is not installed'
     sys.exit(1)
 
-FID_URL = 'git://linux.dell.com/ubuntu-fid.git'
 CONFIG  = os.path.join(os.environ['HOME'], '.config/dell-recovery')
 REPO    = os.path.join(CONFIG, 'ubuntu-fid')
 
@@ -47,15 +48,18 @@ class FidTag:
         # so much for duck typing, have to cast here or the comparisons
         # just won't work like you'd expect, there isn't even a toi
         # method :(
-        self.year = int(self.year); self.month = int(self.month);
+        self.year = int(self.year)
+        self.month = int(self.month)
 
         self.revision_class = self.revision[0]
         self.minor_revision = int(self.revision[1:])
 
     def is_arev(self):
+        '''Stable (A-rev) development tag'''
         return self.revision_class == 'A'
 
     def is_xrev(self):
+        '''Unstable (X-rev) development tag'''
         return self.revision_class == 'X'
 
     def __lt__(self, other):
@@ -75,7 +79,7 @@ class FidTag:
             return False
 
     def __eq__(self, other):
-        if self.lsb_release == other.lsb_release and\
+        if self.lsb_release == other.lsb_release and \
                 self.revision == other.revision:
             return True
         else:
@@ -94,14 +98,14 @@ class Install:
     def __init__(self):
         self.old_state = 'starting progress tracking'
         self.state = None
-        self.p = progressbar.ProgressBar()
+        self.progress = progressbar.ProgressBar()
 
-    def update_percent(self, state, n):
+    def update_percent(self, state, num):
         self._print_once(state)
-        if n < 100:
-            self.p.update(n)
+        if num < 100:
+            self.progress.update(num)
         else:
-            self.p.finish()
+            self.progress.finish()
 
     def update_plain(self, state):
         self._print_once(state)
@@ -116,15 +120,16 @@ class Install:
     # instead of defining a callback function to pass
     # to the dell bto builder, we make the class itself
     # callable and just pass the instance
-    def __call__(self, state, n):
-        if float(n) < 0:
+    def __call__(self, state, num):
+        if float(num) < 0:
             self.update_plain(state)
         else:
-            self.update_percent(state, n)
+            self.update_percent(state, num)
 # end Install class
 
 def parse_argv():
-    usage = 'bto-iso-builder -d DRIVERS_FILE -b BASE_ISO'
+    '''Set up argument parsing'''
+    usage = '%prog [options]'
 
     parser = optparse.OptionParser(usage=usage, \
                 version=('Version: %s' % check_version()))
@@ -167,12 +172,13 @@ def parse_argv():
     return opts, args
 
 def setup_dbus():
+    '''Prepare the dbus connection to the backend'''
     bus = dbus.SystemBus()
     proxy = bus.get_object(DBUS_BUS_NAME, '/RecoveryMedia')
     iface = dbus.Interface(proxy, DBUS_INTERFACE_NAME)
     return (bus, iface, proxy)
 
-def clone_target_repo(repo):
+def clone_target_repo(repository):
     '''clone a copy of our repo for the purposes of building this iso.
        the reason for this is we want this process to be reentrant. should
        we want to be able to build multiple isos at the same time, we'll
@@ -180,7 +186,7 @@ def clone_target_repo(repo):
 
     date = datetime.now()
     tmp = tempfile.mkdtemp(suffix='_' + date.strftime('%y-%m-%d_%H.%M.%S'))
-    repo.git.clone(REPO, tmp)
+    repository.git.clone(REPO, tmp)
 
     print 'cloned repo to %s' % tmp
     new_repo = git.Repo(tmp)
@@ -199,8 +205,8 @@ def config_dell_recovery_package(callback, base, target_repo, dell_deb):
         print 'Incorporate specific dell-recovery package'
         import apt_inst
         import apt_pkg
-        with open(os.path.realpath(dell_deb), 'r') as f:
-            control = apt_inst.debExtractControl(f)
+        with open(os.path.realpath(dell_deb), 'r') as rfd:
+            control = apt_inst.debExtractControl(rfd)
             sections = apt_pkg.ParseSection(control)
             if sections["Package"] != 'dell-recovery':
                 print 'Provided dell recovery, %s is invalid' % os.path.basename(dell_deb)
@@ -217,7 +223,7 @@ if __name__ == '__main__':
 
     if not os.path.exists(REPO):
         print 'Setting up git repository...'
-        child = subprocess.Popen(('git clone %s %s' % (FID_URL, REPO)).split(),
+        child = subprocess.Popen(('git clone %s %s' % (GIT_TREES['ubuntu'], REPO)).split(),
                     stdout=subprocess.PIPE)
         out = child.communicate()[0]
     else:
@@ -227,28 +233,27 @@ if __name__ == '__main__':
             os.chdir(REPO)
             child = subprocess.Popen('git fetch'.split(), stdout=subprocess.PIPE)
             out = child.communicate()[0]
-        except Exception, e:
-            print >> sys.stderr, e
+        except Exception, err:
+            print >> sys.stderr, err
             sys.exit(1)
         finally:
             os.chdir(pwd)
 
     drivers = []
     try:
-        import re
         with open(os.path.realpath(options.drivers), 'r') as f:
             for line in f.readlines():
                 line = line.strip()      # remove leading and trailing spaces
                 line = line.rstrip('\n') # trim newline
-                if line == '': continue
-                if re.match('^\s*#.*', line): continue # accomodate simple comments
+                if line == '' or re.match('^\s*#.*', line):
+                    continue # accomodate simple comments
                 drivers.append(line)
 
-    except Exception, e:
+    except Exception, err:
         print >> sys.stderr, \
             'There was an error parsing the drivers driver file, aborting'
-        print >> sys.stderr, e
-        os.exit(1)
+        print >> sys.stderr, err
+        sys.exit(1)
 
     try:
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
@@ -271,11 +276,11 @@ if __name__ == '__main__':
             print 'FID tag unspecified, using the latest: %s' % current_tag
         else:
             match = False
-            for t in tags:
-                print t
-                if options.tag.strip() ==  str(t):
+            for tag in tags:
+                print tag
+                if options.tag.strip() ==  str(tag):
                     match = True
-                    current_tag = t
+                    current_tag = tag
                     break
 
             if match is False:
@@ -336,19 +341,18 @@ if __name__ == '__main__':
             os.path.join(options.bto_dir, bto_name))
 
         print 'Build complete: %s' % os.path.join(options.bto_dir, bto_name)
-    except Exception, e:
-        print >> sys.stderr, e
-        sys.exit(1)
-    except dbus.DBusException, e:
-        if hasattr(e, '_dbus_error_name') and e._dbus_error_name == \
+    except dbus.DBusException, err:
+        if hasattr(err, '_dbus_error_name') and err._dbus_error_name == \
                 'org.freedesktop.DBus.Error.ServiceUnknown':
             pass
         else:
-            sys.debug('Received %s when closing recovery-media-backend '\
-                'DBus service' % str(e))
+            print 'Received %s when closing recovery-media-backend '\
+                'DBus service' % str(err)
+    except Exception, err:
+        print >> sys.stderr, err
+        sys.exit(1)
     finally:
         iface.request_exit() # will call atexit in dell backend
         import shutil
         print 'Removing temporary git tree: %s' % target_repo.git.git_dir
         shutil.rmtree(target_repo.git.git_dir)
-        sys.exit(0)
