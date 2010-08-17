@@ -11,7 +11,7 @@ dell-recovery (0.65) UNRELEASED; urgency=low
     growing and showing the wrong sized slideshow.
 
   [ Peter Petrakis ]
-  * Merge the bto-autobuilder branch to add standalone build features.
+  * Add bto-autobuilder for standalone build features. (LP: #619452)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 16 Aug 2010 10:20:04 -0500
 
