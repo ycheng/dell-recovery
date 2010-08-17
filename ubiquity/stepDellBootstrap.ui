@@ -366,7 +366,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="genuine_box">
+          <object class="GtkHBox" id="error_box">
             <child>
               <object class="GtkImage" id="image4">
                 <property name="visible">True</property>
@@ -382,8 +382,9 @@
               <object class="GtkLabel" id="genuine_bootstrap_warning_label">
                 <property name="visible">True</property>
                 <property name="xalign">0.05000000074505806</property>
-                <property name="label" translatable="yes">&lt;b&gt;ERROR:&lt;/b&gt; This media is only valid on Dell systems.</property>
+                <property name="label" translatable="yes">&lt;b&gt;ERROR:&lt;/b&gt; This media only functions on Dell systems booted directly into recovery mode.</property>
                 <property name="use_markup">True</property>
+                <property name="wrap">True</property>
               </object>
               <packing>
                 <property name="position">1</property>

@@ -162,15 +162,8 @@ class PageGtk(PluginUI):
             self.swap_combobox = builder.get_object('swap_behavior_combobox')
             self.ui_combobox = builder.get_object('default_ui_combobox')
 
-            #check if we are genuine
-            if not self.genuine:
-                self.advanced_table.set_sensitive(False)
-                self.interactive_recovery_box.hide()
-                self.automated_recovery_box.hide()
-                self.automated_recovery.set_sensitive(False)
-                self.interactive_recovery.set_sensitive(False)
-                builder.get_object('genuine_box').show()
-
+            if not (self.genuine and 'UBIQUITY_AUTOMATIC' in os.environ):
+                builder.get_object('error_box').show()
             PluginUI.__init__(self, controller, *args, **kwargs)
 
     def plugin_get_current_page(self):
@@ -179,7 +172,12 @@ class PageGtk(PluginUI):
            * Check whether we are on genuine hardware
         """
         #are we real?
-        if not self.genuine:
+        if not (self.genuine and 'UBIQUITY_AUTOMATIC' in os.environ):
+            self.advanced_table.set_sensitive(False)
+            self.interactive_recovery_box.hide()
+            self.automated_recovery_box.hide()
+            self.automated_recovery.set_sensitive(False)
+            self.interactive_recovery.set_sensitive(False)
             self.controller.allow_go_forward(False)
         self.toggle_progress()
 
