@@ -1,0 +1,357 @@
+#!/usr/bin/env python
+# vim: set filetype=python :
+''' BTO Automatic Builder
+Author: peter.petrakis@canonical.com
+Date:   29/07/10
+Version: 1.0
+License: GPLv2
+Description: Create a BTO image non-interactively
+
+Coding Style:
+ * No line shall ever be greater than 80 chars, use line continuations
+   where necessary to achieve this.
+ * Generally styled after Linux kernel C coding standards
+'''
+
+import os, sys, subprocess, optparse, re, tempfile
+from   Dell.recovery_common import *
+import dbus.mainloop.glib
+from datetime import datetime
+
+try:
+    import git
+except ImportError:
+    print >> sys.stderr, 'Error: python-git is not installed'
+    sys.exit(1)
+
+try:
+    import progressbar
+except ImportError:
+    print >> sys.stderr, 'Error: python-progressbar is not installed'
+    sys.exit(1)
+
+VERSION = '1.0'
+
+FID_URL = 'git://linux.dell.com/ubuntu-fid.git'
+CONFIG  = os.path.join(os.environ['HOME'], '.config/dell-recovery')
+REPO    = os.path.join(CONFIG, 'ubuntu-fid')
+
+class FidTag:
+    ''' Convenience class that cleans up how the Dell FID
+        repo is version and offers some sorting and presentation
+        capabilities '''
+
+    def __init__(self, tag):
+        self.tag = tag
+        # data format: 10.04_A01
+        self.lsb_release, self.revision = tag.name.split('_')
+        self.year, self.month = self.lsb_release.split('.')
+
+        # so much for duck typing, have to cast here or the comparisons
+        # just won't work like you'd expect, there isn't even a toi
+        # method :(
+        self.year = int(self.year); self.month = int(self.month);
+
+        self.revision_class = self.revision[0]
+        self.minor_revision = int(self.revision[1:])
+
+    def is_arev(self):
+        return self.revision_class == 'A'
+
+    def is_xrev(self):
+        return self.revision_class == 'X'
+
+    def __lt__(self, other):
+        if self.year < other.year and self.month == other.month:
+            return True
+        elif self.year == other.year and self.month < other.month:
+            return True
+        elif self.year == other.year and self.month == other.month:
+            if self.revision_class == other.revision_class:
+                return self.minor_revision < other.minor_revision
+            else:
+                if self.is_xrev():
+                    return True
+                else:
+                    return False
+        else:
+            return False
+
+    def __eq__(self, other):
+        if self.lsb_release == other.lsb_release and\
+                self.revision == other.revision:
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        return self.tag.name
+# End FidTag class
+
+class Install:
+    ''' Update class to satisfy status update requirements which are
+        normally handled by a gui. Leverages the progressbar module
+        and is tailored to the recovery tools D-Bus callback update
+        api.'''
+
+    def __init__(self):
+        self.old_state = 'starting progress tracking'
+        self.state = None
+        self.p = progressbar.ProgressBar()
+
+    def update_percent(self, state, n):
+        self._print_once(state)
+        if n < 100:
+            self.p.update(n)
+        else:
+            self.p.finish()
+
+    def update_plain(self, state):
+        self._print_once(state)
+
+    def _print_once(self, state):
+        self.old_state = self.state
+        self.state = state
+
+        if self.old_state != self.state:
+            print 'Stage: %s' % self.state
+
+    # instead of defining a callback function to pass
+    # to the dell bto builder, we make the class itself
+    # callable and just pass the instance
+    def __call__(self, state, n):
+        if float(n) < 0:
+            self.update_plain(state)
+        else:
+            self.update_percent(state, n)
+# end Install class
+
+def parse_argv():
+    usage = 'bto-iso-builder -d DRIVERS_FILE -b BASE_ISO'
+
+    parser = optparse.OptionParser(usage=usage, \
+                version=('Version: %s' % VERSION))
+
+    parser.add_option('-d', '--drivers', type='string', metavar='FILE',
+        dest='drivers', default=None,
+        help=('expects a list of FISH driver packages in a text file'))
+
+    parser.add_option('-b', '--base-iso', type='string', dest='base',
+        default=None,
+        help=('ISO image to use as baseline for FID overlay'))
+
+    parser.add_option('-t', '--tag', type='string', dest='tag',
+        default=None,
+        help=('FID tag of overlay you wish to use: defaults to latest tag '\
+              'for the relevant lsb release'))
+
+    parser.add_option('--target-name', type='string', dest='bto_name',
+        default=None,
+        help=('Customize name of output ISO, iso suffix is unnecessary'))
+
+    parser.add_option('--target-dir', type='string', dest='bto_dir',
+        default='/tmp',
+        help=('Output directory for iso images: default /tmp'))
+
+    parser.add_option('--dell-recovery', type='string', dest='dell_deb',
+        default=None,
+        help=('Use specific dell recovery package'))
+
+    opts, args = parser.parse_args()
+
+    if len(sys.argv) < 2:
+        print usage
+        sys.exit(0)
+
+    if opts.drivers == None or opts.base == None:
+        print >> sys.stderr, '-d and -b are the bare minimum to get started'
+        sys.exit(1)
+
+    return opts, args
+
+def setup_dbus():
+    bus = dbus.SystemBus()
+    proxy = bus.get_object(DBUS_BUS_NAME, '/RecoveryMedia')
+    iface = dbus.Interface(proxy, DBUS_INTERFACE_NAME)
+    return (bus, iface, proxy)
+
+def clone_target_repo(repo):
+    '''clone a copy of our repo for the purposes of building this iso.
+       the reason for this is we want this process to be reentrant. should
+       we want to be able to build multiple isos at the same time, we'll
+       need a separate git sandbox for each instance of the build.'''
+
+    date = datetime.now()
+    tmp = tempfile.mkdtemp(suffix='_' + date.strftime('%y-%m-%d_%H.%M.%S'))
+    repo.git.clone(REPO, tmp)
+
+    print 'cloned repo to %s' % tmp
+    new_repo = git.Repo(tmp)
+    return new_repo
+
+def config_dell_recovery_package(callback, base, target_repo, dell_deb):
+    ''' required logic for the dell installer to locate the
+        correct dell recovery deb and then incorporate this into
+        the BTO iso.'''
+
+    if callback(base, target_repo.git.git_dir) and dell_deb == None:
+        print 'Using ISO/FID dell-recovery package'
+        return ''
+
+    if dell_deb != None:
+        print 'Incorporate specific dell-recovery package'
+        import apt_inst
+        import apt_pkg
+        with open(os.path.realpath(dell_deb), 'r') as f:
+            control = apt_inst.debExtractControl(f)
+            sections = apt_pkg.ParseSection(control)
+            if sections["Package"] != 'dell-recovery':
+                print 'Provided dell recovery, %s is invalid' % os.path.basename(dell_deb)
+                return ''
+            else:
+                print 'Using provided dell recovery:%s' % os.path.basename(dell_deb)
+                return dell_deb
+
+if __name__ == '__main__':
+    options, params = parse_argv()
+
+    if not os.path.exists(CONFIG):
+        os.makedirs(CONFIG)
+
+    if not os.path.exists(REPO):
+        print 'Setting up git repository...'
+        child = subprocess.Popen(('git clone %s %s' % (FID_URL, REPO)).split(),
+                    stdout=subprocess.PIPE)
+        out = child.communicate()[0]
+    else:
+        try:
+            print 'Updating git repository...'
+            pwd = os.getcwd()
+            os.chdir(REPO)
+            child = subprocess.Popen('git fetch'.split(), stdout=subprocess.PIPE)
+            out = child.communicate()[0]
+        except Exception, e:
+            print >> sys.stderr, e
+            sys.exit(1)
+        finally:
+            os.chdir(pwd)
+
+    drivers = []
+    try:
+        import re
+        with open(os.path.realpath(options.drivers), 'r') as f:
+            for line in f.readlines():
+                line = line.strip()      # remove leading and trailing spaces
+                line = line.rstrip('\n') # trim newline
+                if line == '': continue
+                if re.match('^\s*#.*', line): continue # accomodate simple comments
+                drivers.append(line)
+
+    except Exception, e:
+        print >> sys.stderr, \
+            'There was an error parsing the drivers driver file, aborting'
+        print >> sys.stderr, e
+        os.exit(1)
+
+    try:
+        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+        (bus, iface, proxy) = setup_dbus()
+
+        base = os.path.realpath(options.base)
+        (bto_version, distributer,
+            release, output) = iface.query_iso_information(base)
+
+        # decorate the git tags with our FID specific class
+        repo = git.Repo(REPO)
+        tags = [FidTag(t) for t in repo.tags]
+
+        # tags array is no longer used after this block so
+        # don't worry about it being over written
+        if options.tag == None:
+            tags = [t for t in tags if t.lsb_release == release]
+            tags.sort()
+            current_tag = tags.pop()
+            print 'FID tag unspecified, using the latest: %s' % current_tag
+        else:
+            match = False
+            for t in tags:
+                print t
+                if options.tag.strip() ==  str(t):
+                    match = True
+                    current_tag = t
+                    break
+
+            if match is False:
+                print >> sys.stderr, \
+                    'Error: unable to find match FID tag in current tree '\
+                    'named: %s' % options.tag.strip()
+                sys.exit(1)
+
+        # our 'working' git repo
+        target_repo = clone_target_repo(repo)
+
+        # update the tree to point to the specified tag
+        target_repo.git.execute(('git checkout %s' % current_tag).split())
+        print 'Repo for tag %s is set' % current_tag
+
+        dell_recovery_pkg = config_dell_recovery_package(
+                                     iface.query_have_dell_recovery,
+                                     base,
+                                     target_repo,
+                                     options.dell_deb)
+
+        bto_name = None
+        if options.bto_name == None:
+            # set to the default dell-recovery tool style
+            bto_name = 'ubuntu-%s-dell_%s.iso' % (current_tag.lsb_release,
+                            current_tag.revision)
+            print 'Using default BTO ISO name %s' % bto_name
+        else:
+            # there is no versioning applied here. I'm assuming that if
+            # you're concerned enough to change the iso name that you're
+            # probably also providing your own tag name. In which case
+            # you should version the iso yourself.
+            bto_name = options.bto_name
+            if not bto_name.endswith('.iso'):
+                bto_name += '.iso'
+            print 'Using custom BTO ISO name %s' % bto_name
+
+        print 'List of drivers to be mixed into %s' % bto_name
+        for fishie in drivers:
+            print fishie
+
+        # so what's happening here is two dbus functions are being called,
+        # create_ubuntu on behalf of assemble_image. The former handles the
+        # actual iso building process, while the later incorporates most
+        # of the cli args to produce the custom BTO
+        #
+        dbus_sync_call_signal_wrapper(iface, # D-Bus handle
+            'assemble_image',                # Explicit function call
+            {'report_progress':Install()},   # handles D-Bus progress updates
+            base,                            # baseline iso
+            os.path.join(target_repo.git.git_dir, 'framework'), # overlay repo
+            drivers,                         # driver FISH packages
+            '',                              # application FISH packages
+            dell_recovery_pkg,               # specify pkg source
+            'create_ubuntu',                 # called by 'assemble_image'
+            '',                              # create_ubuntu args...
+            current_tag.revision,
+            os.path.join(options.bto_dir, bto_name))
+
+        print 'Build complete: %s' % os.path.join(options.bto_dir, bto_name)
+    except Exception, e:
+        print >> sys.stderr, e
+        sys.exit(1)
+    except dbus.DBusException, e:
+        if hasattr(e, '_dbus_error_name') and e._dbus_error_name == \
+                'org.freedesktop.DBus.Error.ServiceUnknown':
+            pass
+        else:
+            sys.debug('Received %s when closing recovery-media-backend '\
+                'DBus service' % str(e))
+    finally:
+        iface.request_exit() # will call atexit in dell backend
+        import shutil
+        print 'Removing temporary git tree: %s' % target_repo.git.git_dir
+        shutil.rmtree(target_repo.git.git_dir)
+        sys.exit(0)
