@@ -212,14 +212,16 @@ class PageGtk(PluginUI):
         """Sets the type of recovery to do in GUI"""
         if not self.genuine:
             return
+        self.hidden_radio.set_active(True)
+
         if value == "automatic":
             self.automated_recovery.set_active(True)
         elif value == "interactive":
             self.interactive_recovery.set_active(True)
+        elif value == "factory":
+            self.plugin_widgets.hide()
         else:
-            self.hidden_radio.set_active(True)
-            if value != "factory":
-                self.controller.allow_go_forward(False)
+            self.controller.allow_go_forward(False)
             if value == "hdd":
                 self.advanced_table.set_sensitive(False)
                 self.hdd_recovery_box.show()
