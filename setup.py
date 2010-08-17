@@ -41,7 +41,7 @@ setup(
     description="Creates a piece of recovery media for a Dell Factory image",
     packages=["Dell"],
     data_files=[("share/dell", glob.glob("gtk/*.ui")),
-                ('share/dell', ['bto-autobuilder/dell-bto-autobuilder']),
+                ('share/dell/bin', ['bto-autobuilder/dell-bto-autobuilder']),
                 ('share/pixmaps', glob.glob("gtk/*.svg")),
                 ('share/dell/bin', ['backend/recovery-media-backend']),
                 ('share/dell/scripts', glob.glob('scripts/*')),
