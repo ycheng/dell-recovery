@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-07-28 13:22-0500\n"
-"PO-Revision-Date: 2010-07-31 08:03+0000\n"
+"POT-Creation-Date: 2010-08-17 15:32-0500\n"
+"PO-Revision-Date: 2010-08-24 13:49+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-01 03:50+0000\n"
+"X-Launchpad-Export-Date: 2010-08-25 03:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -208,27 +208,31 @@ msgstr "Немає на ISO або у дереві GIT"
 msgid "All SRVs must be filled to proceed."
 msgstr "Щоб перейти до наступного кроку, слід вказати всі SRV."
 
-#: ../Dell/recovery_backend.py:415
+#: ../Dell/recovery_backend.py:349
 msgid "Adding in base image"
 msgstr "Додавання до основного образу"
 
-#: ../Dell/recovery_backend.py:423
+#: ../Dell/recovery_backend.py:357
 msgid "Overlaying FID content"
 msgstr "Додаткові дані FID"
 
-#: ../Dell/recovery_backend.py:440
+#: ../Dell/recovery_backend.py:378
 msgid "Inserting FISH packages"
 msgstr "Вставка пакунків FISH"
 
-#: ../Dell/recovery_backend.py:771
+#: ../Dell/recovery_backend.py:431 ../Dell/recovery_backend.py:437
+msgid "Calculating FISH MD5SUMs"
+msgstr "Обчислення сум MD5 FISH"
+
+#: ../Dell/recovery_backend.py:723
 msgid "Building Dell Utility Partition"
 msgstr "Створення допоміжного розділу Dell"
 
-#: ../Dell/recovery_backend.py:833
+#: ../Dell/recovery_backend.py:785
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Повторне створення UUID / Перебудова initramfs"
 
-#: ../Dell/recovery_backend.py:872
+#: ../Dell/recovery_backend.py:824
 msgid "Building ISO"
 msgstr "Створення ISO"
 
@@ -546,10 +550,6 @@ msgstr ""
 "<b>Зауваження:</b> вам знадобиться придатний для запису носій даних DVD."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:5
-msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr "<big><b>Створити носій для відновлення Dell?</b></big>"
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
@@ -557,11 +557,11 @@ msgstr ""
 "Носієм для відновлення Dell можна скористатися для відновлення вашої системи "
 "до стану, у якому вам було передано її виробником обладнання."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid "Don't generate recovery media at this time"
 msgstr "Не створювати носія для відновлення цього разу"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -569,10 +569,10 @@ msgstr ""
 "Носій для відновлення можна створити пізніше. Для цього слід скористатися "
 "пунктом відповідного інструменту з меню «Система»."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "Save recovery media to DVD"
 msgstr "Зберегти носій для відновлення на DVD"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:10
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Зберегти носій для відновлення на зовнішньому флеш-диску USB"
