@@ -1,3 +1,9 @@
+dell-recovery (0.66) UNRELEASED; urgency=low
+
+  * If boot/grub/efi.img is found, create a mutlti-catalog ISO image.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 31 Aug 2010 17:09:48 -0500
+
 dell-recovery (0.65) maverick; urgency=low
 
   [ Mario Limonciello ]

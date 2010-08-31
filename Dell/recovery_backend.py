@@ -794,6 +794,25 @@ class Backend(dbus.service.Object):
         genisoargs.append('-m')
         genisoargs.append(os.path.join('casper', old_initrd))
 
+        #Make the image EFI compatible if necessary
+        if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'efi.img')):
+            efi_genisoimage = subprocess.Popen(['genisoimage','-help'],
+                                                stdout=subprocess.PIPE,
+                                                stderr=subprocess.PIPE)
+            results = efi_genisoimage.communicate()[1]
+            if 'efi' in results:
+                genisoargs.append('-eltorito-alt-boot')
+                genisoargs.append('-efi-boot')
+                genisoargs.append('boot/grub/efi.img')
+                genisoargs.append('-no-emul-boot')
+            else:
+                import apt.cache
+                cache = apt.cache.Cache()
+                version = cache['genisoimage'].installed.version
+                del cache
+                raise CreateFailed("The target image requested EFI support, but genisoimage %s doesn't support EFI.  \
+You will need to create this image on a system with a newer genisoimage." % version)
+
         #if we have ran this from a USB key, we might have syslinux which will
         #break our build
         if os.path.exists(os.path.join(mntdir, 'syslinux')):
