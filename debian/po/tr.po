@@ -7,24 +7,204 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-01-14 15:13-0600\n"
-"PO-Revision-Date: 2009-11-15 11:43+0000\n"
-"Last-Translator: Mustafa Yılmaz <apshalasha@gmail.com>\n"
+"POT-Creation-Date: 2010-08-10 20:15-0500\n"
+"PO-Revision-Date: 2010-08-31 21:19+0000\n"
+"Last-Translator: Fatih Dayioglu <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Launchpad-Export-Date: 2010-09-01 04:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
 #. Description
-#: ../templates:2001
+#: ../templates:14001
 msgid "Building Dell Recovery Media..."
-msgstr ""
+msgstr "Dell Yedekleme Ortamı Yapılandırılıyor..."
 
 #. Type: text
 #. Description
-#: ../templates:4001
+#: ../templates:16001
 msgid "Opening Burner..."
+msgstr "Yazıcı Açılıyor..."
+
+#. Type: text
+#. Description
+#: ../templates:17001
+msgid "Dell Recovery"
+msgstr "Dell Yedekleme"
+
+#. Type: text
+#. Description
+#: ../templates:18001
+msgid "Recovery Type"
+msgstr "Yedekleme Türü"
+
+#. Type: text
+#. Description
+#: ../templates:19001
+msgid ""
+"This Dell Recovery Media can be used to restore the original factory "
+"software."
 msgstr ""
+"Bu Dell Yedekleme Ortamı orjinal fabrika yazılımını geri yüklemede "
+"kullanılabilir."
+
+#. Type: text
+#. Description
+#: ../templates:20001
+msgid ""
+"It is recommended you back up all important data before running this tool."
+msgstr ""
+"Bu aracı çalıştırmadan tüm önemli bilgilerinizi yedeklemeniz önerilir."
+
+#. Type: text
+#. Description
+#: ../templates:21001
+msgid "Restore Linux OS partitions"
+msgstr "Linux İşletim Sistemine sahip bölümleri geri yükle"
+
+#. Type: text
+#. Description
+#: ../templates:22001
+msgid "This will rebuild all OS and swap partitions to factory defaults."
+msgstr ""
+"Bu işlem tüm işletim sistemi ve takas alanı bölümlerini varsayılan fabrika "
+"ayarlarına göre yeniden yapılandıracaktır."
+
+#. Type: text
+#. Description
+#. Type: text
+#. Description
+#: ../templates:23001 ../templates:26001
+msgid "WARNING: All personal files and changes will be lost."
+msgstr "UYARI: Tüm kişisel dosya ve değişiklikleriniz kaybolacak."
+
+#. Type: text
+#. Description
+#: ../templates:24001
+msgid "Restore entire hard drive."
+msgstr "Tüm sabit diski geri yükle."
+
+#. Type: text
+#. Description
+#: ../templates:25001
+msgid "This will rebuild all utility, recovery, and OS partitions."
+msgstr ""
+"Bu işlem tüm araçlar, yedekleme ve işletim sistemi bölümlerini yeniden "
+"yapılandıracak."
+
+#. Type: text
+#. Description
+#: ../templates:27001
+msgid "Restore only Linux OS partition."
+msgstr "Sadece Linux İS. bölümünü geri yükle."
+
+#. Type: text
+#. Description
+#: ../templates:28001
+msgid "This option allows you to resize any existing partitions."
+msgstr "Bu seçenek var olan bölümleri yeniden boyutlandırmanıza izin verir."
+
+#. Type: text
+#. Description
+#. Type: text
+#. Description
+#: ../templates:29001 ../templates:41001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr "HATA: Bu ortam sadece Dell sistemler için geçerlidir."
+
+#. Type: text
+#. Description
+#: ../templates:30001
+msgid "Building Recovery Partition"
+msgstr "Yedekleme Bölümü Yapılandırılıyor"
+
+#. Type: text
+#. Description
+#: ../templates:31001
+msgid "NOTE: Please be patient, this may take a while."
+msgstr "NOT: Lütfen sabırlı olun, bu işlem biraz zaman alabilir."
+
+#. Type: text
+#. Description
+#: ../templates:32001
+msgid "Create Dell Recovery Media"
+msgstr "Dell Geri Alma Ortamı Oluştur"
+
+#. Type: text
+#. Description
+#: ../templates:33001
+msgid ""
+"Dell Recovery Media can be used to restore your system to the same state as "
+"when it was first shipped to you."
+msgstr ""
+"Dell Yedekleme Ortamı'nı bilgisayarınızı ilk aldığınız günkü durumuna geri "
+"getirmek için kullanbilirsiniz."
+
+#. Type: text
+#. Description
+#: ../templates:34001
+msgid ""
+"It is highly recommended that you generate media and store it in a safe "
+"place."
+msgstr ""
+"Yedekleme ortamı oluşturmanız ve bunu güvenli bir şekilde saklamanız "
+"şiddetle önerilir."
+
+#. Type: text
+#. Description
+#: ../templates:35001
+msgid "Save recovery media to an external USB flash drive"
+msgstr "Yedekleme ortamını harici USB flash belleğe kaydet"
+
+#. Type: text
+#. Description
+#: ../templates:36001
+msgid "Note: This requires a USB flash drive with approximately 2GB free."
+msgstr ""
+"Not: Bu işlem tahmini olarak 2 GB boş alanı bulunan USB flash bellek "
+"gerektirir."
+
+#. Type: text
+#. Description
+#: ../templates:37001
+msgid "Save recovery media to DVD"
+msgstr "Yedekleme ortamnını DVD'ye kaydet"
+
+#. Type: text
+#. Description
+#: ../templates:38001
+msgid "Note: This requires writable DVD media."
+msgstr "Not: Bu işlem yazdırılabilir bir DVD gerektirir."
+
+#. Type: text
+#. Description
+#: ../templates:39001
+msgid "Don't generate recovery media at this time"
+msgstr "Bu seferlik yedekleme ortamı oluşturma"
+
+#. Type: text
+#. Description
+#: ../templates:40001
+msgid ""
+"Recovery Media can be generated later by choosing the tool from the System "
+"menu."
+msgstr ""
+"Yedekleme Ortamı sistem menüsünden seçilecek araç yardımıyla daha sonra da "
+"oluşturulabilir."
+
+#. Type: text
+#. Description
+#: ../templates:42001
+msgid "Dell End User License Agreement"
+msgstr "Dell Son Kullanıcı Lisans Sözleşmesi"
+
+#. Type: text
+#. Description
+#: ../templates:43001
+msgid "I accept the license terms. (required to use your computer)"
+msgstr ""
+"Sözlemeşme şartlarını kabul ediyorum. (kendi bilgisayınızı kullanmanızı "
+"gerektirir)"
