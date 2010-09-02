@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-08-17 15:32-0500\n"
-"PO-Revision-Date: 2010-08-31 21:23+0000\n"
+"PO-Revision-Date: 2010-09-01 09:41+0000\n"
 "Last-Translator: Fatih Dayioglu <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-01 04:01+0000\n"
+"X-Launchpad-Export-Date: 2010-09-02 03:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -308,13 +308,15 @@ msgstr "USB Flash Sürücü"
 
 #: ../gtk/recovery_media_creator.ui.h:11
 msgid "Version:"
-msgstr ""
+msgstr "Sürüm:"
 
 #: ../gtk/builder.ui.h:1
 msgid ""
 "\n"
 "\n"
 msgstr ""
+"\n"
+"\n"
 
 #: ../gtk/builder.ui.h:4
 msgid ""
@@ -468,7 +470,7 @@ msgstr ""
 
 #: ../gtk/tool_selector.ui.h:4
 msgid "Restore System"
-msgstr ""
+msgstr "Sistemi geri yükle"
 
 #: ../gtk/tool_selector.ui.h:5
 msgid ""
@@ -485,7 +487,7 @@ msgstr ""
 
 #: ../gtk/tool_selector.ui.h:7
 msgid "_Help"
-msgstr ""
+msgstr "_Yardım"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
@@ -501,31 +503,37 @@ msgstr ""
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
+"<b>Not:</b> Bu işlem için yaklaşık olarak 2GB boş alana sahip USB flash "
+"belleğe ihtiyacınız vardır."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid "<b>Note:</b> This requires writable DVD media."
-msgstr ""
+msgstr "<b>Not:</b> Bu işlem yazdırılabilir DVD gerektirir."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
+"Dell Yedekleme Ortamı'nı bilgisayarınızı ilk aldığınız günkü durumuna geri "
+"getirmek için kullanabilirsiniz."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid "Don't generate recovery media at this time"
-msgstr ""
+msgstr "Bu seferlik yedekleme ortamı oluşturma"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
+"Yedekleme Ortamı sistem menüsünden seçilecek araç yardımıyla daha sonra da "
+"oluşturulabilir."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "Save recovery media to DVD"
-msgstr ""
+msgstr "Yedekleme ortamını DVD'ye kaydet"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
-msgstr ""
+msgstr "Yedekleme ortamını harici USB flash belleğe kaydet"
