@@ -1,6 +1,7 @@
 dell-recovery (0.66) UNRELEASED; urgency=low
 
   * If boot/grub/efi.img is found, create a mutlti-catalog ISO image.
+  * Support FISH packages of nested archives for OIE.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 31 Aug 2010 17:09:48 -0500
 

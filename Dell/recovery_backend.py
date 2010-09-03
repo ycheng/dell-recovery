@@ -52,6 +52,19 @@ from Dell.recovery_threading import ProgressByPulse, ProgressBySize
 from gettext import gettext as _
 from gettext import bindtextdomain, textdomain
 
+def safe_tar_extract(filename, destination):
+    """Safely extracts a tarball into destination"""
+    logging.debug('safe_tar_extract: %s to %s', (filename, destination))
+    rfd = tarfile.open(filename)
+    dangerous_file = False
+    for name in rfd.getnames():
+        if name.startswith('..') or name.startswith('/'):
+            dangerous_file = True
+            break
+    if not dangerous_file:
+        rfd.extractall(destination)
+    rfd.close()
+
 class Backend(dbus.service.Object):
     '''Backend manager.
 
@@ -261,6 +274,55 @@ class Backend(dbus.service.Object):
             except OSError, msg:
                 print >> sys.stderr, "Error cleaning up: %s" % str(msg)
 
+    def _process_driver_fish(self, driver_fish, assembly_tmp, manifest):
+        """Processes a driver FISH archive"""
+        length = len(driver_fish)
+        for fishie in driver_fish:
+            self.report_progress(_('Processing FISH packages'),
+                                 driver_fish.index(fishie)/length*100)
+            manifest.write("driver: %s\n" % os.path.basename(fishie))
+            dest = None
+            if fishie.endswith('.deb'):
+                dest = os.path.join(assembly_tmp, 'debs', 'main')
+                logging.debug("_process_driver_fish: Copying debian archive fishie %s", fishie)
+            elif fishie.endswith('.pdf'):
+                dest = os.path.join(assembly_tmp, 'docs')
+                logging.debug("_process_driver_fish: Copying document fishie fishie %s", fishie)
+            elif fishie.endswith('.py') or fishie.endswith('.sh'):
+                dest = os.path.join(assembly_tmp, 'scripts', 'chroot-scripts', 'fish')
+                logging.debug("_process_driver_fish: Copying python or shell fishie %s", fishie)
+            elif os.path.exists(fishie) and tarfile.is_tarfile(fishie):
+                nested = False
+                rfd = tarfile.open(fishie)
+                for member in rfd.getmembers():
+                    name = member.get_info(encoding='UTF-8', errors='strict')['name']
+                    if name.endswith('.html'):
+                        nested = name
+                        break
+                if nested:
+                    archive_tmp = tempfile.mkdtemp()
+                    atexit.register(walk_cleanup, archive_tmp)
+                    safe_tar_extract(fishie, archive_tmp)
+                    children = []
+                    for child in os.listdir(archive_tmp):
+                        if child != name:
+                            children.append(os.path.join(archive_tmp,child))
+                    logging.debug("_process_driver_fish: Extracting nested archive %s", fishie)
+                    self._process_driver_fish(children, assembly_tmp, manifest)
+                else:
+                    safe_tar_extract(fishie, assembly_tmp)
+                    logging.debug("_process_driver_fish: Extracting tar fishie %s", fishie)
+            else:
+                logging.debug("_process_driver_fish: ignoring fishie %s", fishie)
+
+            #If we just do a flat copy
+            if dest is not None:
+                if not os.path.isdir(dest):
+                    os.makedirs(dest)
+                distutils.file_util.copy_file(fishie, dest,
+                                              verbose=1, update=0)
+
+
     def start_sizable_progress_thread(self, input_str, mnt, w_size):
         """Initializes the extra progress thread, or resets it
            if it already exists'"""
@@ -303,19 +365,6 @@ class Backend(dbus.service.Object):
            utility: utility partition
            version: version for ISO creation purposes
            iso: iso file name to create"""
-
-        def safe_tar_extract(filename, destination):
-            """Safely extracts a tarball into destination"""
-            logging.debug('safe_tar_extract: %s to %s', (filename, destination))
-            rfd = tarfile.open(filename)
-            dangerous_file = False
-            for name in rfd.getnames():
-                if name.startswith('..') or name.startswith('/'):
-                    dangerous_file = True
-                    break
-            if not dangerous_file:
-                rfd.extractall(destination)
-            rfd.close()
 
         self._reset_timeout()
 
@@ -364,8 +413,7 @@ class Backend(dbus.service.Object):
             logging.debug('assemble_image: done overlaying FID content')
 
         #Add in driver FISH content
-        length = float(len(driver_fish))
-        if length > 0:
+        if len(driver_fish) > 0:
             if os.path.exists(os.path.join(assembly_tmp, 'bto_manifest')):
                 manifest = open(os.path.join(assembly_tmp, 'bto_manifest'), 'a')
             else:
@@ -374,32 +422,7 @@ class Backend(dbus.service.Object):
             # record the base iso used
             manifest.write("base: %s\n" % os.path.basename(base))
 
-            for fishie in driver_fish:
-                self.report_progress(_('Inserting FISH packages'),
-                                     driver_fish.index(fishie)/length*100)
-                manifest.write("driver: %s\n" % os.path.basename(fishie))
-                dest = None
-                if fishie.endswith('.deb'):
-                    dest = os.path.join(assembly_tmp, 'debs', 'main')
-                    logging.debug("assemble_image: Copying debian archive fishie %s", fishie)
-                elif fishie.endswith('.pdf'):
-                    dest = os.path.join(assembly_tmp, 'docs')
-                    logging.debug("assemble_image: Copying document fishie fishie %s", fishie)
-                elif fishie.endswith('.py') or fishie.endswith('.sh'):
-                    dest = os.path.join(assembly_tmp, 'scripts', 'chroot-scripts', 'fish')
-                    logging.debug("assemble_image: Copying python or shell fishie %s", fishie)
-                elif os.path.exists(fishie) and tarfile.is_tarfile(fishie):
-                    safe_tar_extract(fishie, assembly_tmp)
-                    logging.debug("assemble_image: Extracting tar fishie %s", fishie)
-                else:
-                    logging.debug("assemble_image: ignoring fishie %s", fishie)
-
-                #If we just do a flat copy
-                if dest is not None:
-                    if not os.path.isdir(dest):
-                        os.makedirs(dest)
-                    distutils.file_util.copy_file(fishie, dest,
-                                                  verbose=1, update=0)
+            self._process_driver_fish(driver_fish, assembly_tmp, manifest)
             logging.debug("assemble_image: done inserting driver fish")
             manifest.close()
 
