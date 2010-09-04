@@ -780,8 +780,6 @@ class Backend(dbus.service.Object):
         genisoargs = ['genisoimage',
             '-o', iso,
             '-input-charset', 'utf-8',
-            '-b', 'isolinux/isolinux.bin',
-            '-c', 'isolinux/boot.catalog',
             '-no-emul-boot',
             '-boot-load-size', '4',
             '-boot-info-table',
@@ -816,6 +814,32 @@ class Backend(dbus.service.Object):
         genisoargs.append(os.path.join('.disk', old_uuid))
         genisoargs.append('-m')
         genisoargs.append(os.path.join('casper', old_initrd))
+
+        #if we're grub based, generate a grub image
+        grub_root = os.path.join(mntdir,'boot', 'grub', 'i386-pc')
+        if os.path.exists(grub_root):
+            if not os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img')):
+                if not os.path.exists(os.path.join(grub_root, 'core.img')):
+                    raise CreateFailed("The target requested GRUB support, but core.img is missing.")
+                if not os.path.exists(os.path.join(grub_root, 'cdboot.img')):
+                    raise CreateFailed("The target requested GRUB support, but cdboot.img is missing.")
+
+                self.start_pulsable_progress_thread(_('Building GRUB core image'))
+                os.makedirs(os.path.join(tmpdir, 'boot', 'grub'))
+                with open(os.path.join(tmpdir, 'boot', 'grub', 'eltorito.img'), 'w') as wfd:
+                    for fname in ('cdboot.img', 'core.img'):
+                        with open(os.path.join(grub_root, fname), 'r') as rfd:
+                            wfd.write(rfd.read())                    
+                self.stop_progress_thread()
+            genisoargs.append('-b')
+            genisoargs.append('boot/grub/eltorito.img')
+
+        #isolinux based
+        else:
+            genisoargs.append('-b')
+            genisoargs.append('isolinux/isolinux.bin')
+            genisoargs.append('-c')
+            genisoargs.append('isolinux/boot.catalog')
 
         #Make the image EFI compatible if necessary
         if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'efi.img')):
