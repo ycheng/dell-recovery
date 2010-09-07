@@ -870,7 +870,7 @@ class Page(Plugin):
         #to do a GPT install.  Actually a MBR install would work in most
         #cases, but we can't make assumptions about 16-bit anymore (and
         #preparing a UP because of it)
-        if os.path.isdir('/proc/efi'):
+        if os.path.isdir('/proc/efi') or os.path.isdir('/sys/firmware/efi'):
             self.efi = True
             self.disk_layout = 'gpt'
 
@@ -1510,7 +1510,7 @@ class Install(InstallPlugin):
                 elif layout == 'gpt':
                     #If we're booted in EFI mode, then we set the
                     # active partition in NVRAM
-                    if os.path.isdir('/proc/efi'):
+                    if os.path.isdir('/proc/efi') or os.path.isdir('/sys/firmware/efi'):
                         # --disk: disk to boot to
                         # --label: label shown in firmware boot list
                         # --create: creates a bootnum in that list
