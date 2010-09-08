@@ -1187,7 +1187,7 @@ manually to proceed.")
             up_part = ''
             if self.efi:
                 grub_size = 50
-                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpartfs', 'primary', 'fat32', '0', str(grub_size)),
+                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '0', str(grub_size)),
                             ('parted', '-s', self.device, 'set', '1', 'boot', 'on')]
             else:
                 grub_size = 1.5
@@ -1269,7 +1269,13 @@ manually to proceed.")
         #Install grub
         self.status("Installing GRUB", 88)
         if self.efi:
-            raise RuntimeError, ("EFI install of GRUB is not yet supported.  You may be able to manually do it though.")
+            with misc.raised_privileges():
+                os.makedirs('/boot/efi')
+            mount = misc.execute_root('mount', self.device + STANDARD_EFI_PARTITION, '/boot/efi')
+            if mount is False:
+                raise RuntimeError, ("Error mounting %s%s" % (self.device, STANDARD_EFI_PARTITION))
+            grub = misc.execute_root('grub-install', '--force')
+            misc.execute_root('umount', '/boot/efi')
         else:
             grub = misc.execute_root('grub-install', '--force', self.device + grub_part)
             if grub is False:

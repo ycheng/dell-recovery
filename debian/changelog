@@ -5,6 +5,7 @@ dell-recovery (0.66) UNRELEASED; urgency=low
   * Support FISH packages of nested archives for OIE.
   * Support media that uses GRUB to boot.
   * Mark a boot as an EFI boot if /sys/firmware/efi exists too.
+  * Run grub-install in EFI mode too (it will use efibootmgr for us)
 
   [ Peter Petrakis ]
   * Autobuilder Frontend:
