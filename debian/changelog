@@ -6,6 +6,7 @@ dell-recovery (0.66) UNRELEASED; urgency=low
   * Support media that uses GRUB to boot.
   * Mark a boot as an EFI boot if /sys/firmware/efi exists too.
   * Run grub-install in EFI mode too (it will use efibootmgr for us)
+  * Fix Y-align on some labels.
 
   [ Peter Petrakis ]
   * Autobuilder Frontend:

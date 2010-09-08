@@ -403,6 +403,7 @@
               <object class="GtkLabel" id="status_warning_label">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
+                <property name="yalign">0</property>
                 <property name="label" translatable="yes">&lt;b&gt;Building Recovery Partition&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
                 <property name="wrap">True</property>
