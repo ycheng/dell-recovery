@@ -120,6 +120,7 @@ class PageGtk(PluginUI):
 
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
 
+        self.efi = False
         self.genuine = magic.check_vendor()
 
         if not oem:
@@ -309,6 +310,7 @@ class PageGtk(PluginUI):
         """Populates the options that should be on the advanced page"""
 
         if item == 'efi' and value:
+            self.efi = True
             self.disk_layout_combobox.set_sensitive(False)
             self.active_partition_combobox.set_sensitive(False)
             self.dual_combobox.set_sensitive(False)
@@ -373,8 +375,8 @@ class PageGtk(PluginUI):
             elif widget == self.dual_combobox:
                 #set the type back to msdos
                 find_n_set_iterator(self.disk_layout_combobox, "msdos")
-                #don't allow changing to GPT when dualboot
-                self.disk_layout_combobox.set_sensitive(not answer)
+                if not self.efi:
+                    self.disk_layout_combobox.set_sensitive(not answer)
                 #hide in the UI - this is a little special because it hides
                 #some basic settings too
                 self.set_advanced(DUAL_BOOT_QUESTION, answer)
