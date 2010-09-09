@@ -1527,17 +1527,10 @@ class Install(InstallPlugin):
                     wfd.write('sfdisk -A%s %s\n' % (active, disk))
                 #If we have GPT, we need to go down other paths
                 elif layout == 'gpt':
-                    #If we're booted in EFI mode, then we set the
-                    # active partition in NVRAM
+                    #If we're booted in EFI mode, then the OS has already set
+                    #the correct Bootnum active
                     if os.path.isdir('/proc/efi') or os.path.isdir('/sys/firmware/efi'):
-                        # --disk: disk to boot to
-                        # --label: label shown in firmware boot list
-                        # --create: creates a bootnum in that list
-                        # --active: sets the new bootnum active
-                        # --write-signature: writes a special signature to MBR
-                        # --part: partition containing EFI cool beans
-                        # --loader: the name of the loader we are choosing
-                        wfd.write('efibootmbr --disk %s --part %s --label Ubuntu --create --active --write-signature --loader /\grub.efi\n' % (disk, active))
+                        pass
                     #If we're not booted to EFI mode, but using GPT,
                     else:
                         #See https://bugs.launchpad.net/ubuntu/+source/partman-partitioning/+bug/592813

@@ -13,6 +13,7 @@ dell-recovery (0.66) UNRELEASED; urgency=low
   * Don't run part of the recovery plugin in bootstrap mode.
   * If dmi-available-memory isn't available (such as x86_64), fall back to
     /proc/meminfo.
+  * No need to run efibootmgr to cleanup after install, the OS handles it.
 
   [ Peter Petrakis ]
   * Autobuilder Frontend:
