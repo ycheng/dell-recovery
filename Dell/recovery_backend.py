@@ -818,21 +818,30 @@ class Backend(dbus.service.Object):
         #if we're grub based, generate a grub image
         grub_root = os.path.join(mntdir,'boot', 'grub', 'i386-pc')
         if os.path.exists(grub_root):
-            if not os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img')):
+            os.makedirs(os.path.join(tmpdir, 'boot', 'grub'))
+            if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img')):
+                genisoargs.append('-m')
+                genisoargs.append(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img'))
+                shutil.copy(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img'),
+                            os.path.join(tmpdir, 'boot', 'grub', 'eltorito.img'))
+            else:
                 if not os.path.exists(os.path.join(grub_root, 'core.img')):
                     raise CreateFailed("The target requested GRUB support, but core.img is missing.")
                 if not os.path.exists(os.path.join(grub_root, 'cdboot.img')):
                     raise CreateFailed("The target requested GRUB support, but cdboot.img is missing.")
 
                 self.start_pulsable_progress_thread(_('Building GRUB core image'))
-                os.makedirs(os.path.join(tmpdir, 'boot', 'grub'))
                 with open(os.path.join(tmpdir, 'boot', 'grub', 'eltorito.img'), 'w') as wfd:
                     for fname in ('cdboot.img', 'core.img'):
                         with open(os.path.join(grub_root, fname), 'r') as rfd:
                             wfd.write(rfd.read())                    
                 self.stop_progress_thread()
+            genisoargs.append('-m')
+            genisoargs.append(os.path.join(mntdir,'boot/boot.catalog'))
             genisoargs.append('-b')
             genisoargs.append('boot/grub/eltorito.img')
+            genisoargs.append('-c')
+            genisoargs.append('boot/boot.catalog')
 
         #isolinux based
         else:

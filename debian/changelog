@@ -14,6 +14,7 @@ dell-recovery (0.66) UNRELEASED; urgency=low
   * If dmi-available-memory isn't available (such as x86_64), fall back to
     /proc/meminfo.
   * No need to run efibootmgr to cleanup after install, the OS handles it.
+  * Fixup creating media from recovery partitions containing eltorito.img.
 
   [ Peter Petrakis ]
   * Autobuilder Frontend:
