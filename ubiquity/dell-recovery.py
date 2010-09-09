@@ -74,7 +74,7 @@ class PageGtk(PluginUI):
         else:
             if not oem:
                 pass
-            if not rpart:
+            elif not rpart:
                 syslog.syslog('%s: partition problems with up[%s] and rp[%s]'
                 % (NAME, upart, rpart))
             self.plugin_widgets = None
