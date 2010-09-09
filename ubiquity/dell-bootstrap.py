@@ -412,11 +412,18 @@ class Page(Plugin):
     def install_grub(self):
         """Installs grub on the recovery partition"""
 
-        #If we are GPT, we will have been started a different way.
-        #Don't actually install grub onto the RP in that scenario
-        if self.disk_layout == 'gpt':
+        # In a lot of scenarios it will already be there.
+        # Don't install if:
+        # * We're dual boot
+        # * We're GPT (or EFI)
+        # * Factory grub exists (ntldr)
+        # * Grubenv exists (grubenv)
+        if self.dual or self.disk_layout == 'gpt' or \
+                os.path.exists(os.path.join(CDROM_MOUNT, ntldr)) or \
+                os.path.exists(os.path.join(CDROM_MOUNT, 'boot', 'grub',
+                                                        'i386-pc', 'grubenv')):
             return
-
+        
         self.log("Installing GRUB to %s" % self.device + STANDARD_RP_PARTITION)
 
         #Mount R/W
@@ -1014,9 +1021,7 @@ class Page(Plugin):
                 self.remove_extra_partitions()
                 self.explode_utility_partition()
                 self.explode_sdr()
-                if self.rp_filesystem == TYPE_VFAT or \
-                   self.rp_filesystem == TYPE_VFAT_LBA:
-                    self.install_grub()
+                self.install_grub()
         except Exception, err:
             #For interactive types of installs show an error then reboot
             #Otherwise, just reboot the system
