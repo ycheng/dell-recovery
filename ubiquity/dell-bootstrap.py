@@ -421,7 +421,7 @@ class Page(Plugin):
         # * Factory grub exists (ntldr)
         # * Grubenv exists (grubenv)
         if self.dual or self.disk_layout == 'gpt' or \
-                os.path.exists(os.path.join(CDROM_MOUNT, ntldr)) or \
+                os.path.exists(os.path.join(CDROM_MOUNT, 'ntldr')) or \
                 os.path.exists(os.path.join(CDROM_MOUNT, 'boot', 'grub',
                                                         'i386-pc', 'grubenv')):
             return
@@ -1290,6 +1290,8 @@ manually to proceed.")
             if mount is False:
                 raise RuntimeError, ("Error mounting %s%s" % (self.device, STANDARD_EFI_PARTITION))
             grub = misc.execute_root('grub-install', '--force')
+            if grub is False:
+                raise RuntimeError, ("Error installing grub")
             misc.execute_root('umount', '/boot/efi')
         else:
             grub = misc.execute_root('grub-install', '--force', self.device + grub_part)
