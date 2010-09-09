@@ -7,6 +7,7 @@ dell-recovery (0.66) UNRELEASED; urgency=low
   * Mark a boot as an EFI boot if /sys/firmware/efi exists too.
   * Run grub-install in EFI mode too (it will use efibootmgr for us)
   * Fix Y-align on some labels.
+  * If a disk is grub based, don't include the isolinux directory in the ISO.
 
   [ Peter Petrakis ]
   * Autobuilder Frontend:

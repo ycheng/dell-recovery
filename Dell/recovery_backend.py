@@ -841,6 +841,16 @@ class Backend(dbus.service.Object):
             genisoargs.append('-c')
             genisoargs.append('isolinux/boot.catalog')
 
+            #if we have ran this from a USB key, we might have syslinux which will
+            #break our build
+            if os.path.exists(os.path.join(mntdir, 'syslinux')):
+                shutil.copytree(os.path.join(mntdir, 'syslinux'), os.path.join(tmpdir, 'isolinux'))
+                if os.path.exists(os.path.join(tmpdir, 'isolinux', 'syslinux.cfg')):
+                    shutil.move(os.path.join(tmpdir, 'isolinux', 'syslinux.cfg'), os.path.join(tmpdir, 'isolinux', 'isolinux.cfg'))
+            else:
+                #Copy boot section for ISO to somewhere writable
+                shutil.copytree(os.path.join(mntdir, 'isolinux'), os.path.join(tmpdir, 'isolinux'))
+
         #Make the image EFI compatible if necessary
         if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'efi.img')):
             efi_genisoimage = subprocess.Popen(['genisoimage','-help'],
@@ -860,15 +870,6 @@ class Backend(dbus.service.Object):
                 raise CreateFailed("The target image requested EFI support, but genisoimage %s doesn't support EFI.  \
 You will need to create this image on a system with a newer genisoimage." % version)
 
-        #if we have ran this from a USB key, we might have syslinux which will
-        #break our build
-        if os.path.exists(os.path.join(mntdir, 'syslinux')):
-            shutil.copytree(os.path.join(mntdir, 'syslinux'), os.path.join(tmpdir, 'isolinux'))
-            if os.path.exists(os.path.join(tmpdir, 'isolinux', 'syslinux.cfg')):
-                shutil.move(os.path.join(tmpdir, 'isolinux', 'syslinux.cfg'), os.path.join(tmpdir, 'isolinux', 'isolinux.cfg'))
-        else:
-            #Copy boot section for ISO to somewhere writable
-            shutil.copytree(os.path.join(mntdir, 'isolinux'), os.path.join(tmpdir, 'isolinux'))
 
         #Directories to install
         genisoargs.append(tmpdir + '/')
