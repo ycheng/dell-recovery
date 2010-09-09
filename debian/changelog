@@ -11,6 +11,8 @@ dell-recovery (0.66) UNRELEASED; urgency=low
   * Be more rigid about the scenarios that grub gets reinstalled on
     first boot.
   * Don't run part of the recovery plugin in bootstrap mode.
+  * If dmi-available-memory isn't available (such as x86_64), fall back to
+    /proc/meminfo.
 
   [ Peter Petrakis ]
   * Autobuilder Frontend:

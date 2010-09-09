@@ -982,8 +982,16 @@ class Page(Plugin):
             if rec_type == "automatic":
                 self.ui.show_dialog("info")
                 self.disable_swap()
-                with misc.raised_privileges():
-                    mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
+                if os.path.exists('/usr/lib/base-installer/dmi-available-memory'):
+                    with misc.raised_privileges():
+                        mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
+                else:
+                    with open('/proc/meminfo','r') as rfd:
+                        for line in rfd.readlines():
+                            if line.startswith('MemTotal'):
+                                mem = line.split()[1].strip()
+                                break
+
                 #init progress bar and size thread
                 self.frontend.debconf_progress_start(0, 100, "")
                 size_thread = ProgressBySize("Copying Files",
