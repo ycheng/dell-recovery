@@ -418,9 +418,12 @@ class Page(Plugin):
         # Don't install if:
         # * We're dual boot
         # * We're GPT (or EFI)
+        # * We're on an NTFS filesystem
         # * Factory grub exists (ntldr)
         # * Grubenv exists (grubenv)
         if self.dual or self.disk_layout == 'gpt' or \
+                self.rp_filesystem == TYPE_NTFS or \
+                self.rp_filesystem == TYPE_NTFS_RE or \
                 os.path.exists(os.path.join(CDROM_MOUNT, 'ntldr')) or \
                 os.path.exists(os.path.join(CDROM_MOUNT, 'boot', 'grub',
                                                         'i386-pc', 'grubenv')):
