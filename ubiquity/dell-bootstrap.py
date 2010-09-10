@@ -1403,15 +1403,18 @@ class Install(InstallPlugin):
             """ read a deb """
             control = apt_inst.debExtractControl(open(fname))
             sections = apt_pkg.TagSection(control)
-            return sections["Package"]
+            return (sections["Architecture"], sections["Package"])
 
         #process debs/main
         to_install = []
+        my_arch = fetch_output(['dpkg', '--print-architecture'])
         repo = os.path.join(CDROM_MOUNT, 'debs', 'main')
         if os.path.isdir(repo):
             for fname in os.listdir(repo):
                 if '.deb' in fname:
-                    to_install.append(parse(os.path.join(repo, fname)))
+                    arch, package = parse(os.path.join(repo, fname))
+                    if arch == "all" or arch == my_arch:
+                        to_install.append(package)
 
         #These aren't in all images, but desirable if available
         to_install.append('dkms')
