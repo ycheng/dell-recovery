@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-09-09 19:07-0500\n"
-"PO-Revision-Date: 2010-04-16 17:07+0000\n"
-"Last-Translator: Moritz Baumann <Unknown>\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-08-10 20:15-0500\n"
+"PO-Revision-Date: 2010-08-29 10:53+0000\n"
+"Last-Translator: Daniel Schury <das.surst@googlemail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
+"X-Launchpad-Export-Date: 2010-08-30 04:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -41,7 +41,7 @@ msgstr "Dell-Wiederherstellungsmedium erstellen?"
 #. Description
 #: ../templates:18001
 msgid "Recovery Type"
-msgstr ""
+msgstr "Wiederherstellungstyp"
 
 #. Type: text
 #. Description
@@ -140,7 +140,7 @@ msgstr "HINWEIS: Bitte haben Sie Geduld, dies könnte eine Weile dauern."
 #, fuzzy
 #| msgid "Create Dell Recovery Media?"
 msgid "Create Dell Recovery Media"
-msgstr "Dell-Wiederherstellungsmedium erstellen?"
+msgstr "Erstelle Dell Recovery Medien"
 
 #. Type: text
 #. Description

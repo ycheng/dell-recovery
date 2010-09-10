@@ -7,46 +7,50 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-17 10:53-0500\n"
-"PO-Revision-Date: 2010-04-21 15:11+0000\n"
+"POT-Creation-Date: 2010-08-17 15:32-0500\n"
+"PO-Revision-Date: 2010-08-18 11:10+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-22 03:43+0000\n"
+"X-Launchpad-Export-Date: 2010-08-19 03:50+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:102
-msgid "Invalid utility partition"
-msgstr "Epäkelpo työkaluosio"
+#: ../Dell/recovery_gtk.py:92
+msgid "Cannot connect to dbus"
+msgstr "Dbusiin ei voi yhdistää"
 
-#: ../Dell/recovery_frontend.py:102 ../Dell/recovery_frontend.py:108
-msgid ""
-" in command line arguments.  Falling back to DeviceKit or HAL based "
-"detection."
-msgstr ""
-" komentoriviargumenteissa. Palataan DeviceKit- tai HAl-pohjaiseen "
-"havaitsemiseen."
-
-#: ../Dell/recovery_frontend.py:108
-msgid "Invalid recovery partition"
-msgstr "Epäkelpo palautusosio"
-
-#: ../Dell/recovery_frontend.py:135 ../Dell/recovery_frontend.py:184
-#: ../Dell/recovery_builder.py:356 ../Dell/recovery_builder.py:671
+#: ../Dell/recovery_gtk.py:94
 msgid "Permission Denied"
 msgstr "Pääsy evätty"
 
-#: ../Dell/recovery_frontend.py:198
+#: ../Dell/recovery_gtk.py:101
+msgid "Exception"
+msgstr "Poikkeus"
+
+#: ../Dell/recovery_gtk.py:149 ../gtk/dell-recovery-media.desktop.in.h:1
+#: ../gtk/tool_selector.ui.h:2
+msgid "Dell Recovery"
+msgstr "Dell-palautus"
+
+#: ../Dell/recovery_gtk.py:150
+msgid "Copyright 2008-2010 Dell Inc."
+msgstr "Tekijänoikeudet 2008-2010 Dell Inc."
+
+#: ../Dell/recovery_basic_gtk.py:153
+msgid "Building Base image"
+msgstr "Rakennetaan peruslevykuvaa"
+
+#: ../Dell/recovery_basic_gtk.py:166
 msgid "Opening Burner"
 msgstr "Avataan kirjoittajaa."
 
-#: ../Dell/recovery_frontend.py:212
+#: ../Dell/recovery_basic_gtk.py:191
 msgid "Recovery Media Creation Process Complete"
 msgstr "Palautusmedian luominen valmis"
 
-#: ../Dell/recovery_frontend.py:213
+#: ../Dell/recovery_basic_gtk.py:192
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
@@ -54,138 +58,181 @@ msgstr ""
 "Siltä varalta, että haluaisit arkistoida toisen kopion, on luotu levykuva "
 "tallennettu tiedostonimellä:\n"
 
-#: ../Dell/recovery_frontend.py:233
-msgid "Cannot connect to dbus"
-msgstr "Dbusiin ei voi yhdistää"
+#: ../Dell/recovery_basic_gtk.py:206
+msgid "Unable to proceed"
+msgstr "Ei voida jatkaa"
 
-#: ../Dell/recovery_frontend.py:324
-msgid "Welcome"
-msgstr "Tervetuloa"
+#: ../Dell/recovery_basic_gtk.py:207
+msgid ""
+"System does not appear to contain Dell factory installed partition layout."
+msgstr ""
+"Järjestelmässä ei vaikuttaisi olevan Dellin tehtaalla asennettua "
+"osiojaottelua."
 
-#: ../Dell/recovery_frontend.py:328
+#: ../Dell/recovery_basic_gtk.py:256
 msgid "Choose Media Type"
 msgstr "Valitse median tyyppi"
 
-#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:25
+#: ../Dell/recovery_basic_gtk.py:283 ../gtk/builder.ui.h:25
 msgid "ISO Image"
 msgstr "ISO-levykuva"
 
-#: ../Dell/recovery_frontend.py:357
+#: ../Dell/recovery_basic_gtk.py:285
 msgid "Media Type: "
 msgstr "Median tyyppi: "
 
-#: ../Dell/recovery_frontend.py:360 ../Dell/recovery_frontend.py:362
+#: ../Dell/recovery_basic_gtk.py:288 ../Dell/recovery_basic_gtk.py:291
 msgid "Recovery Partition: "
 msgstr "Palautusosio: "
 
-#: ../Dell/recovery_frontend.py:362
+#: ../Dell/recovery_basic_gtk.py:292
 msgid "Included"
 msgstr "Sisältyy"
 
-#: ../Dell/recovery_frontend.py:368
+#: ../Dell/recovery_basic_gtk.py:299
 msgid "Confirm Selections"
 msgstr "Vahvista valinnat"
 
-#: ../Dell/recovery_builder.py:54
+#: ../Dell/recovery_advanced_gtk.py:58
 msgid "python-vte is missing"
 msgstr "python-vte puuttuu"
 
-#: ../Dell/recovery_builder.py:55
+#: ../Dell/recovery_advanced_gtk.py:59
 msgid "Builder mode requires python-vte to function"
 msgstr "Rakentaja vaatii python-vte:n toimiakseen"
 
 #. wizard.resize(400,400)
-#: ../Dell/recovery_builder.py:72
+#: ../Dell/recovery_advanced_gtk.py:77
 msgid " (BTO Image Builder Mode)"
 msgstr " (BTO-levykuvan rakennustila)"
 
-#: ../Dell/recovery_builder.py:74
+#: ../Dell/recovery_advanced_gtk.py:79
 msgid ""
-"This application will integrate a Dell OEM FID framework & driver package "
-"set into a customized OS media image.  You will have the option to create an "
-"USB key or DVD image."
+"This will integrate a Dell OEM FID framework & driver package set into a "
+"customized OS media image.  You will have the option to create an USB key or "
+"DVD image."
 msgstr ""
-"Tämä luo mukautetun käyttöjärjestelmämedian integroimalla Dellin OEM FID -"
-"kehysohjelmiston ja ajuripakettikokoelman. Voit luoda joko USB-tikun tai DVD-"
-"levykuvan."
+"Tämä integroi Dellin OEM FID -kehyksen ja ajuripaketit mukautettuun "
+"käyttöjärjestelmämedian levykuvaan. Voit luoda USB-muisti- tai DVD-levykuvan."
 
-#: ../Dell/recovery_builder.py:136
+#: ../Dell/recovery_advanced_gtk.py:149
 msgid "Choose Base OS Image"
 msgstr "Valitse käyttöjärjestelmän peruslevykuva"
 
-#: ../Dell/recovery_builder.py:139
+#: ../Dell/recovery_advanced_gtk.py:152
 msgid "Choose FID Overlay"
 msgstr "Valitse FID-laskostus"
 
-#: ../Dell/recovery_builder.py:149
+#: ../Dell/recovery_advanced_gtk.py:162
 msgid "Choose Utility Partition"
 msgstr "Valitse työkaluosio"
 
-#: ../Dell/recovery_builder.py:161
+#: ../Dell/recovery_advanced_gtk.py:174
 msgid "Choose Driver Packages"
 msgstr "Valitse ajuripaketit"
 
-#: ../Dell/recovery_builder.py:175
+#: ../Dell/recovery_advanced_gtk.py:188
 msgid "Choose Application Packages"
 msgstr "Valitse sovelluspaketit"
 
-#: ../Dell/recovery_builder.py:189
+#: ../Dell/recovery_advanced_gtk.py:202
 msgid "Builder Summary"
 msgstr "Rakennuksen yhteenveto"
 
-#: ../Dell/recovery_builder.py:200
+#: ../Dell/recovery_advanced_gtk.py:203
+msgid "Base Image Distributor"
+msgstr "Peruslevykuvan jakelija"
+
+#: ../Dell/recovery_advanced_gtk.py:205
+msgid "Base Image Release"
+msgstr "Peruslevykuvan julkaisu"
+
+#: ../Dell/recovery_advanced_gtk.py:208
+msgid "BTO Base Image"
+msgstr "BTO-peruslevykuva"
+
+#: ../Dell/recovery_advanced_gtk.py:211
+msgid "Base Image"
+msgstr "Peruslevykuva"
+
+#: ../Dell/recovery_advanced_gtk.py:214
+msgid "FID Overlay"
+msgstr "FID-laskos"
+
+#: ../Dell/recovery_advanced_gtk.py:218
 msgid "Utility Partition: "
 msgstr "Työkaluosio: "
 
-#: ../Dell/recovery_builder.py:202
+#: ../Dell/recovery_advanced_gtk.py:221
 msgid "Application"
 msgstr "Sovellus"
 
-#: ../Dell/recovery_builder.py:203
+#: ../Dell/recovery_advanced_gtk.py:222
 msgid "Driver"
 msgstr "Ajuri"
 
-#: ../Dell/recovery_builder.py:209
+#: ../Dell/recovery_advanced_gtk.py:228
 msgid "Packages"
 msgstr "Paketit"
 
-#: ../Dell/recovery_builder.py:414
+#: ../Dell/recovery_advanced_gtk.py:234
+msgid "Inject Dell Recovery Package"
+msgstr "Sisällytä Dellin palautuspaketti"
+
+#. update gui
+#: ../Dell/recovery_advanced_gtk.py:244
+msgid "Assembling Image Components"
+msgstr "Koostetaan levykuvan osia"
+
+#: ../Dell/recovery_advanced_gtk.py:320
+msgid "Utility Partition"
+msgstr "Työkaluosio"
+
+#: ../Dell/recovery_advanced_gtk.py:323
+msgid "No Additional Utility Partition"
+msgstr "Ei ylimääräistä työkaluosiota"
+
+#: ../Dell/recovery_advanced_gtk.py:439
 msgid "<b>ERROR</b>: git is not installed"
 msgstr "<b>VIRHE</b>: git-ohjelmaa ei ole asennettu"
 
-#: ../Dell/recovery_builder.py:533
+#: ../Dell/recovery_advanced_gtk.py:586
 msgid "Missing Dell-Recovery"
 msgstr "Puuttuva ”Dell-Recovery”"
 
-#: ../Dell/recovery_builder.py:533
+#: ../Dell/recovery_advanced_gtk.py:587
 msgid "Not present in ISO or GIT tree"
 msgstr "Ei saatavalla ISOssa tai GIT-puussa"
 
-#: ../Dell/recovery_builder.py:648
+#: ../Dell/recovery_advanced_gtk.py:703
 msgid "All SRVs must be filled to proceed."
 msgstr "Kaikki SRV:t tulee olla täytetty, jotta voidaan jatkaa."
 
-#: ../Dell/recovery_backend.py:381
+#: ../Dell/recovery_backend.py:349
 msgid "Adding in base image"
 msgstr "Lisätään peruslevykuvaan"
 
-#: ../Dell/recovery_backend.py:387
+#: ../Dell/recovery_backend.py:357
 msgid "Overlaying FID content"
 msgstr "Laskostetaan FID-sisältöä"
 
-#: ../Dell/recovery_backend.py:402
+#: ../Dell/recovery_backend.py:378
 msgid "Inserting FISH packages"
 msgstr "Lisätään FISH-paketteja"
 
-#: ../Dell/recovery_backend.py:679
+#: ../Dell/recovery_backend.py:431 ../Dell/recovery_backend.py:437
+msgid "Calculating FISH MD5SUMs"
+msgstr "Lasketaan FISH MD5SUM -lukuja"
+
+#: ../Dell/recovery_backend.py:723
 msgid "Building Dell Utility Partition"
 msgstr "Rakennetaan Dell-työkaluosiota"
 
-#: ../Dell/recovery_backend.py:735
+#: ../Dell/recovery_backend.py:785
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Luodaan uudelleen UUID / rakennetaan uudelleen initramfs"
 
-#: ../Dell/recovery_backend.py:769
+#: ../Dell/recovery_backend.py:824
 msgid "Building ISO"
 msgstr "Rakennetaan ISOa"
 
@@ -206,20 +253,24 @@ msgid "Request closing the backend"
 msgstr "Pyydä taustaohjelman sulkemista"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
+msgid "Restore to Factory state"
+msgstr "Palauta tehdastilaan"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:6
+msgid "System policy prevents changing system bootup"
+msgstr ""
+"Järjestelmän käytännöt estävät järjestelmän käynnistyksen muuttamisen"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:7
 msgid "System policy prevents closing processes without notice"
 msgstr ""
 "Järjestelmän valtuutusasetukset estävät prosessien sulkemisen ilman "
 "ilmoitusta"
 
-#: ../backend/com.dell.recoverymedia.policy.in.h:6
+#: ../backend/com.dell.recoverymedia.policy.in.h:8
 msgid "System policy prevents reading raw devices"
 msgstr ""
 "Järjestelmän valtuutusasetukset estävät raakalaitteiden (raw) lukemisen"
-
-#: ../gtk/dell-recovery-media.desktop.in.h:1
-#: ../gtk/recovery_media_creator.ui.h:6
-msgid "Dell Recovery Media Creator"
-msgstr "Dell-palautusmedian luonti"
 
 #: ../gtk/recovery_media_creator.ui.h:1
 msgid "<activity placeholder>"
@@ -245,33 +296,27 @@ msgstr "Peru palautusmedian luonti"
 msgid "DVD+/-RW Disc"
 msgstr "DVD+/-RW-levy"
 
+#: ../gtk/recovery_media_creator.ui.h:6 ../gtk/tool_selector.ui.h:3
+msgid "Dell Recovery Media Creator"
+msgstr "Dell-palautusmedian luonti"
+
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create ISO image"
 msgstr "Ei mediaa/levyä, luo ISO-levykuva"
 
 #: ../gtk/recovery_media_creator.ui.h:8
-msgid ""
-"This application will create OS Recovery Media that can be used to restore "
-"the computer to its factory shipped state.  You will have the option to "
-"create an USB key or DVD image."
-msgstr ""
-"Tämä sovellus luo käyttöjärjestelmän palautusmedia, jota voidaan käyttää "
-"tietokoneen palauttamiseksi tehtaalta toimitettua vastaavaan tilaan. Voit "
-"luoda joko USB-tikun tai DVD-kuvan."
-
-#: ../gtk/recovery_media_creator.ui.h:9
 msgid "This requires a USB flash drive with approximately 2GB free."
 msgstr "Tämä vaatii USB-aseman, jolla on noin 2GB vapaata tilaa-"
 
-#: ../gtk/recovery_media_creator.ui.h:10
+#: ../gtk/recovery_media_creator.ui.h:9
 msgid "This requires writable DVD media."
 msgstr "Tämä vaatii kirjoitettavan DVD-levyn."
 
-#: ../gtk/recovery_media_creator.ui.h:11
+#: ../gtk/recovery_media_creator.ui.h:10
 msgid "USB Flash Drive"
 msgstr "USB-Flash-asema"
 
-#: ../gtk/recovery_media_creator.ui.h:12
+#: ../gtk/recovery_media_creator.ui.h:11
 msgid "Version:"
 msgstr "Versio:"
 
@@ -448,6 +493,36 @@ msgstr ""
 "Tarjotut levykuva ja GIT-puu eivät sisällä tarvittavaa dell-recovery-"
 "pakettia. Se tulee sisällyttää levykuvaan erikseen."
 
+#: ../gtk/tool_selector.ui.h:1
+msgid "Build OS Media"
+msgstr "Rakenna käyttöjärjestelmämedia"
+
+#: ../gtk/tool_selector.ui.h:4
+msgid "Restore System"
+msgstr "Palauta järjestelmä"
+
+#: ../gtk/tool_selector.ui.h:5
+msgid ""
+"This will create OS Recovery Media that can be used to restore the computer "
+"to its factory shipped state.  You will have the option to create an USB key "
+"or DVD image."
+msgstr ""
+"Tämä luo käyttöjärjestelmän palautusmedian, jota käyttämällä tietokone on "
+"mahdollista palauttaa tehtaalta tulleeseen tilaansa. Voit luoda USB-muisti- "
+"tai DVD-levykuvan"
+
+#: ../gtk/tool_selector.ui.h:6
+msgid ""
+"This will restore the system to the factory shipped state using the recovery "
+"partition stored on the hard drive."
+msgstr ""
+"Tämä palauttaa järjestelmän tilaan, jossa se oli tehtaalla toimitettaessa. "
+"Palautukseen käytetään kiintolevylle sisällytettyä palautusosiota."
+
+#: ../gtk/tool_selector.ui.h:7
+msgid "_Help"
+msgstr "O_hje"
+
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
 msgstr "<b>VIRHE:</b> Tämä media on tarkoitettu vain Dell-järjestelmille."
@@ -472,10 +547,6 @@ msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>Huomaa:</b> Tämä vaatii kirjoitettavan DVD-levyn"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:5
-msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr "<big><b>Luodaanko Dell-palautusmedia?</b></big>"
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
@@ -483,11 +554,11 @@ msgstr ""
 "Dell-palautusmedialta järjestelmä voidaan palauttaa samaan tilaan, jossa se "
 "oli vastaanottaessasi järjestelmän."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid "Don't generate recovery media at this time"
 msgstr "Älä luo palautusmediaa tällä kertaa"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -495,13 +566,16 @@ msgstr ""
 "Palautusmedian voi luoda myöhemmin valitsemalla työkalun Järjestelmä-"
 "valikosta."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "Save recovery media to DVD"
 msgstr "Tallenna palautusmedia DVD-levylle"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:10
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Tallenna palautusmedia ulkoiselle USB-muistivälineelle"
+
+#~ msgid "Welcome"
+#~ msgstr "Tervetuloa"
 
 #~ msgid "Retry burn?"
 #~ msgstr "Yritä kirjoitusta uudelleen?"

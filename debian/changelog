@@ -16,6 +16,7 @@ dell-recovery (0.66) UNRELEASED; urgency=low
   * No need to run efibootmgr to cleanup after install, the OS handles it.
   * Fixup creating media from recovery partitions containing eltorito.img.
   * Make sure the image complete dialog is centered.
+  * Import translations from launchpad.
 
   [ Peter Petrakis ]
   * Autobuilder Frontend:

@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-09-09 19:07-0500\n"
-"PO-Revision-Date: 2010-04-26 14:09+0000\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-08-10 20:15-0500\n"
+"PO-Revision-Date: 2010-08-13 09:27+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-27 03:43+0000\n"
+"X-Launchpad-Export-Date: 2010-08-14 06:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -41,7 +41,7 @@ msgstr "Craere supporto di ripristino Dell?"
 #. Description
 #: ../templates:18001
 msgid "Recovery Type"
-msgstr ""
+msgstr "Tipo di ripristino"
 
 #. Type: text
 #. Description
