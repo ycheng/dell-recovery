@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-08-10 20:15-0500\n"
+"POT-Creation-Date: 2010-09-09 19:07-0500\n"
 "PO-Revision-Date: 2010-04-16 18:16+0000\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -109,10 +109,12 @@ msgstr "Ez lehetővé teszi a meglévő partíciók átméretezését."
 
 #. Type: text
 #. Description
-#. Type: text
-#. Description
-#: ../templates:29001 ../templates:41001
-msgid "ERROR: This media is only valid on Dell systems."
+#: ../templates:29001
+#, fuzzy
+#| msgid "ERROR: This media is only valid on Dell systems."
+msgid ""
+"ERROR: This media only functions on Dell systems booted directly into "
+"recovery mode."
 msgstr "HIBA: Ez az adathordozó csak Dell rendszereken érvényes."
 
 #. Type: text
@@ -194,6 +196,12 @@ msgid ""
 msgstr ""
 "A helyreállító adathordozó később is előállítható az eszköz kiválasztásával "
 "a Rendszer menüből."
+
+#. Type: text
+#. Description
+#: ../templates:41001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr "HIBA: Ez az adathordozó csak Dell rendszereken érvényes."
 
 #. Type: text
 #. Description

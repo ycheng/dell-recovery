@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-08-10 20:15-0500\n"
+"POT-Creation-Date: 2010-09-09 19:07-0500\n"
 "PO-Revision-Date: 2010-04-06 21:51+0000\n"
 "Last-Translator: Boyan Sotirov <lz1dsb@abv.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
@@ -111,10 +111,12 @@ msgstr ""
 
 #. Type: text
 #. Description
-#. Type: text
-#. Description
-#: ../templates:29001 ../templates:41001
-msgid "ERROR: This media is only valid on Dell systems."
+#: ../templates:29001
+#, fuzzy
+#| msgid "ERROR: This media is only valid on Dell systems."
+msgid ""
+"ERROR: This media only functions on Dell systems booted directly into "
+"recovery mode."
 msgstr "ГРЕШКА: Този носител е валиден само на системи Dell."
 
 #. Type: text
@@ -200,6 +202,12 @@ msgid ""
 msgstr ""
 "Recovery Media може да бъде генериран по-късно като се избере инструмента то "
 "менюто Система"
+
+#. Type: text
+#. Description
+#: ../templates:41001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr "ГРЕШКА: Този носител е валиден само на системи Dell."
 
 #. Type: text
 #. Description

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-08-10 20:15-0500\n"
+"POT-Creation-Date: 2010-09-09 19:07-0500\n"
 "PO-Revision-Date: 2010-04-16 18:36+0000\n"
 "Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -111,10 +111,12 @@ msgstr "Esta opción le permite redimensionar cualquier partición existente."
 
 #. Type: text
 #. Description
-#. Type: text
-#. Description
-#: ../templates:29001 ../templates:41001
-msgid "ERROR: This media is only valid on Dell systems."
+#: ../templates:29001
+#, fuzzy
+#| msgid "ERROR: This media is only valid on Dell systems."
+msgid ""
+"ERROR: This media only functions on Dell systems booted directly into "
+"recovery mode."
 msgstr "ERROR: Este disco sólo es válido en sistemas Dell."
 
 #. Type: text
@@ -195,6 +197,12 @@ msgid ""
 msgstr ""
 "El disco de recuperación se puede generar después eligiendo la herramienta "
 "en el menú Sistema."
+
+#. Type: text
+#. Description
+#: ../templates:41001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr "ERROR: Este disco sólo es válido en sistemas Dell."
 
 #. Type: text
 #. Description

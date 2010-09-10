@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-08-10 20:15-0500\n"
+"POT-Creation-Date: 2010-09-09 19:07-0500\n"
 "PO-Revision-Date: 2010-03-28 16:04+0000\n"
 "Last-Translator: Pēteris Krišjānis <pecisk@gmail.com>\n"
 "Language-Team: Latvian <lv@li.org>\n"
@@ -109,10 +109,12 @@ msgstr "Šī opcija ļaus jums izmainīt izmēru jebkurām eksistējošajām sad
 
 #. Type: text
 #. Description
-#. Type: text
-#. Description
-#: ../templates:29001 ../templates:41001
-msgid "ERROR: This media is only valid on Dell systems."
+#: ../templates:29001
+#, fuzzy
+#| msgid "ERROR: This media is only valid on Dell systems."
+msgid ""
+"ERROR: This media only functions on Dell systems booted directly into "
+"recovery mode."
 msgstr "KĻŪDA: šis mēdijs ir derīgs tikai Dell sistēmām."
 
 #. Type: text
@@ -196,6 +198,12 @@ msgid ""
 msgstr ""
 "Atkopšanas mēdijs var tikt izveidots vēlāk, izvēloties doto rīku no Sistēmas "
 "izvēlnes."
+
+#. Type: text
+#. Description
+#: ../templates:41001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr "KĻŪDA: šis mēdijs ir derīgs tikai Dell sistēmām."
 
 #. Type: text
 #. Description

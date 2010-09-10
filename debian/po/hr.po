@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-08-10 20:15-0500\n"
+"POT-Creation-Date: 2010-09-09 19:07-0500\n"
 "PO-Revision-Date: 2010-03-18 19:58+0000\n"
 "Last-Translator: Saša Teković <Unknown>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -108,10 +108,12 @@ msgstr "Ova mogućnost vam dopušta promjenu veličine postojećih particija."
 
 #. Type: text
 #. Description
-#. Type: text
-#. Description
-#: ../templates:29001 ../templates:41001
-msgid "ERROR: This media is only valid on Dell systems."
+#: ../templates:29001
+#, fuzzy
+#| msgid "ERROR: This media is only valid on Dell systems."
+msgid ""
+"ERROR: This media only functions on Dell systems booted directly into "
+"recovery mode."
 msgstr "GREŠKA: Ovaj je medij važeći samo na Dellovim sustavima."
 
 #. Type: text
@@ -193,6 +195,12 @@ msgid ""
 msgstr ""
 "Medij oporavka se može generirati kasnije, odabirom alata iz izbornika "
 "Sustav."
+
+#. Type: text
+#. Description
+#: ../templates:41001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr "GREŠKA: Ovaj je medij važeći samo na Dellovim sustavima."
 
 #. Type: text
 #. Description
