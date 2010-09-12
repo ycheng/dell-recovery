@@ -57,15 +57,15 @@ class Install(InstallPlugin):
                         'precision',
                       ]
 
-        SANDY_BRIDGE = [ '0100',
-                         '0102',
-                         '0112',
-                         '0104',
-                         '0106',
-                         '0116',
-                         '0126',
-                         '0108',
-                         '010A']
+        SANDY_BRIDGE = [ '0x0100',
+                         '0x0102',
+                         '0x0112',
+                         '0x0104',
+                         '0x0106',
+                         '0x0116',
+                         '0x0126',
+                         '0x0108',
+                         '0x010A']
 
         ui = 'dynamic'
         if progress is not None:
@@ -78,7 +78,7 @@ class Install(InstallPlugin):
         if ui == 'dynamic':
             pci_blacklist = False
             for pci in SANDY_BRIDGE:
-                if match_system_device('pci', '8086', pci):
+                if match_system_device('pci', '0x8086', pci):
                     pci_blacklist = True
                     break
 
