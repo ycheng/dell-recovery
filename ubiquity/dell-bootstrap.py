@@ -877,6 +877,7 @@ class Page(Plugin):
         except debconf.DebconfError, err:
             self.log(str(err))
             user_interface = 'dynamic'
+            self.preseed(USER_INTERFACE_QUESTION, user_interface)
             
         #If we detect that we are booted into uEFI mode, then we only want
         #to do a GPT install.  Actually a MBR install would work in most
@@ -1445,7 +1446,7 @@ class Install(InstallPlugin):
         new = ''
         for item in extra.split():
             if not 'dell-recovery/'                   in item and \
-               not 'dell-oobe/user-interface=dynamic' in item and \
+               not 'dell-oobe/'                       in item and \
                not 'debian-installer/'                in item and \
                not 'console-setup/'                   in item and \
                not 'locale='                          in item and \

@@ -24,14 +24,18 @@ from Dell.recovery_common import match_system_device
 
 try:
     from ubiquity.plugin import *
+    from ubiquity import install_misc
 except ImportError:
     sys.path.insert(0, '/usr/lib/ubiquity/')
     from ubiquity.plugin import *
+    from ubiquity import install_misc
 
+#We have to run before usersetup because it creates a conffile that will
+#be reverted on firstboot
 NAME = 'dell-default-ui'
-AFTER = 'usersetup'
-BEFORE = None
+BEFORE = 'usersetup'
 WEIGHT = 12
+OEM = False
 
 class Install(InstallPlugin):
 
@@ -43,7 +47,7 @@ class Install(InstallPlugin):
             InstallPlugin.debug(string)
             
     def install(self, target, progress, *args, **kwargs):
-        if not 'UBIQUITY_OEM_USER_CONFIG' in os.environ:
+        if 'UBIQUITY_OEM_USER_CONFIG' in os.environ:
             return InstallPlugin.install(self, target, progress, *args, **kwargs)
 
         self.target = target
@@ -70,29 +74,8 @@ class Install(InstallPlugin):
             except debconf.DebconfError, e:
                 pass
 
-        #look on /proc/cmdline for an override option (it's more difficult to preseed into oem-config)
-        with open('/proc/cmdline', 'r') as cmdline:
-            cmd = cmdline.readline().strip().split()
-            for item in cmd:
-                if item.startswith('dell-oobe/user-interface=') and target != '__main__':
-                    ui = item.split('=')[1]
-                    with open(os.path.join(target, 'etc/default/grub'), 'r') as grub:
-                        default_grub = grub.readlines()
-                    with open(os.path.join(target, 'etc/default/grub'), 'w') as grub:
-                        for line in default_grub:
-                            if 'GRUB_CMDLINE_LINUX_DEFAULT' in line:
-                                line = line.replace('GRUB_CMDLINE_LINUX_DEFAULT="%s ' % item, 'GRUB_CMDLINE_LINUX_DEFAULT="')
-                            grub.write(line)
-                    from ubiquity import install_misc
-                    install_misc.chrex(target, 'update-grub')
-
         #Dynamic tests
         if ui == 'dynamic':
-            #UDE available?
-            if not os.path.exists('/usr/share/xsessions/gnome.desktop'):
-                pass
-
-            #Test for Sugar Bay
             pci_blacklist = False
             for pci in SANDY_BRIDGE:
                 if match_system_device('pci', '8086', pci):
@@ -108,8 +91,11 @@ class Install(InstallPlugin):
                     if line.startswith('model name'):
                         cpu = line.split(':')[1].strip().lower()
                         break
-                        
-            if pci_blacklist:
+
+            if not os.path.exists('/usr/share/xsessions/gnome.desktop'):
+                ui = 'une'
+                self.debug("%s: Missing UDE, forcing to une" % NAME)
+            elif pci_blacklist:
                 self.debug("%s: Sandy Bridge PCI device %s matched. setting to ude" % (NAME, pci))
                 ui = 'ude'
             elif 'atom' in cpu:
@@ -125,10 +111,10 @@ class Install(InstallPlugin):
             self.debug("%s: explicitly setting session to %s." %(NAME,ui))
 
         if ui == 'ude':
-            if os.path.exists('/usr/lib/gdm/gdm-set-default-session'):
-                subprocess.call(['/usr/lib/gdm/gdm-set-default-session', 'gnome'])
+            if os.path.exists(self.target + '/usr/lib/gdm/gdm-set-default-session'):
+                install_misc.chrex(self.target, '/usr/lib/gdm/gdm-set-default-session', '-d' ,'gnome')
             else:
-                self.debug("%s: Unable to set default session, gdm-set-default-session not on system.")
+                self.debug("%s: Unable to set default session." % NAME)
         elif ui == 'une':
             pass
 
