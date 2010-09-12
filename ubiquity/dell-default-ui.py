@@ -109,7 +109,7 @@ class Install(InstallPlugin):
 
         if ui == 'ude':
             if os.path.exists(self.target + '/usr/lib/gdm/gdm-set-default-session'):
-                install_misc.chrex(self.target, '/usr/lib/gdm/gdm-set-default-session', '-d' ,'gnome')
+                install_misc.chrex(self.target, '/usr/lib/gdm/gdm-set-default-session', 'gnome')
             else:
                 self.debug("%s: Unable to set default session." % NAME)
         elif ui == 'une':
