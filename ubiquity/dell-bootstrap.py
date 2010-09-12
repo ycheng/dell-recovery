@@ -966,6 +966,7 @@ class Page(Plugin):
                     self.disk_layout = answer
                 elif question == DUAL_BOOT_QUESTION:
                     self.dual = answer
+            self.preseed(question, answer)
 
         return Plugin.ok_handler(self)
 

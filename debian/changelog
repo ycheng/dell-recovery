@@ -4,6 +4,7 @@ dell-recovery (0.67) UNRELEASED; urgency=low
     to install.
   * Modify the dell-default-ui logic to match goals better for 10.10.
   * Run dell-default-ui during install rather than on first boot.
+  * Preseed any advanced questions in case this is non-RP install.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 10 Sep 2010 16:28:35 -0500
 
