@@ -20,6 +20,8 @@ import debconf
 import subprocess
 import math
 import os
+from Dell.recovery_common import match_system_device
+
 try:
     from ubiquity.plugin import *
 except ImportError:
@@ -51,6 +53,16 @@ class Install(InstallPlugin):
                         'precision',
                       ]
 
+        SANDY_BRIDGE = [ '0100',
+                         '0102',
+                         '0112',
+                         '0104',
+                         '0106',
+                         '0116',
+                         '0126',
+                         '0108',
+                         '010A']
+
         ui = 'dynamic'
         if progress is not None:
             try:
@@ -74,35 +86,41 @@ class Install(InstallPlugin):
                     from ubiquity import install_misc
                     install_misc.chrex(target, 'update-grub')
 
-        with open('/sys/class/dmi/id/product_name','r') as dmi:
-            lob = dmi.readline().lower().split()[0]
-
-        #Make sure UDE is available and LOB matches
+        #Dynamic tests
         if ui == 'dynamic':
-            if os.path.exists('/usr/share/xsessions/gnome.desktop') and lob in BIZ_CLIENT:
-                self.debug("%s: LOB %s matched." % (NAME,lob))
-                ## check for large enough display (1024x768)##
-                MIN_X = 1366
-                MIN_Y = 768
+            #UDE available?
+            if not os.path.exists('/usr/share/xsessions/gnome.desktop'):
+                pass
 
-                try:
-                    import gtk.gdk
-                except ImportError:
-                    self.debug("%s: Error importing gtk.gdk to find screen dimensions." % NAME)
-                    return
+            #Test for Sugar Bay
+            pci_blacklist = False
+            for pci in SANDY_BRIDGE:
+                if match_system_device('pci', '8086', pci):
+                    pci_blacklist = True
+                    break
 
-                x = gtk.gdk.screen_width()
-                y = gtk.gdk.screen_height()
+            with open('/sys/class/dmi/id/product_name','r') as dmi:
+                lob = dmi.readline().lower().split()[0]
 
-                if x > MIN_X and y > MIN_Y:
-                    self.debug("%s: %ix%i >= %ix%i, setting default session." % (NAME, x, y, MIN_X, MIN_Y))
-                    ui = 'ude'
-                else:
-                    self.debug("%s: %ix%i < %ix%i, leaving default session." % (NAME, x, y, MIN_X, MIN_Y))
-                    ui = 'une'
-            else:
-                self.debug("%s: LOB %s didn't match." % (NAME,lob))
+            cpu = 'unknown'
+            with open('/proc/cpuinfo', 'r') as rfd:
+                for line in rfd.readlines():
+                    if line.startswith('model name'):
+                        cpu = line.split(':')[1].strip().lower()
+                        break
+                        
+            if pci_blacklist:
+                self.debug("%s: Sandy Bridge PCI device %s matched. setting to ude" % (NAME, pci))
+                ui = 'ude'
+            elif 'atom' in cpu:
+                self.debug("%s: Atom class CPU %s matched. setting to une" % (NAME, cpu))
                 ui = 'une'
+            elif lob in BIZ_CLIENT:
+                self.debug("%s: Business Client LOB %s matched. setting to ude" % (NAME, lob))
+                ui = 'ude'
+            else:
+                ui = 'une'
+                self.debug("%s: Falling back to une." % NAME)
         else:
             self.debug("%s: explicitly setting session to %s." %(NAME,ui))
 
