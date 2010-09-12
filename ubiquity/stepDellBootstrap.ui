@@ -491,7 +491,7 @@
     <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
-    <property name="text" translatable="yes">Please reboot your system.</property>
+    <property name="text" translatable="yes">Please restart your system.</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox8">
         <property name="visible">True</property>
@@ -502,7 +502,7 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="reboot_button">
-                <property name="label" translatable="yes">Reboot</property>
+                <property name="label" translatable="yes">Restart</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
