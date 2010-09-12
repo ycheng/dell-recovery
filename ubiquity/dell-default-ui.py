@@ -7,8 +7,7 @@
 #
 # Sets the default UI
 #
-# In dynamic mode, will set the UI according to LOB and
-# screen resolution
+# In dynamic mode, will set the UI according to LOB, CPU, GFX
 #
 # Copyright (C) 2010, Dell Inc.
 #
