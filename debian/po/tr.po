@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-08-10 20:15-0500\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"POT-Creation-Date: 2010-09-09 19:07-0500\n"
 "PO-Revision-Date: 2010-09-01 09:35+0000\n"
 "Last-Translator: Fatih Dayioglu <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
@@ -47,6 +47,7 @@ msgstr "Yedekleme Türü"
 msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
+msgstr ""
 "Bu Dell Yedekleme Ortamı orjinal fabrika yazılımını geri yüklemede "
 "kullanılabilir."
 
@@ -55,8 +56,7 @@ msgid ""
 #: ../templates:20001
 msgid ""
 "It is recommended you back up all important data before running this tool."
-msgstr ""
-"Bu aracı çalıştırmadan tüm önemli bilgilerinizi yedeklemeniz önerilir."
+msgstr "Bu aracı çalıştırmadan tüm önemli bilgilerinizi yedeklemeniz önerilir."
 
 #. Type: text
 #. Description
