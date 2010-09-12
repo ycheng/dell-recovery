@@ -16,8 +16,6 @@
 
 import sys
 import debconf
-import subprocess
-import math
 import os
 from Dell.recovery_common import match_system_device
 
