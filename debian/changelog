@@ -8,6 +8,7 @@ dell-recovery (0.67) UNRELEASED; urgency=low
   * Update the text for the restart dialog.
   * In the swap recipe fixup, detect large memory (>= 4GB) and don't create
     swap in these scenarios either.
+  * Fix the efi set_advanced logic to not accidentally force msdos.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 10 Sep 2010 16:28:35 -0500
 

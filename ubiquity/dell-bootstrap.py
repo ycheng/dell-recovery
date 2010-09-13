@@ -376,9 +376,9 @@ class PageGtk(PluginUI):
                 else:
                     self.active_partition_combobox.set_sensitive(True)
             elif widget == self.dual_combobox:
-                #set the type back to msdos
-                find_n_set_iterator(self.disk_layout_combobox, "msdos")
                 if not self.efi:
+                    #set the type back to msdos
+                    find_n_set_iterator(self.disk_layout_combobox, "msdos")
                     self.disk_layout_combobox.set_sensitive(not answer)
                 #hide in the UI - this is a little special because it hides
                 #some basic settings too
