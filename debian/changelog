@@ -6,6 +6,8 @@ dell-recovery (0.67) UNRELEASED; urgency=low
   * Run dell-default-ui during install rather than on first boot.
   * Preseed any advanced questions in case this is non-RP install.
   * Update the text for the restart dialog.
+  * In the swap recipe fixup, detect large memory (>=6GB) and don't create
+    swap in these scenarios either.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 10 Sep 2010 16:28:35 -0500
 

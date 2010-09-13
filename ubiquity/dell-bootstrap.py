@@ -155,6 +155,7 @@ class PageGtk(PluginUI):
             self.advanced_table = builder.get_object('advanced_table')
             self.version_detail = builder.get_object('version_detail')
             self.mount_detail = builder.get_object('mountpoint_detail')
+            self.memory_detail = builder.get_object('memory_detail')
             self.proprietary_combobox = builder.get_object('disable_proprietary_driver_combobox')
             self.dual_combobox = builder.get_object('dual_combobox')
             self.active_partition_combobox = builder.get_object('active_partition_combobox')
@@ -314,6 +315,8 @@ class PageGtk(PluginUI):
             self.disk_layout_combobox.set_sensitive(False)
             self.active_partition_combobox.set_sensitive(False)
             self.dual_combobox.set_sensitive(False)
+        elif item == "mem" and value:
+            self.memory_detail.set_markup("Total Memory: %f GB" % value)
         elif item == "version":
             self.version_detail.set_markup("Version: %s" % value)
         elif item == "mount":
@@ -489,9 +492,10 @@ class Page(Plugin):
 
         #If we are in dynamic (dell-recovery/swap=dynamic) and small drive 
         #   or we explicitly disabled (dell-recovery/swap=false)
-        if (self.swap == "dynamic" and self.disk_size <= 64) or not self.swap:
-            self.log("Running a recipe fixup (swap setting: %s, size: %i)" % \
-                                                    (self.swap, self.disk_size))
+        if not self.swap or (self.swap == "dynamic" and \
+                                       (self.mem >= 6 or self.disk_size <= 64)):
+            self.log("Performing swap recipe fixup (%s, hdd: %i, mem: %f)" % \
+                                        (self.swap, self.disk_size, self.mem))
             try:
                 recipe = self.db.get('partman-auto/expert_recipe')
                 self.db.set('partman-auto/expert_recipe',
@@ -509,8 +513,9 @@ class Page(Plugin):
                 self.log("Failed to set partition %s active on %s" % \
                                              (self.fail_partition, self.device))
         #check for small disks.
-        #on small disks, don't look for extended or delete swap.
-        if (self.swap == "dynamic" and self.disk_size <= 64) or not self.swap:
+        #on small disks or big mem, don't look for extended or delete swap.
+        if not self.swap or (self.swap == "dynamic" and \
+                                       (self.mem >= 6 or self.disk_size <= 64)):
             self.swap_part = ''
             total_partitions = 0
         else:
@@ -892,6 +897,19 @@ class Page(Plugin):
             #Force EFI partition or bios_grub partition active
             self.preseed(ACTIVE_PARTITION_QUESTION, STANDARD_EFI_PARTITION)
 
+        #Amount of memory in the system
+        self.mem = 0
+        if os.path.exists('/usr/lib/base-installer/dmi-available-memory'):
+            with misc.raised_privileges():
+                self.mem = float(fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n'))
+        if self.mem == 0:
+            with open('/proc/meminfo','r') as rfd:
+                for line in rfd.readlines():
+                    if line.startswith('MemTotal'):
+                        self.mem = float(line.split()[1].strip())
+                        break
+        self.mem = self.mem/1048575
+
         #Fill in UI data
         twiddle = {"mount": mount,
                    "version": version,
@@ -902,6 +920,7 @@ class Page(Plugin):
                    DRIVER_INSTALL_QUESTION: proprietary,
                    USER_INTERFACE_QUESTION: user_interface,
                    RP_FILESYSTEM_QUESTION: self.rp_filesystem,
+                   "mem": self.mem,
                    "efi": self.efi}
         for twaddle in twiddle:
             self.ui.set_advanced(twaddle, twiddle[twaddle])
@@ -989,15 +1008,7 @@ class Page(Plugin):
             if rec_type == "automatic":
                 self.ui.show_dialog("info")
                 self.disable_swap()
-                if os.path.exists('/usr/lib/base-installer/dmi-available-memory'):
-                    with misc.raised_privileges():
-                        mem = fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n')
-                else:
-                    with open('/proc/meminfo','r') as rfd:
-                        for line in rfd.readlines():
-                            if line.startswith('MemTotal'):
-                                mem = line.split()[1].strip()
-                                break
+
 
                 #init progress bar and size thread
                 self.frontend.debconf_progress_start(0, 100, "")
@@ -1009,7 +1020,7 @@ class Page(Plugin):
                 self.rp_builder = RPbuilder(self.device, 
                                             self.device_size,
                                             self.rp_filesystem,
-                                            mem,
+                                            self.mem,
                                             self.dual,
                                             self.disk_layout,
                                             self.efi,
@@ -1308,7 +1319,7 @@ manually to proceed.")
             misc.execute_root('umount', '/boot')
 
         #Build new UUID
-        if int(self.mem) >= 1000000:
+        if int(self.mem) >= 1: #GB
             self.status("Regenerating UUID / initramfs", 90)
             with misc.raised_privileges():
                 magic.create_new_uuid(os.path.join(CDROM_MOUNT, 'casper'),
