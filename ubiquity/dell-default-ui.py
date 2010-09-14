@@ -62,7 +62,8 @@ class Install(InstallPlugin):
                          '0x0116',
                          '0x0126',
                          '0x0108',
-                         '0x010A']
+                         '0x010A',
+                         '0x0122']
 
         ui = 'dynamic'
         if progress is not None:

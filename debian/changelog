@@ -1,3 +1,9 @@
+dell-recovery (0.68) UNRELEASED; urgency=low
+
+  * Add another id to blacklist for sugar bay.  Thanks Robert Hooker!
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 14 Sep 2010 12:34:37 -0500
+
 dell-recovery (0.67) maverick; urgency=low
 
   * Parse the architecture of debs in debs/main to help figure out which
