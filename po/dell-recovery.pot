@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-13 13:27-0500\n"
+"POT-Creation-Date: 2010-09-16 18:36-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,54 +37,54 @@ msgstr ""
 msgid "Copyright 2008-2010 Dell Inc."
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:153
+#: ../Dell/recovery_basic_gtk.py:155
 msgid "Building Base image"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:166
+#: ../Dell/recovery_basic_gtk.py:168
 msgid "Opening Burner"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:191
+#: ../Dell/recovery_basic_gtk.py:193
 msgid "Recovery Media Creation Process Complete"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:192
+#: ../Dell/recovery_basic_gtk.py:194
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:206
+#: ../Dell/recovery_basic_gtk.py:208
 msgid "Unable to proceed"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:207
+#: ../Dell/recovery_basic_gtk.py:209
 msgid ""
 "System does not appear to contain Dell factory installed partition layout."
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:256
+#: ../Dell/recovery_basic_gtk.py:258
 msgid "Choose Media Type"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:283 ../gtk/builder.ui.h:25
+#: ../Dell/recovery_basic_gtk.py:285 ../gtk/builder.ui.h:25
 msgid "ISO Image"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:285
+#: ../Dell/recovery_basic_gtk.py:287
 msgid "Media Type: "
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:288 ../Dell/recovery_basic_gtk.py:291
+#: ../Dell/recovery_basic_gtk.py:290 ../Dell/recovery_basic_gtk.py:293
 msgid "Recovery Partition: "
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:292
+#: ../Dell/recovery_basic_gtk.py:294
 msgid "Included"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:299
+#: ../Dell/recovery_basic_gtk.py:301
 msgid "Confirm Selections"
 msgstr ""
 
@@ -185,51 +185,51 @@ msgstr ""
 msgid "No Additional Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:439
+#: ../Dell/recovery_advanced_gtk.py:442
 msgid "<b>ERROR</b>: git is not installed"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:586
+#: ../Dell/recovery_advanced_gtk.py:589
 msgid "Missing Dell-Recovery"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:587
+#: ../Dell/recovery_advanced_gtk.py:590
 msgid "Not present in ISO or GIT tree"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:703
+#: ../Dell/recovery_advanced_gtk.py:706
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
-#: ../Dell/recovery_backend.py:281
+#: ../Dell/recovery_backend.py:282
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:398
+#: ../Dell/recovery_backend.py:399
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:406
+#: ../Dell/recovery_backend.py:407
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:454 ../Dell/recovery_backend.py:460
+#: ../Dell/recovery_backend.py:455 ../Dell/recovery_backend.py:461
 msgid "Calculating FISH MD5SUMs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:746
+#: ../Dell/recovery_backend.py:756
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:806
+#: ../Dell/recovery_backend.py:816
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:833
+#: ../Dell/recovery_backend.py:843
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:900
+#: ../Dell/recovery_backend.py:910
 msgid "Building ISO"
 msgstr ""
 

@@ -1037,14 +1037,6 @@ After your additional OS installation completes, mark the 4th partition active t
         <col id="0" translatable="yes">dynamic</col>
         <col id="1" translatable="yes">dynamic</col>
       </row>
-      <row>
-        <col id="0" translatable="yes">ude</col>
-        <col id="1" translatable="yes">Desktop Edition</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">une</col>
-        <col id="1" translatable="yes">Netbook Edition</col>
-      </row>
     </data>
   </object>
 </interface>

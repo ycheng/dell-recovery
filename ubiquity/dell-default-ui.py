@@ -17,7 +17,7 @@
 import sys
 import debconf
 import os
-from Dell.recovery_common import match_system_device
+from Dell.recovery_common import match_system_device, find_supported_ui
 
 try:
     from ubiquity.plugin import *
@@ -65,6 +65,8 @@ class Install(InstallPlugin):
                          '0x010A',
                          '0x0122']
 
+        uies = find_supported_ui()
+
         ui = 'dynamic'
         if progress is not None:
             try:
@@ -90,15 +92,16 @@ class Install(InstallPlugin):
                         cpu = line.split(':')[1].strip().lower()
                         break
 
-            if not os.path.exists('/usr/share/xsessions/gnome.desktop'):
-                ui = 'une'
-                self.debug("%s: Missing UDE, forcing to une" % NAME)
-            elif pci_blacklist:
+            if pci_blacklist:
                 self.debug("%s: Sandy Bridge PCI device %s matched. setting to ude" % (NAME, pci))
                 ui = 'ude'
             elif 'atom' in cpu:
-                self.debug("%s: Atom class CPU %s matched. setting to une" % (NAME, cpu))
-                ui = 'une'
+                #See https://bugs.launchpad.net/dell/+bug/639856 for why this is here
+                if 'une-efl' in uies:
+                    ui = 'une-efl'
+                else:
+                    ui = 'une'
+                self.debug("%s: Atom class CPU %s matched. setting to %s" % (NAME, cpu, ui))
             elif lob in BIZ_CLIENT:
                 self.debug("%s: Business Client LOB %s matched. setting to ude" % (NAME, lob))
                 ui = 'ude'
@@ -106,15 +109,12 @@ class Install(InstallPlugin):
                 ui = 'une'
                 self.debug("%s: Falling back to une." % NAME)
         else:
-            self.debug("%s: explicitly setting session to %s." %(NAME,ui))
+            self.debug("%s: explicitly setting session to %s." %(NAME, ui))
 
-        if ui == 'ude':
-            if os.path.exists(self.target + '/usr/lib/gdm/gdm-set-default-session'):
-                install_misc.chrex(self.target, '/usr/lib/gdm/gdm-set-default-session', 'gnome')
-            else:
-                self.debug("%s: Unable to set default session." % NAME)
-        elif ui == 'une':
-            pass
+        if ui in uies and os.path.exists(self.target + '/usr/lib/gdm/gdm-set-default-session'):
+            install_misc.chrex(self.target, '/usr/lib/gdm/gdm-set-default-session', ui)
+        else:
+            self.debug("%s: Setting user inteface to %s is not supported." % (NAME, ui))
 
 if __name__ == '__main__':
     install = Install(None, None)

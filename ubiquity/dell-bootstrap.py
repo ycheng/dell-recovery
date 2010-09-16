@@ -164,6 +164,9 @@ class PageGtk(PluginUI):
             self.swap_combobox = builder.get_object('swap_behavior_combobox')
             self.ui_combobox = builder.get_object('default_ui_combobox')
 
+            #populate dynamic comboboxes
+            self._populate_dynamic_comoboxes()
+
             if not (self.genuine and 'UBIQUITY_AUTOMATIC' in os.environ):
                 builder.get_object('error_box').show()
             PluginUI.__init__(self, controller, *args, **kwargs)
@@ -287,6 +290,13 @@ class PageGtk(PluginUI):
         self.advanced_page.run()
         self.advanced_page.hide()
         self.plugin_widgets.set_sensitive(True)
+
+    def _populate_dynamic_comoboxes(self):
+        """Fills up comboboxes with dynamic items based on the squashfs"""
+        liststore = self.ui_combobox.get_model()
+        uies = magic.find_supported_ui()
+        for item in uies:
+            liststore.append([item,uies[item]])
 
     def _map_combobox(self, item):
         """Maps a combobox to a question"""
