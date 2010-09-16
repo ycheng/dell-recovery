@@ -43,6 +43,7 @@ from hashlib import md5
 
 from Dell.recovery_common import (DOMAIN, LOCALEDIR, UP_FILENAMES,
                                   walk_cleanup, create_new_uuid, white_tree,
+                                  fetch_output,
                                   DBUS_BUS_NAME, DBUS_INTERFACE_NAME,
                                   RestoreFailed, CreateFailed,
                                   PermissionDeniedByPolicy)
@@ -482,11 +483,19 @@ class Backend(dbus.service.Object):
         function(self, utility, assembly_tmp, version, iso)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 's', out_signature = 'ssss', sender_keyword = 'sender',
+        in_signature = 's', out_signature = 'sssss', sender_keyword = 'sender',
         connection_keyword = 'conn')
     def query_iso_information(self, iso, sender=None, conn=None):
         """Queries what type of ISO this is.  This same method will be used regardless
            of OS."""
+        def find_arch(input_str):
+            """Finds the architecture in an input string"""
+            for item in input_str.split():
+                for test in ('amd64', 'i386'):
+                    if test in item:
+                        return test
+            return fetch_output(['dpkg', '--print-architecture']).strip()
+            
         def find_float(input_str):
             """Finds the floating point number in a string"""
             for piece in input_str.split():
@@ -517,7 +526,7 @@ class Backend(dbus.service.Object):
             out, err = invokation.communicate()
             if invokation.returncode is None:
                 invokation.wait()
-            if out:
+            if out:        
                 distributor_str = out
                 distributor = "ubuntu"
             if err:
@@ -540,13 +549,14 @@ class Backend(dbus.service.Object):
                 distributor_str += ' ' + arch
 
         release = find_float(distributor_str)
+        arch = find_arch(distributor_str)
 
         if bto_version and bto_date:
             distributor_str = "<b>Dell BTO Image</b>, version %s built on %s\n%s" % (bto_version.split('.')[0], bto_date, distributor_str)
         else:
             bto_version = ''
 
-        return (bto_version, distributor, release, distributor_str)
+        return (bto_version, distributor, release, arch, distributor_str)
 
 
     @dbus.service.method(DBUS_INTERFACE_NAME,

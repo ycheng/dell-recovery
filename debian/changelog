@@ -1,6 +1,7 @@
 dell-recovery (0.68) UNRELEASED; urgency=low
 
   * Add another id to blacklist for sugar bay.  Thanks Robert Hooker!
+  * Include the architecture in the target ISO names.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 14 Sep 2010 12:34:37 -0500
 

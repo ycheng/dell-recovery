@@ -521,7 +521,7 @@ class Page(Plugin):
         else:
             #check for extended partitions
             with misc.raised_privileges():
-                total_partitions = len(fetch_output(['partx', self.device]).split('\n'))-1
+                total_partitions = len(magic.fetch_output(['partx', self.device]).split('\n'))-1
         #remove extras
         for number in (self.os_part, self.swap_part):
             if number.isdigit():
@@ -901,7 +901,7 @@ class Page(Plugin):
         self.mem = 0
         if os.path.exists('/usr/lib/base-installer/dmi-available-memory'):
             with misc.raised_privileges():
-                self.mem = float(fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n'))
+                self.mem = float(magic.fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n'))
         if self.mem == 0:
             with open('/proc/meminfo','r') as rfd:
                 for line in rfd.readlines():
@@ -1157,7 +1157,7 @@ manually to proceed.")
             for fname in magic.UP_FILENAMES:
                 if 'img' in fname and os.path.exists(os.path.join(CDROM_MOUNT, fname)):
                     #in a string
-                    up_size = fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, fname)])
+                    up_size = magic.fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, fname)])
                     #in bytes
                     up_size = int(up_size.split()[1])
                     #in mbytes
@@ -1172,7 +1172,7 @@ manually to proceed.")
             #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
             data = 't\nde\n\nw\n'
             with misc.raised_privileges():
-                fetch_output(['fdisk', self.device], data)
+                magic.fetch_output(['fdisk', self.device], data)
 
             #build the bootsector of the partition
             with open('/usr/share/dell/up/up.bs', 'rb') as rfd:
@@ -1277,7 +1277,7 @@ manually to proceed.")
 
         #find uuid of drive
         with misc.raised_privileges():
-            blkid = fetch_output(['blkid', self.device + rp_part, "-p", "-o", "udev"]).split('\n')
+            blkid = magic.fetch_output(['blkid', self.device + rp_part, "-p", "-o", "udev"]).split('\n')
             for item in blkid:
                 if item.startswith('ID_FS_UUID'):
                     uuid = item.split('=')[1]
@@ -1357,20 +1357,6 @@ manually to proceed.")
 ####################
 # Helper Functions #
 ####################
-def fetch_output(cmd, data=None):
-    '''Helper function to just read the output from a command'''
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE,
-                                 stdin=subprocess.PIPE)
-    (out, err) = proc.communicate(data)
-    if proc.returncode is None:
-        proc.wait()
-    if proc.returncode != 0:
-        error = "Command %s failed with stdout/stderr: %s\n%s" % (cmd, out, err)
-        syslog.syslog(error)
-        raise RuntimeError, (error)
-    return out
-
 def reboot_machine(objpath):
     """Reboots the machine"""
     reboot_cmd = '/sbin/reboot'
@@ -1420,7 +1406,7 @@ class Install(InstallPlugin):
 
         #process debs/main
         to_install = []
-        my_arch = fetch_output(['dpkg', '--print-architecture'])
+        my_arch = magic.fetch_output(['dpkg', '--print-architecture']).strip()
         repo = os.path.join(CDROM_MOUNT, 'debs', 'main')
         if os.path.isdir(repo):
             for fname in os.listdir(repo):
@@ -1438,7 +1424,7 @@ class Install(InstallPlugin):
     def remove_ricoh_mmc(self):
         '''Removes the ricoh_mmc kernel module which is known to cause problems
            with MDIAGS'''
-        lsmod = fetch_output('lsmod').split('\n')
+        lsmod = magic.fetch_output('lsmod').split('\n')
         for line in lsmod:
             if line.startswith('ricoh_mmc'):
                 misc.execute('rmmod', line.split()[0])

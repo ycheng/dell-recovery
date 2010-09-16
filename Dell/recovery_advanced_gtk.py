@@ -356,11 +356,12 @@ create an USB key or DVD image."))
         output_text = ''
         distributor = ''
         release = ''
+        arch = ''
         if widget == self.builder_widgets.get_object('base_browse_button'):
             ret = self.run_file_dialog()
             if ret is not None:
                 try:
-                    (bto_version, distributor, release, output_text) = \
+                    (bto_version, distributor, release, arch, output_text) = \
                                        self.backend().query_iso_information(ret)
 
                 except dbus.DBusException, msg:
@@ -371,7 +372,7 @@ create an USB key or DVD image."))
                 wizard.set_page_complete(base_page, True)
         else:
             try:
-                (bto_version, distributor, release, output_text) = \
+                (bto_version, distributor, release, arch, output_text) = \
                                    self.backend().query_iso_information(self.rp)
 
                 self.bto_base = not not bto_version
@@ -394,6 +395,8 @@ create an USB key or DVD image."))
             self.distributor = distributor
         if release:
             self.release = release
+        if arch:
+            self.arch = arch
 
         #If this is a BTO image, then allow using built in framework
         if output_text and \

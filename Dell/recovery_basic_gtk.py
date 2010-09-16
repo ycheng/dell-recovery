@@ -32,7 +32,8 @@ import gtk
 from Dell.recovery_gtk import DellRecoveryToolGTK, translate_widgets
 from Dell.recovery_common import (find_partitions, find_burners, UIDIR,
                                   increment_bto_version,
-                                  dbus_sync_call_signal_wrapper)
+                                  dbus_sync_call_signal_wrapper,
+                                  fetch_output)
 
 #Translation support
 from gettext import gettext as _
@@ -62,15 +63,13 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         (self.cd_burn_cmd, self.usb_burn_cmd) = find_burners()
 
         try:
-            process = subprocess.Popen(['lsb_release', '-r', '-s'],
-                                       stdout=subprocess.PIPE)
-            self.release = process.communicate()[0].strip('\n')
-            process = subprocess.Popen(['lsb_release', '-i', '-s'],
-                                       stdout=subprocess.PIPE)
-            self.distributor = process.communicate()[0].lower().strip('\n')
-        except OSError:
+            self.release = fetch_output(['lsb_release', '-r', '-s']).strip('\n')
+            self.distributor = fetch_output(['lsb_release', '-i', '-s']).strip('\n')
+        except RuntimeError:
             self.release = '0.00'
             self.distributor = 'unknown'
+
+        self.arch = ''
 
         for item in ['server', 'enterprise']:
             if item in self.distributor:
@@ -104,19 +103,22 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         try:
             #Fill in dynamic data
             if not self.widgets.get_object('version').get_text():
-                (version, distributor, release, output_text) = \
+                (version, distributor, release, arch, output_text) = \
                                    self.backend().query_iso_information(self.rp)
 
                 if distributor:
                     self.distributor = distributor
                 if release:
                     self.release = release
+                if arch:
+                    self.arch = arch
 
                 version = increment_bto_version(version)
                 self.widgets.get_object('version').set_text(version)
 
-            self.iso = self.distributor + '-' + self.release + '-dell_' + \
-                       self.widgets.get_object('version').get_text() + ".iso"
+            self.iso = '%s-%s-%s-dell_%s.iso' % (self.distributor, self.release,
+                                                 self.arch,
+                                  self.widgets.get_object('version').get_text())
         except dbus.DBusException, msg:
             parent = self.widgets.get_object('wizard')
             self.dbus_exception_handler(msg, parent)

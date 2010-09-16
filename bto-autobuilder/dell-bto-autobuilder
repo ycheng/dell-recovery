@@ -269,7 +269,7 @@ if __name__ == '__main__':
 
         base = os.path.realpath(options.base)
         (bto_version, distributer,
-            release, output) = iface.query_iso_information(base)
+            release, arch, output) = iface.query_iso_information(base)
 
         # decorate the git tags with our FID specific class
         repo = git.Repo(REPO)
@@ -310,7 +310,7 @@ if __name__ == '__main__':
                                      target_repo,
                                      options.dell_deb)
 
-        bto_name = 'ubuntu-%s-dell_%s.iso' % (current_tag.lsb_release,
+        bto_name = 'ubuntu-%s-%s-dell_%s.iso' % (current_tag.lsb_release, arch,
                         current_tag.revision)
 
         if options.bto_name_prefix != None:

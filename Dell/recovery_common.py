@@ -193,6 +193,20 @@ def process_conf_file(original, new, uuid, rp_number, dual_seed='', ako=''):
                     line = line.replace("#DUAL#", "%s"  % dual_seed)
                 output.write(line)
 
+def fetch_output(cmd, data=None):
+    '''Helper function to just read the output from a command'''
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE,
+                                 stdin=subprocess.PIPE)
+    (out, err) = proc.communicate(data)
+    if proc.returncode is None:
+        proc.wait()
+    if proc.returncode != 0:
+        error = "Command %s failed with stdout/stderr: %s\n%s" % (cmd, out, err)
+        syslog.syslog(error)
+        raise RuntimeError, (error)
+    return out
+
 def find_extra_kernel_options():
     """Finds any extra kernel command line options"""
     with open('/proc/cmdline', 'r') as cmdline:
