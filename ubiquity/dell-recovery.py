@@ -35,7 +35,7 @@ AFTER = 'usersetup'
 BEFORE = None
 WEIGHT = 12
 
-ROTATIONAL_CHAR = ['\\', '|', '/', '|']
+ROTATIONAL_CHAR = ['\\', '|', '/', '-']
 
 #Gtk widgets
 class PageGtk(PluginUI):
