@@ -1,4 +1,4 @@
-dell-recovery (0.68) UNRELEASED; urgency=low
+dell-recovery (0.68) maverick; urgency=low
 
   * Add another id to blacklist for sugar bay.  Thanks Robert Hooker!
   * Include the architecture in the target ISO names.
@@ -6,7 +6,7 @@ dell-recovery (0.68) UNRELEASED; urgency=low
   * Dynamically populate the list of available UI's.
   * For atom class, if une-efl is available, set to that by default.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 14 Sep 2010 12:34:37 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 16 Sep 2010 19:11:45 -0500
 
 dell-recovery (0.67) maverick; urgency=low
 
