@@ -1,11 +1,11 @@
-dell-recovery (0.69) UNRELEASED; urgency=low
+dell-recovery (0.69) maverick; urgency=low
 
   * Unset dbus session address before spawning burning apps for recovery media.
     - Recent versions of ubiquity (2.3.18+) set the dbus session address in the
       environment.  This causes issues because root can't speak on the session
       bus (and that's what plugininstall.py runs as).
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 17 Sep 2010 13:32:53 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 17 Sep 2010 13:34:42 -0500
 
 dell-recovery (0.68) maverick; urgency=low
 
