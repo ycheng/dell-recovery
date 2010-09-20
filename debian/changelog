@@ -1,4 +1,4 @@
-dell-recovery (0.70) UNRELEASED; urgency=low
+dell-recovery (0.70) maverick; urgency=low
 
   * Fix recovery from recovery of a recovery. (LP: #643889)
 
