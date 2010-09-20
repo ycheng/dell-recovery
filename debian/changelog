@@ -1,3 +1,9 @@
+dell-recovery (0.70) UNRELEASED; urgency=low
+
+  * Fix recovery from recovery of a recovery. (LP: #643889)
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 20 Sep 2010 16:10:17 -0500
+
 dell-recovery (0.69) maverick; urgency=low
 
   * Unset dbus session address before spawning burning apps for recovery media.

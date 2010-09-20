@@ -749,7 +749,8 @@ class Backend(dbus.service.Object):
             wfd.write(str(datetime.date.today()) + '\n')
 
         #If necessary, include the utility partition
-        if utility and os.path.exists(utility):
+        if utility and os.path.exists(utility) and \
+           not os.path.exists(os.path.join(mntdir, 'upimg.gz')):
             #device node
             if stat.S_ISBLK(os.stat(utility).st_mode):
                 self.start_pulsable_progress_thread(
