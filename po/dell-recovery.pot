@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-16 18:36-0500\n"
+"POT-Creation-Date: 2010-09-21 15:23-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -217,19 +217,19 @@ msgstr ""
 msgid "Calculating FISH MD5SUMs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:756
+#: ../Dell/recovery_backend.py:757
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:816
+#: ../Dell/recovery_backend.py:817
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:843
+#: ../Dell/recovery_backend.py:844
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:910
+#: ../Dell/recovery_backend.py:911
 msgid "Building ISO"
 msgstr ""
 

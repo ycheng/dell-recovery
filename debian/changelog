@@ -1,4 +1,4 @@
-dell-recovery (0.71) UNRELEASED; urgency=low
+dell-recovery (0.71) maverick; urgency=low
 
   * Adjust the sandybridge blacklist to match that in the latest compiz.
     (LP: #644372)
