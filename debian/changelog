@@ -2,6 +2,7 @@ dell-recovery (0.71) UNRELEASED; urgency=low
 
   * Adjust the sandybridge blacklist to match that in the latest compiz.
     (LP: #644372)
+  * Ubiquity bootstrap: sync before reboots.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 21 Sep 2010 09:40:31 -0500
 

@@ -1072,7 +1072,7 @@ class Page(Plugin):
 
     def cancel_handler(self):
         """Called when we don't want to perform recovery'"""
-        misc.execute_root('reboot', '-n')
+        misc.execute_root('reboot')
 
     def handle_exception(self, err):
         """Handle all exceptions thrown by any part of the application"""
@@ -1370,7 +1370,7 @@ manually to proceed.")
 def reboot_machine(objpath):
     """Reboots the machine"""
     reboot_cmd = '/sbin/reboot'
-    reboot = misc.execute_root(reboot_cmd, '-n')
+    reboot = misc.execute_root(reboot_cmd)
     if reboot is False:
         raise RuntimeError, ("Reboot failed from %s" % str(objpath))
 
