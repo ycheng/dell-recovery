@@ -54,14 +54,11 @@ class Install(InstallPlugin):
                         'precision',
                       ]
 
-        SANDY_BRIDGE = [ '0x0100',
-                         '0x0102',
+        SANDY_BRIDGE = [ '0x0102',
                          '0x0112',
-                         '0x0104',
                          '0x0106',
                          '0x0116',
                          '0x0126',
-                         '0x0108',
                          '0x010A',
                          '0x0122']
 
