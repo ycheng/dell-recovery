@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-08-17 15:32-0500\n"
-"PO-Revision-Date: 2010-08-24 13:49+0000\n"
+"POT-Creation-Date: 2010-09-21 15:23-0500\n"
+"PO-Revision-Date: 2010-09-23 08:57+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-25 03:56+0000\n"
+"X-Launchpad-Export-Date: 2010-09-29 05:19+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -38,19 +38,19 @@ msgstr "Dell Recovery"
 msgid "Copyright 2008-2010 Dell Inc."
 msgstr "© Dell Inc., 2008–2010"
 
-#: ../Dell/recovery_basic_gtk.py:153
+#: ../Dell/recovery_basic_gtk.py:155
 msgid "Building Base image"
 msgstr "Побудова основного образу"
 
-#: ../Dell/recovery_basic_gtk.py:166
+#: ../Dell/recovery_basic_gtk.py:168
 msgid "Opening Burner"
 msgstr "Відкриття програми запису"
 
-#: ../Dell/recovery_basic_gtk.py:191
+#: ../Dell/recovery_basic_gtk.py:193
 msgid "Recovery Media Creation Process Complete"
 msgstr "Процес створення носія для відновлення завершено"
 
-#: ../Dell/recovery_basic_gtk.py:192
+#: ../Dell/recovery_basic_gtk.py:194
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
@@ -58,37 +58,37 @@ msgstr ""
 "Якщо ви бажаєте створити архів з ще однією копією, створений образ було "
 "збережено до файла з назвою:\n"
 
-#: ../Dell/recovery_basic_gtk.py:206
+#: ../Dell/recovery_basic_gtk.py:208
 msgid "Unable to proceed"
 msgstr "Не можна виконати дію"
 
-#: ../Dell/recovery_basic_gtk.py:207
+#: ../Dell/recovery_basic_gtk.py:209
 msgid ""
 "System does not appear to contain Dell factory installed partition layout."
 msgstr ""
 "У системі не міститься встановленого розділу з початковими даними Dell."
 
-#: ../Dell/recovery_basic_gtk.py:256
+#: ../Dell/recovery_basic_gtk.py:258
 msgid "Choose Media Type"
 msgstr "Вибір типу носія"
 
-#: ../Dell/recovery_basic_gtk.py:283 ../gtk/builder.ui.h:25
+#: ../Dell/recovery_basic_gtk.py:285 ../gtk/builder.ui.h:25
 msgid "ISO Image"
 msgstr "Образ ISO"
 
-#: ../Dell/recovery_basic_gtk.py:285
+#: ../Dell/recovery_basic_gtk.py:287
 msgid "Media Type: "
 msgstr "Тип носія: "
 
-#: ../Dell/recovery_basic_gtk.py:288 ../Dell/recovery_basic_gtk.py:291
+#: ../Dell/recovery_basic_gtk.py:290 ../Dell/recovery_basic_gtk.py:293
 msgid "Recovery Partition: "
 msgstr "Розділ для відновлення: "
 
-#: ../Dell/recovery_basic_gtk.py:292
+#: ../Dell/recovery_basic_gtk.py:294
 msgid "Included"
 msgstr "Включено"
 
-#: ../Dell/recovery_basic_gtk.py:299
+#: ../Dell/recovery_basic_gtk.py:301
 msgid "Confirm Selections"
 msgstr "Підтвердити вибір"
 
@@ -192,47 +192,51 @@ msgstr "Допоміжний розділ"
 msgid "No Additional Utility Partition"
 msgstr "Не виявлено додаткового допоміжного розділу"
 
-#: ../Dell/recovery_advanced_gtk.py:439
+#: ../Dell/recovery_advanced_gtk.py:442
 msgid "<b>ERROR</b>: git is not installed"
 msgstr "<b>ПОМИЛКА</b>: git не встановлено"
 
-#: ../Dell/recovery_advanced_gtk.py:586
+#: ../Dell/recovery_advanced_gtk.py:589
 msgid "Missing Dell-Recovery"
 msgstr "Не виявлено Dell-Recovery"
 
-#: ../Dell/recovery_advanced_gtk.py:587
+#: ../Dell/recovery_advanced_gtk.py:590
 msgid "Not present in ISO or GIT tree"
 msgstr "Немає на ISO або у дереві GIT"
 
-#: ../Dell/recovery_advanced_gtk.py:703
+#: ../Dell/recovery_advanced_gtk.py:706
 msgid "All SRVs must be filled to proceed."
 msgstr "Щоб перейти до наступного кроку, слід вказати всі SRV."
 
-#: ../Dell/recovery_backend.py:349
+#: ../Dell/recovery_backend.py:282
+msgid "Processing FISH packages"
+msgstr "Обробка пакунків FISH"
+
+#: ../Dell/recovery_backend.py:399
 msgid "Adding in base image"
 msgstr "Додавання до основного образу"
 
-#: ../Dell/recovery_backend.py:357
+#: ../Dell/recovery_backend.py:407
 msgid "Overlaying FID content"
 msgstr "Додаткові дані FID"
 
-#: ../Dell/recovery_backend.py:378
-msgid "Inserting FISH packages"
-msgstr "Вставка пакунків FISH"
-
-#: ../Dell/recovery_backend.py:431 ../Dell/recovery_backend.py:437
+#: ../Dell/recovery_backend.py:455 ../Dell/recovery_backend.py:461
 msgid "Calculating FISH MD5SUMs"
 msgstr "Обчислення сум MD5 FISH"
 
-#: ../Dell/recovery_backend.py:723
+#: ../Dell/recovery_backend.py:757
 msgid "Building Dell Utility Partition"
 msgstr "Створення допоміжного розділу Dell"
 
-#: ../Dell/recovery_backend.py:785
+#: ../Dell/recovery_backend.py:817
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Повторне створення UUID / Перебудова initramfs"
 
-#: ../Dell/recovery_backend.py:824
+#: ../Dell/recovery_backend.py:844
+msgid "Building GRUB core image"
+msgstr "Збирання основного образу GRUB"
+
+#: ../Dell/recovery_backend.py:911
 msgid "Building ISO"
 msgstr "Створення ISO"
 

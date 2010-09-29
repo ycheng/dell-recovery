@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-08-10 20:15-0500\n"
-"PO-Revision-Date: 2010-08-13 09:27+0000\n"
+"POT-Creation-Date: 2010-09-09 19:07-0500\n"
+"PO-Revision-Date: 2010-09-17 08:39+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-14 06:13+0000\n"
+"X-Launchpad-Export-Date: 2010-09-29 05:19+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -111,11 +111,13 @@ msgstr ""
 
 #. Type: text
 #. Description
-#. Type: text
-#. Description
-#: ../templates:29001 ../templates:41001
-msgid "ERROR: This media is only valid on Dell systems."
-msgstr "Errore: questo supporto può essere utilizzato solo su sistemi Dell."
+#: ../templates:29001
+msgid ""
+"ERROR: This media only functions on Dell systems booted directly into "
+"recovery mode."
+msgstr ""
+"Errore: questo supporto funziona solo solo su sistemi Dell avviati "
+"direttamente in modalità di ripristino."
 
 #. Type: text
 #. Description
@@ -192,6 +194,12 @@ msgid ""
 msgstr ""
 "I supporti di ripristino possono essere generati successivamente scegliendo "
 "il programma dal menù Sistema."
+
+#. Type: text
+#. Description
+#: ../templates:41001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr "Errore: questo supporto può essere utilizzato solo su sistemi Dell."
 
 #. Type: text
 #. Description
