@@ -558,7 +558,7 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
 
     #Newer (Ubuntu 11.04+) images may support including the bootstrap in initrd
     if include_bootstrap:
-        chain0 = subprocess.Popen(['/usr/share/dell/casper/hooks/dell-bootstrap'], env={'DESTDIR': tmpdir})
+        chain0 = subprocess.Popen(['/usr/share/dell/casper/hooks/dell-bootstrap'], env={'DESTDIR': tmpdir, 'INJECT': '1'})
         chain0.communicate()    
 
     #Detect compression

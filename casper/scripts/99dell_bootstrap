@@ -64,7 +64,7 @@ if [ ! -x /root/usr/share/dell/scripts/pool.sh ]; then
     mkdir -p /root/usr/share/dell/scripts/
     cp /scripts/pool.sh /root/usr/share/dell/scripts/
 fi
-chroot /root /root/usr/share/dell/scripts/pool.sh
+chroot /root /usr/share/dell/scripts/pool.sh
 
 #install if not installed, otherwise this will upgrade
 chroot /root apt-get install dell-recovery -y --no-install-recommends
