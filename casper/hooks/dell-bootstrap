@@ -20,7 +20,6 @@ esac
 
 cp /usr/share/dell/scripts/pool.sh  $DESTDIR/scripts
 cp /usr/share/dell/casper/scripts/* $DESTDIR/scripts/casper-bottom
-cp /usr/share/dell/casper/seeds/*   $DESTDIR/conf
 
 #invoked from dell-recovery
 if [ -n "$INJECT" ]; then

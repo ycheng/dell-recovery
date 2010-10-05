@@ -53,12 +53,6 @@ export DEBIAN_HAS_FRONTEND=
 export DEBCONF_REDIR=
 export DEBIAN_FRONTEND=noninteractive
 
-#Set up all preseeds
-casper-set-selections "/conf/ubuntu.seed"
-if grep -q "dell-recovery/dual_boot=true" /proc/cmdline 2>&1 >/dev/null; then
-    casper-set-selections "/conf/dual.seed"
-fi
-
 #Force ubiquity to run in automatic regardless if there are ubiquity options in /proc/cmdline
 sed -i "s/ubiquity=\$/ubiquity=1/; s/\$automatic\ \$choose/--automatic/" /root/etc/init/ubiquity.conf
 
@@ -86,6 +80,12 @@ fi
 #Emergency installer fixes
 if [ -e /root/cdrom/scripts/emergency.sh ]; then
     . /root/cdrom/scripts/emergency.sh
+fi
+
+#Set up all preseeds
+casper-set-selections "/root/usr/share/dell/casper/seeds/ubuntu.seed"
+if grep -q "dell-recovery/dual_boot=true" /proc/cmdline 2>&1 >/dev/null; then
+    casper-set-selections "/root/usr/share/dell/casper/seeds/dual.seed"
 fi
 
 # Clear out debconf database backup files to save memory.
