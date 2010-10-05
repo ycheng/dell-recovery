@@ -42,6 +42,13 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     mkdir -p /cdrom/grub
     grub-editenv /cdrom/grub/grubenv set recordfail=1
 
+    if [ -x /dell/fist/tal ]; then
+        IFHALT "Reporting logs to DMP"
+        cp -f $TARGET/$LOG/chroot.sh.log /tmp/fist.err
+        /dell/fist/tal PutFiles /tmp/fist.err
+        sync
+    fi
+
     #If we have another script to run, do it
     if [ -f /cdrom/scripts/chroot-scripts/FAIL-SCRIPT ]; then
         IFHALT "(FAIL) Report to logs.. Done!"

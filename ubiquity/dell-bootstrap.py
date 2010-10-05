@@ -834,7 +834,7 @@ class Page(Plugin):
             self.pool_cmd = self.db.get('dell-recovery/pool_command')
         except debconf.DebconfError, err:
             self.log(str(err))
-            self.pool_cmd = '/cdrom/scripts/pool.sh'
+            self.pool_cmd = '/usr/share/dell/scripts/pool.sh'
             self.preseed('dell-recovery/pool_command', self.pool_cmd)
 
         #Check if we are set in dual-boot mode

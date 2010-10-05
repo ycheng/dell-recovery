@@ -53,7 +53,7 @@ Description: for internal use; determines the default UI; (une/ude) or dynamical
 
 Template: dell-recovery/pool_command
 Type: string
-Default: /cdrom/scripts/pool.sh
+Default: /usr/share/dell/scripts/pool.sh
 Description: for internal use; determines the command used to dynamically rebuild the pool
 
 Template: dell-recovery/dual_boot_seed
