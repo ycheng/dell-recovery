@@ -500,7 +500,8 @@ def walk_cleanup(directory):
 
 def create_new_uuid(old_initrd_directory, old_casper_directory,
                     new_initrd_directory, new_casper_directory,
-                    new_compression="auto"):
+                    new_compression="auto",
+                    include_bootstrap=False):
     """ Regenerates the UUID contained in a casper initramfs
         Supported compression types:
         * auto (auto detects lzma/gzip)
@@ -554,6 +555,11 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     for item in [new_uuid_file, os.path.join(tmpdir, 'conf', 'uuid.conf')]:
         with open(item, "w") as uuid_fd:
             uuid_fd.write(new_uuid)
+
+    #Newer (Ubuntu 11.04+) images may support including the bootstrap in initrd
+    if include_bootstrap:
+        chain0 = subprocess.Popen(['/usr/share/dell/casper/hooks/dell-bootstrap'], env={'DESTDIR': tmpdir})
+        chain0.communicate()    
 
     #Detect compression
     new_suffix = ''
