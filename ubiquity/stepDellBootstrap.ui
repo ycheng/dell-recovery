@@ -1016,11 +1016,11 @@ After your additional OS installation completes, mark the 4th partition active t
     </columns>
     <data>
       <row>
-        <col id="0" translatable="yes">preseed/file=/cdrom/preseed/dual.seed</col>
+        <col id="0" translatable="yes">true</col>
         <col id="1" translatable="yes">Enabled</col>
       </row>
       <row>
-        <col id="0" translatable="yes"></col>
+        <col id="0" translatable="yes">false</col>
         <col id="1" translatable="yes">Disabled</col>
       </row>
     </data>

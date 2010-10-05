@@ -148,7 +148,7 @@ def check_version():
         print >> sys.stderr, "Error checking dell-recovery version: %s" % msg
         return "unknown"
 
-def process_conf_file(original, new, uuid, rp_number, dual_seed='', ako=''):
+def process_conf_file(original, new, uuid, rp_number, ako=''):
     """Replaces all instances of a partition, OS, and extra in a conf type file
        Generally used for things that need to touch grub"""
     if not os.path.isdir(os.path.split(new)[0]):
@@ -189,8 +189,6 @@ def process_conf_file(original, new, uuid, rp_number, dual_seed='', ako=''):
                     line = line.replace("#OS#", "%s %s" % (release["ID"], release["RELEASE"]))
                 if "#EXTRA#" in line:
                     line = line.replace("#EXTRA#", "%s" % extra_cmdline.strip())
-                if '#DUAL#' in line:
-                    line = line.replace("#DUAL#", "%s"  % dual_seed)
                 output.write(line)
 
 def fetch_output(cmd, data=None):

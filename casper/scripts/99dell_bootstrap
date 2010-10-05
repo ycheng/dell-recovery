@@ -1,8 +1,11 @@
 #!/bin/sh
 #
-#       <99-dell-bootstrap.sh>
+#       <99dell_bootstrap>
 #
-#       Loads the ubiquity dell bootstrap plugin into place
+#       Casper initramfs plugin.
+#        - prepare on-media pool
+#        - loads the ubiquity dell bootstrap plugin into place
+#        - ensures that it will run
 #
 #       Copyright 2008-2011 Dell Inc.
 #           Mario Limonciello <Mario_Limonciello@Dell.com>
@@ -52,7 +55,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 #Set up all preseeds
 casper-set-selections "/conf/ubuntu.seed"
-if grep -q "dell-recovery/dual_boot_seed" /proc/cmdline 2>&1 >/dev/null; then
+if grep -q "dell-recovery/dual_boot=true" /proc/cmdline 2>&1 >/dev/null; then
     casper-set-selections "/conf/dual.seed"
 fi
 

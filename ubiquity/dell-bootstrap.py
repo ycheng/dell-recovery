@@ -58,7 +58,7 @@ TYPE_VFAT_LBA = '0c'
 
 #Continually Reused ubiquity templates
 RECOVERY_TYPE_QUESTION =  'dell-recovery/recovery_type'
-DUAL_BOOT_QUESTION = 'dell-recovery/dual_boot_seed'
+DUAL_BOOT_QUESTION = 'dell-recovery/dual_boot'
 ACTIVE_PARTITION_QUESTION = 'dell-recovery/active_partition'
 FAIL_PARTITION_QUESTION = 'dell-recovery/fail_partition'
 DISK_LAYOUT_QUESTION = 'dell-recovery/disk_layout'
@@ -457,7 +457,7 @@ class Page(Plugin):
                 with misc.raised_privileges():
                     magic.process_conf_file('/usr/share/dell/grub/' + item,   \
                               os.path.join(CDROM_MOUNT, 'grub', files[item]), \
-                              self.uuid, STANDARD_RP_PARTITION, self.dual)
+                              self.uuid, STANDARD_RP_PARTITION)
 
         #Do the actual grub installation
         bmount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
@@ -846,10 +846,10 @@ class Page(Plugin):
 
         #Check if we are set in dual-boot mode
         try:
-            self.dual = self.db.get(DUAL_BOOT_QUESTION)
+            self.dual = misc.create_bool(self.db.get(DUAL_BOOT_QUESTION))
         except debconf.DebconfError, err:
             self.log(str(err))
-            self.dual = ''
+            self.dual = False
 
         #If we are successful for an MBR install, this is where we boot to
         try:
@@ -1001,8 +1001,12 @@ class Page(Plugin):
                 elif question == DISK_LAYOUT_QUESTION:
                     self.disk_layout = answer
                 elif question == DUAL_BOOT_QUESTION:
+                    answer = misc.create_bool(answer)
                     self.dual = answer
-            self.preseed(question, answer)
+            if type(answer) is bool:
+                self.preseed_bool(question, answer)
+            else:
+                self.preseed(question, answer)
 
         return Plugin.ok_handler(self)
 
@@ -1311,8 +1315,7 @@ manually to proceed.")
             with misc.raised_privileges():
                 magic.process_conf_file('/usr/share/dell/grub/' + item, \
                                    os.path.join('/boot', 'grub', files[item]),\
-                                   uuid, rp_part, self.dual, \
-                                   self.additional_kernel_options)
+                                   uuid, rp_part, self.additional_kernel_options)
 
         #Install grub
         self.status("Installing GRUB", 88)
