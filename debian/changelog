@@ -5,6 +5,8 @@ dell-recovery (0.72) UNRELEASED; urgency=low
     seed in order to add dell-recovery support directly to an initrd.
   * Detect if there is no scripts/bootstrap.sh in image, then try to put it into
     the initrd.
+  * Set the recovery_type to a new "dynamic" setting by default.  This will probe
+    for recovery partitions to find one that matches the booted device.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 05 Oct 2010 01:24:00 -0500
 

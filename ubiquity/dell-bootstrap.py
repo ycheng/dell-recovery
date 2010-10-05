@@ -741,14 +741,11 @@ class Page(Plugin):
         #populate UI
         self.ui.populate_devices(disks)
 
-    def fixup_factory_devices(self):
+    def fixup_factory_devices(self, rec_part):
         """Find the factory recovery partition, and re-adjust preseeds to use that data"""
         #Ignore any EDD settings - we want to just plop on the same drive with
         #the right FS label (which will be valid right now)
         #Don't you dare put a USB stick in the system with that label right now!
-        rec_part = magic.find_factory_rp_stats()
-        if not rec_part:
-            raise RuntimeError, ("Unable to find factory recovery partition (was going to use %s)" % self.device)
 
         self.device = rec_part["slave"]
         if os.path.exists(self.pool_cmd):
@@ -796,18 +793,28 @@ class Page(Plugin):
         rec_type = None
         try:
             rec_type = self.db.get(RECOVERY_TYPE_QUESTION)
-            #These require interactivity - so don't fly by even if --automatic
-            if rec_type != 'factory':
-                self.db.set(RECOVERY_TYPE_QUESTION, '')
-                self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'false')
-            else:
-                self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'true')
         except debconf.DebconfError, err:
             self.log(str(err))
-            rec_type = 'factory'
+            rec_type = 'dynamic'
             self.db.register('debian-installer/dummy', RECOVERY_TYPE_QUESTION)
             self.db.set(RECOVERY_TYPE_QUESTION, rec_type)
+
+        #If we were preseeded to dynamic, look for an RP
+        if rec_type == 'dynamic':
+            rec_part = magic.find_factory_rp_stats()
+            if rec_part and rec_part["slave"] in mount:
+                self.log("Detected RP at %s, setting to factory boot" % mount)
+                rec_type = 'factory'
+            if not rec_part:
+                self.log("No (matching) RP found.  Assuming media based boot")
+                rec_type = 'dvd'
+
+        #Media boots should be interrupted at first screen in --automatic mode
+        if rec_type == 'factory':
             self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'true')
+        else:
+            self.db.set(RECOVERY_TYPE_QUESTION, '')
+            self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'false')
 
         #In case we preseeded the partitions we need installed to
         try:
@@ -958,7 +965,7 @@ class Page(Plugin):
             if rec_type != 'factory' and rec_type != 'hdd':
                 self.fixup_recovery_devices()
             else:
-                self.fixup_factory_devices()
+                self.fixup_factory_devices(rec_part)
         except Exception, err:
             self.handle_exception(err)
             self.cancel_handler()

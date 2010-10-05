@@ -5,9 +5,9 @@ Description: for internal use; determines whether to generate recovery media
 
 Template: dell-recovery/recovery_type
 Type: string
-Default: factory
+Default: dynamic
 Description: for internal use;determines whether to offer the bootstrap 
- ubiquity plugin to the user
+ ubiquity plugin to the user. valid: [dynamic, factory, usb, dvd]
 
 Template: dell-recovery/os_partition
 Type: string
