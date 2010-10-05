@@ -332,6 +332,11 @@ class PageGtk(PluginUI):
         elif item == "mount":
             self.mount_detail.set_markup("Mounted From: %s" % value)
         else:
+            if type(value) is bool:
+                if value:
+                    value = 'true'
+                else:
+                    value = 'false'
             combobox = self._map_combobox(item)
             if combobox:
                 iterator = find_item_iterator(combobox, value)
@@ -344,6 +349,7 @@ class PageGtk(PluginUI):
 
             #dual boot mode. ui changes for this
             if item == DUAL_BOOT_QUESTION and self.genuine:
+                value = misc.create_bool(value)
                 if value:
                     self.interactive_recovery_box.hide()
                 else:
@@ -386,6 +392,7 @@ class PageGtk(PluginUI):
                 else:
                     self.active_partition_combobox.set_sensitive(True)
             elif widget == self.dual_combobox:
+                answer = misc.create_bool(answer)
                 if not self.efi:
                     #set the type back to msdos
                     find_n_set_iterator(self.disk_layout_combobox, "msdos")
