@@ -148,7 +148,7 @@ def check_version():
         print >> sys.stderr, "Error checking dell-recovery version: %s" % msg
         return "unknown"
 
-def process_conf_file(original, new, uuid, rp_number, dual_seed='', ako=''):
+def process_conf_file(original, new, uuid, rp_number, ako=''):
     """Replaces all instances of a partition, OS, and extra in a conf type file
        Generally used for things that need to touch grub"""
     if not os.path.isdir(os.path.split(new)[0]):
@@ -189,8 +189,6 @@ def process_conf_file(original, new, uuid, rp_number, dual_seed='', ako=''):
                     line = line.replace("#OS#", "%s %s" % (release["ID"], release["RELEASE"]))
                 if "#EXTRA#" in line:
                     line = line.replace("#EXTRA#", "%s" % extra_cmdline.strip())
-                if '#DUAL#' in line:
-                    line = line.replace("#DUAL#", "%s"  % dual_seed)
                 output.write(line)
 
 def fetch_output(cmd, data=None):
@@ -500,7 +498,8 @@ def walk_cleanup(directory):
 
 def create_new_uuid(old_initrd_directory, old_casper_directory,
                     new_initrd_directory, new_casper_directory,
-                    new_compression="auto"):
+                    new_compression="auto",
+                    include_bootstrap=False):
     """ Regenerates the UUID contained in a casper initramfs
         Supported compression types:
         * auto (auto detects lzma/gzip)
@@ -554,6 +553,11 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     for item in [new_uuid_file, os.path.join(tmpdir, 'conf', 'uuid.conf')]:
         with open(item, "w") as uuid_fd:
             uuid_fd.write(new_uuid)
+
+    #Newer (Ubuntu 11.04+) images may support including the bootstrap in initrd
+    if include_bootstrap:
+        chain0 = subprocess.Popen(['/usr/share/dell/casper/hooks/dell-bootstrap'], env={'DESTDIR': tmpdir, 'INJECT': '1'})
+        chain0.communicate()    
 
     #Detect compression
     new_suffix = ''

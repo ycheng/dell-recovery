@@ -1,0 +1,29 @@
+#!/bin/sh -e
+# initramfs hook for dell-bootstrap
+
+PREREQS=""
+
+# Output pre-requisites
+prereqs()
+{
+       echo "$PREREQS"
+}
+
+case "$1" in
+    prereqs)
+       prereqs
+       exit 0
+       ;;
+esac
+
+. /usr/share/initramfs-tools/hook-functions
+
+cp /usr/share/dell/scripts/pool.sh  $DESTDIR/scripts
+cp /usr/share/dell/casper/scripts/* $DESTDIR/scripts/casper-bottom
+
+#invoked from dell-recovery
+if [ -n "$INJECT" ]; then
+    . /usr/share/initramfs-tools/scripts/functions
+    rm -f $DESTDIR/scripts/casper-bottom/ORDER
+    cache_run_scripts "${DESTDIR}" "/scripts/casper-bottom"
+fi

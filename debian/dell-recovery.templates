@@ -5,9 +5,9 @@ Description: for internal use; determines whether to generate recovery media
 
 Template: dell-recovery/recovery_type
 Type: string
-Default: factory
+Default: dynamic
 Description: for internal use;determines whether to offer the bootstrap 
- ubiquity plugin to the user
+ ubiquity plugin to the user. valid: [dynamic, factory, usb, dvd]
 
 Template: dell-recovery/os_partition
 Type: string
@@ -53,13 +53,13 @@ Description: for internal use; determines the default UI; (une/ude) or dynamical
 
 Template: dell-recovery/pool_command
 Type: string
-Default: /cdrom/scripts/pool.sh
+Default: /usr/share/dell/scripts/pool.sh
 Description: for internal use; determines the command used to dynamically rebuild the pool
 
-Template: dell-recovery/dual_boot_seed
-Type: string
-Default: 
-Description: for internal use; when preseeded, enables the use of a stacked dual boot seed
+Template: dell-recovery/dual_boot
+Type: boolean
+Default: false
+Description: for internal use; enables the factory installed dual boot solution
 
 Template: dell-recovery/disk_layout
 Type: string

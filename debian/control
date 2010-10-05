@@ -22,3 +22,11 @@ Description: Dell Recovery Media Creation Package
  This package is used to produce a Dell recovery media image.
  It then uses known open source tools to write the image to 
  a USB flash drive or DVD writer.
+
+Package: dell-recovery-casper
+Architecture: all
+Depends: dell-recovery, casper
+Description: Dell Recovery Casper Hooks
+ This package provides hooks to allow the dell-recovery
+ bootstrap to run directly from casper without any other
+ modifications to the media.

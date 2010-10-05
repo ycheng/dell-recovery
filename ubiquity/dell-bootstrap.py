@@ -58,7 +58,7 @@ TYPE_VFAT_LBA = '0c'
 
 #Continually Reused ubiquity templates
 RECOVERY_TYPE_QUESTION =  'dell-recovery/recovery_type'
-DUAL_BOOT_QUESTION = 'dell-recovery/dual_boot_seed'
+DUAL_BOOT_QUESTION = 'dell-recovery/dual_boot'
 ACTIVE_PARTITION_QUESTION = 'dell-recovery/active_partition'
 FAIL_PARTITION_QUESTION = 'dell-recovery/fail_partition'
 DISK_LAYOUT_QUESTION = 'dell-recovery/disk_layout'
@@ -332,6 +332,11 @@ class PageGtk(PluginUI):
         elif item == "mount":
             self.mount_detail.set_markup("Mounted From: %s" % value)
         else:
+            if type(value) is bool:
+                if value:
+                    value = 'true'
+                else:
+                    value = 'false'
             combobox = self._map_combobox(item)
             if combobox:
                 iterator = find_item_iterator(combobox, value)
@@ -344,6 +349,7 @@ class PageGtk(PluginUI):
 
             #dual boot mode. ui changes for this
             if item == DUAL_BOOT_QUESTION and self.genuine:
+                value = misc.create_bool(value)
                 if value:
                     self.interactive_recovery_box.hide()
                 else:
@@ -386,6 +392,7 @@ class PageGtk(PluginUI):
                 else:
                     self.active_partition_combobox.set_sensitive(True)
             elif widget == self.dual_combobox:
+                answer = misc.create_bool(answer)
                 if not self.efi:
                     #set the type back to msdos
                     find_n_set_iterator(self.disk_layout_combobox, "msdos")
@@ -457,7 +464,7 @@ class Page(Plugin):
                 with misc.raised_privileges():
                     magic.process_conf_file('/usr/share/dell/grub/' + item,   \
                               os.path.join(CDROM_MOUNT, 'grub', files[item]), \
-                              self.uuid, STANDARD_RP_PARTITION, self.dual)
+                              self.uuid, STANDARD_RP_PARTITION)
 
         #Do the actual grub installation
         bmount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
@@ -741,14 +748,11 @@ class Page(Plugin):
         #populate UI
         self.ui.populate_devices(disks)
 
-    def fixup_factory_devices(self):
+    def fixup_factory_devices(self, rec_part):
         """Find the factory recovery partition, and re-adjust preseeds to use that data"""
         #Ignore any EDD settings - we want to just plop on the same drive with
         #the right FS label (which will be valid right now)
         #Don't you dare put a USB stick in the system with that label right now!
-        rec_part = magic.find_factory_rp_stats()
-        if not rec_part:
-            raise RuntimeError, ("Unable to find factory recovery partition (was going to use %s)" % self.device)
 
         self.device = rec_part["slave"]
         if os.path.exists(self.pool_cmd):
@@ -796,18 +800,28 @@ class Page(Plugin):
         rec_type = None
         try:
             rec_type = self.db.get(RECOVERY_TYPE_QUESTION)
-            #These require interactivity - so don't fly by even if --automatic
-            if rec_type != 'factory':
-                self.db.set(RECOVERY_TYPE_QUESTION, '')
-                self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'false')
-            else:
-                self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'true')
         except debconf.DebconfError, err:
             self.log(str(err))
-            rec_type = 'factory'
+            rec_type = 'dynamic'
             self.db.register('debian-installer/dummy', RECOVERY_TYPE_QUESTION)
             self.db.set(RECOVERY_TYPE_QUESTION, rec_type)
+
+        #If we were preseeded to dynamic, look for an RP
+        if rec_type == 'dynamic':
+            rec_part = magic.find_factory_rp_stats()
+            if rec_part and rec_part["slave"] in mount:
+                self.log("Detected RP at %s, setting to factory boot" % mount)
+                rec_type = 'factory'
+            if not rec_part:
+                self.log("No (matching) RP found.  Assuming media based boot")
+                rec_type = 'dvd'
+
+        #Media boots should be interrupted at first screen in --automatic mode
+        if rec_type == 'factory':
             self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'true')
+        else:
+            self.db.set(RECOVERY_TYPE_QUESTION, '')
+            self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'false')
 
         #In case we preseeded the partitions we need installed to
         try:
@@ -834,15 +848,15 @@ class Page(Plugin):
             self.pool_cmd = self.db.get('dell-recovery/pool_command')
         except debconf.DebconfError, err:
             self.log(str(err))
-            self.pool_cmd = '/cdrom/scripts/pool.sh'
+            self.pool_cmd = '/usr/share/dell/scripts/pool.sh'
             self.preseed('dell-recovery/pool_command', self.pool_cmd)
 
         #Check if we are set in dual-boot mode
         try:
-            self.dual = self.db.get(DUAL_BOOT_QUESTION)
+            self.dual = misc.create_bool(self.db.get(DUAL_BOOT_QUESTION))
         except debconf.DebconfError, err:
             self.log(str(err))
-            self.dual = ''
+            self.dual = False
 
         #If we are successful for an MBR install, this is where we boot to
         try:
@@ -958,7 +972,7 @@ class Page(Plugin):
             if rec_type != 'factory' and rec_type != 'hdd':
                 self.fixup_recovery_devices()
             else:
-                self.fixup_factory_devices()
+                self.fixup_factory_devices(rec_part)
         except Exception, err:
             self.handle_exception(err)
             self.cancel_handler()
@@ -994,8 +1008,12 @@ class Page(Plugin):
                 elif question == DISK_LAYOUT_QUESTION:
                     self.disk_layout = answer
                 elif question == DUAL_BOOT_QUESTION:
+                    answer = misc.create_bool(answer)
                     self.dual = answer
-            self.preseed(question, answer)
+            if type(answer) is bool:
+                self.preseed_bool(question, answer)
+            else:
+                self.preseed(question, answer)
 
         return Plugin.ok_handler(self)
 
@@ -1304,8 +1322,7 @@ manually to proceed.")
             with misc.raised_privileges():
                 magic.process_conf_file('/usr/share/dell/grub/' + item, \
                                    os.path.join('/boot', 'grub', files[item]),\
-                                   uuid, rp_part, self.dual, \
-                                   self.additional_kernel_options)
+                                   uuid, rp_part, self.additional_kernel_options)
 
         #Install grub
         self.status("Installing GRUB", 88)
@@ -1565,8 +1582,13 @@ class Install(InstallPlugin):
         #This is reverted during SUCCESS_SCRIPT
         try:
             pool_cmd = progress.get('dell-recovery/pool_command')
-            if os.path.exists(pool_cmd):
-                install_misc.chrex(target, pool_cmd)
+            #already in livefs
+            if os.path.exists(os.path.join(self.target, pool_cmd)):
+                install_misc.chrex(self.target, pool_cmd)
+            #not in livefs, needs to be copied in
+            elif os.path.exists(pool_cmd):
+                shutil.copy(pool_cmd, os.path.join(self.target, 'tmp'))                
+                install_misc.chrex(self.target, os.path.join('/tmp', pool_cmd))
         except debconf.DebconfError:
             pass
 
