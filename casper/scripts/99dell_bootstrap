@@ -57,7 +57,7 @@ if grep -q "dell-recovery/dual_boot_seed" /proc/cmdline 2>&1 >/dev/null; then
 fi
 
 #Force ubiquity to run in automatic
-sed -i "s/\$debug\ \$automatic\ \$choose/--automatic/" /root/etc/init/ubiquity.conf
+sed -i "s/\$automatic\ \$choose/--automatic/" /root/etc/init/ubiquity.conf
 
 #Build custom pool (static and dynamic)
 if [ ! -x /root/usr/share/dell/scripts/pool.sh ]; then
