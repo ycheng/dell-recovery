@@ -1572,8 +1572,13 @@ class Install(InstallPlugin):
         #This is reverted during SUCCESS_SCRIPT
         try:
             pool_cmd = progress.get('dell-recovery/pool_command')
-            if os.path.exists(pool_cmd):
-                install_misc.chrex(target, pool_cmd)
+            #already in livefs
+            if os.path.exists(os.path.join(self.target, pool_cmd)):
+                install_misc.chrex(self.target, pool_cmd)
+            #not in livefs, needs to be copied in
+            elif os.path.exists(pool_cmd):
+                shutil.copy(pool_cmd, os.path.join(self.target, 'tmp'))                
+                install_misc.chrex(self.target, os.path.join('/tmp', pool_cmd))
         except debconf.DebconfError:
             pass
 
