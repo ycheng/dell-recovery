@@ -8,6 +8,7 @@ dell-recovery (0.72) UNRELEASED; urgency=low
   * Set the recovery_type to a new "dynamic" setting by default.  This will probe
     for recovery partitions to find one that matches the booted device.
   * Modify the dual boot seed option to now be boolean.
+  * Add support for a deb only FID overlay.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 05 Oct 2010 01:24:00 -0500
 

@@ -151,7 +151,6 @@ create an USB key or DVD image."))
         elif page == self.builder_widgets.get_object('fid_page'):
             wizard.set_page_title(page, _("Choose FID Overlay"))
             self.builder_widgets.get_object('install_git_button').hide()
-            self.builder_widgets.get_object('add_dell_recovery_button').hide()
 
             for operating_system in GIT_TREES:
                 if operating_system == self.distributor:
@@ -402,7 +401,7 @@ create an USB key or DVD image."))
         if output_text and \
            not self.bto_base and \
            self.builder_widgets.get_object('builtin_radio').get_active():
-            self.builder_widgets.get_object('git_radio').set_active(True)
+            self.builder_widgets.get_object('deb_radio').set_active(True)
         self.builder_widgets.get_object('builtin_hbox').set_sensitive(self.bto_base)
 
         self.builder_widgets.get_object('base_image_details_label').set_markup(output_text)
@@ -413,17 +412,27 @@ create an USB key or DVD image."))
         fid_page = self.builder_widgets.get_object('fid_page')
         git_tree_hbox = self.builder_widgets.get_object('fid_git_tree_hbox')
         label = self.builder_widgets.get_object('fid_overlay_details_label')
+        self.builder_widgets.get_object('fid_git_tag_hbox').set_sensitive(False)
 
-        label.set_markup("")
         wizard.set_page_complete(fid_page, False)
         git_tree_hbox.set_sensitive(False)
+        self.builder_widgets.get_object('add_dell_recovery_button').set_sensitive(False)
 
         if self.builder_widgets.get_object('builtin_radio').get_active():
             wizard.set_page_complete(fid_page, True)
-            label.set_markup("<b>Builtin</b>: BTO Image")
+            label.set_markup("<b>Builtin</b>: BTO Compatible Image")
             self.builder_fid_overlay = ''
+            self.add_dell_recovery_deb = ''
+
+        elif self.builder_widgets.get_object('deb_radio').get_active():
+            if self.add_dell_recovery_deb:
+                wizard.set_page_complete(fid_page, True)
+            else:
+                label.set_markup("")
+            self.builder_widgets.get_object('add_dell_recovery_button').set_sensitive(True)
 
         elif self.builder_widgets.get_object('git_radio').get_active():
+            label.set_markup("")
             git_tree_hbox.set_sensitive(True)
             cwd = os.path.join(os.environ["HOME"],
                              '.config',
@@ -549,6 +558,20 @@ create an USB key or DVD image."))
             command = ["git", "tag", "-l"]
         fill_liststore_from_command(command, self.release, 'tag_liststore')
 
+    def fid_deb_changed(self, widget):
+        """Detects the version of a newly found deb"""
+        wizard = self.widgets.get_object('wizard')
+        fid_page = self.builder_widgets.get_object('fid_page')
+        wizard.set_page_complete(fid_page, False)
+        if self.add_dell_recovery_deb:
+            wizard.set_page_complete(fid_page, True)
+            if self.add_dell_recovery_deb == 'dpkg-repack':
+                output_text = "<b>Build</b> from on-system install"
+            else:
+                output_text = "<b>Add</b> from %s" % self.add_dell_recovery_deb
+            self.builder_widgets.get_object('fid_overlay_details_label').set_markup(output_text)
+        
+        
     def fid_git_changed(self, widget):
         """If we have selected a tag"""
         wizard = self.widgets.get_object('wizard')
@@ -589,7 +612,7 @@ create an USB key or DVD image."))
                 output_text += "\n<b>%s</b>, %s" % (_("Missing Dell-Recovery"),
                                _("Not present in ISO or GIT tree"))
                 wizard.set_page_complete(fid_page, False)
-                self.builder_widgets.get_object('add_dell_recovery_button').show()
+                self.builder_widgets.get_object('add_dell_recovery_button').set_sensitive(True)
             
         else:
             wizard.set_page_complete(fid_page, False)
@@ -731,7 +754,6 @@ create an USB key or DVD image."))
 
     def add_dell_recovery_clicked(self, widget):
         """Callback to launch a dialog to add dell-recovery to the image"""
-        widget.hide()
         #check if dpkg-repack is available
         if not os.path.exists('/usr/bin/dpkg-repack'):
             if not self.apt_client:
@@ -759,7 +781,12 @@ create an USB key or DVD image."))
             wizard.set_page_complete(fid_page, False)
             self.add_dell_recovery_deb = ''
         window.hide()
-        self.fid_git_changed(None)
+
+        #validate version
+        if self.builder_widgets.get_object('deb_radio').get_active():
+            self.fid_deb_changed(None)
+        else:
+            self.fid_git_changed(None)
 
     def add_dell_recovery_toggled(self, widget):
         """Toggles the active selection in the add dell-recovery to image page"""
@@ -790,8 +817,9 @@ create an USB key or DVD image."))
             import apt_inst
             import apt_pkg
             control = apt_inst.debExtractControl(open(ret))
-            sections = apt_pkg.ParseSection(control)
-            if sections["Package"] != 'dell-recovery':
+            sections = apt_pkg.TagSection(control)
+            if sections["Package"] != 'dell-recovery' or \
+                                              float(sections["Version"]) < 0.72:
                 self.add_dell_recovery_deb = ''
             else:
                 self.add_dell_recovery_deb = ret

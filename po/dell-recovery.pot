@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-21 15:23-0500\n"
+"POT-Creation-Date: 2010-10-06 14:56-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,88 +116,88 @@ msgstr ""
 msgid "Choose FID Overlay"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:162
+#: ../Dell/recovery_advanced_gtk.py:161
 msgid "Choose Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:174
+#: ../Dell/recovery_advanced_gtk.py:173
 msgid "Choose Driver Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:188
+#: ../Dell/recovery_advanced_gtk.py:187
 msgid "Choose Application Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:202
+#: ../Dell/recovery_advanced_gtk.py:201
 msgid "Builder Summary"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:203
+#: ../Dell/recovery_advanced_gtk.py:202
 msgid "Base Image Distributor"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:205
+#: ../Dell/recovery_advanced_gtk.py:204
 msgid "Base Image Release"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:208
+#: ../Dell/recovery_advanced_gtk.py:207
 msgid "BTO Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:211
+#: ../Dell/recovery_advanced_gtk.py:210
 msgid "Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:214
+#: ../Dell/recovery_advanced_gtk.py:213
 msgid "FID Overlay"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:218
+#: ../Dell/recovery_advanced_gtk.py:217
 msgid "Utility Partition: "
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:221
+#: ../Dell/recovery_advanced_gtk.py:220
 msgid "Application"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:222
+#: ../Dell/recovery_advanced_gtk.py:221
 msgid "Driver"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:228
+#: ../Dell/recovery_advanced_gtk.py:227
 msgid "Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:234
+#: ../Dell/recovery_advanced_gtk.py:233
 msgid "Inject Dell Recovery Package"
 msgstr ""
 
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:244
+#: ../Dell/recovery_advanced_gtk.py:243
 msgid "Assembling Image Components"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:320
+#: ../Dell/recovery_advanced_gtk.py:319
 msgid "Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:323
+#: ../Dell/recovery_advanced_gtk.py:322
 msgid "No Additional Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:442
+#: ../Dell/recovery_advanced_gtk.py:451
 msgid "<b>ERROR</b>: git is not installed"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:589
+#: ../Dell/recovery_advanced_gtk.py:612
 msgid "Missing Dell-Recovery"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:590
+#: ../Dell/recovery_advanced_gtk.py:613
 msgid "Not present in ISO or GIT tree"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:706
+#: ../Dell/recovery_advanced_gtk.py:729
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
@@ -221,15 +221,15 @@ msgstr ""
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:817
+#: ../Dell/recovery_backend.py:820
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:844
+#: ../Dell/recovery_backend.py:849
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:911
+#: ../Dell/recovery_backend.py:916
 msgid "Building ISO"
 msgstr ""
 
@@ -329,58 +329,58 @@ msgid "Add Dell Recovery"
 msgstr ""
 
 #: ../gtk/builder.ui.h:8
-msgid "Add dell-recovery"
-msgstr ""
-
-#: ../gtk/builder.ui.h:9
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
 msgstr ""
 
-#: ../gtk/builder.ui.h:10
+#: ../gtk/builder.ui.h:9
 msgid ""
 "BTO images can optionally include a Utility Partition for diagnostic "
 "utilities."
 msgstr ""
 
-#: ../gtk/builder.ui.h:11
+#: ../gtk/builder.ui.h:10
 msgid "Browse for a dell-recovery package"
 msgstr ""
 
-#: ../gtk/builder.ui.h:12
+#: ../gtk/builder.ui.h:11
 msgid "Build dell-recovery package from this system"
 msgstr ""
 
-#: ../gtk/builder.ui.h:13
+#: ../gtk/builder.ui.h:12
 msgid "Choose Content"
 msgstr ""
 
-#: ../gtk/builder.ui.h:14
+#: ../gtk/builder.ui.h:13
 msgid "Choose Image"
 msgstr ""
 
-#: ../gtk/builder.ui.h:15
+#: ../gtk/builder.ui.h:14
 msgid "Choose package"
 msgstr ""
 
-#: ../gtk/builder.ui.h:16
+#: ../gtk/builder.ui.h:15
 msgid "Detected Recovery Partition"
 msgstr ""
 
-#: ../gtk/builder.ui.h:17
+#: ../gtk/builder.ui.h:16
 msgid "Detected Utility Partition"
 msgstr ""
 
-#: ../gtk/builder.ui.h:18
+#: ../gtk/builder.ui.h:17
 msgid ""
 "During Factory Installation, applications are only installed if the order "
 "record (SDR) refers to the service release vehicle (SRV).  This populates "
 "the possible SRVs to be queried during installation."
 msgstr ""
 
-#: ../gtk/builder.ui.h:19
+#: ../gtk/builder.ui.h:18
 msgid "Extracted Directory"
+msgstr ""
+
+#: ../gtk/builder.ui.h:19
+msgid "FID Framework enclosed in debian package"
 msgstr ""
 
 #: ../gtk/builder.ui.h:20
@@ -445,15 +445,15 @@ msgstr ""
 
 #: ../gtk/builder.ui.h:36
 msgid ""
-"The Base OS image provides the majority of the content for a BTO image.  It "
-"can be a Vanilla OS image, or existing BTO Image."
+"The BTO FID framework is the first thing injected into a base vanilla "
+"image.  If you are generating from an existing BTO compatible image, you may "
+"use the built-in framework."
 msgstr ""
 
 #: ../gtk/builder.ui.h:37
 msgid ""
-"The FID framework is the first piece overlaid on top of a Vanilla image.  In "
-"the event that you are generating from an existing BTO image, you can use "
-"the framework built into that image."
+"The Base OS image provides the majority of the content for a BTO image.  It "
+"can be a Vanilla OS image, or existing BTO Image."
 msgstr ""
 
 #: ../gtk/builder.ui.h:38
