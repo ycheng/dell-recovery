@@ -553,6 +553,8 @@ class Backend(dbus.service.Object):
 
         if bto_version and bto_date:
             distributor_str = "<b>Dell BTO Image</b>, version %s built on %s\n%s" % (bto_version.split('.')[0], bto_date, distributor_str)
+        elif bto_version == '[native]':
+            distributor_str = "<b>Dell BTO Compatible Image</b>\n%s" % distributor_str
         else:
             bto_version = ''
 
@@ -564,6 +566,23 @@ class Backend(dbus.service.Object):
         connection_keyword = 'conn')
     def query_bto_version(self, recovery, sender=None, conn=None):
         """Queries the BTO version number internally stored in an ISO or RP"""
+
+        def test_initrd(cmd0):
+            """Tests an initrd using the selected command"""
+            cmd1 = ['unlzma']
+            cmd2 = ['cpio', '-it', '--quiet']
+            chain0 = subprocess.Popen(cmd0, stdout=subprocess.PIPE)
+            chain1 = subprocess.Popen(cmd1, stdin=chain0.stdout, stdout=subprocess.PIPE)
+            chain2 = subprocess.Popen(cmd2, stdin=chain1.stdout, stdout=subprocess.PIPE)
+            out, err = chain2.communicate()
+            if chain2.returncode is None:
+                chain2.wait()
+            if out:
+                for line in out.split('\n'):
+                    if 'scripts/casper-bottom/99dell_bootstrap' in line:
+                        return '[native]'
+            return ''
+
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn,
                                     'com.dell.recoverymedia.query_bto_version')
@@ -583,6 +602,9 @@ class Backend(dbus.service.Object):
                 if len(out) > 1:
                     version = out[0]
                     date = out[1]
+            #no /bto_version found, check initrd for bootsrap files
+            else:
+                version = test_initrd(['isoinfo', '-J', '-i', recovery, '-x', '/casper/initrd.lz'])
 
         else:
             mntdir = self.request_mount(recovery, sender, conn)
@@ -590,6 +612,9 @@ class Backend(dbus.service.Object):
                 with open(os.path.join(mntdir, 'bto_version'), 'r') as rfd:
                     version = rfd.readline().strip('\n')
                     date = rfd.readline().strip('\n')
+            #no /bto_version found, check initrd for bootsrap files
+            elif os.path.exists(os.path.join(mntdir, 'casper', 'initrd.lz')):
+                version = test_initrd(['cat', os.path.join(mntdir, 'casper', 'initrd.lz')])                    
 
         return (version, date)
 

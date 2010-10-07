@@ -358,28 +358,20 @@ create an USB key or DVD image."))
         arch = ''
         if widget == self.builder_widgets.get_object('base_browse_button'):
             ret = self.run_file_dialog()
-            if ret is not None:
-                try:
-                    (bto_version, distributor, release, arch, output_text) = \
-                                       self.backend().query_iso_information(ret)
-
-                except dbus.DBusException, msg:
-                    parent = self.widgets.get_object('wizard')
-                    self.dbus_exception_handler(msg, parent)
-                self.bto_base = not not bto_version
-                self.builder_base_image = ret
-                wizard.set_page_complete(base_page, True)
         else:
+            ret = self.rp
+        
+        if ret is not None:
             try:
                 (bto_version, distributor, release, arch, output_text) = \
-                                   self.backend().query_iso_information(self.rp)
+                                   self.backend().query_iso_information(ret)
 
-                self.bto_base = not not bto_version
-                self.builder_base_image = self.rp
-                wizard.set_page_complete(base_page, True)
             except dbus.DBusException, msg:
                 parent = self.widgets.get_object('wizard')
                 self.dbus_exception_handler(msg, parent)
+            self.bto_base = bool(bto_version)
+            self.builder_base_image = ret
+            wizard.set_page_complete(base_page, True)
 
         if not bto_version:
             bto_version = 'X00'
