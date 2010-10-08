@@ -43,11 +43,12 @@ from hashlib import md5
 
 from Dell.recovery_common import (DOMAIN, LOCALEDIR, UP_FILENAMES,
                                   walk_cleanup, create_new_uuid, white_tree,
-                                  fetch_output,
+                                  fetch_output, check_version,
                                   DBUS_BUS_NAME, DBUS_INTERFACE_NAME,
                                   RestoreFailed, CreateFailed,
                                   PermissionDeniedByPolicy)
 from Dell.recovery_threading import ProgressByPulse, ProgressBySize
+from Dell.recovery_xml import BTOxml
 
 #Translation support
 from gettext import gettext as _
@@ -86,6 +87,7 @@ class Backend(dbus.service.Object):
         self.main_loop = None
         self._timeout = False
         self.dbus_name = None
+        self.xml_obj = BTOxml()
         
         # cached D-BUS interfaces for _check_polkit_privilege()
         self.dbus_info = None
@@ -275,13 +277,16 @@ class Backend(dbus.service.Object):
             except OSError, msg:
                 print >> sys.stderr, "Error cleaning up: %s" % str(msg)
 
-    def _process_driver_fish(self, driver_fish, assembly_tmp, manifest):
+    def _process_driver_fish(self, driver_fish, assembly_tmp):
         """Processes a driver FISH archive"""
         length = len(driver_fish)
         for fishie in driver_fish:
             self.report_progress(_('Processing FISH packages'),
                                  driver_fish.index(fishie)/length*100)
-            manifest.write("driver: %s\n" % os.path.basename(fishie))
+            if os.path.isfile(fishie):
+                with open(fishie, 'r') as fish:
+                    md5sum = md5(fish.read()).hexdigest()
+                self.xml_obj.append_fish('driver', os.path.basename(fishie), md5sum)
             dest = None
             if fishie.endswith('.deb'):
                 dest = os.path.join(assembly_tmp, 'debs', 'main')
@@ -309,7 +314,7 @@ class Backend(dbus.service.Object):
                         if child != name:
                             children.append(os.path.join(archive_tmp,child))
                     logging.debug("_process_driver_fish: Extracting nested archive %s", fishie)
-                    self._process_driver_fish(children, assembly_tmp, manifest)
+                    self._process_driver_fish(children, assembly_tmp)
                 else:
                     safe_tar_extract(fishie, assembly_tmp)
                     logging.debug("_process_driver_fish: Extracting tar fishie %s", fishie)
@@ -415,30 +420,22 @@ class Backend(dbus.service.Object):
 
         #Add in driver FISH content
         if len(driver_fish) > 0:
-            if os.path.exists(os.path.join(assembly_tmp, 'bto_manifest')):
-                manifest = open(os.path.join(assembly_tmp, 'bto_manifest'), 'a')
-            else:
-                manifest = open(os.path.join(assembly_tmp, 'bto_manifest'), 'w')
-
             # record the base iso used
-            manifest.write("base: %s\n" % os.path.basename(base))
+            self.xml_obj.set_base(os.path.basename(base))
 
-            self._process_driver_fish(driver_fish, assembly_tmp, manifest)
+            self._process_driver_fish(driver_fish, assembly_tmp)
             logging.debug("assemble_image: done inserting driver fish")
-            manifest.close()
 
         #Add in application FISH content
         length = float(len(application_fish))
         if length > 0:
-            if os.path.exists(os.path.join(assembly_tmp, 'bto_manifest')):
-                manifest = open(os.path.join(assembly_tmp, 'bto_manifest'), 'a')
-            else:
-                manifest = open(os.path.join(assembly_tmp, 'bto_manifest'), 'w')
             dest = os.path.join(assembly_tmp, 'srv')
             os.makedirs(dest)
             for fishie in application_fish:
+                with open(fishie, 'r') as fish:
+                    md5sum = md5(fish.read()).hexdigest()
                 new_name = application_fish[fishie]
-                manifest.write("application: %s (%s)\n" % (os.path.basename(fishie), new_name))
+                self.xml_obj.append_fish('application', os.path.basename(fishie), md5sum, new_name)
                 if fishie.endswith('.zip'):
                     new_name += '.zip'
                 elif os.path.exists(fishie) and tarfile.is_tarfile(fishie):
@@ -446,19 +443,6 @@ class Backend(dbus.service.Object):
                 distutils.file_util.copy_file(fishie,
                                               os.path.join(dest, new_name),
                                               verbose=1, update=0)
-            manifest.close()
-
-        # calculate md5sums for all driver packages and write them out
-        list_progress = (lambda i,l: l.index(i)/float(len(l)) * 100)
-        with open(os.path.join(assembly_tmp, 'bto_md5sum'), 'w') as md5_file:
-            for fishie in driver_fish:
-                self.report_progress(_('Calculating FISH MD5SUMs'),
-                    list_progress(fishie, driver_fish))
-                with open(fishie, 'r') as fish:
-                    tmp = md5(fish.read())
-                    md5_file.write("%s %s\n" % (tmp.hexdigest(),
-                        os.path.basename(fishie)))
-        self.report_progress(_('Calculating FISH MD5SUMs'), 100)
 
         #If a utility partition exists and we wanted to replace it, wipe it away
         if utility:
@@ -468,6 +452,7 @@ class Backend(dbus.service.Object):
 
         #If dell-recovery needs to be injected into the image
         if dell_recovery_package:
+            self.xml_obj.replace_node_contents('deb_archive', dell_recovery_package)
             dest = os.path.join(assembly_tmp, 'debs')
             if not os.path.isdir(dest):
                 os.makedirs(dest)
@@ -591,27 +576,34 @@ class Backend(dbus.service.Object):
         date = ''
 
         if os.path.isfile(recovery) and recovery.endswith('.iso'):
-            cmd = ['isoinfo', '-J', '-i', recovery, '-x', '/bto_version']
-            invokation = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-            out, err = invokation.communicate()
-            if invokation.returncode is None:
-                invokation.wait()
+            cmd = ['isoinfo', '-J', '-i', recovery, '-x', '/bto.xml']
+            out = fetch_output(cmd)
             if out:
-                out = out.split('\n')
-                if len(out) > 1:
-                    version = out[0]
-                    date = out[1]
-            #no /bto_version found, check initrd for bootsrap files
+                self.xml_obj.load_bto_xml(out)
+                version = self.xml_obj.fetch_node_contents('iso')
+                date = self.xml_obj.fetch_node_contents('date')
             else:
-                version = test_initrd(['isoinfo', '-J', '-i', recovery, '-x', '/casper/initrd.lz'])
+                cmd = ['isoinfo', '-J', '-i', recovery, '-x', '/bto_version']
+                out = fetch_output(cmd)
+                if out:
+                    out = out.split('\n')
+                    if len(out) > 1:
+                        version = out[0]
+                        date = out[1]
+                else:
+                    version = test_initrd(['isoinfo', '-J', '-i', recovery, '-x', '/casper/initrd.lz'])
 
         else:
             mntdir = self.request_mount(recovery, sender, conn)
-            if os.path.exists(os.path.join(mntdir, 'bto_version')):
+            if os.path.exists(os.path.join(mntdir, 'bto.xml')):
+                self.xml_obj.load_bto_xml(os.path.join(mntdir, 'bto.xml'))
+                version = self.xml_obj.fetch_node_contents('iso')
+                date = self.xml_obj.fetch_node_contents('date')
+            elif os.path.exists(os.path.join(mntdir, 'bto_version')):
                 with open(os.path.join(mntdir, 'bto_version'), 'r') as rfd:
                     version = rfd.readline().strip('\n')
                     date = rfd.readline().strip('\n')
-            #no /bto_version found, check initrd for bootsrap files
+            #no /bto.xml or /bto_version found, check initrd for bootsrap files
             elif os.path.exists(os.path.join(mntdir, 'casper', 'initrd.lz')):
                 version = test_initrd(['cat', os.path.join(mntdir, 'casper', 'initrd.lz')])                    
 
@@ -767,10 +759,11 @@ class Backend(dbus.service.Object):
                 "recovery partition is missing critical ubuntu files."
             raise CreateFailed("Recovery partition is missing critical Ubuntu files.")
 
-        #Generate BTO version string
-        with open(os.path.join(tmpdir, 'bto_version'), 'w') as wfd:
-            wfd.write(version + '\n')
-            wfd.write(str(datetime.date.today()) + '\n')
+        #Generate BTO XML File
+        self.xml_obj.replace_node_contents('date', str(datetime.date.today()))
+        self.xml_obj.replace_node_contents('iso', version)
+        self.xml_obj.replace_node_contents('generator', check_version())
+        self.xml_obj.write_xml(os.path.join(tmpdir, 'bto.xml'))
 
         #If necessary, include the utility partition
         if utility and os.path.exists(utility) and \
@@ -832,6 +825,7 @@ class Backend(dbus.service.Object):
             '-m', '*.sys',
             '-m', 'syslinux',
             '-m', 'syslinux.cfg',
+            '-m', os.path.join(mntdir, 'bto.xml'),
             '-m', os.path.join(mntdir, 'isolinux'),
             '-m', os.path.join(mntdir, 'bto_version')]
 
