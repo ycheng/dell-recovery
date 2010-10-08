@@ -33,6 +33,7 @@ from Dell.recovery_gtk import DellRecoveryToolGTK, translate_widgets
 from Dell.recovery_basic_gtk import BasicGeneratorGTK
 
 from Dell.recovery_common import (UIDIR, GIT_TREES, UP_FILENAMES,
+                                  dbus_sync_call_signal_wrapper,
                                   increment_bto_version)
 
 try:
@@ -348,7 +349,6 @@ create an USB key or DVD image."))
 
         base_page = self.builder_widgets.get_object('base_page')
         wizard = self.widgets.get_object('wizard')
-
         wizard.set_page_complete(base_page, False)
 
         bto_version = ''
@@ -362,41 +362,17 @@ create an USB key or DVD image."))
             ret = self.rp
         
         if ret is not None:
+            self.toggle_spinner_popup(True)
             try:
-                (bto_version, distributor, release, arch, output_text) = \
-                                   self.backend().query_iso_information(ret)
-
+                dbus_sync_call_signal_wrapper(self.backend(),
+                                            'query_iso_information',
+                                            {'report_iso_info': self.update_version_gui},
+                                            ret)
             except dbus.DBusException, msg:
                 parent = self.widgets.get_object('wizard')
                 self.dbus_exception_handler(msg, parent)
-            self.bto_base = bool(bto_version)
+            self.toggle_spinner_popup(False)
             self.builder_base_image = ret
-            wizard.set_page_complete(base_page, True)
-
-        if not bto_version:
-            bto_version = 'X00'
-
-        #set the version string that we fetched from the image
-        #or increment it if we started from a BTO base image
-        if self.bto_base:
-            bto_version = increment_bto_version(bto_version)
-        self.widgets.get_object('version').set_text(bto_version)
-
-        if distributor:
-            self.distributor = distributor
-        if release:
-            self.release = release
-        if arch:
-            self.arch = arch
-
-        #If this is a BTO image, then allow using built in framework
-        if output_text and \
-           not self.bto_base and \
-           self.builder_widgets.get_object('builtin_radio').get_active():
-            self.builder_widgets.get_object('deb_radio').set_active(True)
-        self.builder_widgets.get_object('builtin_hbox').set_sensitive(self.bto_base)
-
-        self.builder_widgets.get_object('base_image_details_label').set_markup(output_text)
 
     def fid_toggled(self, widget):
         """Called when the radio button for the Builder FID overlay page is changed"""
@@ -818,3 +794,18 @@ create an USB key or DVD image."))
 
         if self.add_dell_recovery_deb:
             ok_button.set_sensitive(True)
+
+    def update_version_gui(self, version, distributor, release, arch, output_text):
+        """Stops any running spinners and updates GUI items"""
+        BasicGeneratorGTK.update_version_gui(self, version, distributor, release, arch, output_text)
+
+        if output_text:
+            base_page = self.builder_widgets.get_object('base_page')
+            wizard = self.widgets.get_object('wizard')
+            wizard.set_page_complete(base_page, True)
+            #If this is a BTO image, then allow using built in framework
+            if not self.bto_base and self.builder_widgets.get_object('builtin_radio').get_active():
+                self.builder_widgets.get_object('deb_radio').set_active(True)
+        self.builder_widgets.get_object('builtin_hbox').set_sensitive(self.bto_base)
+
+        self.builder_widgets.get_object('base_image_details_label').set_markup(output_text)

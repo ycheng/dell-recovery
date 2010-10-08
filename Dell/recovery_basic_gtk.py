@@ -56,6 +56,11 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         translate_widgets(self.widgets)
         self.widgets.connect_signals(self)
 
+        #setup spinner
+        self.spinner = gtk.Spinner()
+        self.widgets.get_object('spinner_box').add(self.spinner)
+        self.widgets.get_object('spinner_box').show_all()
+
         self._dbus_iface = None
         self.timeout = 0
         self.iso = ''
@@ -100,29 +105,26 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
 
     def wizard_complete(self, widget, function=None, args=None):
         """Finished answering wizard questions, and can continue process"""
-        try:
-            #Fill in dynamic data
-            if not self.widgets.get_object('version').get_text():
-                (version, distributor, release, arch, output_text) = \
-                                   self.backend().query_iso_information(self.rp)
 
-                if distributor:
-                    self.distributor = distributor
-                if release:
-                    self.release = release
-                if arch:
-                    self.arch = arch
+        #Fill in dynamic data
+        if not self.widgets.get_object('version').get_text():
+            self.toggle_spinner_popup(True)
+            try:
+                dbus_sync_call_signal_wrapper(self.backend(),
+                                            'query_iso_information',
+                                            {'report_iso_info': self.update_version_gui},
+                                            self.rp)
+            except dbus.DBusException, msg:
+                self.toggle_spinner_popup(False)
+                parent = self.widgets.get_object('wizard')
+                self.dbus_exception_handler(msg, parent)
+                return
+            finally:
+                self.toggle_spinner_popup(False)
 
-                version = increment_bto_version(version)
-                self.widgets.get_object('version').set_text(version)
-
-            self.iso = '%s-%s-%s-dell_%s.iso' % (self.distributor, self.release,
-                                                 self.arch,
-                                  self.widgets.get_object('version').get_text())
-        except dbus.DBusException, msg:
-            parent = self.widgets.get_object('wizard')
-            self.dbus_exception_handler(msg, parent)
-            return
+        self.iso = '%s-%s-%s-dell_%s.iso' % (self.distributor, self.release,
+                                             self.arch,
+                              self.widgets.get_object('version').get_text())
 
         #Check for existing image
         skip_creation = False
@@ -232,6 +234,40 @@ partition layout.")
         self.widgets.get_object('progress_dialog').hide()
         while gtk.events_pending():
             gtk.main_iteration()
+
+    def toggle_spinner_popup(self, force):
+        wizard = self.widgets.get_object('wizard')
+        popup = self.widgets.get_object('spinner_popup')
+        if force:
+            wizard.set_sensitive(False)
+            self.spinner.start()
+            popup.show()
+        else:
+            self.spinner.stop()
+            popup.hide()
+            wizard.set_sensitive(True)
+        while gtk.events_pending():
+            gtk.main_iteration()
+
+    def update_version_gui(self, version, distributor, release, arch, output_text):
+        """Stops any running spinners and updates GUI items"""
+
+        if distributor:
+            self.distributor = distributor
+        if release:
+            self.release = release
+        if arch:
+            self.arch = arch
+        
+        self.bto_base = bool(version)
+
+        if self.bto_base:
+            version = increment_bto_version(version)
+        else:
+            version = 'X00'
+
+        self.widgets.get_object('version').set_text(version)
+        return True
 
     def update_progress_gui(self, progress_text, progress):
         """Updates the progressbar to show what we are working on"""

@@ -483,7 +483,7 @@ class Backend(dbus.service.Object):
         function(self, utility, assembly_tmp, version, iso)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 's', out_signature = 'sssss', sender_keyword = 'sender',
+        in_signature = 's', out_signature = 'b', sender_keyword = 'sender',
         connection_keyword = 'conn')
     def query_iso_information(self, iso, sender=None, conn=None):
         """Queries what type of ISO this is.  This same method will be used regardless
@@ -558,8 +558,7 @@ class Backend(dbus.service.Object):
         else:
             bto_version = ''
 
-        return (bto_version, distributor, release, arch, distributor_str)
-
+        return self.report_iso_info(bto_version, distributor, release, arch, distributor_str)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature = 's', out_signature = 'ss', sender_keyword = 'sender',
@@ -949,6 +948,12 @@ You will need to create this image on a system with a newer genisoimage." % vers
                 "genisoimage exited with a nonstandard return value."
             raise CreateFailed("ISO Building exited unexpectedly:\n%s" %
                                output.strip())
+
+    @dbus.service.signal(DBUS_INTERFACE_NAME)
+    def report_iso_info(self, version, distributor, release, arch, output_text):
+        '''Report ISO information to UI.
+        '''
+        return True
 
     @dbus.service.signal(DBUS_INTERFACE_NAME)
     def report_progress(self, progress_str, percent):

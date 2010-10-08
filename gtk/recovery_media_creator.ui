@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy toplevel-contextual -->
@@ -70,6 +70,21 @@
     <signal name="apply" handler="wizard_complete"/>
     <signal name="prepare" handler="build_page"/>
     <signal name="cancel" handler="check_close"/>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
     <child>
       <placeholder/>
     </child>
@@ -318,7 +333,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="max_length">7</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                     <property name="activates_default">True</property>
                     <property name="width_chars">7</property>
                     <signal name="changed" handler="build_page"/>
@@ -393,6 +408,24 @@
             <property name="pack_type">end</property>
             <property name="position">0</property>
           </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="spinner_popup">
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
+    <property name="default_width">15</property>
+    <property name="default_height">15</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="type_hint">splashscreen</property>
+    <property name="transient_for">wizard</property>
+    <child>
+      <object class="GtkEventBox" id="spinner_box">
+        <property name="visible">True</property>
+        <child>
+          <placeholder/>
         </child>
       </object>
     </child>
