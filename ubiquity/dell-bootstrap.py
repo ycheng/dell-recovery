@@ -1588,7 +1588,7 @@ class Install(InstallPlugin):
             #not in livefs, needs to be copied in
             elif os.path.exists(pool_cmd):
                 shutil.copy(pool_cmd, os.path.join(self.target, 'tmp'))                
-                install_misc.chrex(self.target, os.path.join('/tmp', pool_cmd))
+                install_misc.chrex(self.target, os.path.join('/tmp', os.path.basename(pool_cmd)))
         except debconf.DebconfError:
             pass
 
