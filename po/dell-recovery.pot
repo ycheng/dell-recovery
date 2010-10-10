@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-06 14:56-0500\n"
+"POT-Creation-Date: 2010-10-09 20:43-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,199 +37,195 @@ msgstr ""
 msgid "Copyright 2008-2010 Dell Inc."
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:155
+#: ../Dell/recovery_basic_gtk.py:157
 msgid "Building Base image"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:168
+#: ../Dell/recovery_basic_gtk.py:170
 msgid "Opening Burner"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:193
+#: ../Dell/recovery_basic_gtk.py:195
 msgid "Recovery Media Creation Process Complete"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:194
+#: ../Dell/recovery_basic_gtk.py:196
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:208
+#: ../Dell/recovery_basic_gtk.py:210
 msgid "Unable to proceed"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:209
+#: ../Dell/recovery_basic_gtk.py:211
 msgid ""
 "System does not appear to contain Dell factory installed partition layout."
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:258
+#: ../Dell/recovery_basic_gtk.py:294
 msgid "Choose Media Type"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:285 ../gtk/builder.ui.h:25
+#: ../Dell/recovery_basic_gtk.py:321 ../gtk/builder.ui.h:25
 msgid "ISO Image"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:287
+#: ../Dell/recovery_basic_gtk.py:323
 msgid "Media Type: "
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:290 ../Dell/recovery_basic_gtk.py:293
+#: ../Dell/recovery_basic_gtk.py:326 ../Dell/recovery_basic_gtk.py:329
 msgid "Recovery Partition: "
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:294
+#: ../Dell/recovery_basic_gtk.py:330
 msgid "Included"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:301
+#: ../Dell/recovery_basic_gtk.py:337
 msgid "Confirm Selections"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:58
+#: ../Dell/recovery_advanced_gtk.py:59
 msgid "python-vte is missing"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:59
+#: ../Dell/recovery_advanced_gtk.py:60
 msgid "Builder mode requires python-vte to function"
 msgstr ""
 
 #. wizard.resize(400,400)
-#: ../Dell/recovery_advanced_gtk.py:77
+#: ../Dell/recovery_advanced_gtk.py:78
 msgid " (BTO Image Builder Mode)"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:79
+#: ../Dell/recovery_advanced_gtk.py:80
 msgid ""
 "This will integrate a Dell OEM FID framework & driver package set into a "
 "customized OS media image.  You will have the option to create an USB key or "
 "DVD image."
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:149
+#: ../Dell/recovery_advanced_gtk.py:150
 msgid "Choose Base OS Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:152
+#: ../Dell/recovery_advanced_gtk.py:153
 msgid "Choose FID Overlay"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:161
+#: ../Dell/recovery_advanced_gtk.py:162
 msgid "Choose Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:173
+#: ../Dell/recovery_advanced_gtk.py:174
 msgid "Choose Driver Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:187
+#: ../Dell/recovery_advanced_gtk.py:188
 msgid "Choose Application Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:201
+#: ../Dell/recovery_advanced_gtk.py:202
 msgid "Builder Summary"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:202
+#: ../Dell/recovery_advanced_gtk.py:203
 msgid "Base Image Distributor"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:204
+#: ../Dell/recovery_advanced_gtk.py:205
 msgid "Base Image Release"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:207
+#: ../Dell/recovery_advanced_gtk.py:208
 msgid "BTO Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:210
+#: ../Dell/recovery_advanced_gtk.py:211
 msgid "Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:213
+#: ../Dell/recovery_advanced_gtk.py:214
 msgid "FID Overlay"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:217
+#: ../Dell/recovery_advanced_gtk.py:218
 msgid "Utility Partition: "
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:220
+#: ../Dell/recovery_advanced_gtk.py:221
 msgid "Application"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:221
+#: ../Dell/recovery_advanced_gtk.py:222
 msgid "Driver"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:227
+#: ../Dell/recovery_advanced_gtk.py:228
 msgid "Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:233
+#: ../Dell/recovery_advanced_gtk.py:234
 msgid "Inject Dell Recovery Package"
 msgstr ""
 
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:243
+#: ../Dell/recovery_advanced_gtk.py:244
 msgid "Assembling Image Components"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:319
+#: ../Dell/recovery_advanced_gtk.py:320
 msgid "Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:322
+#: ../Dell/recovery_advanced_gtk.py:323
 msgid "No Additional Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:451
+#: ../Dell/recovery_advanced_gtk.py:419
 msgid "<b>ERROR</b>: git is not installed"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:612
+#: ../Dell/recovery_advanced_gtk.py:580
 msgid "Missing Dell-Recovery"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:613
+#: ../Dell/recovery_advanced_gtk.py:581
 msgid "Not present in ISO or GIT tree"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:729
+#: ../Dell/recovery_advanced_gtk.py:697
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
-#: ../Dell/recovery_backend.py:282
+#: ../Dell/recovery_backend.py:284
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:399
+#: ../Dell/recovery_backend.py:404
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:407
+#: ../Dell/recovery_backend.py:412
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:455 ../Dell/recovery_backend.py:461
-msgid "Calculating FISH MD5SUMs"
-msgstr ""
-
-#: ../Dell/recovery_backend.py:757
+#: ../Dell/recovery_backend.py:774
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:820
+#: ../Dell/recovery_backend.py:838
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:867
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:916
+#: ../Dell/recovery_backend.py:934
 msgid "Building ISO"
 msgstr ""
 
@@ -416,51 +412,49 @@ msgid "No additional Utility Partition"
 msgstr ""
 
 #: ../gtk/builder.ui.h:29
-msgid "Please enter the SRV to use:"
+msgid ""
+"Part of the FID overlay requires a dell-recovery package to be included."
 msgstr ""
 
 #: ../gtk/builder.ui.h:30
-msgid "SRV Entry"
+msgid "Please enter the SRV to use:"
 msgstr ""
 
 #: ../gtk/builder.ui.h:31
-msgid "Select content for Utility Partition"
+msgid "SRV Entry"
 msgstr ""
 
 #: ../gtk/builder.ui.h:32
-msgid "Selected Content Details:"
+msgid "Select content for Utility Partition"
 msgstr ""
 
 #: ../gtk/builder.ui.h:33
-msgid "Selected Image Details:"
+msgid "Selected Content Details:"
 msgstr ""
 
 #: ../gtk/builder.ui.h:34
-msgid "Selected Overlay Details:"
+msgid "Selected Image Details:"
 msgstr ""
 
 #: ../gtk/builder.ui.h:35
-msgid "Show Details"
+msgid "Selected Overlay Details:"
 msgstr ""
 
 #: ../gtk/builder.ui.h:36
+msgid "Show Details"
+msgstr ""
+
+#: ../gtk/builder.ui.h:37
 msgid ""
 "The BTO FID framework is the first thing injected into a base vanilla "
 "image.  If you are generating from an existing BTO compatible image, you may "
 "use the built-in framework."
 msgstr ""
 
-#: ../gtk/builder.ui.h:37
+#: ../gtk/builder.ui.h:38
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
-msgstr ""
-
-#: ../gtk/builder.ui.h:38
-msgid ""
-"The combination of the image and GIT tree you have provided do not supply "
-"the necessary dell-recovery package.  It will have to be injected into the "
-"image separately."
 msgstr ""
 
 #: ../gtk/tool_selector.ui.h:1
