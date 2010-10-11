@@ -604,10 +604,10 @@ def dbus_sync_call_signal_wrapper(dbus_iface, func, handler_map, *args, **kwargs
         # not a D-BUS object
         return getattr(dbus_iface, func)(*args, **kwargs)
 
-    def _h_reply(result=None):
+    def _h_reply(*args, **kwargs):
         """protected method to send a reply"""
         global _h_reply_result
-        _h_reply_result = result
+        _h_reply_result = args
         loop.quit()
 
     def _h_error(exception=None):

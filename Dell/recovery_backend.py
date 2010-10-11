@@ -468,7 +468,7 @@ class Backend(dbus.service.Object):
         function(self, utility, assembly_tmp, version, iso)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 's', out_signature = 'b', sender_keyword = 'sender',
+        in_signature = 's', out_signature = 'sssss', sender_keyword = 'sender',
         connection_keyword = 'conn')
     def query_iso_information(self, iso, sender=None, conn=None):
         """Queries what type of ISO this is.  This same method will be used regardless
@@ -543,7 +543,8 @@ class Backend(dbus.service.Object):
         else:
             bto_version = ''
 
-        return self.report_iso_info(bto_version, distributor, release, arch, distributor_str)
+        self.report_iso_info(bto_version, distributor, release, arch, distributor_str)
+        return (bto_version, distributor, release, arch, distributor_str)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature = 's', out_signature = 'ss', sender_keyword = 'sender',
