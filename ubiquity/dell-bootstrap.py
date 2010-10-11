@@ -29,6 +29,7 @@ from threading import Thread
 from Dell.recovery_threading import ProgressBySize
 import debconf
 import Dell.recovery_common as magic
+from Dell.recovery_xml import BTOxml
 import subprocess
 import os
 import re
@@ -1113,6 +1114,7 @@ class RPbuilder(Thread):
         self.additional_kernel_options = ako
         self.exception = None
         self.file_size_thread = sizing_thread
+        self.xml_obj = BTOxml()
         Thread.__init__(self)
 
     def build_rp(self, cushion=300):
@@ -1358,11 +1360,20 @@ manually to proceed.")
             #most users won't need that anyway so it's just nice to have
             syslog.syslog("Skipping casper UUID build due to low memory")
 
-        #backup syslog to RP
+        #update bto.xml
+        path = os.path.join(CDROM_MOUNT, 'bto.xml')
+        if os.path.exists(path):
+            self.xml_obj.load_bto_xml(path)
         with misc.raised_privileges():
-            shutil.copy("/var/log/syslog", "/boot/bto_syslog")
-            shutil.copy("/var/log/installer/debug", "/boot/bto_debug")
-
+            dr_version = magic.check_version('dell-recovery')
+            ubi_version = magic.check_version('ubiquity')
+            self.xml_obj.replace_node_contents('bootstrap', dr_version)
+            self.xml_obj.replace_node_contents('ubiquity' , ubi_version)
+            with open('/var/log/syslog', 'r') as rfd:
+                self.xml_obj.replace_node_contents('syslog', rfd.read())
+            with open('/var/log/installer/debug', 'r') as rfd:
+                self.xml_obj.replace_node_contents('debug', rfd.read())
+            self.xml_obj.write_xml('/boot/bto.xml')
         misc.execute_root('umount', '/boot')
 
     def exit(self):

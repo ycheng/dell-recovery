@@ -29,6 +29,7 @@ import os
 class BTOxml:
     def __init__(self):
         self.dom = None
+        self.load_bto_xml()
 
     def set_base(self, name, md5=''):
         """Sets the base image"""
@@ -38,8 +39,6 @@ class BTOxml:
 
     def append_fish(self, fish_type, name, md5='', srv=''):
         """Appends a fish package"""
-        if not self.dom:
-            self.load_bto_xml()
         elements = self.dom.getElementsByTagName('fish')
         new_element = self.dom.createElement(fish_type)
         if md5:
@@ -61,8 +60,6 @@ class BTOxml:
 
     def replace_node_contents(self, tag, new):
         """Replaces a node contents (that we assume exists)"""
-        if not self.dom:
-            self.load_bto_xml()
         elements = self.dom.getElementsByTagName(tag)
         if not elements:
             print "Missing elements for tag"

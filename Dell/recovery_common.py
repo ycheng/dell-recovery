@@ -137,15 +137,15 @@ def check_vendor():
         vendor = ''
     return (vendor == 'dell')
 
-def check_version():
+def check_version(package='dell-recovery'):
     """Queries the package management system for the current tool version"""
     try:
         import apt.cache
         cache = apt.cache.Cache()
-        if cache['dell-recovery'].is_installed:
-            return cache['dell-recovery'].installed.version
+        if cache[package].is_installed:
+            return cache[package].installed.version
     except Exception, msg:
-        print >> sys.stderr, "Error checking dell-recovery version: %s" % msg
+        print >> sys.stderr, "Error checking %s version: %s" % (package, msg)
         return "unknown"
 
 def process_conf_file(original, new, uuid, rp_number, ako=''):
