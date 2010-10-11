@@ -615,13 +615,18 @@ class Page(Plugin):
             return
 
         mount = False
+        path = ''
+        if os.path.exists('/usr/share/dell/up/drmk.zip'):
+            path = '/usr/share/dell/up/drmk.zip'
+        elif os.path.exists(os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip')):
+            path = os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip')
         #If we have DRMK available, explode that first
-        if os.path.exists(os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip')):
+        if path:
             self.log("Extracting DRMK onto utility partition %s" % self.device + STANDARD_UP_PARTITION)
             mount = misc.execute_root('mount', self.device + STANDARD_UP_PARTITION, '/boot')
             if mount is False:
                 raise RuntimeError, ("Error mounting utility partition pre-explosion.")
-            archive = zipfile.ZipFile(os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip'))
+            archive = zipfile.ZipFile(path)
             with misc.raised_privileges():
                 archive.extractall(path='/boot')
             archive.close()
@@ -1174,8 +1179,15 @@ manually to proceed.")
 
         self.status("Creating Partitions", 1)
         if self.disk_layout == 'msdos':
-            #Create a DRMK MBR
-            with open('/usr/share/dell/up/mbr.bin', 'rb') as mbr:
+            #Create an MBR
+            path = '/usr/share/dell/up/mbr.bin'
+            if os.path.exists(path):
+                pass
+            elif os.path.exists('/usr/lib/syslinux/mbr.bin'):
+                path = '/usr/share/syslinux/mbr.bin'
+            else:
+                raise RuntimeError, ("Missing both DRMK and syslinux MBR")
+            with open(path, 'rb') as mbr:
                 with misc.raised_privileges():
                     with open(self.device, 'wb') as out:
                         out.write(mbr.read(440))
@@ -1205,13 +1217,14 @@ manually to proceed.")
                 magic.fetch_output(['fdisk', self.device], data)
 
             #build the bootsector of the partition
-            with open('/usr/share/dell/up/up.bs', 'rb') as rfd:
-                with misc.raised_privileges():
-                    with open(self.device + up_part, 'wb') as wfd:
-                        wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
-                        rfd.seek(43)
-                        wfd.seek(43)
-                        wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
+            if os.path.exists('/usr/share/dell/up/up.bs'):
+                with open('/usr/share/dell/up/up.bs', 'rb') as rfd:
+                    with misc.raised_privileges():
+                        with open(self.device + up_part, 'wb') as wfd:
+                            wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
+                            rfd.seek(43)
+                            wfd.seek(43)
+                            wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
 
             #Build RP
             command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', self.rp_type, str(up_size), str(up_size + rp_size_mb))
