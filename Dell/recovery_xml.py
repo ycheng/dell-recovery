@@ -29,6 +29,7 @@ import os
 class BTOxml:
     def __init__(self):
         self.dom = None
+        self.new = False
         self.load_bto_xml()
 
     def set_base(self, name, md5=''):
@@ -89,6 +90,7 @@ class BTOxml:
             return element
 
         if fname:
+            self.new = False
             try:
                 if os.path.exists(fname):
                     self.dom = xml.dom.minidom.parse(fname)
@@ -98,6 +100,7 @@ class BTOxml:
                 print "Damaged XML file, regenerating"
             
         if not (fname and self.dom):
+            self.new = True
             self.dom = xml.dom.minidom.Document()
 
         #test for top level bto object
@@ -124,4 +127,7 @@ class BTOxml:
     def write_xml(self, fname):
         """Writes out a BTO XML file based on the current data"""
         with open(fname, 'w') as wfd:
-            self.dom.writexml(wfd, "", "  ", "\n")
+            if self.new:
+                self.dom.writexml(wfd, "", "  ", "\n")
+            else:
+                self.dom.writexml(wfd)

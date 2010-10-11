@@ -13,6 +13,7 @@ dell-recovery (0.72) UNRELEASED; urgency=low
   * Show a spinner while testing the initrd (it can take a while now).
   * Produce a bto.xml rather than a collection of bto_* files.
   * Allow any return arguments for dbus_sync calls.
+  * Only write out an xml file with padding if it's a new file.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 05 Oct 2010 01:24:00 -0500
 
