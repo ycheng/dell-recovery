@@ -15,6 +15,8 @@ dell-recovery (0.72) UNRELEASED; urgency=low
   * Allow any return arguments for dbus_sync calls.
   * Only write out an xml file with padding if it's a new file.
   * Merge in the manufacturing site time zone logic.
+  * Move the utility partition code out of this package and into a new dell-drmk
+    package.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 05 Oct 2010 01:24:00 -0500
 

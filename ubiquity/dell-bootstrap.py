@@ -1184,7 +1184,7 @@ manually to proceed.")
             if os.path.exists(path):
                 pass
             elif os.path.exists('/usr/lib/syslinux/mbr.bin'):
-                path = '/usr/share/syslinux/mbr.bin'
+                path = '/usr/lib/syslinux/mbr.bin'
             else:
                 raise RuntimeError, ("Missing both DRMK and syslinux MBR")
             with open(path, 'rb') as mbr:
@@ -1225,7 +1225,10 @@ manually to proceed.")
                             rfd.seek(43)
                             wfd.seek(43)
                             wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
-
+            #If we don't have the bootsector code, then just set the label properly
+            else:
+                with misc.raised_privileges():
+                    magic.fetch_output(['dosfslabel', self.device + up_part, "DellUtility"], data)
             #Build RP
             command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', self.rp_type, str(up_size), str(up_size + rp_size_mb))
             result = misc.execute_root(*command)
