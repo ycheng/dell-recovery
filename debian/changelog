@@ -14,6 +14,7 @@ dell-recovery (0.72) UNRELEASED; urgency=low
   * Produce a bto.xml rather than a collection of bto_* files.
   * Allow any return arguments for dbus_sync calls.
   * Only write out an xml file with padding if it's a new file.
+  * Merge in the manufacturing site time zone logic.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 05 Oct 2010 01:24:00 -0500
 
