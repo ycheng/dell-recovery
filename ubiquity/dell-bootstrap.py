@@ -1607,21 +1607,23 @@ class Install(InstallPlugin):
         try:
             pool_cmd = progress.get('dell-recovery/pool_command')
             #already in livefs
-            if os.path.exists(os.path.join(self.target, pool_cmd)):
+            if os.path.exists(os.path.join(self.target, pool_cmd.lstrip('/'))):
                 install_misc.chrex(self.target, pool_cmd)
             #not in livefs, needs to be copied in
             elif os.path.exists(pool_cmd):
-                shutil.copy(pool_cmd, os.path.join(self.target, 'tmp'))                
+                shutil.copy(pool_cmd, os.path.join(self.target, 'tmp', os.path.basename(pool_cmd)))
                 install_misc.chrex(self.target, os.path.join('/tmp', os.path.basename(pool_cmd)))
+            else:
+                raise RuntimeError, ("Missing pool command to refresh %s" % pool_cmd)
         except debconf.DebconfError:
-            pass
+            raise RuntimeError, ("Error refreshing driver pool.")
 
         #Stuff that is installed on all configs without fish scripts
         to_install += self.find_unconditional_debs()
 
         #Query Dual boot or not
         try:
-            dual = misc.create_bool(self.db.get(DUAL_BOOT_QUESTION))
+            dual = misc.create_bool(progress.get(DUAL_BOOT_QUESTION))
         except debconf.DebconfError:
             dual = False
 
