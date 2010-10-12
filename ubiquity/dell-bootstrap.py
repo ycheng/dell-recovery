@@ -1621,9 +1621,9 @@ class Install(InstallPlugin):
 
         #Query Dual boot or not
         try:
-            dual = self.db.get(DUAL_BOOT_QUESTION)
+            dual = misc.create_bool(self.db.get(DUAL_BOOT_QUESTION))
         except debconf.DebconfError:
-            dual = ''
+            dual = False
 
         #we don't want EULA or dell-recovery in dual mode
         if dual:
