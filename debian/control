@@ -11,7 +11,7 @@ Standards-Version: 3.8.4
 
 Package: dell-recovery
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, python-gtk2, policykit-1, uuid-runtime, udisks | devicekit-disks | hal, policykit-1-gnome
+Depends: ${python:Depends}, ${misc:Depends}, python-gtk2, policykit-1, uuid-runtime, udisks | devicekit-disks | hal, policykit-1-gnome, genisoimage
 Replaces: dell-artwork, dell-oobe
 Conflicts: dell-oobe
 Recommends: usb-creator-gtk, brasero | nautilus-cd-burner, lsb-release, python-vte, python-aptdaemon-gtk, parted, python-git, python-progressbar
