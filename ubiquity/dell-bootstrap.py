@@ -813,8 +813,8 @@ class Page(Plugin):
             self.db.set(RECOVERY_TYPE_QUESTION, rec_type)
 
         #If we were preseeded to dynamic, look for an RP
+        rec_part = magic.find_factory_rp_stats()
         if rec_type == 'dynamic':
-            rec_part = magic.find_factory_rp_stats()
             if rec_part and rec_part["slave"] in mount:
                 self.log("Detected RP at %s, setting to factory boot" % mount)
                 rec_type = 'factory'
