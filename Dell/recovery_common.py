@@ -201,6 +201,7 @@ def fetch_output(cmd, data=None):
         proc.wait()
     if proc.returncode != 0:
         error = "Command %s failed with stdout/stderr: %s\n%s" % (cmd, out, err)
+        import syslog
         syslog.syslog(error)
         raise RuntimeError, (error)
     return out
