@@ -53,8 +53,10 @@ export DEBIAN_HAS_FRONTEND=
 export DEBCONF_REDIR=
 export DEBIAN_FRONTEND=noninteractive
 
-#Force ubiquity to run in automatic regardless if there are ubiquity options in /proc/cmdline
-sed -i "s/ubiquity=\$/ubiquity=1/; s/\$automatic\ \$choose/--automatic/" /root/etc/init/ubiquity.conf
+#Force ubiquity to run in automatic regardless if there are ubiquity options in /proc/cmdline (except single user mode)
+if ! grep -q "single" /proc/cmdline 2>&1 >/dev/null; then
+    sed -i "s/ubiquity=\$/ubiquity=1/; s/\$automatic\ \$choose/--automatic/" /root/etc/init/ubiquity.conf
+fi
 
 #Build custom pool (static and dynamic)
 if [ ! -x /root/usr/share/dell/scripts/pool.sh ]; then
