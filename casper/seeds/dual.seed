@@ -41,4 +41,4 @@
  d-i dell-recovery/swap_partition string
 
 #This controls whether dell-recovery, dell-oobe, and dell-eula get installed
- d-i dell-recovery/dual_boot_seed string preseed/file=/cdrom/preseed/dual.seed
+ d-i dell-recovery/dual_boot boolean true

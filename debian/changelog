@@ -1,3 +1,9 @@
+dell-recovery (0.73) UNRELEASED; urgency=low
+
+  * Fix the dual boot seed's command a little
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 18 Oct 2010 16:42:51 -0500
+
 dell-recovery (0.72) natty; urgency=low
 
   * Pull a lot of the FID tree directly into this package.
