@@ -63,9 +63,16 @@ if [ ! -f /etc/apt/sources.list.d/dell.list ]; then
         mv /etc/apt/sources.list.d/* /etc/apt/sources.list.d.old
     fi
     #Produce a dynamic list
-    cd /cdrom/debs
-    apt-ftparchive packages ../../cdrom/debs | sed "s/^Filename:\ ..\//Filename:\ .\//" > /Packages
-    echo "deb file:/ /" > /etc/apt/sources.list.d/dell.list
+    for dir in /cdrom/debs /isodevice/debs;
+    do
+        if [ -d "$dir" ]; then
+            cd $dir
+            apt-ftparchive packages ../../$dir | sed "s/^Filename:\ ..\//Filename:\ .\//" >> /Packages
+        fi
+    done
+    if [ -f /Packages ]; then
+        echo "deb file:/ /" > /etc/apt/sources.list.d/dell.list
+    fi
 
     #add the static list to our file
     apt-cdrom -m add

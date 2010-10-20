@@ -38,34 +38,39 @@ IFHALT "(SUCCESS) Clean-Up .."
 rm -f $TARGET/etc/apt/sources.list.d/dell.list
 
 if [ "$BOOTDEV" = "$TARGETDEV" ]; then
-    mount -o remount,rw /cdrom
+    if [ -d "/isodevice" ]; then
+        RP="/isodevice"
+    else
+        RP="/cdrom"
+    fi
+    mount -o remount,rw $RP
     IFHALT "Resetting grub fail state"
-    [ -s /cdrom/grub/grubenv ] || rm -f /cdrom/grub/grubenv
-    mkdir -p /cdrom/grub
-    grub-editenv /cdrom/grub/grubenv unset recordfail
+    [ -s $RP/grub/grubenv ] || rm -f $RP/grub/grubenv
+    mkdir -p $RP/grub
+    grub-editenv $RP/grub/grubenv unset recordfail
 
     #Set the right partition active now that we're done
     /tmp/set_active_partition
 
     IFHALT "Clean up FI Env..."
-    rm -rf /cdrom/scripts/chroot-scripts/os-post/95-set_UTC_TZ.sh
-    rm -rf /cdrom/misc/dell-unsupported.py
-    rm -rf /cdrom/misc/run-tz-fix
-    rm -rf /cdrom/misc/tz_offset.py
-    rm -rf /cdrom/misc/drmk.zip
-    rm -rf /cdrom/command.com
-    rm -rf /cdrom/autoexec.bat
-    rm -rf /cdrom/dellbio.bin
-    rm -rf /cdrom/dellrmk.bin
-    rm -rf /cdrom/linld.com
-    rm -rf /cdrom/cmd.cfg
-    rm -rf /cdrom/up.zip
-    rm -rf /cdrom/up.tgz
-    rm -rf /cdrom/upimg.bin
-    rm -rf /cdrom/upimg.gz
-    rm -rf /cdrom/SDR
-    rm -rf /cdrom/*.SDR
-    rm -rf /cdrom/srv
+    rm -rf $RP/scripts/chroot-scripts/os-post/95-set_UTC_TZ.sh
+    rm -rf $RP/misc/dell-unsupported.py
+    rm -rf $RP/misc/run-tz-fix
+    rm -rf $RP/misc/tz_offset.py
+    rm -rf $RP/misc/drmk.zip
+    rm -rf $RP/command.com
+    rm -rf $RP/autoexec.bat
+    rm -rf $RP/dellbio.bin
+    rm -rf $RP/dellrmk.bin
+    rm -rf $RP/linld.com
+    rm -rf $RP/cmd.cfg
+    rm -rf $RP/up.zip
+    rm -rf $RP/up.tgz
+    rm -rf $RP/upimg.bin
+    rm -rf $RP/upimg.gz
+    rm -rf $RP/SDR
+    rm -rf $RP/*.SDR
+    rm -rf $RP/srv
 
     IFHALT "Report the LOG..."
     if [ -f /dell/fist/tal ]; then
@@ -75,10 +80,10 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     fi
 
     #If we have another script to run, do it
-    if [ -f /cdrom/scripts/chroot-scripts/SUCCESS-SCRIPT ]; then
-        /cdrom/scripts/chroot-scripts/SUCCESS-SCRIPT
-        rm -f /cdrom/scripts/chroot-scripts/SUCCESS-SCRIPT
-        rm -f /cdrom/scripts/chroot-scripts/FAIL-SCRIPT
+    if [ -f $RP/scripts/chroot-scripts/SUCCESS-SCRIPT ]; then
+        $RP/scripts/chroot-scripts/SUCCESS-SCRIPT
+        rm -f $RP/scripts/chroot-scripts/SUCCESS-SCRIPT
+        rm -f $RP/scripts/chroot-scripts/FAIL-SCRIPT
         IFHALT "(SUCCESS) Report to logs.. Done!"
     fi
 fi

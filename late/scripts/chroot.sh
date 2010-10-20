@@ -31,7 +31,11 @@ set -e
 
 export TARGET=/target
 
-DEVICE=$(mount | sed -n 's/\ on\ \/cdrom.*//p')
+if [ -d "/isodevice" ]; then
+    DEVICE=$(mount | sed -n 's/\ on\ \/isodevice.*//p')
+else
+    DEVICE=$(mount | sed -n 's/\ on\ \/cdrom.*//p')
+fi
 export BOOTDEV=${DEVICE%%[0-9]*}
 DEVICE=$(mount | sed -n 's/\ on\ \/target.*//p')
 export TARGETDEV=${DEVICE%%[0-9]*}
@@ -93,6 +97,11 @@ if [ ! -d $TARGET/usr/share/dell/scripts ]; then
     DIR_CLEANUP="$TARGET/usr/share/dell/scripts $DIR_CLEANUP"
     mount --bind /usr/share/dell/scripts $TARGET/usr/share/dell/scripts
     MOUNT_CLEANUP="$TARGET/usr/share/dell/scripts $MOUNT_CLEANUP"
+fi
+
+#If we are loop mounted, this will have been done during the ubiquity
+if [ -d /isodevice ]; then
+    MOUNT_CLEANUP="$TARGET/isodevice $MOUNT_CLEANUP"
 fi
 
 #Run chroot scripts

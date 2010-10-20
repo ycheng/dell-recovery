@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-09 20:43-0500\n"
+"POT-Creation-Date: 2010-10-20 17:34-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -205,27 +205,31 @@ msgstr ""
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:404
+#: ../Dell/recovery_backend.py:403
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:412
+#: ../Dell/recovery_backend.py:411
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:774
+#: ../Dell/recovery_backend.py:761
+msgid "Preparing nested image"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:785
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:838
+#: ../Dell/recovery_backend.py:849
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:867
+#: ../Dell/recovery_backend.py:878
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:934
+#: ../Dell/recovery_backend.py:945
 msgid "Building ISO"
 msgstr ""
 

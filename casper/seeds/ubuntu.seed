@@ -128,7 +128,7 @@
  d-i oem-config/id string Dell Inc.
  d-i oem-config/remove boolean true
  d-i oem-config/early_command string dynamic
- d-i oem-config/late_command string rm -f /etc/apt/sources.list.d/dell.list
+ d-i oem-config/late_command string /usr/share/dell/scripts/oem_config.sh late
  d-i oem-config/remove_extras boolean true
  d-i oem-config/install-language-support boolean true
 
@@ -151,7 +151,6 @@
 
 # This first command is run as early as possible, just after
 # preseeding is read.
- d-i preseed/early_command string /root/cdrom/scripts/bootstrap.sh
  ubiquity ubiquity/success_command string /usr/share/dell/scripts/chroot.sh success
  ubiquity ubiquity/failure_command string /usr/share/dell/scripts/chroot.sh failure
  ubiquity ubiquity/reboot boolean true

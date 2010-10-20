@@ -1,6 +1,13 @@
 dell-recovery (0.73) UNRELEASED; urgency=low
 
   * Fix the dual boot seed's command a little
+  * Add support to boot loopback mounted ISO images on the recovery partition.
+    - They must be titled 'ubuntu.iso' to function because some parts of the
+      code can't dynamically detect the filename.
+  * Run oem-config early and late commands from a shell script rather than a
+    long chained list of && commands.
+  * Remove the functionality of setting the pool command.
+  * Add a new black_tree function that copies files off of a blacklist.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 18 Oct 2010 16:42:51 -0500
 

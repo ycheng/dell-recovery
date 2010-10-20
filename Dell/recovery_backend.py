@@ -43,7 +43,7 @@ from hashlib import md5
 
 from Dell.recovery_common import (DOMAIN, LOCALEDIR, UP_FILENAMES,
                                   walk_cleanup, create_new_uuid, white_tree,
-                                  fetch_output, check_version,
+                                  black_tree, fetch_output, check_version,
                                   DBUS_BUS_NAME, DBUS_INTERFACE_NAME,
                                   RestoreFailed, CreateFailed,
                                   PermissionDeniedByPolicy)
@@ -397,7 +397,6 @@ class Backend(dbus.service.Object):
                 print >> sys.stderr, "Error reading purge list, but file exists"
         logging.debug('assemble_image: purge_filter is %s', purge_filter)
         white_pattern = re.compile(purge_filter)
-
 
         #copy the base iso/mnt point/etc
         w_size = white_tree("size", white_pattern, base_mnt)
@@ -754,6 +753,17 @@ class Backend(dbus.service.Object):
 
         #mount the recovery partition
         mntdir = self.request_mount(recovery, sender, conn)
+
+        #check for a nested ISO image
+        if os.path.exists(os.path.join(mntdir, 'ubuntu.iso')):
+            pattern = re.compile('^ubuntu.iso|^.disk')
+            w_size = black_tree("size", pattern, mntdir)
+            self.start_sizable_progress_thread(_('Preparing nested image'),
+                                           tmpdir,
+                                           w_size)
+            black_tree("copy", pattern, mntdir, tmpdir)
+            self.stop_progress_thread()
+            mntdir = self.request_mount(os.path.join(mntdir, 'ubuntu.iso'), sender, conn)
 
         if not os.path.exists(os.path.join(mntdir, '.disk', 'info')):
             print >> sys.stderr, \

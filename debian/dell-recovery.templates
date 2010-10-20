@@ -51,11 +51,6 @@ Type: string
 Default: dynamic
 Description: for internal use; determines the default UI; (une/ude) or dynamically determined based on LOB/screen rez (dynamic)
 
-Template: dell-recovery/pool_command
-Type: string
-Default: /usr/share/dell/scripts/pool.sh
-Description: for internal use; determines the command used to dynamically rebuild the pool
-
 Template: dell-recovery/dual_boot
 Type: boolean
 Default: false

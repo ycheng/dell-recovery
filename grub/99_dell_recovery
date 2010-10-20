@@ -11,6 +11,12 @@ menuentry "Restore #OS# to factory state" {
         else
             set options="boot=casper automatic-ubiquity noprompt quiet splash"
         fi
+        #Support starting from a loopback mount (Only support ubuntu.iso for filename)
+        if [ -f /ubuntu.iso ]; then
+            loopback loop /ubuntu.iso
+            set root=(loop)
+            set options="\$options iso-scan/filename=/ubuntu.iso"
+        fi
         linux   /casper/vmlinuz dell-recovery/recovery_type=hdd \$options
 	initrd	/casper/initrd.lz
 }

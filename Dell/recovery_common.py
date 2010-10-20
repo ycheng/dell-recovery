@@ -77,9 +77,19 @@ UP_FILENAMES =  [ 'upimg.bin',
 ##                ##
 ##Common Functions##
 ##                ##
+
+def black_tree(action, blacklist, src, dst='', base=None):
+    """Recursively ACTIONs files from src to dest only
+       when they don't match the blacklist outlined in blacklist"""
+    return _tree(action, blacklist, src, dst, base, False)
+    
 def white_tree(action, whitelist, src, dst='', base=None):
     """Recursively ACTIONs files from src to dest only
        when they match the whitelist outlined in whitelist"""
+    return _tree(action, whitelist, src, dst, base, True)
+    
+def _tree(action, list, src, dst, base, white):
+    """Helper function for tree calls"""
     from distutils.file_util import copy_file
 
     if base is None:
@@ -107,15 +117,15 @@ def white_tree(action, whitelist, src, dst='', base=None):
         elif os.path.isdir(src_name):
             if action == "copy":
                 outputs.extend(
-                    white_tree(action, whitelist, src_name, dst_name, base))
+                    _tree(action, list, src_name, dst_name, base, white))
             elif action == "size":
                 #add the directory we're in
                 outputs += os.path.getsize(src_name)
                 #add the files in that directory
-                outputs += white_tree(action, whitelist, src_name, dst_name, base)
+                outputs += _tree(action, list, src_name, dst_name, base, white)
 
-        #only copy the file if it matches the whitelist
-        elif whitelist.search(end):
+        #only copy the file if it matches the list / color
+        elif (white and list.search(end)) or not (white or list.search(end)):
             if action == "copy":
                 if not os.path.isdir(dst):
                     os.makedirs(dst)

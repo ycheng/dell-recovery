@@ -51,6 +51,7 @@ STANDARD_EFI_PARTITION =     '1'
 STANDARD_UP_PARTITION  =     '1'
 STANDARD_RP_PARTITION  =     '2'
 CDROM_MOUNT = '/cdrom'
+ISO_MOUNT = '/isodevice'
 
 TYPE_NTFS = '07'
 TYPE_NTFS_RE = '27'
@@ -421,7 +422,6 @@ class Page(Plugin):
         self.swap_part = None
         self.swap = None
         self.dual = None
-        self.pool_cmd = None
         self.uuid = None
         self.up_part = None
         self.rp_part = None
@@ -453,7 +453,11 @@ class Page(Plugin):
         self.log("Installing GRUB to %s" % self.device + STANDARD_RP_PARTITION)
 
         #Mount R/W
-        cd_mount   = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
+        if os.path.exists(ISO_MOUNT):
+            target = ISO_MOUNT
+        else:
+            target = CDROM_MOUNT
+        cd_mount   = misc.execute_root('mount', '-o', 'remount,rw', target)
         if cd_mount is False:
             raise RuntimeError, ("CD Mount failed")
 
@@ -461,14 +465,14 @@ class Page(Plugin):
         files = {'recovery_partition.cfg': 'grub.cfg',
                  'common.cfg' : 'common.cfg'}
         for item in files:
-            if not os.path.exists(os.path.join(CDROM_MOUNT, 'grub', files[item])):
+            if not os.path.exists(os.path.join(target, 'grub', files[item])):
                 with misc.raised_privileges():
                     magic.process_conf_file('/usr/share/dell/grub/' + item,   \
-                              os.path.join(CDROM_MOUNT, 'grub', files[item]), \
+                              os.path.join(target, 'grub', files[item]), \
                               self.uuid, STANDARD_RP_PARTITION)
 
         #Do the actual grub installation
-        bmount = misc.execute_root('mount', '-o', 'bind', CDROM_MOUNT, '/boot')
+        bmount = misc.execute_root('mount', '-o', 'bind', target, '/boot')
         if bmount is False:
             raise RuntimeError, ("Bind Mount failed")
         grub_inst  = misc.execute_root('grub-install', '--force', \
@@ -478,9 +482,9 @@ class Page(Plugin):
         unbind_mount = misc.execute_root('umount', '/boot')
         if unbind_mount is False:
             raise RuntimeError, ("Unmount /boot failed")
-        uncd_mount = misc.execute_root('mount', '-o', 'remount,ro', CDROM_MOUNT)
+        uncd_mount = misc.execute_root('mount', '-o', 'remount,ro', target)
         if uncd_mount is False:
-            raise RuntimeError, ("Uncd mount failed")
+            syslog.syslog("Uncd mount failed.  This may be normal depending on the filesystem.")
 
     def disable_swap(self):
         """Disables any swap partitions in use"""
@@ -761,11 +765,13 @@ class Page(Plugin):
         #Don't you dare put a USB stick in the system with that label right now!
 
         self.device = rec_part["slave"]
-        if os.path.exists(self.pool_cmd):
-            early = '&& %s' % self.pool_cmd
+
+        if os.path.exists(ISO_MOUNT):
+            location = ISO_MOUNT
         else:
-            early = ''
-        self.db.set('oem-config/early_command', 'mount -o ro %s %s %s' % (rec_part["device"], CDROM_MOUNT, early))
+            location = CDROM_MOUNT
+        early = '/usr/share/dell/scripts/oem_config.sh early %s %s' % (rec_part['device'], location)
+        self.db.set('oem-config/early_command', early)
         self.db.set('partman-auto/disk', self.device)
 
         if self.disk_layout == 'msdos':
@@ -795,11 +801,7 @@ class Page(Plugin):
         
         #mountpoint
         mount = ''
-        with open('/proc/mounts', 'r') as mounts:
-            for line in mounts.readlines():
-                if '/cdrom' in line:
-                    mount = line.split()[0]
-                    break
+        mount = find_boot_device()
         self.log("mounted from %s" % mount)
 
         #recovery type
@@ -848,14 +850,6 @@ class Page(Plugin):
         except debconf.DebconfError, err:
             self.log(str(err))
             self.rp_filesystem = TYPE_VFAT_LBA
-
-        #For rebuilding the pool in oem-config and during install
-        try:
-            self.pool_cmd = self.db.get('dell-recovery/pool_command')
-        except debconf.DebconfError, err:
-            self.log(str(err))
-            self.pool_cmd = '/usr/share/dell/scripts/pool.sh'
-            self.preseed('dell-recovery/pool_command', self.pool_cmd)
 
         #Check if we are set in dual-boot mode
         try:
@@ -1141,11 +1135,7 @@ class RPbuilder(Thread):
             raise RuntimeError, ("Unsupported disk layout: %s" % self.disk_layout)
 
         #Check if we are booted from same device as target
-        with open('/proc/mounts', 'r') as mounts:
-            for line in mounts.readlines():
-                if '/cdrom' in line:
-                    mounted_device = line.split()[0]
-                    break
+        mounted_device = find_boot_device()
         if self.device in mounted_device:
             raise RuntimeError, ("Attempting to install to the same device as booted from.\n\
 You will need to clear the contents of the recovery partition\n\
@@ -1365,12 +1355,15 @@ manually to proceed.")
 
         #Build new UUID
         if int(self.mem) >= 1: #GB
-            self.status("Regenerating UUID / initramfs", 90)
-            with misc.raised_privileges():
-                magic.create_new_uuid(os.path.join(CDROM_MOUNT, 'casper'),
-                        os.path.join(CDROM_MOUNT, '.disk'),
-                        os.path.join('/boot', 'casper'),
-                        os.path.join('/boot', '.disk'))
+            if os.path.isdir(ISO_MOUNT):
+                syslog.syslog("Skipping UUID generation - booted from ISO image.")
+            else:
+                self.status("Regenerating UUID / initramfs", 90)
+                with misc.raised_privileges():
+                    magic.create_new_uuid(os.path.join(CDROM_MOUNT, 'casper'),
+                            os.path.join(CDROM_MOUNT, '.disk'),
+                            os.path.join('/boot', 'casper'),
+                            os.path.join('/boot', '.disk'))
         else:
             #The new UUID just fixes the installed-twice-on-same-system scenario
             #most users won't need that anyway so it's just nice to have
@@ -1411,6 +1404,20 @@ manually to proceed.")
 ####################
 # Helper Functions #
 ####################
+def find_boot_device():
+    """Finds the device we're booted from'"""
+    with open('/proc/mounts', 'r') as mounts:
+        for line in mounts.readlines():
+            if ISO_MOUNT in line:
+                mounted_device = line.split()[0]
+                break
+            if CDROM_MOUNT in line:
+                found = line.split()[0]
+                if not 'loop' in found:
+                    mounted_device = line.split()[0]
+                    break
+    return mounted_device
+
 def reboot_machine(objpath):
     """Reboots the machine"""
     reboot_cmd = '/sbin/reboot'
@@ -1461,13 +1468,14 @@ class Install(InstallPlugin):
         #process debs/main
         to_install = []
         my_arch = magic.fetch_output(['dpkg', '--print-architecture']).strip()
-        repo = os.path.join(CDROM_MOUNT, 'debs', 'main')
-        if os.path.isdir(repo):
-            for fname in os.listdir(repo):
-                if '.deb' in fname:
-                    arch, package = parse(os.path.join(repo, fname))
-                    if arch == "all" or arch == my_arch:
-                        to_install.append(package)
+        for top in [ISO_MOUNT, CDROM_MOUNT]:
+            repo = os.path.join(top, 'debs', 'main')
+            if os.path.isdir(repo):
+                for fname in os.listdir(repo):
+                    if '.deb' in fname:
+                        arch, package = parse(os.path.join(repo, fname))
+                        if arch == "all" or arch == my_arch:
+                            to_install.append(package)
 
         #These aren't in all images, but desirable if available
         to_install.append('dkms')
@@ -1503,6 +1511,7 @@ class Install(InstallPlugin):
                not 'console-setup/'                   in item and \
                not 'locale='                          in item and \
                not 'BOOT_IMAGE='                      in item and \
+               not 'iso-scan/'                        in item and \
                not 'ubiquity'                         in item:
                 new += '%s ' % item
         extra = new.strip()
@@ -1605,21 +1614,17 @@ class Install(InstallPlugin):
                         wfd.write('grub-install --no-floppy %s\n' % disk)
             os.chmod('/tmp/set_active_partition', 0755)
 
-        #Fixup pool to only accept stuff on /cdrom
-        #This is reverted during SUCCESS_SCRIPT
-        try:
-            pool_cmd = progress.get('dell-recovery/pool_command')
-            #already in livefs
-            if os.path.exists(os.path.join(self.target, pool_cmd.lstrip('/'))):
-                install_misc.chrex(self.target, pool_cmd)
-            #not in livefs, needs to be copied in
-            elif os.path.exists(pool_cmd):
-                shutil.copy(pool_cmd, os.path.join(self.target, 'tmp', os.path.basename(pool_cmd)))
-                install_misc.chrex(self.target, os.path.join('/tmp', os.path.basename(pool_cmd)))
-            else:
-                raise RuntimeError, ("Missing pool command to refresh %s" % pool_cmd)
-        except debconf.DebconfError:
-            raise RuntimeError, ("Error refreshing driver pool.")
+        #if we are loop mounted, make sure the chroot knows it too
+        if os.path.isdir(ISO_MOUNT):
+            os.makedirs(os.path.join(self.target, ISO_MOUNT.lstrip('/')))
+            misc.execute_root('mount', '--bind', ISO_MOUNT, os.path.join(self.target, ISO_MOUNT.lstrip('/')))
+
+        #Fixup pool to only accept stuff on /cdrom or /isodevice
+        # - This is reverted during SUCCESS_SCRIPT
+        # - Might be in livefs already, but we always copy in in case there was an udpate
+        pool_cmd = '/usr/share/dell/scripts/pool.sh'
+        shutil.copy(pool_cmd, os.path.join(self.target, 'tmp', os.path.basename(pool_cmd)))
+        install_misc.chrex(self.target, os.path.join('/tmp', os.path.basename(pool_cmd)))
 
         #Stuff that is installed on all configs without fish scripts
         to_install += self.find_unconditional_debs()

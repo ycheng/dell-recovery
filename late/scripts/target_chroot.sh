@@ -40,15 +40,17 @@ echo "in $0"
 [ -f /cdrom/superhalt.flg ] && touch /tmp/superhalt.flg
 
 IFHALT "Chroot-scripts execution start..."
-for d in /cdrom/scripts/chroot-scripts/fish /usr/share/dell/scripts/non-negotiable /cdrom/scripts/chroot-scripts/os-post
+for d in /cdrom/scripts/chroot-scripts/fish /isodevice/scripts/chroot-scripts/fish /usr/share/dell/scripts/non-negotiable /cdrom/scripts/chroot-scripts/os-post
 do
-    IFHALT "Executing Scripts in DIR: $d"
-    for i in $(find $d -type f -executable | sort);
-    do
-        echo "running chroot script: $i"  > /dev/tty12
-        IFHALT $i
-        ext=`echo $i | sed 's/^.*\.//'`
-        $i
-    done
+    if [ -d "$d" ]; then
+        IFHALT "Executing Scripts in DIR: $d"
+        for i in $(find $d -type f -executable | sort);
+        do
+            echo "running chroot script: $i"  > /dev/tty12
+            IFHALT $i
+            ext=`echo $i | sed 's/^.*\.//'`
+            $i
+        done
+    fi
 done
 IFHALT "Done with chroot scripts"
