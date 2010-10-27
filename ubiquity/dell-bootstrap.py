@@ -565,12 +565,15 @@ class Page(Plugin):
         '''
         sdr_file = glob.glob(CDROM_MOUNT + "/*SDR")
         if not sdr_file:
+            sdr_file = glob.glob(ISO_MOUNT + "/*SDR")
+        if not sdr_file:
             return
 
         #RP Needs to be writable no matter what
-        cd_mount = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
-        if cd_mount is False:
-            raise RuntimeError, ("Error remounting RP to explode SDR.")
+        if not os.path.exists(ISO_MOUNT):
+            cd_mount = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
+            if cd_mount is False:
+                raise RuntimeError, ("Error remounting RP to explode SDR.")
 
         #Parse SDR
         srv_list = []
