@@ -61,6 +61,7 @@ TYPE_VFAT_LBA = '0c'
 #Continually Reused ubiquity templates
 RECOVERY_TYPE_QUESTION =  'dell-recovery/recovery_type'
 DUAL_BOOT_QUESTION = 'dell-recovery/dual_boot'
+DUAL_BOOT_LAYOUT_QUESTION = 'dell-recovery/dual_boot_layout'
 ACTIVE_PARTITION_QUESTION = 'dell-recovery/active_partition'
 FAIL_PARTITION_QUESTION = 'dell-recovery/fail_partition'
 DISK_LAYOUT_QUESTION = 'dell-recovery/disk_layout'
@@ -160,6 +161,7 @@ class PageGtk(PluginUI):
             self.memory_detail = builder.get_object('memory_detail')
             self.proprietary_combobox = builder.get_object('disable_proprietary_driver_combobox')
             self.dual_combobox = builder.get_object('dual_combobox')
+            self.dual_layout_combobox = builder.get_object('dual_layout_combobox')
             self.active_partition_combobox = builder.get_object('active_partition_combobox')
             self.rp_filesystem_combobox = builder.get_object('recovery_partition_filesystem_checkbox')
             self.disk_layout_combobox = builder.get_object('disk_layout_combobox')
@@ -317,6 +319,8 @@ class PageGtk(PluginUI):
             combobox = self.swap_combobox
         elif item == DUAL_BOOT_QUESTION:
             combobox = self.dual_combobox
+        elif item == DUAL_BOOT_LAYOUT_QUESTION:
+            combobox = self.dual_layout_combobox
         return combobox
 
     def set_advanced(self, item, value):
@@ -352,6 +356,7 @@ class PageGtk(PluginUI):
             #dual boot mode. ui changes for this
             if item == DUAL_BOOT_QUESTION and self.genuine:
                 value = misc.create_bool(value)
+                self.dual_layout_combobox.set_sensitive(value)
                 if value:
                     self.interactive_recovery_box.hide()
                 else:
@@ -789,6 +794,12 @@ class Page(Plugin):
         else:
             raise RuntimeError, ("Unknown filesystem on recovery partition: %s" % rec_part["fs"])
 
+        if self.dual_layout == 'logical':
+            expert_question = 'partman-auto/expert_recipe'
+            self.db.set(expert_question,
+                    self.db.get(expert_question).replace('primary', 'logical'))
+            self.db.set('ubiquity/install_bootloader', 'false')
+
         self.disk_size = rec_part["size_gb"]
         self.uuid = rec_part["uuid"]
 
@@ -860,6 +871,12 @@ class Page(Plugin):
         except debconf.DebconfError, err:
             self.log(str(err))
             self.dual = False
+
+        try:
+            self.dual_layout = self.db.get(DUAL_BOOT_LAYOUT_QUESTION)
+        except debconf.DebconfError, err:
+            self.log(str(err))
+            self.dual_layout = 'primary'
 
         #If we are successful for an MBR install, this is where we boot to
         try:
@@ -940,6 +957,7 @@ class Page(Plugin):
         #Fill in UI data
         twiddle = {"mount": mount,
                    "version": version,
+                   DUAL_BOOT_LAYOUT_QUESTION: self.dual_layout,
                    DUAL_BOOT_QUESTION: self.dual,
                    ACTIVE_PARTITION_QUESTION: pass_partition,
                    DISK_LAYOUT_QUESTION: self.disk_layout,
@@ -996,6 +1014,7 @@ class Page(Plugin):
 
         #advanced questions
         for question in [DUAL_BOOT_QUESTION,
+                         DUAL_BOOT_LAYOUT_QUESTION,
                          ACTIVE_PARTITION_QUESTION,
                          DISK_LAYOUT_QUESTION,
                          SWAP_QUESTION,
@@ -1013,6 +1032,8 @@ class Page(Plugin):
                 elif question == DUAL_BOOT_QUESTION:
                     answer = misc.create_bool(answer)
                     self.dual = answer
+                elif question == DUAL_BOOT_LAYOUT_QUESTION:
+                    self.dual_layout = answer
             if type(answer) is bool:
                 self.preseed_bool(question, answer)
             else:
@@ -1053,6 +1074,7 @@ class Page(Plugin):
                                             self.rp_filesystem,
                                             self.mem,
                                             self.dual,
+                                            self.dual_layout,
                                             self.disk_layout,
                                             self.efi,
                                             self.additional_kernel_options,
@@ -1105,12 +1127,13 @@ class Page(Plugin):
 ############################
 class RPbuilder(Thread):
     """The recovery partition builder worker thread"""
-    def __init__(self, device, size, rp_type, mem, dual, disk_layout, efi, ako, sizing_thread):
+    def __init__(self, device, size, rp_type, mem, dual, dual_layout, disk_layout, efi, ako, sizing_thread):
         self.device = device
         self.device_size = size
         self.rp_type = rp_type
         self.mem = mem
         self.dual = dual
+        self.dual_layout = dual_layout
         self.disk_layout = disk_layout
         self.efi = efi
         self.additional_kernel_options = ako
@@ -1240,16 +1263,18 @@ manually to proceed.")
                 other_os_part_end = (int(self.device_size) / 1000000) - my_os_part
 
                 commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'ntfs', str(up_size + rp_size_mb), str(other_os_part_end)),
-                            ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'fat32', str(other_os_part_end), str(other_os_part_end + my_os_part)),
-                            ('mkfs.ntfs' , '-f', '-L', 'OS', self.device + '3'),
-                            ('mkfs.msdos', '-n', 'ubuntu'  , self.device + '4')]
+                            ('mkfs.ntfs' , '-f', '-L', 'OS', self.device + '3')]
+                if self.dual_layout == 'primary':
+                    commands.append(('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'fat32', str(other_os_part_end), str(other_os_part_end + my_os_part)))
+                    commands.append(('mkfs.msdos', '-n', 'ubuntu'  , self.device + '4'))
+                    #Grub needs to be on the 4th partition to kick off the ubuntu install
+                    grub_part = '4'
+                else:
+                    grub_part = '1'
                 for command in commands:
                     result = misc.execute_root(*command)
                     if result is False:
                         raise RuntimeError, ("Error building dual boot partitions")
-
-                #Grub needs to be on the 4th partition to kick off the ubuntu install
-                grub_part = '4'
 
         #GPT Layout
         elif self.disk_layout == 'gpt':

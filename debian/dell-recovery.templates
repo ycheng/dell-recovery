@@ -54,7 +54,12 @@ Description: for internal use; determines the default UI; (une/ude) or dynamical
 Template: dell-recovery/dual_boot
 Type: boolean
 Default: false
-Description: for internal use; enables the factory installed dual boot solution
+Description: for internal use; enables the factory installed dual boot solution.
+
+Template: dell-recovery/dual_boot_layout
+Type: string
+Default: primary
+Description: for internal use; sets the disk drive layout used for a factory installed dual boot solution. valid: [primary, logical]
 
 Template: dell-recovery/disk_layout
 Type: string

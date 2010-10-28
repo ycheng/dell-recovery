@@ -9,6 +9,7 @@ dell-recovery (0.73) UNRELEASED; urgency=low
   * Remove the functionality of setting the pool command.
   * Add a new black_tree function that copies files off of a blacklist.
   * Only mount the ISO for SDR explosion when in a non-standalone ISO.
+  * Add support for installing to a primary or logical partition.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 18 Oct 2010 16:42:51 -0500
 
