@@ -1583,6 +1583,65 @@ class Install(InstallPlugin):
 
         return to_remove
 
+    def create_g2ldr(self, disk, partition):
+        '''Builds a grub2 based loader to allow booting a logical partition'''
+        from ubiquity import install_misc
+        bus = dbus.SystemBus()
+        udisk_bus_name = 'org.freedesktop.UDisks'
+        dev_bus_name   = 'org.freedesktop.UDisks.Device'
+        uuid = ''
+
+        #Find the UUID of /target
+        obj = bus.get_object(udisk_bus_name, '/org/freedesktop/UDisks')
+        iface = dbus.Interface(obj, udisk_bus_name)
+        devices = iface.EnumerateDevices()
+        for device in devices:
+            obj = bus.get_object(udisk_bus_name, device)
+            dev = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
+            mount = dev.Get(dev_bus_name, 'DeviceMountPaths')
+            if mount and mount[0] == self.target:
+                uuid = dev.Get(dev_bus_name, 'IdUuid')
+
+        #Mount the disk
+        if os.path.exists(ISO_MOUNT):
+            misc.execute_root('mount', '--bind', ISO_MOUNT, os.path.join(self.target, 'mnt'))
+        else:
+            misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
+            misc.execute_root('mount', '--bind', CDROM_MOUNT, os.path.join(self.target, 'mnt'))
+        
+        #The file that the Windows BCD will chainload
+        shutil.copy('/usr/lib/grub/i386-pc/g2ldr.mbr', os.path.join(self.target, 'mnt'))
+        
+        # This BCD configuration will load from the recovery partition if it exists
+        #   a /boot/grub.cfg.  As specified by the active partition flag
+        # If it doesn't, then it will look for /boot/grub/grub.cfg on the OS partition
+        #   as specified by the UUID.
+        # If all else fails, it will just load /vmlinuz and /initrd.img
+        magic.process_conf_file('/usr/share/dell/grub/bcd.cfg', \
+                                os.path.join(self.target, 'tmp', 'bcd.cfg'), \
+                                uuid, partition)
+
+        #Build the Grub2 Core Image
+        install_misc.chrex(self.target, 'grub-mkimage', '-O', 'i386-pc',
+                                                        '-c', 'tmp/bcd.cfg', 
+                                                        '-o', 'tmp/core.img',
+                                        'biosdisk', 'part_msdos', 'part_gpt',
+                                        'fat', 'ntfs', 'ntfscomp', 'search',
+                                        'linux', 'vbe', 'boot', 'minicmd',
+                                        'cat', 'cpuid', 'chain', 'halt', 'ls',
+                                        'echo', 'test', 'configfile', 'ext2',
+                                        'keystatus', 'help', 'boot', 'loadenv')
+        with open(os.path.join(self.target, 'mnt', 'g2ldr'), 'w') as wfd:
+            for fname in ['/usr/lib/grub/i386-pc/g2hdr.bin', os.path.join(self.target, 'tmp', 'core.img')]:
+                with open(fname) as rfd:
+                    wfd.write(rfd.read())
+        misc.execute_root('umount', os.path.join(self.target, 'mnt'))
+
+        #Build the initial grub.cfg that will be used
+        install_misc.chroot_setup(self.target)
+        install_misc.chrex(self.target, 'update-grub')
+        install_misc.chroot_cleanup(self.target)
+
     def install(self, target, progress, *args, **kwargs):
         '''This is highly dependent upon being called AFTER configure_apt
         in install.  If that is ever converted into a plugin, we'll
@@ -1663,14 +1722,22 @@ class Install(InstallPlugin):
         except debconf.DebconfError:
             dual = False
 
-        #we don't want EULA or dell-recovery in dual mode
         if dual:
+            #we don't want EULA or dell-recovery in dual mode
             for package in ['dell-eula', 'dell-recovery']:
                 try:
                     to_install.remove(package)
                     to_remove.append(package)
                 except ValueError:
                     continue
+            #build grub2 loader for logical partitions when necessary
+            try:
+                layout = progress.get(DUAL_BOOT_LAYOUT_QUESTION)
+                if layout == 'logical':
+                    self.create_g2ldr(disk, active)
+            except debconf.DebconfError:
+                raise RuntimeError, ("Error determining dual boot layout.")
+                
         #install dell-recovery in non dual mode only if there is an RP
         elif rec_part:
             to_install.append('dell-recovery')
