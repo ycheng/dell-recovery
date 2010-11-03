@@ -1361,9 +1361,8 @@ manually to proceed.")
                                    uuid, rp_part, self.additional_kernel_options)
                 #Allow these to be invoked from a recovery solution launched by the BCD.
                 if self.dual:
-                    os.makedirs(os.path.join(CDROM_MOUNT, 'grub'))
                     shutil.copy(os.path.join('/boot', 'grub', files[item]), \
-                                os.path.join(CDROM_MOUNT, 'grub', files[item]))
+                                os.path.join('/tmp', files[item]))
 
         #Install grub
         self.status("Installing GRUB", 88)
@@ -1385,6 +1384,11 @@ manually to proceed.")
         #dual boot needs primary #4 unmounted
         if self.dual:
             misc.execute_root('umount', '/boot')
+            os.makedirs(os.path.join('/boot', 'grub'))
+            for item in files:
+                shutil.copy(os.path.join('/tmp', files[item]), \
+                            os.path.join('/boot', 'grub', files[item]))
+
 
         #Build new UUID
         if int(self.mem) >= 1: #GB
