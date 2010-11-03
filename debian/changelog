@@ -1,4 +1,4 @@
-dell-recovery (0.73) UNRELEASED; urgency=low
+dell-recovery (0.73) natty; urgency=low
 
   * Fix the dual boot seed's command a little
   * Add support to boot loopback mounted ISO images on the recovery partition.
@@ -20,7 +20,7 @@ dell-recovery (0.73) UNRELEASED; urgency=low
     executed from a Windows utility.
   * Build g2ldr earlier so that it can be used during install.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 18 Oct 2010 16:42:51 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 03 Nov 2010 00:49:00 -0500
 
 dell-recovery (0.72) natty; urgency=low
 
