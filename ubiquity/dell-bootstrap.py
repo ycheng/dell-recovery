@@ -1359,6 +1359,11 @@ manually to proceed.")
                 magic.process_conf_file('/usr/share/dell/grub/' + item, \
                                    os.path.join('/boot', 'grub', files[item]),\
                                    uuid, rp_part, self.additional_kernel_options)
+                #Allow these to be invoked from a recovery solution launched by the BCD.
+                if self.dual:
+                    os.makedirs(os.path.join(CDROM_MOUNT, 'grub'))
+                    shutil.copy(os.path.join('/boot', 'grub', files[item]), \
+                                os.path.join(CDROM_MOUNT, 'grub', files[item]))
 
         #Install grub
         self.status("Installing GRUB", 88)
@@ -1604,19 +1609,18 @@ class Install(InstallPlugin):
 
         #Mount the disk
         if os.path.exists(ISO_MOUNT):
-            misc.execute_root('mount', '--bind', ISO_MOUNT, os.path.join(self.target, 'mnt'))
+            mount = ISO_MOUNT
         else:
+            mount = CDROM_MOUNT
             misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
-            misc.execute_root('mount', '--bind', CDROM_MOUNT, os.path.join(self.target, 'mnt'))
         
         #The file that the Windows BCD will chainload
-        shutil.copy('/usr/lib/grub/i386-pc/g2ldr.mbr', os.path.join(self.target, 'mnt'))
+        shutil.copy('/usr/lib/grub/i386-pc/g2ldr.mbr', mount)
         
         # This BCD configuration will load from the recovery partition if it exists
-        #   a /boot/grub.cfg.  As specified by the active partition flag
+        #   a /grub/grub.cfg.  As specified by the active partition flag
         # If it doesn't, then it will look for /boot/grub/grub.cfg on the OS partition
         #   as specified by the UUID.
-        # If all else fails, it will just load /vmlinuz and /initrd.img
         magic.process_conf_file('/usr/share/dell/grub/bcd.cfg', \
                                 os.path.join(self.target, 'tmp', 'bcd.cfg'), \
                                 uuid, partition)
@@ -1631,16 +1635,19 @@ class Install(InstallPlugin):
                                         'cat', 'cpuid', 'chain', 'halt', 'ls',
                                         'echo', 'test', 'configfile', 'ext2',
                                         'keystatus', 'help', 'boot', 'loadenv')
-        with open(os.path.join(self.target, 'mnt', 'g2ldr'), 'w') as wfd:
+        with open(os.path.join(mount, 'g2ldr'), 'w') as wfd:
             for fname in ['/usr/lib/grub/i386-pc/g2hdr.bin', os.path.join(self.target, 'tmp', 'core.img')]:
                 with open(fname) as rfd:
                     wfd.write(rfd.read())
-        misc.execute_root('umount', os.path.join(self.target, 'mnt'))
 
         #Build the initial grub.cfg that will be used
         install_misc.chroot_setup(self.target)
         install_misc.chrex(self.target, 'update-grub')
         install_misc.chroot_cleanup(self.target)
+
+        #Don't re-run installation
+        if os.path.exists(os.path.join(mount, 'grub', 'grub.cfg')):
+            os.unlink(os.path.join(mount, 'grub', 'grub.cfg'))
 
     def install(self, target, progress, *args, **kwargs):
         '''This is highly dependent upon being called AFTER configure_apt
