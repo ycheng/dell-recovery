@@ -18,6 +18,7 @@ dell-recovery (0.73) UNRELEASED; urgency=low
       for standard purposes.
   * Copy grub configuration files to the RP in dual boot mode so they can be
     executed from a Windows utility.
+  * Build g2ldr earlier so that it can be used during install.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 18 Oct 2010 16:42:51 -0500
 

@@ -1381,9 +1381,12 @@ manually to proceed.")
             if grub is False:
                 raise RuntimeError, ("Error installing grub to %s%s" % (self.device, STANDARD_RP_PARTITION))
 
-        #dual boot needs primary #4 unmounted
+        #dual boot needs the grub target unmounted and a g2ldr built
         if self.dual:
             misc.execute_root('umount', '/boot')
+            self.status("Building G2LDR", 90)
+            #build g2ldr
+            magic.create_g2ldr('/', '/boot', '')
             os.makedirs(os.path.join('/boot', 'grub'))
             for item in files:
                 shutil.copy(os.path.join('/tmp', files[item]), \
@@ -1395,7 +1398,7 @@ manually to proceed.")
             if os.path.isdir(ISO_MOUNT):
                 syslog.syslog("Skipping UUID generation - booted from ISO image.")
             else:
-                self.status("Regenerating UUID / initramfs", 90)
+                self.status("Regenerating UUID / initramfs", 95)
                 with misc.raised_privileges():
                     magic.create_new_uuid(os.path.join(CDROM_MOUNT, 'casper'),
                             os.path.join(CDROM_MOUNT, '.disk'),
@@ -1592,57 +1595,16 @@ class Install(InstallPlugin):
 
         return to_remove
 
-    def create_g2ldr(self, disk, partition):
+    def g2ldr(self):
         '''Builds a grub2 based loader to allow booting a logical partition'''
-        from ubiquity import install_misc
-        bus = dbus.SystemBus()
-        udisk_bus_name = 'org.freedesktop.UDisks'
-        dev_bus_name   = 'org.freedesktop.UDisks.Device'
-        uuid = ''
-
-        #Find the UUID of /target
-        obj = bus.get_object(udisk_bus_name, '/org/freedesktop/UDisks')
-        iface = dbus.Interface(obj, udisk_bus_name)
-        devices = iface.EnumerateDevices()
-        for device in devices:
-            obj = bus.get_object(udisk_bus_name, device)
-            dev = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
-            mount = dev.Get(dev_bus_name, 'DeviceMountPaths')
-            if mount and mount[0] == self.target:
-                uuid = dev.Get(dev_bus_name, 'IdUuid')
-
         #Mount the disk
         if os.path.exists(ISO_MOUNT):
             mount = ISO_MOUNT
         else:
             mount = CDROM_MOUNT
             misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
-        
-        #The file that the Windows BCD will chainload
-        shutil.copy('/usr/lib/grub/i386-pc/g2ldr.mbr', mount)
-        
-        # This BCD configuration will load from the recovery partition if it exists
-        #   a /grub/grub.cfg.  As specified by the active partition flag
-        # If it doesn't, then it will look for /boot/grub/grub.cfg on the OS partition
-        #   as specified by the UUID.
-        magic.process_conf_file('/usr/share/dell/grub/bcd.cfg', \
-                                os.path.join(self.target, 'tmp', 'bcd.cfg'), \
-                                uuid, partition)
 
-        #Build the Grub2 Core Image
-        install_misc.chrex(self.target, 'grub-mkimage', '-O', 'i386-pc',
-                                                        '-c', 'tmp/bcd.cfg', 
-                                                        '-o', 'tmp/core.img',
-                                        'biosdisk', 'part_msdos', 'part_gpt',
-                                        'fat', 'ntfs', 'ntfscomp', 'search',
-                                        'linux', 'vbe', 'boot', 'minicmd',
-                                        'cat', 'cpuid', 'chain', 'halt', 'ls',
-                                        'echo', 'test', 'configfile', 'ext2',
-                                        'keystatus', 'help', 'boot', 'loadenv')
-        with open(os.path.join(mount, 'g2ldr'), 'w') as wfd:
-            for fname in ['/usr/lib/grub/i386-pc/g2hdr.bin', os.path.join(self.target, 'tmp', 'core.img')]:
-                with open(fname) as rfd:
-                    wfd.write(rfd.read())
+        magic.create_g2ldr(self.target, mount, self.target)
 
         #Don't re-run installation
         if os.path.exists(os.path.join(mount, 'grub', 'grub.cfg')):
@@ -1740,7 +1702,7 @@ class Install(InstallPlugin):
             try:
                 layout = progress.get(DUAL_BOOT_LAYOUT_QUESTION)
                 if layout == 'logical':
-                    self.create_g2ldr(disk, active)
+                    self.g2ldr()
             except debconf.DebconfError:
                 raise RuntimeError, ("Error determining dual boot layout.")
                 

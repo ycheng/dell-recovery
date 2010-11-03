@@ -549,10 +549,8 @@
     <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
-    <property name="text" translatable="yes">The Installation files have been loaded onto the recovery partition.  
-Now, insert your additional OS installation media.
-You will need to make sure you choose to install into the already created partition rather than any free space on the drive.  
-After your additional OS installation completes, mark the 4th partition active to start the Ubuntu installation.</property>
+    <property name="text" translatable="yes">The Ubuntu installation files have been loaded to the recovery partition.
+Now, run the Windows installation process.  After it completes, use the Ubuntu restore tool for Windows to complete install.</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox6">
         <property name="visible">True</property>
