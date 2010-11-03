@@ -1644,11 +1644,6 @@ class Install(InstallPlugin):
                 with open(fname) as rfd:
                     wfd.write(rfd.read())
 
-        #Build the initial grub.cfg that will be used
-        install_misc.chroot_setup(self.target)
-        install_misc.chrex(self.target, 'update-grub')
-        install_misc.chroot_cleanup(self.target)
-
         #Don't re-run installation
         if os.path.exists(os.path.join(mount, 'grub', 'grub.cfg')):
             os.unlink(os.path.join(mount, 'grub', 'grub.cfg'))
