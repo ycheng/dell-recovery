@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-09-21 15:23-0500\n"
-"PO-Revision-Date: 2010-09-23 08:57+0000\n"
+"POT-Creation-Date: 2010-11-03 00:32-0500\n"
+"PO-Revision-Date: 2010-11-03 10:14+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-09-29 05:19+0000\n"
+"X-Launchpad-Export-Date: 2010-11-04 04:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -38,19 +38,19 @@ msgstr "Dell Recovery"
 msgid "Copyright 2008-2010 Dell Inc."
 msgstr "© Dell Inc., 2008–2010"
 
-#: ../Dell/recovery_basic_gtk.py:155
+#: ../Dell/recovery_basic_gtk.py:157
 msgid "Building Base image"
 msgstr "Побудова основного образу"
 
-#: ../Dell/recovery_basic_gtk.py:168
+#: ../Dell/recovery_basic_gtk.py:170
 msgid "Opening Burner"
 msgstr "Відкриття програми запису"
 
-#: ../Dell/recovery_basic_gtk.py:193
+#: ../Dell/recovery_basic_gtk.py:195
 msgid "Recovery Media Creation Process Complete"
 msgstr "Процес створення носія для відновлення завершено"
 
-#: ../Dell/recovery_basic_gtk.py:194
+#: ../Dell/recovery_basic_gtk.py:196
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
@@ -58,54 +58,54 @@ msgstr ""
 "Якщо ви бажаєте створити архів з ще однією копією, створений образ було "
 "збережено до файла з назвою:\n"
 
-#: ../Dell/recovery_basic_gtk.py:208
+#: ../Dell/recovery_basic_gtk.py:210
 msgid "Unable to proceed"
 msgstr "Не можна виконати дію"
 
-#: ../Dell/recovery_basic_gtk.py:209
+#: ../Dell/recovery_basic_gtk.py:211
 msgid ""
 "System does not appear to contain Dell factory installed partition layout."
 msgstr ""
 "У системі не міститься встановленого розділу з початковими даними Dell."
 
-#: ../Dell/recovery_basic_gtk.py:258
+#: ../Dell/recovery_basic_gtk.py:294
 msgid "Choose Media Type"
 msgstr "Вибір типу носія"
 
-#: ../Dell/recovery_basic_gtk.py:285 ../gtk/builder.ui.h:25
+#: ../Dell/recovery_basic_gtk.py:321 ../gtk/builder.ui.h:25
 msgid "ISO Image"
 msgstr "Образ ISO"
 
-#: ../Dell/recovery_basic_gtk.py:287
+#: ../Dell/recovery_basic_gtk.py:323
 msgid "Media Type: "
 msgstr "Тип носія: "
 
-#: ../Dell/recovery_basic_gtk.py:290 ../Dell/recovery_basic_gtk.py:293
+#: ../Dell/recovery_basic_gtk.py:326 ../Dell/recovery_basic_gtk.py:329
 msgid "Recovery Partition: "
 msgstr "Розділ для відновлення: "
 
-#: ../Dell/recovery_basic_gtk.py:294
+#: ../Dell/recovery_basic_gtk.py:330
 msgid "Included"
 msgstr "Включено"
 
-#: ../Dell/recovery_basic_gtk.py:301
+#: ../Dell/recovery_basic_gtk.py:337
 msgid "Confirm Selections"
 msgstr "Підтвердити вибір"
 
-#: ../Dell/recovery_advanced_gtk.py:58
+#: ../Dell/recovery_advanced_gtk.py:59
 msgid "python-vte is missing"
 msgstr "Не виявлено python-vte"
 
-#: ../Dell/recovery_advanced_gtk.py:59
+#: ../Dell/recovery_advanced_gtk.py:60
 msgid "Builder mode requires python-vte to function"
 msgstr "Для роботи у режимі збирання потрібен пакунок python-vte"
 
 #. wizard.resize(400,400)
-#: ../Dell/recovery_advanced_gtk.py:77
+#: ../Dell/recovery_advanced_gtk.py:78
 msgid " (BTO Image Builder Mode)"
 msgstr " (Режим збирання образу BTO)"
 
-#: ../Dell/recovery_advanced_gtk.py:79
+#: ../Dell/recovery_advanced_gtk.py:80
 msgid ""
 "This will integrate a Dell OEM FID framework & driver package set into a "
 "customized OS media image.  You will have the option to create an USB key or "
@@ -115,11 +115,11 @@ msgstr ""
 "пакунків з драйверами у один налаштований образ носія ОС. Ви зможете вибрати "
 "один з варіантів: створення образу флеш-картки USB або образу DVD."
 
-#: ../Dell/recovery_advanced_gtk.py:149
+#: ../Dell/recovery_advanced_gtk.py:150
 msgid "Choose Base OS Image"
 msgstr "Виберіть базовий образ ОС"
 
-#: ../Dell/recovery_advanced_gtk.py:152
+#: ../Dell/recovery_advanced_gtk.py:153
 msgid "Choose FID Overlay"
 msgstr "Виберіть додаток FID"
 
@@ -192,51 +192,51 @@ msgstr "Допоміжний розділ"
 msgid "No Additional Utility Partition"
 msgstr "Не виявлено додаткового допоміжного розділу"
 
-#: ../Dell/recovery_advanced_gtk.py:442
+#: ../Dell/recovery_advanced_gtk.py:419
 msgid "<b>ERROR</b>: git is not installed"
 msgstr "<b>ПОМИЛКА</b>: git не встановлено"
 
-#: ../Dell/recovery_advanced_gtk.py:589
+#: ../Dell/recovery_advanced_gtk.py:580
 msgid "Missing Dell-Recovery"
 msgstr "Не виявлено Dell-Recovery"
 
-#: ../Dell/recovery_advanced_gtk.py:590
+#: ../Dell/recovery_advanced_gtk.py:581
 msgid "Not present in ISO or GIT tree"
 msgstr "Немає на ISO або у дереві GIT"
 
-#: ../Dell/recovery_advanced_gtk.py:706
+#: ../Dell/recovery_advanced_gtk.py:697
 msgid "All SRVs must be filled to proceed."
 msgstr "Щоб перейти до наступного кроку, слід вказати всі SRV."
 
-#: ../Dell/recovery_backend.py:282
+#: ../Dell/recovery_backend.py:284
 msgid "Processing FISH packages"
 msgstr "Обробка пакунків FISH"
 
-#: ../Dell/recovery_backend.py:399
+#: ../Dell/recovery_backend.py:403
 msgid "Adding in base image"
 msgstr "Додавання до основного образу"
 
-#: ../Dell/recovery_backend.py:407
+#: ../Dell/recovery_backend.py:411
 msgid "Overlaying FID content"
 msgstr "Додаткові дані FID"
 
-#: ../Dell/recovery_backend.py:455 ../Dell/recovery_backend.py:461
-msgid "Calculating FISH MD5SUMs"
-msgstr "Обчислення сум MD5 FISH"
+#: ../Dell/recovery_backend.py:761
+msgid "Preparing nested image"
+msgstr "Приготування вкладеного образу"
 
-#: ../Dell/recovery_backend.py:757
+#: ../Dell/recovery_backend.py:785
 msgid "Building Dell Utility Partition"
 msgstr "Створення допоміжного розділу Dell"
 
-#: ../Dell/recovery_backend.py:817
+#: ../Dell/recovery_backend.py:849
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Повторне створення UUID / Перебудова initramfs"
 
-#: ../Dell/recovery_backend.py:844
+#: ../Dell/recovery_backend.py:878
 msgid "Building GRUB core image"
 msgstr "Збирання основного образу GRUB"
 
-#: ../Dell/recovery_backend.py:911
+#: ../Dell/recovery_backend.py:945
 msgid "Building ISO"
 msgstr "Створення ISO"
 
@@ -348,10 +348,6 @@ msgid "Add Dell Recovery"
 msgstr "Додати Dell Recovery"
 
 #: ../gtk/builder.ui.h:8
-msgid "Add dell-recovery"
-msgstr "Додати dell-recovery"
-
-#: ../gtk/builder.ui.h:9
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
@@ -359,7 +355,7 @@ msgstr ""
 "Тут можна додати будь-які додаткові драйвери і програми, які слід "
 "інтегрувати до образу."
 
-#: ../gtk/builder.ui.h:10
+#: ../gtk/builder.ui.h:9
 msgid ""
 "BTO images can optionally include a Utility Partition for diagnostic "
 "utilities."
@@ -367,35 +363,35 @@ msgstr ""
 "Образи BTO можуть додатково включати допоміжний розділ для діагностичних "
 "програм."
 
-#: ../gtk/builder.ui.h:11
+#: ../gtk/builder.ui.h:10
 msgid "Browse for a dell-recovery package"
 msgstr "Вказати пакунок dell-recovery"
 
-#: ../gtk/builder.ui.h:12
+#: ../gtk/builder.ui.h:11
 msgid "Build dell-recovery package from this system"
 msgstr "Зібрати пакунок dell-recovery за цією системою"
 
-#: ../gtk/builder.ui.h:13
+#: ../gtk/builder.ui.h:12
 msgid "Choose Content"
 msgstr "Виберіть вміст"
 
-#: ../gtk/builder.ui.h:14
+#: ../gtk/builder.ui.h:13
 msgid "Choose Image"
 msgstr "Вибір образу"
 
-#: ../gtk/builder.ui.h:15
+#: ../gtk/builder.ui.h:14
 msgid "Choose package"
 msgstr "Виберіть пакунок"
 
-#: ../gtk/builder.ui.h:16
+#: ../gtk/builder.ui.h:15
 msgid "Detected Recovery Partition"
 msgstr "Виявлений розділ для відновлення"
 
-#: ../gtk/builder.ui.h:17
+#: ../gtk/builder.ui.h:16
 msgid "Detected Utility Partition"
 msgstr "Виявлений допоміжний розділ"
 
-#: ../gtk/builder.ui.h:18
+#: ../gtk/builder.ui.h:17
 msgid ""
 "During Factory Installation, applications are only installed if the order "
 "record (SDR) refers to the service release vehicle (SRV).  This populates "
@@ -405,9 +401,13 @@ msgstr ""
 "посилається на засіб надання випусків (SRV).  Таким чином, під час "
 "встановлення виконується опитування всіх можливих SRV."
 
-#: ../gtk/builder.ui.h:19
+#: ../gtk/builder.ui.h:18
 msgid "Extracted Directory"
 msgstr "Каталог видобування"
+
+#: ../gtk/builder.ui.h:19
+msgid "FID Framework enclosed in debian package"
+msgstr "Оболонка FID, вкладене до пакунка debian"
 
 #: ../gtk/builder.ui.h:20
 msgid "FID GIT Tree"
@@ -442,59 +442,55 @@ msgid "No additional Utility Partition"
 msgstr "Не виявлено додаткового допоміжного розділу"
 
 #: ../gtk/builder.ui.h:29
+msgid ""
+"Part of the FID overlay requires a dell-recovery package to be included."
+msgstr "Для частини додатка FID слід включити пакунок dell-recovery."
+
+#: ../gtk/builder.ui.h:30
 msgid "Please enter the SRV to use:"
 msgstr "Вкажіть SRV, який слід використати:"
 
-#: ../gtk/builder.ui.h:30
+#: ../gtk/builder.ui.h:31
 msgid "SRV Entry"
 msgstr "Запис SRV"
 
-#: ../gtk/builder.ui.h:31
+#: ../gtk/builder.ui.h:32
 msgid "Select content for Utility Partition"
 msgstr "Визначте вміст допоміжного розділу"
 
-#: ../gtk/builder.ui.h:32
+#: ../gtk/builder.ui.h:33
 msgid "Selected Content Details:"
 msgstr "Подробиці щодо вибраних даних:"
 
-#: ../gtk/builder.ui.h:33
+#: ../gtk/builder.ui.h:34
 msgid "Selected Image Details:"
 msgstr "Параметри позначеного образу:"
 
-#: ../gtk/builder.ui.h:34
+#: ../gtk/builder.ui.h:35
 msgid "Selected Overlay Details:"
 msgstr "Параметри позначеного сховища:"
 
-#: ../gtk/builder.ui.h:35
+#: ../gtk/builder.ui.h:36
 msgid "Show Details"
 msgstr "Показати подробиці"
 
-#: ../gtk/builder.ui.h:36
+#: ../gtk/builder.ui.h:37
+msgid ""
+"The BTO FID framework is the first thing injected into a base vanilla image. "
+" If you are generating from an existing BTO compatible image, you may use "
+"the built-in framework."
+msgstr ""
+"Оболонку BTO FID буде додано до основного образу першою. Якщо побудова "
+"образу відбувається на основі раніше створеного сумісного з BTO образу, ви "
+"можете скористатися вбудованою оболонкою."
+
+#: ../gtk/builder.ui.h:38
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
 msgstr ""
 "Образ ОС Base (базовий) містить переважну частину даних для образу BTO. Цим "
 "образом може бути образ ОС Vanilla (початковий) або поточний образ BTO."
-
-#: ../gtk/builder.ui.h:37
-msgid ""
-"The FID framework is the first piece overlaid on top of a Vanilla image.  In "
-"the event that you are generating from an existing BTO image, you can use "
-"the framework built into that image."
-msgstr ""
-"Оболонка FID — це початковий набір даних, які буде дописано до образу "
-"Vanilla. Якщо ви створюєте носій на основі поточного образу BTO, ви можете "
-"скористатися оболонкою, вбудованою до цього образу."
-
-#: ../gtk/builder.ui.h:38
-msgid ""
-"The combination of the image and GIT tree you have provided do not supply "
-"the necessary dell-recovery package.  It will have to be injected into the "
-"image separately."
-msgstr ""
-"Поєднання образу та дерева GIT, яке ви вказали, не містить необхідного "
-"пакунка dell-recovery. Його доведеться додати до образу окремо."
 
 #: ../gtk/tool_selector.ui.h:1
 msgid "Build OS Media"
