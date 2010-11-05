@@ -6,8 +6,8 @@ cat << EOF
 menuentry "Restore #OS# to factory state" {
         set root='(hd0,#PARTITION#)'
         search --no-floppy --fs-uuid --set #UUID#
-        if [ -s /grub/common.cfg ]; then
-            source /grub/common.cfg
+        if [ -s /boot/grub/common.cfg ]; then
+            source /boot/grub/common.cfg
         else
             set options="boot=casper automatic-ubiquity noprompt quiet splash"
         fi

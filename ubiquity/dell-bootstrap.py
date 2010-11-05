@@ -470,23 +470,18 @@ class Page(Plugin):
         files = {'recovery_partition.cfg': 'grub.cfg',
                  'common.cfg' : 'common.cfg'}
         for item in files:
-            if not os.path.exists(os.path.join(target, 'grub', files[item])):
+            if not os.path.exists(os.path.join(target, 'boot', 'grub', files[item])):
                 with misc.raised_privileges():
                     magic.process_conf_file('/usr/share/dell/grub/' + item,   \
-                              os.path.join(target, 'grub', files[item]), \
+                              os.path.join(target, 'boot', 'grub', files[item]), \
                               self.uuid, STANDARD_RP_PARTITION)
 
         #Do the actual grub installation
-        bmount = misc.execute_root('mount', '-o', 'bind', target, '/boot')
-        if bmount is False:
-            raise RuntimeError, ("Bind Mount failed")
         grub_inst  = misc.execute_root('grub-install', '--force', \
+                                            '--root-directory=' + target, \
                                             self.device + STANDARD_RP_PARTITION)
         if grub_inst is False:
             raise RuntimeError, ("Grub install failed")
-        unbind_mount = misc.execute_root('umount', '/boot')
-        if unbind_mount is False:
-            raise RuntimeError, ("Unmount /boot failed")
         uncd_mount = misc.execute_root('mount', '-o', 'remount,ro', target)
         if uncd_mount is False:
             syslog.syslog("Uncd mount failed.  This may be normal depending on the filesystem.")
@@ -1065,7 +1060,7 @@ class Page(Plugin):
                 #init progress bar and size thread
                 self.frontend.debconf_progress_start(0, 100, "")
                 size_thread = ProgressBySize("Copying Files",
-                                               "/boot",
+                                               "/mnt",
                                                "0")
                 size_thread.progress = self.report_progress
                 #init builder
@@ -1317,7 +1312,7 @@ manually to proceed.")
             raise RuntimeError, ("Error creating %s filesystem on %s%s" % (self.rp_type, self.device, rp_part))
 
         #Mount RP
-        mount = misc.execute_root('mount', self.device + rp_part, '/boot')
+        mount = misc.execute_root('mount', self.device + rp_part, '/mnt')
         if mount is False:
             raise RuntimeError, ("Error mounting %s%s" % (self.device, rp_part))
 
@@ -1329,13 +1324,13 @@ manually to proceed.")
 
         #Copy RP Files
         with misc.raised_privileges():
-            magic.white_tree("copy", white_pattern, CDROM_MOUNT, '/boot')
+            magic.white_tree("copy", white_pattern, CDROM_MOUNT, '/mnt')
 
         self.file_size_thread.join()
 
         #If dual boot, mount the proper /boot partition first
         if self.dual:
-            mount = misc.execute_root('mount', self.device + grub_part, '/boot')
+            mount = misc.execute_root('mount', self.device + grub_part, '/mnt')
             if mount is False:
                 raise RuntimeError, ("Error mounting %s%s" % (self.device, grub_part))
 
@@ -1351,46 +1346,47 @@ manually to proceed.")
         files = {'recovery_partition.cfg': 'grub.cfg',
                  'common.cfg' : 'common.cfg'} 
         for item in files:
-            if os.path.exists(os.path.join('/boot', 'grub', files[item])):
+            if os.path.exists(os.path.join('/mnt', 'boot', 'grub', files[item])):
                 with misc.raised_privileges():
-                    os.remove(os.path.join('/boot', 'grub', files[item]))
+                    os.remove(os.path.join('/mnt', 'boot', 'grub', files[item]))
 
             with misc.raised_privileges():
                 magic.process_conf_file('/usr/share/dell/grub/' + item, \
-                                   os.path.join('/boot', 'grub', files[item]),\
+                                   os.path.join('/mnt', 'boot', 'grub', files[item]),\
                                    uuid, rp_part, self.additional_kernel_options)
                 #Allow these to be invoked from a recovery solution launched by the BCD.
                 if self.dual:
-                    shutil.copy(os.path.join('/boot', 'grub', files[item]), \
+                    shutil.copy(os.path.join('/mnt', 'boot', 'grub', files[item]), \
                                 os.path.join('/tmp', files[item]))
 
         #Install grub
         self.status("Installing GRUB", 88)
         if self.efi:
             with misc.raised_privileges():
-                os.makedirs('/boot/efi')
-            mount = misc.execute_root('mount', self.device + STANDARD_EFI_PARTITION, '/boot/efi')
+                os.makedirs('/mnt/efi')
+            mount = misc.execute_root('mount', self.device + STANDARD_EFI_PARTITION, '/mnt/efi')
             if mount is False:
                 raise RuntimeError, ("Error mounting %s%s" % (self.device, STANDARD_EFI_PARTITION))
             grub = misc.execute_root('grub-install', '--force')
             if grub is False:
                 raise RuntimeError, ("Error installing grub")
-            misc.execute_root('umount', '/boot/efi')
+            misc.execute_root('umount', '/mnt/efi')
         else:
-            grub = misc.execute_root('grub-install', '--force', self.device + grub_part)
+            grub = misc.execute_root('grub-install', '--root-directory=/mnt', '--force', self.device + grub_part)
             if grub is False:
                 raise RuntimeError, ("Error installing grub to %s%s" % (self.device, STANDARD_RP_PARTITION))
 
-        #dual boot needs the grub target unmounted and a g2ldr built
+        #dual boot needs primary #4 unmounted
         if self.dual:
-            misc.execute_root('umount', '/boot')
+            misc.execute_root('umount', '/mnt')
             self.status("Building G2LDR", 90)
             #build g2ldr
-            magic.create_g2ldr('/', '/boot', '')
-            os.makedirs(os.path.join('/boot', 'grub'))
+            magic.create_g2ldr('/', '/mnt', '')
+            if not os.path.isdir(os.path.join('/mnt', 'boot', 'grub')):
+                os.makedirs(os.path.join('/mnt', 'boot', 'grub'))
             for item in files:
                 shutil.copy(os.path.join('/tmp', files[item]), \
-                            os.path.join('/boot', 'grub', files[item]))
+                            os.path.join('/mnt', 'boot', 'grub', files[item]))
 
 
         #Build new UUID
@@ -1398,12 +1394,12 @@ manually to proceed.")
             if os.path.isdir(ISO_MOUNT):
                 syslog.syslog("Skipping UUID generation - booted from ISO image.")
             else:
-                self.status("Regenerating UUID / initramfs", 95)
+                self.status("Regenerating UUID / initramfs", 90)
                 with misc.raised_privileges():
                     magic.create_new_uuid(os.path.join(CDROM_MOUNT, 'casper'),
                             os.path.join(CDROM_MOUNT, '.disk'),
-                            os.path.join('/boot', 'casper'),
-                            os.path.join('/boot', '.disk'))
+                            os.path.join('/mnt', 'casper'),
+                            os.path.join('/mnt', '.disk'))
         else:
             #The new UUID just fixes the installed-twice-on-same-system scenario
             #most users won't need that anyway so it's just nice to have
@@ -1422,8 +1418,8 @@ manually to proceed.")
                 self.xml_obj.replace_node_contents('syslog', rfd.read())
             with open('/var/log/installer/debug', 'r') as rfd:
                 self.xml_obj.replace_node_contents('debug', rfd.read())
-            self.xml_obj.write_xml('/boot/bto.xml')
-        misc.execute_root('umount', '/boot')
+            self.xml_obj.write_xml('/mnt/bto.xml')
+        misc.execute_root('umount', '/mnt')
 
     def exit(self):
         """Function to request the builder thread to close"""
