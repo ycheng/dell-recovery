@@ -9,6 +9,9 @@ dell-recovery (0.74) UNRELEASED; urgency=low
     - This also means that 0.74 and later are incompatible with any earlier
       BTO frameworks.  If this is used on something earlier than 11.04, then the
       integrated BTO framework from this package should be used instead.
+  * If an image already provides a grub.cfg or common.cfg in /boot/grub, back
+    it up to $file.old while building a recovery partition and restore it when 
+    rebuilding the image again.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 05 Nov 2010 17:07:19 -0500
 

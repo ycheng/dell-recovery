@@ -1348,7 +1348,8 @@ manually to proceed.")
         for item in files:
             if os.path.exists(os.path.join('/mnt', 'boot', 'grub', files[item])):
                 with misc.raised_privileges():
-                    os.remove(os.path.join('/mnt', 'boot', 'grub', files[item]))
+                    shutil.move(os.path.join('/mnt', 'boot', 'grub', files[item]),
+                                os.path.join('/mnt', 'boot', 'grub', files[item]) + '.old')
 
             with misc.raised_privileges():
                 magic.process_conf_file('/usr/share/dell/grub/' + item, \

@@ -905,6 +905,15 @@ class Backend(dbus.service.Object):
                 #Copy boot section for ISO to somewhere writable
                 shutil.copytree(os.path.join(mntdir, 'isolinux'), os.path.join(tmpdir, 'isolinux'))
 
+        #if we previously backed up a grub.cfg or common.cfg
+        for path in ['boot/grub/grub.cfg', 'boot/grub/common.cfg']:
+            if os.path.exists(os.path.join(mntdir, path + '.old')):
+                genisoargs.append('-m')
+                genisoargs.append(os.path.join(mntdir, path) + '*')
+                if not os.path.exists(os.path.join(tmpdir, 'boot', 'grub')):
+                    os.makedirs(os.path.join(tmpdir, 'boot', 'grub'))
+                shutil.copy(os.path.join(mntdir, path + '.old'), os.path.join(tmpdir, path))
+
         #Make the image EFI compatible if necessary
         if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'efi.img')):
             efi_genisoimage = subprocess.Popen(['genisoimage','-help'],
