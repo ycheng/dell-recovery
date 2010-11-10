@@ -150,8 +150,9 @@ class Install(InstallPlugin):
         if not 'UBIQUITY_OEM_USER_CONFIG' in os.environ:
             return
 
+        #can also expect that this was mounted at /cdrom during OOBE
         rpart = magic.find_factory_rp_stats()
-        if rpart:
+        if rpart and os.path.exists('/cdrom/.disk/info'):
             magic.process_conf_file('/usr/share/dell/grub/99_dell_recovery', \
                                     '/etc/grub.d/99_dell_recovery',          \
                                     str(rpart["uuid"]), str(rpart["number"]))
