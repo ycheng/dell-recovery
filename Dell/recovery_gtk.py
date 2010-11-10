@@ -54,7 +54,7 @@ class DellRecoveryToolGTK:
         self.tool_widgets.connect_signals(self)
 
         #hide restore from HDD unless there is a recovery partition
-        if not recovery:
+        if not (recovery and os.path.exists('/etc/grub.d/99_dell_recovery')):
             for item in ['button', 'image', 'label']:
                 self.tool_widgets.get_object('restore_system_' + item).hide()
 
