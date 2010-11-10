@@ -1,4 +1,4 @@
-dell-recovery (0.74) UNRELEASED; urgency=low
+dell-recovery (0.74) natty; urgency=low
 
   * Reset the location that grub is installed and looked for on the RP
     to be /boot/grub rather than /grub.
@@ -16,7 +16,7 @@ dell-recovery (0.74) UNRELEASED; urgency=low
   * Test for 99_dell_recovery rather than trusting find_partitions when offering
     the recovery from the OS option.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 05 Nov 2010 17:07:19 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 10 Nov 2010 17:35:46 -0600
 
 dell-recovery (0.73) natty; urgency=low
 
