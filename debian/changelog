@@ -1,3 +1,10 @@
+dell-recovery (0.75) UNRELEASED; urgency=low
+
+  * Adjust the memory calculation to use /sys/firmware/memmap as 
+    dmi-available-memory is no longer available in natty.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 15 Nov 2010 12:21:50 -0600
+
 dell-recovery (0.74) natty; urgency=low
 
   * Reset the location that grub is installed and looked for on the RP

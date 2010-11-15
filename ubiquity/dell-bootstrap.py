@@ -938,16 +938,26 @@ class Page(Plugin):
 
         #Amount of memory in the system
         self.mem = 0
-        if os.path.exists('/usr/lib/base-installer/dmi-available-memory'):
-            with misc.raised_privileges():
-                self.mem = float(magic.fetch_output('/usr/lib/base-installer/dmi-available-memory').strip('\n'))
+        if os.path.exists('/sys/firmware/memmap'):
+            for root, dirs, files in os.walk('/sys/firmware/memmap', topdown=False):
+                if os.path.exists(os.path.join(root, 'type')):
+                    with open(os.path.join(root, 'type')) as rfd:
+                        type = rfd.readline().strip('\n')
+                    if type != "System RAM":
+                        continue
+                    with open(os.path.join(root, 'start')) as rfd:
+                        start = int(rfd.readline().strip('\n'),0)
+                    with open(os.path.join(root, 'end')) as rfd:
+                        end = int(rfd.readline().strip('\n'),0)
+                    self.mem += (end - start + 1)
+            self.mem = float(self.mem/1024)
         if self.mem == 0:
             with open('/proc/meminfo','r') as rfd:
                 for line in rfd.readlines():
                     if line.startswith('MemTotal'):
                         self.mem = float(line.split()[1].strip())
                         break
-        self.mem = self.mem/1048575
+        self.mem = self.mem/1048575 #in GB
 
         #Fill in UI data
         twiddle = {"mount": mount,
