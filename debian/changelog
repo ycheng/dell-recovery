@@ -2,6 +2,8 @@ dell-recovery (0.75) UNRELEASED; urgency=low
 
   * Adjust the memory calculation to use /sys/firmware/memmap as 
     dmi-available-memory is no longer available in natty.
+  * Check for an omsk recovery option in /proc/cmdline and in the squashfs
+    during the initrd.  If it's found, don't run standard recovery/install.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 15 Nov 2010 12:21:50 -0600
 
