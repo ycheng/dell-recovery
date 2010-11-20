@@ -1425,10 +1425,12 @@ manually to proceed.")
             ubi_version = magic.check_version('ubiquity')
             self.xml_obj.replace_node_contents('bootstrap', dr_version)
             self.xml_obj.replace_node_contents('ubiquity' , ubi_version)
-            with open('/var/log/syslog', 'r') as rfd:
-                self.xml_obj.replace_node_contents('syslog', rfd.read())
-            with open('/var/log/installer/debug', 'r') as rfd:
-                self.xml_obj.replace_node_contents('debug', rfd.read())
+            if os.path.exists('/var/log/syslog'):
+                with open('/var/log/syslog', 'r') as rfd:
+                    self.xml_obj.replace_node_contents('syslog', rfd.read())
+            if os.path.exists('/var/log/installer/debug'):
+                with open('/var/log/installer/debug', 'r') as rfd:
+                    self.xml_obj.replace_node_contents('debug', rfd.read())
             self.xml_obj.write_xml('/mnt/bto.xml')
         misc.execute_root('umount', '/mnt')
 

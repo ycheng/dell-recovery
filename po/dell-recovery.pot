@@ -8,11 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-03 00:32-0500\n"
+"POT-Creation-Date: 2010-11-18 16:27-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -230,7 +229,7 @@ msgstr ""
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:945
+#: ../Dell/recovery_backend.py:954
 msgid "Building ISO"
 msgstr ""
 

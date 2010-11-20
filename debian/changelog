@@ -4,6 +4,7 @@ dell-recovery (0.75) UNRELEASED; urgency=low
     dmi-available-memory is no longer available in natty.
   * Check for an omsk recovery option in /proc/cmdline and in the squashfs
     during the initrd.  If it's found, don't run standard recovery/install.
+  * Make sure /var/log/syslog actually exists before backing it up.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 15 Nov 2010 12:21:50 -0600
 
