@@ -96,7 +96,7 @@ fi
 
 #Set up all preseeds
 casper-set-selections "/root/usr/share/dell/casper/seeds/ubuntu.seed"
-if grep -q "dell-recovery/dual_boot=true" /proc/cmdline 2>&1 >/dev/null; then
+if grep -q "dell-recovery/dual_boot=true" /proc/cmdline 2>&1 >/dev/null || [ -e /root/usr/lib/ubiquity/plugins/omsk-recovery.py ]; then
     casper-set-selections "/root/usr/share/dell/casper/seeds/dual.seed"
 fi
 
