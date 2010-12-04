@@ -17,7 +17,7 @@ menuentry "Restore #OS# to factory state" {
             set root=(loop)
             set options="\$options iso-scan/filename=/ubuntu.iso"
         fi
-        linux   /casper/vmlinuz dell-recovery/recovery_type=hdd \$options
+        linux   /casper/vmlinuz dell-recovery/recovery_type=hdd \$options #EXTRA#
 	initrd	/casper/initrd.lz
 }
 EOF
