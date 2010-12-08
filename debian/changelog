@@ -7,7 +7,7 @@ dell-recovery (0.75) UNRELEASED; urgency=low
   * Make sure /var/log/syslog actually exists before backing it up.
   * Check for running on an omsk image, and force dual boot to true if so.
   * During OOBE save the first set language as the language that recovery
-    from HDD is ran as.
+    from HDD is ran as. (LP: #687480)
   * When the grub menu is regenerated, make sure LANG is properly set.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 15 Nov 2010 12:21:50 -0600
