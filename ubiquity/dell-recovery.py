@@ -153,13 +153,15 @@ class Install(InstallPlugin):
         #can also expect that this was mounted at /cdrom during OOBE
         rpart = magic.find_factory_rp_stats()
         if rpart and os.path.exists('/cdrom/.disk/info'):
+            env = os.environ
             lang = progress.get('debian-installer/locale')
+            env['LANG'] = lang
             magic.process_conf_file('/usr/share/dell/grub/99_dell_recovery', \
                                     '/etc/grub.d/99_dell_recovery',          \
-                                    str(rpart["uuid"]), str(rpart["number"]),\
-                                    'locale=' + lang)
+                                    str(rpart["uuid"]), str(rpart["number"]))
+
             os.chmod('/etc/grub.d/99_dell_recovery', 0755)
-            subprocess.call(['update-grub'])
+            subprocess.call(['update-grub'],env=env)
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.progress = progress
