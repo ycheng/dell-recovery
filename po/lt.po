@@ -7,105 +7,230 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-02-19 16:33-0600\n"
+"POT-Creation-Date: 2010-11-18 16:27-0600\n"
 "PO-Revision-Date: 2010-02-19 14:51+0000\n"
 "Last-Translator: Mantas Kriaučiūnas <mantas@akl.lt>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-20 04:44+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:103
-msgid "Invalid utility partition"
-msgstr "Netinkamas įrankių skirsnis"
+#: ../Dell/recovery_gtk.py:92
+msgid "Cannot connect to dbus"
+msgstr "Nepavyko prisijungti prie dbus"
 
-#: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
-msgid ""
-" in command line arguments.  Falling back to DeviceKit or HAL based "
-"detection."
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:109
-msgid "Invalid recovery partition"
-msgstr "Netinkamas atkūrimo skirsnis"
-
-#: ../Dell/recovery_frontend.py:164
+#: ../Dell/recovery_gtk.py:94
 msgid "Permission Denied"
 msgstr "Priėjimas uždraustas"
 
-#: ../Dell/recovery_frontend.py:178
+#: ../Dell/recovery_gtk.py:101
+msgid "Exception"
+msgstr ""
+
+#: ../Dell/recovery_gtk.py:149 ../gtk/dell-recovery-media.desktop.in.h:1
+#: ../gtk/tool_selector.ui.h:2
+msgid "Dell Recovery"
+msgstr ""
+
+#: ../Dell/recovery_gtk.py:150
+msgid "Copyright 2008-2010 Dell Inc."
+msgstr ""
+
+#: ../Dell/recovery_basic_gtk.py:157
+msgid "Building Base image"
+msgstr ""
+
+#: ../Dell/recovery_basic_gtk.py:170
 msgid "Opening Burner"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:192
+#: ../Dell/recovery_basic_gtk.py:195
 msgid "Recovery Media Creation Process Complete"
 msgstr "Atkūrimo laikmena sukurta"
 
-#: ../Dell/recovery_frontend.py:193
+#: ../Dell/recovery_basic_gtk.py:196
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
 
-#: ../Dell/recovery_frontend.py:213
-msgid "Cannot connect to dbus"
-msgstr "Nepavyko prisijungti prie dbus"
+#: ../Dell/recovery_basic_gtk.py:210
+msgid "Unable to proceed"
+msgstr ""
 
-#: ../Dell/recovery_frontend.py:303
-msgid "Welcome"
-msgstr "Sveiki"
+#: ../Dell/recovery_basic_gtk.py:211
+msgid ""
+"System does not appear to contain Dell factory installed partition layout."
+msgstr ""
 
-#: ../Dell/recovery_frontend.py:307
+#: ../Dell/recovery_basic_gtk.py:294
 msgid "Choose Media Type"
 msgstr "Pasirinkite laikmenos tipą"
 
-#: ../Dell/recovery_frontend.py:345 ../gtk/builder.ui.h:16
+#: ../Dell/recovery_basic_gtk.py:321 ../gtk/builder.ui.h:25
 msgid "ISO Image"
 msgstr "ISO atvaizdis"
 
-#: ../Dell/recovery_frontend.py:348
-msgid "Utility Partition: "
-msgstr "Įrankių skirsnis: "
-
-#: ../Dell/recovery_frontend.py:350
-msgid "Recovery Partition: "
-msgstr "Atkūrimo skirsnis: "
-
-#: ../Dell/recovery_frontend.py:351
+#: ../Dell/recovery_basic_gtk.py:323
 msgid "Media Type: "
 msgstr "Laikmenos tipas: "
 
-#: ../Dell/recovery_frontend.py:352
-msgid "File Name: "
-msgstr "Failo pavadinimas: "
+#: ../Dell/recovery_basic_gtk.py:326 ../Dell/recovery_basic_gtk.py:329
+msgid "Recovery Partition: "
+msgstr "Atkūrimo skirsnis: "
 
-#: ../Dell/recovery_frontend.py:357
+#: ../Dell/recovery_basic_gtk.py:330
+msgid "Included"
+msgstr ""
+
+#: ../Dell/recovery_basic_gtk.py:337
 msgid "Confirm Selections"
 msgstr "Patvirtinkite pasirinkimus"
 
-#: ../Dell/recovery_backend.py:391
+#: ../Dell/recovery_advanced_gtk.py:59
+msgid "python-vte is missing"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:60
+msgid "Builder mode requires python-vte to function"
+msgstr ""
+
+#. wizard.resize(400,400)
+#: ../Dell/recovery_advanced_gtk.py:78
+msgid " (BTO Image Builder Mode)"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:80
+msgid ""
+"This will integrate a Dell OEM FID framework & driver package set into a "
+"customized OS media image.  You will have the option to create an USB key or "
+"DVD image."
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:150
+msgid "Choose Base OS Image"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:153
+msgid "Choose FID Overlay"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:162
+msgid "Choose Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:174
+msgid "Choose Driver Packages"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:188
+msgid "Choose Application Packages"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:202
+msgid "Builder Summary"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:203
+msgid "Base Image Distributor"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:205
+msgid "Base Image Release"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:208
+msgid "BTO Base Image"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:211
+msgid "Base Image"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:214
+msgid "FID Overlay"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:218
+msgid "Utility Partition: "
+msgstr "Įrankių skirsnis: "
+
+#: ../Dell/recovery_advanced_gtk.py:221
+msgid "Application"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:222
+msgid "Driver"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:228
+msgid "Packages"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:234
+msgid "Inject Dell Recovery Package"
+msgstr ""
+
+#. update gui
+#: ../Dell/recovery_advanced_gtk.py:244
+msgid "Assembling Image Components"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:320
+msgid "Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:323
+msgid "No Additional Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:419
+msgid "<b>ERROR</b>: git is not installed"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:580
+msgid "Missing Dell-Recovery"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:581
+msgid "Not present in ISO or GIT tree"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:697
+msgid "All SRVs must be filled to proceed."
+msgstr ""
+
+#: ../Dell/recovery_backend.py:284
+msgid "Processing FISH packages"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:403
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:397
+#: ../Dell/recovery_backend.py:411
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:408
-msgid "Inserting FISH packages"
+#: ../Dell/recovery_backend.py:761
+msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:555
+#: ../Dell/recovery_backend.py:785
 msgid "Building Dell Utility Partition"
 msgstr "Kuriamas Dell įrankių skirsnis"
 
-#: ../Dell/recovery_backend.py:602
+#: ../Dell/recovery_backend.py:849
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:644
+#: ../Dell/recovery_backend.py:878
+msgid "Building GRUB core image"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:954
 msgid "Building ISO"
 msgstr "Kuriamas ISO atvaizdis"
 
@@ -126,17 +251,20 @@ msgid "Request closing the backend"
 msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
-msgid "System policy prevents closing processes without notice"
+msgid "Restore to Factory state"
 msgstr ""
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
-msgid "System policy prevents reading raw devices"
+msgid "System policy prevents changing system bootup"
 msgstr ""
 
-#: ../gtk/dell-recovery-media.desktop.in.h:1
-#: ../gtk/recovery_media_creator.ui.h:6
-msgid "Dell Recovery Media Creator"
-msgstr "Dell sistemos atkūrimo laikmenų įrankis"
+#: ../backend/com.dell.recoverymedia.policy.in.h:7
+msgid "System policy prevents closing processes without notice"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:8
+msgid "System policy prevents reading raw devices"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:1
 msgid "<activity placeholder>"
@@ -162,25 +290,27 @@ msgstr "Nutraukti atkūrimo laikmenos generavimą"
 msgid "DVD+/-RW Disc"
 msgstr "DVD+/-RW diskas"
 
+#: ../gtk/recovery_media_creator.ui.h:6 ../gtk/tool_selector.ui.h:3
+msgid "Dell Recovery Media Creator"
+msgstr "Dell sistemos atkūrimo laikmenų įrankis"
+
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create ISO image"
 msgstr "tik sukurti ISO atvaizdžio failą"
 
 #: ../gtk/recovery_media_creator.ui.h:8
-msgid ""
-"This application will create OS Recovery Media that can be used to restore "
-"the computer to its factory shipped state.  You will have the option to "
-"create an USB key or DVD image."
+msgid "This requires a USB flash drive with approximately 2GB free."
 msgstr ""
-"Ši programa sukurs kompiuterio operacinės sistemos atkūrimo laikmeną, kurios "
-"pagalba galėsite atkurti kompiuterio programinę įrangą iki dabar esančios "
-"būsenos. Jūs galėsite įrašyti atkūrimo atvaizdį į USB atmintuką ar DVD diską."
 
 #: ../gtk/recovery_media_creator.ui.h:9
+msgid "This requires writable DVD media."
+msgstr ""
+
+#: ../gtk/recovery_media_creator.ui.h:10
 msgid "USB Flash Drive"
 msgstr "USB \"Flash\" atmintukas"
 
-#: ../gtk/recovery_media_creator.ui.h:10
+#: ../gtk/recovery_media_creator.ui.h:11
 msgid "Version:"
 msgstr "Versija:"
 
@@ -200,6 +330,10 @@ msgid ""
 msgstr ""
 
 #: ../gtk/builder.ui.h:7
+msgid "Add Dell Recovery"
+msgstr ""
+
+#: ../gtk/builder.ui.h:8
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
@@ -207,65 +341,156 @@ msgstr ""
 "Čia galite pridėti papildomas programas, aparatinės įrangos valdykles ar "
 "kitą programinę įrangą, kurią norite įdėti į sistemos atkūrimo atvaizdį."
 
-#: ../gtk/builder.ui.h:8
-msgid "Choose Image"
-msgstr "Pasirinkite atvaizdį"
-
 #: ../gtk/builder.ui.h:9
-msgid "Detected Recovery Partition"
-msgstr "Aptiktas atkūrimo skirsnis"
+msgid ""
+"BTO images can optionally include a Utility Partition for diagnostic "
+"utilities."
+msgstr ""
 
 #: ../gtk/builder.ui.h:10
-msgid "Extracted Directory"
-msgstr "Išskleistas aplankas"
+msgid "Browse for a dell-recovery package"
+msgstr ""
 
 #: ../gtk/builder.ui.h:11
-msgid "FID GIT Tree"
+msgid "Build dell-recovery package from this system"
 msgstr ""
 
 #: ../gtk/builder.ui.h:12
-msgid "FID framework built into BTO image"
+msgid "Choose Content"
 msgstr ""
 
 #: ../gtk/builder.ui.h:13
-msgid "Fetch/Update GIT Tree"
-msgstr ""
+msgid "Choose Image"
+msgstr "Pasirinkite atvaizdį"
 
 #: ../gtk/builder.ui.h:14
-msgid "GIT Tags/Branches:"
+msgid "Choose package"
 msgstr ""
 
 #: ../gtk/builder.ui.h:15
-msgid "GIT Tree Status"
+msgid "Detected Recovery Partition"
+msgstr "Aptiktas atkūrimo skirsnis"
+
+#: ../gtk/builder.ui.h:16
+msgid "Detected Utility Partition"
 msgstr ""
 
 #: ../gtk/builder.ui.h:17
-msgid "Install git"
-msgstr "Įdiegti GIT"
+msgid ""
+"During Factory Installation, applications are only installed if the order "
+"record (SDR) refers to the service release vehicle (SRV).  This populates "
+"the possible SRVs to be queried during installation."
+msgstr ""
 
 #: ../gtk/builder.ui.h:18
-msgid "Selected Image Details:"
-msgstr "Pasirinkto atvaizdžio informacija:"
+msgid "Extracted Directory"
+msgstr "Išskleistas aplankas"
 
 #: ../gtk/builder.ui.h:19
-msgid "Selected Overlay Details:"
+msgid "FID Framework enclosed in debian package"
 msgstr ""
 
 #: ../gtk/builder.ui.h:20
+msgid "FID GIT Tree"
+msgstr ""
+
+#: ../gtk/builder.ui.h:21
+msgid "FID framework built into BTO image"
+msgstr ""
+
+#: ../gtk/builder.ui.h:22
+msgid "Fetch/Update GIT Tree"
+msgstr ""
+
+#: ../gtk/builder.ui.h:23
+msgid "GIT Tags/Branches:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:24
+msgid "GIT Tree Status"
+msgstr ""
+
+#: ../gtk/builder.ui.h:26
+msgid "Install dpkg-repack"
+msgstr ""
+
+#: ../gtk/builder.ui.h:27
+msgid "Install git"
+msgstr "Įdiegti GIT"
+
+#: ../gtk/builder.ui.h:28
+msgid "No additional Utility Partition"
+msgstr ""
+
+#: ../gtk/builder.ui.h:29
+msgid ""
+"Part of the FID overlay requires a dell-recovery package to be included."
+msgstr ""
+
+#: ../gtk/builder.ui.h:30
+msgid "Please enter the SRV to use:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:31
+msgid "SRV Entry"
+msgstr ""
+
+#: ../gtk/builder.ui.h:32
+msgid "Select content for Utility Partition"
+msgstr ""
+
+#: ../gtk/builder.ui.h:33
+msgid "Selected Content Details:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:34
+msgid "Selected Image Details:"
+msgstr "Pasirinkto atvaizdžio informacija:"
+
+#: ../gtk/builder.ui.h:35
+msgid "Selected Overlay Details:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:36
 msgid "Show Details"
 msgstr "Rodyti išsamią informaciją"
 
-#: ../gtk/builder.ui.h:21
+#: ../gtk/builder.ui.h:37
+msgid ""
+"The BTO FID framework is the first thing injected into a base vanilla image. "
+" If you are generating from an existing BTO compatible image, you may use "
+"the built-in framework."
+msgstr ""
+
+#: ../gtk/builder.ui.h:38
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
 msgstr ""
 
-#: ../gtk/builder.ui.h:22
+#: ../gtk/tool_selector.ui.h:1
+msgid "Build OS Media"
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:4
+msgid "Restore System"
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:5
 msgid ""
-"The FID framework is the first piece overlaid on top of a Vanilla image.  In "
-"the event that you are generating from an existing BTO image, you can use "
-"the framework built into that image."
+"This will create OS Recovery Media that can be used to restore the computer "
+"to its factory shipped state.  You will have the option to create an USB key "
+"or DVD image."
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:6
+msgid ""
+"This will restore the system to the factory shipped state using the recovery "
+"partition stored on the hard drive."
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:7
+msgid "_Help"
 msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
@@ -274,46 +499,77 @@ msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
+"<b>It is highly recommended that you generate media and store it in a safe "
+"place.</b>"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 "<b>Pastaba:</b> Šiuo atveju jums reikės USB \"flash\" atmintuko, kuriame yra "
 "bent 2 GB laisvos vietos."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:3
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>Pastaba:</b> Šiuo atveju jums reikės įrašomo DVD disko."
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:4
-msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr "<big><b>Sukurti Dell sistemos atkūrimo laikmeną?</b></big>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
-"when it was first shipped to you.\n"
-"<b>It is highly recommended that you generate media and store it in a safe "
-"place.</b>"
+"when it was first shipped to you."
 msgstr ""
-"Dell sistemos atkūrimo laikmena gali būti naudojama atstatant jūsų "
-"kompiuterio operacinę sistemą. Po atstatymo sistema bus kaip naujame "
-"kompiuteryje.\n"
-"<b>Primygtinai Jums rekomenduojame sukurti atkūrimo laikmeną ir padėti ją į "
-"saugią vietą.</b>"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid "Don't generate recovery media at this time"
 msgstr "Negeneruoti atkūrimo laikmenos šiuo metu"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "Save recovery media to DVD"
 msgstr "Išsaugoti atkūrimo atvaizdį į DVD"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:10
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Išsaugoti atkūrimo atvaizdį į išimamą USB \"flash\" atmintuką"
+
+#~ msgid "Welcome"
+#~ msgstr "Sveiki"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Netinkamas įrankių skirsnis"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Netinkamas atkūrimo skirsnis"
+
+#~ msgid "File Name: "
+#~ msgstr "Failo pavadinimas: "
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Ši programa sukurs kompiuterio operacinės sistemos atkūrimo laikmeną, kurios "
+#~ "pagalba galėsite atkurti kompiuterio programinę įrangą iki dabar esančios "
+#~ "būsenos. Jūs galėsite įrašyti atkūrimo atvaizdį į USB atmintuką ar DVD diską."
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>Sukurti Dell sistemos atkūrimo laikmeną?</b></big>"
+
+#~ msgid ""
+#~ "Dell Recovery Media can be used to restore your system to the same state as "
+#~ "when it was first shipped to you.\n"
+#~ "<b>It is highly recommended that you generate media and store it in a safe "
+#~ "place.</b>"
+#~ msgstr ""
+#~ "Dell sistemos atkūrimo laikmena gali būti naudojama atstatant jūsų "
+#~ "kompiuterio operacinę sistemą. Po atstatymo sistema bus kaip naujame "
+#~ "kompiuteryje.\n"
+#~ "<b>Primygtinai Jums rekomenduojame sukurti atkūrimo laikmeną ir padėti ją į "
+#~ "saugią vietą.</b>"

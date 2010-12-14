@@ -6,32 +6,44 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-23 01:25-0500\n"
-"PO-Revision-Date: 2010-03-28 16:04+0000\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"POT-Creation-Date: 2010-09-09 19:07-0500\n"
+"PO-Revision-Date: 2010-12-14 05:23+0000\n"
 "Last-Translator: Pēteris Krišjānis <pecisk@gmail.com>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-29 03:46+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
 #. Description
-#: ../templates:7001
+#: ../templates:14001
 msgid "Building Dell Recovery Media..."
 msgstr "Būvē Dell atkopšanas mēdiju..."
 
 #. Type: text
 #. Description
-#: ../templates:9001
+#: ../templates:16001
 msgid "Opening Burner..."
 msgstr "Atver rakstītāju..."
 
 #. Type: text
 #. Description
-#: ../templates:10001
+#: ../templates:17001
+msgid "Dell Recovery"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:18001
+msgid "Recovery Type"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:19001
 msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
@@ -41,7 +53,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:11001
+#: ../templates:20001
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
@@ -49,13 +61,13 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:12001
+#: ../templates:21001
 msgid "Restore Linux OS partitions"
 msgstr "Atjaunot Linux OS sadaļas"
 
 #. Type: text
 #. Description
-#: ../templates:13001
+#: ../templates:22001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
 "Šis pārbūvēs visas OS un maiņvietas sadaļas pēc fabrikas noklusētajiem "
@@ -65,63 +77,63 @@ msgstr ""
 #. Description
 #. Type: text
 #. Description
-#: ../templates:14001 ../templates:17001
+#: ../templates:23001 ../templates:26001
 msgid "WARNING: All personal files and changes will be lost."
 msgstr "BRĪDINĀJUMS: Visi peroniskie faili un izmaiņas tiks zaudētas."
 
 #. Type: text
 #. Description
-#: ../templates:15001
+#: ../templates:24001
 msgid "Restore entire hard drive."
 msgstr "Atjaunot visu cieto disku."
 
 #. Type: text
 #. Description
-#: ../templates:16001
+#: ../templates:25001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr "Pārbūvēt visas utilītu, atjaunošanas un OS sadaļas."
 
 #. Type: text
 #. Description
-#: ../templates:18001
+#: ../templates:27001
 msgid "Restore only Linux OS partition."
 msgstr "Atjaunot tikai Linux OS sadaļu."
 
 #. Type: text
 #. Description
-#: ../templates:19001
+#: ../templates:28001
 msgid "This option allows you to resize any existing partitions."
 msgstr "Šī opcija ļaus jums izmainīt izmēru jebkurām eksistējošajām sadaļām."
 
 #. Type: text
 #. Description
-#. Type: text
-#. Description
-#: ../templates:20001 ../templates:32001
-msgid "ERROR: This media is only valid on Dell systems."
-msgstr "KĻŪDA: šis mēdijs ir derīgs tikai Dell sistēmām."
+#: ../templates:29001
+msgid ""
+"ERROR: This media only functions on Dell systems booted directly into "
+"recovery mode."
+msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:21001
-msgid "This window will close automatically when the process is complete. "
-msgstr "Logs tiks aizvērts automātiski pēc procesa pabeigšanas. "
+#: ../templates:30001
+msgid "Building Recovery Partition"
+msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:22001
+#: ../templates:31001
 msgid "NOTE: Please be patient, this may take a while."
 msgstr "PIEZĪME: Lūdzu, esat pacietīgi, tas aizņems kādu laiku."
 
 #. Type: text
 #. Description
-#: ../templates:23001
-msgid "Create Dell Recovery Media?"
-msgstr "Izveidot Dell atkopšanas mēdiju?"
+#: ../templates:32001
+msgid "Create Dell Recovery Media"
+msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:24001
+#: ../templates:33001
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
@@ -131,7 +143,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:25001
+#: ../templates:34001
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
@@ -140,41 +152,62 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:26001
+#: ../templates:35001
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Saglabāt atkopšanas mēdiju ārējā USB zibatmiņas diskā"
 
 #. Type: text
 #. Description
-#: ../templates:27001
+#: ../templates:36001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 "Piezīme: nepieciešams USB zibatmiņas dzinis ar apmēram 2GB brīvas vietas."
 
 #. Type: text
 #. Description
-#: ../templates:28001
+#: ../templates:37001
 msgid "Save recovery media to DVD"
 msgstr "Saglabāt atkopšanas mēdiju DVD"
 
 #. Type: text
 #. Description
-#: ../templates:29001
+#: ../templates:38001
 msgid "Note: This requires writable DVD media."
 msgstr "Piezīme: nepieciešams rakstāms DVD mēdijs."
 
 #. Type: text
 #. Description
-#: ../templates:30001
+#: ../templates:39001
 msgid "Don't generate recovery media at this time"
 msgstr "Šoreiz neizveidot atkopšanas mēdiju"
 
 #. Type: text
 #. Description
-#: ../templates:31001
+#: ../templates:40001
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
 "Atkopšanas mēdijs var tikt izveidots vēlāk, izvēloties doto rīku no Sistēmas "
 "izvēlnes."
+
+#. Type: text
+#. Description
+#: ../templates:41001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr "KĻŪDA: šis mēdijs ir derīgs tikai Dell sistēmām."
+
+#. Type: text
+#. Description
+#: ../templates:42001
+msgid "Dell End User License Agreement"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../templates:43001
+msgid "I accept the license terms. (required to use your computer)"
+msgstr ""
+
+#~ msgid "This window will close automatically when the process is complete. "
+#~ msgstr "Logs tiks aizvērts automātiski pēc procesa pabeigšanas. "

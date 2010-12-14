@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-20 17:34-0500\n"
+"POT-Creation-Date: 2010-11-18 16:27-0600\n"
 "PO-Revision-Date: 2010-10-30 05:46+0000\n"
 "Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-31 05:06+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -232,7 +232,7 @@ msgstr "Regenerando UUID / Reconstruyendo initramfs"
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:945
+#: ../Dell/recovery_backend.py:954
 msgid "Building ISO"
 msgstr "Creando ISO"
 

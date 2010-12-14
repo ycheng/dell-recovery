@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-08-10 20:15-0500\n"
-"PO-Revision-Date: 2010-08-18 11:05+0000\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"POT-Creation-Date: 2010-09-09 19:07-0500\n"
+"PO-Revision-Date: 2010-12-14 04:42+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-19 03:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -108,11 +108,11 @@ msgstr "Tällä valinnalla voidaan muuttaa olemassa olevien osioiden kokoa."
 
 #. Type: text
 #. Description
-#. Type: text
-#. Description
-#: ../templates:29001 ../templates:41001
-msgid "ERROR: This media is only valid on Dell systems."
-msgstr "VIRHE: Tämä media on kelvollinen vain Dell-järjestelmissä."
+#: ../templates:29001
+msgid ""
+"ERROR: This media only functions on Dell systems booted directly into "
+"recovery mode."
+msgstr ""
 
 #. Type: text
 #. Description
@@ -192,6 +192,12 @@ msgid ""
 msgstr ""
 "Palautusmedian voi luoda myöhemmin valitsemalla työkalun Järjestelmä-"
 "valikosta."
+
+#. Type: text
+#. Description
+#: ../templates:41001
+msgid "ERROR: This media is only valid on Dell systems."
+msgstr "VIRHE: Tämä media on kelvollinen vain Dell-järjestelmissä."
 
 #. Type: text
 #. Description
