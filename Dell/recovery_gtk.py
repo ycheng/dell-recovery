@@ -221,6 +221,8 @@ def translate_widgets(widgets):
             widget.set_text(_(widget.get_text()))
         elif isinstance(widget, gtk.RadioButton):
             widget.set_label(_(widget.get_label()))
+        elif isinstance(widget, gtk.Button):
+            widget.set_label(_(widget.get_label()))
         elif isinstance(widget, gtk.Window):
             title = widget.get_title()
             if title:
