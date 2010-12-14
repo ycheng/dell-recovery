@@ -12,6 +12,7 @@ dell-recovery (0.75) UNRELEASED; urgency=low
   * Fix widget translation for gtk Buttons.
   * Fix a backend crash when running in a more translated chinese.
   * Fix a backend crash with unicode paths.
+  * Make sure the GRUB locale is properly set before rebooting in recovery.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 15 Nov 2010 12:21:50 -0600
 

@@ -730,7 +730,15 @@ class Backend(dbus.service.Object):
                     line = "GRUB_DEFAULT=saved\n"
                 wfd.write(line)
 
-        ret = subprocess.call(['/usr/sbin/update-grub'])
+        #Make sure the language is set properly
+        with open('/etc/default/locale','r') as rfd:
+            for line in rfd.readlines():
+                if line.startswith('LANG=') and len(line.split('=')) > 1:
+                    lang = line.split('=')[1].strip('\n').strip('"')
+        env = os.environ
+        env['LANG'] = lang
+
+        ret = subprocess.call(['/usr/sbin/update-grub'], env=env)
         if ret is not 0:
             raise RestoreFailed("error updating grub configuration")
 
