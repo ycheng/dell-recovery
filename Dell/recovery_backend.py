@@ -221,8 +221,6 @@ class Backend(dbus.service.Object):
            If we find that it's already mounted elsewhere, return that mount
            If unsuccessful, return an empty string
         '''
-        #Work around issues sending a UTF-8 directory over dbus
-        recovery = recovery.encode('utf8')
 
         #In this is just a directory
         if os.path.isdir(recovery):
@@ -373,6 +371,9 @@ class Backend(dbus.service.Object):
            iso: iso file name to create"""
 
         self._reset_timeout()
+
+        #Work around issues sending a UTF-8 directory over dbus
+        base = base.encode('utf8')
 
         base_mnt = self.request_mount(base, sender, conn)
 
