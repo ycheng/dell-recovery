@@ -747,6 +747,9 @@ class Backend(dbus.service.Object):
         self._check_polkit_privilege(sender, conn,
                                                 'com.dell.recoverymedia.create')
 
+        #re-encode to utf8
+        iso = iso.encode('utf8')
+
         #create temporary workspace
         tmpdir = tempfile.mkdtemp()
         atexit.register(walk_cleanup, tmpdir)

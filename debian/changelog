@@ -10,6 +10,7 @@ dell-recovery (0.75) UNRELEASED; urgency=low
     from HDD is ran as. (LP: #687480)
   * When the grub menu is regenerated, make sure LANG is properly set.
   * Fix widget translation for gtk Buttons.
+  * Fix a backend crash when running in a more translated chinese.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 15 Nov 2010 12:21:50 -0600
 
