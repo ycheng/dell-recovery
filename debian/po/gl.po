@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-09-09 19:07-0500\n"
+"POT-Creation-Date: 2010-12-14 23:23-0600\n"
 "PO-Revision-Date: 2010-12-14 04:56+0000\n"
 "Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,31 +20,31 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:14001
+#: ../dell-recovery.templates:14001
 msgid "Building Dell Recovery Media..."
 msgstr "Construindo o soporte de Dell Recovery..."
 
 #. Type: text
 #. Description
-#: ../templates:16001
+#: ../dell-recovery.templates:16001
 msgid "Opening Burner..."
 msgstr "Abrindo a grabadora..."
 
 #. Type: text
 #. Description
-#: ../templates:17001
+#: ../dell-recovery.templates:17001
 msgid "Dell Recovery"
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:18001
+#: ../dell-recovery.templates:18001
 msgid "Recovery Type"
 msgstr "Tipo de recuperación"
 
 #. Type: text
 #. Description
-#: ../templates:19001
+#: ../dell-recovery.templates:19001
 msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
@@ -53,7 +54,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:20001
+#: ../dell-recovery.templates:20001
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
@@ -61,13 +62,13 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:21001
+#: ../dell-recovery.templates:21001
 msgid "Restore Linux OS partitions"
 msgstr "Restaurar as particións do SO Linux"
 
 #. Type: text
 #. Description
-#: ../templates:22001
+#: ../dell-recovery.templates:22001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
 "Isto reconstruirá todas as particións do SO e de intercambio ás predefinidas "
@@ -77,39 +78,39 @@ msgstr ""
 #. Description
 #. Type: text
 #. Description
-#: ../templates:23001 ../templates:26001
+#: ../dell-recovery.templates:23001 ../dell-recovery.templates:26001
 msgid "WARNING: All personal files and changes will be lost."
 msgstr "AVISO: Todos os seus ficheiros e cambios persoais perderanse."
 
 #. Type: text
 #. Description
-#: ../templates:24001
+#: ../dell-recovery.templates:24001
 msgid "Restore entire hard drive."
 msgstr "Restaurar todo o disco ríxido."
 
 #. Type: text
 #. Description
-#: ../templates:25001
+#: ../dell-recovery.templates:25001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr ""
 "Isto reconstruirá toda as particións do SO, recuperación e intercambio."
 
 #. Type: text
 #. Description
-#: ../templates:27001
+#: ../dell-recovery.templates:27001
 msgid "Restore only Linux OS partition."
 msgstr "Restaurar só as particións do SO Linux."
 
 #. Type: text
 #. Description
-#: ../templates:28001
+#: ../dell-recovery.templates:28001
 msgid "This option allows you to resize any existing partitions."
 msgstr ""
 "Esta opción permítelle redimensionar calquera das particións existentes."
 
 #. Type: text
 #. Description
-#: ../templates:29001
+#: ../dell-recovery.templates:29001
 msgid ""
 "ERROR: This media only functions on Dell systems booted directly into "
 "recovery mode."
@@ -117,25 +118,25 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:30001
+#: ../dell-recovery.templates:30001
 msgid "Building Recovery Partition"
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:31001
+#: ../dell-recovery.templates:31001
 msgid "NOTE: Please be patient, this may take a while."
 msgstr "NOTA: Teña paciencia, isto pode lever uns minutos."
 
 #. Type: text
 #. Description
-#: ../templates:32001
+#: ../dell-recovery.templates:32001
 msgid "Create Dell Recovery Media"
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:33001
+#: ../dell-recovery.templates:33001
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
@@ -145,47 +146,46 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:34001
+#: ../dell-recovery.templates:34001
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
-msgstr ""
-"É moi recomendábel que xere un soporte e o almacene nun lugar seguro."
+msgstr "É moi recomendábel que xere un soporte e o almacene nun lugar seguro."
 
 #. Type: text
 #. Description
-#: ../templates:35001
+#: ../dell-recovery.templates:35001
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Gardar o soporte de recuperación nunha unidade flash USB externa"
 
 #. Type: text
 #. Description
-#: ../templates:36001
+#: ../dell-recovery.templates:36001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 "Nota: Isto require unha unidade flash USB con aproximadamente 2GB libres."
 
 #. Type: text
 #. Description
-#: ../templates:37001
+#: ../dell-recovery.templates:37001
 msgid "Save recovery media to DVD"
 msgstr "Gardar o soporte de recuperación a un DVD"
 
 #. Type: text
 #. Description
-#: ../templates:38001
+#: ../dell-recovery.templates:38001
 msgid "Note: This requires writable DVD media."
 msgstr "Nota: Isto require un soporte DVD escribíbel."
 
 #. Type: text
 #. Description
-#: ../templates:39001
+#: ../dell-recovery.templates:39001
 msgid "Don't generate recovery media at this time"
 msgstr "Non xerar o soporte de recuperación neste momento"
 
 #. Type: text
 #. Description
-#: ../templates:40001
+#: ../dell-recovery.templates:40001
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -195,19 +195,19 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:41001
+#: ../dell-recovery.templates:41001
 msgid "ERROR: This media is only valid on Dell systems."
 msgstr "ERRO: Este soporte só é válido para sistemas Dell."
 
 #. Type: text
 #. Description
-#: ../templates:42001
+#: ../dell-recovery.templates:42001
 msgid "Dell End User License Agreement"
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../templates:43001
+#: ../dell-recovery.templates:43001
 msgid "I accept the license terms. (required to use your computer)"
 msgstr ""
 
