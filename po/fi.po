@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:23+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -576,3 +576,29 @@ msgstr "Tallenna palautusmedia ulkoiselle USB-muistivälineelle"
 
 #~ msgid "Retry burn?"
 #~ msgstr "Yritä kirjoitusta uudelleen?"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Lisätään FISH-paketteja"
+
+#~ msgid ""
+#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
+#~ "the event that you are generating from an existing BTO image, you can use "
+#~ "the framework built into that image."
+#~ msgstr ""
+#~ "FID-kehysohjelmisto on ensimmäinen puhtaan levykuvan päälle laskostettava "
+#~ "osa. Jos luot käyttäen olemassa olevaa BTO-levykuvaa pohjana, voit käyttää "
+#~ "kyseiseen levykuvaan sisään rakennettua kehysohjelmistoa."
+
+#~ msgid "Add dell-recovery"
+#~ msgstr "Lisää ”dell-recovery”"
+
+#~ msgid ""
+#~ "The combination of the image and GIT tree you have provided do not supply "
+#~ "the necessary dell-recovery package.  It will have to be injected into the "
+#~ "image separately."
+#~ msgstr ""
+#~ "Tarjotut levykuva ja GIT-puu eivät sisällä tarvittavaa dell-recovery-"
+#~ "pakettia. Se tulee sisällyttää levykuvaan erikseen."
+
+#~ msgid "Calculating FISH MD5SUMs"
+#~ msgstr "Lasketaan FISH MD5SUM -lukuja"

@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -549,3 +549,43 @@ msgstr "Spremi medij oporavka na DVD"
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Spremi medij oporavka na vanjsku USB memoriju"
+
+#~ msgid ""
+#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
+#~ "detection."
+#~ msgstr ""
+#~ " u argumentima naredbene linije.  Povratak na detekciju temeljenu na "
+#~ "DeviceKitu ili HAL-u."
+
+#~ msgid "Welcome"
+#~ msgstr "Dobrodošli"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Kriva uslužna particija"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Kriva particija oporavka"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Umetanje FISH paketa"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Aplikacija će stvoriti medij oporavka OS-a, koji se može koristiti za "
+#~ "vraćanje računala u tvorničko stanje. Imat ćete mogućnost izrade slike za "
+#~ "USB memoriju ili DVD."
+
+#~ msgid ""
+#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
+#~ "the event that you are generating from an existing BTO image, you can use "
+#~ "the framework built into that image."
+#~ msgstr ""
+#~ "FID okvir je prvi dio koji preklapa dio vrha Vanilla slike. U slučaju da "
+#~ "generiranje obavljate iz postojeće BTO slike, možete koristiti okvir ugrađen "
+#~ "u tu sliku."
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>Stvoriti Dell medij oporavka?</b></big>"

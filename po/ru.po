@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -547,3 +547,21 @@ msgstr "Сохранение диска восстановления на DVD"
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Сохранение диска восстановления на USB-флэш"
+
+#~ msgid "Welcome"
+#~ msgstr "Добро пожаловать!"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Вставка пакетов FISH"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Это приложение предназначено для создания диска восстановления для возврата "
+#~ "компьютера к фабричному состоянию. Возможно создание либо USB, либо DVD "
+#~ "дисков."
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>Создать диск восстановления Dell?</b></big>"

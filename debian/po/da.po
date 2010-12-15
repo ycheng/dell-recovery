@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:23+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -253,6 +253,15 @@ msgstr ""
 #~ "Et eksisterende billede blev fundet (formentlig fra en tidligere kørsel). "
 #~ "Ønsker du at fjerne den gamle kopi og regenerere billedet?"
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Dette program vil oprette et gendannelses medie som kan bruges til at "
+#~ "gendanne computeren til den tilstand den forlod fabrikken i. Du vil få "
+#~ "mulighed for at oprette enten en USB nøgle eller et DVD billede."
+
 #~ msgid "USB Flash Drive"
 #~ msgstr "USB Flash Drive"
 
@@ -278,6 +287,9 @@ msgstr ""
 #~ msgid "Invalid recovery partition"
 #~ msgstr "Ugyldig genskabelsespartition"
 
+#~ msgid "Recovery Partition: "
+#~ msgstr "Genskabelsespartiton: "
+
 #~ msgid "Media Type: "
 #~ msgstr "Medietype: "
 
@@ -290,6 +302,12 @@ msgstr ""
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "Systempolitik forhindrer læsning af raw enheder"
 
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Annullér Gendannelsesmedie-opretter"
+
 #~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
 #~ msgstr ""
 #~ "Er du sikker på du ønsker at annullére oprettelsen af Gendannelsesmediet?"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Dell Gendannelsesmedie-opretter"

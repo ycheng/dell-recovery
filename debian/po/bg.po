@@ -6,15 +6,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2010-09-09 19:07-0500\n"
-"PO-Revision-Date: 2010-04-06 21:51+0000\n"
+"PO-Revision-Date: 2010-12-14 08:49+0000\n"
 "Last-Translator: Boyan Sotirov <lz1dsb@abv.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:23+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -226,9 +226,6 @@ msgstr ""
 #~ msgid "Building UP"
 #~ msgstr "Изграждане"
 
-#~ msgid "Recovery Partition: "
-#~ msgstr "Дял за възстановяване: "
-
 #~ msgid "File Name: "
 #~ msgstr "Файл: "
 
@@ -279,3 +276,6 @@ msgstr ""
 
 #~ msgid "Retry burn?"
 #~ msgstr "Повторен опит?"
+
+#~ msgid "This window will close automatically when the process is complete. "
+#~ msgstr "Този прозорец ще се затвори автоматично, когато процеса е завършен. "

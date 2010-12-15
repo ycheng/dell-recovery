@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:23+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -219,6 +219,9 @@ msgstr ""
 #~ msgid "Invalid recovery partition"
 #~ msgstr "Netinkamas atkūrimo skirsnis"
 
+#~ msgid "Recovery Partition: "
+#~ msgstr "Atkūrimo skirsnis: "
+
 #~ msgid "File Name: "
 #~ msgstr "Failo pavadinimas: "
 
@@ -237,6 +240,9 @@ msgstr ""
 #~ msgid "Building ISO"
 #~ msgstr "Kuriamas ISO atvaizdis"
 
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Dell sistemos atkūrimo laikmenų įrankis"
+
 #~ msgid ""
 #~ "This application will create OS Recovery Media that can be used to restore "
 #~ "the computer to its factory shipped state.  You will have the option to "
@@ -245,6 +251,9 @@ msgstr ""
 #~ "Ši programa sukurs kompiuterio operacinės sistemos atkūrimo laikmeną, kurios "
 #~ "pagalba galėsite atkurti kompiuterio programinę įrangą iki dabar esančios "
 #~ "būsenos. Jūs galėsite įrašyti atkūrimo atvaizdį į USB atmintuką ar DVD diską."
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Nutraukti atkūrimo laikmenos generavimą"
 
 #~ msgid "USB Flash Drive"
 #~ msgstr "USB \"Flash\" atmintukas"

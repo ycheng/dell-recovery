@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -580,3 +580,27 @@ msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
 
 #~ msgid "Retry burn?"
 #~ msgstr "Ritenta masterizzazione?"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Inserimento pacchetti FISH"
+
+#~ msgid "Add dell-recovery"
+#~ msgstr "Aggiungere dell-recovery"
+
+#~ msgid ""
+#~ "The combination of the image and GIT tree you have provided do not supply "
+#~ "the necessary dell-recovery package.  It will have to be injected into the "
+#~ "image separately."
+#~ msgstr ""
+#~ "La combinazione tra l'immagine e l'albero GIT selezionato non fornisce il "
+#~ "pacchetto dell-recovery necessario. Verrà aggiunto all'immagine "
+#~ "separatamente."
+
+#~ msgid ""
+#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
+#~ "the event that you are generating from an existing BTO image, you can use "
+#~ "the framework built into that image."
+#~ msgstr ""
+#~ "L'ambiente FID è il primo pezzo sovrapposto a una immagine \"Vanilla\". Nel "
+#~ "caso si generi una immagine \"BTO\" da una esistente, è possibile utilizzare "
+#~ "un ambiente creato dentro l'immagine."

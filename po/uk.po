@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -576,3 +576,29 @@ msgstr "Зберегти носій для відновлення на DVD"
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Зберегти носій для відновлення на зовнішньому флеш-диску USB"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Вставка пакунків FISH"
+
+#~ msgid ""
+#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
+#~ "the event that you are generating from an existing BTO image, you can use "
+#~ "the framework built into that image."
+#~ msgstr ""
+#~ "Оболонка FID — це початковий набір даних, які буде дописано до образу "
+#~ "Vanilla. Якщо ви створюєте носій на основі поточного образу BTO, ви можете "
+#~ "скористатися оболонкою, вбудованою до цього образу."
+
+#~ msgid "Add dell-recovery"
+#~ msgstr "Додати dell-recovery"
+
+#~ msgid ""
+#~ "The combination of the image and GIT tree you have provided do not supply "
+#~ "the necessary dell-recovery package.  It will have to be injected into the "
+#~ "image separately."
+#~ msgstr ""
+#~ "Поєднання образу та дерева GIT, яке ви вказали, не містить необхідного "
+#~ "пакунка dell-recovery. Його доведеться додати до образу окремо."
+
+#~ msgid "Calculating FISH MD5SUMs"
+#~ msgstr "Обчислення сум MD5 FISH"

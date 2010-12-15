@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:23+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -201,11 +201,23 @@ msgstr ""
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW Disc"
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Esta aplicação criará OS Recovery Media que poderá ser usado para restaurar "
+#~ "o computador para o estado de envio do fabricante. Terá a opção de criar uma "
+#~ "chave USB ou imagem DVD."
+
 #~ msgid "Welcome"
 #~ msgstr "Bem-vindo"
 
 #~ msgid "Confirm Selections"
 #~ msgstr "Confirma selecções"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Cancelar Recovery Media Creator"
 
 #~ msgid "Choose Media Type"
 #~ msgstr "Escolha tipo de media"
@@ -262,6 +274,9 @@ msgstr ""
 #~ msgid "Generating UUID"
 #~ msgstr "Gerando UUID"
 
+#~ msgid "Recovery Partition: "
+#~ msgstr "Recuperação de partição: "
+
 #~ msgid "File Name: "
 #~ msgstr "Nome do arquivo: "
 
@@ -270,6 +285,9 @@ msgstr ""
 
 #~ msgid "<activity placeholder>"
 #~ msgstr "<activity placeholder>"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Dell Recovery Media Creator"
 
 #~ msgid "USB Flash Drive"
 #~ msgstr "Unidade USB"

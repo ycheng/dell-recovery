@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -553,6 +553,15 @@ msgstr "Spara återställningsmedia till DVD"
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Spara återställningsmedia till en extern USB-lagringsenhet"
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Detta program kommer att skapa ett återställningsmedia för operativsystem "
+#~ "som kan användas för att återställa datorn till dess fabriksinställningar. "
+#~ "Du kommer att få alternativet att skapa på en USB-enhet eller dvd-avbildning."
+
 #~ msgid "Welcome"
 #~ msgstr "Välkommen"
 
@@ -561,3 +570,22 @@ msgstr "Spara återställningsmedia till en extern USB-lagringsenhet"
 
 #~ msgid "Retry burn?"
 #~ msgstr "Bränn igen?"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Ogiltig tillbehörspartition"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Ogiltig återställningspartition"
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>Skapa återställningsmedia för Dell?</b></big>"
+
+#~ msgid ""
+#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
+#~ "detection."
+#~ msgstr ""
+#~ " i kommandoradsargument.  Faller tillbaka på DeviceKit eller HAL-baserad "
+#~ "identifiering."
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Infogar FISH-paket"

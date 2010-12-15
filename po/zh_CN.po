@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-11-18 16:27-0600\n"
-"PO-Revision-Date: 2010-12-14 01:12+0000\n"
-"Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
+"PO-Revision-Date: 2010-12-14 19:25+0000\n"
+"Last-Translator: Heling Yao <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -58,7 +58,7 @@ msgstr "如果您想存档其它副本，生成的镜像以下述文件名保存
 
 #: ../Dell/recovery_basic_gtk.py:210
 msgid "Unable to proceed"
-msgstr ""
+msgstr "无法继续"
 
 #: ../Dell/recovery_basic_gtk.py:211
 msgid ""
@@ -535,6 +535,9 @@ msgstr "将恢复介质保存为 DVD"
 msgid "Save recovery media to an external USB flash drive"
 msgstr "将恢复介质保存为外接的 USB 闪存盘"
 
+#~ msgid "Welcome"
+#~ msgstr "欢迎"
+
 #~ msgid "File Name: "
 #~ msgstr "文件名 "
 
@@ -566,3 +569,44 @@ msgstr "将恢复介质保存为外接的 USB 闪存盘"
 
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr "光盘刻录失败。要重试吗？"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "插入 FISH 软件包"
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>创建 Dell 恢复盘？</b></big>"
+
+#~ msgid ""
+#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
+#~ "detection."
+#~ msgstr " 命令行参数。根据检测结果，返回 DeviceKit 或者 HAL。"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "无效的工具分区"
+
+#~ msgid ""
+#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
+#~ "the event that you are generating from an existing BTO image, you can use "
+#~ "the framework built into that image."
+#~ msgstr "Vanilla 镜像顶部的第一块是一个 FID 框架。如果您要从现有的 BTO 镜像生成，您可以直接使用该框架。"
+
+#~ msgid "Add dell-recovery"
+#~ msgstr "添加 dell-recovery"
+
+#~ msgid ""
+#~ "The combination of the image and GIT tree you have provided do not supply "
+#~ "the necessary dell-recovery package.  It will have to be injected into the "
+#~ "image separately."
+#~ msgstr "您选择的镜像和 GIT 树中没有找到所需的 dell-recovery 包，需要单独添加。"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr "本程序用来创建操作系统恢复媒体，可以把计算机还原到出厂状态。您可以选择创建一个 USB 密钥，或者是 DVD 镜像。"
+
+#~ msgid ""
+#~ "This application will integrate a Dell OEM FID framework & driver package "
+#~ "set into a customized OS media image.  You will have the option to create an "
+#~ "USB key or DVD image."
+#~ msgstr "此应用程序可以导入 Dell OEM FID 构架和驱动程序包来定制 OS 镜像。您可以生成 USB 存储盘或 DVD 光盘。"

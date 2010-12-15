@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -556,3 +556,63 @@ msgstr "Helyreállító adathordozó mentése DVD-re"
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr "A helyreállító adathordozó mentése külső USB flash kulcsra."
+
+#~ msgid ""
+#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
+#~ "detection."
+#~ msgstr ""
+#~ " a parancssori paraméterekben. Visszatérés a DeviceKit vagy HAL alapú "
+#~ "felismeréshez."
+
+#~ msgid "Welcome"
+#~ msgstr "Üdvözöljük"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Érvénytelen szervizpartíció"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Érvénytelen helyreállítási partíció"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "FISH-csomagok beszúrása"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Ez az alkalmazás létrehoz egy rendszer-helyreállító adathordozót, amellyel a "
+#~ "számítógépet a gyári állapotára állíthatja vissza. Választhat USB-meghajtó "
+#~ "vagy DVD-lemezkép létrehozása között."
+
+#~ msgid ""
+#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
+#~ "the event that you are generating from an existing BTO image, you can use "
+#~ "the framework built into that image."
+#~ msgstr ""
+#~ "A FID-keretrendszer a változatlan lemezképre elsőként felkerülő darab. Ha "
+#~ "meglévő BTO lemezképből építkezik, akkor használhatja az abba a lemezképbe "
+#~ "épített keretrendszert."
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>Létrehoz Dell helyreállító adathordozót?</b></big>"
+
+#~ msgid ""
+#~ "This application will integrate a Dell OEM FID framework & driver package "
+#~ "set into a customized OS media image.  You will have the option to create an "
+#~ "USB key or DVD image."
+#~ msgstr ""
+#~ "Ez az alkalmazás a Dell OEM FID keretrendszert és meghajtócsomagot egy "
+#~ "személyre szabott rendszerlemezképbe fogja integrálni. Lehetősége van USB-"
+#~ "kulcsot vagy DVD-lemezképet létrehozni."
+
+#~ msgid "Add dell-recovery"
+#~ msgstr "Dell helyreállító hozzáadása"
+
+#~ msgid ""
+#~ "The combination of the image and GIT tree you have provided do not supply "
+#~ "the necessary dell-recovery package.  It will have to be injected into the "
+#~ "image separately."
+#~ msgstr ""
+#~ "A lemezkép és a GIT fa megadott kombinációja nem tartalmazza a szükséges "
+#~ "dell-recovery csomagot. A lemezképbe külön kell beszúrni."

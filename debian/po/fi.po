@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:23+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -246,3 +246,38 @@ msgstr "Hyväksyn lisenssiehdot. (vaaditaan tietokoneen käyttöön)"
 
 #~ msgid "<activity placeholder>"
 #~ msgstr "<tila varattu toiminnolle>"
+
+#~ msgid "Permission Denied"
+#~ msgstr "Pääsy evätty"
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "Dbusiin ei voi yhdistää"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Palautusosio: "
+
+#~ msgid "Utility Partition: "
+#~ msgstr "Työkaluosio: "
+
+#~ msgid "ISO Image"
+#~ msgstr "ISO-levykuva"
+
+#~ msgid "System policy prevents reading raw devices"
+#~ msgstr ""
+#~ "Järjestelmän valtuutusasetukset estävät raakalaitteiden (raw) lukemisen"
+
+#~ msgid "Building ISO"
+#~ msgstr "Rakennetaan ISOa"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Ei mediaa/levyä, luo ISO-levykuva"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr "Haluatko varmasti perua palautusmedian luonnin?"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "Olemassa oleva levykuva löytyi (mahdollisesti edelliseltä suorituskerralta). "
+#~ "Haluatko poistaa tämän vanhan kopion ja luoda levykuvan uudelleen?"

@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -542,6 +542,15 @@ msgstr ""
 
 #~ msgid "File Name: "
 #~ msgstr "Názov súboru: "
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Táto aplikácia vytvorí médium pre zotavenie OS, ktoré možno použiť na "
+#~ "obnovenie počítača do výrobcom dodanom stave. Budete mať možnosť vytvoriť "
+#~ "USB kľúč alebo DVD obraz."
 
 #~ msgid ""
 #~ "This tool requires that a Utility Partition and Linux Recovery partition are "

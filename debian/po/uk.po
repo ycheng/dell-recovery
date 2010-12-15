@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:23+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -216,3 +216,69 @@ msgstr "Ліцензійна угода Dell з кінцевим користу�
 msgid "I accept the license terms. (required to use your computer)"
 msgstr ""
 "Я приймаю умови ліцензійної угоди. (необхідно для користування комп’ютером)"
+
+#~ msgid "Permission Denied"
+#~ msgstr "Відмовлено у доступі"
+
+#~ msgid "Opening Burner"
+#~ msgstr "Відкриття програми запису"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "Процес створення носія для відновлення завершено"
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "Не вдалося встановити зв’язок з D-Bus"
+
+#~ msgid "Choose Media Type"
+#~ msgstr "Вибір типу носія"
+
+#~ msgid "ISO Image"
+#~ msgstr "Образ ISO"
+
+#~ msgid "Media Type: "
+#~ msgstr "Тип носія: "
+
+#~ msgid "Utility Partition: "
+#~ msgstr "Допоміжний розділ: "
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Розділ для відновлення: "
+
+#~ msgid "Confirm Selections"
+#~ msgstr "Підтвердити вибір"
+
+#~ msgid "Building ISO"
+#~ msgstr "Створення ISO"
+
+#~ msgid "System policy prevents reading raw devices"
+#~ msgstr ""
+#~ "Системними правилами заборонено читання з пристроїв з необробленими даними"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Створення носія для відновлення Dell"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<замінник дії>"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "Виявлено готовий образ (ймовірно, створений під час попереднього запуску). "
+#~ "Бажаєте вилучити цю стару копію і повторно створити образ?"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr ""
+#~ "Ви справді бажаєте скасувати операцію зі створення носія для відновлення?"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Скасування створення носія для відновлення"
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "Диск DVD+/-RW"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Без носія, створити образ ISO"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "Флеш-диск USB"

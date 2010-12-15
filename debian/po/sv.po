@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-15 05:23+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -216,6 +216,15 @@ msgstr ""
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW-skiva"
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Detta program kommer att skapa ett återställningsmedia för operativsystem "
+#~ "som kan användas för att återställa datorn till dess fabriksinställningar. "
+#~ "Du kommer att få alternativet att skapa på en USB-enhet eller dvd-avbildning."
+
 #~ msgid "<activity placeholder>"
 #~ msgstr "<platshållare för aktivitet>"
 
@@ -249,8 +258,50 @@ msgstr ""
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Återställningsmediat är färdigt"
 
+#~ msgid "Recovery Partition: "
+#~ msgstr "Återställningspartition: "
+
 #~ msgid "File Name: "
 #~ msgstr "Filnamn: "
+
+#~ msgid "Permission Denied"
+#~ msgstr "Åtkomst nekad"
+
+#~ msgid "System policy prevents reading raw devices"
+#~ msgstr "Systemprincip förhindrar läsning av obehandlade enheter"
+
+#~ msgid "Building ISO"
+#~ msgstr "Bygger ISO"
+
+#~ msgid "Utility Partition: "
+#~ msgstr "Tillbehörspartition: "
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr ""
+#~ "Är du säker på att du vill avbryta processen för att skapa "
+#~ "återställningsmedia?"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Ogiltig tillbehörspartition"
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "Kan inte ansluta till dbus"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Ogiltig återställningspartition"
+
+#~ msgid "ISO Image"
+#~ msgstr "ISO-avbildning"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Inget media, skapa ISO-avbildning"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "En befintlig avbildning hittades (eventuellt från en tidigare körning). Vill "
+#~ "du ta bort den gamla kopian och generera avbildningen igen?"
 
 #~ msgid "This window will close automatically when the process is complete. "
 #~ msgstr ""
