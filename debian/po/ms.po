@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -32,10 +32,8 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:17001
-#, fuzzy
-#| msgid "Dell Recovery Media Creator"
 msgid "Dell Recovery"
-msgstr "Dell Recovery Media Creator"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -113,10 +111,8 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:30001
-#, fuzzy
-#| msgid "Recovery Partition: "
 msgid "Building Recovery Partition"
-msgstr "Partition Recovery: "
+msgstr ""
 
 #. Type: text
 #. Description
@@ -127,10 +123,8 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:32001
-#, fuzzy
-#| msgid "Dell Recovery Media Creator"
 msgid "Create Dell Recovery Media"
-msgstr "Dell Recovery Media Creator"
+msgstr "Cipta Media Recovery Dell"
 
 #. Type: text
 #. Description
@@ -163,10 +157,8 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:37001
-#, fuzzy
-#| msgid "Cancel Recovery Media Creator"
 msgid "Save recovery media to DVD"
-msgstr "Batal Media Recovery Creator"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -216,11 +208,11 @@ msgstr ""
 #~ msgstr "Kebenaran ditolak"
 
 #~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
 #~ msgstr ""
-#~ "Perkakas ini memerlukan Partition Utiliti dan partition Linux Recovery "
-#~ "hadir untuk berfungsi."
+#~ "Perkakas ini memerlukan Partition Utiliti dan partition Linux Recovery hadir "
+#~ "untuk berfungsi."
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Tidak boleh sambung ke dbus"
@@ -280,8 +272,8 @@ msgstr ""
 #~ msgstr "Adakah anda pasti untuk batal proses cipta Media Recovery?"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you "
-#~ "like to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
 #~ msgstr ""
 #~ "Imej yang telah ada dijumpai (kemungkinan dari jalan sebelum ini). Adakah "
 #~ "anda mahu untuk buang salinan lama ini dan regenerate imej?"

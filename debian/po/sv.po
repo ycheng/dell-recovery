@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2010-09-09 19:07-0500\n"
-"PO-Revision-Date: 2010-03-18 23:05+0000\n"
+"PO-Revision-Date: 2010-12-14 05:36+0000\n"
 "Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -32,10 +32,8 @@ msgstr "Öppnar brännare..."
 #. Type: text
 #. Description
 #: ../templates:17001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Dell Recovery"
-msgstr "Skapa återställningsmedia för Dell?"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -113,20 +111,16 @@ msgstr "Detta alternativ låter dig ändra storlek på befintliga partitioner."
 #. Type: text
 #. Description
 #: ../templates:29001
-#, fuzzy
-#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
 "ERROR: This media only functions on Dell systems booted directly into "
 "recovery mode."
-msgstr "FEL: Detta media är endast giltigt på Dell-system."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:30001
-#, fuzzy
-#| msgid "Recovery Partition: "
 msgid "Building Recovery Partition"
-msgstr "Återställningspartition: "
+msgstr ""
 
 #. Type: text
 #. Description
@@ -137,10 +131,8 @@ msgstr "OBSERVERA: Var god vänta, detta kan ta en stund."
 #. Type: text
 #. Description
 #: ../templates:32001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Create Dell Recovery Media"
-msgstr "Skapa återställningsmedia för Dell?"
+msgstr "Skapa Dell återställningmedia"
 
 #. Type: text
 #. Description
@@ -221,10 +213,6 @@ msgstr ""
 msgid "I accept the license terms. (required to use your computer)"
 msgstr ""
 
-#~ msgid "This window will close automatically when the process is complete. "
-#~ msgstr ""
-#~ "Detta fönster kommer att stängas automatiskt när processen är färdig. "
-
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW-skiva"
 
@@ -263,3 +251,7 @@ msgstr ""
 
 #~ msgid "File Name: "
 #~ msgstr "Filnamn: "
+
+#~ msgid "This window will close automatically when the process is complete. "
+#~ msgstr ""
+#~ "Detta fönster kommer att stängas automatiskt när processen är färdig. "

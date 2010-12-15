@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2010-09-09 19:07-0500\n"
-"PO-Revision-Date: 2010-03-18 19:58+0000\n"
-"Last-Translator: Saša Teković <Unknown>\n"
+"PO-Revision-Date: 2010-12-14 05:00+0000\n"
+"Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -32,10 +32,8 @@ msgstr "Otvaranje snimača..."
 #. Type: text
 #. Description
 #: ../templates:17001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Dell Recovery"
-msgstr "Stvoriti Dell medij oporavka?"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -72,7 +70,8 @@ msgstr "Vrati particije Linux OS-a"
 #. Description
 #: ../templates:22001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
-msgstr "Ovo će vratiti sve swap particije i particije OS-a u tvorničko stanje."
+msgstr ""
+"Ovo će vratiti sve swap particije i particije OS-a u tvorničko stanje."
 
 #. Type: text
 #. Description
@@ -109,20 +108,16 @@ msgstr "Ova mogućnost vam dopušta promjenu veličine postojećih particija."
 #. Type: text
 #. Description
 #: ../templates:29001
-#, fuzzy
-#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
 "ERROR: This media only functions on Dell systems booted directly into "
 "recovery mode."
-msgstr "GREŠKA: Ovaj je medij važeći samo na Dellovim sustavima."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:30001
-#, fuzzy
-#| msgid "Building Dell Recovery Media..."
 msgid "Building Recovery Partition"
-msgstr "Izgradnja Dell medija oporavka..."
+msgstr ""
 
 #. Type: text
 #. Description
@@ -133,10 +128,8 @@ msgstr "NAPOMENA: Molim budite strpljivi, ovo može potrajati neko vrijeme."
 #. Type: text
 #. Description
 #: ../templates:32001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Create Dell Recovery Media"
-msgstr "Stvoriti Dell medij oporavka?"
+msgstr ""
 
 #. Type: text
 #. Description

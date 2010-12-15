@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2010-09-09 19:07-0500\n"
-"PO-Revision-Date: 2010-04-16 18:16+0000\n"
+"PO-Revision-Date: 2010-12-14 05:08+0000\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-17 04:22+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -32,16 +32,14 @@ msgstr "Író megnyitása…"
 #. Type: text
 #. Description
 #: ../templates:17001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Dell Recovery"
-msgstr "Létrehoz Dell helyreállító adathordozót?"
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:18001
 msgid "Recovery Type"
-msgstr ""
+msgstr "Helyreállítás típusa"
 
 #. Type: text
 #. Description
@@ -93,7 +91,8 @@ msgstr "Teljes merevlemez visszaállítása."
 #. Description
 #: ../templates:25001
 msgid "This will rebuild all utility, recovery, and OS partitions."
-msgstr "Az összes szerviz-, helyreállítási és rendszerpartíció visszaállítása."
+msgstr ""
+"Az összes szerviz-, helyreállítási és rendszerpartíció visszaállítása."
 
 #. Type: text
 #. Description
@@ -110,12 +109,10 @@ msgstr "Ez lehetővé teszi a meglévő partíciók átméretezését."
 #. Type: text
 #. Description
 #: ../templates:29001
-#, fuzzy
-#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
 "ERROR: This media only functions on Dell systems booted directly into "
 "recovery mode."
-msgstr "HIBA: Ez az adathordozó csak Dell rendszereken érvényes."
+msgstr ""
 
 #. Type: text
 #. Description
@@ -132,10 +129,8 @@ msgstr "MEGJEGYZÉS: Legyen türelemmel, a kiinduló lekérés sokáig tarthat."
 #. Type: text
 #. Description
 #: ../templates:32001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Create Dell Recovery Media"
-msgstr "Létrehoz Dell helyreállító adathordozót?"
+msgstr "Dell Recovery Media létrehozása"
 
 #. Type: text
 #. Description

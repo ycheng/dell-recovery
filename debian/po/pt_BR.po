@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-20 04:37+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -32,10 +32,8 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:17001
-#, fuzzy
-#| msgid "Dell Recovery Media Creator"
 msgid "Dell Recovery"
-msgstr "Criador de mídia de recuperação Dell"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -113,10 +111,8 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:30001
-#, fuzzy
-#| msgid "Recovery Partition: "
 msgid "Building Recovery Partition"
-msgstr "Partição de Recuperação: "
+msgstr ""
 
 #. Type: text
 #. Description
@@ -127,10 +123,8 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:32001
-#, fuzzy
-#| msgid "Dell Recovery Media Creator"
 msgid "Create Dell Recovery Media"
-msgstr "Criador de mídia de recuperação Dell"
+msgstr "Criar Mídia de Recuperação Dell"
 
 #. Type: text
 #. Description
@@ -163,10 +157,8 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:37001
-#, fuzzy
-#| msgid "Cancel Recovery Media Creator"
 msgid "Save recovery media to DVD"
-msgstr "Cancelar o Recovery Media Creator"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -249,11 +241,11 @@ msgstr ""
 #~ msgstr "Escolher Diretório de Destino"
 
 #~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
 #~ msgstr ""
-#~ "Esta ferramente requer que uma Partição Utilitária e uma partição Linux "
-#~ "de Recuperação estejam presentes para seu funcionamento."
+#~ "Esta ferramente requer que uma Partição Utilitária e uma partição Linux de "
+#~ "Recuperação estejam presentes para seu funcionamento."
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Impossível conectar ao dbus"
@@ -280,8 +272,8 @@ msgstr ""
 #~ msgstr "Partição Utilitária: "
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you "
-#~ "like to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
 #~ msgstr ""
 #~ "Uma imagem existente foi encontrada (possivelmente de uma execução "
 #~ "anterior). Você deseja remover essa cópia antiga e regerar a imagem?"

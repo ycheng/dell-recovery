@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-09-09 19:07-0500\n"
 "PO-Revision-Date: 2010-04-06 21:51+0000\n"
 "Last-Translator: Boyan Sotirov <lz1dsb@abv.bg>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-08 07:19+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -32,10 +32,8 @@ msgstr "Отваряне на записвачка..."
 #. Type: text
 #. Description
 #: ../templates:17001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Dell Recovery"
-msgstr "Създаване на Dell Recovery Media?"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -112,20 +110,16 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:29001
-#, fuzzy
-#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
 "ERROR: This media only functions on Dell systems booted directly into "
 "recovery mode."
-msgstr "ГРЕШКА: Този носител е валиден само на системи Dell."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:30001
-#, fuzzy
-#| msgid "Recovery Partition: "
 msgid "Building Recovery Partition"
-msgstr "Дял за възстановяване: "
+msgstr ""
 
 #. Type: text
 #. Description
@@ -136,10 +130,8 @@ msgstr "БЕЛЕЖКА: Моля бъдете търпеливи, това мо�
 #. Type: text
 #. Description
 #: ../templates:32001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Create Dell Recovery Media"
-msgstr "Създаване на Dell Recovery Media?"
+msgstr "Създаване на Dell носител за възстановяване"
 
 #. Type: text
 #. Description
@@ -222,10 +214,6 @@ msgid "I accept the license terms. (required to use your computer)"
 msgstr ""
 "Приемам условията на лиценза. (необходимо, за да използвате вашия компютър)"
 
-#~ msgid "This window will close automatically when the process is complete. "
-#~ msgstr ""
-#~ "Този прозорец ще се затвори автоматично, когато процеса е завършен. "
-
 #~ msgid "Welcome"
 #~ msgstr "Добре дошли"
 
@@ -237,6 +225,9 @@ msgstr ""
 
 #~ msgid "Building UP"
 #~ msgstr "Изграждане"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Дял за възстановяване: "
 
 #~ msgid "File Name: "
 #~ msgstr "Файл: "

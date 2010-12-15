@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2010-09-09 19:07-0500\n"
-"PO-Revision-Date: 2010-02-07 18:52+0000\n"
+"PO-Revision-Date: 2010-12-14 05:28+0000\n"
 "Last-Translator: Marcin Kwidzinski <marcinkwidzinski@yahoo.co.uk>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-02-08 04:47+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -32,10 +32,8 @@ msgstr "Otwieranie nagrywarki ..."
 #. Type: text
 #. Description
 #: ../templates:17001
-#, fuzzy
-#| msgid "Building Dell Recovery Media..."
 msgid "Dell Recovery"
-msgstr "Tworzenie nośnika naprawy systemu Dell.."
+msgstr ""
 
 #. Type: text
 #. Description
@@ -113,10 +111,8 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:30001
-#, fuzzy
-#| msgid "Building Dell Recovery Media..."
 msgid "Building Recovery Partition"
-msgstr "Tworzenie nośnika naprawy systemu Dell.."
+msgstr ""
 
 #. Type: text
 #. Description
@@ -127,10 +123,8 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:32001
-#, fuzzy
-#| msgid "Building Dell Recovery Media..."
 msgid "Create Dell Recovery Media"
-msgstr "Tworzenie nośnika naprawy systemu Dell.."
+msgstr ""
 
 #. Type: text
 #. Description

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2010-09-09 19:07-0500\n"
-"PO-Revision-Date: 2010-03-19 13:14+0000\n"
-"Last-Translator: Francisco Diéguez <Unknown>\n"
+"PO-Revision-Date: 2010-12-14 04:56+0000\n"
+"Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-20 04:48+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -32,10 +32,8 @@ msgstr "Abrindo a grabadora..."
 #. Type: text
 #. Description
 #: ../templates:17001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Dell Recovery"
-msgstr "Desexa crear un soporte de Recuperación de Dell?"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -112,20 +110,16 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:29001
-#, fuzzy
-#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
 "ERROR: This media only functions on Dell systems booted directly into "
 "recovery mode."
-msgstr "ERRO: Este soporte só é válido para sistemas Dell."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../templates:30001
-#, fuzzy
-#| msgid "Building Dell Recovery Media..."
 msgid "Building Recovery Partition"
-msgstr "Construindo o soporte de Dell Recovery..."
+msgstr ""
 
 #. Type: text
 #. Description
@@ -136,10 +130,8 @@ msgstr "NOTA: Teña paciencia, isto pode lever uns minutos."
 #. Type: text
 #. Description
 #: ../templates:32001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Create Dell Recovery Media"
-msgstr "Desexa crear un soporte de Recuperación de Dell?"
+msgstr ""
 
 #. Type: text
 #. Description
@@ -157,7 +149,8 @@ msgstr ""
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
-msgstr "É moi recomendábel que xere un soporte e o almacene nun lugar seguro."
+msgstr ""
+"É moi recomendábel que xere un soporte e o almacene nun lugar seguro."
 
 #. Type: text
 #. Description

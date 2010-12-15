@@ -7,45 +7,50 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-19 01:59-0500\n"
+"POT-Creation-Date: 2010-11-18 16:27-0600\n"
 "PO-Revision-Date: 2010-03-18 23:07+0000\n"
 "Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-19 07:51+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: ../Dell/recovery_frontend.py:103
-msgid "Invalid utility partition"
-msgstr "Ogiltig tillbehörspartition"
+#: ../Dell/recovery_gtk.py:92
+msgid "Cannot connect to dbus"
+msgstr "Kan inte ansluta till dbus"
 
-#: ../Dell/recovery_frontend.py:103 ../Dell/recovery_frontend.py:109
-msgid ""
-" in command line arguments.  Falling back to DeviceKit or HAL based "
-"detection."
-msgstr ""
-" i kommandoradsargument.  Faller tillbaka på DeviceKit eller HAL-baserad "
-"identifiering."
-
-#: ../Dell/recovery_frontend.py:109
-msgid "Invalid recovery partition"
-msgstr "Ogiltig återställningspartition"
-
-#: ../Dell/recovery_frontend.py:136 ../Dell/recovery_frontend.py:185
+#: ../Dell/recovery_gtk.py:94
 msgid "Permission Denied"
 msgstr "Åtkomst nekad"
 
-#: ../Dell/recovery_frontend.py:199
+#: ../Dell/recovery_gtk.py:101
+msgid "Exception"
+msgstr ""
+
+#: ../Dell/recovery_gtk.py:149 ../gtk/dell-recovery-media.desktop.in.h:1
+#: ../gtk/tool_selector.ui.h:2
+msgid "Dell Recovery"
+msgstr ""
+
+#: ../Dell/recovery_gtk.py:150
+msgid "Copyright 2008-2010 Dell Inc."
+msgstr ""
+
+#: ../Dell/recovery_basic_gtk.py:157
+msgid "Building Base image"
+msgstr ""
+
+#: ../Dell/recovery_basic_gtk.py:170
 msgid "Opening Burner"
 msgstr "Öppnar brännare"
 
-#: ../Dell/recovery_frontend.py:213
+#: ../Dell/recovery_basic_gtk.py:195
 msgid "Recovery Media Creation Process Complete"
 msgstr "Återställningsmediat är färdigt"
 
-#: ../Dell/recovery_frontend.py:214
+#: ../Dell/recovery_basic_gtk.py:196
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
@@ -53,63 +58,181 @@ msgstr ""
 "Om du vill arkivera en annan kopia så har den genererade avbildningen "
 "lagrats med filnamnet:\n"
 
-#: ../Dell/recovery_frontend.py:234
-msgid "Cannot connect to dbus"
-msgstr "Kan inte ansluta till dbus"
+#: ../Dell/recovery_basic_gtk.py:210
+msgid "Unable to proceed"
+msgstr ""
 
-#: ../Dell/recovery_frontend.py:324
-msgid "Welcome"
-msgstr "Välkommen"
+#: ../Dell/recovery_basic_gtk.py:211
+msgid ""
+"System does not appear to contain Dell factory installed partition layout."
+msgstr ""
 
-#: ../Dell/recovery_frontend.py:328
+#: ../Dell/recovery_basic_gtk.py:294
 msgid "Choose Media Type"
 msgstr "Välj mediatyp"
 
-#: ../Dell/recovery_frontend.py:355 ../gtk/builder.ui.h:16
+#: ../Dell/recovery_basic_gtk.py:321 ../gtk/builder.ui.h:25
 msgid "ISO Image"
 msgstr "ISO-avbildning"
 
-#: ../Dell/recovery_frontend.py:357
+#: ../Dell/recovery_basic_gtk.py:323
 msgid "Media Type: "
 msgstr "Mediatyp: "
 
-#: ../Dell/recovery_frontend.py:359
-msgid "Utility Partition: "
-msgstr "Tillbehörspartition: "
-
-#: ../Dell/recovery_frontend.py:359 ../Dell/recovery_frontend.py:364
-msgid "Included"
-msgstr ""
-
-#: ../Dell/recovery_frontend.py:362 ../Dell/recovery_frontend.py:364
+#: ../Dell/recovery_basic_gtk.py:326 ../Dell/recovery_basic_gtk.py:329
 msgid "Recovery Partition: "
 msgstr "Återställningspartition: "
 
-#: ../Dell/recovery_frontend.py:370
+#: ../Dell/recovery_basic_gtk.py:330
+msgid "Included"
+msgstr ""
+
+#: ../Dell/recovery_basic_gtk.py:337
 msgid "Confirm Selections"
 msgstr "Bekräfta"
 
-#: ../Dell/recovery_backend.py:392
+#: ../Dell/recovery_advanced_gtk.py:59
+msgid "python-vte is missing"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:60
+msgid "Builder mode requires python-vte to function"
+msgstr ""
+
+#. wizard.resize(400,400)
+#: ../Dell/recovery_advanced_gtk.py:78
+msgid " (BTO Image Builder Mode)"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:80
+msgid ""
+"This will integrate a Dell OEM FID framework & driver package set into a "
+"customized OS media image.  You will have the option to create an USB key or "
+"DVD image."
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:150
+msgid "Choose Base OS Image"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:153
+msgid "Choose FID Overlay"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:162
+msgid "Choose Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:174
+msgid "Choose Driver Packages"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:188
+msgid "Choose Application Packages"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:202
+msgid "Builder Summary"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:203
+msgid "Base Image Distributor"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:205
+msgid "Base Image Release"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:208
+msgid "BTO Base Image"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:211
+msgid "Base Image"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:214
+msgid "FID Overlay"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:218
+msgid "Utility Partition: "
+msgstr "Tillbehörspartition: "
+
+#: ../Dell/recovery_advanced_gtk.py:221
+msgid "Application"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:222
+msgid "Driver"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:228
+msgid "Packages"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:234
+msgid "Inject Dell Recovery Package"
+msgstr ""
+
+#. update gui
+#: ../Dell/recovery_advanced_gtk.py:244
+msgid "Assembling Image Components"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:320
+msgid "Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:323
+msgid "No Additional Utility Partition"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:419
+msgid "<b>ERROR</b>: git is not installed"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:580
+msgid "Missing Dell-Recovery"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:581
+msgid "Not present in ISO or GIT tree"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:697
+msgid "All SRVs must be filled to proceed."
+msgstr ""
+
+#: ../Dell/recovery_backend.py:284
+msgid "Processing FISH packages"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:403
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:398
+#: ../Dell/recovery_backend.py:411
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:413
-msgid "Inserting FISH packages"
-msgstr "Infogar FISH-paket"
+#: ../Dell/recovery_backend.py:761
+msgid "Preparing nested image"
+msgstr ""
 
-#: ../Dell/recovery_backend.py:562
+#: ../Dell/recovery_backend.py:785
 msgid "Building Dell Utility Partition"
 msgstr "Bygger Dell-verktygspartition"
 
-#: ../Dell/recovery_backend.py:609
+#: ../Dell/recovery_backend.py:849
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Återgenererar UUID / Bygger om initramfs"
 
-#: ../Dell/recovery_backend.py:651
+#: ../Dell/recovery_backend.py:878
+msgid "Building GRUB core image"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:954
 msgid "Building ISO"
 msgstr "Bygger ISO"
 
@@ -130,18 +253,21 @@ msgid "Request closing the backend"
 msgstr "Begär stängning av bakänden"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
+msgid "Restore to Factory state"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:6
+msgid "System policy prevents changing system bootup"
+msgstr ""
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:7
 msgid "System policy prevents closing processes without notice"
 msgstr ""
 "Systemets policy förhindrar att processer stängs utan att informera om det"
 
-#: ../backend/com.dell.recoverymedia.policy.in.h:6
+#: ../backend/com.dell.recoverymedia.policy.in.h:8
 msgid "System policy prevents reading raw devices"
 msgstr "Systemprincip förhindrar läsning av obehandlade enheter"
-
-#: ../gtk/dell-recovery-media.desktop.in.h:1
-#: ../gtk/recovery_media_creator.ui.h:6
-msgid "Dell Recovery Media Creator"
-msgstr "Skapa återställningsmedia för Dell"
 
 #: ../gtk/recovery_media_creator.ui.h:1
 msgid "<activity placeholder>"
@@ -169,33 +295,27 @@ msgstr "Avbryt skapandet av återställningsmedia"
 msgid "DVD+/-RW Disc"
 msgstr "DVD+/-RW-skiva"
 
+#: ../gtk/recovery_media_creator.ui.h:6 ../gtk/tool_selector.ui.h:3
+msgid "Dell Recovery Media Creator"
+msgstr "Skapa återställningsmedia för Dell"
+
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create ISO image"
 msgstr "Inget media, skapa ISO-avbildning"
 
 #: ../gtk/recovery_media_creator.ui.h:8
-msgid ""
-"This application will create OS Recovery Media that can be used to restore "
-"the computer to its factory shipped state.  You will have the option to "
-"create an USB key or DVD image."
-msgstr ""
-"Detta program kommer att skapa ett återställningsmedia för operativsystem "
-"som kan användas för att återställa datorn till dess fabriksinställningar. "
-"Du kommer att få alternativet att skapa på en USB-enhet eller dvd-avbildning."
-
-#: ../gtk/recovery_media_creator.ui.h:9
 msgid "This requires a USB flash drive with approximately 2GB free."
 msgstr "Detta kräver en USB-lagringsenhet med ungefär 2 GB ledigt utrymme."
 
-#: ../gtk/recovery_media_creator.ui.h:10
+#: ../gtk/recovery_media_creator.ui.h:9
 msgid "This requires writable DVD media."
 msgstr "Detta kräver ett skrivbart DVD-media."
 
-#: ../gtk/recovery_media_creator.ui.h:11
+#: ../gtk/recovery_media_creator.ui.h:10
 msgid "USB Flash Drive"
 msgstr "USB-enhet"
 
-#: ../gtk/recovery_media_creator.ui.h:12
+#: ../gtk/recovery_media_creator.ui.h:11
 msgid "Version:"
 msgstr "Version:"
 
@@ -218,60 +338,137 @@ msgstr ""
 "<b>OBSERVERA:</b> Var god vänta. Den initiala hämtningen kan ta tid."
 
 #: ../gtk/builder.ui.h:7
+msgid "Add Dell Recovery"
+msgstr ""
+
+#: ../gtk/builder.ui.h:8
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
 msgstr ""
 
-#: ../gtk/builder.ui.h:8
+#: ../gtk/builder.ui.h:9
+msgid ""
+"BTO images can optionally include a Utility Partition for diagnostic "
+"utilities."
+msgstr ""
+
+#: ../gtk/builder.ui.h:10
+msgid "Browse for a dell-recovery package"
+msgstr ""
+
+#: ../gtk/builder.ui.h:11
+msgid "Build dell-recovery package from this system"
+msgstr ""
+
+#: ../gtk/builder.ui.h:12
+msgid "Choose Content"
+msgstr ""
+
+#: ../gtk/builder.ui.h:13
 msgid "Choose Image"
 msgstr "Välj avbildning"
 
-#: ../gtk/builder.ui.h:9
+#: ../gtk/builder.ui.h:14
+msgid "Choose package"
+msgstr ""
+
+#: ../gtk/builder.ui.h:15
 msgid "Detected Recovery Partition"
 msgstr "Identifierade återställningspartition"
 
-#: ../gtk/builder.ui.h:10
+#: ../gtk/builder.ui.h:16
+msgid "Detected Utility Partition"
+msgstr ""
+
+#: ../gtk/builder.ui.h:17
+msgid ""
+"During Factory Installation, applications are only installed if the order "
+"record (SDR) refers to the service release vehicle (SRV).  This populates "
+"the possible SRVs to be queried during installation."
+msgstr ""
+
+#: ../gtk/builder.ui.h:18
 msgid "Extracted Directory"
 msgstr "Extraherad katalog"
 
-#: ../gtk/builder.ui.h:11
+#: ../gtk/builder.ui.h:19
+msgid "FID Framework enclosed in debian package"
+msgstr ""
+
+#: ../gtk/builder.ui.h:20
 msgid "FID GIT Tree"
 msgstr "FID GIT-träd"
 
-#: ../gtk/builder.ui.h:12
+#: ../gtk/builder.ui.h:21
 msgid "FID framework built into BTO image"
 msgstr "FID-ramverk inbyggd i BTO-avbildningen"
 
-#: ../gtk/builder.ui.h:13
+#: ../gtk/builder.ui.h:22
 msgid "Fetch/Update GIT Tree"
 msgstr "Hämta/Uppdatera GIT-trädet"
 
-#: ../gtk/builder.ui.h:14
+#: ../gtk/builder.ui.h:23
 msgid "GIT Tags/Branches:"
 msgstr "GIT-taggar/Grenar:"
 
-#: ../gtk/builder.ui.h:15
+#: ../gtk/builder.ui.h:24
 msgid "GIT Tree Status"
 msgstr "Status för GIT-trädet"
 
-#: ../gtk/builder.ui.h:17
+#: ../gtk/builder.ui.h:26
+msgid "Install dpkg-repack"
+msgstr ""
+
+#: ../gtk/builder.ui.h:27
 msgid "Install git"
 msgstr "Installera git"
 
-#: ../gtk/builder.ui.h:18
+#: ../gtk/builder.ui.h:28
+msgid "No additional Utility Partition"
+msgstr ""
+
+#: ../gtk/builder.ui.h:29
+msgid ""
+"Part of the FID overlay requires a dell-recovery package to be included."
+msgstr ""
+
+#: ../gtk/builder.ui.h:30
+msgid "Please enter the SRV to use:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:31
+msgid "SRV Entry"
+msgstr ""
+
+#: ../gtk/builder.ui.h:32
+msgid "Select content for Utility Partition"
+msgstr ""
+
+#: ../gtk/builder.ui.h:33
+msgid "Selected Content Details:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:34
 msgid "Selected Image Details:"
 msgstr "Detaljer om vald avbildning:"
 
-#: ../gtk/builder.ui.h:19
+#: ../gtk/builder.ui.h:35
 msgid "Selected Overlay Details:"
 msgstr "Detaljer om vald overlay:"
 
-#: ../gtk/builder.ui.h:20
+#: ../gtk/builder.ui.h:36
 msgid "Show Details"
 msgstr "Visa detaljer"
 
-#: ../gtk/builder.ui.h:21
+#: ../gtk/builder.ui.h:37
+msgid ""
+"The BTO FID framework is the first thing injected into a base vanilla image. "
+" If you are generating from an existing BTO compatible image, you may use "
+"the built-in framework."
+msgstr ""
+
+#: ../gtk/builder.ui.h:38
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
@@ -280,11 +477,29 @@ msgstr ""
 "avbildning. Det kan vara en Vanilla OS-avbildning eller befintlig BTO-"
 "avbildning."
 
-#: ../gtk/builder.ui.h:22
+#: ../gtk/tool_selector.ui.h:1
+msgid "Build OS Media"
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:4
+msgid "Restore System"
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:5
 msgid ""
-"The FID framework is the first piece overlaid on top of a Vanilla image.  In "
-"the event that you are generating from an existing BTO image, you can use "
-"the framework built into that image."
+"This will create OS Recovery Media that can be used to restore the computer "
+"to its factory shipped state.  You will have the option to create an USB key "
+"or DVD image."
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:6
+msgid ""
+"This will restore the system to the factory shipped state using the recovery "
+"partition stored on the hard drive."
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:7
+msgid "_Help"
 msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
@@ -311,10 +526,6 @@ msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>Observera:</b> Detta kräver ett skrivbart DVD-media."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:5
-msgid "<big><b>Create Dell Recovery Media?</b></big>"
-msgstr "<big><b>Skapa återställningsmedia för Dell?</b></big>"
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
@@ -322,11 +533,11 @@ msgstr ""
 "Återställningsmedia för Dell kan användas för att återställa din dator till "
 "samma tillstånd som den befann sig i när den levererades till dig."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid "Don't generate recovery media at this time"
 msgstr "Generera inte återställningsmedia för tillfället"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -334,13 +545,16 @@ msgstr ""
 "Återställningsmedia kan genereras senare genom att välja verktyget från "
 "System-menyn."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "Save recovery media to DVD"
 msgstr "Spara återställningsmedia till DVD"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:10
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Spara återställningsmedia till en extern USB-lagringsenhet"
+
+#~ msgid "Welcome"
+#~ msgstr "Välkommen"
 
 #~ msgid "File Name: "
 #~ msgstr "Filnamn: "

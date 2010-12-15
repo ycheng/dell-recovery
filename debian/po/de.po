@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2010-09-09 19:07-0500\n"
-"PO-Revision-Date: 2010-08-29 10:53+0000\n"
+"PO-Revision-Date: 2010-12-14 04:29+0000\n"
 "Last-Translator: Daniel Schury <das.surst@googlemail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-08-30 04:00+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -32,10 +32,8 @@ msgstr "Brenner wird geöffnet …"
 #. Type: text
 #. Description
 #: ../templates:17001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Dell Recovery"
-msgstr "Dell-Wiederherstellungsmedium erstellen?"
+msgstr "Dell Recovery"
 
 #. Type: text
 #. Description
@@ -82,7 +80,8 @@ msgstr ""
 #. Description
 #: ../templates:23001 ../templates:26001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr "WARNUNG: Alle persönlichen Daten und Änderungen werden verloren gehen."
+msgstr ""
+"WARNUNG: Alle persönlichen Daten und Änderungen werden verloren gehen."
 
 #. Type: text
 #. Description
@@ -115,12 +114,12 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../templates:29001
-#, fuzzy
-#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
 "ERROR: This media only functions on Dell systems booted directly into "
 "recovery mode."
-msgstr "FEHLER: Dieses Medium kann nur auf Dell-Systemen verwendet werden."
+msgstr ""
+"FEHLER: Dieses Medium funktioniert nur auf Dell Systemen, welche direkt in "
+"den Wiederherstellungsmodus gestartet wurden."
 
 #. Type: text
 #. Description
@@ -137,8 +136,6 @@ msgstr "HINWEIS: Bitte haben Sie Geduld, dies könnte eine Weile dauern."
 #. Type: text
 #. Description
 #: ../templates:32001
-#, fuzzy
-#| msgid "Create Dell Recovery Media?"
 msgid "Create Dell Recovery Media"
 msgstr "Erstelle Dell Recovery Medien"
 
@@ -262,8 +259,8 @@ msgstr ""
 #~ msgstr "Zielverzeichnis auswählen"
 
 #~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
 #~ msgstr ""
 #~ "Dieses Programm benötigt eine vorhandene Dienstprogramm- und eine "
 #~ "Linuxwiederherstellungspartition."
@@ -285,8 +282,8 @@ msgstr ""
 
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr ""
-#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch "
-#~ "einmal versuchen?"
+#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch einmal "
+#~ "versuchen?"
 
 #~ msgid "Invalid recovery partition"
 #~ msgstr "Ungültige Wiederherstellungspartition"
