@@ -146,7 +146,7 @@ def check_vendor():
             vendor = rfd.readline().split()[0].lower()
     else:
         vendor = ''
-    return (vendor == 'dell')
+    return ((vendor == 'dell') or (vendor == 'alienware'))
 
 def check_version(package='dell-recovery'):
     """Queries the package management system for the current tool version"""
