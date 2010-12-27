@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2010-04-06 21:51+0000\n"
 "Last-Translator: Boyan Sotirov <lz1dsb@abv.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
@@ -214,6 +214,12 @@ msgstr "Dell Лицензно споразумение с крайния кли�
 msgid "I accept the license terms. (required to use your computer)"
 msgstr ""
 "Приемам условията на лиценза. (необходимо, за да използвате вашия компютър)"
+
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr ""
 
 #~ msgid "Welcome"
 #~ msgstr "Добре дошли"

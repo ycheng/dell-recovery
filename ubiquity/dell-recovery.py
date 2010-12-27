@@ -24,6 +24,7 @@
 ##################################################################################
 
 from ubiquity.plugin import PluginUI, InstallPlugin, Plugin
+from ubiquity import i18n
 import subprocess
 import os
 import Dell.recovery_common as magic
@@ -59,6 +60,7 @@ class PageGtk(PluginUI):
                 self.usb_media = builder.get_object('save_to_usb')
                 self.dvd_media = builder.get_object('save_to_dvd')
                 self.none_media = builder.get_object('save_to_none')
+                self.grub_line = builder.get_object('99_grub_menu')
                 if not dvd:
                     builder.get_object('dvd_box').hide()
                 if not usb:
@@ -86,6 +88,9 @@ class PageGtk(PluginUI):
         if not self.genuine:
             self.controller.allow_go_forward(False)
         return self.plugin_widgets
+
+    def get_grub_line(self):
+        return self.grub_line.get_text()
 
     def get_type(self):
         """Returns the type of recovery to do from GUI"""
@@ -117,6 +122,7 @@ class Page(Plugin):
         """Handler ran when OK is pressed"""
         destination = self.ui.get_type()
         self.preseed('dell-recovery/destination', destination)
+        self.preseed('ubiquity/text/99_grub_menu', self.ui.get_grub_line())
         Plugin.ok_handler(self)
 
 class Install(InstallPlugin):
@@ -156,9 +162,12 @@ class Install(InstallPlugin):
             env = os.environ
             lang = progress.get('debian-installer/locale')
             env['LANG'] = lang
-            magic.process_conf_file('/usr/share/dell/grub/99_dell_recovery', \
-                                    '/etc/grub.d/99_dell_recovery',          \
-                                    str(rpart["uuid"]), str(rpart["number"]))
+            rec_text = progress.get('ubiquity/text/99_grub_menu')
+            magic.process_conf_file(original = '/usr/share/dell/grub/99_dell_recovery', \
+                                    new = '/etc/grub.d/99_dell_recovery',               \
+                                    uuid = str(rpart["uuid"]),                          \
+                                    rp_number = str(rpart["number"]),                   \
+                                    recovery_text = rec_text)
 
             os.chmod('/etc/grub.d/99_dell_recovery', 0755)
             subprocess.call(['update-grub'],env=env)

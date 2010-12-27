@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2010-12-14 05:39+0000\n"
 "Last-Translator: Eleanor Chen <chenyueg@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
@@ -198,6 +198,12 @@ msgstr "Dell 最终用户协议"
 #: ../dell-recovery.templates:43001
 msgid "I accept the license terms. (required to use your computer)"
 msgstr "我同意此协议（使用此计算机）"
+
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr "恢复 #OS# 至出厂状态"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW 光盘"

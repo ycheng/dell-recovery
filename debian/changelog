@@ -1,3 +1,11 @@
+dell-recovery (0.76) UNRELEASED; urgency=low
+
+  * Translate the recovery line that is inserted into grub.cfg based
+    upon the initial language selected during OOBE.
+  * Include a Chinese translation of the above.
+
+ -- Mario Limonciello <supermario@enguarde>  Mon, 27 Dec 2010 00:02:14 -0600
+
 dell-recovery (0.75) natty; urgency=low
 
   * Adjust the memory calculation to use /sys/firmware/memmap as 

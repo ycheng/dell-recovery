@@ -159,7 +159,7 @@ def check_version(package='dell-recovery'):
         print >> sys.stderr, "Error checking %s version: %s" % (package, msg)
         return "unknown"
 
-def process_conf_file(original, new, uuid, rp_number, ako=''):
+def process_conf_file(original, new, uuid, rp_number, ako='', recovery_text=''):
     """Replaces all instances of a partition, OS, and extra in a conf type file
        Generally used for things that need to touch grub"""
     if not os.path.isdir(os.path.split(new)[0]):
@@ -192,6 +192,8 @@ def process_conf_file(original, new, uuid, rp_number, ako=''):
     with open(original, "r") as base:
         with open(new, 'w') as output:
             for line in base.readlines():
+                if "#RECOVERY_TEXT#" in line:
+                    line = line.replace("#RECOVERY_TEXT#", recovery_text)
                 if "#UUID#" in line:
                     line = line.replace("#UUID#", uuid)
                 if "#PARTITION#" in line:

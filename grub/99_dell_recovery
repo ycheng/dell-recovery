@@ -3,7 +3,7 @@
 source /usr/lib/grub/grub-mkconfig_lib
 
 cat << EOF
-menuentry "Restore #OS# to factory state" {
+menuentry "#RECOVERY_TEXT#" {
         set root='(hd0,#PARTITION#)'
         search --no-floppy --fs-uuid --set #UUID#
         if [ -s /boot/grub/common.cfg ]; then
