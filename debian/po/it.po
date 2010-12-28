@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2010-12-14 05:16+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-16 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -215,6 +215,12 @@ msgstr ""
 "Accetto i termini della licenza. (Necessario per poter utilizzare il "
 "computer)"
 
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr ""
+
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "Disco DVD+/-RW"
 
@@ -245,8 +251,24 @@ msgstr ""
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Processo di creazione del supporto di recupero completato"
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Questa applicazione permette di creare un supporto di recupero del sistema "
+#~ "operativo che può essere usato per ripristinare il computer alle "
+#~ "impostazioni di fabbrica. È possibile creare sia una chiavetta USB che "
+#~ "un'immagine DVD."
+
 #~ msgid "Retry burn?"
 #~ msgstr "Ritenta masterizzazione?"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Partizione di utilità non valida"
+
+#~ msgid "OS Release: "
+#~ msgstr "Rilascio SO: "
 
 #~ msgid "Permission Denied"
 #~ msgstr "Permesso negato"
@@ -254,14 +276,27 @@ msgstr ""
 #~ msgid "ISO Image"
 #~ msgstr "Immagine ISO"
 
+#~ msgid " in command line arguments.  Falling back to HAL based detection."
+#~ msgstr ""
+#~ " negli argomenti a riga di comando. Viene usato il rilevamento di HAL."
+
 #~ msgid "Building ISO"
 #~ msgstr "Generazione ISO"
+
+#~ msgid "File Name: "
+#~ msgstr "Nome file: "
 
 #~ msgid "Utility Partition: "
 #~ msgstr "Partizione di utilità: "
 
+#~ msgid "Generating UUID"
+#~ msgstr "Generazione UUID"
+
 #~ msgid "No media, create ISO image"
 #~ msgstr "No, crea immagine ISO"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr "Il processo di masterizzazione non è riuscito. Riprovare?"
 
 #~ msgid ""
 #~ "An existing image was found (possibly from a previous run).  Would you like "
@@ -273,15 +308,51 @@ msgstr ""
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Impossibile connettersi a D-Bus"
 
+#~ msgid ""
+#~ "If you would like to archive another copy, the generated image has been "
+#~ "stored under the filename:"
+#~ msgstr ""
+#~ "Se si desidera archiviare un'altra copia, l'immagine generata è stata "
+#~ "salvata con questo nome:"
+
+#~ msgid "Building UP"
+#~ msgstr "Creazione"
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Scegliere directory di destinazione"
+
+#~ msgid "Create Dell Recovery ISO"
+#~ msgstr "Crea ISO di recupero Dell"
+
 #~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
 #~ msgstr ""
 #~ "Annullare veramente il processo di creazione del supporto di recupero?"
 
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "Selezionare una directory per la ISO"
+
+#~ msgid ""
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
+#~ msgstr ""
+#~ "Questo strumento richiede che siano presenti una partizione di utilità e una "
+#~ "partizione di recupero."
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Partizione di recupero non valida"
+
 #~ msgid "Recovery Partition: "
 #~ msgstr "Partizione di recupero: "
 
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "Craere supporto di ripristino Dell?"
+
 #~ msgid "Confirm Selections"
 #~ msgstr "Conferma selezioni"
+
+#~ msgid "This window will close automatically when the process is complete. "
+#~ msgstr ""
+#~ "La finestra verrà chiusa automaticamente quando il processo sarà completato. "
 
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "La politica di sistema impedisce la lettura di dispositivi raw"

@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2010-12-14 05:36+0000\n"
 "Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-16 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -213,6 +213,12 @@ msgstr ""
 msgid "I accept the license terms. (required to use your computer)"
 msgstr ""
 
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr ""
+
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW-skiva"
 
@@ -258,20 +264,53 @@ msgstr ""
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Återställningsmediat är färdigt"
 
+#~ msgid "Create Dell Recovery ISO"
+#~ msgstr "Skapa Dell återställnings-ISO"
+
 #~ msgid "Recovery Partition: "
 #~ msgstr "Återställningspartition: "
 
 #~ msgid "File Name: "
 #~ msgstr "Filnamn: "
 
+#~ msgid "OS Release: "
+#~ msgstr "OS Utgåva: "
+
 #~ msgid "Permission Denied"
 #~ msgstr "Åtkomst nekad"
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Stäng målkatalogen"
+
+#~ msgid ""
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
+#~ msgstr ""
+#~ "Detta verktyg kräver att en Tillbehörspartition och en "
+#~ "Återskapningspartition finns tillgängligt för att fungera."
+
+#~ msgid ""
+#~ "If you would like to archive another copy, the generated image has been "
+#~ "stored under the filename:"
+#~ msgstr ""
+#~ "Om du vill arkivera en annan kopia, har den genererade avbilden lagrats "
+#~ "under filnamnet:"
+
+#~ msgid " in command line arguments.  Falling back to HAL based detection."
+#~ msgstr ""
+#~ " i kommandorads-argument.  Går tillbaka till HAL-baserad identifiering."
 
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "Systemprincip förhindrar läsning av obehandlade enheter"
 
 #~ msgid "Building ISO"
 #~ msgstr "Bygger ISO"
+
+#~ msgid "Building UP"
+#~ msgstr "Bygger tillbehörspartition"
+
+#~ msgid "Generating UUID"
+#~ msgstr "Genererar UUID"
 
 #~ msgid "Utility Partition: "
 #~ msgstr "Tillbehörspartition: "
@@ -280,6 +319,15 @@ msgstr ""
 #~ msgstr ""
 #~ "Är du säker på att du vill avbryta processen för att skapa "
 #~ "återställningsmedia?"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr "Processen för att bränna media misslyckades. Vill du försöka igen?"
+
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "Välj en katalog för ISO-filen"
+
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "Skapa återställningsmedia för Dell?"
 
 #~ msgid "Invalid utility partition"
 #~ msgstr "Ogiltig tillbehörspartition"

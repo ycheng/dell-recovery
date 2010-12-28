@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2010-12-18 12:10+0000\n"
 "Last-Translator: Fitoschido <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-19 04:49+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -212,6 +212,12 @@ msgstr "Acuerdo de licencia de usuario final Dell"
 msgid "I accept the license terms. (required to use your computer)"
 msgstr "Acepto los términos de la licencia. (necesario para usar su equipo)"
 
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr ""
+
 #~ msgid "Cancel Recovery Media Creator"
 #~ msgstr "Cancelar Recovery Media Creator"
 
@@ -288,6 +294,9 @@ msgstr "Acepto los términos de la licencia. (necesario para usar su equipo)"
 #~ msgid "Utility Partition: "
 #~ msgstr "Partición de utilidad: "
 
+#~ msgid "Create Dell Recovery ISO"
+#~ msgstr "Crear ISO de recuperación DELL"
+
 #~ msgid "Building ISO"
 #~ msgstr "Creando ISO"
 
@@ -313,8 +322,20 @@ msgstr "Acepto los términos de la licencia. (necesario para usar su equipo)"
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Proceso de creación del soporte de recuperación finalizado"
 
+#~ msgid ""
+#~ "If you would like to archive another copy, the generated image has been "
+#~ "stored under the filename:"
+#~ msgstr ""
+#~ "Si decidiera crear otra copia, la imagen producida se ha guardado con el "
+#~ "nombre:"
+
 #~ msgid "Invalid recovery partition"
 #~ msgstr "Partición de recuperación no válida."
+
+#~ msgid " in command line arguments.  Falling back to HAL based detection."
+#~ msgstr ""
+#~ " en los argumentos de la línea de comandos. Recurriendo a la detección "
+#~ "basada en HAL."
 
 #~ msgid "OS Release: "
 #~ msgstr "Versión del SO: "
@@ -325,3 +346,6 @@ msgstr "Acepto los términos de la licencia. (necesario para usar su equipo)"
 #~ msgstr ""
 #~ "Ya existe una imagen (posiblemente de una ejecución anterior). ¿Quiere "
 #~ "eliminar esta copia antigua y volver a generar la imagen?"
+
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "¿Crear disco de recuperación Dell?"

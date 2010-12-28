@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-18 16:27-0600\n"
+"POT-Creation-Date: 2010-12-26 23:04-0600\n"
 "PO-Revision-Date: 2010-12-14 05:42+0000\n"
 "Last-Translator: Boyan Sotirov <lz1dsb@abv.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-15 05:23+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -204,35 +204,35 @@ msgstr "Не налично в ISO или GIT дървото"
 msgid "All SRVs must be filled to proceed."
 msgstr "Всички SRV трябва да бъдат попълнени за продължаване."
 
-#: ../Dell/recovery_backend.py:284
+#: ../Dell/recovery_backend.py:282
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:403
+#: ../Dell/recovery_backend.py:404
 msgid "Adding in base image"
 msgstr "Добявяне в базовия имидж"
 
-#: ../Dell/recovery_backend.py:411
+#: ../Dell/recovery_backend.py:412
 msgid "Overlaying FID content"
 msgstr "Покриване на FID съдържанието"
 
-#: ../Dell/recovery_backend.py:761
+#: ../Dell/recovery_backend.py:773
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:785
+#: ../Dell/recovery_backend.py:797
 msgid "Building Dell Utility Partition"
 msgstr "Изграждане на Dell ютилити дял"
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:861
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Регенериране UUID / Изграждане наново initramfs"
 
-#: ../Dell/recovery_backend.py:878
+#: ../Dell/recovery_backend.py:890
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:954
+#: ../Dell/recovery_backend.py:966
 msgid "Building ISO"
 msgstr "Създаване на ISO"
 
@@ -566,6 +566,15 @@ msgstr "Запазване на носителя за възстановяван
 #~ msgid "File Name: "
 #~ msgstr "Файл: "
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Тази програма ще създаде носител за възстановяване на операционната система, "
+#~ "който ще ви послужи за възстановяване на компютъра в първоначалното му "
+#~ "състояние. Можете да създадете USB флаш памет или DVD образ."
+
 #~ msgid "Choose Target Directory"
 #~ msgstr "Изберете целева папка"
 
@@ -595,6 +604,12 @@ msgstr "Запазване на носителя за възстановяван
 #~ "detection."
 #~ msgstr ""
 #~ " в командните аргументи. Отдегляне до DeviceKit или HAL базирано засичане."
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Невалиден ютилити дял"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Невалиден дял за възстанавяване"
 
 #~ msgid "Inserting FISH packages"
 #~ msgstr "Вмъкване на FISH пакети"

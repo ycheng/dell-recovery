@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2010-12-14 05:39+0000\n"
 "Last-Translator: Eleanor Chen <chenyueg@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-16 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -198,6 +198,12 @@ msgstr "Dell 最终用户协议"
 msgid "I accept the license terms. (required to use your computer)"
 msgstr "我同意此协议（使用此计算机）"
 
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr ""
+
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW 光盘"
 
@@ -231,14 +237,25 @@ msgstr "我同意此协议（使用此计算机）"
 #~ msgid "Opening Burner"
 #~ msgstr "打开光盘刻录器"
 
+#~ msgid ""
+#~ "If you would like to archive another copy, the generated image has been "
+#~ "stored under the filename:"
+#~ msgstr "需要压缩制作另一个副本吗？生成的镜像保存为这个文件名："
+
 #~ msgid "Invalid recovery partition"
 #~ msgstr "无效的恢复分区"
+
+#~ msgid " in command line arguments.  Falling back to HAL based detection."
+#~ msgstr " 命令行参数。失败后返回自动检测到的 HAL 。"
 
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "系统策略阻止读取 raw 设备"
 
 #~ msgid "<activity placeholder>"
 #~ msgstr "<启动标识符>"
+
+#~ msgid "Create Dell Recovery ISO"
+#~ msgstr "制作 Dell 恢复光盘 ISO 镜像"
 
 #~ msgid "Generating UUID"
 #~ msgstr "生成 UUID"
@@ -285,6 +302,9 @@ msgstr "我同意此协议（使用此计算机）"
 
 #~ msgid "Recovery Partition: "
 #~ msgstr "还原分区： "
+
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "需要创建 Dell 还原盘吗？"
 
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "恢复介质创建完成"

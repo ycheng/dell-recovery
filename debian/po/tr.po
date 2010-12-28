@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2010-12-14 05:37+0000\n"
 "Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-16 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -217,11 +217,30 @@ msgstr ""
 "Sözlemeşme şartlarını kabul ediyorum. (kendi bilgisayınızı kullanmanızı "
 "gerektirir)"
 
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr ""
+
+#~ msgid "Welcome"
+#~ msgstr "Hoşgeldiniz"
+
 #~ msgid "Choose Media Type"
 #~ msgstr "Ortam Türünü Seçin"
 
+#~ msgid "Invalid utility partition"
+#~ msgstr "Geçersiz yardımcı araç bölümü"
+
 #~ msgid "Permission Denied"
 #~ msgstr "İzin verilmedi"
+
+#~ msgid ""
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
+#~ msgstr ""
+#~ "Bu araç, bir Araç Bölümünün ve Linux Geri alma bölümünün fonksiyona "
+#~ "sunulmasını gerektirir."
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "dbus'a bağlanamadı"
@@ -232,8 +251,27 @@ msgstr ""
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Geri alma Ortamı Oluşturma İşlemi Tamamlandı"
 
+#~ msgid ""
+#~ "If you would like to archive another copy, the generated image has been "
+#~ "stored under the filename:"
+#~ msgstr ""
+#~ "bir başka kopya arşivlemek isterseniz, oluşturulan görüntü şu dosya adıyla "
+#~ "saklandı:"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Geçersiz geri alma bölümü"
+
+#~ msgid "Building UP"
+#~ msgstr "İnşa Ediliyor"
+
+#~ msgid "Generating UUID"
+#~ msgstr "UUID Oluşturuluyor"
+
 #~ msgid "Recovery Partition: "
 #~ msgstr "Geri Alma Bölümü: "
+
+#~ msgid "File Name: "
+#~ msgstr "Dosya Adı: "
 
 #~ msgid "Media Type: "
 #~ msgstr "Ortam Türü: "
@@ -244,8 +282,17 @@ msgstr ""
 #~ msgid "Utility Partition: "
 #~ msgstr "Araç Bölümü: "
 
+#~ msgid "OS Release: "
+#~ msgstr "İşletim Sistemi Sürümü: "
+
 #~ msgid "ISO Image"
 #~ msgstr "ISO Görüntüsü"
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Hedef Dizini Seç"
+
+#~ msgid "Create Dell Recovery ISO"
+#~ msgstr "Dell Geri Alma ISO'su Oluştur"
 
 #~ msgid "Cancel Recovery Media Creator"
 #~ msgstr "Geri Alma Ortamı Oluşturucuyu İptal Et"
@@ -272,11 +319,33 @@ msgstr ""
 #~ "Varolan bir görüntü bulunamadı (muhtemelen önceki bir çalışmadan). Bu eski "
 #~ "kopyayı kaldırmak ve görüntüyü yeniden oluşturmak ister misiniz?"
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Bu uygulama, bilgisayarı fabrikadan çıktığı haline geri getirmek için "
+#~ "kullanılabilen İşletim Sistemi Geri Alma Ortamı oluşturacak. USB anahtarı "
+#~ "veya DVD görüntüsü oluşturma seçeneğiniz olacak."
+
 #~ msgid "USB Flash Drive"
 #~ msgstr "USB Flash Sürücü"
 
 #~ msgid "No media, create ISO image"
 #~ msgstr "Ortam yok, ISO görüntüsü oluştur"
 
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "ISO için bir dizin seçin"
+
+#~ msgid "Retry burn?"
+#~ msgstr "Yazmayı tekrar dene?"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr "Ortama yazma işlemi başarısız. Yeniden denmek ister misiniz?"
+
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "Sistem ilkeleri, raw aygıtlarını okumayı engelliyor."
+
+#~ msgid " in command line arguments.  Falling back to HAL based detection."
+#~ msgstr ""
+#~ " komut satırı bağımsız değişkenlerinde. HAL tabanlı tanımaya geri çekilmek."

@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2009-05-23 16:53+0000\n"
 "Last-Translator: Jimmy Frydkær Dürr <thewolf40@mailme.dk>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-16 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -198,6 +198,12 @@ msgstr ""
 msgid "I accept the license terms. (required to use your computer)"
 msgstr ""
 
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr ""
+
 #~ msgid "Opening Burner"
 #~ msgstr "Åbner brænder"
 
@@ -215,6 +221,16 @@ msgstr ""
 
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Genskabelses Medie Oprettelses Proces Færdig"
+
+#~ msgid ""
+#~ "If you would like to archive another copy, the generated image has been "
+#~ "stored under the filename:"
+#~ msgstr ""
+#~ "Hvis du ønsker at arkivere en anden kopi, er det generede billede gemt under "
+#~ "filnavnet:"
+
+#~ msgid " in command line arguments.  Falling back to HAL based detection."
+#~ msgstr " i kommandolinje argument. Falder tilbage til HAL detection."
 
 #~ msgid "Building UP"
 #~ msgstr "Bygger op"
@@ -236,6 +252,9 @@ msgstr ""
 
 #~ msgid "<activity placeholder>"
 #~ msgstr "<activity placeholder>"
+
+#~ msgid "Create Dell Recovery ISO"
+#~ msgstr "Opret Dell Gendannelses ISO"
 
 #~ msgid "Generating UUID"
 #~ msgstr "Genererer UUID"

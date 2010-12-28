@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2010-12-14 04:29+0000\n"
 "Last-Translator: Daniel Schury <das.surst@googlemail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-16 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -222,6 +222,12 @@ msgstr ""
 "Ich akzeptiere die Lizenzbestimmungen. (notwendig, um Ihren Rechner zu "
 "benutzen)"
 
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr ""
+
 #~ msgid "<activity placeholder>"
 #~ msgstr "<Aktivitätsplatzhalter>"
 
@@ -268,6 +274,9 @@ msgstr ""
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Keine Verbindung zum D-Bus"
 
+#~ msgid "Create Dell Recovery ISO"
+#~ msgstr "Dell Recovery ISO erstellen"
+
 #~ msgid "Generating UUID"
 #~ msgstr "Erzeuge UUID"
 
@@ -276,6 +285,9 @@ msgstr ""
 
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "Systemrichtlinie verhindert das Lesen von Raw-Devices"
+
+#~ msgid "Building UP"
+#~ msgstr "Erstelle"
 
 #~ msgid "Invalid utility partition"
 #~ msgstr "Ungültige Werkzeugpartition"
@@ -288,10 +300,27 @@ msgstr ""
 #~ msgid "Invalid recovery partition"
 #~ msgstr "Ungültige Wiederherstellungspartition"
 
+#~ msgid ""
+#~ "If you would like to archive another copy, the generated image has been "
+#~ "stored under the filename:"
+#~ msgstr ""
+#~ "Falls Sie eine weitere Kopie archivieren möchten, das erzeugte Abbild wurde "
+#~ "unter dem folgendem Dateinamen gespeichert:"
+
+#~ msgid " in command line arguments.  Falling back to HAL based detection."
+#~ msgstr " in Kommandozeilenargumenten. Benutze HAL-basierte Erkennung."
+
 #~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
 #~ msgstr ""
 #~ "Sind Sie sich sicher, dass Sie den Erstellungsprozess des "
 #~ "Wiederherstellungsdatenträgers abbrechen möchten?"
+
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "Dell-Wiederherstellungsmedium erstellen?"
+
+#~ msgid "This window will close automatically when the process is complete. "
+#~ msgstr ""
+#~ "Dieses Fenster wird sich nach Beendigung des Vorgangs automatisch schließen. "
 
 #~ msgid "Opening Burner"
 #~ msgstr "Brenner wird geöffnet"
@@ -318,6 +347,16 @@ msgstr ""
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW-Disk"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Diese Anwendung wird ein Rettungsmedium für das Betriebssystem erstellen, "
+#~ "das zum Zurücksetzen des Rechners auf die Werkseinstellungen verwendet "
+#~ "werden kann. Sie haben die Möglichkeit, einen USB-Stick oder ein DVD-Abbild "
+#~ "zu erstellen."
 
 #~ msgid "Cancel Recovery Media Creator"
 #~ msgstr "Wiederherstellungsmedien-Ersteller abbrechen"

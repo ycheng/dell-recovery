@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2010-12-14 05:08+0000\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-16 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -210,14 +210,58 @@ msgstr "Dell végfelhasználói licencszerződés"
 msgid "I accept the license terms. (required to use your computer)"
 msgstr "Elfogadom a licencfeltételeket (kötelező a számítógép használatához)"
 
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr ""
+
 #~ msgid "Opening Burner"
 #~ msgstr "Író megnyitása"
+
+#~ msgid ""
+#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
+#~ "present to function."
+#~ msgstr ""
+#~ "Ennek az eszköznek a működéséhez \"Utility\" és \"Linux Recovery\" partíció "
+#~ "szükséges."
+
+#~ msgid ""
+#~ "If you would like to archive another copy, the generated image has been "
+#~ "stored under the filename:"
+#~ msgstr ""
+#~ "Ha szeretnél még egy másolatot, a létrehozott képfájl mentése az alábbi "
+#~ "fájlnéven:"
+
+#~ msgid "File Name: "
+#~ msgstr "Fájlnév "
+
+#~ msgid "OS Release: "
+#~ msgstr "OS verzió "
+
+#~ msgid "Create Dell Recovery ISO"
+#~ msgstr "Dell Recovery ISO létrehozása"
+
+#~ msgid "Generating UUID"
+#~ msgstr "UUID generálása"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW lemez"
 
 #~ msgid "Building ISO"
 #~ msgstr "ISO létrehozása"
+
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "Válassza ki az ISO képfájl könyvtárát!"
+
+#~ msgid "Retry burn?"
+#~ msgstr "Ismételt írás?"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr "A média írása nem sikerült. Megpróbálja újra?"
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Cél könyvtár kiválasztása"
 
 #~ msgid "Welcome"
 #~ msgstr "Üdvözöljük"
@@ -291,3 +335,9 @@ msgstr "Elfogadom a licencfeltételeket (kötelező a számítógép használat�
 #~ msgstr ""
 #~ "Már létezik lemezkép, valószínűleg egy előző futtatás eredményeként. El "
 #~ "szeretné távolítani ezt a régi másolatot, és újra előállítani a lemezképet?"
+
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "Létrehoz Dell helyreállító adathordozót?"
+
+#~ msgid "This window will close automatically when the process is complete. "
+#~ msgstr "Ez az ablak automatikusan bezáródik a folyamat befejeződésekor. "

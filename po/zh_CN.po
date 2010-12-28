@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-18 16:27-0600\n"
+"POT-Creation-Date: 2010-12-26 23:04-0600\n"
 "PO-Revision-Date: 2010-12-14 19:25+0000\n"
 "Last-Translator: Heling Yao <Unknown>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-15 05:24+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -202,35 +202,35 @@ msgstr "ISO 和 GIT 树中不存在"
 msgid "All SRVs must be filled to proceed."
 msgstr "必须填写所有 SRV 后才能继续。"
 
-#: ../Dell/recovery_backend.py:284
+#: ../Dell/recovery_backend.py:282
 msgid "Processing FISH packages"
 msgstr "处理工厂预安装包"
 
-#: ../Dell/recovery_backend.py:403
+#: ../Dell/recovery_backend.py:404
 msgid "Adding in base image"
 msgstr "添加到原始镜像"
 
-#: ../Dell/recovery_backend.py:411
+#: ../Dell/recovery_backend.py:412
 msgid "Overlaying FID content"
 msgstr "覆盖 FID 内容"
 
-#: ../Dell/recovery_backend.py:761
+#: ../Dell/recovery_backend.py:773
 msgid "Preparing nested image"
 msgstr "准备内建的镜像"
 
-#: ../Dell/recovery_backend.py:785
+#: ../Dell/recovery_backend.py:797
 msgid "Building Dell Utility Partition"
 msgstr "建立 Dell 工具分区"
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:861
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "重新生成 UUID / 重新构建 initramfs"
 
-#: ../Dell/recovery_backend.py:878
+#: ../Dell/recovery_backend.py:890
 msgid "Building GRUB core image"
 msgstr "建立GRUB核心镜像"
 
-#: ../Dell/recovery_backend.py:954
+#: ../Dell/recovery_backend.py:966
 msgid "Building ISO"
 msgstr "制作 ISO 光盘镜像"
 
@@ -589,6 +589,15 @@ msgstr "将恢复介质保存为外接的 USB 闪存盘"
 #~ "the event that you are generating from an existing BTO image, you can use "
 #~ "the framework built into that image."
 #~ msgstr "Vanilla 镜像顶部的第一块是一个 FID 框架。如果您要从现有的 BTO 镜像生成，您可以直接使用该框架。"
+
+#~ msgid ""
+#~ "Dell Recovery Media can be used to restore your system to the same state as "
+#~ "when it was first shipped to you.\n"
+#~ "<b>It is highly recommended that you generate media and store it in a safe "
+#~ "place.</b>"
+#~ msgstr ""
+#~ "Dell 恢复盘可以用来恢复您的电脑系统到第一次安装好后的状态。\n"
+#~ "<b>强烈推荐您制作一个恢复盘，然后将恢复盘放在安全的地方。</b>"
 
 #~ msgid "Add dell-recovery"
 #~ msgstr "添加 dell-recovery"

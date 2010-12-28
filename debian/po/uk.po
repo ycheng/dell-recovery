@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2010-12-14 05:38+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-16 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -217,6 +217,24 @@ msgid "I accept the license terms. (required to use your computer)"
 msgstr ""
 "Я приймаю умови ліцензійної угоди. (необхідно для користування комп’ютером)"
 
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr ""
+
+#~ msgid "This window will close automatically when the process is complete. "
+#~ msgstr "Це вікно буде автоматично закрито після завершення операції. "
+
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "Створити носій для відновлення Dell?"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Некоректний допоміжний розділ"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Некоректний розділ для відновлення"
+
 #~ msgid "Permission Denied"
 #~ msgstr "Відмовлено у доступі"
 
@@ -228,6 +246,9 @@ msgstr ""
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Не вдалося встановити зв’язок з D-Bus"
+
+#~ msgid "Welcome"
+#~ msgstr "Вітаємо"
 
 #~ msgid "Choose Media Type"
 #~ msgstr "Вибір типу носія"
@@ -279,6 +300,16 @@ msgstr ""
 
 #~ msgid "No media, create ISO image"
 #~ msgstr "Без носія, створити образ ISO"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "За допомогою цієї програми можна створити носій для відновлення ОС, яким "
+#~ "можна буде скористатися для відновлення операційної системи комп’ютера до "
+#~ "стану, у якому вам її передав виробник обладнання. Ви зможете створити "
+#~ "відновлювальний флеш-диск USB або диск DVD."
 
 #~ msgid "USB Flash Drive"
 #~ msgstr "Флеш-диск USB"

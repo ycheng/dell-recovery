@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-14 23:23-0600\n"
+"POT-Creation-Date: 2010-12-24 16:31-0600\n"
 "PO-Revision-Date: 2010-12-14 04:42+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-16 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:44+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -211,8 +211,23 @@ msgstr "Dellin loppukäyttäjän lisenssiehdot"
 msgid "I accept the license terms. (required to use your computer)"
 msgstr "Hyväksyn lisenssiehdot. (vaaditaan tietokoneen käyttöön)"
 
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:44001
+msgid "Restore #OS# to factory state"
+msgstr ""
+
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW-levy"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Tämä sovellus luo käyttöjärjestelmän palautusmedia, jota voidaan käyttää "
+#~ "tietokoneen palauttamiseksi tehtaalta toimitettua vastaavaan tilaan. Voit "
+#~ "luoda joko USB-tikun tai DVD-kuvan."
 
 #~ msgid "Cancel Recovery Media Creator"
 #~ msgstr "Peru palautusmedian luonti"
@@ -247,14 +262,23 @@ msgstr "Hyväksyn lisenssiehdot. (vaaditaan tietokoneen käyttöön)"
 #~ msgid "<activity placeholder>"
 #~ msgstr "<tila varattu toiminnolle>"
 
+#~ msgid "Invalid utility partition"
+#~ msgstr "Epäkelpo työkaluosio"
+
 #~ msgid "Permission Denied"
 #~ msgstr "Pääsy evätty"
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Dbusiin ei voi yhdistää"
 
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Epäkelpo palautusosio"
+
 #~ msgid "Recovery Partition: "
 #~ msgstr "Palautusosio: "
+
+#~ msgid "File Name: "
+#~ msgstr "Tiedostonimi: "
 
 #~ msgid "Utility Partition: "
 #~ msgstr "Työkaluosio: "
@@ -281,3 +305,9 @@ msgstr "Hyväksyn lisenssiehdot. (vaaditaan tietokoneen käyttöön)"
 #~ msgstr ""
 #~ "Olemassa oleva levykuva löytyi (mahdollisesti edelliseltä suorituskerralta). "
 #~ "Haluatko poistaa tämän vanhan kopion ja luoda levykuvan uudelleen?"
+
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "Luodaanko Dell-palautusmedia?"
+
+#~ msgid "This window will close automatically when the process is complete. "
+#~ msgstr "Tämä ikkuna sulkeutuu automaattisesti toiminnon valmistuttua. "
