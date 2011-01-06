@@ -223,7 +223,7 @@ class Install(InstallPlugin):
 
             #Launch burning tool
             if rec_type == "dvd":
-                cmd = dvd + [fname]
+                cmd = ['dbus-launch'] + dvd + [fname]
             elif rec_type == "usb":
                 cmd = usb + [fname]
             else:

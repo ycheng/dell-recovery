@@ -4,6 +4,7 @@ dell-recovery (0.76) UNRELEASED; urgency=low
   * Translate the recovery line that is inserted into grub.cfg based
     upon the initial language selected during OOBE.
   * Include a Chinese translation of the above.
+  * Use dbus-launch to start brasero (LP: #698347)
 
   [ Bryan Kemp ]
   * Updated Error string for non Dell/Alienware Systems  
