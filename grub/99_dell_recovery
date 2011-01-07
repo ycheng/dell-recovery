@@ -4,8 +4,7 @@ source /usr/lib/grub/grub-mkconfig_lib
 
 cat << EOF
 menuentry "#RECOVERY_TEXT#" {
-        set root='(hd0,#PARTITION#)'
-        search --no-floppy --fs-uuid --set #UUID#
+        search --no-floppy --hint '(hd0,#PARTITION#)' --set --fs-uuid #UUID#
         if [ -s /boot/grub/common.cfg ]; then
             source /boot/grub/common.cfg
         else

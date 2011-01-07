@@ -16,7 +16,7 @@ case "$1" in
 
     #generate grub.cfg
     OS=$(lsb_release -s -d)
-    sed "s,#OS#,$OS,; /^search/d; /^set\ root=/d" \
+    sed "s,#OS#,$OS,; /^search/d" \
         /usr/share/dell/grub/recovery_partition.cfg \
         > /var/lib/dell-recovery/grub.cfg
 
