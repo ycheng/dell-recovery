@@ -1,6 +1,7 @@
 dell-recovery (0.76) UNRELEASED; urgency=low
 
   [ Mario Limonciello ]
+  * Add a new binary package, dell-recovery-bootloader.
   * Translate the recovery line that is inserted into grub.cfg based
     upon the initial language selected during OOBE.
   * Include a Chinese translation of the above.

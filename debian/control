@@ -30,3 +30,13 @@ Description: Dell Recovery Casper Hooks
  This package provides hooks to allow the dell-recovery
  bootstrap to run directly from casper without any other
  modifications to the media.
+
+Package: dell-recovery-bootloader
+Architecture: all
+Depends: grub-pc, dell-recovery
+Description: Bootloader images for Dell's factory process
+ This package is used to generate GRUB2 bootable images that are
+ injected into the Dell Linux factory installation process.
+ .
+ This package doesn't have much use outside of the Dell environment
+ but is safe to install on other systems.
