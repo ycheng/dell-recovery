@@ -5,11 +5,11 @@
 case "$1" in
   configure)
     #build core image
-    grub-mkimage -o /var/lib/dell-recovery/core.img \
+    grub-mkimage -o /var/lib/dell-recovery/core.img -O i386-pc \
                              loadenv biosdisk part_msdos part_gpt fat ntfs \
                              ext2 ntfscomp search linux boot minicmd cat   \
                              cpuid chain halt help ls reboot echo test     \
-                             configfile sh sleep keystatus normal true font\
+                             configfile sleep keystatus normal true font\
                              vga vga_text keystatus
     #copy boot.img
     cat /usr/lib/grub/i386-pc/boot.img > /var/lib/dell-recovery/boot.img

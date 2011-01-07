@@ -7,6 +7,7 @@ dell-recovery (0.76) UNRELEASED; urgency=low
   * Include a Chinese translation of the above.
   * Use dbus-launch to start brasero (LP: #698347)
   * Remove superfolous --set parameters in grub.cfg's.
+  * Adjust to current modules available in natty for bootloader postinst.
 
   [ Bryan Kemp ]
   * Updated Error string for non Dell/Alienware Systems  
