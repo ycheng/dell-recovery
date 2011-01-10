@@ -454,7 +454,7 @@ class Page(Plugin):
                 os.path.exists(os.path.join(CDROM_MOUNT, 'boot', 'grub',
                                                         'i386-pc', 'grubenv')):
             return
-        
+
         self.log("Installing GRUB to %s" % self.device + STANDARD_RP_PARTITION)
 
         #Mount R/W
@@ -635,7 +635,14 @@ class Page(Plugin):
                 raise RuntimeError, ("Error mounting utility partition pre-explosion.")
             archive = zipfile.ZipFile(path)
             with misc.raised_privileges():
-                archive.extractall(path='/boot')
+                try:
+                    archive.extractall(path='/boot')
+                except IOError, msg:
+                    #Partition is corrupted, abort doing anything else here but don't
+                    #fail the install
+                    #TODO ML (1/10/11) - instead rebuild the UP if possible.
+                    self.log("Ignoring corrupted utility partition(%s)." % msg)
+                    return
             archive.close()
 
         #Now check for additional UP content to explode
