@@ -15,6 +15,7 @@ dell-recovery (0.76) UNRELEASED; urgency=low
   * Mark Jockey to install both free and non-free drivers.
   * On native BTO compatible images make sure to record in bto.xml that they're
     native during stage1.
+  * On native BTO compatible images also record the date during stage1.
 
   [ Bryan Kemp ]
   * Updated Error string for non Dell/Alienware Systems  

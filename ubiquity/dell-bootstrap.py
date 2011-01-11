@@ -1428,6 +1428,7 @@ manually to proceed.")
         if os.path.exists(path):
             self.xml_obj.load_bto_xml(path)
         bto_version = self.xml_obj.fetch_node_contents('iso')
+        bto_date = self.xml_obj.fetch_node_contents('date')
         with misc.raised_privileges():
             dr_version = magic.check_version('dell-recovery')
             ubi_version = magic.check_version('ubiquity')
@@ -1441,6 +1442,11 @@ manually to proceed.")
                     self.xml_obj.replace_node_contents('debug', rfd.read())
             if not bto_version:
                 self.xml_obj.replace_node_contents('iso', '[native]')
+            if not bto_date:
+                with open(os.path.join(CDROM_MOUNT, '.disk', 'info')) as rfd:
+                    line = rfd.readline().strip()
+                date = line.split()[len(line.split())-1]
+                self.xml_obj.replace_node_contents('date', date)
             self.xml_obj.write_xml('/mnt/bto.xml')
         misc.execute_root('umount', '/mnt')
 
