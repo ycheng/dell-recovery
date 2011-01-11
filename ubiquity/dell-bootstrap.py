@@ -1519,7 +1519,11 @@ class Install(InstallPlugin):
             """ read a deb """
             control = apt_inst.debExtractControl(open(fname))
             sections = apt_pkg.TagSection(control)
-            return (sections["Architecture"], sections["Package"])
+            if sections.has_key("Modaliases"):
+                modaliases = sections["Modaliases"]
+            else:
+                modaliases = ''
+            return (sections["Architecture"], sections["Package"], modaliases)
 
         #process debs/main
         to_install = []
@@ -1529,8 +1533,8 @@ class Install(InstallPlugin):
             if os.path.isdir(repo):
                 for fname in os.listdir(repo):
                     if '.deb' in fname:
-                        arch, package = parse(os.path.join(repo, fname))
-                        if arch == "all" or arch == my_arch:
+                        arch, package, modaliases = parse(os.path.join(repo, fname))
+                        if not modaliases and (arch == "all" or arch == my_arch):
                             to_install.append(package)
 
         #These aren't in all images, but desirable if available

@@ -10,6 +10,8 @@ dell-recovery (0.76) UNRELEASED; urgency=low
   * Adjust to current modules available in natty for bootloader postinst.
   * If the utility partition is corrupted, abort DRMK install, but don't
     cause the installer to crash.
+  * If a package specifies a modaliases field, don't mark it for automatic
+    installation if it's in debs/main.
 
   [ Bryan Kemp ]
   * Updated Error string for non Dell/Alienware Systems  
