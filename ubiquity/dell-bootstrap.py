@@ -455,6 +455,12 @@ class Page(Plugin):
                                                         'i386-pc', 'grubenv')):
             return
 
+        #test for bug 700910.  if around, then don't try to install grub.
+        test700910 = magic.fetch_output(['grub-probe', '--target=device', self.device + STANDARD_RP_PARTITION]).strip()
+        if test700910 == 'aufs':
+            self.log("Bug 700910 detected.  Aborting GRUB installation.")
+            return
+
         self.log("Installing GRUB to %s" % self.device + STANDARD_RP_PARTITION)
 
         #Mount R/W

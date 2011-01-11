@@ -16,6 +16,7 @@ dell-recovery (0.76) UNRELEASED; urgency=low
   * On native BTO compatible images make sure to record in bto.xml that they're
     native during stage1.
   * On native BTO compatible images also record the date during stage1.
+  * Add a test for bug 700910.  If encountered, skip that phase of install.
 
   [ Bryan Kemp ]
   * Updated Error string for non Dell/Alienware Systems  
