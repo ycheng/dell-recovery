@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-24 16:31-0600\n"
+"POT-Creation-Date: 2011-01-10 19:55-0600\n"
 "PO-Revision-Date: 2010-12-14 04:32+0000\n"
 "Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
@@ -111,10 +111,11 @@ msgstr "Esta opción le permite redimensionar cualquier partición existente."
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:29001
+#, fuzzy
+#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
-"ERROR: This media only functions on Dell systems booted directly into "
-"recovery mode."
-msgstr ""
+"ERROR: This recovery media only functions on Dell and Alienware systems."
+msgstr "ERROR: Este disco sólo es válido en sistemas Dell."
 
 #. Type: text
 #. Description

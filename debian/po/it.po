@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-24 16:31-0600\n"
+"POT-Creation-Date: 2011-01-10 19:55-0600\n"
 "PO-Revision-Date: 2010-12-14 05:16+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
-"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
 "X-Launchpad-Export-Date: 2010-12-14 05:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
@@ -113,12 +113,11 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:29001
+#, fuzzy
+#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
-"ERROR: This media only functions on Dell systems booted directly into "
-"recovery mode."
-msgstr ""
-"Errore: questo supporto funziona solo solo su sistemi Dell avviati "
-"direttamente in modalità di ripristino."
+"ERROR: This recovery media only functions on Dell and Alienware systems."
+msgstr "Errore: questo supporto può essere utilizzato solo su sistemi Dell."
 
 #. Type: text
 #. Description
@@ -221,6 +220,13 @@ msgstr ""
 #: ../dell-recovery.templates:44001
 msgid "Restore #OS# to factory state"
 msgstr ""
+
+#~ msgid ""
+#~ "ERROR: This media only functions on Dell systems booted directly into "
+#~ "recovery mode."
+#~ msgstr ""
+#~ "Errore: questo supporto funziona solo solo su sistemi Dell avviati "
+#~ "direttamente in modalità di ripristino."
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "Disco DVD+/-RW"
