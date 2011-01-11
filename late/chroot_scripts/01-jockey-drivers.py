@@ -93,7 +93,7 @@ class ProcessJockey():
             exit(code)
       
         #call out jockey detection algorithms
-        ret = subprocess.Popen(["jockey-text", "-l", "-m", "nonfree"],stdout=subprocess.PIPE)
+        ret = subprocess.Popen(["jockey-text", "-l"],stdout=subprocess.PIPE)
         output = ret.communicate()[0]
         code = ret.wait()
         if (code != 0):
@@ -139,7 +139,7 @@ exit 0""" % binary
                 if item == "xorg:fglrx":
                     with open(DONT_BUILD_DKMS_FILE,'w'):
                         pass
-                ret = subprocess.Popen(["jockey-text", "-e", item, "-m", "nonfree"],stdout=subprocess.PIPE)
+                ret = subprocess.Popen(["jockey-text", "-e", item],stdout=subprocess.PIPE)
                 output = ret.communicate()[0]
                 code = ret.wait()
                 if (code != 0):
