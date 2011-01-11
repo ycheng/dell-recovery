@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-11-18 16:27-0600\n"
+"POT-Creation-Date: 2010-12-26 23:04-0600\n"
 "PO-Revision-Date: 2010-11-03 10:14+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -208,35 +208,35 @@ msgstr "Немає на ISO або у дереві GIT"
 msgid "All SRVs must be filled to proceed."
 msgstr "Щоб перейти до наступного кроку, слід вказати всі SRV."
 
-#: ../Dell/recovery_backend.py:284
+#: ../Dell/recovery_backend.py:282
 msgid "Processing FISH packages"
 msgstr "Обробка пакунків FISH"
 
-#: ../Dell/recovery_backend.py:403
+#: ../Dell/recovery_backend.py:404
 msgid "Adding in base image"
 msgstr "Додавання до основного образу"
 
-#: ../Dell/recovery_backend.py:411
+#: ../Dell/recovery_backend.py:412
 msgid "Overlaying FID content"
 msgstr "Додаткові дані FID"
 
-#: ../Dell/recovery_backend.py:761
+#: ../Dell/recovery_backend.py:773
 msgid "Preparing nested image"
 msgstr "Приготування вкладеного образу"
 
-#: ../Dell/recovery_backend.py:785
+#: ../Dell/recovery_backend.py:797
 msgid "Building Dell Utility Partition"
 msgstr "Створення допоміжного розділу Dell"
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:861
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Повторне створення UUID / Перебудова initramfs"
 
-#: ../Dell/recovery_backend.py:878
+#: ../Dell/recovery_backend.py:890
 msgid "Building GRUB core image"
 msgstr "Збирання основного образу GRUB"
 
-#: ../Dell/recovery_backend.py:954
+#: ../Dell/recovery_backend.py:966
 msgid "Building ISO"
 msgstr "Створення ISO"
 
@@ -576,3 +576,70 @@ msgstr "Зберегти носій для відновлення на DVD"
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Зберегти носій для відновлення на зовнішньому флеш-диску USB"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Некоректний допоміжний розділ"
+
+#~ msgid ""
+#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
+#~ "detection."
+#~ msgstr ""
+#~ " у параметрах командного рядка. Повертаємося до визначення, заснованого на "
+#~ "DeviceKit або HAL."
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Некоректний розділ для відновлення"
+
+#~ msgid "Welcome"
+#~ msgstr "Вітаємо"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Вставка пакунків FISH"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "За допомогою цієї програми можна створити носій для відновлення ОС, яким "
+#~ "можна буде скористатися для відновлення операційної системи комп’ютера до "
+#~ "стану, у якому вам її передав виробник обладнання. Ви зможете створити "
+#~ "відновлювальний флеш-диск USB або диск DVD."
+
+#~ msgid ""
+#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
+#~ "the event that you are generating from an existing BTO image, you can use "
+#~ "the framework built into that image."
+#~ msgstr ""
+#~ "Оболонка FID — це початковий набір даних, які буде дописано до образу "
+#~ "Vanilla. Якщо ви створюєте носій на основі поточного образу BTO, ви можете "
+#~ "скористатися оболонкою, вбудованою до цього образу."
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>Створити носій для відновлення Dell?</b></big>"
+
+#~ msgid ""
+#~ "This application will integrate a Dell OEM FID framework & driver package "
+#~ "set into a customized OS media image.  You will have the option to create an "
+#~ "USB key or DVD image."
+#~ msgstr ""
+#~ "За допомогою цієї програми можна поєднати оболонку Dell OEM FID і набір "
+#~ "пакунків з драйверами у один налаштований образ носія ОС. Ви зможете вибрати "
+#~ "один з варіантів: створення образу флеш-картки USB або образу DVD."
+
+#~ msgid "Add dell-recovery"
+#~ msgstr "Додати dell-recovery"
+
+#~ msgid ""
+#~ "The combination of the image and GIT tree you have provided do not supply "
+#~ "the necessary dell-recovery package.  It will have to be injected into the "
+#~ "image separately."
+#~ msgstr ""
+#~ "Поєднання образу та дерева GIT, яке ви вказали, не містить необхідного "
+#~ "пакунка dell-recovery. Його доведеться додати до образу окремо."
+
+#~ msgid "DBus Exception"
+#~ msgstr "Виключення DBus"
+
+#~ msgid "Calculating FISH MD5SUMs"
+#~ msgstr "Обчислення сум MD5 FISH"

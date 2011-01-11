@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-18 16:27-0600\n"
+"POT-Creation-Date: 2010-12-26 23:04-0600\n"
 "PO-Revision-Date: 2010-08-18 11:10+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -208,35 +208,35 @@ msgstr "Ei saatavalla ISOssa tai GIT-puussa"
 msgid "All SRVs must be filled to proceed."
 msgstr "Kaikki SRV:t tulee olla täytetty, jotta voidaan jatkaa."
 
-#: ../Dell/recovery_backend.py:284
+#: ../Dell/recovery_backend.py:282
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:403
+#: ../Dell/recovery_backend.py:404
 msgid "Adding in base image"
 msgstr "Lisätään peruslevykuvaan"
 
-#: ../Dell/recovery_backend.py:411
+#: ../Dell/recovery_backend.py:412
 msgid "Overlaying FID content"
 msgstr "Laskostetaan FID-sisältöä"
 
-#: ../Dell/recovery_backend.py:761
+#: ../Dell/recovery_backend.py:773
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:785
+#: ../Dell/recovery_backend.py:797
 msgid "Building Dell Utility Partition"
 msgstr "Rakennetaan Dell-työkaluosiota"
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:861
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Luodaan uudelleen UUID / rakennetaan uudelleen initramfs"
 
-#: ../Dell/recovery_backend.py:878
+#: ../Dell/recovery_backend.py:890
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:954
+#: ../Dell/recovery_backend.py:966
 msgid "Building ISO"
 msgstr "Rakennetaan ISOa"
 
@@ -571,8 +571,94 @@ msgstr "Tallenna palautusmedia DVD-levylle"
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Tallenna palautusmedia ulkoiselle USB-muistivälineelle"
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Tämä sovellus luo käyttöjärjestelmän palautusmedia, jota voidaan käyttää "
+#~ "tietokoneen palauttamiseksi tehtaalta toimitettua vastaavaan tilaan. Voit "
+#~ "luoda joko USB-tikun tai DVD-kuvan."
+
 #~ msgid "Welcome"
 #~ msgstr "Tervetuloa"
 
 #~ msgid "Retry burn?"
 #~ msgstr "Yritä kirjoitusta uudelleen?"
+
+#~ msgid ""
+#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
+#~ "detection."
+#~ msgstr ""
+#~ " komentoriviargumenteissa. Palataan DeviceKit- tai HAl-pohjaiseen "
+#~ "havaitsemiseen."
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Epäkelpo työkaluosio"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Epäkelpo palautusosio"
+
+#~ msgid "File Name: "
+#~ msgstr "Tiedostonimi: "
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Lisätään FISH-paketteja"
+
+#~ msgid ""
+#~ "Dell Recovery Media can be used to restore your system to the same state as "
+#~ "when it was first shipped to you.\n"
+#~ "<b>It is highly recommended that you generate media and store it in a safe "
+#~ "place.</b>"
+#~ msgstr ""
+#~ "Dell-palautusmediaa voidaan käyttää järjestelmän palauttamiseksi tehtaalta "
+#~ "tulleeseen tilaan.\n"
+#~ "<b>On hyvin suositeltavaa, että luot median ja sijoitat sen turvalliseen "
+#~ "paikkaan.</b>"
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>Luodaanko Dell-palautusmedia?</b></big>"
+
+#~ msgid ""
+#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
+#~ "the event that you are generating from an existing BTO image, you can use "
+#~ "the framework built into that image."
+#~ msgstr ""
+#~ "FID-kehysohjelmisto on ensimmäinen puhtaan levykuvan päälle laskostettava "
+#~ "osa. Jos luot käyttäen olemassa olevaa BTO-levykuvaa pohjana, voit käyttää "
+#~ "kyseiseen levykuvaan sisään rakennettua kehysohjelmistoa."
+
+#~ msgid ""
+#~ "This application will integrate a Dell OEM FID framework & FISH package set "
+#~ "into a customized OS media image.  You will have the option to create an USB "
+#~ "key or DVD image."
+#~ msgstr ""
+#~ "Tämä sovellus integroi Dell OEM FID -kehysohjelmiston ja FISH-"
+#~ "pakettikokoelman mukautetuksi käyttöjärjestelmämedian levykuvaksi. Voit "
+#~ "luoda USB- tai DVD-levykuvan."
+
+#~ msgid "Choose FISH Packages"
+#~ msgstr "Valitse FISH-paketit"
+
+#~ msgid ""
+#~ "This application will integrate a Dell OEM FID framework & driver package "
+#~ "set into a customized OS media image.  You will have the option to create an "
+#~ "USB key or DVD image."
+#~ msgstr ""
+#~ "Tämä luo mukautetun käyttöjärjestelmämedian integroimalla Dellin OEM FID -"
+#~ "kehysohjelmiston ja ajuripakettikokoelman. Voit luoda joko USB-tikun tai DVD-"
+#~ "levykuvan."
+
+#~ msgid "Add dell-recovery"
+#~ msgstr "Lisää ”dell-recovery”"
+
+#~ msgid ""
+#~ "The combination of the image and GIT tree you have provided do not supply "
+#~ "the necessary dell-recovery package.  It will have to be injected into the "
+#~ "image separately."
+#~ msgstr ""
+#~ "Tarjotut levykuva ja GIT-puu eivät sisällä tarvittavaa dell-recovery-"
+#~ "pakettia. Se tulee sisällyttää levykuvaan erikseen."
+
+#~ msgid "Calculating FISH MD5SUMs"
+#~ msgstr "Lasketaan FISH MD5SUM -lukuja"

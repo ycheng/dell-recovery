@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-18 16:27-0600\n"
-"PO-Revision-Date: 2010-10-30 05:46+0000\n"
-"Last-Translator: Paco Molinero <paco@byasl.com>\n"
+"POT-Creation-Date: 2010-12-26 23:04-0600\n"
+"PO-Revision-Date: 2010-12-18 12:11+0000\n"
+"Last-Translator: Fitoschido <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -27,7 +27,7 @@ msgstr "Permiso denegado"
 
 #: ../Dell/recovery_gtk.py:101
 msgid "Exception"
-msgstr ""
+msgstr "Excepción"
 
 #: ../Dell/recovery_gtk.py:149 ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/tool_selector.ui.h:2
@@ -40,7 +40,7 @@ msgstr "Copyright 2008-2010 Dell Inc."
 
 #: ../Dell/recovery_basic_gtk.py:157
 msgid "Building Base image"
-msgstr ""
+msgstr "Construyendo imagen base"
 
 #: ../Dell/recovery_basic_gtk.py:170
 msgid "Opening Burner"
@@ -60,7 +60,7 @@ msgstr ""
 
 #: ../Dell/recovery_basic_gtk.py:210
 msgid "Unable to proceed"
-msgstr ""
+msgstr "Imposible continuar"
 
 #: ../Dell/recovery_basic_gtk.py:211
 msgid ""
@@ -204,35 +204,35 @@ msgstr "No esta presente en el árbol ISO o GIT"
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
-#: ../Dell/recovery_backend.py:284
+#: ../Dell/recovery_backend.py:282
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:403
+#: ../Dell/recovery_backend.py:404
 msgid "Adding in base image"
 msgstr "Añadiendo en la imagen base"
 
-#: ../Dell/recovery_backend.py:411
+#: ../Dell/recovery_backend.py:412
 msgid "Overlaying FID content"
-msgstr ""
+msgstr "Superposición de contenido FID"
 
-#: ../Dell/recovery_backend.py:761
+#: ../Dell/recovery_backend.py:773
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:785
+#: ../Dell/recovery_backend.py:797
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:861
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Regenerando UUID / Reconstruyendo initramfs"
 
-#: ../Dell/recovery_backend.py:878
+#: ../Dell/recovery_backend.py:890
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:954
+#: ../Dell/recovery_backend.py:966
 msgid "Building ISO"
 msgstr "Creando ISO"
 
@@ -548,6 +548,15 @@ msgstr "Guardar el disco de recuperación en una memoria flash USB externa"
 #~ msgid "File Name: "
 #~ msgstr "Nombre del archivo: "
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Esta aplicación crea soportes de recuperación del sistema que se pueden usar "
+#~ "para devolver el equipo al estado de salida de fábrica. Existe la opción de "
+#~ "crear un disco USB o una imagen de DVD."
+
 #~ msgid "Invalid utility partition"
 #~ msgstr "Partición de utilidad no válida"
 
@@ -581,3 +590,9 @@ msgstr "Guardar el disco de recuperación en una memoria flash USB externa"
 
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr "Ha fallado la grabación en el soporte. ¿Quiere volver a intentarlo?"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Insertando paquetes FISH"
+
+#~ msgid "Add dell-recovery"
+#~ msgstr "Añadir dell-recovery"

@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-18 16:27-0600\n"
+"POT-Creation-Date: 2010-12-26 23:04-0600\n"
 "PO-Revision-Date: 2010-11-03 16:48+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -208,35 +208,35 @@ msgstr "Non è presente nella ISO o nell'albero GIT"
 msgid "All SRVs must be filled to proceed."
 msgstr "Tutti gli SRV devonon essere riempiti per procedere."
 
-#: ../Dell/recovery_backend.py:284
+#: ../Dell/recovery_backend.py:282
 msgid "Processing FISH packages"
 msgstr "Elaborazione pacchetti FISH"
 
-#: ../Dell/recovery_backend.py:403
+#: ../Dell/recovery_backend.py:404
 msgid "Adding in base image"
 msgstr "Aggiunta all'immagine di base"
 
-#: ../Dell/recovery_backend.py:411
+#: ../Dell/recovery_backend.py:412
 msgid "Overlaying FID content"
 msgstr "Sovrapposizione contenuto FID"
 
-#: ../Dell/recovery_backend.py:761
+#: ../Dell/recovery_backend.py:773
 msgid "Preparing nested image"
 msgstr "Preparazione immagine nidificata"
 
-#: ../Dell/recovery_backend.py:785
+#: ../Dell/recovery_backend.py:797
 msgid "Building Dell Utility Partition"
 msgstr "Creazione della partizione di utilità Dell"
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:861
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Rigenerazione UUID / Ricostruzione initramfs"
 
-#: ../Dell/recovery_backend.py:878
+#: ../Dell/recovery_backend.py:890
 msgid "Building GRUB core image"
 msgstr "Creazione immagine principale di GRUB"
 
-#: ../Dell/recovery_backend.py:954
+#: ../Dell/recovery_backend.py:966
 msgid "Building ISO"
 msgstr "Generazione ISO"
 
@@ -578,5 +578,73 @@ msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
 #~ msgid "Welcome"
 #~ msgstr "Benvenuti"
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Questa applicazione permette di creare un supporto di recupero del sistema "
+#~ "operativo che può essere usato per ripristinare il computer alle "
+#~ "impostazioni di fabbrica. È possibile creare sia una chiavetta USB che "
+#~ "un'immagine DVD."
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Partizione di utilità non valida"
+
+#~ msgid "File Name: "
+#~ msgstr "Nome file: "
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Partizione di recupero non valida"
+
 #~ msgid "Retry burn?"
 #~ msgstr "Ritenta masterizzazione?"
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>Creare supporto di ripristino Dell?</b></big>"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Inserimento pacchetti FISH"
+
+#~ msgid ""
+#~ "This application will integrate a Dell OEM FID framework & driver package "
+#~ "set into a customized OS media image.  You will have the option to create an "
+#~ "USB key or DVD image."
+#~ msgstr ""
+#~ "Questa applicazione permette di integrare un framework Dell OEM FID e un "
+#~ "pacchetto di drivernell'immagine personalizzata del sistema operativo. È "
+#~ "possibile creare sia una chiavetta USB che un'immagine DVD."
+
+#~ msgid "Add dell-recovery"
+#~ msgstr "Aggiungere dell-recovery"
+
+#~ msgid ""
+#~ "The combination of the image and GIT tree you have provided do not supply "
+#~ "the necessary dell-recovery package.  It will have to be injected into the "
+#~ "image separately."
+#~ msgstr ""
+#~ "La combinazione tra l'immagine e l'albero GIT selezionato non fornisce il "
+#~ "pacchetto dell-recovery necessario. Verrà aggiunto all'immagine "
+#~ "separatamente."
+
+#~ msgid ""
+#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
+#~ "the event that you are generating from an existing BTO image, you can use "
+#~ "the framework built into that image."
+#~ msgstr ""
+#~ "L'ambiente FID è il primo pezzo sovrapposto a una immagine \"Vanilla\". Nel "
+#~ "caso si generi una immagine \"BTO\" da una esistente, è possibile utilizzare "
+#~ "un ambiente creato dentro l'immagine."
+
+#~ msgid ""
+#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
+#~ "detection."
+#~ msgstr ""
+#~ " negli argomenti alla riga di comando. Provare con DeviceKit o con il "
+#~ "rilevamento basato su HAL."
+
+#~ msgid "DBus Exception"
+#~ msgstr "Eccezione DBus"
+
+#~ msgid "Calculating FISH MD5SUMs"
+#~ msgstr "Calcolo degli MD5SUM per FISH"

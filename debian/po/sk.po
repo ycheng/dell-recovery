@@ -11,11 +11,11 @@ msgstr ""
 "PO-Revision-Date: 2010-12-14 05:33+0000\n"
 "Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: Slovak <sk@li.org>\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sk\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2011-01-11 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -226,6 +226,13 @@ msgstr ""
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Vytvorenie média pre obnovu úspešne ukončené"
 
+#~ msgid ""
+#~ "If you would like to archive another copy, the generated image has been "
+#~ "stored under the filename:"
+#~ msgstr ""
+#~ "Ak by ste sa chceli archivovať ďalšiu kópiu, vytvorený obraz disku bol "
+#~ "uložený v súbore s názvom:"
+
 #~ msgid "Invalid recovery partition"
 #~ msgstr "Neplatná časť disku pre obnovu"
 
@@ -256,8 +263,14 @@ msgstr ""
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "System policy zabraňuje čítaniu raw jednotiek"
 
+#~ msgid "Create Dell Recovery ISO"
+#~ msgstr "Vytvoriť Dell ISO pre obnovu"
+
 #~ msgid "Generating UUID"
 #~ msgstr "Generovanie UUID"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Zrušiť vytvorenie média pre obnovu"
 
 #~ msgid "Building ISO"
 #~ msgstr "Vytváranie ISO"
@@ -275,6 +288,15 @@ msgstr ""
 #~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
 #~ msgstr "Ste si istý, že chcete zrušiť proces vytvorenia média pre obnovu?"
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to "
+#~ "restore the computer to its factory shipped state.  You will have the "
+#~ "option to create an USB key or DVD image."
+#~ msgstr ""
+#~ "Táto aplikácia vytvorí médium pre zotavenie OS, ktoré možno použiť na "
+#~ "obnovenie počítača do výrobcom dodanom stave. Budete mať možnosť vytvoriť "
+#~ "USB kľúč alebo DVD obraz."
+
 #~ msgid "USB Flash Drive"
 #~ msgstr "USB flash jednotka"
 
@@ -287,8 +309,14 @@ msgstr ""
 #~ msgid "Retry burn?"
 #~ msgstr "Opakovať napaľovanie?"
 
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Vytvorenie média pre obnovu Dell"
+
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr "Napálenie média zlyhalo. Prajete si opakovať?"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Obnovenie časti disku: "
 
 #~ msgid "<activity placeholder>"
 #~ msgstr "<activity placeholder>"

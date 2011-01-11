@@ -11,11 +11,11 @@ msgstr ""
 "PO-Revision-Date: 2010-12-14 05:36+0000\n"
 "Last-Translator: Daniel Nylander <yeager@ubuntu.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2011-01-11 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -112,11 +112,9 @@ msgstr "Detta alternativ låter dig ändra storlek på befintliga partitioner."
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:29001
-#, fuzzy
-#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
 "ERROR: This recovery media only functions on Dell and Alienware systems."
-msgstr "FEL: Detta media är endast giltigt på Dell-system."
+msgstr ""
 
 #. Type: text
 #. Description
@@ -224,6 +222,16 @@ msgstr ""
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW-skiva"
 
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to "
+#~ "restore the computer to its factory shipped state.  You will have the "
+#~ "option to create an USB key or DVD image."
+#~ msgstr ""
+#~ "Detta program kommer att skapa ett återställningsmedia för operativsystem "
+#~ "som kan användas för att återställa datorn till dess "
+#~ "fabriksinställningar. Du kommer att få alternativet att skapa på en USB-"
+#~ "enhet eller dvd-avbildning."
+
 #~ msgid "<activity placeholder>"
 #~ msgstr "<platshållare för aktivitet>"
 
@@ -257,8 +265,92 @@ msgstr ""
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Återställningsmediat är färdigt"
 
+#~ msgid "Create Dell Recovery ISO"
+#~ msgstr "Skapa Dell återställnings-ISO"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Återställningspartition: "
+
 #~ msgid "File Name: "
 #~ msgstr "Filnamn: "
+
+#~ msgid "OS Release: "
+#~ msgstr "OS Utgåva: "
+
+#~ msgid "Permission Denied"
+#~ msgstr "Åtkomst nekad"
+
+#~ msgid "Choose Target Directory"
+#~ msgstr "Stäng målkatalogen"
+
+#~ msgid ""
+#~ "This tool requires that a Utility Partition and Linux Recovery partition "
+#~ "are present to function."
+#~ msgstr ""
+#~ "Detta verktyg kräver att en Tillbehörspartition och en "
+#~ "Återskapningspartition finns tillgängligt för att fungera."
+
+#~ msgid ""
+#~ "If you would like to archive another copy, the generated image has been "
+#~ "stored under the filename:"
+#~ msgstr ""
+#~ "Om du vill arkivera en annan kopia, har den genererade avbilden lagrats "
+#~ "under filnamnet:"
+
+#~ msgid " in command line arguments.  Falling back to HAL based detection."
+#~ msgstr ""
+#~ " i kommandorads-argument.  Går tillbaka till HAL-baserad identifiering."
+
+#~ msgid "System policy prevents reading raw devices"
+#~ msgstr "Systemprincip förhindrar läsning av obehandlade enheter"
+
+#~ msgid "Building ISO"
+#~ msgstr "Bygger ISO"
+
+#~ msgid "Building UP"
+#~ msgstr "Bygger tillbehörspartition"
+
+#~ msgid "Generating UUID"
+#~ msgstr "Genererar UUID"
+
+#~ msgid "Utility Partition: "
+#~ msgstr "Tillbehörspartition: "
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr ""
+#~ "Är du säker på att du vill avbryta processen för att skapa "
+#~ "återställningsmedia?"
+
+#~ msgid "The media burn process failed.  Would you like to retry?"
+#~ msgstr "Processen för att bränna media misslyckades. Vill du försöka igen?"
+
+#~ msgid "Select a directory for the ISO"
+#~ msgstr "Välj en katalog för ISO-filen"
+
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "Skapa återställningsmedia för Dell?"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Ogiltig tillbehörspartition"
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "Kan inte ansluta till dbus"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Ogiltig återställningspartition"
+
+#~ msgid "ISO Image"
+#~ msgstr "ISO-avbildning"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Inget media, skapa ISO-avbildning"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you "
+#~ "like to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "En befintlig avbildning hittades (eventuellt från en tidigare körning). "
+#~ "Vill du ta bort den gamla kopian och generera avbildningen igen?"
 
 #~ msgid "This window will close automatically when the process is complete. "
 #~ msgstr ""

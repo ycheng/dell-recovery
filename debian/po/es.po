@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2011-01-10 19:55-0600\n"
-"PO-Revision-Date: 2010-12-14 04:32+0000\n"
-"Last-Translator: Paco Molinero <paco@byasl.com>\n"
+"PO-Revision-Date: 2010-12-18 12:10+0000\n"
+"Last-Translator: Fitoschido <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2011-01-11 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -34,13 +34,13 @@ msgstr "Abriendo copiador..."
 #. Description
 #: ../dell-recovery.templates:17001
 msgid "Dell Recovery"
-msgstr ""
+msgstr "Recuperación de Dell"
 
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:18001
 msgid "Recovery Type"
-msgstr ""
+msgstr "Tipo de recuperación"
 
 #. Type: text
 #. Description
@@ -111,11 +111,9 @@ msgstr "Esta opción le permite redimensionar cualquier partición existente."
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:29001
-#, fuzzy
-#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
 "ERROR: This recovery media only functions on Dell and Alienware systems."
-msgstr "ERROR: Este disco sólo es válido en sistemas Dell."
+msgstr ""
 
 #. Type: text
 #. Description
@@ -294,6 +292,9 @@ msgstr ""
 #~ msgid "Utility Partition: "
 #~ msgstr "Partición de utilidad: "
 
+#~ msgid "Create Dell Recovery ISO"
+#~ msgstr "Crear ISO de recuperación DELL"
+
 #~ msgid "Building ISO"
 #~ msgstr "Creando ISO"
 
@@ -301,6 +302,15 @@ msgstr ""
 #~ msgstr ""
 #~ "¿Seguro que quiere cancelar el proceso de creación del Medio de "
 #~ "Recuperación?"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to "
+#~ "restore the computer to its factory shipped state.  You will have the "
+#~ "option to create an USB key or DVD image."
+#~ msgstr ""
+#~ "Esta aplicación crea soportes de recuperación del sistema que se pueden "
+#~ "usar para devolver el equipo al estado de salida de fábrica. Existe la "
+#~ "opción de crear un disco USB o una imagen de DVD."
 
 #~ msgid "The media burn process failed.  Would you like to retry?"
 #~ msgstr "Ha fallado la grabación en el soporte. ¿Quiere volver a intentarlo?"
@@ -311,8 +321,20 @@ msgstr ""
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Proceso de creación del soporte de recuperación finalizado"
 
+#~ msgid ""
+#~ "If you would like to archive another copy, the generated image has been "
+#~ "stored under the filename:"
+#~ msgstr ""
+#~ "Si decidiera crear otra copia, la imagen producida se ha guardado con el "
+#~ "nombre:"
+
 #~ msgid "Invalid recovery partition"
 #~ msgstr "Partición de recuperación no válida."
+
+#~ msgid " in command line arguments.  Falling back to HAL based detection."
+#~ msgstr ""
+#~ " en los argumentos de la línea de comandos. Recurriendo a la detección "
+#~ "basada en HAL."
 
 #~ msgid "OS Release: "
 #~ msgstr "Versión del SO: "
@@ -323,3 +345,13 @@ msgstr ""
 #~ msgstr ""
 #~ "Ya existe una imagen (posiblemente de una ejecución anterior). ¿Quiere "
 #~ "eliminar esta copia antigua y volver a generar la imagen?"
+
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "¿Crear disco de recuperación Dell?"
+
+#~ msgid ""
+#~ "ERROR: This media only functions on Dell systems booted directly into "
+#~ "recovery mode."
+#~ msgstr ""
+#~ "ERROR: Este medio solamente funciona en sistemas Dell arrancados "
+#~ "directamente en el modo de recuperación."

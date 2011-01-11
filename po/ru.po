@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-11-18 16:27-0600\n"
+"POT-Creation-Date: 2010-12-26 23:04-0600\n"
 "PO-Revision-Date: 2010-09-27 11:29+0000\n"
 "Last-Translator: Dr Gregory House <housegregory299@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -202,35 +202,35 @@ msgstr ""
 msgid "All SRVs must be filled to proceed."
 msgstr "Чтобы продолжить, должны быть заполнены все SRVs."
 
-#: ../Dell/recovery_backend.py:284
+#: ../Dell/recovery_backend.py:282
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:403
+#: ../Dell/recovery_backend.py:404
 msgid "Adding in base image"
 msgstr "Добавление в основной образ"
 
-#: ../Dell/recovery_backend.py:411
+#: ../Dell/recovery_backend.py:412
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:761
+#: ../Dell/recovery_backend.py:773
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:785
+#: ../Dell/recovery_backend.py:797
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:861
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:878
+#: ../Dell/recovery_backend.py:890
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:954
+#: ../Dell/recovery_backend.py:966
 msgid "Building ISO"
 msgstr "Создание образа ISO"
 
@@ -547,3 +547,27 @@ msgstr "Сохранение диска восстановления на DVD"
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Сохранение диска восстановления на USB-флэш"
+
+#~ msgid "Welcome"
+#~ msgstr "Добро пожаловать!"
+
+#~ msgid "File Name: "
+#~ msgstr "Название файла: "
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Вставка пакетов FISH"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Это приложение предназначено для создания диска восстановления для возврата "
+#~ "компьютера к фабричному состоянию. Возможно создание либо USB, либо DVD "
+#~ "дисков."
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>Создать диск восстановления Dell?</b></big>"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Неверный раздел восстановления"

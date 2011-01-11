@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-18 16:27-0600\n"
+"POT-Creation-Date: 2010-12-26 23:04-0600\n"
 "PO-Revision-Date: 2010-12-05 15:35+0000\n"
 "Last-Translator: Daniel Schury <das.surst@googlemail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -210,35 +210,35 @@ msgstr "Nicht in ISO oder Git-Baum vorhanden"
 msgid "All SRVs must be filled to proceed."
 msgstr "Alle SRVs müssen ausgefüllt werden, um fortzufahren."
 
-#: ../Dell/recovery_backend.py:284
+#: ../Dell/recovery_backend.py:282
 msgid "Processing FISH packages"
 msgstr "FISH-Pakete werden verarbeitet"
 
-#: ../Dell/recovery_backend.py:403
+#: ../Dell/recovery_backend.py:404
 msgid "Adding in base image"
 msgstr "Dem Basisabbild hinzufügen"
 
-#: ../Dell/recovery_backend.py:411
+#: ../Dell/recovery_backend.py:412
 msgid "Overlaying FID content"
 msgstr "FID-Inhalt wird überlagert"
 
-#: ../Dell/recovery_backend.py:761
+#: ../Dell/recovery_backend.py:773
 msgid "Preparing nested image"
 msgstr "Eingebettete Abbilder werden vorbereitet"
 
-#: ../Dell/recovery_backend.py:785
+#: ../Dell/recovery_backend.py:797
 msgid "Building Dell Utility Partition"
 msgstr "Dell-Werkzeugpartition wird erstellt"
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:861
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "UUID wird neu erstellt / initramfs wird neu erzeugt"
 
-#: ../Dell/recovery_backend.py:878
+#: ../Dell/recovery_backend.py:890
 msgid "Building GRUB core image"
 msgstr "GRUB-Kernabbild wird gebaut"
 
-#: ../Dell/recovery_backend.py:954
+#: ../Dell/recovery_backend.py:966
 msgid "Building ISO"
 msgstr "ISO wird erstellt"
 
@@ -621,3 +621,59 @@ msgstr ""
 #~ msgstr ""
 #~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch einmal "
 #~ "versuchen?"
+
+#~ msgid ""
+#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
+#~ "detection."
+#~ msgstr ""
+#~ " in Befehlszeilenargumenten. Auf DeviceKit- oder HAL-basierte Erkennung "
+#~ "zurückgreifen."
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "FISH-Pakete werden eingefügt"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Diese Anwendung wird ein Rettungsmedium für das Betriebssystem erstellen, "
+#~ "das zum Zurücksetzen des Rechners auf die Werkseinstellungen verwendet "
+#~ "werden kann. Sie haben die Möglichkeit, einen USB-Stick oder ein DVD-Abbild "
+#~ "zu erstellen."
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>Dell-Wiederherstellungsmedium erstellen?</b></big>"
+
+#~ msgid ""
+#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
+#~ "the event that you are generating from an existing BTO image, you can use "
+#~ "the framework built into that image."
+#~ msgstr ""
+#~ "Das FID-Gerüst ist der erste Teil, der über das ursprüngliche Abbild gelegt "
+#~ "wird. Falls Sie aus einem existierenden BTO-Abbild erstellen, können Sie das "
+#~ "Gerüst, das in dieses Abbild gebaut wurde, benutzen."
+
+#~ msgid ""
+#~ "This application will integrate a Dell OEM FID framework & driver package "
+#~ "set into a customized OS media image.  You will have the option to create an "
+#~ "USB key or DVD image."
+#~ msgstr ""
+#~ "Diese Anwendung wird ein Dell-OEM-FID-Gerüst- und Treiberpaketsatz in ein "
+#~ "angepasstes Betriebssystemmedienabbild integrieren.  Ihnen wird angeboten, "
+#~ "einen USB-Stick oder ein DVD-Abbild zu erstellen."
+
+#~ msgid "Add dell-recovery"
+#~ msgstr "dell-recovery hinzufügen"
+
+#~ msgid ""
+#~ "The combination of the image and GIT tree you have provided do not supply "
+#~ "the necessary dell-recovery package.  It will have to be injected into the "
+#~ "image separately."
+#~ msgstr ""
+#~ "Die Kombination aus gewähltem Abbild und GIT-Baum enthält nicht das "
+#~ "benötigte Paket dell-recovery. Dieses muss nun manuell ins Abbild eingefügt "
+#~ "werden."
+
+#~ msgid "Calculating FISH MD5SUMs"
+#~ msgstr "FISH MD5-Summen werden berechnet"

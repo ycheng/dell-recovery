@@ -11,11 +11,11 @@ msgstr ""
 "PO-Revision-Date: 2010-12-14 05:38+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: uk\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2011-01-11 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -113,12 +113,9 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:29001
-#, fuzzy
-#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
 "ERROR: This recovery media only functions on Dell and Alienware systems."
 msgstr ""
-"ПОМИЛКА: цим носієм можна скористатися лише у системах виробництва Dell."
 
 #. Type: text
 #. Description
@@ -223,6 +220,97 @@ msgstr ""
 #: ../dell-recovery.templates:44001
 msgid "Restore #OS# to factory state"
 msgstr ""
+
+#~ msgid "This window will close automatically when the process is complete. "
+#~ msgstr "Це вікно буде автоматично закрито після завершення операції. "
+
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "Створити носій для відновлення Dell?"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Некоректний допоміжний розділ"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Некоректний розділ для відновлення"
+
+#~ msgid "Permission Denied"
+#~ msgstr "Відмовлено у доступі"
+
+#~ msgid "Opening Burner"
+#~ msgstr "Відкриття програми запису"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "Процес створення носія для відновлення завершено"
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "Не вдалося встановити зв’язок з D-Bus"
+
+#~ msgid "Welcome"
+#~ msgstr "Вітаємо"
+
+#~ msgid "Choose Media Type"
+#~ msgstr "Вибір типу носія"
+
+#~ msgid "ISO Image"
+#~ msgstr "Образ ISO"
+
+#~ msgid "Media Type: "
+#~ msgstr "Тип носія: "
+
+#~ msgid "Utility Partition: "
+#~ msgstr "Допоміжний розділ: "
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Розділ для відновлення: "
+
+#~ msgid "Confirm Selections"
+#~ msgstr "Підтвердити вибір"
+
+#~ msgid "Building ISO"
+#~ msgstr "Створення ISO"
+
+#~ msgid "System policy prevents reading raw devices"
+#~ msgstr ""
+#~ "Системними правилами заборонено читання з пристроїв з необробленими даними"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Створення носія для відновлення Dell"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<замінник дії>"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you "
+#~ "like to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "Виявлено готовий образ (ймовірно, створений під час попереднього "
+#~ "запуску). Бажаєте вилучити цю стару копію і повторно створити образ?"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr ""
+#~ "Ви справді бажаєте скасувати операцію зі створення носія для відновлення?"
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Скасування створення носія для відновлення"
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "Диск DVD+/-RW"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Без носія, створити образ ISO"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to "
+#~ "restore the computer to its factory shipped state.  You will have the "
+#~ "option to create an USB key or DVD image."
+#~ msgstr ""
+#~ "За допомогою цієї програми можна створити носій для відновлення ОС, яким "
+#~ "можна буде скористатися для відновлення операційної системи комп’ютера до "
+#~ "стану, у якому вам її передав виробник обладнання. Ви зможете створити "
+#~ "відновлювальний флеш-диск USB або диск DVD."
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "Флеш-диск USB"
 
 #~ msgid ""
 #~ "ERROR: This media only functions on Dell systems booted directly into "

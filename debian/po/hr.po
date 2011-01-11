@@ -11,11 +11,11 @@ msgstr ""
 "PO-Revision-Date: 2010-12-14 05:00+0000\n"
 "Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
+"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hr\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2011-01-11 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -108,11 +108,9 @@ msgstr "Ova mogućnost vam dopušta promjenu veličine postojećih particija."
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:29001
-#, fuzzy
-#| msgid "ERROR: This media is only valid on Dell systems."
 msgid ""
 "ERROR: This recovery media only functions on Dell and Alienware systems."
-msgstr "GREŠKA: Ovaj je medij važeći samo na Dellovim sustavima."
+msgstr ""
 
 #. Type: text
 #. Description
@@ -213,6 +211,91 @@ msgstr ""
 #: ../dell-recovery.templates:44001
 msgid "Restore #OS# to factory state"
 msgstr ""
+
+#~ msgid "Permission Denied"
+#~ msgstr "Pristup odbijen"
+
+#~ msgid "Welcome"
+#~ msgstr "Dobrodošli"
+
+#~ msgid "Choose Media Type"
+#~ msgstr "Odaberite vrstu medija"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Kriva uslužna particija"
+
+#~ msgid "Cannot connect to dbus"
+#~ msgstr "Spajanje na dbus nije moguće"
+
+#~ msgid "Opening Burner"
+#~ msgstr "Otvaranje snimača"
+
+#~ msgid "Recovery Media Creation Process Complete"
+#~ msgstr "Proces izrade medija oporavka dovršen"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Kriva particija oporavka"
+
+#~ msgid "Recovery Partition: "
+#~ msgstr "Particija oporavka: "
+
+#~ msgid "Media Type: "
+#~ msgstr "Vrsta medija: "
+
+#~ msgid "Confirm Selections"
+#~ msgstr "Potvrdi odabir"
+
+#~ msgid "Utility Partition: "
+#~ msgstr "Uslužna particija: "
+
+#~ msgid "ISO Image"
+#~ msgstr "ISO slika"
+
+#~ msgid "System policy prevents reading raw devices"
+#~ msgstr "Politika sustava sprječava čitanje raw uređaja"
+
+#~ msgid "Building ISO"
+#~ msgstr "Izgradnja ISO-a"
+
+#~ msgid "<activity placeholder>"
+#~ msgstr "<activity placeholder>"
+
+#~ msgid "Dell Recovery Media Creator"
+#~ msgstr "Stvaratelj Dell medija oporavka"
+
+#~ msgid "DVD+/-RW Disc"
+#~ msgstr "DVD+/-RW medij"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to "
+#~ "restore the computer to its factory shipped state.  You will have the "
+#~ "option to create an USB key or DVD image."
+#~ msgstr ""
+#~ "Aplikacija će stvoriti medij oporavka OS-a, koji se može koristiti za "
+#~ "vraćanje računala u tvorničko stanje. Imat ćete mogućnost izrade slike za "
+#~ "USB memoriju ili DVD."
+
+#~ msgid "Cancel Recovery Media Creator"
+#~ msgstr "Otkaži stvaratelja medija oporavka"
+
+#~ msgid "USB Flash Drive"
+#~ msgstr "USB memorija"
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Bez medija, stvori ISO sliku"
+
+#~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
+#~ msgstr "Jeste li sigurni da želite otkazati proces izrade medija oporavka?"
+
+#~ msgid ""
+#~ "An existing image was found (possibly from a previous run).  Would you "
+#~ "like to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "Pronađena je postojeća slika (vjerojatno od prethodnog pokretanja). "
+#~ "Želite li obrisati staru sliku i stvoriti novu?"
+
+#~ msgid "Create Dell Recovery Media?"
+#~ msgstr "Stvoriti Dell medij oporavka?"
 
 #~ msgid "This window will close automatically when the process is complete. "
 #~ msgstr "Ovaj će se prozor automatski zatvoriti kad proces završi. "

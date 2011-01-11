@@ -17,6 +17,7 @@ dell-recovery (0.76) UNRELEASED; urgency=low
     native during stage1.
   * On native BTO compatible images also record the date during stage1.
   * Add a test for bug 700910.  If encountered, skip that phase of install.
+  * Update translations from Launchpad.
 
   [ Bryan Kemp ]
   * Updated Error string for non Dell/Alienware Systems  

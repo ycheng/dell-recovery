@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-11-18 16:27-0600\n"
-"PO-Revision-Date: 2010-04-18 04:18+0000\n"
-"Last-Translator: David Planella <david.planella@ubuntu.com>\n"
+"POT-Creation-Date: 2010-12-26 23:04-0600\n"
+"PO-Revision-Date: 2010-12-14 05:43+0000\n"
+"Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -205,35 +205,35 @@ msgstr "No és a l'ISO o a l'arbre del Git"
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
-#: ../Dell/recovery_backend.py:284
+#: ../Dell/recovery_backend.py:282
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:403
+#: ../Dell/recovery_backend.py:404
 msgid "Adding in base image"
 msgstr "S'està afegint a la imatge base"
 
-#: ../Dell/recovery_backend.py:411
+#: ../Dell/recovery_backend.py:412
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:761
+#: ../Dell/recovery_backend.py:773
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:785
+#: ../Dell/recovery_backend.py:797
 msgid "Building Dell Utility Partition"
 msgstr "S'està creant la partició d'eines de Dell"
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:861
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "S'està regenerant l'UUID / recreant l'initramfs"
 
-#: ../Dell/recovery_backend.py:878
+#: ../Dell/recovery_backend.py:890
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:954
+#: ../Dell/recovery_backend.py:966
 msgid "Building ISO"
 msgstr "S'està creant l'ISO"
 
@@ -537,3 +537,22 @@ msgstr ""
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr ""
+
+#~ msgid "Welcome"
+#~ msgstr "Us donem la benvinguda"
+
+#~ msgid ""
+#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
+#~ "detection."
+#~ msgstr ""
+#~ " en arguments de la línia d'ordres. S'intentarà la detecció basada en el "
+#~ "DeviceKit o en la HAL."
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Partició d'eines no vàlida"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Partició de recuperació no vàlida"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "S'estan afegint els paquets FISH"

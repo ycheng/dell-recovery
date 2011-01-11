@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-11-18 16:27-0600\n"
+"POT-Creation-Date: 2010-12-26 23:04-0600\n"
 "PO-Revision-Date: 2010-04-17 00:59+0000\n"
 "Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-14 05:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -204,35 +204,35 @@ msgstr "Non está presente na ISO ou na árbore de GIT"
 msgid "All SRVs must be filled to proceed."
 msgstr "Todas as SRVs debe completarse para continuar."
 
-#: ../Dell/recovery_backend.py:284
+#: ../Dell/recovery_backend.py:282
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:403
+#: ../Dell/recovery_backend.py:404
 msgid "Adding in base image"
 msgstr "Engadindo á imaxe base"
 
-#: ../Dell/recovery_backend.py:411
+#: ../Dell/recovery_backend.py:412
 msgid "Overlaying FID content"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:761
+#: ../Dell/recovery_backend.py:773
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:785
+#: ../Dell/recovery_backend.py:797
 msgid "Building Dell Utility Partition"
 msgstr "Construindo a partición de utilidade de Dell"
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:861
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Rexerando o UUID / Reconstruindo o initramfs"
 
-#: ../Dell/recovery_backend.py:878
+#: ../Dell/recovery_backend.py:890
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:954
+#: ../Dell/recovery_backend.py:966
 msgid "Building ISO"
 msgstr "Creando a imaxe ISO"
 
@@ -557,3 +557,54 @@ msgstr "Gardar o soporte de recuperación nun DVD"
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Gardar o soporte de recuperación nunha unidade flash USB externa"
+
+#~ msgid ""
+#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
+#~ "detection."
+#~ msgstr ""
+#~ " en argumentos de liñas de orde. Voltando á detección baseada en DeviceKit "
+#~ "ou HAL."
+
+#~ msgid "Welcome"
+#~ msgstr "Benvido/a"
+
+#~ msgid "Invalid utility partition"
+#~ msgstr "Partición de utilidades incorrecta"
+
+#~ msgid "Invalid recovery partition"
+#~ msgstr "Partición de recuperación incorrecta"
+
+#~ msgid "Inserting FISH packages"
+#~ msgstr "Inserindo paquetes de FISH"
+
+#~ msgid ""
+#~ "This application will create OS Recovery Media that can be used to restore "
+#~ "the computer to its factory shipped state.  You will have the option to "
+#~ "create an USB key or DVD image."
+#~ msgstr ""
+#~ "Este aplicativo crea soportes de recuperación do sistema que pode usar para "
+#~ "devolver o equipo ao estado de fábrica. Existe a opción de crear un disco "
+#~ "USB ou unha imaxe de DVD."
+
+#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
+#~ msgstr "<big><b>Crear un soporte de recuperación de Dell?</b></big>"
+
+#~ msgid "Add dell-recovery"
+#~ msgstr "Engadir dell-recovery"
+
+#~ msgid ""
+#~ "The combination of the image and GIT tree you have provided do not supply "
+#~ "the necessary dell-recovery package.  It will have to be injected into the "
+#~ "image separately."
+#~ msgstr ""
+#~ "A combinación da imaxe e a árbore GIT que forneceu non fornece o paquete "
+#~ "dell-recovery necesario. Ten que estar inxectado na imaxe de forma separada."
+
+#~ msgid ""
+#~ "This application will integrate a Dell OEM FID framework & driver package "
+#~ "set into a customized OS media image.  You will have the option to create an "
+#~ "USB key or DVD image."
+#~ msgstr ""
+#~ "Este aplicativo integrará o marco de traballo Dell OEM FID e o conxunto de "
+#~ "paquetes de controlador nunha imaxe do OS personalizado. Terá a opción de "
+#~ "crear unha chave USB ou unha imaxe de DVD."
