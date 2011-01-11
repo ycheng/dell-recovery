@@ -13,6 +13,8 @@ dell-recovery (0.76) UNRELEASED; urgency=low
   * If a package specifies a modaliases field, don't mark it for automatic
     installation if it's in debs/main.
   * Mark Jockey to install both free and non-free drivers.
+  * On native BTO compatible images make sure to record in bto.xml that they're
+    native during stage1.
 
   [ Bryan Kemp ]
   * Updated Error string for non Dell/Alienware Systems  

@@ -1427,6 +1427,7 @@ manually to proceed.")
         path = os.path.join(CDROM_MOUNT, 'bto.xml')
         if os.path.exists(path):
             self.xml_obj.load_bto_xml(path)
+        bto_version = self.xml_obj.fetch_node_contents('iso')
         with misc.raised_privileges():
             dr_version = magic.check_version('dell-recovery')
             ubi_version = magic.check_version('ubiquity')
@@ -1438,6 +1439,8 @@ manually to proceed.")
             if os.path.exists('/var/log/installer/debug'):
                 with open('/var/log/installer/debug', 'r') as rfd:
                     self.xml_obj.replace_node_contents('debug', rfd.read())
+            if not bto_version:
+                self.xml_obj.replace_node_contents('iso', '[native]')
             self.xml_obj.write_xml('/mnt/bto.xml')
         misc.execute_root('umount', '/mnt')
 
