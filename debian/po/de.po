@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-24 16:31-0600\n"
+"POT-Creation-Date: 2011-01-10 19:55-0600\n"
 "PO-Revision-Date: 2010-12-14 04:29+0000\n"
 "Last-Translator: Daniel Schury <das.surst@googlemail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-28 04:44+0000\n"
+"X-Launchpad-Export-Date: 2011-01-11 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -115,11 +115,8 @@ msgstr ""
 #. Description
 #: ../dell-recovery.templates:29001
 msgid ""
-"ERROR: This media only functions on Dell systems booted directly into "
-"recovery mode."
+"ERROR: This recovery media only functions on Dell and Alienware systems."
 msgstr ""
-"FEHLER: Dieses Medium funktioniert nur auf Dell Systemen, welche direkt in "
-"den Wiederherstellungsmodus gestartet wurden."
 
 #. Type: text
 #. Description
@@ -366,3 +363,10 @@ msgstr ""
 
 #~ msgid "No media, create ISO image"
 #~ msgstr "Kein Medium, ISO-Abbild erzeugen"
+
+#~ msgid ""
+#~ "ERROR: This media only functions on Dell systems booted directly into "
+#~ "recovery mode."
+#~ msgstr ""
+#~ "FEHLER: Dieses Medium funktioniert nur auf Dell Systemen, welche direkt in "
+#~ "den Wiederherstellungsmodus gestartet wurden."

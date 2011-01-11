@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2010-12-24 16:31-0600\n"
+"POT-Creation-Date: 2011-01-10 19:55-0600\n"
 "PO-Revision-Date: 2010-12-14 05:38+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
+"X-Launchpad-Export-Date: 2011-01-11 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #. Type: text
@@ -113,11 +113,8 @@ msgstr ""
 #. Description
 #: ../dell-recovery.templates:29001
 msgid ""
-"ERROR: This media only functions on Dell systems booted directly into "
-"recovery mode."
+"ERROR: This recovery media only functions on Dell and Alienware systems."
 msgstr ""
-"ПОМИЛКА: цей носій працюватиме лише у системах Dell, завантажених "
-"безпосередньо у режимі відновлення."
 
 #. Type: text
 #. Description
@@ -313,3 +310,10 @@ msgstr ""
 
 #~ msgid "USB Flash Drive"
 #~ msgstr "Флеш-диск USB"
+
+#~ msgid ""
+#~ "ERROR: This media only functions on Dell systems booted directly into "
+#~ "recovery mode."
+#~ msgstr ""
+#~ "ПОМИЛКА: цей носій працюватиме лише у системах Dell, завантажених "
+#~ "безпосередньо у режимі відновлення."
