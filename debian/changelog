@@ -1,4 +1,4 @@
-dell-recovery (0.77) UNRELEASED; urgency=low
+dell-recovery (0.77) natty; urgency=low
 
   * bootstrap: set the proper types in the population array.  New GTK seems to be
     more picky.
