@@ -538,7 +538,7 @@
       <!-- column-name device -->
       <column type="gchararray"/>
       <!-- column-name size -->
-      <column type="gchararray"/>
+      <column type="guint64"/>
       <!-- column-name information -->
       <column type="gchararray"/>
     </columns>

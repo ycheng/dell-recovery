@@ -1,3 +1,10 @@
+dell-recovery (0.77) UNRELEASED; urgency=low
+
+  * bootstrap: set the proper types in the population array.  New GTK seems to be
+    more picky.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 12 Jan 2011 10:33:12 -0600
+
 dell-recovery (0.76) natty; urgency=low
 
   [ Mario Limonciello ]
