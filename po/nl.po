@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-26 23:04-0600\n"
-"PO-Revision-Date: 2010-04-29 08:28+0000\n"
-"Last-Translator: Hannie Dumoleyn <Unknown>\n"
+"PO-Revision-Date: 2011-01-11 14:32+0000\n"
+"Last-Translator: Rachid <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
+"X-Launchpad-Export-Date: 2011-01-12 05:02+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -60,7 +60,7 @@ msgstr ""
 
 #: ../Dell/recovery_basic_gtk.py:210
 msgid "Unable to proceed"
-msgstr ""
+msgstr "Kan niet doorgaan"
 
 #: ../Dell/recovery_basic_gtk.py:211
 msgid ""
@@ -218,7 +218,7 @@ msgstr "Overlayen FID-inhoud"
 
 #: ../Dell/recovery_backend.py:773
 msgid "Preparing nested image"
-msgstr ""
+msgstr "Genester image voorbereiden"
 
 #: ../Dell/recovery_backend.py:797
 msgid "Building Dell Utility Partition"
@@ -230,7 +230,7 @@ msgstr "Regenereren UUID/initramfs opnieuw opbouwen"
 
 #: ../Dell/recovery_backend.py:890
 msgid "Building GRUB core image"
-msgstr ""
+msgstr "GRUB kern-image voorbereiden"
 
 #: ../Dell/recovery_backend.py:966
 msgid "Building ISO"
@@ -254,7 +254,7 @@ msgstr "Verzoek om de backend te sluiten"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "Restore to Factory state"
-msgstr ""
+msgstr "Fabrieksinstellingen terugzetten"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:6
 msgid "System policy prevents changing system bootup"
