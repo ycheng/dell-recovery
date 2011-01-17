@@ -1,3 +1,10 @@
+dell-recovery (0.78) UNRELEASED ; urgency=low
+
+  * Correct a rounding error when calculating the size of the resultant utility
+    partition during recovery that would cause otherwise failed recoveries.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 17 Jan 2011 15:03:13 -0600
+
 dell-recovery (0.77) natty; urgency=low
 
   * bootstrap: set the proper types in the population array.  New GTK seems to be

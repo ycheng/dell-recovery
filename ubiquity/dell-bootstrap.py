@@ -1235,7 +1235,7 @@ manually to proceed.")
                     #in a string
                     up_size = magic.fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, fname)])
                     #in bytes
-                    up_size = int(up_size.split()[1])
+                    up_size = float(up_size.split()[1])
                     #in mbytes
                     up_size = up_size / 1000000
 
