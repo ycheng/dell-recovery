@@ -41,6 +41,7 @@ import syslog
 import glob
 import zipfile
 import tarfile
+from apt.cache import Cache
 
 NAME = 'dell-bootstrap'
 BEFORE = 'language'
@@ -618,7 +619,6 @@ class Page(Plugin):
         #Check if we have FIST on the system.  FIST indicates this is running
         #through factory process (of some sort) and the UP will be written
         #out outside of our control
-        from apt.cache import Cache
         cache = Cache()
         for key in cache.keys():
             if key == 'fist' and cache[key].is_installed:
@@ -1611,7 +1611,6 @@ class Install(InstallPlugin):
 
     def remove_unwanted_drivers(self):
         '''Removes drivers that were preseeded to not used for postinstall'''
-        to_remove = []
         drivers = ''
 
         try:
@@ -1620,19 +1619,21 @@ class Install(InstallPlugin):
             pass
 
         if len(drivers) > 0:
-            from apt.cache import Cache
-            cache = Cache()
             for driver in drivers:
-                if 'nvidia' in driver:
-                    for key in cache.keys():
-                        if 'nvidia' in key and cache[key].is_installed:
-                            to_remove.append(key)
-                elif cache.has_key('%s-modaliases' % driver) and \
-                   cache['%s-modaliases' % driver].is_installed:
-                    to_remove.append('%s-modaliases' % driver)
-            del cache
+                if driver:
+                    with open (os.path.join(self.target, '/usr/share/jockey/modaliases/', driver), 'w') as wfd:
+                        wfd.write('reset %s\n' % driver)
 
-        return to_remove
+    def mark_upgrades(self):
+        '''Mark packages that can upgrade to upgrade during install'''
+        cache = Cache()
+        to_install = []
+        for key in cache.keys():
+            if cache[key].is_upgradable:
+                to_install.append(key)
+        del cache
+        return to_install
+
 
     def g2ldr(self):
         '''Builds a grub2 based loader to allow booting a logical partition'''
@@ -1749,7 +1750,9 @@ class Install(InstallPlugin):
         elif rec_part:
             to_install.append('dell-recovery')
 
-        to_remove += self.remove_unwanted_drivers()
+        to_install += self.mark_upgrades()
+
+        self.remove_unwanted_drivers()
                     
         self.remove_ricoh_mmc()
 
