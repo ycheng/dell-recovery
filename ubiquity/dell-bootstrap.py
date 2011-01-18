@@ -456,7 +456,11 @@ class Page(Plugin):
             return
 
         #test for bug 700910.  if around, then don't try to install grub.
-        test700910 = magic.fetch_output(['grub-probe', '--target=device', self.device + STANDARD_RP_PARTITION]).strip()
+        try:
+            test700910 = magic.fetch_output(['grub-probe', '--target=device', self.device + STANDARD_RP_PARTITION]).strip()
+        except Exception, e:
+            self.log("Exception: %s." % str(e))
+            test700910 = 'aufs'
         if test700910 == 'aufs':
             self.log("Bug 700910 detected.  Aborting GRUB installation.")
             return
