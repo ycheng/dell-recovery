@@ -5,6 +5,11 @@ dell-recovery (0.78) UNRELEASED; urgency=low
   * Add a more in depth workaround for bug 700910.
   * Create 'reset' modalias files to block driver installation.
   * Automatically mark all upgradable packages in the apt cache for upgrade.
+  * Store ISOs created during OOBE in the user's Downloads directory
+  * Add an optional method to directly invoke the burner during first boot.
+    (disabled initially)
+  * Attempt to invoke 'usb-creator-gtk' as the user 'oem' to help work around
+    SIGSEGV's happening when launched as root.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 17 Jan 2011 15:03:13 -0600
 

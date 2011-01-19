@@ -25,6 +25,7 @@
 
 from ubiquity.plugin import PluginUI, InstallPlugin, Plugin
 from ubiquity import i18n
+import pwd
 import subprocess
 import os
 import Dell.recovery_common as magic
@@ -155,6 +156,7 @@ class Install(InstallPlugin):
         """Perform actual install time activities for oem-config"""
         if not 'UBIQUITY_OEM_USER_CONFIG' in os.environ:
             return
+        delayed_burn = False
 
         #can also expect that this was mounted at /cdrom during OOBE
         rpart = magic.find_factory_rp_stats()
@@ -179,7 +181,13 @@ class Install(InstallPlugin):
             dvd, usb = magic.find_burners()
             upart, rpart  = magic.find_partitions('', '')
             self.index = 0
-            fname = os.path.join('/tmp/dell.iso')
+
+            #build all the user's home directories a little earlier than normal
+            user = progress.get('passwd/username')
+            subprocess.call(['su', user, '-c', 'xdg-user-dirs-update'])
+            directory = magic.fetch_output(['su', user, '-c', '/usr/bin/xdg-user-dir DOWNLOAD']).strip()
+            fname = os.path.join(directory, 'factory_image.iso')
+
             try:
                 bus = dbus.SystemBus()
                 dbus_iface = dbus.Interface(bus.get_object(magic.DBUS_BUS_NAME,
@@ -205,6 +213,9 @@ class Install(InstallPlugin):
                                                     rpart,
                                                     version,
                                                     fname)
+                uid = pwd.getpwnam(user).pw_uid
+                gid = pwd.getpwnam(user).pw_gid
+                os.chown(fname, uid, gid)
             except dbus.DBusException, err:
                 self.log('install function exception while calling backend: %s' % str(err))
                 return
@@ -221,22 +232,35 @@ class Install(InstallPlugin):
                                                                      % str(err))
                     return
 
-            #Launch burning tool
-            if rec_type == "dvd":
-                cmd = ['dbus-launch'] + dvd + [fname]
-            elif rec_type == "usb":
-                cmd = usb + [fname]
-            else:
-                cmd = None
-            if cmd:
-                if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
-                    os.environ.pop('DBUS_SESSION_BUS_ADDRESS')
-                progress.info('dell-recovery/burning')
-                subprocess.call(cmd)
-
-            #Clean up when done
-            if os.path.exists(fname):
-                os.remove(fname)
+            if rec_type:
+                #Mark burning tool to launch on first login
+                if delayed_burn:
+                    directory = '/home/%s/.config/autostart' % user
+                    if not os.path.exists(directory):
+                        os.makedirs(directory)
+                        os.chown('/home/%s/.config' % user, uid, gid)
+                        os.chown(directory, uid, gid)
+                    fname = os.path.join(directory, 'dell-recovery.desktop')
+                    with open('/usr/share/applications/dell-recovery-media.desktop') as rfd:
+                        with open(fname, 'w') as wfd:
+                            for line in rfd.readlines():
+                                if line.startswith('Exec='):
+                                    line = line.strip() + " --burn --media %s\n" % rec_type
+                                wfd.write(line)
+                    os.chown(fname, uid, gid)
+                #Launch burning tool
+                else:
+                    if rec_type == "dvd":
+                        cmd = ['dbus-launch'] + dvd + [fname]
+                    elif rec_type == "usb":
+                        cmd = ['su', 'oem', '-c'] + [" ".join(usb + [fname])]
+                    else:
+                        cmd = None
+                    if cmd:
+                        if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
+                            os.environ.pop('DBUS_SESSION_BUS_ADDRESS')
+                        progress.info('dell-recovery/burning')
+                        subprocess.call(cmd)
 
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
 
