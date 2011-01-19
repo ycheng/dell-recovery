@@ -1,4 +1,4 @@
-dell-recovery (0.78) UNRELEASED; urgency=low
+dell-recovery (0.78) natty; urgency=low
 
   * Correct a rounding error when calculating the size of the resultant utility
     partition during recovery that would cause otherwise failed recoveries.
@@ -11,7 +11,7 @@ dell-recovery (0.78) UNRELEASED; urgency=low
   * Attempt to invoke 'usb-creator-gtk' as the user 'oem' to help work around
     SIGSEGV's happening when launched as root.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 17 Jan 2011 15:03:13 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 18 Jan 2011 20:26:15 -0600
 
 dell-recovery (0.77) natty; urgency=low
 
