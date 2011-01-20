@@ -2,6 +2,8 @@ dell-recovery (0.79) UNRELEASED; urgency=low
 
   * Update UI setting logic to the current names of sessions in 11.04. It will
     still need to be adjusted based upon requirements.
+  * Run usb-creator-gtk under dbus-launch too.  It seems to allow more errors
+    to propogate up when necessary.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 20 Jan 2011 06:05:55 -0600
 

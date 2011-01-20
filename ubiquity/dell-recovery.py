@@ -252,15 +252,12 @@ class Install(InstallPlugin):
                 else:
                     if rec_type == "dvd":
                         cmd = ['dbus-launch'] + dvd + [fname]
-                    elif rec_type == "usb":
-                        cmd = ['su', 'oem', '-c'] + [" ".join(usb + [fname])]
                     else:
-                        cmd = None
-                    if cmd:
-                        if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
-                            os.environ.pop('DBUS_SESSION_BUS_ADDRESS')
-                        progress.info('dell-recovery/burning')
-                        subprocess.call(cmd)
+                        cmd = ['dbus-launch'] + usb + [fname]
+                    if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
+                        os.environ.pop('DBUS_SESSION_BUS_ADDRESS')
+                    progress.info('dell-recovery/burning')
+                    subprocess.call(cmd)
 
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
 
