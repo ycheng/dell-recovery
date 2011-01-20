@@ -90,23 +90,23 @@ class Install(InstallPlugin):
                         break
 
             if pci_blacklist:
-                self.debug("%s: Sandy Bridge PCI device %s matched. setting to ude" % (NAME, pci))
-                ui = 'ude'
-            elif 'atom' in cpu:
-                #See https://bugs.launchpad.net/dell/+bug/639856 for why this is here
-                if 'une-efl' in uies:
-                    ui = 'une-efl'
+                if 'unity-2d' in uies:
+                    ui = 'unity-2d'
                 else:
-                    ui = 'une'
-                self.debug("%s: Atom class CPU %s matched. setting to %s" % (NAME, cpu, ui))
+                    ui = 'gnome-2d'
+                self.debug("%s: Sandy Bridge PCI device %s matched. setting to %s" % (NAME, pci, uies[ui]))
+            elif 'atom' in cpu:
+                ui = 'gnome'
+                self.debug("%s: Atom class CPU %s matched. setting to %s" % (NAME, cpu, uies[ui]))
             elif lob in BIZ_CLIENT:
-                self.debug("%s: Business Client LOB %s matched. setting to ude" % (NAME, lob))
-                ui = 'ude'
+                ui = 'gnome-classic'
+                self.debug("%s: Business Client LOB %s matched. setting to %s" % (NAME, lob, uies[ui]))
             else:
-                ui = 'une'
-                self.debug("%s: Falling back to une." % NAME)
+                ui = 'gnome'
+                self.debug("%s: Falling back to %s." % (NAME, uies[ui]))
         else:
-            self.debug("%s: explicitly setting session to %s." %(NAME, ui))
+            if ui in uies:
+                self.debug("%s: explicitly setting session to %s." %(NAME, uies[ui]))
 
         if ui in uies and os.path.exists(self.target + '/usr/lib/gdm/gdm-set-default-session'):
             install_misc.chrex(self.target, '/usr/lib/gdm/gdm-set-default-session', ui)
