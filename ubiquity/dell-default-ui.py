@@ -74,10 +74,10 @@ class Install(InstallPlugin):
         #Dynamic tests
         if ui == 'dynamic':
             pci_blacklist = False
-            for pci in SANDY_BRIDGE:
-                if match_system_device('pci', '0x8086', pci):
-                    pci_blacklist = True
-                    break
+            #for pci in SANDY_BRIDGE:
+            #    if match_system_device('pci', '0x8086', pci):
+            #        pci_blacklist = True
+            #        break
 
             with open('/sys/class/dmi/id/product_name','r') as dmi:
                 lob = dmi.readline().lower().split()[0]
@@ -89,21 +89,23 @@ class Install(InstallPlugin):
                         cpu = line.split(':')[1].strip().lower()
                         break
 
+            if 'unity-2d' in uies:
+                ui_2d = 'unity-2d'
+            else:
+                ui_2d = 'gnome-2d'
+
             if pci_blacklist:
-                if 'unity-2d' in uies:
-                    ui = 'unity-2d'
-                else:
-                    ui = 'gnome-2d'
-                self.debug("%s: Sandy Bridge PCI device %s matched. setting to %s" % (NAME, pci, uies[ui]))
-            elif 'atom' in cpu:
-                ui = 'gnome'
-                self.debug("%s: Atom class CPU %s matched. setting to %s" % (NAME, cpu, uies[ui]))
-            elif lob in BIZ_CLIENT:
-                ui = 'gnome-classic'
-                self.debug("%s: Business Client LOB %s matched. setting to %s" % (NAME, lob, uies[ui]))
+                ui = ui_2d
+                self.debug("%s: Blacklisted PCI device %s matched. setting to %s" % (NAME, pci, uies[ui]))
+            #elif 'atom' in cpu:
+            #    ui = 'gnome'
+            #    self.debug("%s: Atom class CPU %s matched. setting to %s" % (NAME, cpu, uies[ui]))
+            #elif lob in BIZ_CLIENT:
+            #    ui = 'gnome-classic'
+            #    self.debug("%s: Business Client LOB %s matched. setting to %s" % (NAME, lob, uies[ui]))
             else:
                 ui = 'gnome'
-                self.debug("%s: Falling back to %s." % (NAME, uies[ui]))
+                self.debug("%s: Setting UI to default: %s." % (NAME, uies[ui]))
         else:
             if ui in uies:
                 self.debug("%s: explicitly setting session to %s." %(NAME, uies[ui]))
