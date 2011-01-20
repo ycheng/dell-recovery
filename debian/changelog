@@ -1,4 +1,4 @@
-dell-recovery (0.79) UNRELEASED; urgency=low
+dell-recovery (0.79) natty; urgency=low
 
   * Update UI setting logic to the current names of sessions in 11.04. It will
     still need to be adjusted based upon requirements.
@@ -6,7 +6,7 @@ dell-recovery (0.79) UNRELEASED; urgency=low
     to propogate up when necessary.
   * Disable UI overrides.  Default to Unity on all devices for now.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 20 Jan 2011 06:05:55 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 20 Jan 2011 15:54:44 -0600
 
 dell-recovery (0.78) natty; urgency=low
 
