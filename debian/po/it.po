@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2011-01-10 19:55-0600\n"
-"PO-Revision-Date: 2010-12-14 05:16+0000\n"
+"PO-Revision-Date: 2011-01-21 10:37+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 05:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-22 04:59+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #. Type: text
 #. Description
@@ -115,6 +115,8 @@ msgstr ""
 msgid ""
 "ERROR: This recovery media only functions on Dell and Alienware systems."
 msgstr ""
+"Errore: questo supporto di ripristino funziona solo su sistemi Dell e "
+"Alienware."
 
 #. Type: text
 #. Description
