@@ -54,6 +54,11 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
         IFHALT "(FAIL) Report to logs.. Done!"
         /cdrom/scripts/chroot-scripts/FAIL-SCRIPT
     fi
+
+    #Check if we'll display OIE
+    if grep -q oie /proc/cmdline 2>&1 >/dev/null; then
+        /usr/share/dell/oie/oie.py fail
+    fi
 fi
 
 IFHALT "(FAIL) Clean-Up.. Done!"

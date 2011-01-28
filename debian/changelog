@@ -1,3 +1,10 @@
+dell-recovery (0.80) UNRELEASED; urgency=low
+
+  * If the kernel command line option 'oie' is found, enable OIE
+    green/red screen.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 27 Jan 2011 22:44:40 -0800
+
 dell-recovery (0.79) natty; urgency=low
 
   * Update UI setting logic to the current names of sessions in 11.04. It will
