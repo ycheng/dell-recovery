@@ -42,7 +42,9 @@ class FidTag:
     def __init__(self, tag):
         self.tag = tag
         # data format: 10.04_A01
-        self.lsb_release, self.revision = tag.name.split('_')
+        if hasattr(tag, 'name'):
+            tag = tag.name
+        self.lsb_release, self.revision = tag.split('_')
         self.year, self.month = self.lsb_release.split('.')
 
         # so much for duck typing, have to cast here or the comparisons
@@ -204,8 +206,10 @@ def config_dell_recovery_package(callback, base, target_repo, dell_deb):
     ''' required logic for the dell installer to locate the
         correct dell recovery deb and then incorporate this into
         the BTO iso.'''
+    if target_repo:
+        target_repo = target_repo.git.git_dir
 
-    if callback(base, target_repo.git.git_dir) and dell_deb == None:
+    if callback(base, target_repo) and dell_deb == None:
         print 'Using ISO/FID dell-recovery package'
         return ''
 
@@ -271,38 +275,42 @@ if __name__ == '__main__':
         (bto_version, distributer,
             release, arch, output) = iface.query_iso_information(base)
 
-        # decorate the git tags with our FID specific class
-        repo = git.Repo(REPO)
-        tags = [FidTag(t) for t in repo.tags]
-
-        # tags array is no longer used after this block so
-        # don't worry about it being over written
-        if options.tag == None:
-            tags = [t for t in tags if t.lsb_release == release]
-            tags.sort()
-            current_tag = tags.pop()
-            print 'FID tag unspecified, using the latest: %s' % current_tag
+        if bto_version == '[native]':
+            target_repo = ''
+            current_tag = FidTag(release + '_A00')
         else:
-            match = False
-            for tag in tags:
-                print tag
-                if options.tag.strip() ==  str(tag):
-                    match = True
-                    current_tag = tag
-                    break
-
-            if match is False:
-                print >> sys.stderr, \
-                    'Error: unable to find match FID tag in current tree '\
-                    'named: %s' % options.tag.strip()
-                sys.exit(1)
-
-        # our 'working' git repo
-        target_repo = clone_target_repo(repo)
-
-        # update the tree to point to the specified tag
-        target_repo.git.execute(('git checkout %s' % current_tag).split())
-        print 'Repo for tag %s is set' % current_tag
+            # decorate the git tags with our FID specific class
+            repo = git.Repo(REPO)
+            tags = [FidTag(t) for t in repo.tags]
+    
+            # tags array is no longer used after this block so
+            # don't worry about it being over written
+            if options.tag == None:
+                tags = [t for t in tags if t.lsb_release == release]
+                tags.sort()
+                current_tag = tags.pop()
+                print 'FID tag unspecified, using the latest: %s' % current_tag
+            else:
+                match = False
+                for tag in tags:
+                    print tag
+                    if options.tag.strip() ==  str(tag):
+                        match = True
+                        current_tag = tag
+                        break
+    
+                if match is False:
+                    print >> sys.stderr, \
+                        'Error: unable to find match FID tag in current tree '\
+                        'named: %s' % options.tag.strip()
+                    sys.exit(1)
+    
+            # our 'working' git repo
+            target_repo = clone_target_repo(repo)
+    
+            # update the tree to point to the specified tag
+            target_repo.git.execute(('git checkout %s' % current_tag).split())
+            print 'Repo for tag %s is set' % current_tag
 
         dell_recovery_pkg = config_dell_recovery_package(
                                      iface.query_have_dell_recovery,
@@ -343,6 +351,11 @@ if __name__ == '__main__':
         for fishie in drivers:
             print fishie
 
+        if target_repo:
+            overlay_dir = os.path.join(target_repo.git.git_dir, 'framework')
+        else:
+            overlay_dir = ''
+
         # so what's happening here is two dbus functions are being called,
         # create_ubuntu on behalf of assemble_image. The former handles the
         # actual iso building process, while the later incorporates most
@@ -352,7 +365,7 @@ if __name__ == '__main__':
             'assemble_image',                # Explicit function call
             {'report_progress':Install()},   # handles D-Bus progress updates
             base,                            # baseline iso
-            os.path.join(target_repo.git.git_dir, 'framework'), # overlay repo
+            overlay_dir, # overlay repo
             drivers,                         # driver FISH packages
             '',                              # application FISH packages
             dell_recovery_pkg,               # specify pkg source
@@ -375,5 +388,6 @@ if __name__ == '__main__':
     finally:
         iface.request_exit() # will call atexit in dell backend
         import shutil
-        print 'Removing temporary git tree: %s' % target_repo.git.git_dir
-        shutil.rmtree(target_repo.git.git_dir)
+        if target_repo:
+            print 'Removing temporary git tree: %s' % target_repo.git.git_dir
+            shutil.rmtree(target_repo.git.git_dir)

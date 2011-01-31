@@ -6,6 +6,7 @@ dell-recovery (0.80) UNRELEASED; urgency=low
   * BTO Autobuilder:
     - Touch the file as the user running autobuilder so it's owned by them rather
       than root when finished.
+    - Add support for [native] isos.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 27 Jan 2011 22:44:40 -0800
 
