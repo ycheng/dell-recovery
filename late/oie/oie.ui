@@ -24,7 +24,7 @@
         <child>
           <object class="GtkLabel" id="info">
             <property name="visible">True</property>
-            <property name="label" translatable="yes">Press any key to reboot the system.</property>
+            <property name="label" translatable="yes">Press any key to power off the system.</property>
             <attributes>
               <attribute name="size" value="30000"/>
             </attributes>

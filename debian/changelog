@@ -2,6 +2,7 @@ dell-recovery (0.80) UNRELEASED; urgency=low
 
   * If the kernel command line option 'oie' is found, enable OIE
     green/red screen.
+  * Turn off OIE image runs after install.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 27 Jan 2011 22:44:40 -0800
 

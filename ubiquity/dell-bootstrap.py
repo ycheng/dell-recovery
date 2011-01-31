@@ -939,6 +939,13 @@ class Page(Plugin):
             self.log(str(err))
             user_interface = 'dynamic'
             self.preseed(USER_INTERFACE_QUESTION, user_interface)
+
+        #test for OIE.  OIE images turn off after install
+        with open ('/proc/cmdline', 'r') as rfd:
+            oie = 'oie' in rfd.readline()
+        if oie:
+            self.preseed('ubiquity/poweroff', 'true')
+            self.preseed('ubiquity/reboot',   'false')
             
         #If we detect that we are booted into uEFI mode, then we only want
         #to do a GPT install.  Actually a MBR install would work in most
@@ -1745,7 +1752,7 @@ class Install(InstallPlugin):
                     self.g2ldr()
             except debconf.DebconfError:
                 raise RuntimeError, ("Error determining dual boot layout.")
-                
+
         #install dell-recovery in non dual mode only if there is an RP
         elif rec_part:
             to_install.append('dell-recovery')
