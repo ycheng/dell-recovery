@@ -325,7 +325,19 @@ if __name__ == '__main__':
             if not bto_name.endswith('.iso'):
                 bto_name += '.iso'
 
-        print 'BTO ISO name: %s' % bto_name
+        #try to open the file as a user first so when it's overwritten, it
+        #will be with the correct permissions
+        try:
+            if not os.path.isdir(options.bto_dir):
+                os.makedirs(options.bto_dir)
+            with open(os.path.join(options.bto_dir, bto_name), 'w') as wfd:
+                pass
+        except IOError:
+            #this might have been somwehere that the system doesn't want us
+            #writing files as a user, oh well, we tried
+            pass
+
+        print 'BTO ISO: %s' % os.path.join(options.bto_dir, bto_name)
 
         print 'List of drivers to be mixed into %s' % bto_name
         for fishie in drivers:

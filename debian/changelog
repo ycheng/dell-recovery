@@ -3,6 +3,9 @@ dell-recovery (0.80) UNRELEASED; urgency=low
   * If the kernel command line option 'oie' is found, enable OIE
     green/red screen.
   * Turn off OIE image runs after install.
+  * BTO Autobuilder:
+    - Touch the file as the user running autobuilder so it's owned by them rather
+      than root when finished.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 27 Jan 2011 22:44:40 -0800
 
