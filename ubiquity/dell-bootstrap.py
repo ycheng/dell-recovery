@@ -1377,23 +1377,45 @@ manually to proceed.")
                     uuid = item.split('=')[1]
                     break
 
+        #read in any old seed
+        seed = os.path.join('/mnt', 'preseed', 'dell-recovery.seed')
+        keys = {}
+        if os.path.exists(seed):
+            with open(seed, 'r') as rfd:
+                line = rfd.readline()
+                while line:
+                   line = line.strip()
+                   if line and not line.startswith('#'):
+                       line = line.split()
+                       line.pop(0) # ubiquity or d-i generally
+                       key = line.pop(0)
+                       if '/' in key:
+                           type = line.pop(0)
+                           value = " ".join(line)
+                           keys[key] = value
+                   line = rfd.readline()
+
+        #process the new options
+        for item in self.preseed_config.split():
+            if '=' in item:
+                key, value = item.split('=')
+                keys[key] = value
+
         #write out a dell-recovery.seed configuration file
         with misc.raised_privileges():
             if not os.path.isdir(os.path.join('/mnt', 'preseed')):
                 os.makedirs(os.path.join('/mnt', 'preseed'))
-            seed = open(os.path.join('/mnt', 'preseed', 'dell-recovery.seed'), 'w')
-        seed.write("# Dell Recovery configuration preseed\n")
-        seed.write("# Created on %s\n" % datetime.date.today())
-        seed.write("\n")
-        for item in self.preseed_config.split():
-            if '=' in item:
-                key, value = item.split('=')
-                if value == 'true' or value == 'false':
-                    type = 'boolean'
-                else:
-                    type = 'string'
-                seed.write(" ubiquity %s %s %s\n" % (key, type, value))
-        seed.close()
+            wfd = open(seed, 'w')
+        wfd.write("# Dell Recovery configuration preseed\n")
+        wfd.write("# Created on %s\n" % datetime.date.today())
+        wfd.write("\n")
+        for item in keys:
+            if keys[item] == 'true' or keys[item] == 'false':
+                type = 'boolean'
+            else:
+                type = 'string'
+            wfd.write(" ubiquity %s %s %s\n" % (key, type, keys[item]))
+        wfd.close()
 
         #Check for a grub.cfg - replace as necessary
         files = {'recovery_partition.cfg': 'grub.cfg',

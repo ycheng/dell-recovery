@@ -9,6 +9,8 @@ dell-recovery (0.80) UNRELEASED; urgency=low
     - Add support for [native] isos.
   * Don't propogate dell-recovery configuration options through the command line.
     Instead store them in preseed/dell-recovery.seed on the recovery partition.
+  * Support reading in old preseed/dell-recovery.seed from recovery partition
+    before starting.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 27 Jan 2011 22:44:40 -0800
 
