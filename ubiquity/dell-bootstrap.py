@@ -40,6 +40,7 @@ DBusGMainLoop(set_as_default=True)
 import syslog
 import glob
 import zipfile
+import datetime
 import tarfile
 from apt.cache import Cache
 
@@ -418,7 +419,7 @@ class Page(Plugin):
         self.device = None
         self.device_size = 0
         self.efi = False
-        self.additional_kernel_options = ''
+        self.preseed_config = ''
         self.rp_builder = None
         self.os_part = None
         self.disk_size = None
@@ -1053,7 +1054,7 @@ class Page(Plugin):
             answer = self.ui.get_advanced(question)
             if answer:
                 self.log("advanced option %s set to %s" % (question, answer))
-                self.additional_kernel_options += question + "=" + answer + " "
+                self.preseed_config += question + "=" + answer + " "
                 if question == RP_FILESYSTEM_QUESTION:
                     self.rp_filesystem = answer
                 elif question == DISK_LAYOUT_QUESTION:
@@ -1106,7 +1107,7 @@ class Page(Plugin):
                                             self.dual_layout,
                                             self.disk_layout,
                                             self.efi,
-                                            self.additional_kernel_options,
+                                            self.preseed_config,
                                             size_thread)
                 self.rp_builder.exit = self.exit_ui_loops
                 self.rp_builder.status = self.report_progress
@@ -1156,7 +1157,7 @@ class Page(Plugin):
 ############################
 class RPbuilder(Thread):
     """The recovery partition builder worker thread"""
-    def __init__(self, device, size, rp_type, mem, dual, dual_layout, disk_layout, efi, ako, sizing_thread):
+    def __init__(self, device, size, rp_type, mem, dual, dual_layout, disk_layout, efi, preseed_config, sizing_thread):
         self.device = device
         self.device_size = size
         self.rp_type = rp_type
@@ -1165,7 +1166,7 @@ class RPbuilder(Thread):
         self.dual_layout = dual_layout
         self.disk_layout = disk_layout
         self.efi = efi
-        self.additional_kernel_options = ako
+        self.preseed_config = preseed_config
         self.exception = None
         self.file_size_thread = sizing_thread
         self.xml_obj = BTOxml()
@@ -1376,6 +1377,24 @@ manually to proceed.")
                     uuid = item.split('=')[1]
                     break
 
+        #write out a dell-recovery.seed configuration file
+        with misc.raised_privileges():
+            if not os.path.isdir(os.path.join('/mnt', 'preseed')):
+                os.makedirs(os.path.join('/mnt', 'preseed'))
+            seed = open(os.path.join('/mnt', 'preseed', 'dell-recovery.seed'), 'w')
+        seed.write("# Dell Recovery configuration preseed\n")
+        seed.write("# Created on %s\n" % datetime.date.today())
+        seed.write("\n")
+        for item in self.preseed_config.split():
+            if '=' in item:
+                key, value = item.split('=')
+                if value == 'true' or value == 'false':
+                    type = 'boolean'
+                else:
+                    type = 'string'
+                seed.write(" ubiquity %s %s %s\n" % (key, type, value))
+        seed.close()
+
         #Check for a grub.cfg - replace as necessary
         files = {'recovery_partition.cfg': 'grub.cfg',
                  'common.cfg' : 'common.cfg'} 
@@ -1386,9 +1405,10 @@ manually to proceed.")
                                 os.path.join('/mnt', 'boot', 'grub', files[item]) + '.old')
 
             with misc.raised_privileges():
+                
                 magic.process_conf_file('/usr/share/dell/grub/' + item, \
                                    os.path.join('/mnt', 'boot', 'grub', files[item]),\
-                                   uuid, rp_part, self.additional_kernel_options)
+                                   uuid, rp_part)
                 #Allow these to be invoked from a recovery solution launched by the BCD.
                 if self.dual:
                     shutil.copy(os.path.join('/mnt', 'boot', 'grub', files[item]), \
@@ -1591,9 +1611,7 @@ class Install(InstallPlugin):
         extra = magic.find_extra_kernel_options()
         new = ''
         for item in extra.split():
-            if not 'dell-recovery/'                   in item and \
-               not 'dell-oobe/'                       in item and \
-               not 'debian-installer/'                in item and \
+            if not 'debian-installer/'                in item and \
                not 'console-setup/'                   in item and \
                not 'locale='                          in item and \
                not 'BOOT_IMAGE='                      in item and \

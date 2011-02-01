@@ -7,6 +7,8 @@ dell-recovery (0.80) UNRELEASED; urgency=low
     - Touch the file as the user running autobuilder so it's owned by them rather
       than root when finished.
     - Add support for [native] isos.
+  * Don't propogate dell-recovery configuration options through the command line.
+    Instead store them in preseed/dell-recovery.seed on the recovery partition.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 27 Jan 2011 22:44:40 -0800
 
