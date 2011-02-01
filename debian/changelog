@@ -13,6 +13,7 @@ dell-recovery (0.80) UNRELEASED; urgency=low
     before starting.
   * Fix the default preseed to not ask questions about the keyboard for newer
     versions of console-setup in natty.
+  * Make OIE a debian template that can be preseeded and enabled from the GUI.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 27 Jan 2011 22:44:40 -0800
 

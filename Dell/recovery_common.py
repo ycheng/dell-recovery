@@ -32,6 +32,7 @@ import re
 import tempfile
 import glob
 import sys
+import datetime
 
 ##                ##
 ##Common Variables##
@@ -662,6 +663,38 @@ def create_g2ldr(chroot, rp_mount, install_mount):
         for fname in ['/usr/lib/grub/i386-pc/g2hdr.bin', os.path.join(chroot, 'tmp', 'core.img')]:
             with open(fname) as rfd:
                 wfd.write(rfd.read())
+
+def parse_seed(seed):
+    """Parses a preseed file and returns a set of keys"""
+    keys = {}
+    if not os.path.exists(seed):
+        with open(seed, 'r') as rfd:
+            line = rfd.readline()
+            while line:
+                line = line.strip()
+                if line and not line.startswith('#'):
+                    line = line.split()
+                    line.pop(0) # ubiquity or d-i generally
+                    key = line.pop(0)
+                    if '/' in key:
+                        type = line.pop(0)
+                        value = " ".join(line)
+                        keys[key] = value
+                line = rfd.readline()
+    return keys
+
+def write_seed(seed, keys):
+    """Writes out a preseed file with a selected set of keys"""
+    with open(seed, 'w') as wfd:
+        wfd.write("# Dell Recovery configuration preseed\n")
+        wfd.write("# Last updated on %s\n" % datetime.date.today())
+        wfd.write("\n")
+        for item in keys:
+            if keys[item] == 'true' or keys[item] == 'false':
+                type = 'boolean'
+            else:
+                type = 'string'
+            wfd.write(" ubiquity %s %s %s\n" % (item, type, keys[item]))
 
 def dbus_sync_call_signal_wrapper(dbus_iface, func, handler_map, *args, **kwargs):
     '''Run a D-BUS method call while receiving signals.

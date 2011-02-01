@@ -3,7 +3,7 @@
 #
 # «dell-bootstrap» - Ubiquity plugin for Dell Factory Process
 #
-# Copyright (C) 2010, Dell Inc.
+# Copyright (C) 2010-2011, Dell Inc.
 #
 # Author:
 #  - Mario Limonciello <Mario_Limonciello@Dell.com>
@@ -40,7 +40,6 @@ DBusGMainLoop(set_as_default=True)
 import syslog
 import glob
 import zipfile
-import datetime
 import tarfile
 from apt.cache import Cache
 
@@ -71,6 +70,7 @@ SWAP_QUESTION = 'dell-recovery/swap'
 RP_FILESYSTEM_QUESTION = 'dell-recovery/recovery_partition_filesystem'
 DRIVER_INSTALL_QUESTION = 'dell-recovery/disable-driver-install'
 USER_INTERFACE_QUESTION = 'dell-oobe/user-interface'
+OIE_QUESTION = 'dell-recovery/oie_mode'
 
 #######################
 # Noninteractive Page #
@@ -169,6 +169,7 @@ class PageGtk(PluginUI):
             self.disk_layout_combobox = builder.get_object('disk_layout_combobox')
             self.swap_combobox = builder.get_object('swap_behavior_combobox')
             self.ui_combobox = builder.get_object('default_ui_combobox')
+            self.oie_combobox = builder.get_object('oie_combobox')
 
             #populate dynamic comboboxes
             self._populate_dynamic_comoboxes()
@@ -309,6 +310,8 @@ class PageGtk(PluginUI):
         combobox = None
         if item == USER_INTERFACE_QUESTION:
             combobox = self.ui_combobox
+        elif item == OIE_QUESTION:
+            combobox = self.oie_combobox
         elif item == DRIVER_INSTALL_QUESTION:
             combobox = self.proprietary_combobox
         elif item == ACTIVE_PARTITION_QUESTION:
@@ -516,6 +519,15 @@ class Page(Plugin):
                 if misc is False:
                     raise RuntimeError, ("Error removing swap for device %s" % \
                                                                          device)
+
+    def test_oie(self):
+        """Prepares the installation for running in OIE mode"""
+        if self.oie:
+            self.preseed('ubiquity/poweroff', 'true')
+            self.preseed('ubiquity/reboot',   'false')
+            #so that if we fail we can red screen
+            with open('/tmp/oie', 'w') as wfd:
+                pass
 
     def clean_recipe(self):
         """Cleans up the recipe to remove swap if we have a small drive"""
@@ -942,12 +954,12 @@ class Page(Plugin):
             self.preseed(USER_INTERFACE_QUESTION, user_interface)
 
         #test for OIE.  OIE images turn off after install
-        with open ('/proc/cmdline', 'r') as rfd:
-            oie = 'oie' in rfd.readline()
-        if oie:
-            self.preseed('ubiquity/poweroff', 'true')
-            self.preseed('ubiquity/reboot',   'false')
-            
+        try:
+            self.oie = misc.create_bool(self.db.get(OIE_QUESTION))
+        except debconf.DebconfError, err:
+            self.log(str(err))
+            self.oie = False
+
         #If we detect that we are booted into uEFI mode, then we only want
         #to do a GPT install.  Actually a MBR install would work in most
         #cases, but we can't make assumptions about 16-bit anymore (and
@@ -995,6 +1007,7 @@ class Page(Plugin):
                    DRIVER_INSTALL_QUESTION: proprietary,
                    USER_INTERFACE_QUESTION: user_interface,
                    RP_FILESYSTEM_QUESTION: self.rp_filesystem,
+                   OIE_QUESTION: self.oie,
                    "mem": self.mem,
                    "efi": self.efi}
         for twaddle in twiddle:
@@ -1050,6 +1063,7 @@ class Page(Plugin):
                          SWAP_QUESTION,
                          DRIVER_INSTALL_QUESTION,
                          USER_INTERFACE_QUESTION,
+                         OIE_QUESTION,
                          RP_FILESYSTEM_QUESTION]:
             answer = self.ui.get_advanced(question)
             if answer:
@@ -1062,6 +1076,9 @@ class Page(Plugin):
                 elif question == DUAL_BOOT_QUESTION:
                     answer = misc.create_bool(answer)
                     self.dual = answer
+                elif question == OIE_QUESTION:
+                    answer = misc.create_bool(answer)
+                    self.oie = answer
                 elif question == DUAL_BOOT_LAYOUT_QUESTION:
                     self.dual_layout = answer
             if type(answer) is bool:
@@ -1126,6 +1143,7 @@ class Page(Plugin):
             # Factory install, and booting from RP
             else:
                 self.disable_swap()
+                self.test_oie()
                 self.clean_recipe()
                 self.remove_extra_partitions()
                 self.explode_utility_partition()
@@ -1379,21 +1397,7 @@ manually to proceed.")
 
         #read in any old seed
         seed = os.path.join('/mnt', 'preseed', 'dell-recovery.seed')
-        keys = {}
-        if os.path.exists(seed):
-            with open(seed, 'r') as rfd:
-                line = rfd.readline()
-                while line:
-                   line = line.strip()
-                   if line and not line.startswith('#'):
-                       line = line.split()
-                       line.pop(0) # ubiquity or d-i generally
-                       key = line.pop(0)
-                       if '/' in key:
-                           type = line.pop(0)
-                           value = " ".join(line)
-                           keys[key] = value
-                   line = rfd.readline()
+        keys = magic.parse_seed(seed)
 
         #process the new options
         for item in self.preseed_config.split():
@@ -1405,17 +1409,7 @@ manually to proceed.")
         with misc.raised_privileges():
             if not os.path.isdir(os.path.join('/mnt', 'preseed')):
                 os.makedirs(os.path.join('/mnt', 'preseed'))
-            wfd = open(seed, 'w')
-        wfd.write("# Dell Recovery configuration preseed\n")
-        wfd.write("# Created on %s\n" % datetime.date.today())
-        wfd.write("\n")
-        for item in keys:
-            if keys[item] == 'true' or keys[item] == 'false':
-                type = 'boolean'
-            else:
-                type = 'string'
-            wfd.write(" ubiquity %s %s %s\n" % (key, type, keys[item]))
-        wfd.close()
+            magic.write_seed(seed, keys)
 
         #Check for a grub.cfg - replace as necessary
         files = {'recovery_partition.cfg': 'grub.cfg',
@@ -1796,6 +1790,15 @@ class Install(InstallPlugin):
         #install dell-recovery in non dual mode only if there is an RP
         elif rec_part:
             to_install.append('dell-recovery')
+
+        #if oie, pass on information to post install
+        try:
+            oie = misc.create_bool(progress.get(OIE_QUESTION))
+        except debconf.DebconfError:
+            oie = False
+        if oie:
+            with open('/tmp/oie', 'w') as wfd:
+                pass
 
         to_install += self.mark_upgrades()
 

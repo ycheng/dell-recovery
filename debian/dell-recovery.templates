@@ -66,6 +66,11 @@ Type: string
 Default: msdos
 Description: for internal use; when preseeded, determines the disk layout type to use
 
+Template: dell-recovery/oie_mode
+Type: boolean
+Default: false
+Description: for internal use; enables ODM image mode
+
 Template: dell-recovery/build_start
 Type: text
 _Description: Building Dell Recovery Media...

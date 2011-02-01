@@ -25,6 +25,7 @@
 import sys
 import os
 import gtk
+import Dell.recovery_common as magic
 
 if 'debug' in os.environ:
     OIE_DIRECTORY = '.'
@@ -37,10 +38,10 @@ class OIEGTK:
         self.widgets.add_from_file(os.path.join(OIE_DIRECTORY, 'oie.ui'))
         gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
         self.widgets.connect_signals(self)
-        if 'fail' in image:
-            animation = gtk.gdk.PixbufAnimation(os.path.join(OIE_DIRECTORY, 'fail.gif'))
-        else:
+        if 'pass' in image:
             animation = gtk.gdk.PixbufAnimation(os.path.join(OIE_DIRECTORY, 'pass.gif'))
+        else:
+            animation = gtk.gdk.PixbufAnimation(os.path.join(OIE_DIRECTORY, 'fail.gif'))
         image = self.widgets.get_object('image')
         image.set_from_animation(animation)
 
@@ -53,8 +54,15 @@ class OIEGTK:
         """Closes any open backend connections and stops GTK threads"""
         gtk.main_quit()
 
-type = 'fail'
+type = 'pass'
 if len(sys.argv) > 1:
     type = sys.argv[1]
 oie = OIEGTK(type)
 oie.run()
+
+#Don't run OIE mode again
+seed = '/cdrom/preseed/dell-recovery.seed'
+if type == 'pass' and os.path.exists(seed):
+    keys = magic.parse_seed(seed)
+    keys['dell-recovery/oie_mode'] = 'false'
+    magic.write_seed(seed, keys)
