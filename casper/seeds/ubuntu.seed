@@ -1,8 +1,8 @@
 #
-#       <dell.seed>
+#       <ubuntu.seed>
 #
 #       Dell Ubuntu preseed file used for FI installs
-#        * Last updated for Ubuntu 10.04
+#        * Last updated for Ubuntu 11.04
 #
 #       Sets all of the defaults for the Ubuntu installation
 #        * Keyboard
@@ -13,7 +13,7 @@
 #        * Hard drive layout
 #        * Framework enablement
 #
-#       Copyright 2008-2009 Dell Inc.
+#       Copyright 2008-2011 Dell Inc.
 #           Mario Limonciello <Mario_Limonciello@Dell.com>
 #           Hatim Amro <Hatim_Amro@Dell.com>
 #           Michael E Brown <Michael_E_Brown@Dell.com>
@@ -39,8 +39,8 @@
  d-i debian-installer/locale string en
 
 # Keyboard selection.
- d-i console-setup/layoutcode string us
- d-i console-setup/variantcode string
+ d-i keyboard-configuration/layoutcode string us
+ d-i keyboard-configuration/variantcode string
 
 ### Time zone setup
 

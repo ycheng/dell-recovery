@@ -11,6 +11,8 @@ dell-recovery (0.80) UNRELEASED; urgency=low
     Instead store them in preseed/dell-recovery.seed on the recovery partition.
   * Support reading in old preseed/dell-recovery.seed from recovery partition
     before starting.
+  * Fix the default preseed to not ask questions about the keyboard for newer
+    versions of console-setup in natty.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 27 Jan 2011 22:44:40 -0800
 
