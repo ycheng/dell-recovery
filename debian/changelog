@@ -1,4 +1,4 @@
-dell-recovery (0.80) UNRELEASED; urgency=low
+dell-recovery (0.80) natty; urgency=low
 
   * If the kernel command line option 'oie' is found, enable OIE
     green/red screen.
@@ -15,7 +15,7 @@ dell-recovery (0.80) UNRELEASED; urgency=low
     versions of console-setup in natty.
   * Make OIE a debian template that can be preseeded and enabled from the GUI.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 27 Jan 2011 22:44:40 -0800
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 01 Feb 2011 02:18:38 -0600
 
 dell-recovery (0.79) natty; urgency=low
 
