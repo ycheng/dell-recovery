@@ -1,3 +1,11 @@
+dell-recovery (0.81) UNRELEASED; urgency=low
+
+  * In the wizard and in bto autobuilder offer a new option to run an image in
+    OIE mode.  This connects the image through all of the plumbing from 0.80
+    and also disables it after the first successful run through.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 01 Feb 2011 17:46:46 -0600
+
 dell-recovery (0.80) natty; urgency=low
 
   * If the kernel command line option 'oie' is found, enable OIE

@@ -103,7 +103,8 @@ create an USB key or DVD image."))
             self.builder_widgets.get_object(window).set_transient_for(wizard)
 
         #insert builder pages in reverse order
-        for page in ['application_page',
+        for page in ['oie_page',
+                     'application_page',
                      'driver_page',
                      'up_page',
                      'fid_page',
@@ -121,6 +122,7 @@ create an USB key or DVD image."))
         self.bto_base = False
         self.bto_up = ''
         self.add_dell_recovery_deb = ''
+        self.oie_mode = False
         self.apt_client = None
         self.git_pid = -1
 
@@ -195,6 +197,10 @@ create an USB key or DVD image."))
             self.file_dialog.set_filter(filefilter)
             self.calculate_srvs(None, -1, "check")
 
+        elif page == self.builder_widgets.get_object('oie_page'):
+            wizard.set_page_title(page, _("Installation Mode"))
+            wizard.set_page_complete(page, True)
+
         elif page == self.widgets.get_object('conf_page') or \
              widget == self.widgets.get_object('version'):
 
@@ -234,6 +240,9 @@ create an USB key or DVD image."))
                 output_text += "<b>" + _("Inject Dell Recovery Package") + "</b>: "
                 output_text += self.add_dell_recovery_deb + '\n'
 
+            output_text += "<b>" + _("OIE Installation Mode") + "</b>: "
+            output_text += str(self.oie_mode) + '\n'
+
             output_text += self.widgets.get_object('conf_text').get_label()
 
             self.widgets.get_object('conf_text').set_markup(output_text)
@@ -267,6 +276,7 @@ create an USB key or DVD image."))
                 driver_fish_list,
                 application_fish_list,
                 self.add_dell_recovery_deb,
+                self.oie_mode,
                 'create_' + self.distributor,
                 self.bto_up)
 
@@ -697,6 +707,10 @@ create an USB key or DVD image."))
             warning.set_text(_("All SRVs must be filled to proceed."))
         wizard.set_page_complete(page, proceed)
         return proceed
+
+    def oie_toggled(self, widget):
+        """The OIE radio was toggled. Only called back by active radio"""
+        self.oie_mode = widget.get_active()
 
     def install_app(self, widget):
         """Launch into an installer for git or dpkg-repack"""

@@ -667,7 +667,7 @@ def create_g2ldr(chroot, rp_mount, install_mount):
 def parse_seed(seed):
     """Parses a preseed file and returns a set of keys"""
     keys = {}
-    if not os.path.exists(seed):
+    if os.path.exists(seed):
         with open(seed, 'r') as rfd:
             line = rfd.readline()
             while line:

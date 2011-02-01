@@ -165,6 +165,9 @@ def parse_argv():
                       default=None,
                       help=('Use specific dell recovery package'))
 
+    parser.add_option('--oie', action='store_true', dest='oie',
+                      help=('Enable OIE install mode'))
+
     parser.add_option('--skip-git-update', dest='skip_git',
                       action='store_true', default=False,
                       help=('Don\'t update the local git tree'))
@@ -369,6 +372,7 @@ if __name__ == '__main__':
             drivers,                         # driver FISH packages
             '',                              # application FISH packages
             dell_recovery_pkg,               # specify pkg source
+            options.oie,                     # enable OIE install mode
             'create_ubuntu',                 # called by 'assemble_image'
             '',                              # create_ubuntu args...
             current_tag.revision,

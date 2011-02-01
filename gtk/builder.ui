@@ -1304,4 +1304,114 @@ This window will close automatically when the process is complete.
       <action-widget response="0">builder_add_ok</action-widget>
     </action-widgets>
   </object>
+  <object class="GtkVBox" id="oie_page">
+    <property name="visible">True</property>
+    <property name="spacing">15</property>
+    <child>
+      <object class="GtkLabel" id="oie_info_label">
+        <property name="visible">True</property>
+        <property name="xalign">0</property>
+        <property name="label" translatable="yes">When running in OIE mode, all installations will notify the user at completion on success or failure.
+When running in standard mode, a passing installation will reboot into the out of box experience.  A failing installation will reboot into a red GRUB screen.</property>
+        <property name="wrap">True</property>
+        <property name="width_chars">82</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkAlignment" id="alignment6">
+        <property name="visible">True</property>
+        <property name="left_padding">15</property>
+        <child>
+          <object class="GtkVBox" id="vbox10">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkHBox" id="hbox10">
+                <property name="visible">True</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="GtkRadioButton" id="no_oie_radio">
+                    <property name="label" translatable="yes">Run in standard installation mode.</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkImage" id="image10">
+                    <property name="visible">True</property>
+                    <property name="icon_name">dialog-cancel</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHBox" id="hbox11">
+                <property name="visible">True</property>
+                <property name="spacing">10</property>
+                <child>
+                  <object class="GtkRadioButton" id="oie_radio">
+                    <property name="label" translatable="yes">Run in OIE mode.</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">no_oie_radio</property>
+                    <signal name="toggled" handler="oie_toggled"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkImage" id="image11">
+                    <property name="visible">True</property>
+                    <property name="icon_name">help-about</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
 </interface>

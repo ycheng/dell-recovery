@@ -44,6 +44,7 @@ from hashlib import md5
 from Dell.recovery_common import (DOMAIN, LOCALEDIR, UP_FILENAMES,
                                   walk_cleanup, create_new_uuid, white_tree,
                                   black_tree, fetch_output, check_version,
+                                  parse_seed, write_seed,
                                   DBUS_BUS_NAME, DBUS_INTERFACE_NAME,
                                   RestoreFailed, CreateFailed,
                                   PermissionDeniedByPolicy)
@@ -356,15 +357,17 @@ class Backend(dbus.service.Object):
         self.main_loop.quit()
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 'ssasa{ss}sssss', out_signature = '', sender_keyword = 'sender',
+        in_signature = 'ssasa{ss}sbssss', out_signature = '', sender_keyword = 'sender',
         connection_keyword = 'conn')
     def assemble_image(self, base, fid, driver_fish, application_fish,
-                       dell_recovery_package, create_fn, utility,
+                       dell_recovery_package, oie, create_fn, utility,
                        version, iso, sender=None, conn=None):
         """Assemble pieces that would be used for building a BTO image.
            base: mount point of base image (or directory)
            fid: mount point of fid overlay
            fish: list of packages to fish
+           dell_recovery_package: a dell-recovery package to inject
+           oie: run the image in interactive completion mode
            create_fn: function to call for creation of ISO
            utility: utility partition
            version: version for ISO creation purposes
@@ -449,6 +452,16 @@ class Backend(dbus.service.Object):
             for fname in UP_FILENAMES:
                 if os.path.exists(os.path.join(assembly_tmp, fname)):
                     os.remove(os.path.join(assembly_tmp, fname))
+
+        #enable interactive completion notification
+        if oie:
+            directory = os.path.join(assembly_tmp, 'preseed')
+            if not os.path.isdir(directory):
+                os.makedirs(directory)
+            seed = os.path.join(directory, 'dell-recovery.seed')
+            keys = parse_seed(seed)
+            keys['dell-recovery/oie_mode'] = 'true'
+            write_seed(seed, keys)
 
         #If dell-recovery needs to be injected into the image
         if dell_recovery_package:
