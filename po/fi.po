@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-26 23:04-0600\n"
+"POT-Creation-Date: 2011-02-01 15:53-0600\n"
 "PO-Revision-Date: 2011-01-17 09:47+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-18 04:54+0000\n"
+"X-Launchpad-Export-Date: 2011-02-02 04:43+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -115,128 +115,136 @@ msgstr ""
 "Tämä integroi Dellin OEM FID -kehyksen ja ajuripaketit mukautettuun "
 "käyttöjärjestelmämedian levykuvaan. Voit luoda USB-muisti- tai DVD-levykuvan."
 
-#: ../Dell/recovery_advanced_gtk.py:150
+#: ../Dell/recovery_advanced_gtk.py:152
 msgid "Choose Base OS Image"
 msgstr "Valitse käyttöjärjestelmän peruslevykuva"
 
-#: ../Dell/recovery_advanced_gtk.py:153
+#: ../Dell/recovery_advanced_gtk.py:155
 msgid "Choose FID Overlay"
 msgstr "Valitse FID-laskostus"
 
-#: ../Dell/recovery_advanced_gtk.py:162
+#: ../Dell/recovery_advanced_gtk.py:164
 msgid "Choose Utility Partition"
 msgstr "Valitse työkaluosio"
 
-#: ../Dell/recovery_advanced_gtk.py:174
+#: ../Dell/recovery_advanced_gtk.py:176
 msgid "Choose Driver Packages"
 msgstr "Valitse ajuripaketit"
 
-#: ../Dell/recovery_advanced_gtk.py:188
+#: ../Dell/recovery_advanced_gtk.py:190
 msgid "Choose Application Packages"
 msgstr "Valitse sovelluspaketit"
 
-#: ../Dell/recovery_advanced_gtk.py:202
+#: ../Dell/recovery_advanced_gtk.py:201
+msgid "Installation Mode"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:208
 msgid "Builder Summary"
 msgstr "Rakennuksen yhteenveto"
 
-#: ../Dell/recovery_advanced_gtk.py:203
+#: ../Dell/recovery_advanced_gtk.py:209
 msgid "Base Image Distributor"
 msgstr "Peruslevykuvan jakelija"
 
-#: ../Dell/recovery_advanced_gtk.py:205
+#: ../Dell/recovery_advanced_gtk.py:211
 msgid "Base Image Release"
 msgstr "Peruslevykuvan julkaisu"
 
-#: ../Dell/recovery_advanced_gtk.py:208
+#: ../Dell/recovery_advanced_gtk.py:214
 msgid "BTO Base Image"
 msgstr "BTO-peruslevykuva"
 
-#: ../Dell/recovery_advanced_gtk.py:211
+#: ../Dell/recovery_advanced_gtk.py:217
 msgid "Base Image"
 msgstr "Peruslevykuva"
 
-#: ../Dell/recovery_advanced_gtk.py:214
+#: ../Dell/recovery_advanced_gtk.py:220
 msgid "FID Overlay"
 msgstr "FID-laskos"
 
-#: ../Dell/recovery_advanced_gtk.py:218
+#: ../Dell/recovery_advanced_gtk.py:224
 msgid "Utility Partition: "
 msgstr "Työkaluosio: "
 
-#: ../Dell/recovery_advanced_gtk.py:221
+#: ../Dell/recovery_advanced_gtk.py:227
 msgid "Application"
 msgstr "Sovellus"
 
-#: ../Dell/recovery_advanced_gtk.py:222
+#: ../Dell/recovery_advanced_gtk.py:228
 msgid "Driver"
 msgstr "Ajuri"
 
-#: ../Dell/recovery_advanced_gtk.py:228
+#: ../Dell/recovery_advanced_gtk.py:234
 msgid "Packages"
 msgstr "Paketit"
 
-#: ../Dell/recovery_advanced_gtk.py:234
+#: ../Dell/recovery_advanced_gtk.py:240
 msgid "Inject Dell Recovery Package"
 msgstr "Sisällytä Dellin palautuspaketti"
 
+#: ../Dell/recovery_advanced_gtk.py:243
+msgid "OIE Installation Mode"
+msgstr ""
+
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:244
+#: ../Dell/recovery_advanced_gtk.py:253
 msgid "Assembling Image Components"
 msgstr "Koostetaan levykuvan osia"
 
-#: ../Dell/recovery_advanced_gtk.py:320
+#: ../Dell/recovery_advanced_gtk.py:330
 msgid "Utility Partition"
 msgstr "Työkaluosio"
 
-#: ../Dell/recovery_advanced_gtk.py:323
+#: ../Dell/recovery_advanced_gtk.py:333
 msgid "No Additional Utility Partition"
 msgstr "Ei ylimääräistä työkaluosiota"
 
-#: ../Dell/recovery_advanced_gtk.py:419
+#: ../Dell/recovery_advanced_gtk.py:429
 msgid "<b>ERROR</b>: git is not installed"
 msgstr "<b>VIRHE</b>: git-ohjelmaa ei ole asennettu"
 
-#: ../Dell/recovery_advanced_gtk.py:580
+#: ../Dell/recovery_advanced_gtk.py:590
 msgid "Missing Dell-Recovery"
 msgstr "Puuttuva ”Dell-Recovery”"
 
-#: ../Dell/recovery_advanced_gtk.py:581
+#: ../Dell/recovery_advanced_gtk.py:591
 msgid "Not present in ISO or GIT tree"
 msgstr "Ei saatavalla ISOssa tai GIT-puussa"
 
-#: ../Dell/recovery_advanced_gtk.py:697
+#: ../Dell/recovery_advanced_gtk.py:707
 msgid "All SRVs must be filled to proceed."
 msgstr "Kaikki SRV:t tulee olla täytetty, jotta voidaan jatkaa."
 
-#: ../Dell/recovery_backend.py:282
+#: ../Dell/recovery_backend.py:283
 msgid "Processing FISH packages"
 msgstr "Käsitellään FISH-paketteja"
 
-#: ../Dell/recovery_backend.py:404
+#: ../Dell/recovery_backend.py:407
 msgid "Adding in base image"
 msgstr "Lisätään peruslevykuvaan"
 
-#: ../Dell/recovery_backend.py:412
+#: ../Dell/recovery_backend.py:415
 msgid "Overlaying FID content"
 msgstr "Laskostetaan FID-sisältöä"
 
-#: ../Dell/recovery_backend.py:773
+#: ../Dell/recovery_backend.py:786
 msgid "Preparing nested image"
 msgstr "Valmistellaan sisäkkäistä levykuvaa"
 
-#: ../Dell/recovery_backend.py:797
+#: ../Dell/recovery_backend.py:810
 msgid "Building Dell Utility Partition"
 msgstr "Rakennetaan Dell-työkaluosiota"
 
-#: ../Dell/recovery_backend.py:861
+#: ../Dell/recovery_backend.py:874
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Luodaan uudelleen UUID / rakennetaan uudelleen initramfs"
 
-#: ../Dell/recovery_backend.py:890
+#: ../Dell/recovery_backend.py:903
 msgid "Building GRUB core image"
 msgstr "Rakennetaan GRUB-ydinlevykuvaa"
 
-#: ../Dell/recovery_backend.py:966
+#: ../Dell/recovery_backend.py:979
 msgid "Building ISO"
 msgstr "Rakennetaan ISOa"
 
@@ -451,30 +459,38 @@ msgid "Please enter the SRV to use:"
 msgstr "Syötä käytettävä SRV:"
 
 #: ../gtk/builder.ui.h:31
+msgid "Run in OIE mode."
+msgstr ""
+
+#: ../gtk/builder.ui.h:32
+msgid "Run in standard installation mode."
+msgstr ""
+
+#: ../gtk/builder.ui.h:33
 msgid "SRV Entry"
 msgstr "SRV:n syöttö"
 
-#: ../gtk/builder.ui.h:32
+#: ../gtk/builder.ui.h:34
 msgid "Select content for Utility Partition"
 msgstr "Valitse työkaluosion sisältö"
 
-#: ../gtk/builder.ui.h:33
+#: ../gtk/builder.ui.h:35
 msgid "Selected Content Details:"
 msgstr "Valitse sisällön yksityiskohdat:"
 
-#: ../gtk/builder.ui.h:34
+#: ../gtk/builder.ui.h:36
 msgid "Selected Image Details:"
 msgstr "Valitun levykuvan tiedot:"
 
-#: ../gtk/builder.ui.h:35
+#: ../gtk/builder.ui.h:37
 msgid "Selected Overlay Details:"
 msgstr "Valitun laskostuksen tiedot:"
 
-#: ../gtk/builder.ui.h:36
+#: ../gtk/builder.ui.h:38
 msgid "Show Details"
 msgstr "Näytä yksityiskohdat"
 
-#: ../gtk/builder.ui.h:37
+#: ../gtk/builder.ui.h:39
 msgid ""
 "The BTO FID framework is the first thing injected into a base vanilla image. "
 " If you are generating from an existing BTO compatible image, you may use "
@@ -484,7 +500,7 @@ msgstr ""
 "olet luomassa tätä olemassa olevasta BTO-yhteensopivasta levykuvasta, voit "
 "käyttää sisään rakennettua kehysohjelmistoa."
 
-#: ../gtk/builder.ui.h:38
+#: ../gtk/builder.ui.h:40
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
@@ -492,6 +508,15 @@ msgstr ""
 "Käyttöjärjestelmän peruslevykuva tarjoaa suurimman osan BTO-levykuvan "
 "sisällöstä. Se voi olla puhdas käyttöjärjestelmän levykuva, tai olemassa "
 "oleva BTO-levykuva."
+
+#: ../gtk/builder.ui.h:41
+msgid ""
+"When running in OIE mode, all installations will notify the user at "
+"completion on success or failure.\n"
+"When running in standard mode, a passing installation will reboot into the "
+"out of box experience.  A failing installation will reboot into a red GRUB "
+"screen."
+msgstr ""
 
 #: ../gtk/tool_selector.ui.h:1
 msgid "Build OS Media"
@@ -567,10 +592,14 @@ msgstr ""
 "valikosta."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:8
+msgid "Restore #OS# to factory state"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
 msgstr "Tallenna palautusmedia DVD-levylle"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Tallenna palautusmedia ulkoiselle USB-muistivälineelle"
 
