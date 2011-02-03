@@ -3,6 +3,10 @@ dell-recovery (0.81) UNRELEASED; urgency=low
   * In the wizard and in bto autobuilder offer a new option to run an image in
     OIE mode.  This connects the image through all of the plumbing from 0.80
     and also disables it after the first successful run through.
+  * With several different distinct installation methods, we don't know how we
+    booted necessarily.  However, for a utility partition to function, a DOS
+    MBR is required by the end of install.  Test the MD5 of the first 440 bytes
+    of the MBR to make sure that it's one that we support.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 01 Feb 2011 17:46:46 -0600
 

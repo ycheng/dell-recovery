@@ -41,6 +41,7 @@ import syslog
 import glob
 import zipfile
 import tarfile
+import hashlib
 from apt.cache import Cache
 
 NAME = 'dell-bootstrap'
@@ -1730,9 +1731,30 @@ class Install(InstallPlugin):
         if active.isdigit():
             disk = progress.get('partman-auto/disk')
             with open('/tmp/set_active_partition', 'w') as wfd:
-                #If we have an MBR, we use the active partition bit in it
+                #If we have an MBR, 
                 if layout == 'msdos':
+                    #we use the active partition bit in it
                     wfd.write('sfdisk -A%s %s\n' % (active, disk))
+
+                    #we don't necessarily know how we booted
+                    #test the md5 of the MBR to match DRMK or syslinux
+                    #if they don't match, rewrite MBR
+                    with misc.raised_privileges():
+                        with open(disk, 'rb') as rfd:
+                            disk_mbr = rfd.read(440)
+                    path = '/usr/share/dell/up/mbr.bin'
+                    if not os.path.exists(path):
+                        path = '/usr/lib/syslinux/mbr.bin'
+                    if not os.path.exists(path):
+                        raise RuntimeError, ("Missing DRMK and syslinux MBR")
+                    with open(path, 'rb') as rfd:
+                        file_mbr = rfd.read(440)
+                    if hashlib.md5(file_mbr).hexdigest() != hashlib.md5(disk_mbr).hexdigest():
+                        self.debug("%s: MBR of disk is invalid, rewriting" % NAME)
+                        with misc.raised_privileges():
+                            with open(disk, 'wb') as wfd:
+                                wfd.write(file_mbr)
+
                 #If we have GPT, we need to go down other paths
                 elif layout == 'gpt':
                     #If we're booted in EFI mode, then the OS has already set
