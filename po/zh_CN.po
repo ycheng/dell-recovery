@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-26 23:04-0600\n"
-"PO-Revision-Date: 2010-12-14 19:25+0000\n"
-"Last-Translator: Heling Yao <Unknown>\n"
+"POT-Creation-Date: 2011-02-01 15:53-0600\n"
+"PO-Revision-Date: 2011-01-20 02:20+0000\n"
+"Last-Translator: Li Jin <lijin@lijinit.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-28 04:45+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-02-03 04:53+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #: ../Dell/recovery_gtk.py:92
 msgid "Cannot connect to dbus"
@@ -40,7 +40,7 @@ msgstr ""
 
 #: ../Dell/recovery_basic_gtk.py:157
 msgid "Building Base image"
-msgstr ""
+msgstr "建立基准镜像"
 
 #: ../Dell/recovery_basic_gtk.py:170
 msgid "Opening Burner"
@@ -109,128 +109,136 @@ msgid ""
 "DVD image."
 msgstr "将会合并戴尔OEM安装包和驱动程序到操作系统镜像中。可以选择以此建立USB存储盘或DVD光盘。"
 
-#: ../Dell/recovery_advanced_gtk.py:150
+#: ../Dell/recovery_advanced_gtk.py:152
 msgid "Choose Base OS Image"
 msgstr "选择操作系统原始镜像"
 
-#: ../Dell/recovery_advanced_gtk.py:153
+#: ../Dell/recovery_advanced_gtk.py:155
 msgid "Choose FID Overlay"
 msgstr "选择 FID 版本"
 
-#: ../Dell/recovery_advanced_gtk.py:162
+#: ../Dell/recovery_advanced_gtk.py:164
 msgid "Choose Utility Partition"
 msgstr "选择工具分区"
 
-#: ../Dell/recovery_advanced_gtk.py:174
+#: ../Dell/recovery_advanced_gtk.py:176
 msgid "Choose Driver Packages"
 msgstr "选择驱动程序软件包"
 
-#: ../Dell/recovery_advanced_gtk.py:188
+#: ../Dell/recovery_advanced_gtk.py:190
 msgid "Choose Application Packages"
 msgstr "选择应用程序软件包"
 
-#: ../Dell/recovery_advanced_gtk.py:202
+#: ../Dell/recovery_advanced_gtk.py:201
+msgid "Installation Mode"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:208
 msgid "Builder Summary"
 msgstr "生成器统计"
 
-#: ../Dell/recovery_advanced_gtk.py:203
+#: ../Dell/recovery_advanced_gtk.py:209
 msgid "Base Image Distributor"
 msgstr "基准镜像发布者"
 
-#: ../Dell/recovery_advanced_gtk.py:205
+#: ../Dell/recovery_advanced_gtk.py:211
 msgid "Base Image Release"
 msgstr "基准镜像发布"
 
-#: ../Dell/recovery_advanced_gtk.py:208
+#: ../Dell/recovery_advanced_gtk.py:214
 msgid "BTO Base Image"
 msgstr "BTO （工厂按单定制）基准镜像"
 
-#: ../Dell/recovery_advanced_gtk.py:211
+#: ../Dell/recovery_advanced_gtk.py:217
 msgid "Base Image"
-msgstr ""
+msgstr "基准镜像"
 
-#: ../Dell/recovery_advanced_gtk.py:214
+#: ../Dell/recovery_advanced_gtk.py:220
 msgid "FID Overlay"
 msgstr "FID 版本"
 
-#: ../Dell/recovery_advanced_gtk.py:218
+#: ../Dell/recovery_advanced_gtk.py:224
 msgid "Utility Partition: "
 msgstr "工具分区 "
 
-#: ../Dell/recovery_advanced_gtk.py:221
+#: ../Dell/recovery_advanced_gtk.py:227
 msgid "Application"
 msgstr "应用程序"
 
-#: ../Dell/recovery_advanced_gtk.py:222
+#: ../Dell/recovery_advanced_gtk.py:228
 msgid "Driver"
 msgstr "驱动程序"
 
-#: ../Dell/recovery_advanced_gtk.py:228
+#: ../Dell/recovery_advanced_gtk.py:234
 msgid "Packages"
 msgstr "软件包"
 
-#: ../Dell/recovery_advanced_gtk.py:234
+#: ../Dell/recovery_advanced_gtk.py:240
 msgid "Inject Dell Recovery Package"
 msgstr "加入戴尔恢复系统包"
 
+#: ../Dell/recovery_advanced_gtk.py:243
+msgid "OIE Installation Mode"
+msgstr ""
+
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:244
+#: ../Dell/recovery_advanced_gtk.py:253
 msgid "Assembling Image Components"
 msgstr "组装镜像各个部分"
 
-#: ../Dell/recovery_advanced_gtk.py:320
+#: ../Dell/recovery_advanced_gtk.py:330
 msgid "Utility Partition"
 msgstr "实用工具分区"
 
-#: ../Dell/recovery_advanced_gtk.py:323
+#: ../Dell/recovery_advanced_gtk.py:333
 msgid "No Additional Utility Partition"
 msgstr "没有实用工具分区"
 
-#: ../Dell/recovery_advanced_gtk.py:419
+#: ../Dell/recovery_advanced_gtk.py:429
 msgid "<b>ERROR</b>: git is not installed"
 msgstr "<b> 错误 </b>：没有安装 git 工具"
 
-#: ../Dell/recovery_advanced_gtk.py:580
+#: ../Dell/recovery_advanced_gtk.py:590
 msgid "Missing Dell-Recovery"
 msgstr "没有 Dell-Recovery"
 
-#: ../Dell/recovery_advanced_gtk.py:581
+#: ../Dell/recovery_advanced_gtk.py:591
 msgid "Not present in ISO or GIT tree"
 msgstr "ISO 和 GIT 树中不存在"
 
-#: ../Dell/recovery_advanced_gtk.py:697
+#: ../Dell/recovery_advanced_gtk.py:707
 msgid "All SRVs must be filled to proceed."
 msgstr "必须填写所有 SRV 后才能继续。"
 
-#: ../Dell/recovery_backend.py:282
+#: ../Dell/recovery_backend.py:283
 msgid "Processing FISH packages"
 msgstr "处理工厂预安装包"
 
-#: ../Dell/recovery_backend.py:404
+#: ../Dell/recovery_backend.py:407
 msgid "Adding in base image"
 msgstr "添加到原始镜像"
 
-#: ../Dell/recovery_backend.py:412
+#: ../Dell/recovery_backend.py:415
 msgid "Overlaying FID content"
 msgstr "覆盖 FID 内容"
 
-#: ../Dell/recovery_backend.py:773
+#: ../Dell/recovery_backend.py:786
 msgid "Preparing nested image"
 msgstr "准备内建的镜像"
 
-#: ../Dell/recovery_backend.py:797
+#: ../Dell/recovery_backend.py:810
 msgid "Building Dell Utility Partition"
 msgstr "建立 Dell 工具分区"
 
-#: ../Dell/recovery_backend.py:861
+#: ../Dell/recovery_backend.py:874
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "重新生成 UUID / 重新构建 initramfs"
 
-#: ../Dell/recovery_backend.py:890
+#: ../Dell/recovery_backend.py:903
 msgid "Building GRUB core image"
 msgstr "建立GRUB核心镜像"
 
-#: ../Dell/recovery_backend.py:966
+#: ../Dell/recovery_backend.py:979
 msgid "Building ISO"
 msgstr "制作 ISO 光盘镜像"
 
@@ -431,41 +439,58 @@ msgid "Please enter the SRV to use:"
 msgstr "请输入要使用的 SRV ："
 
 #: ../gtk/builder.ui.h:31
+msgid "Run in OIE mode."
+msgstr ""
+
+#: ../gtk/builder.ui.h:32
+msgid "Run in standard installation mode."
+msgstr ""
+
+#: ../gtk/builder.ui.h:33
 msgid "SRV Entry"
 msgstr "SRV 条目"
 
-#: ../gtk/builder.ui.h:32
+#: ../gtk/builder.ui.h:34
 msgid "Select content for Utility Partition"
 msgstr "选择工具分区内容"
 
-#: ../gtk/builder.ui.h:33
+#: ../gtk/builder.ui.h:35
 msgid "Selected Content Details:"
 msgstr "已选择的内容详情："
 
-#: ../gtk/builder.ui.h:34
+#: ../gtk/builder.ui.h:36
 msgid "Selected Image Details:"
 msgstr "选中的镜像的详情："
 
-#: ../gtk/builder.ui.h:35
+#: ../gtk/builder.ui.h:37
 msgid "Selected Overlay Details:"
 msgstr "选中的覆盖详情："
 
-#: ../gtk/builder.ui.h:36
+#: ../gtk/builder.ui.h:38
 msgid "Show Details"
 msgstr "显示详细信息"
 
-#: ../gtk/builder.ui.h:37
+#: ../gtk/builder.ui.h:39
 msgid ""
 "The BTO FID framework is the first thing injected into a base vanilla image. "
 " If you are generating from an existing BTO compatible image, you may use "
 "the built-in framework."
 msgstr "工厂安装构架应首先放入基准系统中。如果使用已兼容工厂安装的镜像，可以使用镜像内已有的构架。"
 
-#: ../gtk/builder.ui.h:38
+#: ../gtk/builder.ui.h:40
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
 msgstr "原始 OS 镜像为 BTO 镜像提供了主要内容。它可能是 Vanilla OS 镜像，或一个已经存在的 BTO 镜像。"
+
+#: ../gtk/builder.ui.h:41
+msgid ""
+"When running in OIE mode, all installations will notify the user at "
+"completion on success or failure.\n"
+"When running in standard mode, a passing installation will reboot into the "
+"out of box experience.  A failing installation will reboot into a red GRUB "
+"screen."
+msgstr ""
 
 #: ../gtk/tool_selector.ui.h:1
 msgid "Build OS Media"
@@ -528,10 +553,14 @@ msgid ""
 msgstr "可以在“系统”菜单里选择“工具”，稍后再生成恢复盘。"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:8
+msgid "Restore #OS# to factory state"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
 msgstr "将恢复介质保存为 DVD"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid "Save recovery media to an external USB flash drive"
 msgstr "将恢复介质保存为外接的 USB 闪存盘"
 
