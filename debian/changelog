@@ -7,6 +7,12 @@ dell-recovery (0.81) UNRELEASED; urgency=low
     booted necessarily.  However, for a utility partition to function, a DOS
     MBR is required by the end of install.  Test the MD5 of the first 440 bytes
     of the MBR to make sure that it's one that we support.
+  * Add support on the OIE page to specify custom scripts for SUCCESS or FAIL
+    scenarios.
+    - Update the BTO autobuilder
+    - Update the GTK page
+    - Update the backend
+    - Update the documentation
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 01 Feb 2011 17:46:46 -0600
 

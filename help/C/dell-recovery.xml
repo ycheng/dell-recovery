@@ -378,5 +378,33 @@
       </screenshot>
     </figure>
   </sect2>
+  <sect2 id="bto-oie">
+    <title>Installation Mode</title>
+    <para>
+      The installation mode page allows setting the mode the image will run on during installation.
+      Standard mode will not allow any interactivity or customization when an install completes or fails.
+      This is intended for end users.
+      The applications page is only applicable to machines being installed within
+      a factory environment.  It allows you to add applications that are tied to
+      Service Release Vehicle identifiers (SRVs) so that they can be conditionally
+      installed during factory process.
+    </para>
+    <para>
+      OIE or ODM Image Enablement mode allows for a passing (Green) or failing (Red) screen when the installation
+      complete.  It also allows for a custom SUCCESS or FAIL script that can be used to contact an ODM's factory
+      floor management server.
+    </para>
+    <figure id="bto-oie-figure">
+      <title>OIE Page</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/oie.png"
+                       format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+  </sect2>
 </sect1>
 </article>

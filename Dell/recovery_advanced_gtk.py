@@ -123,6 +123,8 @@ create an USB key or DVD image."))
         self.bto_up = ''
         self.add_dell_recovery_deb = ''
         self.oie_mode = False
+        self.success_script = ''
+        self.fail_script = ''
         self.apt_client = None
         self.git_pid = -1
 
@@ -199,6 +201,9 @@ create an USB key or DVD image."))
 
         elif page == self.builder_widgets.get_object('oie_page'):
             wizard.set_page_title(page, _("Installation Mode"))
+            filefilter = gtk.FileFilter()
+            filefilter.add_pattern('*')
+            self.file_dialog.set_filter(filefilter)
             wizard.set_page_complete(page, True)
 
         elif page == self.widgets.get_object('conf_page') or \
@@ -242,6 +247,12 @@ create an USB key or DVD image."))
 
             output_text += "<b>" + _("OIE Installation Mode") + "</b>: "
             output_text += str(self.oie_mode) + '\n'
+            if self.success_script:
+                output_text += "<b>" + _("Additional Success Script") + "</b>: "
+                output_text += self.success_script + '\n'
+            if self.success_script:
+                output_text += "<b>" + _("Additional Fail Script") + "</b>: "
+                output_text += self.fail_script + '\n'
 
             output_text += self.widgets.get_object('conf_text').get_label()
 
@@ -277,6 +288,8 @@ create an USB key or DVD image."))
                 application_fish_list,
                 self.add_dell_recovery_deb,
                 self.oie_mode,
+                self.success_script,
+                self.fail_script,
                 'create_' + self.distributor,
                 self.bto_up)
 
@@ -711,6 +724,29 @@ create an USB key or DVD image."))
     def oie_toggled(self, widget):
         """The OIE radio was toggled. Only called back by active radio"""
         self.oie_mode = widget.get_active()
+        
+        if not widget.get_active():
+            for label in ['success_label', 'fail_label']:
+                obj = self.builder_widgets.get_object('success_label')
+                obj.set_text('')
+            self.success_script = ''
+            self.fail_script = ''
+
+        file = self.builder_widgets.get_object('oie_file_chooser_vbox')
+        file.set_sensitive(widget.get_active())
+
+    def oie_file_chooser_clicked(self, widget):
+        """The OIE file chooser was pressed"""
+        ret = self.run_file_dialog()
+        if ret is not None:
+            if widget == self.builder_widgets.get_object('set_success_script'):
+                self.success_script = ret
+                label = self.builder_widgets.get_object('success_label')
+                label.set_markup('<b>' + _("SUCCESS Script: " ) + '</b>' + ret)
+            else:
+                self.fail_script = ret
+                label = self.builder_widgets.get_object('fail_label')
+                label.set_markup('<b>' + _("FAIL Script: " ) + '</b>' + ret)
 
     def install_app(self, widget):
         """Launch into an installer for git or dpkg-repack"""

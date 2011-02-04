@@ -357,10 +357,19 @@ class Backend(dbus.service.Object):
         self.main_loop.quit()
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 'ssasa{ss}sbssss', out_signature = '', sender_keyword = 'sender',
+        in_signature = 'ssasa{ss}sbssssss', out_signature = '', sender_keyword = 'sender',
         connection_keyword = 'conn')
-    def assemble_image(self, base, fid, driver_fish, application_fish,
-                       dell_recovery_package, oie, create_fn, utility,
+    def assemble_image(self,
+                       base,
+                       fid,
+                       driver_fish,
+                       application_fish,
+                       dell_recovery_package,
+                       oie,
+                       success_script,
+                       fail_script,
+                       create_fn,
+                       utility,
                        version, iso, sender=None, conn=None):
         """Assemble pieces that would be used for building a BTO image.
            base: mount point of base image (or directory)
@@ -368,6 +377,8 @@ class Backend(dbus.service.Object):
            fish: list of packages to fish
            dell_recovery_package: a dell-recovery package to inject
            oie: run the image in interactive completion mode
+           success_script: additional script to run only on success
+           fail_script: additional script to run only on fail
            create_fn: function to call for creation of ISO
            utility: utility partition
            version: version for ISO creation purposes
@@ -462,6 +473,18 @@ class Backend(dbus.service.Object):
             keys = parse_seed(seed)
             keys['dell-recovery/oie_mode'] = 'true'
             write_seed(seed, keys)
+
+        #Allow for an override success/fail script
+        scripts = {'SUCCESS_SCRIPT': success_script, 'FAIL_SCRIPT': fail_script}
+        for script in scripts:
+            if scripts[script]:
+                directory = os.path.join(assembly_tmp, 'scripts', 'chroot-scripts')
+                if not os.path.isdir(directory):
+                    os.makedirs(directory)
+                dest = os.path.join(directory, script)
+                distutils.file_util.copy_file(scripts[script], dest)
+                perm = os.stat(dest).st_mode | stat.S_IXUSR | stat.S_IRWXG | stat.S_IXOTH
+                os.chmod(dest, perm)
 
         #If dell-recovery needs to be injected into the image
         if dell_recovery_package:
