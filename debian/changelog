@@ -1,4 +1,4 @@
-dell-recovery (0.81) UNRELEASED; urgency=low
+dell-recovery (0.81) natty; urgency=low
 
   * In the wizard and in bto autobuilder offer a new option to run an image in
     OIE mode.  This connects the image through all of the plumbing from 0.80
@@ -15,7 +15,7 @@ dell-recovery (0.81) UNRELEASED; urgency=low
     - Update the documentation
   * Update translations from launchpad.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 01 Feb 2011 17:46:46 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 03 Feb 2011 18:44:44 -0600
 
 dell-recovery (0.80) natty; urgency=low
 
