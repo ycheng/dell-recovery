@@ -1,3 +1,10 @@
+dell-recovery (0.82) UNRELEASED; urgency=low
+
+  * Preseed the new ubiquity/poweroff parameter to false for the standard
+    recovery process to allow the reboot to work by default.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Sat, 05 Feb 2011 01:16:46 -0600
+
 dell-recovery (0.81) natty; urgency=low
 
   * In the wizard and in bto autobuilder offer a new option to run an image in

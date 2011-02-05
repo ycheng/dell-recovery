@@ -154,3 +154,4 @@
  ubiquity ubiquity/success_command string /usr/share/dell/scripts/chroot.sh success
  ubiquity ubiquity/failure_command string /usr/share/dell/scripts/chroot.sh failure
  ubiquity ubiquity/reboot boolean true
+ ubiquity ubiquity/poweroff boolean false

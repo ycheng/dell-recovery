@@ -743,6 +743,7 @@ class Page(Plugin):
                      'oem-config/late_command',
                      'dell-recovery/active_partition',
                      'dell-recovery/fail_partition',
+                     'ubiquity/poweroff',
                      'ubiquity/reboot' ]:
             self.db.fset(key, 'seen', 'false')
             self.db.set(key, '')
