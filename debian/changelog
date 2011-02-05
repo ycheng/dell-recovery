@@ -1,4 +1,4 @@
-dell-recovery (0.82) UNRELEASED; urgency=low
+dell-recovery (0.82) natty; urgency=low
 
   * Preseed the new ubiquity/poweroff parameter to false for the standard
     recovery process to allow the reboot to work by default.
