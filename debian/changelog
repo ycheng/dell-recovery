@@ -2,6 +2,7 @@ dell-recovery (0.82) UNRELEASED; urgency=low
 
   * Preseed the new ubiquity/poweroff parameter to false for the standard
     recovery process to allow the reboot to work by default.
+  * Update SUCCESS/FAIL late scripts to the updated location for grubenv.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Sat, 05 Feb 2011 01:16:46 -0600
 

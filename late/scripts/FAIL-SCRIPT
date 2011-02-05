@@ -38,9 +38,9 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     mount -o remount,rw /cdrom
 
     IFHALT "Resetting grub fail state"
-    [ -s /cdrom/grub/grubenv ] || rm -f /cdrom/grub/grubenv
-    mkdir -p /cdrom/grub
-    grub-editenv /cdrom/grub/grubenv set recordfail=1
+    [ -s $RP/boot/grub/grubenv ] || rm -f $RP/boot/grub/grubenv
+    mkdir -p $RP/boot/grub
+    grub-editenv $RP/boot/grub/grubenv set recordfail=1
 
     if [ -x /dell/fist/tal ]; then
         IFHALT "Reporting logs to DMP"
