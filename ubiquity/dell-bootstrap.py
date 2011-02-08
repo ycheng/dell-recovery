@@ -434,7 +434,6 @@ class Page(Plugin):
         self.swap = None
         self.dual = None
         self.uuid = None
-        self.up_part = None
         self.rp_part = None
         self.grub_part = None
         Plugin.__init__(self, frontend, db, ui)
@@ -527,7 +526,7 @@ class Page(Plugin):
             #rewrite the bootsector of the UP (it might not have been created
             #if the ODM is using a WIM)
             with misc.raised_privileges():
-                magic.write_up_bootsector(self.device, self.up_part)
+                magic.write_up_bootsector(self.device, STANDARD_UP_PARTITION)
             #turn off machine when OIE process is done
             self.preseed('ubiquity/poweroff', 'true')
             self.preseed('ubiquity/reboot',   'false')
@@ -1282,8 +1281,12 @@ manually to proceed.")
             if result is False:
                 raise RuntimeError, ("Error creating new %s mb utility partition on %s" % (up_size, self.device))
 
-            #build the bootsector of the partition
             with misc.raised_privileges():
+                #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
+                data = 't\nde\n\nw\n'
+                magic.fetch_output(['fdisk', self.device], data)
+
+                #build the bootsector of the partition
                 magic.write_up_bootsector(self.device, up_part)
 
             #Build RP

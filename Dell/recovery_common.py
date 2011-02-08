@@ -698,10 +698,6 @@ def write_seed(seed, keys):
 
 def write_up_bootsector(device, partition):
     """Write out the bootsector to a utility partition"""
-    #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
-    data = 't\nde\n\nw\n'
-    fetch_output(['fdisk', device], data)
-
     #build the bootsector of the partition
     if os.path.exists('/usr/share/dell/up/up.bs'):
         with open('/usr/share/dell/up/up.bs', 'rb') as rfd:
