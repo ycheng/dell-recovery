@@ -696,6 +696,25 @@ def write_seed(seed, keys):
                 type = 'string'
             wfd.write(" ubiquity %s %s %s\n" % (item, type, keys[item]))
 
+def write_up_bootsector(device, partition):
+    """Write out the bootsector to a utility partition"""
+    #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
+    data = 't\nde\n\nw\n'
+    fetch_output(['fdisk', device], data)
+
+    #build the bootsector of the partition
+    if os.path.exists('/usr/share/dell/up/up.bs'):
+        with open('/usr/share/dell/up/up.bs', 'rb') as rfd:
+            with open(device + partition, 'wb') as wfd:
+                wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
+                rfd.seek(43)
+                wfd.seek(43)
+                wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
+            #If we don't have the bootsector code, then just set the label properly
+    else:
+        fetch_output(['dosfslabel', device + partition, "DellUtility"], data)
+
+
 def dbus_sync_call_signal_wrapper(dbus_iface, func, handler_map, *args, **kwargs):
     '''Run a D-BUS method call while receiving signals.
 

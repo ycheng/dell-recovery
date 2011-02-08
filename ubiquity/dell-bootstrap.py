@@ -524,6 +524,11 @@ class Page(Plugin):
     def test_oie(self):
         """Prepares the installation for running in OIE mode"""
         if self.oie:
+            #rewrite the bootsector of the UP (it might not have been created
+            #if the ODM is using a WIM)
+            with misc.raised_privileges():
+                magic.write_up_bootsector(self.device, self.up_part)
+            #turn off machine when OIE process is done
             self.preseed('ubiquity/poweroff', 'true')
             self.preseed('ubiquity/reboot',   'false')
             #so that if we fail we can red screen
@@ -1277,24 +1282,10 @@ manually to proceed.")
             if result is False:
                 raise RuntimeError, ("Error creating new %s mb utility partition on %s" % (up_size, self.device))
 
-            #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
-            data = 't\nde\n\nw\n'
-            with misc.raised_privileges():
-                magic.fetch_output(['fdisk', self.device], data)
-
             #build the bootsector of the partition
-            if os.path.exists('/usr/share/dell/up/up.bs'):
-                with open('/usr/share/dell/up/up.bs', 'rb') as rfd:
-                    with misc.raised_privileges():
-                        with open(self.device + up_part, 'wb') as wfd:
-                            wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
-                            rfd.seek(43)
-                            wfd.seek(43)
-                            wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
-            #If we don't have the bootsector code, then just set the label properly
-            else:
-                with misc.raised_privileges():
-                    magic.fetch_output(['dosfslabel', self.device + up_part, "DellUtility"], data)
+            with misc.raised_privileges():
+                magic.write_up_bootsector(self.device, up_part)
+
             #Build RP
             command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', self.rp_type, str(up_size), str(up_size + rp_size_mb))
             result = misc.execute_root(*command)

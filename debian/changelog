@@ -1,3 +1,11 @@
+dell-recovery (0.83) UNRELEASED; urgency=low
+
+  * Move the UP partition writing code to common so it can be called more easily
+    outside of ubiquity if necessary.
+  * Rewrite the UP bootsector if running in OIE mode.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 08 Feb 2011 13:32:35 -0600
+
 dell-recovery (0.82) natty; urgency=low
 
   * Preseed the new ubiquity/poweroff parameter to false for the standard
