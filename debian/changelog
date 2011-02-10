@@ -5,6 +5,7 @@ dell-recovery (0.84) UNRELEASED; urgency=low
     - A lot of the content (debs and squashfs) are already compressed using gzip,
       bz2, or lzma anyway.
   * Include a grubenv in factory config.
+  * In recovery partition grub.cfg, use $prefix rather than hardcoding.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 10 Feb 2011 16:25:11 -0600
 
