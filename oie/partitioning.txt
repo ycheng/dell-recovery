@@ -1,0 +1,10 @@
+select disk 0
+clean
+create part primary size=32 ID=DE
+select part 1
+format fs=fat quick label=DellUtility
+create part primary size=%RPSIZE%
+select part 2
+format fs=fat32 quick label=OS
+assign
+active

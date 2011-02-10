@@ -63,10 +63,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
 
         self._dbus_iface = None
         self.timeout = 0
-        self.iso = ''
-
-        #extension of the image
-        self.extension = 'iso'
+        self.image = ''
         
         (self.cd_burn_cmd, self.usb_burn_cmd) = find_burners()
 
@@ -125,15 +122,15 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
             finally:
                 self.toggle_spinner_popup(False)
 
-        self.iso = '%s-%s-%s-dell_%s.%s' % (self.distributor, self.release,
+        if not self.image:
+            self.image = '%s-%s-%s-dell_%s.iso' % (self.distributor, self.release,
                                              self.arch,
-                              self.widgets.get_object('version').get_text(),
-                              self.extension)
+                              self.widgets.get_object('version').get_text())
 
         #Check for existing image
         skip_creation = False
         if not self.overwrite and \
-                              os.path.exists(os.path.join(self.path, self.iso)):
+                              os.path.exists(os.path.join(self.path, self.image)):
             skip_creation = not show_question( \
                                      self.widgets.get_object('existing_dialog'))
 
@@ -148,7 +145,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
             try:
                 if not os.path.isdir(self.path):
                     os.makedirs(self.path)
-                with open(os.path.join(self.path, self.iso), 'w') as wfd:
+                with open(os.path.join(self.path, self.image), 'w') as wfd:
                     pass
             except IOError:
                 #this might have been somwehere that the system doesn't want us
@@ -166,7 +163,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
 
             #all functions require this at the end
             args += ( self.widgets.get_object('version').get_text(),
-                      os.path.join(self.path,self.iso) )
+                      os.path.join(self.path, self.image))
             try:
                 dbus_sync_call_signal_wrapper(self.backend(),
                                 function,
@@ -189,9 +186,9 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         while not success:
             success = True
             if self.widgets.get_object('dvdbutton').get_active():
-                cmd = self.cd_burn_cmd + [os.path.join(self.path, self.iso)]
+                cmd = self.cd_burn_cmd + [os.path.join(self.path, self.image)]
             elif self.widgets.get_object('usbbutton').get_active():
-                cmd = self.usb_burn_cmd + [os.path.join(self.path, self.iso)]
+                cmd = self.usb_burn_cmd + [os.path.join(self.path, self.image)]
             else:
                 cmd = None
             if cmd:
@@ -200,7 +197,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         header = _("Recovery Media Creation Process Complete")
         body = _("If you would like to archive another copy, the generated \
 image has been stored under the filename:\n") + \
-os.path.join(self.path, self.iso)
+os.path.join(self.path, self.image)
         self.show_alert(gtk.MESSAGE_INFO, header, body,
             parent=self.widgets.get_object('progress_dialog'))
 

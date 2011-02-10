@@ -28,6 +28,7 @@ import os
 import sys
 import gtk
 import subprocess
+import datetime
 
 from Dell.recovery_gtk import DellRecoveryToolGTK, translate_widgets
 from Dell.recovery_basic_gtk import BasicGeneratorGTK
@@ -282,6 +283,19 @@ create an USB key or DVD image."))
             application_fish_list[path] = srv
             iterator = model.iter_next(iterator)
 
+        if self.oie_mode:
+            build = 0
+            while True:
+                path = os.path.join(self.path, 'oie-%s-%i' % (datetime.date.today(), build))
+                if not os.path.exists(path):
+                    self.path = path
+                    break
+                build = build + 1
+            self.image = '%s-%s-%s-dell-oie_%s.tar.gz' % (self.distributor,
+                                                          self.release,
+                                                          self.arch,
+                              self.widgets.get_object('version').get_text())
+
         function = 'assemble_image'
         args = (self.builder_base_image,
                 self.builder_fid_overlay,
@@ -293,9 +307,6 @@ create an USB key or DVD image."))
                 self.fail_script,
                 'create_' + self.distributor,
                 self.bto_up)
-
-        if self.oie_mode:
-            self.extension = 'tar.gz'
 
         BasicGeneratorGTK.wizard_complete(self, widget, function, args)
 

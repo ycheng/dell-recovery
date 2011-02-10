@@ -818,10 +818,6 @@ class Backend(dbus.service.Object):
         #re-encode to utf8
         iso = iso.encode('utf8')
 
-#        #oie might need to change extension
-#        if oie and iso.endswith('.iso'):
-#                iso = iso.split('.iso')[0] + '.tar.gz'
-
         #create temporary workspace
         tmpdir = tempfile.mkdtemp()
         atexit.register(walk_cleanup, tmpdir)
@@ -1013,14 +1009,29 @@ You will need to create this image on a system with a newer genisoimage." % vers
         genisoargs.append(tmpdir + '/')
         genisoargs.append(mntdir + '/')
 
-        #OIE images make a tarfile and then exit
+        #OIE images exit immediately after build
         if oie:
+            #build tarball
             self.start_pulsable_progress_thread(
                     _('Building OIE Archive'))
             wfd = tarfile.open(name=iso,mode='w:gz')
             wfd.add(mntdir, arcname='/', exclude=oie_exclude_list)
             wfd.add(tmpdir, arcname='/')
             wfd.close()
+
+            #figure out RP size (cushion of 300)
+            white_pattern = re.compile('.')
+            rpsize = (white_tree("size", white_pattern, mntdir) / 1000000) + 300
+
+            #build partitioner
+            with open('/usr/share/dell/oie/partitioning.txt') as rfd:
+                inrecipe = rfd.readlines()
+            outrecipe = os.path.join(os.path.dirname(iso), 'diskpart-ubuntu.txt')
+            with open(outrecipe, 'w') as wfd:
+                for line in inrecipe:
+                    if '%RPSIZE%' in line:
+                        line = line.replace('%RPSIZE%', "%i" % rpsize)
+                    wfd.write(line)
             self.stop_progress_thread()
             return
 
