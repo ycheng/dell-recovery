@@ -501,7 +501,7 @@ class Backend(dbus.service.Object):
                 distutils.file_util.copy_file(dell_recovery_package, dest)
 
         function = getattr(Backend, create_fn)
-        function(self, utility, assembly_tmp, version, iso)
+        function(self, oie, utility, assembly_tmp, version, iso)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature = 's', out_signature = 'sssss', sender_keyword = 'sender',
@@ -784,16 +784,43 @@ class Backend(dbus.service.Object):
 
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 'ssss', out_signature = '', sender_keyword = 'sender',
+        in_signature = 'bssss', out_signature = '', sender_keyword = 'sender',
         connection_keyword = 'conn')
-    def create_ubuntu(self, utility, recovery, version, iso, sender=None, conn=None):
+    def create_ubuntu(self, oie, utility, recovery, version, iso, sender=None, conn=None):
         """Creates Ubuntu compatible recovery media"""
+
+        def oie_exclude_list(fname):
+            """Tests if a file is in the OIE exclude list.
+               NOTE: This only tests the stuff in mntdir, not tmpdir
+               NOTE2: Items in tmpdir will override items in mntdir
+            """
+            exclude = [
+                   '.exe',
+                   '.sys',
+                   'syslinux',
+                   'syslinux.cfg',
+                   'bto.xml',
+                   'isolinux',
+                   'bto_version',
+                   '.disk/casper-uuid',
+                   '.disk/casper-uuid-generic',
+                   'casper/initrd.lz',
+                   'casper/initrd.gz'
+                  ]
+            for item in exclude:
+                if fname.endswith(item):
+                    return True
+            return False
+
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn,
                                                 'com.dell.recoverymedia.create')
-
         #re-encode to utf8
         iso = iso.encode('utf8')
+
+#        #oie might need to change extension
+#        if oie and iso.endswith('.iso'):
+#                iso = iso.split('.iso')[0] + '.tar.gz'
 
         #create temporary workspace
         tmpdir = tempfile.mkdtemp()
@@ -985,6 +1012,17 @@ You will need to create this image on a system with a newer genisoimage." % vers
         #Directories to install
         genisoargs.append(tmpdir + '/')
         genisoargs.append(mntdir + '/')
+
+        #OIE images make a tarfile and then exit
+        if oie:
+            self.start_pulsable_progress_thread(
+                    _('Building OIE Archive'))
+            wfd = tarfile.open(name=iso,mode='w:gz')
+            wfd.add(mntdir, arcname='/', exclude=oie_exclude_list)
+            wfd.add(tmpdir, arcname='/')
+            wfd.close()
+            self.stop_progress_thread()
+            return
 
         #ISO Creation
         seg1 = subprocess.Popen(genisoargs,

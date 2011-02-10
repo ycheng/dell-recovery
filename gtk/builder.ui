@@ -1311,8 +1311,7 @@ This window will close automatically when the process is complete.
       <object class="GtkLabel" id="oie_info_label">
         <property name="visible">True</property>
         <property name="xalign">0</property>
-        <property name="label" translatable="yes">In OIE mode, all installations will notify the user at completion on success or failure.
-In standard mode, a passing installation will reboot into the out of box experience.  A failing installation will reboot into a red GRUB screen.</property>
+        <property name="label" translatable="yes">OIE compliant images can only be installed from ODM factory environments.  They will notify the user at completion of a success or failure.</property>
         <property name="wrap">True</property>
         <property name="width_chars">82</property>
       </object>
@@ -1335,7 +1334,7 @@ In standard mode, a passing installation will reboot into the out of box experie
                 <property name="spacing">10</property>
                 <child>
                   <object class="GtkRadioButton" id="no_oie_radio">
-                    <property name="label" translatable="yes">Run in standard installation mode.</property>
+                    <property name="label" translatable="yes">Produce a standard installation image.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1372,7 +1371,7 @@ In standard mode, a passing installation will reboot into the out of box experie
                 <property name="spacing">10</property>
                 <child>
                   <object class="GtkRadioButton" id="oie_radio">
-                    <property name="label" translatable="yes">Run in OIE mode.</property>
+                    <property name="label" translatable="yes">Produce an OIE compliant installation image.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

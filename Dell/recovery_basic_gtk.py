@@ -64,6 +64,9 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         self._dbus_iface = None
         self.timeout = 0
         self.iso = ''
+
+        #extension of the image
+        self.extension = 'iso'
         
         (self.cd_burn_cmd, self.usb_burn_cmd) = find_burners()
 
@@ -122,9 +125,10 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
             finally:
                 self.toggle_spinner_popup(False)
 
-        self.iso = '%s-%s-%s-dell_%s.iso' % (self.distributor, self.release,
+        self.iso = '%s-%s-%s-dell_%s.%s' % (self.distributor, self.release,
                                              self.arch,
-                              self.widgets.get_object('version').get_text())
+                              self.widgets.get_object('version').get_text(),
+                              self.extension)
 
         #Check for existing image
         skip_creation = False
@@ -156,7 +160,8 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
                 self.widgets.get_object('action').set_text( \
                                                        _("Building Base image"))
                 function = 'create_' + self.distributor
-                args = (self.up,
+                args = (False,
+                        self.up,
                         self.rp)
 
             #all functions require this at the end
@@ -303,10 +308,14 @@ partition layout.")
             if self.cd_burn_cmd is None:
                 self.widgets.get_object('dvd_box').hide()
                 self.widgets.get_object('usbbutton').set_active(True)
+            else:
+                self.widgets.get_object('dvd_box').show()
             if self.usb_burn_cmd is None:
                 self.widgets.get_object('usb_box').hide()
                 if self.cd_burn_cmd is None:
                     self.widgets.get_object('nomediabutton').set_active(True)
+            else:
+                self.widgets.get_object('usb_box').show()
 
             self.widgets.get_object('wizard').set_page_complete(page, True)
 
@@ -318,7 +327,7 @@ partition layout.")
             elif self.widgets.get_object('usbbutton').get_active():
                 burn_type = self.widgets.get_object('usbbutton').get_label()
             else:
-                burn_type = _("ISO Image")
+                burn_type = _("Image File")
             text  = ''
             text += "<b>" + _("Media Type: ") + '</b>' + burn_type + '\n'
             if self.rp:

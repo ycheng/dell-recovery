@@ -34,6 +34,7 @@ from Dell.recovery_basic_gtk import BasicGeneratorGTK
 
 from Dell.recovery_common import (UIDIR, GIT_TREES, UP_FILENAMES,
                                   dbus_sync_call_signal_wrapper,
+                                  find_burners,
                                   increment_bto_version)
 
 try:
@@ -280,7 +281,7 @@ create an USB key or DVD image."))
             srv = model.get_value(iterator, 1)
             application_fish_list[path] = srv
             iterator = model.iter_next(iterator)
-            
+
         function = 'assemble_image'
         args = (self.builder_base_image,
                 self.builder_fid_overlay,
@@ -292,6 +293,9 @@ create an USB key or DVD image."))
                 self.fail_script,
                 'create_' + self.distributor,
                 self.bto_up)
+
+        if self.oie_mode:
+            self.extension = 'tar.gz'
 
         BasicGeneratorGTK.wizard_complete(self, widget, function, args)
 
@@ -731,6 +735,10 @@ create an USB key or DVD image."))
                 obj.set_text('')
             self.success_script = ''
             self.fail_script = ''
+            (self.cd_burn_cmd, self.usb_burn_cmd) = find_burners()
+        else:
+            self.cd_burn_cmd = None
+            self.usb_burn_cmd = None
 
         file = self.builder_widgets.get_object('oie_file_chooser_vbox')
         file.set_sensitive(widget.get_active())

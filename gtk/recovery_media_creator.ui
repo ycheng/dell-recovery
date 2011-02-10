@@ -248,7 +248,7 @@
             </child>
             <child>
               <object class="GtkRadioButton" id="nomediabutton">
-                <property name="label" translatable="yes">No media, create ISO image</property>
+                <property name="label" translatable="yes">No media, create image</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
