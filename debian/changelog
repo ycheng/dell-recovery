@@ -1,4 +1,4 @@
-dell-recovery (0.83) UNRELEASED; urgency=low
+dell-recovery (0.83) natty; urgency=low
 
   * Move the UP partition writing code to common so it can be called more easily
     outside of ubiquity if necessary.
@@ -11,7 +11,7 @@ dell-recovery (0.83) UNRELEASED; urgency=low
   * Update translations from Launchpad.
   * Update OIE help page for above changes.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 08 Feb 2011 13:32:35 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 10 Feb 2011 00:33:54 -0600
 
 dell-recovery (0.82) natty; urgency=low
 
