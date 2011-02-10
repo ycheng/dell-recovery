@@ -20,6 +20,9 @@ case "$1" in
         /usr/share/dell/grub/recovery_partition.cfg \
         > /var/lib/dell-recovery/grub.cfg
 
+    #blank grubenv so we can fail installs
+    grub-editenv /var/lib/dell-recovery/grubenv unset recordfail
+
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)
   ;;
