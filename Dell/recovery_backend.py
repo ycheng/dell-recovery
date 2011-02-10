@@ -1014,7 +1014,7 @@ You will need to create this image on a system with a newer genisoimage." % vers
             #build tarball
             self.start_pulsable_progress_thread(
                     _('Building OIE Archive'))
-            wfd = tarfile.open(name=iso,mode='w:gz')
+            wfd = tarfile.open(name=iso,mode='w')
             wfd.add(mntdir, arcname='/', exclude=oie_exclude_list)
             wfd.add(tmpdir, arcname='/')
             wfd.close()

@@ -291,7 +291,7 @@ create an USB key or DVD image."))
                     self.path = path
                     break
                 build = build + 1
-            self.image = '%s-%s-%s-dell-oie_%s.tar.gz' % (self.distributor,
+            self.image = '%s-%s-%s-dell-oie_%s.tar' % (self.distributor,
                                                           self.release,
                                                           self.arch,
                               self.widgets.get_object('version').get_text())
