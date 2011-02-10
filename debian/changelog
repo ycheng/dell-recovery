@@ -7,6 +7,8 @@ dell-recovery (0.84) UNRELEASED; urgency=low
   * Include a grubenv in factory config.
   * In recovery partition grub.cfg, use $prefix rather than hardcoding.
   * In recovery partition grub.cfg, use -- to delimit the end of line.
+  * After SUCCESS, clean up the factory directory (regardless of if this was
+    a factory install).
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 10 Feb 2011 16:25:11 -0600
 
