@@ -1,4 +1,4 @@
-dell-recovery (0.84) UNRELEASED; urgency=low
+dell-recovery (0.84) natty; urgency=low
 
   * OIE Archives: use tar format instead of tar.gz.
     - This is mostly because of limitations of tar.exe for WinPE.
@@ -10,7 +10,7 @@ dell-recovery (0.84) UNRELEASED; urgency=low
   * After SUCCESS, clean up the factory directory (regardless of if this was
     a factory install).
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 10 Feb 2011 16:25:11 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 10 Feb 2011 17:45:27 -0600
 
 dell-recovery (0.83) natty; urgency=low
 
