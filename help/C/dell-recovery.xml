@@ -381,18 +381,29 @@
   <sect2 id="bto-oie">
     <title>Installation Mode</title>
     <para>
-      The installation mode page allows setting the mode the image will run on during installation.
-      Standard mode will not allow any interactivity or customization when an install completes or fails.
-      This is intended for end users.
-      The applications page is only applicable to machines being installed within
-      a factory environment.  It allows you to add applications that are tied to
-      Service Release Vehicle identifiers (SRVs) so that they can be conditionally
-      installed during factory process.
+      If the image is intended to be used in an ODM factory, it should be generated in OIE mode.
+      OIE Mode images are not directly bootable.  The bootloader needs to be installed separately from the image.
     </para>
     <para>
-      OIE or ODM Image Enablement mode allows for a passing (Green) or failing (Red) screen when the installation
-      complete.  It also allows for a custom SUCCESS or FAIL script that can be used to contact an ODM's factory
-      floor management server.
+      An OIE image is generated as gzipped tarball (tar.gz) and diskpartioning recipe.  These images are intended
+      to be used from within a Windows based factory environment such as WinPE.  The intended steps are:
+      <variablelist>
+      <varlistentry>
+        <term>1) Create the disk partitions using diskpart with the included recipe.</term>
+        <term>2) Extract the gzipped tarball onto the second partition</term>
+        <term>3) Load an SDR onto the second partition (if applicable)</term>
+        <term>4) Install the bootloader using a Windows executable utility</term>
+        <term>5) Reboot the machine.</term>
+      </varlistentry>
+    </variablelist>
+
+    </para>
+    <para>
+      The installation will continue from this point in loading the SDR into memory and preparing SRVs.  After the installation
+      completes, the customer bootloader will be installed.  If the installation is interrupted before this, the installer
+      will restart when powered on.
+      When the installation is a complete, any custom SUCCESS or FAIL scripts will be ran and then a passing
+      (Green) or failing (Red) screen will be displayed.  The system will be powered off after pressing any key.
     </para>
     <figure id="bto-oie-figure">
       <title>OIE Page</title>

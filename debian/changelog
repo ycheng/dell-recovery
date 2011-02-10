@@ -9,6 +9,7 @@ dell-recovery (0.83) UNRELEASED; urgency=low
   * Create OIE images in their own directory.
   * Create an OIE diskpart recipe with the OIE image (w/ cushion of 300mb).
   * Update translations from Launchpad.
+  * Update OIE help page for above changes.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 08 Feb 2011 13:32:35 -0600
 
