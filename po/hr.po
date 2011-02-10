@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-02-01 15:53-0600\n"
+"POT-Creation-Date: 2011-02-03 18:39-0600\n"
 "PO-Revision-Date: 2010-03-18 19:50+0000\n"
 "Last-Translator: Saša Teković <Unknown>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-02-03 04:52+0000\n"
+"X-Launchpad-Export-Date: 2011-02-05 05:04+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -71,7 +71,7 @@ msgstr ""
 msgid "Choose Media Type"
 msgstr "Odaberite vrstu medija"
 
-#: ../Dell/recovery_basic_gtk.py:321 ../gtk/builder.ui.h:25
+#: ../Dell/recovery_basic_gtk.py:321 ../gtk/builder.ui.h:27
 msgid "ISO Image"
 msgstr "ISO slika"
 
@@ -111,136 +111,152 @@ msgid ""
 "DVD image."
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:152
+#: ../Dell/recovery_advanced_gtk.py:154
 msgid "Choose Base OS Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:155
+#: ../Dell/recovery_advanced_gtk.py:157
 msgid "Choose FID Overlay"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:164
+#: ../Dell/recovery_advanced_gtk.py:166
 msgid "Choose Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:176
+#: ../Dell/recovery_advanced_gtk.py:178
 msgid "Choose Driver Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:190
+#: ../Dell/recovery_advanced_gtk.py:192
 msgid "Choose Application Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:201
+#: ../Dell/recovery_advanced_gtk.py:203
 msgid "Installation Mode"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:208
+#: ../Dell/recovery_advanced_gtk.py:213
 msgid "Builder Summary"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:209
+#: ../Dell/recovery_advanced_gtk.py:214
 msgid "Base Image Distributor"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:211
+#: ../Dell/recovery_advanced_gtk.py:216
 msgid "Base Image Release"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:214
+#: ../Dell/recovery_advanced_gtk.py:219
 msgid "BTO Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:217
+#: ../Dell/recovery_advanced_gtk.py:222
 msgid "Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:220
+#: ../Dell/recovery_advanced_gtk.py:225
 msgid "FID Overlay"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:224
+#: ../Dell/recovery_advanced_gtk.py:229
 msgid "Utility Partition: "
 msgstr "Uslužna particija: "
 
-#: ../Dell/recovery_advanced_gtk.py:227
+#: ../Dell/recovery_advanced_gtk.py:232
 msgid "Application"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:228
+#: ../Dell/recovery_advanced_gtk.py:233
 msgid "Driver"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:234
+#: ../Dell/recovery_advanced_gtk.py:239
 msgid "Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:240
+#: ../Dell/recovery_advanced_gtk.py:245
 msgid "Inject Dell Recovery Package"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:243
+#: ../Dell/recovery_advanced_gtk.py:248
 msgid "OIE Installation Mode"
 msgstr ""
 
+#: ../Dell/recovery_advanced_gtk.py:251
+msgid "Additional Success Script"
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:254
+msgid "Additional Fail Script"
+msgstr ""
+
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:253
+#: ../Dell/recovery_advanced_gtk.py:264
 msgid "Assembling Image Components"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:330
+#: ../Dell/recovery_advanced_gtk.py:343
 msgid "Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:333
+#: ../Dell/recovery_advanced_gtk.py:346
 msgid "No Additional Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:429
+#: ../Dell/recovery_advanced_gtk.py:442
 msgid "<b>ERROR</b>: git is not installed"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:590
+#: ../Dell/recovery_advanced_gtk.py:603
 msgid "Missing Dell-Recovery"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:591
+#: ../Dell/recovery_advanced_gtk.py:604
 msgid "Not present in ISO or GIT tree"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:707
+#: ../Dell/recovery_advanced_gtk.py:720
 msgid "All SRVs must be filled to proceed."
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:745
+msgid "SUCCESS Script: "
+msgstr ""
+
+#: ../Dell/recovery_advanced_gtk.py:749
+msgid "FAIL Script: "
 msgstr ""
 
 #: ../Dell/recovery_backend.py:283
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:407
+#: ../Dell/recovery_backend.py:418
 msgid "Adding in base image"
 msgstr "Dodavanje u osnovnu sliku"
 
-#: ../Dell/recovery_backend.py:415
+#: ../Dell/recovery_backend.py:426
 msgid "Overlaying FID content"
 msgstr "Prekrivanje FID sadržaja"
 
-#: ../Dell/recovery_backend.py:786
+#: ../Dell/recovery_backend.py:809
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:810
+#: ../Dell/recovery_backend.py:833
 msgid "Building Dell Utility Partition"
 msgstr "Izgradnja Dell uslužne particije"
 
-#: ../Dell/recovery_backend.py:874
+#: ../Dell/recovery_backend.py:897
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Regeneriranje UUID-a / ponovna izgradnja initramfsa"
 
-#: ../Dell/recovery_backend.py:903
+#: ../Dell/recovery_backend.py:926
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:979
+#: ../Dell/recovery_backend.py:1002
 msgid "Building ISO"
 msgstr "Izgradnja ISO-a"
 
@@ -325,6 +341,10 @@ msgid "Version:"
 msgstr "Inačica:"
 
 #: ../gtk/builder.ui.h:1
+msgid "\n"
+msgstr ""
+
+#: ../gtk/builder.ui.h:3
 msgid ""
 "\n"
 "\n"
@@ -332,7 +352,7 @@ msgstr ""
 "\n"
 "\n"
 
-#: ../gtk/builder.ui.h:4
+#: ../gtk/builder.ui.h:6
 msgid ""
 "<b>The GIT fetch is in progress.  </b>\n"
 "This window will close automatically when the process is complete. \n"
@@ -343,11 +363,11 @@ msgstr ""
 "<b>NAPOMENA:</b> Molim budite strpljivi, inicijalno preuzimanje može "
 "potrajati neko vrijeme."
 
-#: ../gtk/builder.ui.h:7
+#: ../gtk/builder.ui.h:9
 msgid "Add Dell Recovery"
 msgstr ""
 
-#: ../gtk/builder.ui.h:8
+#: ../gtk/builder.ui.h:10
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
@@ -355,151 +375,165 @@ msgstr ""
 "Bilo koji dodatni upravljački programi ili aplikacije koje bi se trebale "
 "integrirati u sliku, mogu se dodati ovdje."
 
-#: ../gtk/builder.ui.h:9
+#: ../gtk/builder.ui.h:11
 msgid ""
 "BTO images can optionally include a Utility Partition for diagnostic "
 "utilities."
 msgstr ""
 
-#: ../gtk/builder.ui.h:10
+#: ../gtk/builder.ui.h:12
 msgid "Browse for a dell-recovery package"
 msgstr ""
 
-#: ../gtk/builder.ui.h:11
+#: ../gtk/builder.ui.h:13
 msgid "Build dell-recovery package from this system"
 msgstr ""
 
-#: ../gtk/builder.ui.h:12
+#: ../gtk/builder.ui.h:14
 msgid "Choose Content"
 msgstr ""
 
-#: ../gtk/builder.ui.h:13
+#: ../gtk/builder.ui.h:15
 msgid "Choose Image"
 msgstr "Odaberite sliku"
 
-#: ../gtk/builder.ui.h:14
+#: ../gtk/builder.ui.h:16
 msgid "Choose package"
 msgstr ""
 
-#: ../gtk/builder.ui.h:15
+#: ../gtk/builder.ui.h:17
 msgid "Detected Recovery Partition"
 msgstr "Pronađena particija oporavka"
 
-#: ../gtk/builder.ui.h:16
+#: ../gtk/builder.ui.h:18
 msgid "Detected Utility Partition"
 msgstr ""
 
-#: ../gtk/builder.ui.h:17
+#: ../gtk/builder.ui.h:19
 msgid ""
 "During Factory Installation, applications are only installed if the order "
 "record (SDR) refers to the service release vehicle (SRV).  This populates "
 "the possible SRVs to be queried during installation."
 msgstr ""
 
-#: ../gtk/builder.ui.h:18
+#: ../gtk/builder.ui.h:20
 msgid "Extracted Directory"
 msgstr "Raspakirani direktorij"
 
-#: ../gtk/builder.ui.h:19
+#: ../gtk/builder.ui.h:21
 msgid "FID Framework enclosed in debian package"
 msgstr ""
 
-#: ../gtk/builder.ui.h:20
+#: ../gtk/builder.ui.h:22
 msgid "FID GIT Tree"
 msgstr "FID GIT stablo"
 
-#: ../gtk/builder.ui.h:21
+#: ../gtk/builder.ui.h:23
 msgid "FID framework built into BTO image"
 msgstr "FID okvir ugrađen u BTO sliku"
 
-#: ../gtk/builder.ui.h:22
+#: ../gtk/builder.ui.h:24
 msgid "Fetch/Update GIT Tree"
 msgstr "Dohvati/ažuriraj GIT stablo"
 
-#: ../gtk/builder.ui.h:23
+#: ../gtk/builder.ui.h:25
 msgid "GIT Tags/Branches:"
 msgstr "GIT oznake/ogranci:"
 
-#: ../gtk/builder.ui.h:24
+#: ../gtk/builder.ui.h:26
 msgid "GIT Tree Status"
 msgstr "Stanje GIT stabla"
 
-#: ../gtk/builder.ui.h:26
+#: ../gtk/builder.ui.h:28
+msgid ""
+"In OIE mode, all installations will notify the user at completion on success "
+"or failure.\n"
+"In standard mode, a passing installation will reboot into the out of box "
+"experience.  A failing installation will reboot into a red GRUB screen."
+msgstr ""
+
+#: ../gtk/builder.ui.h:30
 msgid "Install dpkg-repack"
 msgstr ""
 
-#: ../gtk/builder.ui.h:27
+#: ../gtk/builder.ui.h:31
 msgid "Install git"
 msgstr "Instaliraj git"
 
-#: ../gtk/builder.ui.h:28
+#: ../gtk/builder.ui.h:32
 msgid "No additional Utility Partition"
 msgstr ""
 
-#: ../gtk/builder.ui.h:29
+#: ../gtk/builder.ui.h:33
+msgid ""
+"OIE mode also allows you to provide additional SUCCESS and FAIL scripts to "
+"be ran prior to notification the image is complete.  These can each be any "
+"executable program or script."
+msgstr ""
+
+#: ../gtk/builder.ui.h:34
 msgid ""
 "Part of the FID overlay requires a dell-recovery package to be included."
 msgstr ""
 
-#: ../gtk/builder.ui.h:30
+#: ../gtk/builder.ui.h:35
 msgid "Please enter the SRV to use:"
 msgstr ""
 
-#: ../gtk/builder.ui.h:31
+#: ../gtk/builder.ui.h:36
 msgid "Run in OIE mode."
 msgstr ""
 
-#: ../gtk/builder.ui.h:32
+#: ../gtk/builder.ui.h:37
 msgid "Run in standard installation mode."
 msgstr ""
 
-#: ../gtk/builder.ui.h:33
+#: ../gtk/builder.ui.h:38
 msgid "SRV Entry"
 msgstr ""
 
-#: ../gtk/builder.ui.h:34
+#: ../gtk/builder.ui.h:39
 msgid "Select content for Utility Partition"
 msgstr ""
 
-#: ../gtk/builder.ui.h:35
+#: ../gtk/builder.ui.h:40
 msgid "Selected Content Details:"
 msgstr ""
 
-#: ../gtk/builder.ui.h:36
+#: ../gtk/builder.ui.h:41
 msgid "Selected Image Details:"
 msgstr "Detalji odabrane slike:"
 
-#: ../gtk/builder.ui.h:37
+#: ../gtk/builder.ui.h:42
 msgid "Selected Overlay Details:"
 msgstr "Detalji odabranog prekrivanja:"
 
-#: ../gtk/builder.ui.h:38
+#: ../gtk/builder.ui.h:43
+msgid "Set FAIL script"
+msgstr ""
+
+#: ../gtk/builder.ui.h:44
+msgid "Set SUCCESS script"
+msgstr ""
+
+#: ../gtk/builder.ui.h:45
 msgid "Show Details"
 msgstr "Prikaži detalje"
 
-#: ../gtk/builder.ui.h:39
+#: ../gtk/builder.ui.h:46
 msgid ""
 "The BTO FID framework is the first thing injected into a base vanilla image. "
 " If you are generating from an existing BTO compatible image, you may use "
 "the built-in framework."
 msgstr ""
 
-#: ../gtk/builder.ui.h:40
+#: ../gtk/builder.ui.h:47
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
 msgstr ""
 "Slika osnovnog sustava osigurava većinu sadržaja za BTO sliku. Ona može biti "
 "slika Vanilla OS-a ili postojeća BTO slika."
-
-#: ../gtk/builder.ui.h:41
-msgid ""
-"When running in OIE mode, all installations will notify the user at "
-"completion on success or failure.\n"
-"When running in standard mode, a passing installation will reboot into the "
-"out of box experience.  A failing installation will reboot into a red GRUB "
-"screen."
-msgstr ""
 
 #: ../gtk/tool_selector.ui.h:1
 msgid "Build OS Media"
