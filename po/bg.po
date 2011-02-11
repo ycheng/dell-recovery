@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-03 18:39-0600\n"
+"POT-Creation-Date: 2011-02-10 00:32-0600\n"
 "PO-Revision-Date: 2010-12-14 05:42+0000\n"
 "Last-Translator: Boyan Sotirov <lz1dsb@abv.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-02-05 05:03+0000\n"
+"X-Launchpad-Export-Date: 2011-02-11 05:01+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -38,19 +38,19 @@ msgstr ""
 msgid "Copyright 2008-2010 Dell Inc."
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:157
+#: ../Dell/recovery_basic_gtk.py:158
 msgid "Building Base image"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:170
+#: ../Dell/recovery_basic_gtk.py:172
 msgid "Opening Burner"
 msgstr "Отваряне на записващо устройство"
 
-#: ../Dell/recovery_basic_gtk.py:195
+#: ../Dell/recovery_basic_gtk.py:197
 msgid "Recovery Media Creation Process Complete"
 msgstr "Създаването на носител за възстановяване завърши"
 
-#: ../Dell/recovery_basic_gtk.py:196
+#: ../Dell/recovery_basic_gtk.py:198
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
@@ -58,173 +58,173 @@ msgstr ""
 "Ако желаете да архивирате още едно копие, генерираният имидж беше запазен "
 "под името:\n"
 
-#: ../Dell/recovery_basic_gtk.py:210
+#: ../Dell/recovery_basic_gtk.py:212
 msgid "Unable to proceed"
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:211
+#: ../Dell/recovery_basic_gtk.py:213
 msgid ""
 "System does not appear to contain Dell factory installed partition layout."
 msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:294
+#: ../Dell/recovery_basic_gtk.py:296
 msgid "Choose Media Type"
 msgstr "Изберете тип носител"
 
-#: ../Dell/recovery_basic_gtk.py:321 ../gtk/builder.ui.h:27
-msgid "ISO Image"
-msgstr "ISO образ"
+#: ../Dell/recovery_basic_gtk.py:327
+msgid "Image File"
+msgstr ""
 
-#: ../Dell/recovery_basic_gtk.py:323
+#: ../Dell/recovery_basic_gtk.py:329
 msgid "Media Type: "
 msgstr "Тип носител: "
 
-#: ../Dell/recovery_basic_gtk.py:326 ../Dell/recovery_basic_gtk.py:329
+#: ../Dell/recovery_basic_gtk.py:332 ../Dell/recovery_basic_gtk.py:335
 msgid "Recovery Partition: "
 msgstr "Дял за възстановяване: "
 
-#: ../Dell/recovery_basic_gtk.py:330
+#: ../Dell/recovery_basic_gtk.py:336
 msgid "Included"
 msgstr "Включени"
 
-#: ../Dell/recovery_basic_gtk.py:337
+#: ../Dell/recovery_basic_gtk.py:343
 msgid "Confirm Selections"
 msgstr "Потвърждение на изборите"
 
-#: ../Dell/recovery_advanced_gtk.py:59
+#: ../Dell/recovery_advanced_gtk.py:61
 msgid "python-vte is missing"
 msgstr "python-vte липсва"
 
-#: ../Dell/recovery_advanced_gtk.py:60
+#: ../Dell/recovery_advanced_gtk.py:62
 msgid "Builder mode requires python-vte to function"
 msgstr "Режима на изграждане изисква python-vte за да функционира"
 
 #. wizard.resize(400,400)
-#: ../Dell/recovery_advanced_gtk.py:78
+#: ../Dell/recovery_advanced_gtk.py:80
 msgid " (BTO Image Builder Mode)"
 msgstr " (BTO Режим на изграждане на имидж)"
 
-#: ../Dell/recovery_advanced_gtk.py:80
+#: ../Dell/recovery_advanced_gtk.py:82
 msgid ""
 "This will integrate a Dell OEM FID framework & driver package set into a "
 "customized OS media image.  You will have the option to create an USB key or "
 "DVD image."
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:154
+#: ../Dell/recovery_advanced_gtk.py:156
 msgid "Choose Base OS Image"
 msgstr "Изберете основен имидж на операционна система"
 
-#: ../Dell/recovery_advanced_gtk.py:157
+#: ../Dell/recovery_advanced_gtk.py:159
 msgid "Choose FID Overlay"
 msgstr "Изберете FID припокриване"
 
-#: ../Dell/recovery_advanced_gtk.py:166
+#: ../Dell/recovery_advanced_gtk.py:168
 msgid "Choose Utility Partition"
 msgstr "Изберете ютилити дял"
 
-#: ../Dell/recovery_advanced_gtk.py:178
+#: ../Dell/recovery_advanced_gtk.py:180
 msgid "Choose Driver Packages"
 msgstr "Изберете пакити драйвери"
 
-#: ../Dell/recovery_advanced_gtk.py:192
+#: ../Dell/recovery_advanced_gtk.py:194
 msgid "Choose Application Packages"
 msgstr "Изберете приложни пакети"
 
-#: ../Dell/recovery_advanced_gtk.py:203
+#: ../Dell/recovery_advanced_gtk.py:205
 msgid "Installation Mode"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:213
+#: ../Dell/recovery_advanced_gtk.py:215
 msgid "Builder Summary"
 msgstr "Обобщение на изграгдащата програма"
 
-#: ../Dell/recovery_advanced_gtk.py:214
+#: ../Dell/recovery_advanced_gtk.py:216
 msgid "Base Image Distributor"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:216
+#: ../Dell/recovery_advanced_gtk.py:218
 msgid "Base Image Release"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:219
+#: ../Dell/recovery_advanced_gtk.py:221
 msgid "BTO Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:222
+#: ../Dell/recovery_advanced_gtk.py:224
 msgid "Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:225
+#: ../Dell/recovery_advanced_gtk.py:227
 msgid "FID Overlay"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:229
+#: ../Dell/recovery_advanced_gtk.py:231
 msgid "Utility Partition: "
 msgstr "Програма за възстановяване: "
 
-#: ../Dell/recovery_advanced_gtk.py:232
+#: ../Dell/recovery_advanced_gtk.py:234
 msgid "Application"
 msgstr "Приложение"
 
-#: ../Dell/recovery_advanced_gtk.py:233
+#: ../Dell/recovery_advanced_gtk.py:235
 msgid "Driver"
 msgstr "Драйвер"
 
-#: ../Dell/recovery_advanced_gtk.py:239
+#: ../Dell/recovery_advanced_gtk.py:241
 msgid "Packages"
 msgstr "Пакети"
 
-#: ../Dell/recovery_advanced_gtk.py:245
+#: ../Dell/recovery_advanced_gtk.py:247
 msgid "Inject Dell Recovery Package"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:248
+#: ../Dell/recovery_advanced_gtk.py:250
 msgid "OIE Installation Mode"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:251
+#: ../Dell/recovery_advanced_gtk.py:253
 msgid "Additional Success Script"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:254
+#: ../Dell/recovery_advanced_gtk.py:256
 msgid "Additional Fail Script"
 msgstr ""
 
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:264
+#: ../Dell/recovery_advanced_gtk.py:266
 msgid "Assembling Image Components"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:343
+#: ../Dell/recovery_advanced_gtk.py:358
 msgid "Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:346
+#: ../Dell/recovery_advanced_gtk.py:361
 msgid "No Additional Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:442
+#: ../Dell/recovery_advanced_gtk.py:457
 msgid "<b>ERROR</b>: git is not installed"
 msgstr "<b>ГРЕШКА</b>: git не е инсталиран"
 
-#: ../Dell/recovery_advanced_gtk.py:603
+#: ../Dell/recovery_advanced_gtk.py:618
 msgid "Missing Dell-Recovery"
 msgstr "Липсващ Dell-Recovery"
 
-#: ../Dell/recovery_advanced_gtk.py:604
+#: ../Dell/recovery_advanced_gtk.py:619
 msgid "Not present in ISO or GIT tree"
 msgstr "Не налично в ISO или GIT дървото"
 
-#: ../Dell/recovery_advanced_gtk.py:720
+#: ../Dell/recovery_advanced_gtk.py:735
 msgid "All SRVs must be filled to proceed."
 msgstr "Всички SRV трябва да бъдат попълнени за продължаване."
 
-#: ../Dell/recovery_advanced_gtk.py:745
+#: ../Dell/recovery_advanced_gtk.py:764
 msgid "SUCCESS Script: "
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:749
+#: ../Dell/recovery_advanced_gtk.py:768
 msgid "FAIL Script: "
 msgstr ""
 
@@ -240,23 +240,27 @@ msgstr "Добявяне в базовия имидж"
 msgid "Overlaying FID content"
 msgstr "Покриване на FID съдържанието"
 
-#: ../Dell/recovery_backend.py:809
+#: ../Dell/recovery_backend.py:832
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:833
+#: ../Dell/recovery_backend.py:856
 msgid "Building Dell Utility Partition"
 msgstr "Изграждане на Dell ютилити дял"
 
-#: ../Dell/recovery_backend.py:897
+#: ../Dell/recovery_backend.py:920
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Регенериране UUID / Изграждане наново initramfs"
 
-#: ../Dell/recovery_backend.py:926
+#: ../Dell/recovery_backend.py:949
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1002
+#: ../Dell/recovery_backend.py:1016
+msgid "Building OIE Archive"
+msgstr ""
+
+#: ../Dell/recovery_backend.py:1051
 msgid "Building ISO"
 msgstr "Създаване на ISO"
 
@@ -323,8 +327,8 @@ msgid "Dell Recovery Media Creator"
 msgstr "Създаване на Dell носител за възстановяване"
 
 #: ../gtk/recovery_media_creator.ui.h:7
-msgid "No media, create ISO image"
-msgstr "Няма носител, създаване на ISO образ"
+msgid "No media, create image"
+msgstr ""
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid "This requires a USB flash drive with approximately 2GB free."
@@ -452,90 +456,92 @@ msgstr "GIT Тагове/Разклонения:"
 msgid "GIT Tree Status"
 msgstr "GIT статус на дървото"
 
-#: ../gtk/builder.ui.h:28
-msgid ""
-"In OIE mode, all installations will notify the user at completion on success "
-"or failure.\n"
-"In standard mode, a passing installation will reboot into the out of box "
-"experience.  A failing installation will reboot into a red GRUB screen."
-msgstr ""
+#: ../gtk/builder.ui.h:27
+msgid "ISO Image"
+msgstr "ISO образ"
 
-#: ../gtk/builder.ui.h:30
+#: ../gtk/builder.ui.h:28
 msgid "Install dpkg-repack"
 msgstr "Инсталиране на dpkg-repack"
 
-#: ../gtk/builder.ui.h:31
+#: ../gtk/builder.ui.h:29
 msgid "Install git"
 msgstr "Инсталиране на git"
 
-#: ../gtk/builder.ui.h:32
+#: ../gtk/builder.ui.h:30
 msgid "No additional Utility Partition"
 msgstr "Няма допълнителен Ютилити дял"
 
-#: ../gtk/builder.ui.h:33
+#: ../gtk/builder.ui.h:31
+msgid ""
+"OIE compliant images can only be installed from ODM factory environments.  "
+"They will notify the user at completion of a success or failure."
+msgstr ""
+
+#: ../gtk/builder.ui.h:32
 msgid ""
 "OIE mode also allows you to provide additional SUCCESS and FAIL scripts to "
 "be ran prior to notification the image is complete.  These can each be any "
 "executable program or script."
 msgstr ""
 
-#: ../gtk/builder.ui.h:34
+#: ../gtk/builder.ui.h:33
 msgid ""
 "Part of the FID overlay requires a dell-recovery package to be included."
 msgstr ""
 
-#: ../gtk/builder.ui.h:35
+#: ../gtk/builder.ui.h:34
 msgid "Please enter the SRV to use:"
 msgstr "Моля въведете SRV, който да се използва:"
 
+#: ../gtk/builder.ui.h:35
+msgid "Produce a standard installation image."
+msgstr ""
+
 #: ../gtk/builder.ui.h:36
-msgid "Run in OIE mode."
+msgid "Produce an OIE compliant installation image."
 msgstr ""
 
 #: ../gtk/builder.ui.h:37
-msgid "Run in standard installation mode."
-msgstr ""
-
-#: ../gtk/builder.ui.h:38
 msgid "SRV Entry"
 msgstr "SRV запис"
 
-#: ../gtk/builder.ui.h:39
+#: ../gtk/builder.ui.h:38
 msgid "Select content for Utility Partition"
 msgstr "Избиране на съдържание за Ютилити дял"
 
-#: ../gtk/builder.ui.h:40
+#: ../gtk/builder.ui.h:39
 msgid "Selected Content Details:"
 msgstr "Избрани детайли на съдържанието:"
 
-#: ../gtk/builder.ui.h:41
+#: ../gtk/builder.ui.h:40
 msgid "Selected Image Details:"
 msgstr "Избрани детайли на имиджа:"
 
-#: ../gtk/builder.ui.h:42
+#: ../gtk/builder.ui.h:41
 msgid "Selected Overlay Details:"
 msgstr "Изпрани насложени детайли:"
 
-#: ../gtk/builder.ui.h:43
+#: ../gtk/builder.ui.h:42
 msgid "Set FAIL script"
 msgstr ""
 
-#: ../gtk/builder.ui.h:44
+#: ../gtk/builder.ui.h:43
 msgid "Set SUCCESS script"
 msgstr ""
 
-#: ../gtk/builder.ui.h:45
+#: ../gtk/builder.ui.h:44
 msgid "Show Details"
 msgstr "Показване на подробности"
 
-#: ../gtk/builder.ui.h:46
+#: ../gtk/builder.ui.h:45
 msgid ""
 "The BTO FID framework is the first thing injected into a base vanilla image. "
 " If you are generating from an existing BTO compatible image, you may use "
 "the built-in framework."
 msgstr ""
 
-#: ../gtk/builder.ui.h:47
+#: ../gtk/builder.ui.h:46
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
@@ -637,6 +643,9 @@ msgstr "Запазване на носителя за възстановяван
 #~ "Тази програма ще създаде носител за възстановяване на операционната система, "
 #~ "който ще ви послужи за възстановяване на компютъра в първоначалното му "
 #~ "състояние. Можете да създадете USB флаш памет или DVD образ."
+
+#~ msgid "No media, create ISO image"
+#~ msgstr "Няма носител, създаване на ISO образ"
 
 #~ msgid "Choose Target Directory"
 #~ msgstr "Изберете целева папка"
