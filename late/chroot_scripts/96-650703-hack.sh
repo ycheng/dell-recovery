@@ -1,10 +1,13 @@
 #!/bin/sh
 #
-#       <oem_config.sh>
+#       <96-650703-hack.sh>
 #
-#        Setup the early env before oem config or cleanup after
+#       A hack to work around  https://bugs.launchpad.net/ubuntu/+source/ubiquity/+bug/650703
+#       - This removes the rc runlevel switch as potential target for oem-config during first
+#         boot.
 #
-#       Copyright 2010-2011 Dell Inc.
+#
+#       Copyright 2008-2011 Dell Inc.
 #           Mario Limonciello <Mario_Limonciello@Dell.com>
 #
 #       This program is free software; you can redistribute it and/or modify
@@ -21,31 +24,8 @@
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
-# vim:ts=8:sw=8:et:tw=0
-#
 
-# $1 -> early/late
-#
-# for early:
-# $2 -> device to mount
-# $3 -> /cdrom or /isodevice
+. /usr/share/dell/scripts/fifuncs ""
 
-if [ "$1" = "early" ]; then
-    mkdir -p $3
-    mount -o ro $2 $3
-    if [ -f "$3/ubuntu.iso" ]; then
-        mount -o loop $3/ubuntu.iso /cdrom
-    fi
-    /usr/share/dell/scripts/pool.sh
-elif [ "$1" = "late" ]; then
-    if [ -d "/isodevice" ]; then
-        umount /isodevice
-        rm -rf /isodevice
-    fi
-    rm -f /etc/apt/sources.list.d/dell.list
-
-    #HACK to workaround https://bugs.launchpad.net/ubuntu/+source/ubiquity/+bug/650703
-    rm -f /etc/init/oem-config.conf
-else
-    echo "Unknown arguments $1 $2 $3 $4"
-fi
+IFHALT "Add a hack for LP: #650703"
+sed -i "s,or starting uxlaunch$,or starting uxlaunch),; /or stopping rc/d" /etc/init/oem-config.conf
