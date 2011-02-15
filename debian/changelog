@@ -1,11 +1,11 @@
-dell-recovery (0.85) UNRELEASED; urgency=low
+dell-recovery (0.85) natty; urgency=low
 
   * Add a hack for LP: #650703 to not allow oem-config to start on the rc
     runlevel stopping to prevent a race between gdm and oem-config.
     - If a proper solution is added to oem-config/ubiquity, this hack can
       be dropped.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 14 Feb 2011 17:57:04 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 14 Feb 2011 18:40:40 -0600
 
 dell-recovery (0.84) natty; urgency=low
 
