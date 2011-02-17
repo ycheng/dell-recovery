@@ -43,9 +43,6 @@ elif [ "$1" = "late" ]; then
         rm -rf /isodevice
     fi
     rm -f /etc/apt/sources.list.d/dell.list
-
-    #HACK to workaround https://bugs.launchpad.net/ubuntu/+source/ubiquity/+bug/650703
-    rm -f /etc/init/oem-config.conf
 else
     echo "Unknown arguments $1 $2 $3 $4"
 fi

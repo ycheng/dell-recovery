@@ -1,3 +1,9 @@
+dell-recovery (0.86) UNRELEASED; urgency=low
+
+  * Drop the hack for LP: #650703 now that there is a proper solution in ubiquity.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Feb 2011 10:23:03 -0600
+
 dell-recovery (0.85) natty; urgency=low
 
   * Add a hack for LP: #650703 to not allow oem-config to start on the rc
