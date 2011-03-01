@@ -708,7 +708,7 @@ def write_up_bootsector(device, partition):
                 wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
             #If we don't have the bootsector code, then just set the label properly
     else:
-        fetch_output(['dosfslabel', device + partition, "DellUtility"], data)
+        fetch_output(['dosfslabel', device + partition, "DellUtility"])
 
 
 def dbus_sync_call_signal_wrapper(dbus_iface, func, handler_map, *args, **kwargs):

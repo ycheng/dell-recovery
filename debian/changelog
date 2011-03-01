@@ -1,3 +1,9 @@
+dell-recovery (0.87) UNRELEASED; urgency=low
+
+  * Fix disk creation in non DRMK case.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 01 Mar 2011 16:10:18 -0600
+
 dell-recovery (0.86) natty; urgency=low
 
   * Drop the hack for LP: #650703 now that there is a proper solution in ubiquity.
