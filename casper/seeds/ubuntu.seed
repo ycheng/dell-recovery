@@ -141,6 +141,9 @@
  d-i finish-install/reboot_in_progress note
  ubiquity ubiquity/summary note
 
+# Force X to run in a safe graphics mode
+ ubiquity ubiquity/force_failsafe_graphics boolean true
+
 # Don't show incomplete language support message
  d-i pkgsel/ignore-incomplete-language-support boolean true
 

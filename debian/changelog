@@ -1,6 +1,8 @@
 dell-recovery (0.87) UNRELEASED; urgency=low
 
   * Fix disk creation in non DRMK case.
+  * A bit of an experiment:
+    - Force installation to run in safe graphics mode.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 01 Mar 2011 16:10:18 -0600
 
