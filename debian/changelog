@@ -1,4 +1,4 @@
-dell-recovery (0.88) UNRELEASED; urgency=low
+dell-recovery (0.88) natty; urgency=low
 
   * Don't run os-prober during install unless dual boot.
   * debian/control:
@@ -12,7 +12,7 @@ dell-recovery (0.88) UNRELEASED; urgency=low
     - This is meant for the SRU case.  If an SRU is pushed for say 0.88.1
       then that SRU could be included in target media too.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 Mar 2011 18:49:41 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 03 Mar 2011 16:40:41 -0600
 
 dell-recovery (0.87) natty; urgency=low
 
