@@ -1,6 +1,16 @@
 dell-recovery (0.88) UNRELEASED; urgency=low
 
   * Don't run os-prober during install unless dual boot.
+  * debian/control:
+    - Depends on dpkg-repack.
+  * If the dell-recovery instance is running from the same series
+    (eg natty) as the recovery partition:
+    - Check the latest version in the recovery partition
+    - Compare to the running version.  
+    - If the running version is newer, include it in the new image 
+      that was generated.
+    - This is meant for the SRU case.  If an SRU is pushed for say 0.88.1
+      then that SRU could be included in target media too.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 Mar 2011 18:49:41 -0600
 

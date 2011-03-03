@@ -276,6 +276,36 @@ class Backend(dbus.service.Object):
             except OSError, msg:
                 print >> sys.stderr, "Error cleaning up: %s" % str(msg)
 
+    def _test_for_new_dell_recovery(self, mount, assembly_tmp):
+        """Tests if the distro currently on the system matches the recovery media.
+           If it does, check for any potential SRUs to apply to the recovery media
+        """
+    
+        output = fetch_output(['zcat', '/usr/share/doc/dell-recovery/changelog.gz'])
+        package_distro = output.split('\n')[0].split()[2].strip(';')
+    
+        with open('info') as rfd:
+            rp_distro = rfd.readline().split()[2].strip('"').lower()
+            
+        if rp_distro in package_distro:
+            from apt.cache import Cache
+            from debian_bundle import debian_support
+            logging.debug("_test_for_new_dell_recovery: Distro %s matches %s", rp_distro, package_distro)
+            cache = Cache()
+            package_version = cache['dell-recovery'].installed.version
+            rp_version = self.query_have_dell_recovery(mount,'')
+            
+            if debian_support.version_compare(package_version, rp_version):
+                logging.debug("_test_for_new_dell_recovery: Including updated dell-recovery package version, %s (original was %s)", package_version, rp_version)
+                dest = os.path.join(assembly_tmp, 'debs')
+                if not os.path.isdir(dest):
+                    os.makedirs(dest)
+                call = subprocess.Popen(['dpkg-repack', 'dell-recovery'], cwd=dest)
+                (out, err) = call.communicate()
+        else:
+            logging.debug("_test_for_new_dell_recovery: RP Distro %s doesn't match our distro %s, not injecting updated package", rp_distro, package_distro)
+
+
     def _process_driver_fish(self, driver_fish, assembly_tmp):
         """Processes a driver FISH archive"""
         length = len(driver_fish)
@@ -647,7 +677,7 @@ class Backend(dbus.service.Object):
         return (version, date)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 'ss', out_signature = 'b', sender_keyword = 'sender',
+        in_signature = 'ss', out_signature = 's', sender_keyword = 'sender',
         connection_keyword = 'conn')
     def query_have_dell_recovery(self, recovery, framework, sender=None, conn=None):
         '''Checks if the given image and BTO framework contain the dell-recovery
@@ -667,10 +697,10 @@ class Backend(dbus.service.Object):
             '''Checks if given file mentions dell-recovery'''
             for line in feed.split('\n'):
                 if 'dell-recovery' in line:
-                    return True
-            return False
+                    return line.split()[1]
+            return ''
 
-        found = False
+        found = ''
 
         #Recovery Partition is an ISO
         if os.path.isfile(recovery) and recovery.endswith('.iso'):
@@ -681,8 +711,12 @@ class Backend(dbus.service.Object):
             for fname in run_isoinfo_command(cmd).split('\n'):
                 if 'dell-recovery' in fname and (fname.endswith('.deb') or fname.endswith('.rpm')):
                     logging.debug("query_have_dell_recovery: Found %s", fname)
-                    found = True
-                    break
+                    if '_' in fname:
+                        new = fname.split('_')[1]
+                        if new > found:
+                            found = new
+                    if not found:
+                        found = '1'
                 elif fname.endswith('.manifest'):
                     interesting_files.append(fname)
                     logging.debug("query_have_dell_recovery: Appending %s to interesting_files", fname)
@@ -691,10 +725,11 @@ class Backend(dbus.service.Object):
                 for fname in interesting_files:
                     cmd = ['isoinfo', '-J', '-i', recovery, '-x', fname]
                     logging.debug("query_have_dell_recovery: Checking %s ", fname)
-                    if check_mentions(run_isoinfo_command(cmd)):
-                        logging.debug("query_have_dell_recovery: Found in %s", fname)
-                        found = True
-                        break
+                    version = check_mentions(run_isoinfo_command(cmd))
+                    if version:
+                        logging.debug("query_have_dell_recovery: Found %s in %s", version, fname)
+                        if version > found:
+                            found = version
         #Recovery partition is mount point or directory
         else:
             #Search for a flat file first (or a manifest for later)
@@ -703,21 +738,27 @@ class Backend(dbus.service.Object):
             for root, dirs, files in os.walk(recovery, topdown=False):
                 for fname in files:
                     if 'dell-recovery' in fname and (fname.endswith('.deb') or fname.endswith('.rpm')):
-                        found = True
                         logging.debug("query_have_dell_recovery: Found in %s", os.path.join(root, fname))
-                        break
+                        if '_' in fname:
+                            new = fname.split('_')[1]
+                            if new > found:
+                                found = new
+                        if not found:
+                            found = '1'
                     elif fname.endswith('.manifest'):
                         interesting_files.append(os.path.join(root, fname))
                         logging.debug("query_have_dell_recovery: Appending %s to interesting_files", os.path.join(root, fname))
 
             if not found:
                 for fname in interesting_files:
+                    logging.debug("query_have_dell_recovery: Checking %s ", fname)
                     with open(fname, 'r') as rfd:
                         output = rfd.read()
-                    if check_mentions(output):
-                        logging.debug("query_have_dell_recovery: Found in %s", fname)
-                        found = True
-                        break
+                    version = check_mentions(output)
+                    if version:
+                        logging.debug("query_have_dell_recovery: Found %s in %s", version, fname)
+                        if version > found:
+                            found = version
 
         #If we didn't find it in the ISO, search the framework
         if not found and framework:
@@ -725,10 +766,13 @@ class Backend(dbus.service.Object):
             for root, dirs, files in os.walk(framework, topdown=False):
                 for name in files:
                     if 'dell-recovery' in name and (name.endswith('.deb') or name.endswith('.rpm')):
-                        found = True
                         logging.debug("query_have_dell_recovery: Found in %s", os.path.join(root, name))
-                        break
-
+                        if '_' in fname:
+                            new = fname.split('_')[1]
+                            if new > found:
+                                found = new
+                        if not found:
+                            found = '1'
         return found
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
@@ -824,6 +868,9 @@ class Backend(dbus.service.Object):
 
         #mount the recovery partition
         mntdir = self.request_mount(recovery, sender, conn)
+
+        #test for an updated dell recovery deb to put in
+        self._test_for_new_dell_recovery(mntdir, tmpdir)
 
         #check for a nested ISO image
         if os.path.exists(os.path.join(mntdir, 'ubuntu.iso')):
