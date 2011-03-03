@@ -1808,6 +1808,20 @@ class Install(InstallPlugin):
         elif rec_part:
             to_install.append('dell-recovery')
 
+            #don't allow OS prober to probe other drives in single OS install
+            with open(os.path.join(self.target, 'etc/default/grub'), 'r') as rfd:
+                default_grub = rfd.readlines()
+            with open(os.path.join(self.target, 'etc/default/grub'), 'w') as wfd:
+                found = False
+                for line in default_grub:
+                    if line.startswith("GRUB_DISABLE_OS_PROBER="):
+                        line = "GRUB_DISABLE_OS_PROBER=true\n"
+                        found = True
+                    wfd.write(line)
+                if not found:
+                    wfd.write("GRUB_DISABLE_OS_PROBER=true\n")
+
+
         #if oie, pass on information to post install
         try:
             oie = misc.create_bool(progress.get(OIE_QUESTION))
