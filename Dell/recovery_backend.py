@@ -284,7 +284,7 @@ class Backend(dbus.service.Object):
         output = fetch_output(['zcat', '/usr/share/doc/dell-recovery/changelog.gz'])
         package_distro = output.split('\n')[0].split()[2].strip(';')
     
-        with open('info') as rfd:
+        with open(os.path.join(mount, '.disk', 'info')) as rfd:
             rp_distro = rfd.readline().split()[2].strip('"').lower()
             
         if rp_distro in package_distro:
@@ -870,7 +870,10 @@ class Backend(dbus.service.Object):
         mntdir = self.request_mount(recovery, sender, conn)
 
         #test for an updated dell recovery deb to put in
-        self._test_for_new_dell_recovery(mntdir, tmpdir)
+        try:
+            self._test_for_new_dell_recovery(mntdir, tmpdir)
+        except:
+            raise CreateFailed("Error injecting updated Dell Recovery into image.")
 
         #check for a nested ISO image
         if os.path.exists(os.path.join(mntdir, 'ubuntu.iso')):

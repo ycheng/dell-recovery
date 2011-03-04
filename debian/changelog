@@ -1,3 +1,9 @@
+dell-recovery (0.89) UNRELEASED; urgency=low
+
+  * Fix a corner case found for injecting dell recovery.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 04 Mar 2011 11:55:49 -0600
+
 dell-recovery (0.88) natty; urgency=low
 
   * Don't run os-prober during install unless dual boot.
