@@ -1,3 +1,9 @@
+dell-recovery (0.90) UNRELEASED; urgency=low
+
+  * Remove grubenv in dell-recovery-bootloader postinst too.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 07 Mar 2011 13:33:23 -0600
+
 dell-recovery (0.89) natty; urgency=low
 
   * Fix a corner case found for injecting dell recovery.

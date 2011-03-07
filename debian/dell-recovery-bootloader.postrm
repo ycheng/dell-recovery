@@ -6,6 +6,7 @@ if [ "$1" = "purge" ]; then
 	rm -f /var/lib/dell-recovery/boot.img
         rm -f /var/lib/dell-recovery/core.img
         rm -f /var/lib/dell-recovery/grub.cfg
+	rm -f /var/lib/dell-recovery/grubenv
 fi
 
 
