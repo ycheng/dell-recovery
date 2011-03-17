@@ -1,10 +1,10 @@
-dell-recovery (0.90) UNRELEASED; urgency=low
+dell-recovery (0.90) natty; urgency=low
 
   * Remove grubenv in dell-recovery-bootloader postinst too.
   * Make sure to align partitions properly and to start on 1M boundary instead.
   * Force a cleanup of memory used for apt cache.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Mar 2011 15:25:19 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Mar 2011 16:54:39 -0500
 
 dell-recovery (0.89) natty; urgency=low
 
