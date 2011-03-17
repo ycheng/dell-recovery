@@ -642,6 +642,7 @@ class Page(Plugin):
             if key == 'fist' and cache[key].is_installed:
                 self.log("FIST was found, not building a UP.")
                 return
+        del cache
 
         #For now on GPT we don't include an UP since we can't boot
         # 16 bit code as necessary for the UP to be working
