@@ -1263,7 +1263,7 @@ manually to proceed.")
                         out.write(mbr.read(440))
 
             #Utility partition files (tgz/zip)#
-            up_size = 32
+            up_size = 33
 
             #Utility partition image (dd)#
             for fname in magic.UP_FILENAMES:
@@ -1273,10 +1273,10 @@ manually to proceed.")
                     #in bytes
                     up_size = float(up_size.split()[1])
                     #in mbytes
-                    up_size = up_size / 1000000
+                    up_size = 1 + (up_size / 1000000)
 
             #Build UP
-            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '0', str(up_size))
+            command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '1', str(up_size))
             result = misc.execute_root(*command)
             if result is False:
                 raise RuntimeError, ("Error creating new %s mb utility partition on %s" % (up_size, self.device))
@@ -1290,7 +1290,7 @@ manually to proceed.")
                 magic.write_up_bootsector(self.device, up_part)
 
             #Build RP
-            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', self.rp_type, str(up_size), str(up_size + rp_size_mb))
+            command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', self.rp_type, str(up_size), str(up_size + rp_size_mb))
             result = misc.execute_root(*command)
             if result is False:
                 raise RuntimeError, ("Error creating new %s mb recovery partition on %s" % (rp_size_mb, self.device))
