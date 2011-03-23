@@ -51,11 +51,6 @@ Acquire::cdrom
 EOF
 fi
 
-
-#choose-mirror might not have picked a good mirror to start with
-#https://bugs.launchpad.net/ubuntu/+source/choose-mirror/+bug/550694
-sed -i "s/http:\/\/.*.archive.ubuntu.com/http:\/\/archive.ubuntu.com/" /etc/apt/sources.list
-
 if [ ! -f /etc/apt/sources.list.d/dell.list ]; then
     #extra sources need to be disabled for this
     if find /etc/apt/sources.list.d/ -type f | grep sources.list.d; then

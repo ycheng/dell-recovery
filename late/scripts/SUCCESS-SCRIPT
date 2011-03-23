@@ -34,8 +34,11 @@ set -e
 
 IFHALT "(SUCCESS) Clean-Up .."
 
-#This will be rebuilt before OEM config
+#Fixup APT how we want it for a successful oem-config run
+rm -f $TARGET/var/lib/apt/lists/*Packages
 rm -f $TARGET/etc/apt/sources.list.d/dell.list
+#https://bugs.launchpad.net/ubuntu/+source/choose-mirror/+bug/550694
+sed -i "s/http:\/\/.*.archive.ubuntu.com/http:\/\/archive.ubuntu.com/" $TARGET/etc/apt/sources.list
 
 if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     if [ -d "/isodevice" ]; then
