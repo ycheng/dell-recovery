@@ -1,11 +1,11 @@
-dell-recovery (0.91) UNRELEASED; urgency=low
+dell-recovery (0.91) natty; urgency=low
 
   * Move the choose-mirror sed workaround into SUCCESS_SCRIPT.  Fixes problems
     with apt cache during install. (LP: #737066)
   * Explicitly remove all APT Package lists at the end of install to guarantee
     success during oem-config.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 22 Mar 2011 18:29:32 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 22 Mar 2011 20:04:32 -0500
 
 dell-recovery (0.90) natty; urgency=low
 
