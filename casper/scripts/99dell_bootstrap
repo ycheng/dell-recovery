@@ -89,6 +89,12 @@ if [ -d /sys/firmware/efi ]; then
     chroot /root apt-get install grub-efi-amd64 -y
 fi
 
+#If in factory process, we might have backed up an MBR to restore
+#to the first hard drive
+if [ -f /root/cdrom/factory/mbr.bin ];  then
+    dd if=/root/cdrom/factory/mbr.bin of=/dev/sda
+fi
+
 #Emergency installer fixes
 if [ -e /root/cdrom/scripts/emergency.sh ]; then
     . /root/cdrom/scripts/emergency.sh
