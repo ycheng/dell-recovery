@@ -86,9 +86,14 @@ if ! mount | grep "$TARGET/sys"; then
     MOUNT_CLEANUP="$TARGET/sys $MOUNT_CLEANUP"
 fi
 
-if ! mount | grep "$TARGET/media/cdrom"; then
+if ! mount | grep "$TARGET/cdrom"; then
     mount --bind /cdrom $TARGET/cdrom
     MOUNT_CLEANUP="$TARGET/cdrom $MOUNT_CLEANUP"
+fi
+
+if ! -L $TARGET/media/cdrom; then
+    ln -s /cdrom $TARGET/media/cdrom
+    DIR_CLEANUP="$TARGET/media/cdrom $DIR_CLEANUP"
 fi
 
 #Make sure fifuncs and target_chroot are available
