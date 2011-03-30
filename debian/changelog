@@ -1,4 +1,4 @@
-dell-recovery (0.92) UNRELEASED; urgency=low
+dell-recovery (0.92) natty; urgency=low
 
   * casper/bootstrap: If an MBR was backed up before install started, restore it
   * ubiquity/bootstrap: If an MBR was backed up before install, don't restore DRMK
@@ -6,7 +6,7 @@ dell-recovery (0.92) UNRELEASED; urgency=low
   * late: On bind mounts, create a compatibility symlink for /media/cdrom.
     - Fxies installation of packages in late.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 30 Mar 2011 13:58:37 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 30 Mar 2011 15:06:03 -0500
 
 dell-recovery (0.91) natty; urgency=low
 
