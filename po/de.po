@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-10 00:32-0600\n"
-"PO-Revision-Date: 2010-12-05 15:35+0000\n"
+"PO-Revision-Date: 2011-03-31 10:38+0000\n"
 "Last-Translator: Daniel Schury <das.surst@googlemail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-02-11 05:02+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-04-01 04:49+0000\n"
+"X-Generator: Launchpad (build 12559)\n"
 
 #: ../Dell/recovery_gtk.py:92
 msgid "Cannot connect to dbus"
@@ -75,7 +75,7 @@ msgstr "Medientyp wählen"
 
 #: ../Dell/recovery_basic_gtk.py:327
 msgid "Image File"
-msgstr ""
+msgstr "Abbilddatei"
 
 #: ../Dell/recovery_basic_gtk.py:329
 msgid "Media Type: "
@@ -139,7 +139,7 @@ msgstr "Wählen Sie die Anwendungspakete"
 
 #: ../Dell/recovery_advanced_gtk.py:205
 msgid "Installation Mode"
-msgstr ""
+msgstr "Installationsmodus"
 
 #: ../Dell/recovery_advanced_gtk.py:215
 msgid "Builder Summary"
@@ -187,15 +187,15 @@ msgstr "Dell Wiederherstellungspaket einkoppeln"
 
 #: ../Dell/recovery_advanced_gtk.py:250
 msgid "OIE Installation Mode"
-msgstr ""
+msgstr "OIE-Installationsmodus"
 
 #: ../Dell/recovery_advanced_gtk.py:253
 msgid "Additional Success Script"
-msgstr ""
+msgstr "Zusätzliche Erfolgsfallskripte"
 
 #: ../Dell/recovery_advanced_gtk.py:256
 msgid "Additional Fail Script"
-msgstr ""
+msgstr "Zusätzliche Fehlerfallskripte"
 
 #. update gui
 #: ../Dell/recovery_advanced_gtk.py:266
@@ -228,11 +228,11 @@ msgstr "Alle SRVs müssen ausgefüllt werden, um fortzufahren."
 
 #: ../Dell/recovery_advanced_gtk.py:764
 msgid "SUCCESS Script: "
-msgstr ""
+msgstr "ERFOLGSFALL-Skript: "
 
 #: ../Dell/recovery_advanced_gtk.py:768
 msgid "FAIL Script: "
-msgstr ""
+msgstr "FEHLERFALL-Skript: "
 
 #: ../Dell/recovery_backend.py:283
 msgid "Processing FISH packages"
@@ -264,7 +264,7 @@ msgstr "GRUB-Kernabbild wird gebaut"
 
 #: ../Dell/recovery_backend.py:1016
 msgid "Building OIE Archive"
-msgstr ""
+msgstr "OIE-Archiv wird erstellt"
 
 #: ../Dell/recovery_backend.py:1051
 msgid "Building ISO"
@@ -338,7 +338,7 @@ msgstr "Dell-Wiederherstellungsmedien-Ersteller"
 
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create image"
-msgstr ""
+msgstr "Kein Datenträger, erstelle Abbild"
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid "This requires a USB flash drive with approximately 2GB free."
@@ -359,7 +359,7 @@ msgstr "Version:"
 
 #: ../gtk/builder.ui.h:1
 msgid "\n"
-msgstr ""
+msgstr "\n"
 
 #: ../gtk/builder.ui.h:3
 msgid ""
@@ -489,6 +489,9 @@ msgid ""
 "OIE compliant images can only be installed from ODM factory environments.  "
 "They will notify the user at completion of a success or failure."
 msgstr ""
+"OIE-konforme Abbilddateien können ausschließlich in OEM-Umgebungen "
+"installiert werden. Sie informieren den Benutzer über das erfolgreiche oder "
+"fehlerhafte Abschließen."
 
 #: ../gtk/builder.ui.h:32
 msgid ""
@@ -496,6 +499,10 @@ msgid ""
 "be ran prior to notification the image is complete.  These can each be any "
 "executable program or script."
 msgstr ""
+"Der OIE-Modus erlaubt es Ihnen, zusätzliche ERFOLGS- und FEHLERFALL-Skripte "
+"bereitzustellen, welche vor der Benachrichtigung, dass das Abbild komplett "
+"ist, ausgeführt werden. Diese können beliebige ausführbare Dateien oder "
+"Skripte sein."
 
 #: ../gtk/builder.ui.h:33
 msgid ""
@@ -508,11 +515,11 @@ msgstr "Geben Sie bitte ein, welches SRV verwendet werden soll:"
 
 #: ../gtk/builder.ui.h:35
 msgid "Produce a standard installation image."
-msgstr ""
+msgstr "Stelle ein eigenständig installierbares Abbild her."
 
 #: ../gtk/builder.ui.h:36
 msgid "Produce an OIE compliant installation image."
-msgstr ""
+msgstr "Stelle ein OIE-konformes Installationsabbild her."
 
 #: ../gtk/builder.ui.h:37
 msgid "SRV Entry"
@@ -536,11 +543,11 @@ msgstr "Details zum ausgewählten Overlay:"
 
 #: ../gtk/builder.ui.h:42
 msgid "Set FAIL script"
-msgstr ""
+msgstr "Setze FEHLERFALL-Skript"
 
 #: ../gtk/builder.ui.h:43
 msgid "Set SUCCESS script"
-msgstr ""
+msgstr "Setze ERFOLGSFALL-Skript"
 
 #: ../gtk/builder.ui.h:44
 msgid "Show Details"
@@ -641,7 +648,7 @@ msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "Restore #OS# to factory state"
-msgstr ""
+msgstr "Werkszustand von #OS# wiederherstellen"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Save recovery media to DVD"
