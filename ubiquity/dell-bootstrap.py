@@ -534,6 +534,14 @@ class Page(Plugin):
             with open('/tmp/oie', 'w') as wfd:
                 pass
 
+    def sleep_network(self):
+        """Requests the network be disabled for the duration of install to
+           prevent conflicts"""
+        bus = dbus.SystemBus()
+        backend_iface = dbus.Interface(bus.get_object(magic.DBUS_BUS_NAME, '/RecoveryMedia'), magic.DBUS_INTERFACE_NAME)
+        backend_iface.force_network(False)
+        backend_iface.request_exit() 
+
     def clean_recipe(self):
         """Cleans up the recipe to remove swap if we have a small drive"""
 
@@ -1149,6 +1157,7 @@ class Page(Plugin):
 
             # Factory install, and booting from RP
             else:
+                self.sleep_network()
                 self.disable_swap()
                 self.test_oie()
                 self.clean_recipe()
@@ -1688,6 +1697,18 @@ class Install(InstallPlugin):
         if os.path.exists(os.path.join(mount, 'grub', 'grub.cfg')):
             os.unlink(os.path.join(mount, 'grub', 'grub.cfg'))
 
+    def wake_network(self):
+        """Wakes the network back up"""
+        bus = dbus.SystemBus()
+        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+        try:
+            backend_iface = dbus.Interface(bus.get_object(magic.DBUS_BUS_NAME, '/RecoveryMedia'), magic.DBUS_INTERFACE_NAME)
+            backend_iface.force_network(True)
+            backend_iface.request_exit()
+        except Exception:
+            pass
+
+
     def install(self, target, progress, *args, **kwargs):
         '''This is highly dependent upon being called AFTER configure_apt
         in install.  If that is ever converted into a plugin, we'll
@@ -1842,6 +1863,8 @@ class Install(InstallPlugin):
         self.remove_ricoh_mmc()
 
         self.propagate_kernel_parameters()
+
+        self.wake_network()
 
         install_misc.record_installed(to_install)
         install_misc.record_removed(to_remove)

@@ -377,6 +377,22 @@ class Backend(dbus.service.Object):
     #
     # Client API (through D-BUS)
     #
+
+    @dbus.service.method(DBUS_INTERFACE_NAME,
+        in_signature = 'b', out_signature = 'b', sender_keyword = 'sender',
+        connection_keyword = 'conn')
+    def force_network(self, enable, sender=None, conn=None):
+        """Forces a network manager disable request as root"""
+        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.force_network')
+        bus = dbus.SystemBus()
+        obj = bus.get_object('org.freedesktop.NetworkManager', '/org/freedesktop/NetworkManager')
+        int = dbus.Interface(obj, 'org.freedesktop.NetworkManager')
+        if not enable:
+            return int.sleep()
+        else:
+            return int.wake()
+
+    
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature = '', out_signature = '', sender_keyword = 'sender',
         connection_keyword = 'conn')
