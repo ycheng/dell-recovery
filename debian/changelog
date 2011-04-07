@@ -1,9 +1,9 @@
-dell-recovery (0.93) UNRELEASED; urgency=low
+dell-recovery (0.93) natty; urgency=low
 
   * Fix missing OIE argument in recovery media generation from OOBE.
   * Sleep the network for the duration of the install in stage 2.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 07 Apr 2011 12:59:43 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 07 Apr 2011 16:06:44 -0500
 
 dell-recovery (0.92) natty; urgency=low
 
