@@ -318,7 +318,7 @@ class Backend(dbus.service.Object):
                 self.xml_obj.append_fish('driver', os.path.basename(fishie), md5sum)
             dest = None
             if fishie.endswith('.deb'):
-                dest = os.path.join(assembly_tmp, 'debs', 'main')
+                dest = os.path.join(assembly_tmp, 'debs')
                 logging.debug("_process_driver_fish: Copying debian archive fishie %s", fishie)
             elif fishie.endswith('.pdf'):
                 dest = os.path.join(assembly_tmp, 'docs')
