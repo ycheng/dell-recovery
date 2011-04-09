@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-10 00:32-0600\n"
-"PO-Revision-Date: 2011-02-28 10:03+0000\n"
+"PO-Revision-Date: 2011-04-08 10:33+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-01 04:39+0000\n"
-"X-Generator: Launchpad (build 12351)\n"
+"X-Launchpad-Export-Date: 2011-04-09 05:01+0000\n"
+"X-Generator: Launchpad (build 12735)\n"
 
 #: ../Dell/recovery_gtk.py:92
 msgid "Cannot connect to dbus"
@@ -189,11 +189,11 @@ msgstr "OIE-asennustapa"
 
 #: ../Dell/recovery_advanced_gtk.py:253
 msgid "Additional Success Script"
-msgstr ""
+msgstr "Ylimääräinen komentojono onnistuttaessa"
 
 #: ../Dell/recovery_advanced_gtk.py:256
 msgid "Additional Fail Script"
-msgstr ""
+msgstr "Ylimääräinen komentojono epäonnistuttaessa"
 
 #. update gui
 #: ../Dell/recovery_advanced_gtk.py:266
@@ -226,11 +226,11 @@ msgstr "Kaikki SRV:t tulee olla täytetty, jotta voidaan jatkaa."
 
 #: ../Dell/recovery_advanced_gtk.py:764
 msgid "SUCCESS Script: "
-msgstr ""
+msgstr "Komentojono onnistuttaessa: "
 
 #: ../Dell/recovery_advanced_gtk.py:768
 msgid "FAIL Script: "
-msgstr ""
+msgstr "Komentojono epäonnistuttaessa: "
 
 #: ../Dell/recovery_backend.py:283
 msgid "Processing FISH packages"
@@ -334,7 +334,7 @@ msgstr "Dell-palautusmedian luonti"
 
 #: ../gtk/recovery_media_creator.ui.h:7
 msgid "No media, create image"
-msgstr ""
+msgstr "Ei mediaa, luo levykuva"
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid "This requires a USB flash drive with approximately 2GB free."
@@ -482,6 +482,9 @@ msgid ""
 "OIE compliant images can only be installed from ODM factory environments.  "
 "They will notify the user at completion of a success or failure."
 msgstr ""
+"OIE-määritelmän täyttäviä levykuvia voidaan asentaa ainoastaan ODM-"
+"tehdasympäristöissä. Ne kertovat valmistuttuaan käyttäjälle onnistumisesta "
+"tai epäonnistumisesta."
 
 #: ../gtk/builder.ui.h:32
 msgid ""
@@ -489,6 +492,9 @@ msgid ""
 "be ran prior to notification the image is complete.  These can each be any "
 "executable program or script."
 msgstr ""
+"OIE-tila sallii myös ylimääräisten komentojonojen ajamisen epäonnistumisen "
+"tai onnistumisen yhteydessä, ennen ilmoitusta levykuvan valmistumisesta. "
+"Komennot voivat olla mikä tahansa suoritettava ohjelma tai komentojono."
 
 #: ../gtk/builder.ui.h:33
 msgid ""
@@ -501,11 +507,11 @@ msgstr "Syötä käytettävä SRV:"
 
 #: ../gtk/builder.ui.h:35
 msgid "Produce a standard installation image."
-msgstr ""
+msgstr "Tuota tavallinen asennuskuva."
 
 #: ../gtk/builder.ui.h:36
 msgid "Produce an OIE compliant installation image."
-msgstr ""
+msgstr "Tuota OIE-määritysten mukainen asennuskuva."
 
 #: ../gtk/builder.ui.h:37
 msgid "SRV Entry"
@@ -529,11 +535,11 @@ msgstr "Valitun laskostuksen tiedot:"
 
 #: ../gtk/builder.ui.h:42
 msgid "Set FAIL script"
-msgstr ""
+msgstr "Aseta komentojono epäonnistumiselle"
 
 #: ../gtk/builder.ui.h:43
 msgid "Set SUCCESS script"
-msgstr ""
+msgstr "Aseta komentojono onnistumiselle"
 
 #: ../gtk/builder.ui.h:44
 msgid "Show Details"
