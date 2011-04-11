@@ -1,9 +1,9 @@
-dell-recovery (0.95) UNRELEASED; urgency=low
+dell-recovery (0.95) natty; urgency=low
 
   * If destination in SDR on recovery partition is CN, set the language to zh_CN.
   * Check UP for SDR in MFG Media.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 11 Apr 2011 14:59:58 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 11 Apr 2011 16:05:07 -0500
 
 dell-recovery (0.94) natty; urgency=low
 
