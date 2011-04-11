@@ -614,6 +614,7 @@ class Page(Plugin):
 
         #Parse SDR
         srv_list = []
+        dest = 'US'
         with open(sdr_file[0], 'r') as rfd:
             sdr_lines = rfd.readlines()
         for line in sdr_lines:
@@ -622,6 +623,10 @@ class Page(Plugin):
                 if len(columns) > 2:
                     #always assume lower case (in case case sensitive FS)
                     srv_list.append(columns[2].lower())
+            if line.startswith('HW'):
+                columns = line.split()
+                if len(columns) > 2 and columns[1] == 'destination':
+                    dest = columns[2]
 
         #Explode SRVs that match SDR
         for srv in srv_list:
@@ -637,6 +642,11 @@ class Page(Plugin):
                 self.log("Extracting SRV %s onto filesystem" % srv)
                 archive.extractall(path=CDROM_MOUNT)
             archive.close()
+
+        #if the destination is somewhere special, change the language
+        if dest == 'CN':
+            self.preseed('debian-installer/locale', 'zh_CN')
+            self.ui.controller.translate('zh_CN')
 
     def explode_utility_partition(self):
         '''Explodes all content onto the utility partition
