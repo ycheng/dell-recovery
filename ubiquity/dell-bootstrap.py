@@ -596,15 +596,23 @@ class Page(Plugin):
             if refresh is False:
                 self.log("Error removing extended partitions 5-%s for kernel device %s (this may be normal)'" % (total_partitions, self.device))
 
-    def explode_sdr(self):
+    def explode_sdr(self, additional_path=''):
         '''Explodes all content explicitly defined in an SDR
            If no SDR was found, don't change drive at all
         '''
-        sdr_file = glob.glob(CDROM_MOUNT + "/*SDR")
-        if not sdr_file:
-            sdr_file = glob.glob(ISO_MOUNT + "/*SDR")
-        if not sdr_file:
-            return
+
+        if additional_path:
+            sdr_file = glob.glob(additional_path)
+            if not sdr_file:
+                return
+        else:
+            sdr_file = glob.glob(CDROM_MOUNT + "/*SDR")
+            if not sdr_file:
+                sdr_file = glob.glob(ISO_MOUNT + "/*SDR")
+            if not sdr_file:
+                return
+
+        self.log("SDR found at %s, parsing" % sdr_file)
 
         #RP Needs to be writable no matter what
         if not os.path.exists(ISO_MOUNT):
@@ -648,19 +656,9 @@ class Page(Plugin):
             self.preseed('debian-installer/locale', 'zh_CN')
             self.ui.controller.translate('zh_CN')
 
-    def explode_utility_partition(self):
-        '''Explodes all content onto the utility partition
+    def process_utility_partition(self):
+        '''Processes on the utility partition
         '''
-
-        #Check if we have FIST on the system.  FIST indicates this is running
-        #through factory process (of some sort) and the UP will be written
-        #out outside of our control
-        cache = Cache()
-        for key in cache.keys():
-            if key == 'fist' and cache[key].is_installed:
-                self.log("FIST was found, not building a UP.")
-                return
-        del cache
 
         #For now on GPT we don't include an UP since we can't boot
         # 16 bit code as necessary for the UP to be working
@@ -668,7 +666,26 @@ class Page(Plugin):
             self.log("A GPT layout was found, not building a UP.")
             return
 
-        mount = False
+        #mount to start the processing
+        mount = misc.execute_root('mount', self.device + STANDARD_UP_PARTITION, '/boot')
+
+        #Check if we have FIST on the system.  FIST indicates this is running
+        #through factory process (of some sort) and the UP will be written
+        #out outside of our control.  We will just check for an SDR and set
+        #the language using it if found
+        cache = Cache()
+        for key in cache.keys():
+            if key == 'fist' and cache[key].is_installed:
+                self.log("FIST was found, checking for an SDR.")
+                
+                additional_path = os.path.join('/boot', 'MFGMedia', 'SDR')
+                if os.path.exists(additional_path):
+                    self.explode_sdr(additional_path)
+                if mount:
+                    umount = misc.execute_root('umount', '/boot')
+                return
+        del cache
+
         path = ''
         if os.path.exists('/usr/share/dell/up/drmk.zip'):
             path = '/usr/share/dell/up/drmk.zip'
@@ -677,7 +694,6 @@ class Page(Plugin):
         #If we have DRMK available, explode that first
         if path:
             self.log("Extracting DRMK onto utility partition %s" % self.device + STANDARD_UP_PARTITION)
-            mount = misc.execute_root('mount', self.device + STANDARD_UP_PARTITION, '/boot')
             if mount is False:
                 raise RuntimeError, ("Error mounting utility partition pre-explosion.")
             archive = zipfile.ZipFile(path)
@@ -689,6 +705,8 @@ class Page(Plugin):
                     #fail the install
                     #TODO ML (1/10/11) - instead rebuild the UP if possible.
                     self.log("Ignoring corrupted utility partition(%s)." % msg)
+                    if mount:
+                        umount = misc.execute_root('umount', '/boot')
                     return
             archive.close()
 
@@ -1172,7 +1190,7 @@ class Page(Plugin):
                 self.test_oie()
                 self.clean_recipe()
                 self.remove_extra_partitions()
-                self.explode_utility_partition()
+                self.process_utility_partition()
                 self.explode_sdr()
                 self.install_grub()
         except Exception, err:
