@@ -1,3 +1,9 @@
+dell-recovery (0.97) UNRELEASED; urgency=low
+
+  * dell-default-ui: If chinese install, force to 2D unity.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 14 Apr 2011 17:00:39 -0500
+
 dell-recovery (0.96) natty; urgency=low
 
   * Revert "Check UP for SDR in MFG Media".  Caused problems with factory process.
