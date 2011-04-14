@@ -1,8 +1,8 @@
-dell-recovery (0.96) UNRELEASED; urgency=low
+dell-recovery (0.96) natty; urgency=low
 
   * Revert "Check UP for SDR in MFG Media".  Caused problems with factory process.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 14 Apr 2011 15:39:47 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 14 Apr 2011 16:07:45 -0500
 
 dell-recovery (0.95) natty; urgency=low
 
