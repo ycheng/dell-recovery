@@ -529,7 +529,7 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
 
     #Detect the old initramfs stuff
     try:
-        old_initrd_file = glob.glob('%s/initrd*' % old_initrd_directory)[0]
+        old_initrd_files = glob.glob('%s/initrd*' % old_initrd_directory)
     except Exception, msg:
         print str(msg)
         raise dbus.DBusException, ("Missing initrd in image.")
@@ -539,18 +539,28 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
         print str(msg)
         raise dbus.DBusException, ("Missing casper UUID in image.")
 
+    old_initrd_file = ''
+    old_compression = ''
+    old_suffix = ''  
+    for fname in old_initrd_files:
+        if len(fname.split('.')) > 1:
+            old_suffix = fname.split('.')[1]
+        if old_suffix == "lz":
+            old_compression = "lzma"
+            old_initrd_file = fname
+            break
+        elif old_suffix == "gz":
+            old_compression = "gzip"
+            old_initrd_file = fname
+            break
+        else:
+            old_suffix = ''
+
+    if not old_suffix or not old_initrd_file or not old_uuid_file:
+        raise dbus.DBusException, ("Unable to detect valid initrd.")
+
     print "Old initrd: %s" % old_initrd_file
     print "Old uuid file: %s" % old_uuid_file
-
-    old_suffix = ''
-    if len(old_initrd_file.split('.')) > 1:
-        old_suffix = old_initrd_file.split('.')[1]
-
-    old_compression = ''
-    if old_suffix == "lz":
-        old_compression = "lzma"
-    elif old_suffix == "gz":
-        old_compression = "gzip"
     print "Old suffix: %s" % old_suffix
     print "Old compression method: %s" % old_compression
 

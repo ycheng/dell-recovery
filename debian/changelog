@@ -1,3 +1,9 @@
+dell-recovery (0.98) UNRELEASED; urgency=low
+
+  * Check the extensions of all initrd's found in casper directories.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 25 Apr 2011 10:44:34 -0500
+
 dell-recovery (0.97) natty; urgency=low
 
   * dell-default-ui: If chinese install, force to 2D unity.
