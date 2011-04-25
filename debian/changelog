@@ -1,10 +1,10 @@
-dell-recovery (0.98) UNRELEASED; urgency=low
+dell-recovery (0.98) natty; urgency=low
 
   * Check the extensions of all initrd's found in casper directories to avoid
     clashing in images that have more than one kernel in the squashfs.
     (LP: #737058)
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 25 Apr 2011 10:44:34 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 25 Apr 2011 13:01:07 -0500
 
 dell-recovery (0.97) natty; urgency=low
 
