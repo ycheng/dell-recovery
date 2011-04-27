@@ -25,7 +25,7 @@
 
 import dbus.mainloop.glib
 import subprocess
-import gobject
+from gi.repository import GObject
 import os
 import shutil
 import re
@@ -746,7 +746,7 @@ def dbus_sync_call_signal_wrapper(dbus_iface, func, handler_map, *args, **kwargs
         _h_exception_exc = exception
         loop.quit()
 
-    loop = gobject.MainLoop()
+    loop = GObject.MainLoop()
     global _h_reply_result, _h_exception_exc
     _h_reply_result = None
     _h_exception_exc = None

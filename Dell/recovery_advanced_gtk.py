@@ -26,7 +26,7 @@
 import dbus
 import os
 import sys
-import gtk
+from gi.repository import Gtk
 import subprocess
 import datetime
 
@@ -38,11 +38,12 @@ from Dell.recovery_common import (UIDIR, GIT_TREES, UP_FILENAMES,
                                   find_burners,
                                   increment_bto_version)
 
-try:
-    from aptdaemon import client
-    from aptdaemon.gtkwidgets import AptProgressDialog
-except ImportError:
-    pass
+#TODO: aptdaemon needs gtk3 support
+#try:
+#    from aptdaemon import client
+#    from aptdaemon.gtkwidgets import AptProgressDialog
+#except ImportError:
+#    pass
 
 #Translation support
 from gettext import gettext as _
@@ -55,21 +56,22 @@ class AdvancedGeneratorGTK(BasicGeneratorGTK):
     def __init__(self, utility, recovery, version, media, target,
                  overwrite, xrev, branch):
         """Inserts builder widgets into the Gtk.Assistant"""
-        try:
-            import vte
-        except ImportError:
-            header = _("python-vte is missing")
-            body = _("Builder mode requires python-vte to function")
-            self.show_alert(gtk.MESSAGE_ERROR, header, body,
-                parent=None)
-            sys.exit(1)
+#TODO: vte is broken
+#        try:
+#            import vte
+#        except ImportError:
+#            header = _("python-vte is missing")
+#            body = _("Builder mode requires python-vte to function")
+#            self.show_alert(Gtk.MessageType.ERROR, header, body,
+#                parent=None)
+#            sys.exit(1)
 
         #Run the normal init first
         BasicGeneratorGTK.__init__(self, utility, recovery,
                                    version, media, target, overwrite)
 
         #Build our extra GUI in
-        self.builder_widgets = gtk.Builder()
+        self.builder_widgets = Gtk.Builder()
         self.builder_widgets.add_from_file(os.path.join(UIDIR, 'builder.ui'))
         self.builder_widgets.connect_signals(self)
 
@@ -85,18 +87,18 @@ OEM FID framework & driver package set into a customized \
 OS media image.  You will have the option to \
 create an USB key or DVD image."))
 
-        self.file_dialog = gtk.FileChooserDialog("Choose Item",
+        self.file_dialog = Gtk.FileChooserDialog("Choose Item",
                                         None,
-                                        gtk.FILE_CHOOSER_ACTION_OPEN,
-                                        (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                        gtk.STOCK_OPEN, gtk.RESPONSE_OK))
-        self.file_dialog.set_default_response(gtk.RESPONSE_OK)
+                                        Gtk.FileChooserAction.OPEN,
+                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+        self.file_dialog.set_default_response(Gtk.ResponseType.OK)
 
         #setup the VTE window for GIT stuff
-        self.vte = vte.Terminal()
-        self.builder_widgets.get_object('fetch_expander').add(self.vte)
-        self.vte.show()
-        self.vte.connect("child-exited", self.fid_vte_handler)
+        #self.vte = vte.Terminal()
+        #self.builder_widgets.get_object('fetch_expander').add(self.vte)
+        #self.vte.show()
+        #self.vte.connect("child-exited", self.fid_vte_handler)
 
         #setup transient windows
         for window in ['builder_add_dell_recovery_window',
@@ -150,7 +152,7 @@ create an USB key or DVD image."))
         if page == self.builder_widgets.get_object('base_page'):
             if self.rp:
                 self.builder_widgets.get_object('recovery_hbox').set_sensitive(True)
-            file_filter = gtk.FileFilter()
+            file_filter = Gtk.FileFilter()
             file_filter.add_pattern("*.iso")
             self.file_dialog.set_filter(file_filter)
             wizard.set_page_title(page, _("Choose Base OS Image"))
@@ -168,7 +170,7 @@ create an USB key or DVD image."))
             wizard.set_page_title(page, _("Choose Utility Partition"))
             if self.up:
                 self.builder_widgets.get_object('utility_hbox').set_sensitive(True)
-            file_filter = gtk.FileFilter()
+            file_filter = Gtk.FileFilter()
             for item in UP_FILENAMES:
                 pattern = item.split('.')[1]
                 file_filter.add_pattern("*.%s" % pattern)
@@ -178,8 +180,8 @@ create an USB key or DVD image."))
 
         elif page == self.builder_widgets.get_object('driver_page'):
             wizard.set_page_title(page, _("Choose Driver Packages"))
-            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
-            filefilter = gtk.FileFilter()
+            self.file_dialog.set_action(Gtk.FileChooserAction.OPEN)
+            filefilter = Gtk.FileFilter()
             filefilter.add_pattern("*.tgz")
             filefilter.add_pattern("*.tar.gz")
             filefilter.add_pattern("*.deb")
@@ -192,8 +194,8 @@ create an USB key or DVD image."))
 
         elif page == self.builder_widgets.get_object('application_page'):
             wizard.set_page_title(page, _("Choose Application Packages"))
-            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
-            filefilter = gtk.FileFilter()
+            self.file_dialog.set_action(Gtk.FileChooserAction.OPEN)
+            filefilter = Gtk.FileFilter()
             filefilter.add_pattern("*.tgz")
             filefilter.add_pattern("*.tar.gz")
             filefilter.add_pattern("*.zip")
@@ -203,7 +205,7 @@ create an USB key or DVD image."))
 
         elif page == self.builder_widgets.get_object('oie_page'):
             wizard.set_page_title(page, _("Installation Mode"))
-            filefilter = gtk.FileFilter()
+            filefilter = Gtk.FileFilter()
             filefilter.add_pattern('*')
             self.file_dialog.set_filter(filefilter)
             wizard.set_page_complete(page, True)
@@ -314,7 +316,7 @@ create an USB key or DVD image."))
         """Browses all files under a particular filter"""
         response = self.file_dialog.run()
         self.file_dialog.hide()
-        if response == gtk.RESPONSE_OK:
+        if response == Gtk.ResponseType.OK:
             return self.file_dialog.get_filename()
         else:
             return None
@@ -328,7 +330,7 @@ create an USB key or DVD image."))
 
         if self.builder_widgets.get_object('up_files_radio').get_active():
             self.builder_widgets.get_object('up_details_label').set_markup("")
-            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
+            self.file_dialog.set_action(Gtk.FileChooserAction.OPEN)
             up_browse_button.set_sensitive(True)
             wizard.set_page_complete(up_page, False)
         else:
@@ -375,9 +377,9 @@ create an USB key or DVD image."))
         wizard.set_page_complete(base_page, False)
 
         if self.builder_widgets.get_object('iso_image_radio').get_active():
-            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
+            self.file_dialog.set_action(Gtk.FileChooserAction.OPEN)
         elif self.builder_widgets.get_object('directory_radio').get_active():
-            self.file_dialog.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+            self.file_dialog.set_action(Gtk.FileChooserAction.SELECT_FOLDER)
         else:
             base_browse_button.set_sensitive(False)
             self.base_file_chooser_picked()
@@ -492,9 +494,10 @@ create an USB key or DVD image."))
                                  self.distributor + '-fid')
             self.widgets.get_object('wizard').set_sensitive(False)
             self.builder_widgets.get_object('builder_vte_window').show()
-            self.git_pid = self.vte.fork_command(command = command[0],
-                                                 argv = command,
-                                                 directory = cwd)
+            #self.git_pid = self.vte.fork_command(command = command[0],
+            #                                     argv = command,
+            #                                     directory = cwd)
+            self.git_pid = 0
         label.set_markup(output_text)
 
     def fid_fetch_cancel(self, widget):
@@ -845,7 +848,7 @@ create an USB key or DVD image."))
         """Called when a file is selected on the add dell-recovery page"""
 
         ok_button = self.builder_widgets.get_object('builder_add_ok')
-        filefilter = gtk.FileFilter()
+        filefilter = Gtk.FileFilter()
         filefilter.add_pattern("*.deb")
         self.file_dialog.set_filter(filefilter)
             

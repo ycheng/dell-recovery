@@ -29,7 +29,7 @@ import dbus
 import sys
 import glib
 
-import gtk
+from gi.repository import Gtk
 
 from Dell.recovery_common import (DOMAIN, LOCALEDIR, UIDIR, DBUS_INTERFACE_NAME,
                                   DBUS_BUS_NAME, dbus_sync_call_signal_wrapper,
@@ -46,9 +46,9 @@ class DellRecoveryToolGTK:
         #setup locales
         bindtextdomain(DOMAIN, LOCALEDIR)
         textdomain(DOMAIN)
-        self.tool_widgets = gtk.Builder()
+        self.tool_widgets = Gtk.Builder()
         self.tool_widgets.add_from_file(os.path.join(UIDIR, 'tool_selector.ui'))
-        gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
+        Gtk.Window.set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
 
         translate_widgets(self.tool_widgets)
         self.tool_widgets.connect_signals(self)
@@ -81,7 +81,7 @@ class DellRecoveryToolGTK:
                 self.dbus_exception_handler(msg)
                 sys.exit(1)
             except Exception, msg:
-                self.show_alert(gtk.MESSAGE_ERROR, "Exception", str(msg),
+                self.show_alert(Gtk.MessageType.ERROR, "Exception", str(msg),
                            parent=self.tool_widgets.get_object('tool_selector'))
 
         return self._dbus_iface
@@ -98,7 +98,7 @@ class DellRecoveryToolGTK:
         if not parent:
             parent = self.tool_widgets.get_object('tool_selector')
 
-        self.show_alert(gtk.MESSAGE_ERROR, _("Exception"), text, parent)
+        self.show_alert(Gtk.MessageType.ERROR, _("Exception"), text, parent)
 
         if fallback:
             parent.hide()
@@ -144,7 +144,7 @@ class DellRecoveryToolGTK:
         elif widget == self.tool_widgets.get_object('about_menu_item'):
             tool_selector = self.tool_widgets.get_object('tool_selector')
             if not self.about_box:
-                self.about_box = gtk.AboutDialog()
+                self.about_box = Gtk.AboutDialog()
                 self.about_box.set_version(check_version())
                 self.about_box.set_name(_("Dell Recovery"))
                 self.about_box.set_copyright(_("Copyright 2008-2010 Dell Inc."))
@@ -166,7 +166,7 @@ class DellRecoveryToolGTK:
     def run(self):
         """Runs the GTK application's main functions"""
         self.tool_widgets.get_object('tool_selector').show()
-        gtk.main()
+        Gtk.main()
 
     def show_alert(self, alert_type, header, body=None, parent=None):
         """Displays an alert message"""
@@ -185,16 +185,16 @@ class DellRecoveryToolGTK:
             message = "%s\n\n%s" % (message, body)
         label_hig.set_markup(message)
         
-        if alert_type == gtk.MESSAGE_ERROR:
+        if alert_type == Gtk.MessageType.ERROR:
             image_hig.set_property("stock", "gtk-dialog-error")
-        elif alert_type == gtk.MESSAGE_WARNING:
+        elif alert_type == Gtk.MessageType.WARNING:
             image_hig.set_property("stock", "gtk-dialog-warning")
-        elif alert_type == gtk.MESSAGE_INFO:
+        elif alert_type == Gtk.MessageType.INFO:
             image_hig.set_property("stock", "gtk-dialog-info")
 
         res = self.tool_widgets.get_object('dialog_hig').run()
         self.tool_widgets.get_object('dialog_hig').hide()
-        if res == gtk.RESPONSE_CLOSE:
+        if res == Gtk.ResponseType.CLOSE:
             return True
         return False
 
@@ -210,20 +210,20 @@ class DellRecoveryToolGTK:
             else:
                 print "%s when closing DBus service from %s (data: %s)" % \
                                              (str(msg), widget.get_name(), data)
-        gtk.main_quit()
+        Gtk.main_quit()
 
 def translate_widgets(widgets):
     """Translates all widgets to the specified domain"""
     widgets.set_translation_domain(DOMAIN)
     for widget in widgets.get_objects():
-        if isinstance(widget, gtk.Label):
+        if isinstance(widget, Gtk.Label):
             widget.set_property('can-focus', False)
             widget.set_text(_(widget.get_text()))
-        elif isinstance(widget, gtk.RadioButton):
+        elif isinstance(widget, Gtk.RadioButton):
             widget.set_label(_(widget.get_label()))
-        elif isinstance(widget, gtk.Button):
+        elif isinstance(widget, Gtk.Button):
             widget.set_label(_(widget.get_label()))
-        elif isinstance(widget, gtk.Window):
+        elif isinstance(widget, Gtk.Window):
             title = widget.get_title()
             if title:
                 widget.set_title(_(widget.get_title()))

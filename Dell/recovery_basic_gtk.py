@@ -27,7 +27,7 @@ import os
 import subprocess
 import dbus
 
-import gtk
+from gi.repository import Gtk
 
 from Dell.recovery_gtk import DellRecoveryToolGTK, translate_widgets
 from Dell.recovery_common import (find_partitions, find_burners, UIDIR,
@@ -49,15 +49,15 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         DellRecoveryToolGTK.__init__(self, recovery)
 
         #init the UI and translate widgets/connect signals
-        self.widgets = gtk.Builder()
+        self.widgets = Gtk.Builder()
         self.widgets.add_from_file(os.path.join(UIDIR,
                                    'recovery_media_creator.ui'))
-        gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
+        Gtk.Window.set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
         translate_widgets(self.widgets)
         self.widgets.connect_signals(self)
 
         #setup spinner
-        self.spinner = gtk.Spinner()
+        self.spinner = Gtk.Spinner()
         self.widgets.get_object('spinner_box').add(self.spinner)
         self.widgets.get_object('spinner_box').show_all()
 
@@ -198,7 +198,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         body = _("If you would like to archive another copy, the generated \
 image has been stored under the filename:\n") + \
 os.path.join(self.path, self.image)
-        self.show_alert(gtk.MESSAGE_INFO, header, body,
+        self.show_alert(Gtk.MessageType.INFO, header, body,
             parent=self.widgets.get_object('progress_dialog'))
 
         self.destroy(None)
@@ -212,7 +212,7 @@ os.path.join(self.path, self.image)
             header = _("Unable to proceed")
             inst = _("System does not appear to contain Dell factory installed \
 partition layout.")
-            self.show_alert(gtk.MESSAGE_ERROR, header, inst,
+            self.show_alert(Gtk.MessageType.ERROR, header, inst,
                 parent=self.widgets.get_object('wizard'))
             return
 
@@ -225,7 +225,7 @@ partition layout.")
     def check_close(self, widget, args=None):
         """Asks the user before closing the dialog"""
         response = self.widgets.get_object('close_dialog').run()
-        if response == gtk.RESPONSE_YES:
+        if response == Gtk.ResponseType.YES:
             self.destroy()
         else:
             self.widgets.get_object('close_dialog').hide()
@@ -234,8 +234,8 @@ partition layout.")
     def hide_progress(self):
         """Hides the progress bar"""
         self.widgets.get_object('progress_dialog').hide()
-        while gtk.events_pending():
-            gtk.main_iteration()
+        while Gtk.events_pending():
+            Gtk.main_iteration()
 
     def toggle_spinner_popup(self, force):
         wizard = self.widgets.get_object('wizard')
@@ -248,8 +248,8 @@ partition layout.")
             self.spinner.stop()
             popup.hide()
             wizard.set_sensitive(True)
-        while gtk.events_pending():
-            gtk.main_iteration()
+        while Gtk.events_pending():
+            Gtk.main_iteration()
 
     def update_version_gui(self, version, distributor, release, arch, output_text):
         """Stops any running spinners and updates GUI items"""
@@ -284,8 +284,8 @@ partition layout.")
         if progress_text != None:
             self.widgets.get_object('action').set_markup("<i>" +\
                                                         _(progress_text)+"</i>")
-        while gtk.events_pending():
-            gtk.main_iteration()
+        while Gtk.events_pending():
+            Gtk.main_iteration()
         return True
 
     def build_page(self, widget, page=None):
@@ -347,4 +347,4 @@ def show_question(dialog):
     """Presents the user with a question"""
     response = dialog.run()
     dialog.hide()
-    return (response == gtk.RESPONSE_YES)
+    return (response == Gtk.ResponseType.YES)

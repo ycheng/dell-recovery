@@ -26,7 +26,7 @@
 
 import logging, os, os.path, signal, sys, re
 
-import gobject
+from gi.repository import GObject
 import dbus
 import dbus.service
 import dbus.mainloop.glib
@@ -110,14 +110,14 @@ class Backend(dbus.service.Object):
         once the server is ready to take requests.
         '''
         dbus.service.Object.__init__(self, self.bus, '/RecoveryMedia')
-        self.main_loop = gobject.MainLoop()
+        self.main_loop = GObject.MainLoop()
         self._timeout = False
         if timeout:
             def _quit():
                 """This function is ran at the end of timeout"""
                 self.main_loop.quit()
                 return True
-            gobject.timeout_add(timeout * 1000, _quit)
+            GObject.timeout_add(timeout * 1000, _quit)
 
         # send parent process a signal that we are ready now
         if send_usr1:
