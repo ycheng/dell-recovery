@@ -1843,6 +1843,8 @@ class Install(InstallPlugin):
         elif rec_part:
             to_install.append('dell-recovery')
 
+            #block os-prober in grub-installer
+            os.rename('/usr/bin/os-prober', '/usr/bin/os-prober.real')
             #don't allow OS prober to probe other drives in single OS install
             with open(os.path.join(self.target, 'etc/default/grub'), 'r') as rfd:
                 default_grub = rfd.readlines()

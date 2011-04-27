@@ -1,3 +1,10 @@
+dell-recovery (0.98.1) UNRELEASED; urgency=low
+
+  * Move os-prober out of $PATH if installing to a single OS machine to prevent
+    WinPE from setting off os-prober during grub-installer. (LP: #771560)
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 26 Apr 2011 19:10:34 -0500
+
 dell-recovery (0.98) natty; urgency=low
 
   * Check the extensions of all initrd's found in casper directories to avoid
