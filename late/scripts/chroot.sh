@@ -91,7 +91,7 @@ if ! mount | grep "$TARGET/cdrom"; then
     MOUNT_CLEANUP="$TARGET/cdrom $MOUNT_CLEANUP"
 fi
 
-if ! -L $TARGET/media/cdrom; then
+if [ ! -L $TARGET/media/cdrom ]; then
     ln -s /cdrom $TARGET/media/cdrom
     DIR_CLEANUP="$TARGET/media/cdrom $DIR_CLEANUP"
 fi
