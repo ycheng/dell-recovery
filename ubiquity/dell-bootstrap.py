@@ -1678,7 +1678,7 @@ class Install(InstallPlugin):
         if len(drivers) > 0:
             for driver in drivers:
                 if driver:
-                    with open (os.path.join(self.target, '/usr/share/jockey/modaliases/', driver), 'w') as wfd:
+                    with open (os.path.join(self.target, 'usr/share/jockey/modaliases/', driver), 'w') as wfd:
                         wfd.write('reset %s\n' % driver)
 
     def mark_upgrades(self):
