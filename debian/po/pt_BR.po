@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2011-01-10 19:55-0600\n"
-"PO-Revision-Date: 2011-06-04 00:14+0000\n"
-"Last-Translator: André Gondim <andregondim@ubuntu.com>\n"
+"PO-Revision-Date: 2011-06-05 01:02+0000\n"
+"Last-Translator: Celio Alves <dreamcelio@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-06-04 04:54+0000\n"
+"X-Launchpad-Export-Date: 2011-06-05 04:36+0000\n"
 "X-Generator: Launchpad (build 12959)\n"
 
 #. Type: text
@@ -141,6 +141,8 @@ msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
 msgstr ""
+"A Mídia de Recuperação da Dell poderá ser usada para restaurar o seu sistema "
+"para o mesmo estado de quando foi enviado para você."
 
 #. Type: text
 #. Description
@@ -149,6 +151,8 @@ msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
 msgstr ""
+"É altamente recomendado você criar uma mídia e armazená-la em um lugar "
+"seguro."
 
 #. Type: text
 #. Description
