@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-02-10 00:32-0600\n"
-"PO-Revision-Date: 2011-06-04 11:31+0000\n"
+"PO-Revision-Date: 2011-06-06 05:15+0000\n"
 "Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-06-05 04:36+0000\n"
+"X-Launchpad-Export-Date: 2011-06-07 04:36+0000\n"
 "X-Generator: Launchpad (build 12959)\n"
 
 #: ../Dell/recovery_gtk.py:92
@@ -407,7 +407,7 @@ msgstr "Detectada partición de recuperación"
 
 #: ../gtk/builder.ui.h:18
 msgid "Detected Utility Partition"
-msgstr ""
+msgstr "Partición de utilidades detectada"
 
 #: ../gtk/builder.ui.h:19
 msgid ""
@@ -484,7 +484,7 @@ msgstr "Introduzca el SRV a usar:"
 
 #: ../gtk/builder.ui.h:35
 msgid "Produce a standard installation image."
-msgstr ""
+msgstr "Producir una imagen de instalación estándar."
 
 #: ../gtk/builder.ui.h:36
 msgid "Produce an OIE compliant installation image."
