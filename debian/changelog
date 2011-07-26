@@ -7,6 +7,7 @@ dell-recovery (0.99) UNRELEASED; urgency=low
   * Add missing debhelper token to dell-recovery-bootloader postrm
   * Add missing ${misc:Depends} to other packages in debian/control.
   * Update standards version.
+  * Switch to dh_python2.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 27 Apr 2011 11:36:09 -0500
 

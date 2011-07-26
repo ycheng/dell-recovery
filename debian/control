@@ -3,7 +3,7 @@ Section: utils
 Priority: optional
 Maintainer: Mario Limonciello <superm1@ubuntu.com>
 XSBC-Original-Maintainer: Mario Limonciello <mario_limonciello@dell.com>
-Build-Depends: debhelper (>= 7.0.50~), python (>= 2.4), python-distutils-extra, po-debconf
+Build-Depends: debhelper (>= 7.0.50~), python-all, python-distutils-extra, po-debconf
 XS-Python-Version: current
 Homepage: http://linux.dell.com/
 Vcs-Bzr: http://bazaar.launchpad.net/~dell-team/dell-recovery/trunk
@@ -17,7 +17,6 @@ Conflicts: dell-oobe
 Recommends: usb-creator-gtk, brasero | nautilus-cd-burner, lsb-release, python-vte, python-aptdaemon-gtk, parted, python-git, python-progressbar
 Enhances: oem-config-gtk, ubiquity-frontend-gtk
 Suggests: grub-pc
-XB-Python-Version: ${python:Versions}
 Description: Dell Recovery Media Creation Package
  This package is used to produce a Dell recovery media image.
  It then uses known open source tools to write the image to 
