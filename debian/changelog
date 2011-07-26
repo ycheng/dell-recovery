@@ -3,6 +3,7 @@ dell-recovery (0.99) UNRELEASED; urgency=low
   * Convert the userspace application and daemon to PyGI and GTK3.
   * Correct chroot.sh's test for a symlink.
   * Fix the path of the driver disable func in dell-bootstrap. (LP: #790108)
+  * Update late bind mounts to use /run rather than /var/run.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 27 Apr 2011 11:36:09 -0500
 

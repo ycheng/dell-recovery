@@ -73,9 +73,9 @@ trap ". /usr/share/dell/scripts/FAIL-SCRIPT" TERM INT HUP EXIT QUIT
 
 mount --bind /dev $TARGET/dev
 MOUNT_CLEANUP="$TARGET/dev $MOUNT_CLEANUP"
-if ! mount | grep "$TARGET/var/run"; then
-    mount --bind /var/run $TARGET/var/run
-    MOUNT_CLEANUP="$TARGET/var/run $MOUNT_CLEANUP"
+if ! mount | grep "$TARGET/run"; then
+    mount --bind /run $TARGET/run
+    MOUNT_CLEANUP="$TARGET/run $MOUNT_CLEANUP"
 fi
 if ! mount | grep "$TARGET/proc"; then
     mount -t proc targetproc $TARGET/proc
