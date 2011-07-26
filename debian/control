@@ -25,7 +25,7 @@ Description: Dell Recovery Media Creation Package
 
 Package: dell-recovery-casper
 Architecture: all
-Depends: dell-recovery, casper
+Depends: dell-recovery, casper, ${misc:Depends}
 Description: Dell Recovery Casper Hooks
  This package provides hooks to allow the dell-recovery
  bootstrap to run directly from casper without any other
@@ -33,7 +33,7 @@ Description: Dell Recovery Casper Hooks
 
 Package: dell-recovery-bootloader
 Architecture: all
-Depends: grub-pc, dell-recovery
+Depends: grub-pc, dell-recovery, ${misc:Depends}
 Description: Bootloader images for Dell's factory process
  This package is used to generate GRUB2 bootable images that are
  injected into the Dell Linux factory installation process.
