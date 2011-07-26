@@ -6,6 +6,7 @@ dell-recovery (0.99) UNRELEASED; urgency=low
   * Update late bind mounts to use /run rather than /var/run.
   * Add missing debhelper token to dell-recovery-bootloader postrm
   * Add missing ${misc:Depends} to other packages in debian/control.
+  * Update standards version.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 27 Apr 2011 11:36:09 -0500
 
