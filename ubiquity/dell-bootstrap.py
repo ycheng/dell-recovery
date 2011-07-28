@@ -1019,7 +1019,7 @@ class Page(Plugin):
                     if line.startswith('MemTotal'):
                         self.mem = float(line.split()[1].strip())
                         break
-        self.mem = self.mem/1048575 #in GB
+        self.mem = round(self.mem/1048575) #in GB
 
         #Fill in UI data
         twiddle = {"mount": mount,

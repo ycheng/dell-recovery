@@ -1,3 +1,9 @@
+dell-recovery (0.98.2) UNRELEASED; urgency=low
+
+  * Fixed memory calculation issue. (LP: #817610)
+
+ -- Kent Baxley <kb4xley@gmail.com>  Thu, 28 Jul 2011 10:31:08 -0500
+
 dell-recovery (0.98.1) natty-proposed; urgency=low
 
   * Move os-prober out of $PATH if installing to a single OS machine to prevent
