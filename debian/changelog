@@ -1,4 +1,4 @@
-dell-recovery (0.98.2) UNRELEASED; urgency=low
+dell-recovery (0.98.2) natty-proposed; urgency=low
 
   * Fixed memory calculation issue. (LP: #817610)
 
