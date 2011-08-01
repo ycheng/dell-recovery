@@ -1449,8 +1449,9 @@ manually to proceed.")
         #Install grub
         self.status("Installing GRUB", 88)
         if self.efi:
-            with misc.raised_privileges():
-                os.makedirs('/mnt/efi')
+            if not os.path.exists('/mnt/efi'):
+                with misc.raised_privileges():
+                    os.makedirs('/mnt/efi')
             mount = misc.execute_root('mount', self.device + STANDARD_EFI_PARTITION, '/mnt/efi')
             if mount is False:
                 raise RuntimeError, ("Error mounting %s%s" % (self.device, STANDARD_EFI_PARTITION))
