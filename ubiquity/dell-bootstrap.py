@@ -1455,7 +1455,7 @@ manually to proceed.")
             mount = misc.execute_root('mount', self.device + STANDARD_EFI_PARTITION, '/mnt/efi')
             if mount is False:
                 raise RuntimeError, ("Error mounting %s%s" % (self.device, STANDARD_EFI_PARTITION))
-            grub = misc.execute_root('grub-install', '--force')
+            grub = misc.execute_root('grub-install', '--root-directory=/mnt/efi', '--force')
             if grub is False:
                 raise RuntimeError, ("Error installing grub")
             misc.execute_root('umount', '/mnt/efi')
