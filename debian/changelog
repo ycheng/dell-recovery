@@ -3,6 +3,7 @@ dell-recovery (0.98.3) UNRELEASED; urgency=low
   * Don't fail if /mnt/efi already exists in EFI install.
   * Install to EFI with the correct command.
   * Copy conf files to EFI system partition when applicable.
+  * Set up the GRUB graphics and terminal for EFI.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 01 Aug 2011 12:10:19 -0500
 
