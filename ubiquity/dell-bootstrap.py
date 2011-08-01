@@ -1427,40 +1427,47 @@ manually to proceed.")
                 os.makedirs(os.path.join('/mnt', 'preseed'))
             magic.write_seed(seed, keys)
 
+        #files and grub go in /mnt/efi if we're EFI and include EFI specifics
+        #Check for a grub.cfg - replace as necessary
+        if self.efi:
+            pivot = '/mnt/efi'
+            if not os.path.exists(pivot):
+                with misc.raised_privileges():
+                    os.makedirs(pivot)
+            mount = misc.execute_root('mount', self.device + STANDARD_EFI_PARTITION, pivot)
+            if mount is False:
+                raise RuntimeError, ("Error mounting %s%s" % (self.device, STANDARD_EFI_PARTITION))
+        else:
+            pivot = '/mnt'
+
         #Check for a grub.cfg - replace as necessary
         files = {'recovery_partition.cfg': 'grub.cfg',
                  'common.cfg' : 'common.cfg'} 
         for item in files:
-            if os.path.exists(os.path.join('/mnt', 'boot', 'grub', files[item])):
+            if os.path.exists(os.path.join(pivot, 'boot', 'grub', files[item])):
                 with misc.raised_privileges():
-                    shutil.move(os.path.join('/mnt', 'boot', 'grub', files[item]),
-                                os.path.join('/mnt', 'boot', 'grub', files[item]) + '.old')
+                    shutil.move(os.path.join(pivot, 'boot', 'grub', files[item]),
+                                os.path.join(pivot, 'boot', 'grub', files[item]) + '.old')
 
             with misc.raised_privileges():
                 
                 magic.process_conf_file('/usr/share/dell/grub/' + item, \
-                                   os.path.join('/mnt', 'boot', 'grub', files[item]),\
+                                   os.path.join(pivot, 'boot', 'grub', files[item]),\
                                    uuid, rp_part)
                 #Allow these to be invoked from a recovery solution launched by the BCD.
                 if self.dual:
-                    shutil.copy(os.path.join('/mnt', 'boot', 'grub', files[item]), \
+                    shutil.copy(os.path.join(pivot, 'boot', 'grub', files[item]), \
                                 os.path.join('/tmp', files[item]))
 
         #Install grub
         self.status("Installing GRUB", 88)
         if self.efi:
-            if not os.path.exists('/mnt/efi'):
-                with misc.raised_privileges():
-                    os.makedirs('/mnt/efi')
-            mount = misc.execute_root('mount', self.device + STANDARD_EFI_PARTITION, '/mnt/efi')
-            if mount is False:
-                raise RuntimeError, ("Error mounting %s%s" % (self.device, STANDARD_EFI_PARTITION))
-            grub = misc.execute_root('grub-install', '--root-directory=/mnt/efi', '--force')
+            grub = misc.execute_root('grub-install', '--root-directory=%s' % pivot, '--force')
             if grub is False:
                 raise RuntimeError, ("Error installing grub")
             misc.execute_root('umount', '/mnt/efi')
         else:
-            grub = misc.execute_root('grub-install', '--root-directory=/mnt', '--force', self.device + grub_part)
+            grub = misc.execute_root('grub-install', '--root-directory=%s' % pivot, '--force', self.device + grub_part)
             if grub is False:
                 raise RuntimeError, ("Error installing grub to %s%s" % (self.device, STANDARD_RP_PARTITION))
 
