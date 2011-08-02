@@ -4,24 +4,31 @@
 
 case "$1" in
   configure)
-    #build core image
-    grub-mkimage --prefix=/factory -o /var/lib/dell-recovery/core.img -O i386-pc \
-                             loadenv biosdisk part_msdos part_gpt fat ntfs \
-                             ext2 ntfscomp search linux boot minicmd cat   \
-                             cpuid chain halt help ls reboot echo test     \
-                             configfile sleep keystatus normal true font\
-                             vga vga_text keystatus
-    #copy boot.img
-    cat /usr/lib/grub/i386-pc/boot.img > /var/lib/dell-recovery/boot.img
+    #Check that we really have 32 bit grub-pc.  the depends allow for grub efi (64 bit)
+    # but that is only so the installer won't fall over itself
+    if [ ! -d /usr/lib/grub/i386-pc ]; then
+        echo "WARNING: grub-pc isn't installed.  This package won't generate"
+        echo "         bootloader images unless it's installed."
+    else
+        #build core image
+        grub-mkimage --prefix=/factory -o /var/lib/dell-recovery/core.img -O i386-pc \
+                                 loadenv biosdisk part_msdos part_gpt fat ntfs \
+                                 ext2 ntfscomp search linux boot minicmd cat   \
+                                 cpuid chain halt help ls reboot echo test     \
+                                 configfile sleep keystatus normal true font\
+                                 vga vga_text keystatus
+        #copy boot.img
+        cat /usr/lib/grub/i386-pc/boot.img > /var/lib/dell-recovery/boot.img
 
-    #generate grub.cfg
-    OS=$(lsb_release -s -d)
-    sed "s,#OS#,$OS,; /^search/d" \
-        /usr/share/dell/grub/recovery_partition.cfg \
-        > /var/lib/dell-recovery/grub.cfg
+        #generate grub.cfg
+        OS=$(lsb_release -s -d)
+        sed "s,#OS#,$OS,; /^search/d" \
+            /usr/share/dell/grub/recovery_partition.cfg \
+            > /var/lib/dell-recovery/grub.cfg
 
-    #blank grubenv so we can fail installs
-    grub-editenv /var/lib/dell-recovery/grubenv unset recordfail
+        #blank grubenv so we can fail installs
+        grub-editenv /var/lib/dell-recovery/grubenv unset recordfail
+    fi
 
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)

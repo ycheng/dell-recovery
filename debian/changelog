@@ -4,6 +4,8 @@ dell-recovery (0.98.3) UNRELEASED; urgency=low
   * Install to EFI with the correct command.
   * Copy conf files to EFI system partition when applicable.
   * Set up the GRUB graphics and terminal for EFI.
+  * Allow grub-efi-amd64 to satisfy dell-recovery-bootloader, but
+    offer reduced functionality in the postinst when doing so.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 01 Aug 2011 12:10:19 -0500
 
