@@ -33,7 +33,8 @@ Description: Dell Recovery Casper Hooks
 
 Package: dell-recovery-bootloader
 Architecture: all
-Depends: grub-pc | grub-efi-amd64, dell-recovery
+Depends: dell-recovery
+Recommends: grub-pc
 Description: Bootloader images for Dell's factory process
  This package is used to generate GRUB2 bootable images that are
  injected into the Dell Linux factory installation process.
