@@ -83,12 +83,6 @@ elif chroot /root apt-cache show dell-drmk 2>/dev/null 1>/dev/null; then
     chroot /root apt-get install dell-drmk -y
 fi
 
-#Install EFI Grub
-if [ -d /sys/firmware/efi ]; then
-    #grub-pc is in livefs, need grub-efi-amd64
-    chroot /root apt-get install grub-efi-amd64 -y
-fi
-
 #If in factory process, we might have backed up an MBR to restore
 #to the first hard drive
 if [ -f /root/cdrom/factory/mbr.bin ];  then
@@ -118,6 +112,14 @@ fi
 # Lastly, reload the override / configurations preseed so that it is allowed to override stuff from ubuntu.seed and dual.seed
 if [ -e /root/cdrom/preseed/dell-recovery.seed ]; then
     casper-set-selections "/root/cdrom/preseed/dell-recovery.seed"
+fi
+
+#EFI deviations
+if [ -d /sys/firmware/efi ]; then
+    #grub-pc is in livefs, need grub-efi-amd64
+    chroot /root apt-get install grub-efi-amd64 -y
+    #force failsafe graphics off, we're guaranteed efifb
+    casper-preseed /root ubiquity/force_failsafe_graphics false
 fi
 
 # Clear out debconf database backup files to save memory.
