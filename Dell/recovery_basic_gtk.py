@@ -52,6 +52,14 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         self.widgets = Gtk.Builder()
         self.widgets.add_from_file(os.path.join(UIDIR,
                                    'recovery_media_creator.ui'))
+
+        #insert pages in reverse order
+        wizard = self.widgets.get_object('wizard')
+
+        for page in ['conf_page',
+                     'media_type_page']:
+            wizard.insert_page(self.widgets.get_object(page), 0)
+
         Gtk.Window.set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
         translate_widgets(self.widgets)
         self.widgets.connect_signals(self)
@@ -342,6 +350,7 @@ partition layout.")
                 self.widgets.get_object('wizard').set_page_title(page,
                                                         _("Confirm Selections"))
                 self.widgets.get_object('wizard').set_page_complete(page, True)
+                self.widgets.get_object('wizard').set_page_type(page, Gtk.AssistantPageType.CONFIRM)
 
 def show_question(dialog):
     """Presents the user with a question"""
