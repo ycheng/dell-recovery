@@ -1,11 +1,9 @@
-dell-recovery (0.99.1) UNRELEASED; urgency=low
-
-  * Fixed versioning comparison error in recovery_advanced_gtk.py.
-
- -- Kent Baxley <kent.baxley@canonical.com>  Mon, 01 Aug 2011 14:54:05 -0500
-
 dell-recovery (0.99) UNRELEASED; urgency=low
 
+  [ Kent Baxley ]
+  * Fixed versioning comparison error in recovery_advanced_gtk.py.
+
+  [ Mario Limonciello ]
   * Convert the userspace application and daemon to PyGI and GTK3.
   * Correct chroot.sh's test for a symlink.
   * Fix the path of the driver disable func in dell-bootstrap. (LP: #790108)
