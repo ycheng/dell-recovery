@@ -1,4 +1,4 @@
-dell-recovery (0.99) UNRELEASED; urgency=low
+dell-recovery (0.99) oneiric; urgency=low
 
   [ Kent Baxley ]
   * Fixed versioning comparison error in recovery_advanced_gtk.py.
@@ -36,7 +36,7 @@ dell-recovery (0.99) UNRELEASED; urgency=low
     - Name the EFI system partition "ESP".
   * Import translations from LP.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 27 Apr 2011 11:36:09 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 03 Aug 2011 13:06:52 -0500
 
 dell-recovery (0.98.2) natty-proposed; urgency=low
 
