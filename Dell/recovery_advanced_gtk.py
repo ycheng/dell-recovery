@@ -93,11 +93,11 @@ create an USB key or DVD image."))
 
         #insert builder pages in reverse order
         titles = {'oie_page' : _("Installation Mode"),
-                 'application_page' : _("Choose Application Packages"),
-                 'driver_page' : _("Choose Driver Packages"),
-                 'up_page' : _("Choose Utility Partition"),
-                 'fid_page' : _("Choose FID Overlay"),
-                 'base_page' : _("Choose Base OS Image")
+                 'application_page' : _("Application Packages"),
+                 'driver_page' : _("Driver Packages"),
+                 'up_page' : _("Utility Partition"),
+                 'fid_page' : _("FID Content"),
+                 'base_page' : _("Base OS Image")
                 }
         for page in ['oie_page',
                      'application_page',

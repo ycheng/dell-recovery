@@ -56,7 +56,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         #insert pages in reverse order
         wizard = self.widgets.get_object('wizard')
         titles = {'conf_page': _("Confirm Selections"),
-                 'media_type_page': _("Choose Media Type")
+                 'media_type_page': _("Media Type")
                 }
         for page in ['conf_page', 'media_type_page']:
             wizard.insert_page(self.widgets.get_object(page), 0)
