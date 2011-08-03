@@ -8,6 +8,7 @@ dell-recovery (0.98.3) UNRELEASED; urgency=low
     offer reduced functionality in the postinst when doing so to stop the
     installer from throwing a hissy fit about removing the bootloader package.
   * Disable failsafe graphics by default when installing in EFI mode.
+  * Name the EFI system partition "ESP".
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 01 Aug 2011 12:10:19 -0500
 
