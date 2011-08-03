@@ -1462,10 +1462,10 @@ manually to proceed.")
         #Install grub
         self.status("Installing GRUB", 88)
         if self.efi:
-            grub = misc.execute_root('grub-install', '--root-directory=%s' % pivot, '--force')
+            grub = misc.execute_root('grub-install', '--root-directory=%s' % pivot)
             if grub is False:
-                raise RuntimeError, ("Error installing grub")
-            misc.execute_root('umount', '/mnt/efi')
+                raise RuntimeError, ("Error installing grub to ESP")
+            misc.execute_root('umount', pivot)
         else:
             grub = misc.execute_root('grub-install', '--root-directory=%s' % pivot, '--force', self.device + grub_part)
             if grub is False:
