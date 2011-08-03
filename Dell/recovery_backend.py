@@ -387,11 +387,7 @@ class Backend(dbus.service.Object):
         bus = dbus.SystemBus()
         obj = bus.get_object('org.freedesktop.NetworkManager', '/org/freedesktop/NetworkManager')
         int = dbus.Interface(obj, 'org.freedesktop.NetworkManager')
-        if not enable:
-            return int.sleep()
-        else:
-            return int.wake()
-
+        return int.Sleep(not enable)
     
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature = '', out_signature = '', sender_keyword = 'sender',

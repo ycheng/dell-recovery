@@ -19,6 +19,7 @@ dell-recovery (0.99) UNRELEASED; urgency=low
   * Fix the line wrapping in the builder widgets from GTK3 transition.
   * Move both of the built in pages outside of the wizard declaration to make them
     easier to edit.
+  * Update the network manager sleep/wake call for stuff used with the new API.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 27 Apr 2011 11:36:09 -0500
 
