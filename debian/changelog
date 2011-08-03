@@ -22,6 +22,7 @@ dell-recovery (0.99) UNRELEASED; urgency=low
   * Update the network manager sleep/wake call for stuff used with the new API.
   * Prepopulate the new Gtk.Assistant sidebar with titles rather than individually.
   * Shorten titles of all pages since they now show in Gtk.Assistant sidebar.
+  * Fix python aptdaemon for gtk3 transition.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 27 Apr 2011 11:36:09 -0500
 

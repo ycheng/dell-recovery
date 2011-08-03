@@ -39,12 +39,11 @@ from Dell.recovery_common import (UIDIR, UP_FILENAMES,
                                   find_burners,
                                   increment_bto_version)
 
-#TODO: aptdaemon needs gtk3 support
-#try:
-#    from aptdaemon import client
-#    from aptdaemon.gtkwidgets import AptProgressDialog
-#except ImportError:
-#    pass
+try:
+    from aptdaemon import client
+    from aptdaemon.gtk3widgets import AptProgressDialog
+except ImportError:
+    pass
 
 #Translation support
 from gettext import gettext as _
