@@ -92,6 +92,13 @@ create an USB key or DVD image."))
             self.builder_widgets.get_object(window).set_transient_for(wizard)
 
         #insert builder pages in reverse order
+        titles = {'oie_page' : _("Installation Mode"),
+                 'application_page' : _("Choose Application Packages"),
+                 'driver_page' : _("Choose Driver Packages"),
+                 'up_page' : _("Choose Utility Partition"),
+                 'fid_page' : _("Choose FID Overlay"),
+                 'base_page' : _("Choose Base OS Image")
+                }
         for page in ['oie_page',
                      'application_page',
                      'driver_page',
@@ -99,6 +106,7 @@ create an USB key or DVD image."))
                      'fid_page',
                      'base_page']:
             wizard.insert_page(self.builder_widgets.get_object(page), 0)
+            wizard.set_page_title(wizard.get_nth_page(0), titles[page])
 
         #improve the summary
         self.widgets.get_object('version_hbox').show()
@@ -138,15 +146,11 @@ create an USB key or DVD image."))
             file_filter = Gtk.FileFilter()
             file_filter.add_pattern("*.iso")
             self.file_dialog.set_filter(file_filter)
-            wizard.set_page_title(page, _("Choose Base OS Image"))
 
         elif page == self.builder_widgets.get_object('fid_page'):
-            wizard.set_page_title(page, _("Choose FID Overlay"))
-
             self.fid_toggled(None)
 
         elif page == self.builder_widgets.get_object('up_page'):
-            wizard.set_page_title(page, _("Choose Utility Partition"))
             if self.up:
                 self.builder_widgets.get_object('utility_hbox').set_sensitive(True)
             file_filter = Gtk.FileFilter()
@@ -158,7 +162,6 @@ create an USB key or DVD image."))
             self.up_toggled(None)
 
         elif page == self.builder_widgets.get_object('driver_page'):
-            wizard.set_page_title(page, _("Choose Driver Packages"))
             self.file_dialog.set_action(Gtk.FileChooserAction.OPEN)
             filefilter = Gtk.FileFilter()
             filefilter.add_pattern("*.tgz")
@@ -172,7 +175,6 @@ create an USB key or DVD image."))
             wizard.set_page_complete(page, True)
 
         elif page == self.builder_widgets.get_object('application_page'):
-            wizard.set_page_title(page, _("Choose Application Packages"))
             self.file_dialog.set_action(Gtk.FileChooserAction.OPEN)
             filefilter = Gtk.FileFilter()
             filefilter.add_pattern("*.tgz")
@@ -183,7 +185,6 @@ create an USB key or DVD image."))
             self.calculate_srvs(None, -1, "check")
 
         elif page == self.builder_widgets.get_object('oie_page'):
-            wizard.set_page_title(page, _("Installation Mode"))
             filefilter = Gtk.FileFilter()
             filefilter.add_pattern('*')
             self.file_dialog.set_filter(filefilter)

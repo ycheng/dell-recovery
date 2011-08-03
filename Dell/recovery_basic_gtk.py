@@ -55,10 +55,12 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
 
         #insert pages in reverse order
         wizard = self.widgets.get_object('wizard')
-
-        for page in ['conf_page',
-                     'media_type_page']:
+        titles = {'conf_page': _("Confirm Selections"),
+                 'media_type_page': _("Choose Media Type")
+                }
+        for page in ['conf_page', 'media_type_page']:
             wizard.insert_page(self.widgets.get_object(page), 0)
+            wizard.set_page_title(wizard.get_nth_page(0), titles[page])
 
         Gtk.Window.set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
         translate_widgets(self.widgets)
@@ -298,10 +300,7 @@ partition layout.")
 
     def build_page(self, widget, page=None):
         """Prepares our GTK assistant"""
-
         if page == self.widgets.get_object('media_type_page'):
-            self.widgets.get_object('wizard').set_page_title(page,
-                                                         _("Choose Media Type"))
             #fill in command line args
             if self.media == "dvd":
                 self.widgets.get_object('dvdbutton').set_active(True)
@@ -347,8 +346,6 @@ partition layout.")
             self.widgets.get_object('conf_text').set_markup(text)
 
             if page:
-                self.widgets.get_object('wizard').set_page_title(page,
-                                                        _("Confirm Selections"))
                 self.widgets.get_object('wizard').set_page_complete(page, True)
                 self.widgets.get_object('wizard').set_page_type(page, Gtk.AssistantPageType.CONFIRM)
 
