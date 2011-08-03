@@ -42,7 +42,7 @@ from Dell.recovery_common import (UIDIR, UP_FILENAMES,
 try:
     from aptdaemon import client
     from aptdaemon.gtk3widgets import AptProgressDialog
-except ImportError:
+except:
     pass
 
 #Translation support
