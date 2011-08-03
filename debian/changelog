@@ -16,6 +16,7 @@ dell-recovery (0.99) UNRELEASED; urgency=low
   * Drop support for GIT FID overlays.  It's been unused for about 1 year now.
     All FID overlays should be in packages.
   * Fix the spacing in the tool_selector widgets from GTK3 transition.
+  * Fix the line wrapping in the builder widgets from GTK3 transition.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 27 Apr 2011 11:36:09 -0500
 
