@@ -2,6 +2,7 @@ dell-recovery (0.99) UNRELEASED; urgency=low
 
   [ Kent Baxley ]
   * Fixed versioning comparison error in recovery_advanced_gtk.py.
+  * Fixed memory calculation issue. (LP: #817610)
 
   [ Mario Limonciello ]
   * Convert the userspace application and daemon to PyGI and GTK3.
@@ -25,12 +26,6 @@ dell-recovery (0.99) UNRELEASED; urgency=low
   * Fix python aptdaemon for gtk3 transition.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 27 Apr 2011 11:36:09 -0500
-
-dell-recovery (0.98.2) UNRELEASED; urgency=low
-
-  * Fixed memory calculation issue. (LP: #817610)
-
- -- Kent Baxley <kent.baxley@canonical.com>  Thu, 28 Jul 2011 11:02:55 -0500
 
 dell-recovery (0.98.1) natty-proposed; urgency=low
 
