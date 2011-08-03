@@ -14,7 +14,7 @@ Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}, gir1.2-gtk-3.0, policykit-1, uuid-runtime, udisks | devicekit-disks | hal, policykit-1-gnome, genisoimage, dpkg-repack, python-gobject (>= 2.28), python-debian
 Replaces: dell-artwork, dell-oobe
 Conflicts: dell-oobe
-Recommends: usb-creator-gtk, brasero | nautilus-cd-burner, lsb-release, python-vte, python-aptdaemon-gtk, parted, python-git, python-progressbar, lzma | xz-lzma
+Recommends: usb-creator-gtk, brasero | nautilus-cd-burner, lsb-release, python-vte, python-aptdaemon-gtk, parted, python-progressbar, lzma | xz-lzma
 Enhances: oem-config-gtk, ubiquity-frontend-gtk
 Suggests: grub-pc
 Description: Dell Recovery Media Creation Package

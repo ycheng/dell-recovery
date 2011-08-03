@@ -13,6 +13,8 @@ dell-recovery (0.99) UNRELEASED; urgency=low
   * Update standards version.
   * Switch to dh_python2.
   * Add recommends for lzma (needed on the backend when creating custom ISOs)
+  * Drop support for GIT FID overlays.  It's been unused for about 1 year now.
+    All FID overlays should be in packages.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 27 Apr 2011 11:36:09 -0500
 

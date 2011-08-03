@@ -60,15 +60,6 @@ USB_BURNERS = { 'usb-creator':['-n', '--iso'],
                 'usb-creator-gtk':['-n', '--iso'],
                 'usb-creator-kde':['-n', '--iso'] }
 
-if 'INTRANET' in os.environ:
-    URL = "humbolt.us.dell.com/pub/linux.dell.com/srv/www/vhosts/linux.dell.com/html"
-else:
-    URL = "linux.dell.com"
-
-GIT_TREES = { 'ubuntu': 'git://' + URL + '/ubuntu-fid.git',
-              'redhat': 'http://humbolt.us.dell.com/pub/Applications/git-internal-projects/redhat-fid.git',
-            }
-
 #UP File names
 UP_FILENAMES =  [ 'upimg.bin',
                   'upimg.gz' ,

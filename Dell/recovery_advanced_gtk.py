@@ -34,7 +34,7 @@ from debian import debian_support
 from Dell.recovery_gtk import DellRecoveryToolGTK, translate_widgets
 from Dell.recovery_basic_gtk import BasicGeneratorGTK
 
-from Dell.recovery_common import (UIDIR, GIT_TREES, UP_FILENAMES,
+from Dell.recovery_common import (UIDIR, UP_FILENAMES,
                                   dbus_sync_call_signal_wrapper,
                                   find_burners,
                                   increment_bto_version)
@@ -57,15 +57,6 @@ class AdvancedGeneratorGTK(BasicGeneratorGTK):
     def __init__(self, utility, recovery, version, media, target,
                  overwrite, xrev, branch):
         """Inserts builder widgets into the Gtk.Assistant"""
-#TODO: vte is broken
-#        try:
-#            import vte
-#        except ImportError:
-#            header = _("python-vte is missing")
-#            body = _("Builder mode requires python-vte to function")
-#            self.show_alert(Gtk.MessageType.ERROR, header, body,
-#                parent=None)
-#            sys.exit(1)
 
         #Run the normal init first
         BasicGeneratorGTK.__init__(self, utility, recovery,
@@ -95,16 +86,9 @@ create an USB key or DVD image."))
                                         Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
         self.file_dialog.set_default_response(Gtk.ResponseType.OK)
 
-        #setup the VTE window for GIT stuff
-        #self.vte = vte.Terminal()
-        #self.builder_widgets.get_object('fetch_expander').add(self.vte)
-        #self.vte.show()
-        #self.vte.connect("child-exited", self.fid_vte_handler)
-
         #setup transient windows
         for window in ['builder_add_dell_recovery_window',
-                       'srv_dialog',
-                       'builder_vte_window']:
+                       'srv_dialog']:
             self.builder_widgets.get_object(window).set_transient_for(wizard)
 
         #insert builder pages in reverse order
@@ -122,7 +106,6 @@ create an USB key or DVD image."))
         #builder variable defaults
         self.xrev = xrev
         self.branch = branch
-        self.builder_fid_overlay = ''
         self.builder_base_image = ''
         self.bto_base = False
         self.bto_up = ''
@@ -131,7 +114,6 @@ create an USB key or DVD image."))
         self.success_script = ''
         self.fail_script = ''
         self.apt_client = None
-        self.git_pid = -1
 
         self.builder_widgets.connect_signals(self)
 
@@ -160,11 +142,7 @@ create an USB key or DVD image."))
 
         elif page == self.builder_widgets.get_object('fid_page'):
             wizard.set_page_title(page, _("Choose FID Overlay"))
-            self.builder_widgets.get_object('install_git_button').hide()
 
-            for operating_system in GIT_TREES:
-                if operating_system == self.distributor:
-                    self.builder_widgets.get_object('git_url').set_text(GIT_TREES[operating_system])
             self.fid_toggled(None)
 
         elif page == self.builder_widgets.get_object('up_page'):
@@ -226,9 +204,6 @@ create an USB key or DVD image."))
             else:
                 output_text += "<b>" + _("Base Image") + "</b>: "
                 output_text += self.builder_base_image + '\n'
-            if self.builder_fid_overlay:
-                output_text += "<b>" + _("FID Overlay") + "</b>: "
-                output_text += self.builder_fid_overlay + '\n'
 
             if self.bto_up:
                 output_text +="<b>" + _("Utility Partition: ") + '</b>'
@@ -301,7 +276,6 @@ create an USB key or DVD image."))
 
         function = 'assemble_image'
         args = (self.builder_base_image,
-                self.builder_fid_overlay,
                 driver_fish_list,
                 application_fish_list,
                 self.add_dell_recovery_deb,
@@ -419,18 +393,14 @@ create an USB key or DVD image."))
         """Called when the radio button for the Builder FID overlay page is changed"""
         wizard = self.widgets.get_object('wizard')
         fid_page = self.builder_widgets.get_object('fid_page')
-        git_tree_hbox = self.builder_widgets.get_object('fid_git_tree_hbox')
         label = self.builder_widgets.get_object('fid_overlay_details_label')
-        self.builder_widgets.get_object('fid_git_tag_hbox').set_sensitive(False)
 
         wizard.set_page_complete(fid_page, False)
-        git_tree_hbox.set_sensitive(False)
         self.builder_widgets.get_object('add_dell_recovery_button').set_sensitive(False)
 
         if self.builder_widgets.get_object('builtin_radio').get_active():
             wizard.set_page_complete(fid_page, True)
             label.set_markup("<b>Builtin</b>: BTO Compatible Image")
-            self.builder_fid_overlay = ''
             self.add_dell_recovery_deb = ''
 
         elif self.builder_widgets.get_object('deb_radio').get_active():
@@ -439,134 +409,6 @@ create an USB key or DVD image."))
             else:
                 label.set_markup("")
             self.builder_widgets.get_object('add_dell_recovery_button').set_sensitive(True)
-
-        elif self.builder_widgets.get_object('git_radio').get_active():
-            label.set_markup("")
-            git_tree_hbox.set_sensitive(True)
-            cwd = os.path.join(os.environ["HOME"],
-                             '.config',
-                             'dell-recovery',
-                             self.distributor + '-fid')
-            if os.path.exists(cwd) and os.path.exists('/usr/bin/git'):
-                self.fid_vte_handler(self.builder_widgets.get_object('git_radio'))
-
-    def fid_fetch_button_clicked(self, widget):
-        """Called when the button to test a git tree is clicked"""
-        wizard = self.widgets.get_object('wizard')
-        fid_page = self.builder_widgets.get_object('fid_page')
-        label = self.builder_widgets.get_object('fid_overlay_details_label')
-
-        if not os.path.exists('/usr/bin/git'):
-            output_text = _("<b>ERROR</b>: git is not installed")
-            if not self.apt_client:
-                try:
-                    self.apt_client = client.AptClient()
-                except NameError:
-                    pass
-            if self.apt_client:
-                self.builder_widgets.get_object('install_git_button').show()
-            wizard.set_page_complete(fid_page, False)
-        else:
-            output_text = ''
-            if not os.path.exists(os.path.join(os.environ['HOME'],
-                                               '.config',
-                                               'dell-recovery')):
-                os.makedirs(os.path.join(os.environ['HOME'],
-                                         '.config',
-                                         'dell-recovery'))
-            if not os.path.exists(os.path.join(os.environ['HOME'],
-                                               '.config',
-                                               'dell-recovery',
-                                               self.distributor + '-fid')):
-                command = ["git", "clone",
-                           self.builder_widgets.get_object('git_url').get_text(),
-                           os.path.join(os.environ["HOME"],
-                                        '.config',
-                                        'dell-recovery',
-                                      self.distributor + '-fid')]
-                cwd = os.path.join(os.environ["HOME"],
-                                   '.config',
-                                   'dell-recovery')
-            else:
-                command = ["git", "fetch", "--verbose"]
-                cwd = os.path.join(os.environ["HOME"],
-                                 '.config',
-                                 'dell-recovery',
-                                 self.distributor + '-fid')
-            self.widgets.get_object('wizard').set_sensitive(False)
-            self.builder_widgets.get_object('builder_vte_window').show()
-            #self.git_pid = self.vte.fork_command(command = command[0],
-            #                                     argv = command,
-            #                                     directory = cwd)
-            self.git_pid = 0
-        label.set_markup(output_text)
-
-    def fid_fetch_cancel(self, widget):
-        """Handle a press to the cancel button of the VTE page"""
-        os.kill(self.git_pid, 15)
-
-    def fid_vte_handler(self, widget):
-        """Handler for VTE dialog closing"""
-        def fill_liststore_from_command(command, ffilter, liststore_name):
-            """Fills up the data in a liststore, only items matching filter"""
-            liststore = self.builder_widgets.get_object(liststore_name)
-            liststore.clear()
-            cwd = os.path.join(os.environ["HOME"],
-                               '.config',
-                               'dell-recovery',
-                               self.distributor + '-fid')
-            if not os.path.exists(cwd):
-                return
-            list_command = subprocess.Popen(args = command,
-                                            cwd = cwd,
-                                            stdout = subprocess.PIPE)
-            output = list_command.communicate()[0].split('\n')
-            #go through the list once to see if we have A rev tags at all
-            use_xrev = self.xrev
-            if not use_xrev:
-                use_xrev = True
-                for item in output:
-                    if ffilter + "_A" in item:
-                        use_xrev = False
-                        break
-            for item in output:
-                #Check that we have a valid item
-                # AND
-                #It doesn't contain HEAD
-                # AND
-                # [ We are in branch mode
-                #   OR
-                #   [
-                #     It contains our filter
-                #     We show X rev builds
-                #     It contains an X rev tag
-                #   ]
-                # ]
-
-                if item and \
-                   not "HEAD" in item and \
-                   (self.branch or \
-                   (ffilter in item and \
-                    (use_xrev or \
-                     not ffilter + "_X" in item))):
-                    liststore.append([item])
-
-            #Add this so that we can build w/o a tag only if we are in tag mode
-            # w/ dev on
-            if use_xrev and not self.branch:
-                liststore.append(['origin/master'])
-
-        #reactivate GUI
-        self.builder_widgets.get_object('builder_vte_window').hide()
-        self.widgets.get_object('wizard').set_sensitive(True)
-        self.builder_widgets.get_object('fid_git_tag_hbox').set_sensitive(True)
-
-        #update the tag list in the GUI
-        if self.branch:
-            command = ["git", "branch", "-r"]
-        else:
-            command = ["git", "tag", "-l"]
-        fill_liststore_from_command(command, self.release, 'tag_liststore')
 
     def fid_deb_changed(self, widget):
         """Detects the version of a newly found deb"""
@@ -580,53 +422,6 @@ create an USB key or DVD image."))
             else:
                 output_text = "<b>Add</b> from %s" % self.add_dell_recovery_deb
             self.builder_widgets.get_object('fid_overlay_details_label').set_markup(output_text)
-        
-        
-    def fid_git_changed(self, widget):
-        """If we have selected a tag"""
-        wizard = self.widgets.get_object('wizard')
-        fid_page = self.builder_widgets.get_object('fid_page')
-
-        active_iter = self.builder_widgets.get_object('git_tags').get_active_iter()
-        active_tag = ''
-        output_text = ''
-        if active_iter:
-            active_tag = self.builder_widgets.get_object('tag_liststore').get_value(
-                active_iter, 0)
-
-        if active_tag:
-            cwd = os.path.join(os.environ["HOME"],
-                               '.config',
-                               'dell-recovery',
-                               self.distributor + '-fid')
-            #switch checkout branches
-            command = ["git", "checkout", active_tag.strip()]
-            subprocess.call(command, cwd = cwd)
-
-            self.builder_fid_overlay = os.path.join(cwd, 'framework')
-
-            tag = active_tag.strip().split('_')
-            if len(tag) > 1:
-                self.widgets.get_object('version').set_text(tag[1])
-            else:
-                self.widgets.get_object('version').set_text('X00')
-
-            output_text = "<b>GIT Tree</b>, Version: %s" % active_tag
-
-            #if we have a valid tag, check now to make sure that we have
-            # the dell-recovery deb
-            if self.backend().query_have_dell_recovery(self.builder_base_image,
-                        self.builder_fid_overlay) or self.add_dell_recovery_deb:
-                wizard.set_page_complete(fid_page, True)
-            else:
-                output_text += "\n<b>%s</b>, %s" % (_("Missing Dell-Recovery"),
-                               _("Not present in ISO or GIT tree"))
-                wizard.set_page_complete(fid_page, False)
-                self.builder_widgets.get_object('add_dell_recovery_button').set_sensitive(True)
-            
-        else:
-            wizard.set_page_complete(fid_page, False)
-        self.builder_widgets.get_object('fid_overlay_details_label').set_markup(output_text)
 
     def driver_action(self, widget):
         """Called when the add or remove buttons are pressed on the driver action page"""
@@ -772,13 +567,11 @@ create an USB key or DVD image."))
                 label.set_markup('<b>' + _("FAIL Script: " ) + '</b>' + ret)
 
     def install_app(self, widget):
-        """Launch into an installer for git or dpkg-repack"""
+        """Launch into an installer for dpkg-repack"""
         packages = []
         wizard = self.widgets.get_object('wizard')
-        if widget == self.builder_widgets.get_object('install_git_button'):
-            packages = ['git-core']
-        else:
-            packages = ['dpkg-repack']
+        
+        packages = ['dpkg-repack']
         try:
             trans = self.apt_client.install_packages(packages,
                                     wait=False,
@@ -826,8 +619,6 @@ create an USB key or DVD image."))
         #validate version
         if self.builder_widgets.get_object('deb_radio').get_active():
             self.fid_deb_changed(None)
-        else:
-            self.fid_git_changed(None)
 
     def add_dell_recovery_toggled(self, widget):
         """Toggles the active selection in the add dell-recovery to image page"""

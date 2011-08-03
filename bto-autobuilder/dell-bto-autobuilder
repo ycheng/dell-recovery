@@ -14,25 +14,16 @@ Coding Style:
 
 import os, sys, subprocess, optparse, re, tempfile
 from Dell.recovery_common import DBUS_BUS_NAME, DBUS_INTERFACE_NAME, \
-                                 GIT_TREES, check_version,           \
+                                 check_version,           \
                                  dbus_sync_call_signal_wrapper
 import dbus.mainloop.glib
 from datetime import datetime
-
-try:
-    import git
-except ImportError:
-    print >> sys.stderr, 'Error: python-git is not installed'
-    sys.exit(1)
 
 try:
     import progressbar
 except ImportError:
     print >> sys.stderr, 'Error: python-progressbar is not installed'
     sys.exit(1)
-
-CONFIG  = os.path.join(os.environ['HOME'], '.config/dell-recovery')
-REPO    = os.path.join(CONFIG, 'ubuntu-fid')
 
 class FidTag:
     ''' Convenience class that cleans up how the Dell FID
@@ -145,8 +136,8 @@ def parse_argv():
                       help=('ISO image baseline for overlay'))
 
     parser.add_option('-t', '--tag', type='string', dest='tag',
-                      default=None,
-                      help=('FID tag: defaults to latest tag'))
+                      default='',
+                      help=('Override BTO version tag used'))
 
     parser.add_option('--target-name-prefix', type='string',
                       dest='bto_name_prefix',
@@ -176,10 +167,6 @@ def parse_argv():
                       default='',
                       help=('Add an additional script to run on FAIL.'))
 
-    parser.add_option('--skip-git-update', dest='skip_git',
-                      action='store_true', default=False,
-                      help=('Don\'t update the local git tree'))
-
     opts, args = parser.parse_args()
 
     if opts.drivers == None or opts.base == None:
@@ -199,29 +186,13 @@ def setup_dbus():
     iface = dbus.Interface(proxy, DBUS_INTERFACE_NAME)
     return (bus, iface, proxy)
 
-def clone_target_repo(repository):
-    '''clone a copy of our repo for the purposes of building this iso.
-       the reason for this is we want this process to be reentrant. should
-       we want to be able to build multiple isos at the same time, we'll
-       need a separate git sandbox for each instance of the build.'''
-
-    date = datetime.now()
-    tmp = tempfile.mkdtemp(suffix='_' + date.strftime('%y-%m-%d_%H.%M.%S'))
-    repository.git.clone(REPO, tmp)
-
-    print 'cloned repo to %s' % tmp
-    new_repo = git.Repo(tmp)
-    return new_repo
-
-def config_dell_recovery_package(callback, base, target_repo, dell_deb):
+def config_dell_recovery_package(callback, base, dell_deb):
     ''' required logic for the dell installer to locate the
         correct dell recovery deb and then incorporate this into
         the BTO iso.'''
-    if target_repo:
-        target_repo = target_repo.git.git_dir
 
-    if callback(base, target_repo) and dell_deb == None:
-        print 'Using ISO/FID dell-recovery package'
+    if callback(base) and dell_deb == None:
+        print 'Using ISO included dell-recovery package'
         return ''
 
     if dell_deb != None:
@@ -240,27 +211,6 @@ def config_dell_recovery_package(callback, base, target_repo, dell_deb):
 
 if __name__ == '__main__':
     options, params = parse_argv()
-
-    if not os.path.exists(CONFIG):
-        os.makedirs(CONFIG)
-
-    if not os.path.exists(REPO):
-        print 'Setting up git repository...'
-        child = subprocess.Popen(('git clone %s %s' % (GIT_TREES['ubuntu'], REPO)).split(),
-                    stdout=subprocess.PIPE)
-        out = child.communicate()[0]
-    elif options.skip_git == False:
-        try:
-            print 'Updating git repository...'
-            pwd = os.getcwd()
-            os.chdir(REPO)
-            child = subprocess.Popen('git fetch'.split(), stdout=subprocess.PIPE)
-            out = child.communicate()[0]
-        except Exception, err:
-            print >> sys.stderr, err
-            sys.exit(1)
-        finally:
-            os.chdir(pwd)
 
     drivers = []
     try:
@@ -286,47 +236,18 @@ if __name__ == '__main__':
         (bto_version, distributer,
             release, arch, output) = iface.query_iso_information(base)
 
-        if bto_version == '[native]':
-            target_repo = ''
+        if options.tag:
+            current_tag = FidTag(release + '_' + options.tag)
+        elif bto_version == '[native]':
             current_tag = FidTag(release + '_A00')
+        elif bto_version:
+            current_tag = FidTag(release + '_' + bto_version)
         else:
-            # decorate the git tags with our FID specific class
-            repo = git.Repo(REPO)
-            tags = [FidTag(t) for t in repo.tags]
-    
-            # tags array is no longer used after this block so
-            # don't worry about it being over written
-            if options.tag == None:
-                tags = [t for t in tags if t.lsb_release == release]
-                tags.sort()
-                current_tag = tags.pop()
-                print 'FID tag unspecified, using the latest: %s' % current_tag
-            else:
-                match = False
-                for tag in tags:
-                    print tag
-                    if options.tag.strip() ==  str(tag):
-                        match = True
-                        current_tag = tag
-                        break
-    
-                if match is False:
-                    print >> sys.stderr, \
-                        'Error: unable to find match FID tag in current tree '\
-                        'named: %s' % options.tag.strip()
-                    sys.exit(1)
-    
-            # our 'working' git repo
-            target_repo = clone_target_repo(repo)
-    
-            # update the tree to point to the specified tag
-            target_repo.git.execute(('git checkout %s' % current_tag).split())
-            print 'Repo for tag %s is set' % current_tag
-
+            current_tag = FidTag(release + '_X00')
+        
         dell_recovery_pkg = config_dell_recovery_package(
                                      iface.query_have_dell_recovery,
                                      base,
-                                     target_repo,
                                      options.dell_deb)
 
         bto_name = 'ubuntu-%s-%s-dell_%s.iso' % (current_tag.lsb_release, arch,
@@ -362,11 +283,6 @@ if __name__ == '__main__':
         for fishie in drivers:
             print fishie
 
-        if target_repo:
-            overlay_dir = os.path.join(target_repo.git.git_dir, 'framework')
-        else:
-            overlay_dir = ''
-
         # so what's happening here is two dbus functions are being called,
         # create_ubuntu on behalf of assemble_image. The former handles the
         # actual iso building process, while the later incorporates most
@@ -376,7 +292,6 @@ if __name__ == '__main__':
             'assemble_image',                # Explicit function call
             {'report_progress':Install()},   # handles D-Bus progress updates
             base,                            # baseline iso
-            overlay_dir, # overlay repo
             drivers,                         # driver FISH packages
             '',                              # application FISH packages
             dell_recovery_pkg,               # specify pkg source
@@ -401,7 +316,3 @@ if __name__ == '__main__':
         sys.exit(1)
     finally:
         iface.request_exit() # will call atexit in dell backend
-        import shutil
-        if target_repo:
-            print 'Removing temporary git tree: %s' % target_repo.git.git_dir
-            shutil.rmtree(target_repo.git.git_dir)

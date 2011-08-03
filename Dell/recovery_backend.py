@@ -293,7 +293,7 @@ class Backend(dbus.service.Object):
             logging.debug("_test_for_new_dell_recovery: Distro %s matches %s", rp_distro, package_distro)
             cache = Cache()
             package_version = cache['dell-recovery'].installed.version
-            rp_version = self.query_have_dell_recovery(mount,'')
+            rp_version = self.query_have_dell_recovery(mount)
             
             if debian_support.version_compare(package_version, rp_version):
                 logging.debug("_test_for_new_dell_recovery: Including updated dell-recovery package version, %s (original was %s)", package_version, rp_version)
@@ -403,11 +403,10 @@ class Backend(dbus.service.Object):
         self.main_loop.quit()
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 'ssasa{ss}sbssssss', out_signature = '', sender_keyword = 'sender',
+        in_signature = 'sasa{ss}sbssssss', out_signature = '', sender_keyword = 'sender',
         connection_keyword = 'conn')
     def assemble_image(self,
                        base,
-                       fid,
                        driver_fish,
                        application_fish,
                        dell_recovery_package,
@@ -419,7 +418,6 @@ class Backend(dbus.service.Object):
                        version, iso, sender=None, conn=None):
         """Assemble pieces that would be used for building a BTO image.
            base: mount point of base image (or directory)
-           fid: mount point of fid overlay
            fish: list of packages to fish
            dell_recovery_package: a dell-recovery package to inject
            oie: run the image in interactive completion mode
@@ -440,43 +438,14 @@ class Backend(dbus.service.Object):
         assembly_tmp = tempfile.mkdtemp()
         atexit.register(walk_cleanup, assembly_tmp)
 
-        #Build a filter list using re for stuff that will be purged during copy
-        purge_filter = ''
-        purge_list_file = os.path.join(fid, '..', 'examples', 'purgedvd.lst')
-        if os.path.exists(purge_list_file):
-            try:
-                purge_list = open(purge_list_file).readlines()
-                for line in purge_list:
-                    folder = line.strip('\n')
-                    if not purge_filter and folder:
-                        purge_filter = "^" + folder
-                    elif folder:
-                        purge_filter += "|^" + folder
-                if purge_filter:
-                    purge_filter += "|^syslinux"
-            except IOError:
-                print >> sys.stderr, "Error reading purge list, but file exists"
-        logging.debug('assemble_image: purge_filter is %s', purge_filter)
-        white_pattern = re.compile(purge_filter)
-
         #copy the base iso/mnt point/etc
+        white_pattern = re.compile('')
         w_size = white_tree("size", white_pattern, base_mnt)
         self.start_sizable_progress_thread(_('Adding in base image'),
                                            assembly_tmp,
                                            w_size)
         white_tree("copy", white_pattern, base_mnt, assembly_tmp)
         self.stop_progress_thread()
-
-        #Add in FID content
-        if os.path.exists(fid):
-            self.report_progress(_('Overlaying FID content'), '99.0')
-            if os.path.isdir(fid):
-                distutils.dir_util.copy_tree(fid, assembly_tmp,
-                                             preserve_symlinks=0,
-                                             verbose=1, update=0)
-            elif tarfile.is_tarfile(fid):
-                safe_tar_extract(fid, assembly_tmp)
-            logging.debug('assemble_image: done overlaying FID content')
 
         #Add in driver FISH content
         if len(driver_fish) > 0:
@@ -693,10 +662,10 @@ class Backend(dbus.service.Object):
         return (version, date)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 'ss', out_signature = 's', sender_keyword = 'sender',
+        in_signature = 's', out_signature = 's', sender_keyword = 'sender',
         connection_keyword = 'conn')
-    def query_have_dell_recovery(self, recovery, framework, sender=None, conn=None):
-        '''Checks if the given image and BTO framework contain the dell-recovery
+    def query_have_dell_recovery(self, recovery, sender=None, conn=None):
+        '''Checks if the given image contains the dell-recovery
            package suite'''
 
         def run_isoinfo_command(cmd):
@@ -775,20 +744,6 @@ class Backend(dbus.service.Object):
                         logging.debug("query_have_dell_recovery: Found %s in %s", version, fname)
                         if version > found:
                             found = version
-
-        #If we didn't find it in the ISO, search the framework
-        if not found and framework:
-            logging.debug("query_have_dell_recovery: Searching framework %s", framework)
-            for root, dirs, files in os.walk(framework, topdown=False):
-                for name in files:
-                    if 'dell-recovery' in name and (name.endswith('.deb') or name.endswith('.rpm')):
-                        logging.debug("query_have_dell_recovery: Found in %s", os.path.join(root, name))
-                        if '_' in fname:
-                            new = fname.split('_')[1]
-                            if new > found:
-                                found = new
-                        if not found:
-                            found = '1'
         return found
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
