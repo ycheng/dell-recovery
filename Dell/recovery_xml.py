@@ -105,7 +105,7 @@ class BTOxml:
 
         #test for top level bto object
         if self.dom.firstChild and self.dom.firstChild.localName != 'bto':
-            self.dom.removeChild(dom.firstChild)
+            self.dom.removeChild(self.dom.firstChild)
         if not self.dom.firstChild:
             bto = create_top_level(self.dom)
         else:

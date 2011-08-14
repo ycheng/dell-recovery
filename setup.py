@@ -20,7 +20,11 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 from distutils.core import setup
-from DistUtilsExtra.command import *
+from DistUtilsExtra.command import (build_extra, 
+                                   build_i18n, 
+                                   build_help,
+                                   build_icons,
+                                   clean_i18n)
 
 import glob, os.path
 

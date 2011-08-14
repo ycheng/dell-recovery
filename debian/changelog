@@ -1,6 +1,10 @@
 dell-recovery (1.00) UNRELEASED; urgency=low
 
+  [ Kent Baxley ]
   * Move lzma and xz-lzma to "Depends" instead of "Recommends"
+
+  [ Mario Limonciello ]
+  * Clean up a bunch of pyflakes warnings and unused imports.
 
  -- Kent Baxley <kent.baxley@canonical.com>  Fri, 05 Aug 2011 12:16:57 -0500
 
