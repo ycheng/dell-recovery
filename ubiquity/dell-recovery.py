@@ -52,8 +52,8 @@ class PageGtk(PluginUI):
         self.genuine = magic.check_vendor()
         if oem and (dvd or usb) and (rpart or not self.genuine):
             try:
-                import gtk
-                builder = gtk.Builder()
+                from gi.repository import Gtk
+                builder = Gtk.Builder()
                 builder.add_from_file('/usr/share/ubiquity/gtk/stepRecoveryMedia.ui')
                 builder.connect_signals(self)
                 self.controller.add_builder(builder)
