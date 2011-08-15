@@ -1410,7 +1410,7 @@ manually to proceed.")
             if self.efi:
                 grub_size = 50
                 commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '0', str(grub_size)),
-                            ('parted', '-s', self.device, 'name', '1', 'ESP'),
+                            ('parted', '-s', self.device, 'name', '1', 'EFI System Partition'),
                             ('parted', '-s', self.device, 'set', '1', 'boot', 'on')]
             else:
                 grub_size = 1.5
