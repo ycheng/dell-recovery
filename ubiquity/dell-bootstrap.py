@@ -1452,7 +1452,7 @@ manually to proceed.")
         #Build RP filesystem
         self.status("Formatting Partitions", 2)
         if self.rp_type == 'fat32':
-            command = ('mkfs.msdos', '-n', 'install', self.device + rp_part)
+            command = ('mkfs.msdos', '-n', 'OS', self.device + rp_part)
         elif self.rp_type == 'ntfs':
             command = ('mkfs.ntfs', '-f', '-L', 'RECOVERY', self.device + rp_part)
         result = misc.execute_root(*command)
