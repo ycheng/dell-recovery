@@ -3,7 +3,7 @@ Section: utils
 Priority: optional
 Maintainer: Mario Limonciello <superm1@ubuntu.com>
 XSBC-Original-Maintainer: Mario Limonciello <mario_limonciello@dell.com>
-Build-Depends: debhelper (>= 7.0.50~), python-all, python-distutils-extra, po-debconf
+Build-Depends: debhelper (>= 7.0.50~), python-all, python-distutils-extra, po-debconf, pyflakes
 XS-Python-Version: current
 Homepage: http://linux.dell.com/
 Vcs-Bzr: http://bazaar.launchpad.net/~dell-team/dell-recovery/trunk
@@ -11,10 +11,10 @@ Standards-Version: 3.9.1
 
 Package: dell-recovery
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, gir1.2-gtk-3.0, policykit-1, uuid-runtime, udisks | devicekit-disks | hal, policykit-1-gnome, genisoimage, dpkg-repack, python-gobject (>= 2.28), python-debian
+Depends: ${python:Depends}, ${misc:Depends}, gir1.2-gtk-3.0, policykit-1, uuid-runtime, udisks | devicekit-disks | hal, policykit-1-gnome, genisoimage, dpkg-repack, python-gobject (>= 2.28), python-debian, lzma | xz-lzma
 Replaces: dell-artwork, dell-oobe
 Conflicts: dell-oobe
-Recommends: usb-creator-gtk, brasero | nautilus-cd-burner, lsb-release, python-vte, python-aptdaemon.gtk3widgets, parted, python-progressbar, lzma | xz-lzma
+Recommends: usb-creator-gtk, brasero | nautilus-cd-burner, lsb-release, python-vte, python-aptdaemon.gtk3widgets, parted, python-progressbar
 Enhances: oem-config-gtk, ubiquity-frontend-gtk
 Suggests: grub-pc
 Description: Dell Recovery Media Creation Package

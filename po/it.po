@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-10 00:32-0600\n"
-"PO-Revision-Date: 2011-03-06 11:38+0000\n"
-"Last-Translator: Milo Casagrande <milo@casagrande.name>\n"
+"POT-Creation-Date: 2011-08-03 02:58-0500\n"
+"PO-Revision-Date: 2011-08-04 15:18+0000\n"
+"Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-07 04:51+0000\n"
-"X-Generator: Launchpad (build 12351)\n"
+"X-Launchpad-Export-Date: 2011-08-05 04:40+0000\n"
+"X-Generator: Launchpad (build 13604)\n"
 
 #: ../Dell/recovery_gtk.py:92
 msgid "Cannot connect to dbus"
@@ -38,74 +38,66 @@ msgstr "Ripristino sistemi Dell"
 msgid "Copyright 2008-2010 Dell Inc."
 msgstr "Copyright 2008-2010 Dell Inc."
 
-#: ../Dell/recovery_basic_gtk.py:158
+#: ../Dell/recovery_basic_gtk.py:58
+msgid "Confirm Selections"
+msgstr "Conferma selezioni"
+
+#: ../Dell/recovery_basic_gtk.py:59
+msgid "Media Type"
+msgstr "Tipo si supporto"
+
+#: ../Dell/recovery_basic_gtk.py:168
 msgid "Building Base image"
 msgstr "Creazione immagine di base"
 
-#: ../Dell/recovery_basic_gtk.py:172
+#: ../Dell/recovery_basic_gtk.py:182
 msgid "Opening Burner"
 msgstr "Apertura del masterizzatore"
 
-#: ../Dell/recovery_basic_gtk.py:197
+#: ../Dell/recovery_basic_gtk.py:207
 msgid "Recovery Media Creation Process Complete"
 msgstr "Processo di creazione del supporto di recupero completato"
 
-#: ../Dell/recovery_basic_gtk.py:198
+#: ../Dell/recovery_basic_gtk.py:208
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
 msgstr ""
 "Per creare un'altra copia, l'immagine generata è stata salvata nel file:\n"
 
-#: ../Dell/recovery_basic_gtk.py:212
+#: ../Dell/recovery_basic_gtk.py:222
 msgid "Unable to proceed"
 msgstr "Impossibile proseguire"
 
-#: ../Dell/recovery_basic_gtk.py:213
+#: ../Dell/recovery_basic_gtk.py:223
 msgid ""
 "System does not appear to contain Dell factory installed partition layout."
 msgstr ""
 "Il sistema non sembra contenere una partizione con le impostazioni Dell "
 "installata."
 
-#: ../Dell/recovery_basic_gtk.py:296
-msgid "Choose Media Type"
-msgstr "Scegliere il tipo di supporto"
-
-#: ../Dell/recovery_basic_gtk.py:327
+#: ../Dell/recovery_basic_gtk.py:334
 msgid "Image File"
 msgstr "File immagine"
 
-#: ../Dell/recovery_basic_gtk.py:329
+#: ../Dell/recovery_basic_gtk.py:336
 msgid "Media Type: "
 msgstr "Tipo di supporto: "
 
-#: ../Dell/recovery_basic_gtk.py:332 ../Dell/recovery_basic_gtk.py:335
+#: ../Dell/recovery_basic_gtk.py:339 ../Dell/recovery_basic_gtk.py:342
 msgid "Recovery Partition: "
 msgstr "Partizione di recupero: "
 
-#: ../Dell/recovery_basic_gtk.py:336
+#: ../Dell/recovery_basic_gtk.py:343
 msgid "Included"
 msgstr "aggiunta"
 
-#: ../Dell/recovery_basic_gtk.py:343
-msgid "Confirm Selections"
-msgstr "Conferma selezioni"
-
-#: ../Dell/recovery_advanced_gtk.py:61
-msgid "python-vte is missing"
-msgstr "ptython-vte mancante"
-
-#: ../Dell/recovery_advanced_gtk.py:62
-msgid "Builder mode requires python-vte to function"
-msgstr "La modalità «creazione immagine» richiede python-vte per funzionare"
-
 #. wizard.resize(400,400)
-#: ../Dell/recovery_advanced_gtk.py:80
+#: ../Dell/recovery_advanced_gtk.py:74
 msgid " (BTO Image Builder Mode)"
 msgstr " (BTO Modalità creazione immagine)"
 
-#: ../Dell/recovery_advanced_gtk.py:82
+#: ../Dell/recovery_advanced_gtk.py:76
 msgid ""
 "This will integrate a Dell OEM FID framework & driver package set into a "
 "customized OS media image.  You will have the option to create an USB key or "
@@ -115,156 +107,133 @@ msgstr ""
 "operativo un framework Dell OEM e il pacchetto dei driver. Sarà possibile "
 "creare un supporto USB o un'immagine DVD."
 
-#: ../Dell/recovery_advanced_gtk.py:156
-msgid "Choose Base OS Image"
-msgstr "Scegliere la base dell'immagine del sistema operativo"
-
-#: ../Dell/recovery_advanced_gtk.py:159
-msgid "Choose FID Overlay"
-msgstr "Scegliere FID sovrapposto"
-
-#: ../Dell/recovery_advanced_gtk.py:168
-msgid "Choose Utility Partition"
-msgstr "Scegliere la partizione di utilità"
-
-#: ../Dell/recovery_advanced_gtk.py:180
-msgid "Choose Driver Packages"
-msgstr "Scegliere i pacchetti dei driver"
-
-#: ../Dell/recovery_advanced_gtk.py:194
-msgid "Choose Application Packages"
-msgstr "Scegliere i pacchetti dell'applicazione"
-
-#: ../Dell/recovery_advanced_gtk.py:205
+#. insert builder pages in reverse order
+#: ../Dell/recovery_advanced_gtk.py:95
 msgid "Installation Mode"
 msgstr "Modalità di installazione"
 
-#: ../Dell/recovery_advanced_gtk.py:215
+#: ../Dell/recovery_advanced_gtk.py:96
+msgid "Application Packages"
+msgstr "Pacchetti applicazione"
+
+#: ../Dell/recovery_advanced_gtk.py:97
+msgid "Driver Packages"
+msgstr "Pacchetti driver"
+
+#: ../Dell/recovery_advanced_gtk.py:98 ../Dell/recovery_advanced_gtk.py:336
+msgid "Utility Partition"
+msgstr "Partizione di utilità"
+
+#: ../Dell/recovery_advanced_gtk.py:99
+msgid "FID Content"
+msgstr "Contenuto FID"
+
+#: ../Dell/recovery_advanced_gtk.py:100
+msgid "Base OS Image"
+msgstr "Immagine di base del sistema operativo"
+
+#: ../Dell/recovery_advanced_gtk.py:197
 msgid "Builder Summary"
 msgstr "Sommario creazione immagine"
 
-#: ../Dell/recovery_advanced_gtk.py:216
+#: ../Dell/recovery_advanced_gtk.py:198
 msgid "Base Image Distributor"
 msgstr "Base immagine distributore"
 
-#: ../Dell/recovery_advanced_gtk.py:218
+#: ../Dell/recovery_advanced_gtk.py:200
 msgid "Base Image Release"
 msgstr "Base immagine rilascio"
 
-#: ../Dell/recovery_advanced_gtk.py:221
+#: ../Dell/recovery_advanced_gtk.py:203
 msgid "BTO Base Image"
 msgstr "Base immagine BTO"
 
-#: ../Dell/recovery_advanced_gtk.py:224
+#: ../Dell/recovery_advanced_gtk.py:206
 msgid "Base Image"
 msgstr "Base immagine"
 
-#: ../Dell/recovery_advanced_gtk.py:227
-msgid "FID Overlay"
-msgstr "FID sovrapposto"
-
-#: ../Dell/recovery_advanced_gtk.py:231
+#: ../Dell/recovery_advanced_gtk.py:210
 msgid "Utility Partition: "
 msgstr "Partizione di utilità: "
 
-#: ../Dell/recovery_advanced_gtk.py:234
+#: ../Dell/recovery_advanced_gtk.py:213
 msgid "Application"
 msgstr "Applicazione"
 
-#: ../Dell/recovery_advanced_gtk.py:235
+#: ../Dell/recovery_advanced_gtk.py:214
 msgid "Driver"
 msgstr "Driver"
 
-#: ../Dell/recovery_advanced_gtk.py:241
+#: ../Dell/recovery_advanced_gtk.py:220
 msgid "Packages"
 msgstr "Pacchetti"
 
-#: ../Dell/recovery_advanced_gtk.py:247
+#: ../Dell/recovery_advanced_gtk.py:226
 msgid "Inject Dell Recovery Package"
 msgstr "Aggiungere pacchetto recupero Dell"
 
-#: ../Dell/recovery_advanced_gtk.py:250
+#: ../Dell/recovery_advanced_gtk.py:229
 msgid "OIE Installation Mode"
 msgstr "Modalità di installazione OIE"
 
-#: ../Dell/recovery_advanced_gtk.py:253
+#: ../Dell/recovery_advanced_gtk.py:232
 msgid "Additional Success Script"
 msgstr "Script aggiuntivo per la riuscita"
 
-#: ../Dell/recovery_advanced_gtk.py:256
+#: ../Dell/recovery_advanced_gtk.py:235
 msgid "Additional Fail Script"
 msgstr "Script aggiuntivo per la non riuscita"
 
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:266
+#: ../Dell/recovery_advanced_gtk.py:245
 msgid "Assembling Image Components"
 msgstr "Montaggio componenti immagine"
 
-#: ../Dell/recovery_advanced_gtk.py:358
-msgid "Utility Partition"
-msgstr "Partizione di utilità"
-
-#: ../Dell/recovery_advanced_gtk.py:361
+#: ../Dell/recovery_advanced_gtk.py:339
 msgid "No Additional Utility Partition"
 msgstr "Nessuna partizione di utilità aggiuntiva"
 
-#: ../Dell/recovery_advanced_gtk.py:457
-msgid "<b>ERROR</b>: git is not installed"
-msgstr "<b>Errore:</b> git non è installato"
-
-#: ../Dell/recovery_advanced_gtk.py:618
-msgid "Missing Dell-Recovery"
-msgstr "Dell-Recovery mancante"
-
-#: ../Dell/recovery_advanced_gtk.py:619
-msgid "Not present in ISO or GIT tree"
-msgstr "Non è presente nella ISO o nell'albero GIT"
-
-#: ../Dell/recovery_advanced_gtk.py:735
+#: ../Dell/recovery_advanced_gtk.py:535
 msgid "All SRVs must be filled to proceed."
 msgstr "Tutti gli SRV devonon essere riempiti per procedere."
 
-#: ../Dell/recovery_advanced_gtk.py:764
+#: ../Dell/recovery_advanced_gtk.py:564
 msgid "SUCCESS Script: "
 msgstr "Script per la riuscita: "
 
-#: ../Dell/recovery_advanced_gtk.py:768
+#: ../Dell/recovery_advanced_gtk.py:568
 msgid "FAIL Script: "
 msgstr "Script per la non riuscita: "
 
-#: ../Dell/recovery_backend.py:283
+#: ../Dell/recovery_backend.py:313
 msgid "Processing FISH packages"
 msgstr "Elaborazione pacchetti FISH"
 
-#: ../Dell/recovery_backend.py:418
+#: ../Dell/recovery_backend.py:440
 msgid "Adding in base image"
 msgstr "Aggiunta all'immagine di base"
 
-#: ../Dell/recovery_backend.py:426
-msgid "Overlaying FID content"
-msgstr "Sovrapposizione contenuto FID"
-
-#: ../Dell/recovery_backend.py:832
+#: ../Dell/recovery_backend.py:849
 msgid "Preparing nested image"
 msgstr "Preparazione immagine nidificata"
 
-#: ../Dell/recovery_backend.py:856
+#: ../Dell/recovery_backend.py:873
 msgid "Building Dell Utility Partition"
 msgstr "Creazione della partizione di utilità Dell"
 
-#: ../Dell/recovery_backend.py:920
+#: ../Dell/recovery_backend.py:937
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Rigenerazione UUID / Ricostruzione initramfs"
 
-#: ../Dell/recovery_backend.py:949
+#: ../Dell/recovery_backend.py:966
 msgid "Building GRUB core image"
 msgstr "Creazione immagine principale di GRUB"
 
-#: ../Dell/recovery_backend.py:1016
+#: ../Dell/recovery_backend.py:1033
 msgid "Building OIE Archive"
 msgstr "Creazione archivio OIE"
 
-#: ../Dell/recovery_backend.py:1051
+#: ../Dell/recovery_backend.py:1068
 msgid "Building ISO"
 msgstr "Generazione ISO"
 
@@ -301,6 +270,16 @@ msgstr ""
 #: ../backend/com.dell.recoverymedia.policy.in.h:8
 msgid "System policy prevents reading raw devices"
 msgstr "La politica di sistema impedisce la lettura di dispositivi raw"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:9
+msgid "System policy prohibits changing network without user consent"
+msgstr ""
+"La politica di sistema proibisce il cambio della rete senza il consenso "
+"dell'utente"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:10
+msgid "Toggle Network Connectivity"
+msgstr "Commuta connettività di rete"
 
 #: ../gtk/recovery_media_creator.ui.h:1
 msgid "<activity placeholder>"
@@ -364,20 +343,10 @@ msgstr ""
 "\n"
 
 #: ../gtk/builder.ui.h:6
-msgid ""
-"<b>The GIT fetch is in progress.  </b>\n"
-"This window will close automatically when the process is complete. \n"
-"<b>NOTE:</b> Please be patient, the initial fetch may take a while."
-msgstr ""
-"<b>GIT in avanzamento.</b>\n"
-"Questa finestra si chiuderà automaticamente al completamento del processo. \n"
-"<b>NOTA:</b>  attendere, l'operazione potrebbe impiegare alcuni minuti."
-
-#: ../gtk/builder.ui.h:9
 msgid "Add Dell Recovery"
 msgstr "Aggiungi Dell Recovery"
 
-#: ../gtk/builder.ui.h:10
+#: ../gtk/builder.ui.h:7
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
@@ -385,7 +354,7 @@ msgstr ""
 "Tutti i componenti aggiuntivi o le applicazioni da integrare nell'immagine "
 "possono essere aggiunti qui."
 
-#: ../gtk/builder.ui.h:11
+#: ../gtk/builder.ui.h:8
 msgid ""
 "BTO images can optionally include a Utility Partition for diagnostic "
 "utilities."
@@ -393,35 +362,35 @@ msgstr ""
 "Le immagini BTO possono opzionalmente contenere un partizione di utilità per "
 "la diagnostica."
 
-#: ../gtk/builder.ui.h:12
+#: ../gtk/builder.ui.h:9
 msgid "Browse for a dell-recovery package"
 msgstr "Ricercare tutti i pacchetti dell-recovery"
 
-#: ../gtk/builder.ui.h:13
+#: ../gtk/builder.ui.h:10
 msgid "Build dell-recovery package from this system"
 msgstr "Genera un pacchetto dell-recovery del sistema"
 
-#: ../gtk/builder.ui.h:14
+#: ../gtk/builder.ui.h:11
 msgid "Choose Content"
 msgstr "Scegliere contenuto"
 
-#: ../gtk/builder.ui.h:15
+#: ../gtk/builder.ui.h:12
 msgid "Choose Image"
 msgstr "Scegliere immagine"
 
-#: ../gtk/builder.ui.h:16
+#: ../gtk/builder.ui.h:13
 msgid "Choose package"
 msgstr "Scegliere pacchetto"
 
-#: ../gtk/builder.ui.h:17
+#: ../gtk/builder.ui.h:14
 msgid "Detected Recovery Partition"
 msgstr "Rilevata partizione di ripristino"
 
-#: ../gtk/builder.ui.h:18
+#: ../gtk/builder.ui.h:15
 msgid "Detected Utility Partition"
 msgstr "Rilevata partizione di utilità"
 
-#: ../gtk/builder.ui.h:19
+#: ../gtk/builder.ui.h:16
 msgid ""
 "During Factory Installation, applications are only installed if the order "
 "record (SDR) refers to the service release vehicle (SRV).  This populates "
@@ -432,51 +401,31 @@ msgstr ""
 "SRV, aumentando la possibiltà che questo venga interrogato durante "
 "l'installazione."
 
-#: ../gtk/builder.ui.h:20
+#: ../gtk/builder.ui.h:17
 msgid "Extracted Directory"
 msgstr "Directory estratta"
 
-#: ../gtk/builder.ui.h:21
+#: ../gtk/builder.ui.h:18
 msgid "FID Framework enclosed in debian package"
 msgstr "Framework FID incluso nel pacchetto debian"
 
-#: ../gtk/builder.ui.h:22
-msgid "FID GIT Tree"
-msgstr "Albero FID GIT"
-
-#: ../gtk/builder.ui.h:23
+#: ../gtk/builder.ui.h:19
 msgid "FID framework built into BTO image"
 msgstr "Ambiente FID creato nell'immagine BTO"
 
-#: ../gtk/builder.ui.h:24
-msgid "Fetch/Update GIT Tree"
-msgstr "Recuperare/Aggiornare l'albero GIT"
-
-#: ../gtk/builder.ui.h:25
-msgid "GIT Tags/Branches:"
-msgstr "Tag/Branch GIT:"
-
-#: ../gtk/builder.ui.h:26
-msgid "GIT Tree Status"
-msgstr "Stato albero GIT"
-
-#: ../gtk/builder.ui.h:27
+#: ../gtk/builder.ui.h:20
 msgid "ISO Image"
 msgstr "Immagine ISO"
 
-#: ../gtk/builder.ui.h:28
+#: ../gtk/builder.ui.h:21
 msgid "Install dpkg-repack"
 msgstr "Installare dpkg-repack"
 
-#: ../gtk/builder.ui.h:29
-msgid "Install git"
-msgstr "Installare git"
-
-#: ../gtk/builder.ui.h:30
+#: ../gtk/builder.ui.h:22
 msgid "No additional Utility Partition"
 msgstr "Nessuna partizione di utilità aggiuntiva"
 
-#: ../gtk/builder.ui.h:31
+#: ../gtk/builder.ui.h:23
 msgid ""
 "OIE compliant images can only be installed from ODM factory environments.  "
 "They will notify the user at completion of a success or failure."
@@ -485,7 +434,7 @@ msgstr ""
 "fabbrica ODM. Notificheranno all'utente se è il processo è stato completato "
 "con successo o se non è riuscito."
 
-#: ../gtk/builder.ui.h:32
+#: ../gtk/builder.ui.h:24
 msgid ""
 "OIE mode also allows you to provide additional SUCCESS and FAIL scripts to "
 "be ran prior to notification the image is complete.  These can each be any "
@@ -495,58 +444,54 @@ msgstr ""
 "riuscita da eseguire prima della notifica di completamento dell'immagine. "
 "Possono essere programmi eseguibili o script."
 
-#: ../gtk/builder.ui.h:33
+#: ../gtk/builder.ui.h:25
 msgid ""
 "Part of the FID overlay requires a dell-recovery package to be included."
 msgstr ""
 "Parte della copertura FID richiede l'inclusione di un pacchetto dell-"
 "recovery."
 
-#: ../gtk/builder.ui.h:34
+#: ../gtk/builder.ui.h:26
 msgid "Please enter the SRV to use:"
 msgstr "inserire SRV da utilizzare:"
 
-#: ../gtk/builder.ui.h:35
+#: ../gtk/builder.ui.h:27
 msgid "Produce a standard installation image."
 msgstr "Creare immagine d'installazione standard"
 
-#: ../gtk/builder.ui.h:36
+#: ../gtk/builder.ui.h:28
 msgid "Produce an OIE compliant installation image."
 msgstr "Creare immagine d'installazione compatibile OIE"
 
-#: ../gtk/builder.ui.h:37
+#: ../gtk/builder.ui.h:29
 msgid "SRV Entry"
 msgstr "Voce SRV"
 
-#: ../gtk/builder.ui.h:38
+#: ../gtk/builder.ui.h:30
 msgid "Select content for Utility Partition"
 msgstr "Selezionare il contenuto della partizione di utilità"
 
-#: ../gtk/builder.ui.h:39
+#: ../gtk/builder.ui.h:31
 msgid "Selected Content Details:"
 msgstr "Dettagli del contenuto selezionato:"
 
-#: ../gtk/builder.ui.h:40
+#: ../gtk/builder.ui.h:32
 msgid "Selected Image Details:"
 msgstr "Dettagli dell'immagine selezionata:"
 
-#: ../gtk/builder.ui.h:41
+#: ../gtk/builder.ui.h:33
 msgid "Selected Overlay Details:"
 msgstr "Dettagli sovrapposti selezionati:"
 
-#: ../gtk/builder.ui.h:42
+#: ../gtk/builder.ui.h:34
 msgid "Set FAIL script"
 msgstr "Imposta script di non riuscita"
 
-#: ../gtk/builder.ui.h:43
+#: ../gtk/builder.ui.h:35
 msgid "Set SUCCESS script"
 msgstr "Imposta script di riuscita"
 
-#: ../gtk/builder.ui.h:44
-msgid "Show Details"
-msgstr "Mostra dettagli"
-
-#: ../gtk/builder.ui.h:45
+#: ../gtk/builder.ui.h:36
 msgid ""
 "The BTO FID framework is the first thing injected into a base vanilla image. "
 " If you are generating from an existing BTO compatible image, you may use "
@@ -556,7 +501,7 @@ msgstr ""
 "si sta generando l'immagine da una BTO compatibile già esistente, si "
 "dovrebbe utilizzare il framework integrato."
 
-#: ../gtk/builder.ui.h:46
+#: ../gtk/builder.ui.h:37
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
@@ -650,39 +595,38 @@ msgstr "Salvare il supporto di ripristino in un DVD"
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
 
-#~ msgid "Welcome"
-#~ msgstr "Benvenuti"
-
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to restore "
-#~ "the computer to its factory shipped state.  You will have the option to "
-#~ "create an USB key or DVD image."
-#~ msgstr ""
-#~ "Questa applicazione permette di creare un supporto di recupero del sistema "
-#~ "operativo che può essere usato per ripristinare il computer alle "
-#~ "impostazioni di fabbrica. È possibile creare sia una chiavetta USB che "
-#~ "un'immagine DVD."
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Partizione di utilità non valida"
-
-#~ msgid "File Name: "
-#~ msgstr "Nome file: "
+#~ msgid "Choose Media Type"
+#~ msgstr "Scegliere il tipo di supporto"
 
 #~ msgid "No media, create ISO image"
 #~ msgstr "No, crea immagine ISO"
 
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Partizione di recupero non valida"
-
 #~ msgid "Retry burn?"
 #~ msgstr "Ritenta masterizzazione?"
+
+#~ msgid "Show Details"
+#~ msgstr "Mostra dettagli"
 
 #~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
 #~ msgstr "<big><b>Creare supporto di ripristino Dell?</b></big>"
 
+#~ msgid "Overlaying FID content"
+#~ msgstr "Sovrapposizione contenuto FID"
+
 #~ msgid "Inserting FISH packages"
 #~ msgstr "Inserimento pacchetti FISH"
+
+#~ msgid "FID GIT Tree"
+#~ msgstr "Albero FID GIT"
+
+#~ msgid "GIT Tree Status"
+#~ msgstr "Stato albero GIT"
+
+#~ msgid "GIT Tags/Branches:"
+#~ msgstr "Tag/Branch GIT:"
+
+#~ msgid "python-vte is missing"
+#~ msgstr "ptython-vte mancante"
 
 #~ msgid ""
 #~ "This application will integrate a Dell OEM FID framework & driver package "
@@ -693,8 +637,38 @@ msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
 #~ "pacchetto di drivernell'immagine personalizzata del sistema operativo. È "
 #~ "possibile creare sia una chiavetta USB che un'immagine DVD."
 
+#~ msgid "Choose Base OS Image"
+#~ msgstr "Scegliere la base dell'immagine del sistema operativo"
+
+#~ msgid "Choose Utility Partition"
+#~ msgstr "Scegliere la partizione di utilità"
+
+#~ msgid "Choose Driver Packages"
+#~ msgstr "Scegliere i pacchetti dei driver"
+
+#~ msgid "Choose Application Packages"
+#~ msgstr "Scegliere i pacchetti dell'applicazione"
+
+#~ msgid "Missing Dell-Recovery"
+#~ msgstr "Dell-Recovery mancante"
+
+#~ msgid "Builder mode requires python-vte to function"
+#~ msgstr "La modalità «creazione immagine» richiede python-vte per funzionare"
+
+#~ msgid "Choose FID Overlay"
+#~ msgstr "Scegliere FID sovrapposto"
+
 #~ msgid "Add dell-recovery"
 #~ msgstr "Aggiungere dell-recovery"
+
+#~ msgid "Not present in ISO or GIT tree"
+#~ msgstr "Non è presente nella ISO o nell'albero GIT"
+
+#~ msgid "Install git"
+#~ msgstr "Installare git"
+
+#~ msgid "Fetch/Update GIT Tree"
+#~ msgstr "Recuperare/Aggiornare l'albero GIT"
 
 #~ msgid ""
 #~ "The combination of the image and GIT tree you have provided do not supply "
@@ -721,8 +695,23 @@ msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
 #~ " negli argomenti alla riga di comando. Provare con DeviceKit o con il "
 #~ "rilevamento basato su HAL."
 
+#~ msgid "<b>ERROR</b>: git is not installed"
+#~ msgstr "<b>Errore:</b> git non è installato"
+
+#~ msgid ""
+#~ "<b>The GIT fetch is in progress.  </b>\n"
+#~ "This window will close automatically when the process is complete. \n"
+#~ "<b>NOTE:</b> Please be patient, the initial fetch may take a while."
+#~ msgstr ""
+#~ "<b>GIT in avanzamento.</b>\n"
+#~ "Questa finestra si chiuderà automaticamente al completamento del processo. \n"
+#~ "<b>NOTA:</b>  attendere, l'operazione potrebbe impiegare alcuni minuti."
+
 #~ msgid "DBus Exception"
 #~ msgstr "Eccezione DBus"
+
+#~ msgid "FID Overlay"
+#~ msgstr "FID sovrapposto"
 
 #~ msgid "Calculating FISH MD5SUMs"
 #~ msgstr "Calcolo degli MD5SUM per FISH"

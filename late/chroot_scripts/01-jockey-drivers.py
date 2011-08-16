@@ -30,8 +30,6 @@ import subprocess
 import os
 import apt
 import sys
-import tempfile
-import atexit
 from apt.progress import InstallProgress
 from apt.cache import Cache
 

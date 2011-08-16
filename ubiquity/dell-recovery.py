@@ -24,7 +24,6 @@
 ##################################################################################
 
 from ubiquity.plugin import PluginUI, InstallPlugin, Plugin
-from ubiquity import i18n
 import pwd
 import subprocess
 import os

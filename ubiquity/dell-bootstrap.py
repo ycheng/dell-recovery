@@ -49,9 +49,20 @@ BEFORE = 'language'
 WEIGHT = 12
 OEM = False
 
-STANDARD_EFI_PARTITION =     '1'
-STANDARD_UP_PARTITION  =     '1'
-STANDARD_RP_PARTITION  =     '2'
+#Partition Definitions
+STANDARD_UP_PARTITION   =     '1'
+STANDARD_RP_PARTITION   =     '2'
+STANDARD_OS_PARTITION   =     '3'
+STANDARD_SWAP_PARTITION =     '4'
+
+DUAL_OS_PARTITION       =     '4'
+
+EFI_ESP_PARTITION       =     '1'
+EFI_UP_PARTITION        =     '2'
+EFI_RP_PARTITION        =     '3'
+EFI_OS_PARTITION        =     '4'
+EFI_SWAP_PARTITION      =     '5'
+
 CDROM_MOUNT = '/cdrom'
 ISO_MOUNT = '/isodevice'
 
@@ -402,7 +413,7 @@ class PageGtk(PluginUI):
             if widget == self.disk_layout_combobox:
                 if answer == "gpt":
                     find_n_set_iterator(self.active_partition_combobox, \
-                                                         STANDARD_EFI_PARTITION)
+                                                         EFI_ESP_PARTITION)
                     self.active_partition_combobox.set_sensitive(False)
                 else:
                     self.active_partition_combobox.set_sensitive(True)
@@ -437,7 +448,7 @@ class Page(Plugin):
         self.dual = None
         self.uuid = None
         self.rp_part = None
-        self.grub_part = None
+        self.up_part = None
         Plugin.__init__(self, frontend, db, ui)
 
     def log(self, error):
@@ -464,7 +475,7 @@ class Page(Plugin):
 
         #test for bug 700910.  if around, then don't try to install grub.
         try:
-            test700910 = magic.fetch_output(['grub-probe', '--target=device', self.device + STANDARD_RP_PARTITION]).strip()
+            test700910 = magic.fetch_output(['grub-probe', '--target=device', self.device + self.rp_part]).strip()
         except Exception, e:
             self.log("Exception: %s." % str(e))
             test700910 = 'aufs'
@@ -472,7 +483,7 @@ class Page(Plugin):
             self.log("Bug 700910 detected.  Aborting GRUB installation.")
             return
 
-        self.log("Installing GRUB to %s" % self.device + STANDARD_RP_PARTITION)
+        self.log("Installing GRUB to %s" % self.device + self.rp_part)
 
         #Mount R/W
         if os.path.exists(ISO_MOUNT):
@@ -491,12 +502,12 @@ class Page(Plugin):
                 with misc.raised_privileges():
                     magic.process_conf_file('/usr/share/dell/grub/' + item,   \
                               os.path.join(target, 'boot', 'grub', files[item]), \
-                              self.uuid, STANDARD_RP_PARTITION)
+                              self.uuid, self.rp_part)
 
         #Do the actual grub installation
         grub_inst  = misc.execute_root('grub-install', '--force', \
                                             '--root-directory=' + target, \
-                                            self.device + STANDARD_RP_PARTITION)
+                                            self.device + self.rp_part)
         if grub_inst is False:
             raise RuntimeError, ("Grub install failed")
         uncd_mount = misc.execute_root('mount', '-o', 'remount,ro', target)
@@ -528,7 +539,7 @@ class Page(Plugin):
             #rewrite the bootsector of the UP (it might not have been created
             #if the ODM is using a WIM)
             with misc.raised_privileges():
-                magic.write_up_bootsector(self.device, STANDARD_UP_PARTITION)
+                magic.write_up_bootsector(self.device, self.up_part)
             #turn off machine when OIE process is done
             self.preseed('ubiquity/poweroff', 'true')
             self.preseed('ubiquity/reboot',   'false')
@@ -593,7 +604,7 @@ class Page(Plugin):
                 if refresh is False:
                     self.log("Error updating partition %s for kernel device %s (this may be normal)'" % (number, self.device))
         #if there were extended, cleanup
-        if total_partitions > 4:
+        if total_partitions > 4 and self.disk_layout == 'msdos':
             refresh = misc.execute_root('partx', '-d', '--nr', '5-' + str(total_partitions), self.device)
             if refresh is False:
                 self.log("Error removing extended partitions 5-%s for kernel device %s (this may be normal)'" % (total_partitions, self.device))
@@ -678,8 +689,8 @@ class Page(Plugin):
             path = os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip')
         #If we have DRMK available, explode that first
         if path:
-            self.log("Extracting DRMK onto utility partition %s" % self.device + STANDARD_UP_PARTITION)
-            mount = misc.execute_root('mount', self.device + STANDARD_UP_PARTITION, '/boot')
+            self.log("Extracting DRMK onto utility partition %s" % self.device + self.up_part)
+            mount = misc.execute_root('mount', self.device + self.up_part, '/boot')
             if mount is False:
                 raise RuntimeError, ("Error mounting utility partition pre-explosion.")
             archive = zipfile.ZipFile(path)
@@ -701,14 +712,14 @@ class Page(Plugin):
                 if '.bin' in fname or '.gz' in fname:
                     self.log("Exploding utility partition from %s" % fname)
                     with misc.raised_privileges():
-                        with open(self.device + STANDARD_UP_PARTITION, 'w') as partition:
+                        with open(self.device + self.up_part, 'w') as partition:
                             p1 = subprocess.Popen(['gzip', '-dc', os.path.join(CDROM_MOUNT, fname)], stdout=subprocess.PIPE)
                             partition.write(p1.communicate()[0])
                 #Restore UP (zip/tgz)
                 elif '.zip' in fname or '.tgz' in fname:
                     self.log("Extracting utility partition from %s" % fname)
                     if not mount:
-                        mount = misc.execute_root('mount', self.device + STANDARD_UP_PARTITION, '/boot')
+                        mount = misc.execute_root('mount', self.device + self.up_part, '/boot')
                         if mount is False:
                             raise RuntimeError, ("Error mounting utility partition pre-explosion.")
                     if '.zip' in fname:
@@ -899,6 +910,18 @@ class Page(Plugin):
 
         #In case we preseeded the partitions we need installed to
         try:
+            self.up_part = self.db.get('dell-recovery/up_partition')
+        except debconf.DebconfError, err:
+            self.log(str(err))
+            self.up_part = '1'
+
+        try:
+            self.rp_part = self.db.get('dell-recovery/rp_partition')
+        except debconf.DebconfError, err:
+            self.log(str(err))
+            self.rp_part = '2'
+
+        try:
             self.os_part = self.db.get('dell-recovery/os_partition')
         except debconf.DebconfError, err:
             self.log(str(err))
@@ -995,10 +1018,44 @@ class Page(Plugin):
             self.efi = True
             self.disk_layout = 'gpt'
 
-        #Default in EFI case, but also possible in MBR case
-        if self.disk_layout == 'gpt':
+        #dynamic partition map.
+        #EFI layout:        esp, up, rp, os, swap
+        #MBR layout:        up, rp, os, swap
+        #dual (pri) layout: up, rp, win, ubx
+        #dual (log) layout: up, rp, win, ubx
+        if self.up_part == 'dynamic':
+            if self.efi:
+                self.up_part = EFI_UP_PARTITION
+            else:
+                self.up_part = STANDARD_UP_PARTITION
+        if self.rp_part == 'dynamic':
+            if self.efi:
+                self.rp_part = EFI_RP_PARTITION
+            else:
+                self.rp_part = STANDARD_RP_PARTITION
+        if self.os_part == 'dynamic':
+            if self.efi or self.disk_layout == 'gpt':
+                self.os_part = EFI_OS_PARTITION
+            elif self.dual:
+                self.os_part = DUAL_OS_PARTITION
+            else:
+                self.os_part = STANDARD_OS_PARTITION
+        if self.swap_part == 'dynamic':
+            if self.efi:
+                self.swap_part = EFI_SWAP_PARTITION
+            else:
+                self.swap_part = STANDARD_SWAP_PARTITION
+        if self.fail_partition == 'dynamic':
+            self.fail_partition = self.rp_part
+            self.preseed(FAIL_PARTITION_QUESTION, self.fail_partition)
+        if pass_partition == 'dynamic':
             #Force EFI partition or bios_grub partition active
-            self.preseed(ACTIVE_PARTITION_QUESTION, STANDARD_EFI_PARTITION)
+            if self.disk_layout == 'gpt':
+                pass_partition = EFI_ESP_PARTITION
+            #Force (new) OS partition to be active
+            else:
+                pass_partition = self.os_part
+            self.preseed(ACTIVE_PARTITION_QUESTION, pass_partition)
 
         #Amount of memory in the system
         self.mem = 0
@@ -1254,8 +1311,8 @@ manually to proceed.")
             raise RuntimeError, ("Unsupported recovery partition filesystem: %s" % self.rp_type)
 
         #Default partition numbers
-        up_part   = STANDARD_UP_PARTITION
-        rp_part   = STANDARD_RP_PARTITION
+        up_part   = ''
+        rp_part   = ''
         grub_part = STANDARD_RP_PARTITION
 
         #Calculate RP size
@@ -1269,8 +1326,24 @@ manually to proceed.")
         if result is False:
             raise RuntimeError, ("Error creating new partition table %s on %s" % (self.disk_layout, self.device))
 
+        #Utility partition files (tgz/zip)#
+        up_size = 33
+
+        #Utility partition image (dd)#
+        for fname in magic.UP_FILENAMES:
+            if 'img' in fname and os.path.exists(os.path.join(CDROM_MOUNT, fname)):
+                #in a string
+                up_size = magic.fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, fname)])
+                #in bytes
+                up_size = float(up_size.split()[1])
+                #in mbytes
+                up_size = 1 + (up_size / 1000000)
+
         self.status("Creating Partitions", 1)
         if self.disk_layout == 'msdos':
+            up_part   = STANDARD_UP_PARTITION
+            rp_part   = STANDARD_RP_PARTITION
+        
             #Create an MBR
             path = '/usr/share/dell/up/mbr.bin'
             if os.path.exists(path):
@@ -1283,19 +1356,6 @@ manually to proceed.")
                 with misc.raised_privileges():
                     with open(self.device, 'wb') as out:
                         out.write(mbr.read(440))
-
-            #Utility partition files (tgz/zip)#
-            up_size = 33
-
-            #Utility partition image (dd)#
-            for fname in magic.UP_FILENAMES:
-                if 'img' in fname and os.path.exists(os.path.join(CDROM_MOUNT, fname)):
-                    #in a string
-                    up_size = magic.fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, fname)])
-                    #in bytes
-                    up_size = float(up_size.split()[1])
-                    #in mbytes
-                    up_size = 1 + (up_size / 1000000)
 
             #Build UP
             command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '1', str(up_size))
@@ -1344,12 +1404,15 @@ manually to proceed.")
 
         #GPT Layout
         elif self.disk_layout == 'gpt':
-            #In GPT we don't have a UP, but instead a BIOS grub partition
-            up_part = ''
+            #default partition numbers
+            up_part = EFI_UP_PARTITION
+            rp_part = EFI_RP_PARTITION
+
+            #In GPT we have a UP, but also a BIOS grub partition
             if self.efi:
                 grub_size = 50
                 commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '0', str(grub_size)),
-                            ('parted', '-s', self.device, 'name', '1', 'ESP'),
+                            ('parted', '-s', self.device, 'name', '1', 'EFI System Partition'),
                             ('parted', '-s', self.device, 'set', '1', 'boot', 'on')]
             else:
                 grub_size = 1.5
@@ -1363,12 +1426,27 @@ manually to proceed.")
                     else:
                         raise RuntimeError, ("Error creating new %s mb grub partition on %s" % (grub_size, self.device))
 
+            up_part = '2'
+            command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', str(grub_size), str(grub_size+up_size))
+            result = misc.execute_root(*command)
+            if result is False:
+                raise RuntimeError, ("Error creating new %s mb utility partition on %s" % (up_size, self.device))
+
+            with misc.raised_privileges():
+                #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
+                data = 't\nde\n\nw\n'
+                magic.fetch_output(['fdisk', self.device], data)
+
+                #build the bootsector of the partition
+                magic.write_up_bootsector(self.device, up_part)
+
+
             #GPT Doesn't support active partitions, so we must install directly to the disk rather than
             #partition
             grub_part = ''
 
             #Build RP
-            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(grub_size), str(rp_size_mb + grub_size))
+            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(up_size + grub_size), str(up_size + rp_size_mb + grub_size))
             result = misc.execute_root(*command)
             if result is False:
                 raise RuntimeError, ("Error creating new %s mb recovery partition on %s" % (rp_size_mb, self.device))
@@ -1376,7 +1454,7 @@ manually to proceed.")
         #Build RP filesystem
         self.status("Formatting Partitions", 2)
         if self.rp_type == 'fat32':
-            command = ('mkfs.msdos', '-n', 'install', self.device + rp_part)
+            command = ('mkfs.msdos', '-n', 'OS', self.device + rp_part)
         elif self.rp_type == 'ntfs':
             command = ('mkfs.ntfs', '-f', '-L', 'RECOVERY', self.device + rp_part)
         result = misc.execute_root(*command)
@@ -1437,9 +1515,9 @@ manually to proceed.")
             if not os.path.exists(pivot):
                 with misc.raised_privileges():
                     os.makedirs(pivot)
-            mount = misc.execute_root('mount', self.device + STANDARD_EFI_PARTITION, pivot)
+            mount = misc.execute_root('mount', self.device + EFI_ESP_PARTITION, pivot)
             if mount is False:
-                raise RuntimeError, ("Error mounting %s%s" % (self.device, STANDARD_EFI_PARTITION))
+                raise RuntimeError, ("Error mounting %s%s" % (self.device, EFI_ESP_PARTITION))
         else:
             pivot = '/mnt'
 

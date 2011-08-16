@@ -25,7 +25,6 @@
 
 import dbus
 import os
-import sys
 from gi.repository import Gtk
 import subprocess
 import datetime
@@ -36,8 +35,7 @@ from Dell.recovery_basic_gtk import BasicGeneratorGTK
 
 from Dell.recovery_common import (UIDIR, UP_FILENAMES,
                                   dbus_sync_call_signal_wrapper,
-                                  find_burners,
-                                  increment_bto_version)
+                                  find_burners)
 
 try:
     from aptdaemon import client

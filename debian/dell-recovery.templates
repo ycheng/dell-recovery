@@ -9,14 +9,24 @@ Default: dynamic
 Description: for internal use;determines whether to offer the bootstrap 
  ubiquity plugin to the user. valid: [dynamic, factory, usb, dvd]
 
+Template: dell-recovery/up_partition
+Type: string
+Default: dynamic
+Description: for internal use; determines where the destination UP partition is
+
+Template: dell-recovery/rp_partition
+Type: string
+Default: dynamic
+Description: for internal use; determines where the destination RP partition is
+
 Template: dell-recovery/os_partition
 Type: string
-Default: 3
+Default: dynamic
 Description: for internal use; determines where the destination OS partition is
 
 Template: dell-recovery/swap_partition
 Type: string
-Default: 4
+Default: dynamic
 Description: for internal use; determines where the destination swap partition is
 
 Template: dell-recovery/recovery_partition_filesystem
@@ -26,13 +36,13 @@ Description: for internal use; determines the filesystem of the recovery partiti
 
 Template: dell-recovery/active_partition
 Type: string
-Default: 3
+Default: dynamic
 Description: for internal use; sets which partition is active after successful installation
  This is only used when the disk_layout is 'msdos'.  It will otherwise be ignored.
 
 Template: dell-recovery/fail_partition
 Type: string
-Default: 2
+Default: dynamic
 Description: for internal use; sets which partition is active after failed installation
  This is only used when the disk layout is 'msdos'.  It will otherwise be ignored.
 

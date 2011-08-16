@@ -289,13 +289,13 @@ def find_partitions(utility, recovery):
             dev_obj = bus.get_object('org.freedesktop.UDisks', device)
             dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
 
-            label = dev.Get('org.freedesktop.UDisks.Device', 'IdLabel')
+            label = dev.Get('org.freedesktop.UDisks.Device', 'IdLabel').lower()
             filesystem = dev.Get('org.freedesktop.Udisks.Device', 'IdType')
 
-            if not utility and 'DellUtility' in label:
+            if not utility and label == 'dellutility':
                 utility = dev.Get('org.freedesktop.UDisks.Device', 'DeviceFile')
-            elif not recovery and (('install' in label or 'OS' in label) and 'vfat' in filesystem) or \
-                            ('RECOVERY' in label and 'ntfs' in filesystem):
+            elif not recovery and ((label == 'install' or label == 'os') and 'vfat' in filesystem) or \
+                            ('recovery' in label and 'ntfs' in filesystem):
                 recovery = dev.Get('org.freedesktop.Udisks.Device', 'DeviceFile')
         return (utility, recovery)
     except dbus.DBusException, msg:

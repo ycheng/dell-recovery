@@ -1,8 +1,25 @@
 dell-recovery (1.00) UNRELEASED; urgency=low
 
-  * Convert all ubiquity pages to PyGI/Gtk3.
+  [ Kent Baxley ]
+  * Move lzma and xz-lzma to "Depends" instead of "Recommends"
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 11 Aug 2011 13:43:37 +0800
+  [ Mario Limonciello ]
+  * Clean up a bunch of pyflakes warnings and unused imports.
+  * Add python syntax tests to clean rule, borrowed from ubiquity,
+    Thanks Evan.
+  * Merge with the natty EFI branch:
+    - Add some new options for preseeding UP and RP.
+    - Default the UP, RP, OS, Swap partitions to be dynamically determined.
+    - Add a partition map to configure for either EFI, dual boot, or MBR installs.
+    - Name the EFI system partition "EFI System Partition" to match partman-efi.
+    - Match case insensitive on labels when trying to find partitions.
+  * Default the recovery partition to be called 'OS'
+  * Import translations from launchpad.
+  * Merge the oneiric PyGI branch.
+    - Convert all ubiquity pages to PyGI/Gtk3
+    - Convert OIE to PyGI
+
+ -- Kent Baxley <kent.baxley@canonical.com>  Fri, 05 Aug 2011 12:16:57 -0500
 
 dell-recovery (0.99) oneiric; urgency=low
 

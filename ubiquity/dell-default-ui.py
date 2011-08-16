@@ -17,14 +17,16 @@
 import sys
 import debconf
 import os
-from Dell.recovery_common import match_system_device, find_supported_ui
+from Dell.recovery_common import find_supported_ui
+#if need to match a device on the system again, uncomment this
+#from Dell.recovery_common import match_system_device
 
 try:
-    from ubiquity.plugin import *
+    from ubiquity.plugin import InstallPlugin
     from ubiquity import install_misc
 except ImportError:
     sys.path.insert(0, '/usr/lib/ubiquity/')
-    from ubiquity.plugin import *
+    from ubiquity.plugin import InstallPlugin
     from ubiquity import install_misc
 
 #We have to run before usersetup because it creates a conffile that will
@@ -48,19 +50,19 @@ class Install(InstallPlugin):
             return InstallPlugin.install(self, target, progress, *args, **kwargs)
 
         self.target = target
-        BIZ_CLIENT  = [ 'latitude',
-                        'optiplex',
-                        'vostro',
-                        'precision',
-                      ]
+        #BIZ_CLIENT  = [ 'latitude',
+        #                'optiplex',
+        #                'vostro',
+        #                'precision',
+        #              ]
 
-        SANDY_BRIDGE = [ '0x0102',
-                         '0x0112',
-                         '0x0106',
-                         '0x0116',
-                         '0x0126',
-                         '0x010A',
-                         '0x0122']
+        #SANDY_BRIDGE = [ '0x0102',
+        #                 '0x0112',
+        #                 '0x0106',
+        #                 '0x0116',
+        #                 '0x0126',
+        #                 '0x010A',
+        #                 '0x0122']
 
         uies = find_supported_ui()
 
@@ -84,15 +86,15 @@ class Install(InstallPlugin):
             #        pci_blacklist = True
             #        break
 
-            with open('/sys/class/dmi/id/product_name','r') as dmi:
-                lob = dmi.readline().lower().split()[0]
+            #with open('/sys/class/dmi/id/product_name','r') as dmi:
+            #    lob = dmi.readline().lower().split()[0]
 
-            cpu = 'unknown'
-            with open('/proc/cpuinfo', 'r') as rfd:
-                for line in rfd.readlines():
-                    if line.startswith('model name'):
-                        cpu = line.split(':')[1].strip().lower()
-                        break
+            #cpu = 'unknown'
+            #with open('/proc/cpuinfo', 'r') as rfd:
+            #    for line in rfd.readlines():
+            #        if line.startswith('model name'):
+            #            cpu = line.split(':')[1].strip().lower()
+            #            break
 
             if 'unity-2d' in uies:
                 ui_2d = 'unity-2d'
@@ -101,7 +103,7 @@ class Install(InstallPlugin):
 
             if pci_blacklist:
                 ui = ui_2d
-                self.debug("%s: Blacklisted PCI device %s matched. setting to %s" % (NAME, pci, uies[ui]))
+                self.debug("%s: Blacklisted PCI device matched. setting to %s" % (NAME, uies[ui]))
             #elif 'atom' in cpu:
             #    ui = 'gnome'
             #    self.debug("%s: Atom class CPU %s matched. setting to %s" % (NAME, cpu, uies[ui]))
