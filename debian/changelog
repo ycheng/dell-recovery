@@ -12,6 +12,7 @@ dell-recovery (0.98.3) UNRELEASED; urgency=low
   * Default the UP, RP, OS, Swap partitions to be dynamically determined.
   * Add a partition map to configure for either EFI, dual boot, or MBR installs.
   * Name the EFI system partition "EFI System Partition" to match partman-efi.
+  * Match case insensitive on labels when trying to find partitions.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 01 Aug 2011 12:10:19 -0500
 
