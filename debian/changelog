@@ -2,6 +2,7 @@ dell-recovery (1.00) UNRELEASED; urgency=low
 
   [ Kent Baxley ]
   * Move lzma and xz-lzma to "Depends" instead of "Recommends"
+  * Fixed parted syntax error when naming the EFI System Partition in dell-boostrap.py
 
   [ Mario Limonciello ]
   * Clean up a bunch of pyflakes warnings and unused imports.
