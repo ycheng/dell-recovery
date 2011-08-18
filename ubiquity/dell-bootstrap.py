@@ -1430,13 +1430,14 @@ manually to proceed.")
             if result is False:
                 raise RuntimeError, ("Error creating new %s mb utility partition on %s" % (up_size, self.device))
 
-            with misc.raised_privileges():
-                #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
-                data = 't\nde\n\nw\n'
-                magic.fetch_output(['fdisk', self.device], data)
-
-                #build the bootsector of the partition
-                magic.write_up_bootsector(self.device, up_part)
+            #TODO: clean method to write a dell bootsector while GPT.
+            #with misc.raised_privileges():
+            #    #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
+            #    data = 't\nde\n\nw\n'
+            #    magic.fetch_output(['fdisk', self.device], data)
+            #
+            #    #build the bootsector of the partition
+            #    magic.write_up_bootsector(self.device, up_part)
 
 
             #GPT Doesn't support active partitions, so we must install directly to the disk rather than
