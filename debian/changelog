@@ -1,4 +1,4 @@
-dell-recovery (1.00) UNRELEASED; urgency=low
+dell-recovery (1.00) oneiric; urgency=low
 
   [ Kent Baxley ]
   * Move lzma and xz-lzma to "Depends" instead of "Recommends"
@@ -20,7 +20,7 @@ dell-recovery (1.00) UNRELEASED; urgency=low
     - Convert all ubiquity pages to PyGI/Gtk3
     - Convert OIE to PyGI
 
- -- Kent Baxley <kent.baxley@canonical.com>  Fri, 05 Aug 2011 12:16:57 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 18 Aug 2011 12:26:57 -0700
 
 dell-recovery (0.99) oneiric; urgency=low
 
