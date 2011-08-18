@@ -141,8 +141,8 @@ class PageGtk(PluginUI):
         self.genuine = magic.check_vendor()
 
         if not oem:
-            import gtk
-            builder = gtk.Builder()
+            from gi.repository import Gtk
+            builder = Gtk.Builder()
             builder.add_from_file('/usr/share/ubiquity/gtk/stepDellBootstrap.ui')
             builder.connect_signals(self)
             self.controller = controller
@@ -161,7 +161,7 @@ class PageGtk(PluginUI):
             self.dual_dialog = builder.get_object('dual_dialog')
             self.dual_dialog.set_title('Dell Recovery')
             self.info_box = builder.get_object('info_box')
-            self.info_spinner = gtk.Spinner()
+            self.info_spinner = Gtk.Spinner()
             builder.get_object('info_spinner_box').add(self.info_spinner)
             self.err_dialog = builder.get_object('err_dialog')
 
@@ -384,7 +384,9 @@ class PageGtk(PluginUI):
         """Returns the value in an advanced key"""
         combobox = self._map_combobox(item)
         if combobox:
-            return combobox.get_active_text()
+            model = combobox.get_model()
+            iterator = combobox.get_active_iter()
+            return model.get_value(iterator, 0)
         else:
             return ""
  

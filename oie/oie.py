@@ -24,7 +24,7 @@
 ################################################################################
 import sys
 import os
-import gtk
+from gi.repository import Gtk, GdkPixbuf
 import Dell.recovery_common as magic
 
 if 'debug' in os.environ:
@@ -34,25 +34,25 @@ else:
 
 class OIEGTK:
     def __init__(self, image):
-        self.widgets = gtk.Builder()
+        self.widgets = Gtk.Builder()
         self.widgets.add_from_file(os.path.join(OIE_DIRECTORY, 'oie.ui'))
-        gtk.window_set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
+        Gtk.Window.set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
         self.widgets.connect_signals(self)
         if 'pass' in image:
-            animation = gtk.gdk.PixbufAnimation(os.path.join(OIE_DIRECTORY, 'pass.gif'))
+            animation = GdkPixbuf.PixbufAnimation.new_from_file(os.path.join(OIE_DIRECTORY, 'pass.gif'))
         else:
-            animation = gtk.gdk.PixbufAnimation(os.path.join(OIE_DIRECTORY, 'fail.gif'))
+            animation = GdkPixbuf.PixbufAnimation.new_from_file(os.path.join(OIE_DIRECTORY, 'fail.gif'))
         image = self.widgets.get_object('image')
         image.set_from_animation(animation)
 
     def run(self):
         """Runs the GTK application's main functions"""
         self.widgets.get_object('toplevel').show()
-        gtk.main()
+        Gtk.main()
 
     def destroy(self, widget=None, data=None):
         """Closes any open backend connections and stops GTK threads"""
-        gtk.main_quit()
+        Gtk.main_quit()
 
 type = 'pass'
 if len(sys.argv) > 1:
