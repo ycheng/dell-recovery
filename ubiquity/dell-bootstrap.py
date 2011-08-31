@@ -455,65 +455,6 @@ class Page(Plugin):
         """Outputs a debugging string to /var/log/installer/debug"""
         self.debug("%s: %s" % (NAME, error))
 
-    def install_grub(self):
-        """Installs grub on the recovery partition"""
-
-        # In a lot of scenarios it will already be there.
-        # Don't install if:
-        # * We're dual boot
-        # * We're GPT (or EFI)
-        # * We're on an NTFS filesystem
-        # * Factory grub exists (ntldr)
-        # * Grubenv exists (grubenv)
-        if self.dual or self.disk_layout == 'gpt' or \
-                self.rp_filesystem == TYPE_NTFS or \
-                self.rp_filesystem == TYPE_NTFS_RE or \
-                os.path.exists(os.path.join(CDROM_MOUNT, 'ntldr')) or \
-                os.path.exists(os.path.join(CDROM_MOUNT, 'boot', 'grub',
-                                                        'i386-pc', 'grubenv')):
-            return
-
-        #test for bug 700910.  if around, then don't try to install grub.
-        try:
-            test700910 = magic.fetch_output(['grub-probe', '--target=device', self.device + self.rp_part]).strip()
-        except Exception, e:
-            self.log("Exception: %s." % str(e))
-            test700910 = 'aufs'
-        if test700910 == 'aufs':
-            self.log("Bug 700910 detected.  Aborting GRUB installation.")
-            return
-
-        self.log("Installing GRUB to %s" % self.device + self.rp_part)
-
-        #Mount R/W
-        if os.path.exists(ISO_MOUNT):
-            target = ISO_MOUNT
-        else:
-            target = CDROM_MOUNT
-        cd_mount   = misc.execute_root('mount', '-o', 'remount,rw', target)
-        if cd_mount is False:
-            raise RuntimeError, ("CD Mount failed")
-
-        #Check for a grub.cfg to start - make as necessary
-        files = {'recovery_partition.cfg': 'grub.cfg',
-                 'common.cfg' : 'common.cfg'}
-        for item in files:
-            if not os.path.exists(os.path.join(target, 'boot', 'grub', files[item])):
-                with misc.raised_privileges():
-                    magic.process_conf_file('/usr/share/dell/grub/' + item,   \
-                              os.path.join(target, 'boot', 'grub', files[item]), \
-                              self.uuid, self.rp_part)
-
-        #Do the actual grub installation
-        grub_inst  = misc.execute_root('grub-install', '--force', \
-                                            '--root-directory=' + target, \
-                                            self.device + self.rp_part)
-        if grub_inst is False:
-            raise RuntimeError, ("Grub install failed")
-        uncd_mount = misc.execute_root('mount', '-o', 'remount,ro', target)
-        if uncd_mount is False:
-            syslog.syslog("Uncd mount failed.  This may be normal depending on the filesystem.")
-
     def disable_swap(self):
         """Disables any swap partitions in use"""
         bus = dbus.SystemBus()
@@ -1233,7 +1174,6 @@ class Page(Plugin):
                 self.remove_extra_partitions()
                 self.explode_utility_partition()
                 self.explode_sdr()
-                self.install_grub()
         except Exception, err:
             #For interactive types of installs show an error then reboot
             #Otherwise, just reboot the system
