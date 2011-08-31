@@ -1484,9 +1484,33 @@ manually to proceed.")
         #Install grub
         self.status("Installing GRUB", 88)
         if self.efi:
-            grub = misc.execute_root('grub-install', '--root-directory=%s' % pivot)
-            if grub is False:
-                raise RuntimeError, ("Error installing grub to ESP")
+            #if we have a pre-built EFI binary, use that.
+            if os.path.exists('/cdrom/factory/grubx64.efi') and \
+               os.path.exists('/cdrom/factory/grub.cfg'):
+                direct_path = pivot + '/efi/ubuntu'
+                with misc.raised_privileges():
+                    os.makedirs(direct_path)
+                    #copy our pre-built loader
+                    shutil.copy('/cdrom/factory/grubx64.efi', direct_path)
+                    #find old entries
+                    bootmgr_output = magic.fetch_output(['efibootmgr']).split('\n')
+                #delete old entries
+                for line in bootmgr_output:
+                    if line.startswith('Boot') and 'ubuntu' in line:
+                        bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                        bootmgr = misc.execute_root('efibootmgr', '-q', '-b', bootnum, '-B')
+                        if bootmgr is False:
+                            raise RuntimeError, ("Error removing old EFI boot manager entries")
+                bootmgr = misc.execute_root('efibootmgr', '-q', '-c', '-d',
+                                            self.device, '-p', EFI_ESP_PARTITION, '-w',
+                                            '-L', 'ubuntu', '-l', '\\EFI\ubuntu\\grubx64.efi')
+                if bootmgr is False:
+                    raise RuntimeError, ("Error creating EFI boot manager entry.")
+            #otherwise build one and install it
+            else:
+                grub = misc.execute_root('grub-install', '--root-directory=%s' % pivot)
+                if grub is False:
+                    raise RuntimeError, ("Error installing grub to ESP")
             misc.execute_root('umount', pivot)
         else:
             grub = misc.execute_root('grub-install', '--root-directory=%s' % pivot, '--force', self.device + grub_part)

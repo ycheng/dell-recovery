@@ -3,6 +3,8 @@ dell-recovery (1.01) UNRELEASED; urgency=low
   * produce both i386-pc and x86_64-efi outputs in dell-recovery-bootloader.
   * Don't install grub to the RP during stage 2 anymore (no longer necessary
     with grub-setup in PE).
+  * During stage 1 of recovery, if a pre-built EFI bootloader is present,
+    install that rather than building a new one.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 30 Aug 2011 12:07:34 -0500
 
