@@ -1,3 +1,9 @@
+dell-recovery (1.01) UNRELEASED; urgency=low
+
+  * produce both i386-pc and x86_64-efi outputs in dell-recovery-bootloader.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 30 Aug 2011 12:07:34 -0500
+
 dell-recovery (1.00) oneiric; urgency=low
 
   [ Kent Baxley ]
