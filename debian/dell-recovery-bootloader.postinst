@@ -13,7 +13,7 @@ case "$1" in
         efi_modules="efi_uga efi_gop gfxterm part_gpt"
         grub-mkimage -c /usr/share/dell/grub/efi_embedded.cfg            \
                      --prefix=/factory                                   \
-                     -o /var/lib/dell-recovery/BOOTX64.EFI -O x86_64-efi \
+                     -o /var/lib/dell-recovery/grubx64.efi -O x86_64-efi \
                      $common_modules $efi_modules
     elif [ -d /usr/lib/grub/i386-pc ]; then
         echo "Building bootloader images for i386-pc"
