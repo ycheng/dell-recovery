@@ -1519,10 +1519,10 @@ manually to proceed.")
                 raise RuntimeError, ("Error installing grub to %s%s" % (self.device, grub_part))
 
             #emulate factory process.  place pre-built GRUB in the MBR
-            if os.path.exists('/cdrom/factory/core.img') and \
-               os.path.exists('/cdrom/factory/boot.img') and \
-               os.path.exists('/cdrom/factory/grub.cfg'):
-                grub = misc.execute_root('grub-setup', '-d', '/cdrom/factory', self.device)
+            if os.path.exists('%s/factory/core.img' % pivot) and \
+               os.path.exists('%s/factory/boot.img' % pivot) and \
+               os.path.exists('%s/factory/grub.cfg' % pivot):
+                grub = misc.execute_root('grub-setup', '-d', '%s/factory' % pivot, self.device)
                 if grub is False:
                     raise RuntimeError, ("Error installing grub to %s" % (self.device))
 
