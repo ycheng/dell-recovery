@@ -74,7 +74,9 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     rm -rf $RP/SDR
     rm -rf $RP/*.SDR
     rm -rf $RP/srv
-    rm -rf $RP/factory
+    rm -rf $RP/factory/*.dll
+    rm -rf $RP/factory/*.exe
+    rm -rf $RP/factory/*.bat
 
     IFHALT "Report the LOG..."
     if [ -f /dell/fist/tal ]; then

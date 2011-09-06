@@ -5,6 +5,8 @@ dell-recovery (1.02) UNRELEASED; urgency=low
       the prebuilt GRUB in the recovery scenario too.
     - The GRUB on the RP will only be used to RED screen after the MBR is
       replaced.
+  * Only delete *.{dll|exe|bat} from /factory so that prebuilt GRUB binaries
+    can be reused in other scenarios too.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 06 Sep 2011 13:49:22 -0500
 
