@@ -1513,9 +1513,19 @@ manually to proceed.")
                     raise RuntimeError, ("Error installing grub to ESP")
             misc.execute_root('umount', pivot)
         else:
+            #allow red screening after MBR is replaced
             grub = misc.execute_root('grub-install', '--root-directory=%s' % pivot, '--force', self.device + grub_part)
             if grub is False:
-                raise RuntimeError, ("Error installing grub to %s%s" % (self.device, STANDARD_RP_PARTITION))
+                raise RuntimeError, ("Error installing grub to %s%s" % (self.device, grub_part))
+
+            #emulate factory process.  place pre-built GRUB in the MBR
+            if os.path.exists('/cdrom/factory/core.img') and \
+               os.path.exists('/cdrom/factory/boot.img') and \
+               os.path.exists('/cdrom/factory/grub.cfg'):
+                grub = misc.execute_root('grub-setup', '-d', '/cdrom/factory', self.device)
+                if grub is False:
+                    raise RuntimeError, ("Error installing grub to %s" % (self.device))
+
 
         #dual boot needs primary #4 unmounted
         if self.dual:
