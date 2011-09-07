@@ -15,7 +15,8 @@ case "$1" in
                      --prefix=/factory                                   \
                      -o /var/lib/dell-recovery/grubx64.efi -O x86_64-efi \
                      $common_modules $efi_modules
-    elif [ -d /usr/lib/grub/i386-pc ]; then
+    fi
+    if [ -d /usr/lib/grub/i386-pc ]; then
         echo "Building bootloader images for i386-pc"
         x86_modules="biosdisk part_msdos vga vga_text"
         #build core image
@@ -25,9 +26,6 @@ case "$1" in
                                  $common_modules $x86_modules
         #copy boot.img
         cat /usr/lib/grub/i386-pc/boot.img > /var/lib/dell-recovery/boot.img
-    else
-        echo "WARNING: no supported GRUB packages installed."
-        echo "         no bootloader images will be built."
     fi
 
     #generate grub.cfg
