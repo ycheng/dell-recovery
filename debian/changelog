@@ -1,4 +1,4 @@
-dell-recovery (1.02) UNRELEASED; urgency=low
+dell-recovery (1.02) oneiric; urgency=low
 
   * Install prebuilt GRUB to MBR and newly built GRUB to RP when possible.  
     - This allows a more complete emulation of factory process by reusing
@@ -14,7 +14,7 @@ dell-recovery (1.02) UNRELEASED; urgency=low
   * Recommends grub-pc-bin and grub-efi-amd64-bin instead of grub-pc and 
     grub-efi-amd64.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 06 Sep 2011 13:49:22 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 07 Sep 2011 14:03:58 -0500
 
 dell-recovery (1.01) oneiric; urgency=low
 
