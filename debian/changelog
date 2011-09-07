@@ -7,6 +7,8 @@ dell-recovery (1.02) UNRELEASED; urgency=low
       replaced.
   * Only delete *.{dll|exe|bat} from /factory so that prebuilt GRUB binaries
     can be reused in other scenarios too.
+  * Include the embedded GRUB configuration for prebuilt i386 and x86_efi-efi
+    binaries.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 06 Sep 2011 13:49:22 -0500
 
