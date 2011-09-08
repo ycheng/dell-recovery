@@ -14,6 +14,8 @@ dell-recovery (1.03) UNRELEASED; urgency=low
     command in case the devices were different during install.
   * Depending on when FAIL_COMMAND happened, we might have mountpoints.
     Clean them up.
+  * Delay the write of the new MBR until the last step in the set active
+    partition command.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 08 Sep 2011 14:50:51 -0500
 

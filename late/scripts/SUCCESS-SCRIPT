@@ -52,8 +52,8 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     mkdir -p $RP/factory
     grub-editenv $RP/factory/grubenv unset recordfail
 
-    #Set the right partition active now that we're done
-    /tmp/set_active_partition
+    #Set the right partition active and restore MBR
+    /tmp/set_bootable
 
     IFHALT "Clean up FI Env..."
     rm -rf $RP/scripts/chroot-scripts/os-post/95-set_UTC_TZ.sh

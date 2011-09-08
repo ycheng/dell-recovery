@@ -1815,7 +1815,7 @@ class Install(InstallPlugin):
 
         if active.isdigit():
             disk = progress.get('partman-auto/disk')
-            with open('/tmp/set_active_partition', 'w') as wfd:
+            with open('/tmp/set_bootable', 'w') as wfd:
                 #If we have an MBR, 
                 if layout == 'msdos':
                     #we use the active partition bit in it
@@ -1824,7 +1824,6 @@ class Install(InstallPlugin):
                     #in factory process if we backed up an MBR, that would have already
                     #been restored.
                     if not os.path.exists(os.path.join(CDROM_MOUNT, 'factory', 'mbr.bin')):
-                        #we don't necessarily know how we booted
                         #test the md5 of the MBR to match DRMK or syslinux
                         #if they don't match, rewrite MBR
                         with misc.raised_privileges():
@@ -1833,15 +1832,12 @@ class Install(InstallPlugin):
                         path = '/usr/share/dell/up/mbr.bin'
                         if not os.path.exists(path):
                             path = '/usr/lib/syslinux/mbr.bin'
-                        if not os.path.exists(path):
-                            raise RuntimeError, ("Missing DRMK and syslinux MBR")
                         with open(path, 'rb') as rfd:
-                            file_mbr = rfd.read(440)
+                            file_mbr = rfd.read(440)        
                         if hashlib.md5(file_mbr).hexdigest() != hashlib.md5(disk_mbr).hexdigest():
-                            self.debug("%s: MBR of disk is invalid, rewriting" % NAME)
-                            with misc.raised_privileges():
-                                with open(disk, 'wb') as wfd:
-                                    wfd.write(file_mbr)
+                            if not os.path.exists(path):
+                                raise RuntimeError, ("Missing DRMK and syslinux MBR")
+                            wfd.write('dd if=%s of=%s bs=440 count=1\n' % (path, disk))
 
                 #If we have GPT, we need to go down other paths
                 elif layout == 'gpt':
@@ -1858,7 +1854,7 @@ class Install(InstallPlugin):
                             raise RuntimeError, ("Error working around bug 592813.")
                         
                         wfd.write('grub-install --no-floppy %s\n' % disk)
-            os.chmod('/tmp/set_active_partition', 0755)
+            os.chmod('/tmp/set_bootable', 0755)
 
         #if we are loop mounted, make sure the chroot knows it too
         if os.path.isdir(ISO_MOUNT):
