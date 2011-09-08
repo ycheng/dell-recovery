@@ -5,8 +5,8 @@ source /usr/lib/grub/grub-mkconfig_lib
 cat << EOF
 menuentry "#RECOVERY_TEXT#" {
         search --no-floppy --hint '(hd0,#PARTITION#)' --set --fs-uuid #UUID#
-        if [ -s /boot/grub/common.cfg ]; then
-            source /boot/grub/common.cfg
+        if [ -s /factory/common.cfg ]; then
+            source /factory/common.cfg
         else
             set options="boot=casper automatic-ubiquity noprompt quiet splash"
         fi

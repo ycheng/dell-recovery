@@ -994,12 +994,12 @@ class Backend(dbus.service.Object):
                 shutil.copytree(os.path.join(mntdir, 'isolinux'), os.path.join(tmpdir, 'isolinux'))
 
         #if we previously backed up a grub.cfg or common.cfg
-        for path in ['boot/grub/grub.cfg', 'boot/grub/common.cfg']:
+        for path in ['factory/grub.cfg', 'factory/common.cfg']:
             if os.path.exists(os.path.join(mntdir, path + '.old')):
                 genisoargs.append('-m')
                 genisoargs.append(os.path.join(mntdir, path) + '*')
-                if not os.path.exists(os.path.join(tmpdir, 'boot', 'grub')):
-                    os.makedirs(os.path.join(tmpdir, 'boot', 'grub'))
+                if not os.path.exists(os.path.join(tmpdir, 'factory')):
+                    os.makedirs(os.path.join(tmpdir, 'factory'))
                 shutil.copy(os.path.join(mntdir, path + '.old'), os.path.join(tmpdir, path))
 
         #Make the image EFI compatible if necessary

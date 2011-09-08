@@ -1449,83 +1449,75 @@ manually to proceed.")
                 os.makedirs(os.path.join('/mnt', 'preseed'))
             magic.write_seed(seed, keys)
 
-        #files and grub go in /mnt/efi if we're EFI and include EFI specifics
-        #Check for a grub.cfg - replace as necessary
-        if self.efi:
-            pivot = '/mnt/efi'
-            if not os.path.exists(pivot):
-                with misc.raised_privileges():
-                    os.makedirs(pivot)
-            mount = misc.execute_root('mount', self.device + EFI_ESP_PARTITION, pivot)
-            if mount is False:
-                raise RuntimeError, ("Error mounting %s%s" % (self.device, EFI_ESP_PARTITION))
-        else:
-            pivot = '/mnt'
-
         #Check for a grub.cfg - replace as necessary
         files = {'recovery_partition.cfg': 'grub.cfg',
                  'common.cfg' : 'common.cfg'} 
         for item in files:
-            if os.path.exists(os.path.join(pivot, 'boot', 'grub', files[item])):
+            full_path = os.path.join('/mnt', 'factory', files[item])
+            if os.path.exists(full_path):
                 with misc.raised_privileges():
-                    shutil.move(os.path.join(pivot, 'boot', 'grub', files[item]),
-                                os.path.join(pivot, 'boot', 'grub', files[item]) + '.old')
+                    shutil.move(full_path, full_path + '.old')
 
             with misc.raised_privileges():
-                
                 magic.process_conf_file('/usr/share/dell/grub/' + item, \
-                                   os.path.join(pivot, 'boot', 'grub', files[item]),\
-                                   uuid, rp_part)
+                                        full_path, uuid, rp_part)
                 #Allow these to be invoked from a recovery solution launched by the BCD.
                 if self.dual:
-                    shutil.copy(os.path.join(pivot, 'boot', 'grub', files[item]), \
-                                os.path.join('/tmp', files[item]))
+                    shutil.copy(full_path, os.path.join('/tmp', files[item]))
+
+        #If we don't have grub binaries, build them
+        if self.efi:
+            grub_files = [ '/mnt/factory/grubx64.efi']
+        else:
+            grub_files = [ '/mnt/factory/core.img',
+                           '/mnt/factory/boot.img']
+        for item in grub_files:
+            if not os.path.exists(item):
+                build = misc.execute_root('/usr/share/dell/grub/build-binaries.sh')
+                with misc.raised_privileges():
+                    magic.white_tree("copy", re.compile('.'), '/var/lib/dell-recovery', '/mnt/factory')
+                break
 
         #Install grub
         self.status("Installing GRUB", 88)
         if self.efi:
-            #if we have a pre-built EFI binary, use that.
-            if os.path.exists('/cdrom/factory/grubx64.efi') and \
-               os.path.exists('/cdrom/factory/grub.cfg'):
-                direct_path = pivot + '/efi/ubuntu'
+            #Mount ESP
+            if not os.path.exists(pivot):
                 with misc.raised_privileges():
-                    os.makedirs(direct_path)
-                    #copy our pre-built loader
-                    shutil.copy('/cdrom/factory/grubx64.efi', direct_path)
-                    #find old entries
-                    bootmgr_output = magic.fetch_output(['efibootmgr']).split('\n')
-                #delete old entries
-                for line in bootmgr_output:
-                    if line.startswith('Boot') and 'ubuntu' in line:
-                        bootnum = line.split('Boot')[1].replace('*', '').split()[0]
-                        bootmgr = misc.execute_root('efibootmgr', '-q', '-b', bootnum, '-B')
-                        if bootmgr is False:
-                            raise RuntimeError, ("Error removing old EFI boot manager entries")
-                bootmgr = misc.execute_root('efibootmgr', '-q', '-c', '-d',
-                                            self.device, '-p', EFI_ESP_PARTITION, '-w',
-                                            '-L', 'ubuntu', '-l', '\\EFI\ubuntu\\grubx64.efi')
-                if bootmgr is False:
-                    raise RuntimeError, ("Error creating EFI boot manager entry.")
-            #otherwise build one and install it
-            else:
-                grub = misc.execute_root('grub-install', '--root-directory=%s' % pivot)
-                if grub is False:
-                    raise RuntimeError, ("Error installing grub to ESP")
-            misc.execute_root('umount', pivot)
+                    os.makedirs(pivot)
+            mount = misc.execute_root('mount', self.device + EFI_ESP_PARTITION, '/mnt/efi')
+            if mount is False:
+                raise RuntimeError, ("Error mounting %s%s" % (self.device, EFI_ESP_PARTITION))
+
+            #find old entries and prep directory
+            direct_path = '/mnt/efi' + '/efi/ubuntu'
+            with misc.raised_privileges():
+                os.makedirs(direct_path)
+                #copy our pre-built loader
+                shutil.copy('/mnt/factory/grubx64.efi', direct_path)
+                #find old entries
+                bootmgr_output = magic.fetch_output(['efibootmgr']).split('\n')
+
+            #delete old entries
+            for line in bootmgr_output:
+                if line.startswith('Boot') and 'ubuntu' in line:
+                    bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                    bootmgr = misc.execute_root('efibootmgr', '-q', '-b', bootnum, '-B')
+                    if bootmgr is False:
+                        raise RuntimeError, ("Error removing old EFI boot manager entries")
+            #create new boot entry
+            bootmgr = misc.execute_root('efibootmgr', '-q', '-c', '-d',
+                                        self.device, '-p', EFI_ESP_PARTITION, '-w',
+                                        '-L', 'ubuntu', '-l', '\\EFI\ubuntu\\grubx64.efi')
+            if bootmgr is False:
+                raise RuntimeError, ("Error creating EFI boot manager entry.")
+
+            #clean up ESP mount
+            misc.execute_root('umount', '/mnt/efi')
         else:
-            #allow red screening after MBR is replaced
-            grub = misc.execute_root('grub-install', '--root-directory=%s' % pivot, '--force', self.device + grub_part)
+            grub = misc.execute_root('grub-setup', '-d', '/mnt/factory', self.device)
             if grub is False:
-                raise RuntimeError, ("Error installing grub to %s%s" % (self.device, grub_part))
-
-            #emulate factory process.  place pre-built GRUB in the MBR
-            if os.path.exists('%s/factory/core.img' % pivot) and \
-               os.path.exists('%s/factory/boot.img' % pivot) and \
-               os.path.exists('%s/factory/grub.cfg' % pivot):
-                grub = misc.execute_root('grub-setup', '-d', '%s/factory' % pivot, self.device)
-                if grub is False:
-                    raise RuntimeError, ("Error installing grub to %s" % (self.device))
-
+                raise RuntimeError, ("Error installing grub to %s" % (self.device))
 
         #dual boot needs primary #4 unmounted
         if self.dual:
@@ -1533,11 +1525,11 @@ manually to proceed.")
             self.status("Building G2LDR", 90)
             #build g2ldr
             magic.create_g2ldr('/', '/mnt', '')
-            if not os.path.isdir(os.path.join('/mnt', 'boot', 'grub')):
-                os.makedirs(os.path.join('/mnt', 'boot', 'grub'))
+            if not os.path.isdir(os.path.join('/mnt', 'factory')):
+                os.makedirs(os.path.join('/mnt', 'factory'))
             for item in files:
                 shutil.copy(os.path.join('/tmp', files[item]), \
-                            os.path.join('/mnt', 'boot', 'grub', files[item]))
+                            os.path.join('/mnt', 'factory', files[item]))
 
 
         #Build new UUID
