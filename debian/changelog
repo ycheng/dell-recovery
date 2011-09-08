@@ -1,3 +1,9 @@
+dell-recovery (1.04) UNRELEASED; urgency=low
+
+  * Update supported UI names to reflect those in oneiric after freeze.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 08 Sep 2011 18:05:37 -0500
+
 dell-recovery (1.03) oneiric; urgency=low
 
   * Move all the "code" from dell-recovery-bootloader to it's own script
