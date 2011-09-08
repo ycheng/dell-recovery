@@ -7,6 +7,8 @@ dell-recovery (1.03) UNRELEASED; urgency=low
     as later MBR installs.
   * Don't use grub-install at all.  Always build bootloader binaries
     ourselves that rely items in /factory.
+  * Set up the FAIL and SUCCESS scripts to work out of /factory for grubenv.
+  * Reinstall GRUB to the MBR on fail if fist isn't around and not EFI.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 08 Sep 2011 14:50:51 -0500
 

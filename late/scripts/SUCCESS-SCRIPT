@@ -48,9 +48,9 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     fi
     mount -o remount,rw $RP
     IFHALT "Resetting grub fail state"
-    [ -s $RP/boot/grub/grubenv ] || rm -f $RP/boot/grub/grubenv
-    mkdir -p $RP/boot/grub
-    grub-editenv $RP/boot/grub/grubenv unset recordfail
+    [ -s $RP/factory/grubenv ] || rm -f $RP/factory/grubenv
+    mkdir -p $RP/factory
+    grub-editenv $RP/factory/grubenv unset recordfail
 
     #Set the right partition active now that we're done
     /tmp/set_active_partition
