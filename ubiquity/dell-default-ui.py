@@ -96,10 +96,8 @@ class Install(InstallPlugin):
             #            cpu = line.split(':')[1].strip().lower()
             #            break
 
-            if 'unity-2d' in uies:
-                ui_2d = 'unity-2d'
-            else:
-                ui_2d = 'gnome-2d'
+            if 'ubuntu-2d' in uies:
+                ui_2d = 'ubuntu-2d'
 
             if pci_blacklist:
                 ui = ui_2d
