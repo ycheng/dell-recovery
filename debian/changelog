@@ -1,4 +1,4 @@
-dell-recovery (1.03) UNRELEASED; urgency=low
+dell-recovery (1.03) oneiric; urgency=low
 
   * Move all the "code" from dell-recovery-bootloader to it's own script
     so that it can be invoked from other places too.
@@ -17,7 +17,7 @@ dell-recovery (1.03) UNRELEASED; urgency=low
   * Delay the write of the new MBR until the last step in the set active
     partition command.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 08 Sep 2011 14:50:51 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 08 Sep 2011 17:55:42 -0500
 
 dell-recovery (1.02) oneiric; urgency=low
 
