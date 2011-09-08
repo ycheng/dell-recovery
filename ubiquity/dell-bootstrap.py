@@ -1474,6 +1474,8 @@ manually to proceed.")
         for item in grub_files:
             if not os.path.exists(item):
                 build = misc.execute_root('/usr/share/dell/grub/build-binaries.sh')
+                if build is False:
+                    raise RuntimeError, ("Error building grub binaries.")
                 with misc.raised_privileges():
                     magic.white_tree("copy", re.compile('.'), '/var/lib/dell-recovery', '/mnt/factory')
                 break
@@ -1482,9 +1484,9 @@ manually to proceed.")
         self.status("Installing GRUB", 88)
         if self.efi:
             #Mount ESP
-            if not os.path.exists(pivot):
+            if not os.path.exists('/mnt/efi'):
                 with misc.raised_privileges():
-                    os.makedirs(pivot)
+                    os.makedirs('/mnt/efi')
             mount = misc.execute_root('mount', self.device + EFI_ESP_PARTITION, '/mnt/efi')
             if mount is False:
                 raise RuntimeError, ("Error mounting %s%s" % (self.device, EFI_ESP_PARTITION))
