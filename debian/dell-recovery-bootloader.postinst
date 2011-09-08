@@ -4,39 +4,7 @@
 
 case "$1" in
   configure)
-    #Test to determine whether we are building 64 bit EFI or 32 bit legacy
-    common_modules="loadenv part_gpt fat ntfs ext2 ntfscomp search linux boot \
-                    minicmd cat cpuid chain halt help ls reboot echo test     \
-                    configfile sleep keystatus normal true font"
-    if [ -d /usr/lib/grub/x86_64-efi ]; then
-        echo "Building bootloader images for x86_64-efi"
-        efi_modules="efi_uga efi_gop gfxterm part_gpt"
-        grub-mkimage -c /usr/share/dell/grub/embedded.cfg                \
-                     --prefix=/factory                                   \
-                     -o /var/lib/dell-recovery/grubx64.efi -O x86_64-efi \
-                     $common_modules $efi_modules
-    fi
-    if [ -d /usr/lib/grub/i386-pc ]; then
-        echo "Building bootloader images for i386-pc"
-        x86_modules="biosdisk part_msdos vga vga_text"
-        #build core image
-        grub-mkimage -c /usr/share/dell/grub/embedded.cfg                \
-                     --prefix=/factory                                   \
-                     -o /var/lib/dell-recovery/core.img -O i386-pc       \
-                                 $common_modules $x86_modules
-        #copy boot.img
-        cat /usr/lib/grub/i386-pc/boot.img > /var/lib/dell-recovery/boot.img
-    fi
-
-    #generate grub.cfg
-    OS=$(lsb_release -s -d)
-    sed "s,#OS#,$OS,; /^search/d" \
-        /usr/share/dell/grub/recovery_partition.cfg \
-        > /var/lib/dell-recovery/grub.cfg
-
-    #blank grubenv so we can fail installs
-    grub-editenv /var/lib/dell-recovery/grubenv unset recordfail
-
+    /usr/share/dell/grub/build-binaries.sh
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)
   ;;

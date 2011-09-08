@@ -1,3 +1,10 @@
+dell-recovery (1.03) UNRELEASED; urgency=low
+
+  * Move all the "code" from dell-recovery-bootloader to it's own script
+    so that it can be invoked from other places too.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 08 Sep 2011 14:50:51 -0500
+
 dell-recovery (1.02) oneiric; urgency=low
 
   * Install prebuilt GRUB to MBR and newly built GRUB to RP when possible.  
