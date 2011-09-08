@@ -27,14 +27,18 @@
 # $1 -> early/late
 #
 # for early:
-# $2 -> device to mount
-# $3 -> /cdrom or /isodevice
+# $2 -> /cdrom or /isodevice
 
 if [ "$1" = "early" ]; then
-    mkdir -p $3
-    mount -o ro $2 $3
-    if [ -f "$3/ubuntu.iso" ]; then
-        mount -o loop $3/ubuntu.iso /cdrom
+    DEVICE=$(python << EOF
+from Dell.recovery_common import find_partitions
+print find_partitions('','')[1]
+EOF
+)
+    mkdir -p $2
+    mount -o ro $DEVICE $2
+    if [ -f "$2/ubuntu.iso" ]; then
+        mount -o loop $2/ubuntu.iso /cdrom
     fi
     /usr/share/dell/scripts/pool.sh
 elif [ "$1" = "late" ]; then
@@ -44,5 +48,5 @@ elif [ "$1" = "late" ]; then
     fi
     rm -f /etc/apt/sources.list.d/dell.list
 else
-    echo "Unknown arguments $1 $2 $3 $4"
+    echo "Unknown arguments $1 $2"
 fi

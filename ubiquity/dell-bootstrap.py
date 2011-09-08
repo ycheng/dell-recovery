@@ -782,7 +782,7 @@ class Page(Plugin):
             location = ISO_MOUNT
         else:
             location = CDROM_MOUNT
-        early = '/usr/share/dell/scripts/oem_config.sh early %s %s' % (rec_part['device'], location)
+        early = '/usr/share/dell/scripts/oem_config.sh early %s' % location
         self.db.set('oem-config/early_command', early)
         self.db.set('partman-auto/disk', self.device)
 
