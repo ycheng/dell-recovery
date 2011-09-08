@@ -35,6 +35,12 @@ set -e
 IFHALT "(FAIL) Clean-Up .."
 
 if [ "$BOOTDEV" = "$TARGETDEV" ]; then
+    #cleanup potentially stale mount points
+    for mountpoint in $MOUNT_CLEANUP;
+    do
+        umount -l $mountpoint
+    done
+
     if [ -d "/isodevice" ]; then
         RP="/isodevice"
     else

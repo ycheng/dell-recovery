@@ -108,6 +108,7 @@ fi
 if [ -d /isodevice ]; then
     MOUNT_CLEANUP="$TARGET/isodevice $MOUNT_CLEANUP"
 fi
+export MOUNT_CLEANUP
 
 #Run chroot scripts
 chroot $TARGET /usr/share/dell/scripts/target_chroot.sh
@@ -116,6 +117,7 @@ for mountpoint in $MOUNT_CLEANUP;
 do
     umount -l $mountpoint
 done
+unset MOUNT_CLEANUP
 
 for directory in $DIR_CLEANUP;
 do
