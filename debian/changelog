@@ -9,6 +9,7 @@ dell-recovery (1.03) UNRELEASED; urgency=low
     ourselves that rely items in /factory.
   * Set up the FAIL and SUCCESS scripts to work out of /factory for grubenv.
   * Reinstall GRUB to the MBR on fail if fist isn't around and not EFI.
+  * Add missing RP declaration in FAIL-SCRIPT.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 08 Sep 2011 14:50:51 -0500
 

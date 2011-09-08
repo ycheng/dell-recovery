@@ -35,7 +35,12 @@ set -e
 IFHALT "(FAIL) Clean-Up .."
 
 if [ "$BOOTDEV" = "$TARGETDEV" ]; then
-    mount -o remount,rw /cdrom
+    if [ -d "/isodevice" ]; then
+        RP="/isodevice"
+    else
+        RP="/cdrom"
+    fi
+    mount -o remount,rw $RP
 
     IFHALT "Resetting grub fail state"
     [ -s $RP/factory/grubenv ] || rm -f $RP/factory/grubenv
