@@ -1,4 +1,4 @@
-dell-recovery (1.04) UNRELEASED; urgency=low
+dell-recovery (1.04) oneiric; urgency=low
 
   * Drop all code related to setting default u/i.  The u/i is always
     unity now, it will be 2D or 3D depending on the level of support
@@ -7,7 +7,7 @@ dell-recovery (1.04) UNRELEASED; urgency=low
     of unicode directories for storing ISOs
   * Update translations from launchpad.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 08 Sep 2011 18:05:37 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 09 Sep 2011 17:52:51 -0500
 
 dell-recovery (1.03) oneiric; urgency=low
 
