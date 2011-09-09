@@ -6,6 +6,7 @@ dell-recovery (1.04) UNRELEASED; urgency=low
     of unicode directories for storing ISOs
   * Disable default chinese U/I logic.
   * Set default U/I to 'ubuntu' rather than 'gnome'.
+  * Update translations from launchpad.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 08 Sep 2011 18:05:37 -0500
 
