@@ -67,16 +67,16 @@ class Install(InstallPlugin):
         uies = find_supported_ui()
 
         ui = 'dynamic'
-        lang = 'en_US'
+        #lang = 'en_US'
         if progress is not None:
             try:
                 ui = progress.get('dell-oobe/user-interface')
             except debconf.DebconfError, e:
                 pass
-            try:
-                lang = progress.get('debian-installer/locale')
-            except debconf.DebconfError, e:
-                pass
+            #try:
+            #    lang = progress.get('debian-installer/locale')
+            #except debconf.DebconfError, e:
+            #    pass
 
         #Dynamic tests
         if ui == 'dynamic':
@@ -108,11 +108,11 @@ class Install(InstallPlugin):
             #elif lob in BIZ_CLIENT:
             #    ui = 'gnome-classic'
             #    self.debug("%s: Business Client LOB %s matched. setting to %s" % (NAME, lob, uies[ui]))
-            elif 'zh' in lang:
-                ui = ui_2d
-                self.debug("%s: Chinese install detected, setting 2D UI %s" % (NAME, uies[ui]))
+            #elif 'zh' in lang:
+            #    ui = ui_2d
+            #    self.debug("%s: Chinese install detected, setting 2D UI %s" % (NAME, uies[ui]))
             else:
-                ui = 'gnome'
+                ui = 'ubuntu'
                 self.debug("%s: Setting UI to default: %s." % (NAME, uies[ui]))
         else:
             if ui in uies:
