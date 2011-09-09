@@ -81,7 +81,6 @@ DISK_LAYOUT_QUESTION = 'dell-recovery/disk_layout'
 SWAP_QUESTION = 'dell-recovery/swap'
 RP_FILESYSTEM_QUESTION = 'dell-recovery/recovery_partition_filesystem'
 DRIVER_INSTALL_QUESTION = 'dell-recovery/disable-driver-install'
-USER_INTERFACE_QUESTION = 'dell-oobe/user-interface'
 OIE_QUESTION = 'dell-recovery/oie_mode'
 
 #######################
@@ -182,9 +181,6 @@ class PageGtk(PluginUI):
             self.swap_combobox = builder.get_object('swap_behavior_combobox')
             self.ui_combobox = builder.get_object('default_ui_combobox')
             self.oie_combobox = builder.get_object('oie_combobox')
-
-            #populate dynamic comboboxes
-            self._populate_dynamic_comoboxes()
 
             if not (self.genuine and 'UBIQUITY_AUTOMATIC' in os.environ):
                 builder.get_object('error_box').show()
@@ -310,19 +306,10 @@ class PageGtk(PluginUI):
         self.advanced_page.hide()
         self.plugin_widgets.set_sensitive(True)
 
-    def _populate_dynamic_comoboxes(self):
-        """Fills up comboboxes with dynamic items based on the squashfs"""
-        liststore = self.ui_combobox.get_model()
-        uies = magic.find_supported_ui()
-        for item in uies:
-            liststore.append([item,uies[item]])
-
     def _map_combobox(self, item):
         """Maps a combobox to a question"""
         combobox = None
-        if item == USER_INTERFACE_QUESTION:
-            combobox = self.ui_combobox
-        elif item == OIE_QUESTION:
+        if item == OIE_QUESTION:
             combobox = self.oie_combobox
         elif item == DRIVER_INSTALL_QUESTION:
             combobox = self.proprietary_combobox
@@ -936,14 +923,6 @@ class Page(Plugin):
             self.log(str(err))
             proprietary = ''
 
-        #default UI
-        try:
-            user_interface = self.db.get(USER_INTERFACE_QUESTION)
-        except debconf.DebconfError, err:
-            self.log(str(err))
-            user_interface = 'dynamic'
-            self.preseed(USER_INTERFACE_QUESTION, user_interface)
-
         #test for OIE.  OIE images turn off after install
         try:
             self.oie = misc.create_bool(self.db.get(OIE_QUESTION))
@@ -1030,7 +1009,6 @@ class Page(Plugin):
                    DISK_LAYOUT_QUESTION: self.disk_layout,
                    SWAP_QUESTION: self.swap,
                    DRIVER_INSTALL_QUESTION: proprietary,
-                   USER_INTERFACE_QUESTION: user_interface,
                    RP_FILESYSTEM_QUESTION: self.rp_filesystem,
                    OIE_QUESTION: self.oie,
                    "mem": self.mem,
@@ -1087,7 +1065,6 @@ class Page(Plugin):
                          DISK_LAYOUT_QUESTION,
                          SWAP_QUESTION,
                          DRIVER_INSTALL_QUESTION,
-                         USER_INTERFACE_QUESTION,
                          OIE_QUESTION,
                          RP_FILESYSTEM_QUESTION]:
             answer = self.ui.get_advanced(question)

@@ -211,17 +211,6 @@ def fetch_output(cmd, data=None):
         raise RuntimeError, (error)
     return out
 
-def find_supported_ui():
-    """Finds potential user interfaces"""
-    desktop = { 'ubuntu'             : 'ubuntu.desktop',
-                'ubuntu-2d'          : 'ubuntu-2d.desktop'}
-    name =    { 'ubuntu'             : 'Unity (3D)',
-                'ubuntu-2d'          : 'Unity (2D)'}
-    for item in desktop:
-        if not os.path.exists(os.path.join('/usr/share/xsessions/', desktop[item])):
-            name.pop(item)
-    return name
-
 def find_extra_kernel_options():
     """Finds any extra kernel command line options"""
     with open('/proc/cmdline', 'r') as cmdline:
