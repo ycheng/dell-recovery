@@ -2,6 +2,8 @@ dell-recovery (1.04) UNRELEASED; urgency=low
 
   * Update supported UI names to reflect those in oneiric after freeze.
   * Update UI fallback logic to reflect current 2D UI.
+  * Pass utf8_strings=True to connect_to_signal handlers to fix handling
+    of unicode directories for storing ISOs
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 08 Sep 2011 18:05:37 -0500
 

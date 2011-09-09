@@ -741,7 +741,7 @@ def dbus_sync_call_signal_wrapper(dbus_iface, func, handler_map, *args, **kwargs
     kwargs['error_handler'] = _h_error
     kwargs['timeout'] = 86400
     for signame, sighandler in handler_map.iteritems():
-        dbus_iface.connect_to_signal(signame, sighandler)
+        dbus_iface.connect_to_signal(signame, sighandler, utf8_strings=True)
     dbus_iface.get_dbus_method(func)(*args, **kwargs)
     loop.run()
     if _h_exception_exc:
