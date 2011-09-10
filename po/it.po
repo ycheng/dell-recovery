@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-03 02:58-0500\n"
+"POT-Creation-Date: 2011-09-09 17:16-0500\n"
 "PO-Revision-Date: 2011-08-04 15:18+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-05 04:40+0000\n"
-"X-Generator: Launchpad (build 13604)\n"
+"X-Launchpad-Export-Date: 2011-09-10 05:02+0000\n"
+"X-Generator: Launchpad (build 13900)\n"
 
 #: ../Dell/recovery_gtk.py:92
 msgid "Cannot connect to dbus"
@@ -93,11 +93,11 @@ msgid "Included"
 msgstr "aggiunta"
 
 #. wizard.resize(400,400)
-#: ../Dell/recovery_advanced_gtk.py:74
+#: ../Dell/recovery_advanced_gtk.py:71
 msgid " (BTO Image Builder Mode)"
 msgstr " (BTO Modalità creazione immagine)"
 
-#: ../Dell/recovery_advanced_gtk.py:76
+#: ../Dell/recovery_advanced_gtk.py:73
 msgid ""
 "This will integrate a Dell OEM FID framework & driver package set into a "
 "customized OS media image.  You will have the option to create an USB key or "
@@ -108,100 +108,100 @@ msgstr ""
 "creare un supporto USB o un'immagine DVD."
 
 #. insert builder pages in reverse order
-#: ../Dell/recovery_advanced_gtk.py:95
+#: ../Dell/recovery_advanced_gtk.py:92
 msgid "Installation Mode"
 msgstr "Modalità di installazione"
 
-#: ../Dell/recovery_advanced_gtk.py:96
+#: ../Dell/recovery_advanced_gtk.py:93
 msgid "Application Packages"
 msgstr "Pacchetti applicazione"
 
-#: ../Dell/recovery_advanced_gtk.py:97
+#: ../Dell/recovery_advanced_gtk.py:94
 msgid "Driver Packages"
 msgstr "Pacchetti driver"
 
-#: ../Dell/recovery_advanced_gtk.py:98 ../Dell/recovery_advanced_gtk.py:336
+#: ../Dell/recovery_advanced_gtk.py:95 ../Dell/recovery_advanced_gtk.py:333
 msgid "Utility Partition"
 msgstr "Partizione di utilità"
 
-#: ../Dell/recovery_advanced_gtk.py:99
+#: ../Dell/recovery_advanced_gtk.py:96
 msgid "FID Content"
 msgstr "Contenuto FID"
 
-#: ../Dell/recovery_advanced_gtk.py:100
+#: ../Dell/recovery_advanced_gtk.py:97
 msgid "Base OS Image"
 msgstr "Immagine di base del sistema operativo"
 
-#: ../Dell/recovery_advanced_gtk.py:197
+#: ../Dell/recovery_advanced_gtk.py:194
 msgid "Builder Summary"
 msgstr "Sommario creazione immagine"
 
-#: ../Dell/recovery_advanced_gtk.py:198
+#: ../Dell/recovery_advanced_gtk.py:195
 msgid "Base Image Distributor"
 msgstr "Base immagine distributore"
 
-#: ../Dell/recovery_advanced_gtk.py:200
+#: ../Dell/recovery_advanced_gtk.py:197
 msgid "Base Image Release"
 msgstr "Base immagine rilascio"
 
-#: ../Dell/recovery_advanced_gtk.py:203
+#: ../Dell/recovery_advanced_gtk.py:200
 msgid "BTO Base Image"
 msgstr "Base immagine BTO"
 
-#: ../Dell/recovery_advanced_gtk.py:206
+#: ../Dell/recovery_advanced_gtk.py:203
 msgid "Base Image"
 msgstr "Base immagine"
 
-#: ../Dell/recovery_advanced_gtk.py:210
+#: ../Dell/recovery_advanced_gtk.py:207
 msgid "Utility Partition: "
 msgstr "Partizione di utilità: "
 
-#: ../Dell/recovery_advanced_gtk.py:213
+#: ../Dell/recovery_advanced_gtk.py:210
 msgid "Application"
 msgstr "Applicazione"
 
-#: ../Dell/recovery_advanced_gtk.py:214
+#: ../Dell/recovery_advanced_gtk.py:211
 msgid "Driver"
 msgstr "Driver"
 
-#: ../Dell/recovery_advanced_gtk.py:220
+#: ../Dell/recovery_advanced_gtk.py:217
 msgid "Packages"
 msgstr "Pacchetti"
 
-#: ../Dell/recovery_advanced_gtk.py:226
+#: ../Dell/recovery_advanced_gtk.py:223
 msgid "Inject Dell Recovery Package"
 msgstr "Aggiungere pacchetto recupero Dell"
 
-#: ../Dell/recovery_advanced_gtk.py:229
+#: ../Dell/recovery_advanced_gtk.py:226
 msgid "OIE Installation Mode"
 msgstr "Modalità di installazione OIE"
 
-#: ../Dell/recovery_advanced_gtk.py:232
+#: ../Dell/recovery_advanced_gtk.py:229
 msgid "Additional Success Script"
 msgstr "Script aggiuntivo per la riuscita"
 
-#: ../Dell/recovery_advanced_gtk.py:235
+#: ../Dell/recovery_advanced_gtk.py:232
 msgid "Additional Fail Script"
 msgstr "Script aggiuntivo per la non riuscita"
 
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:245
+#: ../Dell/recovery_advanced_gtk.py:242
 msgid "Assembling Image Components"
 msgstr "Montaggio componenti immagine"
 
-#: ../Dell/recovery_advanced_gtk.py:339
+#: ../Dell/recovery_advanced_gtk.py:336
 msgid "No Additional Utility Partition"
 msgstr "Nessuna partizione di utilità aggiuntiva"
 
-#: ../Dell/recovery_advanced_gtk.py:535
+#: ../Dell/recovery_advanced_gtk.py:532
 msgid "All SRVs must be filled to proceed."
 msgstr "Tutti gli SRV devonon essere riempiti per procedere."
 
-#: ../Dell/recovery_advanced_gtk.py:564
+#: ../Dell/recovery_advanced_gtk.py:561
 msgid "SUCCESS Script: "
 msgstr "Script per la riuscita: "
 
-#: ../Dell/recovery_advanced_gtk.py:568
+#: ../Dell/recovery_advanced_gtk.py:565
 msgid "FAIL Script: "
 msgstr "Script per la non riuscita: "
 
@@ -601,20 +601,11 @@ msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
 #~ msgid "No media, create ISO image"
 #~ msgstr "No, crea immagine ISO"
 
-#~ msgid "Retry burn?"
-#~ msgstr "Ritenta masterizzazione?"
-
 #~ msgid "Show Details"
 #~ msgstr "Mostra dettagli"
 
-#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
-#~ msgstr "<big><b>Creare supporto di ripristino Dell?</b></big>"
-
 #~ msgid "Overlaying FID content"
 #~ msgstr "Sovrapposizione contenuto FID"
-
-#~ msgid "Inserting FISH packages"
-#~ msgstr "Inserimento pacchetti FISH"
 
 #~ msgid "FID GIT Tree"
 #~ msgstr "Albero FID GIT"
@@ -627,15 +618,6 @@ msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
 
 #~ msgid "python-vte is missing"
 #~ msgstr "ptython-vte mancante"
-
-#~ msgid ""
-#~ "This application will integrate a Dell OEM FID framework & driver package "
-#~ "set into a customized OS media image.  You will have the option to create an "
-#~ "USB key or DVD image."
-#~ msgstr ""
-#~ "Questa applicazione permette di integrare un framework Dell OEM FID e un "
-#~ "pacchetto di drivernell'immagine personalizzata del sistema operativo. È "
-#~ "possibile creare sia una chiavetta USB che un'immagine DVD."
 
 #~ msgid "Choose Base OS Image"
 #~ msgstr "Scegliere la base dell'immagine del sistema operativo"
@@ -658,9 +640,6 @@ msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
 #~ msgid "Choose FID Overlay"
 #~ msgstr "Scegliere FID sovrapposto"
 
-#~ msgid "Add dell-recovery"
-#~ msgstr "Aggiungere dell-recovery"
-
 #~ msgid "Not present in ISO or GIT tree"
 #~ msgstr "Non è presente nella ISO o nell'albero GIT"
 
@@ -669,31 +648,6 @@ msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
 
 #~ msgid "Fetch/Update GIT Tree"
 #~ msgstr "Recuperare/Aggiornare l'albero GIT"
-
-#~ msgid ""
-#~ "The combination of the image and GIT tree you have provided do not supply "
-#~ "the necessary dell-recovery package.  It will have to be injected into the "
-#~ "image separately."
-#~ msgstr ""
-#~ "La combinazione tra l'immagine e l'albero GIT selezionato non fornisce il "
-#~ "pacchetto dell-recovery necessario. Verrà aggiunto all'immagine "
-#~ "separatamente."
-
-#~ msgid ""
-#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
-#~ "the event that you are generating from an existing BTO image, you can use "
-#~ "the framework built into that image."
-#~ msgstr ""
-#~ "L'ambiente FID è il primo pezzo sovrapposto a una immagine \"Vanilla\". Nel "
-#~ "caso si generi una immagine \"BTO\" da una esistente, è possibile utilizzare "
-#~ "un ambiente creato dentro l'immagine."
-
-#~ msgid ""
-#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
-#~ "detection."
-#~ msgstr ""
-#~ " negli argomenti alla riga di comando. Provare con DeviceKit o con il "
-#~ "rilevamento basato su HAL."
 
 #~ msgid "<b>ERROR</b>: git is not installed"
 #~ msgstr "<b>Errore:</b> git non è installato"
@@ -707,11 +661,5 @@ msgstr "Salvare il supporto di ripristino in una unità flash USB esterna"
 #~ "Questa finestra si chiuderà automaticamente al completamento del processo. \n"
 #~ "<b>NOTA:</b>  attendere, l'operazione potrebbe impiegare alcuni minuti."
 
-#~ msgid "DBus Exception"
-#~ msgstr "Eccezione DBus"
-
 #~ msgid "FID Overlay"
 #~ msgstr "FID sovrapposto"
-
-#~ msgid "Calculating FISH MD5SUMs"
-#~ msgstr "Calcolo degli MD5SUM per FISH"

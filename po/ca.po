@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-08-03 02:58-0500\n"
+"POT-Creation-Date: 2011-09-09 17:16-0500\n"
 "PO-Revision-Date: 2010-12-14 05:43+0000\n"
 "Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-04 04:35+0000\n"
-"X-Generator: Launchpad (build 13573)\n"
+"X-Launchpad-Export-Date: 2011-09-10 05:02+0000\n"
+"X-Generator: Launchpad (build 13900)\n"
 
 #: ../Dell/recovery_gtk.py:92
 msgid "Cannot connect to dbus"
@@ -92,11 +92,11 @@ msgid "Included"
 msgstr "Inclòs"
 
 #. wizard.resize(400,400)
-#: ../Dell/recovery_advanced_gtk.py:74
+#: ../Dell/recovery_advanced_gtk.py:71
 msgid " (BTO Image Builder Mode)"
 msgstr " (mode de creació d'imatge BTO)"
 
-#: ../Dell/recovery_advanced_gtk.py:76
+#: ../Dell/recovery_advanced_gtk.py:73
 msgid ""
 "This will integrate a Dell OEM FID framework & driver package set into a "
 "customized OS media image.  You will have the option to create an USB key or "
@@ -104,100 +104,100 @@ msgid ""
 msgstr ""
 
 #. insert builder pages in reverse order
-#: ../Dell/recovery_advanced_gtk.py:95
+#: ../Dell/recovery_advanced_gtk.py:92
 msgid "Installation Mode"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:96
+#: ../Dell/recovery_advanced_gtk.py:93
 msgid "Application Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:97
+#: ../Dell/recovery_advanced_gtk.py:94
 msgid "Driver Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:98 ../Dell/recovery_advanced_gtk.py:336
+#: ../Dell/recovery_advanced_gtk.py:95 ../Dell/recovery_advanced_gtk.py:333
 msgid "Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:99
+#: ../Dell/recovery_advanced_gtk.py:96
 msgid "FID Content"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:100
+#: ../Dell/recovery_advanced_gtk.py:97
 msgid "Base OS Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:197
+#: ../Dell/recovery_advanced_gtk.py:194
 msgid "Builder Summary"
 msgstr "Resum del creador"
 
-#: ../Dell/recovery_advanced_gtk.py:198
+#: ../Dell/recovery_advanced_gtk.py:195
 msgid "Base Image Distributor"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:200
+#: ../Dell/recovery_advanced_gtk.py:197
 msgid "Base Image Release"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:203
+#: ../Dell/recovery_advanced_gtk.py:200
 msgid "BTO Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:206
+#: ../Dell/recovery_advanced_gtk.py:203
 msgid "Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:210
+#: ../Dell/recovery_advanced_gtk.py:207
 msgid "Utility Partition: "
 msgstr "Partició d'eines: "
 
-#: ../Dell/recovery_advanced_gtk.py:213
+#: ../Dell/recovery_advanced_gtk.py:210
 msgid "Application"
 msgstr "Aplicació"
 
-#: ../Dell/recovery_advanced_gtk.py:214
+#: ../Dell/recovery_advanced_gtk.py:211
 msgid "Driver"
 msgstr "Controlador"
 
-#: ../Dell/recovery_advanced_gtk.py:220
+#: ../Dell/recovery_advanced_gtk.py:217
 msgid "Packages"
 msgstr "Paquets"
 
-#: ../Dell/recovery_advanced_gtk.py:226
+#: ../Dell/recovery_advanced_gtk.py:223
 msgid "Inject Dell Recovery Package"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:229
+#: ../Dell/recovery_advanced_gtk.py:226
 msgid "OIE Installation Mode"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:232
+#: ../Dell/recovery_advanced_gtk.py:229
 msgid "Additional Success Script"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:235
+#: ../Dell/recovery_advanced_gtk.py:232
 msgid "Additional Fail Script"
 msgstr ""
 
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:245
+#: ../Dell/recovery_advanced_gtk.py:242
 msgid "Assembling Image Components"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:339
+#: ../Dell/recovery_advanced_gtk.py:336
 msgid "No Additional Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:535
+#: ../Dell/recovery_advanced_gtk.py:532
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:564
+#: ../Dell/recovery_advanced_gtk.py:561
 msgid "SUCCESS Script: "
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:568
+#: ../Dell/recovery_advanced_gtk.py:565
 msgid "FAIL Script: "
 msgstr ""
 
@@ -552,24 +552,8 @@ msgstr ""
 msgid "Save recovery media to an external USB flash drive"
 msgstr ""
 
-#~ msgid "Welcome"
-#~ msgstr "Us donem la benvinguda"
-
-#~ msgid ""
-#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
-#~ "detection."
-#~ msgstr ""
-#~ " en arguments de la línia d'ordres. S'intentarà la detecció basada en el "
-#~ "DeviceKit o en la HAL."
-
 #~ msgid "Choose Media Type"
 #~ msgstr "Escolliu el tipus de suport"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Partició d'eines no vàlida"
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Partició de recuperació no vàlida"
 
 #~ msgid "Choose Base OS Image"
 #~ msgstr "Escolliu la imatge base del sistema operatiu"
@@ -595,9 +579,6 @@ msgstr ""
 
 #~ msgid "Missing Dell-Recovery"
 #~ msgstr "Manca l'eina de recuperació de Dell"
-
-#~ msgid "Inserting FISH packages"
-#~ msgstr "S'estan afegint els paquets FISH"
 
 #~ msgid "Not present in ISO or GIT tree"
 #~ msgstr "No és a l'ISO o a l'arbre del Git"
