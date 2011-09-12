@@ -3,6 +3,9 @@ dell-recovery (1.05) UNRELEASED; urgency=low
   * If binaries already have been built for dell-recovery-bootloader, don't
     build them again.
   * Clean up all dell-recovery-bootloader built binaries on purge.
+  * Drop devicekit-disks references.
+  * Add extra variables to hide EFI recovery partition as well as legacy recovery
+    partition.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 12 Sep 2011 16:26:59 -0500
 
