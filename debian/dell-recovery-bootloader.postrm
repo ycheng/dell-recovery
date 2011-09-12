@@ -3,10 +3,11 @@
 set -e
 
 if [ "$1" = "purge" ]; then
-	rm -f /var/lib/dell-recovery/boot.img
-        rm -f /var/lib/dell-recovery/core.img
-        rm -f /var/lib/dell-recovery/grub.cfg
-	rm -f /var/lib/dell-recovery/grubenv
+	TARGET=/var/lib/dell-recovery
+	FILES="boot.img core.img grub.cfg grubenv grubx64.efi"
+	for file in $FILES; do
+		rm -f $TARGET/file
+	done
 fi
 
 #DEBHELPER#
