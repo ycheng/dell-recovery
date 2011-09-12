@@ -8,7 +8,8 @@ common_modules="loadenv part_gpt fat ntfs ext2 ntfscomp search linux boot \
                 configfile sleep keystatus normal true font"
 
 #x86_64-efi, EFI target.  requires grub-efi-amd64-bin
-if [ -d /usr/lib/grub/x86_64-efi ]; then
+if [ -d /usr/lib/grub/x86_64-efi ] &&
+   [ ! -f $TARGET/grubx64.efi ]; then
     echo "Building bootloader images for x86_64-efi"
     efi_modules="efi_uga efi_gop gfxterm part_gpt"
     grub-mkimage -c /usr/share/dell/grub/embedded.cfg \
@@ -18,7 +19,8 @@ if [ -d /usr/lib/grub/x86_64-efi ]; then
 fi
 
 #i386-pc, legacy target.  reguires grub-pc-bin
-if [ -d /usr/lib/grub/i386-pc ]; then
+if [ -d /usr/lib/grub/i386-pc ] &&
+   [ ! -f $TARGET/core.img ]; then
     echo "Building bootloader images for i386-pc"
     x86_modules="biosdisk part_msdos vga vga_text"
     #build core image
