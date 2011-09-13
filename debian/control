@@ -24,7 +24,7 @@ Description: Dell Recovery Media Creation Package
 
 Package: dell-recovery-casper
 Architecture: all
-Depends: dell-recovery, casper, ${misc:Depends}
+Depends: dell-recovery, casper, ubiquity, ${misc:Depends}
 Description: Dell Recovery Casper Hooks
  This package provides hooks to allow the dell-recovery
  bootstrap to run directly from casper without any other
@@ -32,7 +32,7 @@ Description: Dell Recovery Casper Hooks
 
 Package: dell-recovery-bootloader
 Architecture: all
-Depends: dell-recovery, ${misc:Depends}
+Depends: dell-recovery, ubiquity, ${misc:Depends}
 Recommends: grub-pc-bin, grub-efi-amd64-bin, mingw32, quilt, autogen, autoconf, libtool, bison, flex
 Description: Bootloader images for Dell's factory process
  This package is used to generate GRUB2 bootable images that are

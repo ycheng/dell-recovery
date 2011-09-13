@@ -7,6 +7,8 @@ dell-recovery (1.05) UNRELEASED; urgency=low
   * Add extra variables to hide EFI recovery partition as well as legacy recovery
     partition.
   * Add support to build grub-setup.exe for a mingw32 target in postinst.
+  * Add depends of ubiquity for dell-recovery-bootloader and -casper to force
+    them to be removed during OOBE.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 12 Sep 2011 16:26:59 -0500
 
