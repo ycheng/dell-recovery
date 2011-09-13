@@ -1,0 +1,79 @@
+This patch sets up the default directories to install to
+the target the MBR of the first hard disk from C:\factory.
+
+It's analogous to calling grub-setup.exe like this:
+
+# grub-setup -d C:\factory -r "(//./PHYSICALDRIVE0/)" "//./PHYSICALDRIVE0/"
+
+After this patch, it's possible to just install like this:
+
+# grub-setup.exe
+
+Index: grub2-1.99/include/grub/emu/misc.h
+===================================================================
+--- grub2-1.99.orig/include/grub/emu/misc.h	2011-09-06 22:28:48.414679124 -0500
++++ grub2-1.99/include/grub/emu/misc.h	2011-09-06 22:28:56.878721088 -0500
+@@ -36,8 +36,12 @@
+ /* NetBSD uses /boot for its boot block.  */
+ # define DEFAULT_DIRECTORY	"/"GRUB_DIR_NAME
+ #else
++#ifdef __MINGW32__
++# define DEFAULT_DIRECTORY      "C:/factory"
++#else
+ # define DEFAULT_DIRECTORY	"/"GRUB_BOOT_DIR_NAME"/"GRUB_DIR_NAME
+ #endif
++#endif
+ 
+ #define DEFAULT_DEVICE_MAP	DEFAULT_DIRECTORY "/device.map"
+ 
+Index: grub2-1.99/util/grub-setup.c
+===================================================================
+--- grub2-1.99.orig/util/grub-setup.c	2011-09-06 22:28:52.986701791 -0500
++++ grub2-1.99/util/grub-setup.c	2011-09-06 22:28:56.878721088 -0500
+@@ -831,8 +831,8 @@
+         break;
+ 
+       case ARGP_KEY_NO_ARGS:
+-          fprintf (stderr, "%s", _("No device is specified.\n"));
+-          argp_usage (state);
++          fprintf (stderr, "%s", _("Assuming installation to //./PHYSICALDRIVE0/.\n"));
++          //argp_usage (state);
+           break;
+ 
+       default:
+@@ -914,7 +914,10 @@
+   grub_mdraid1x_init ();
+   grub_lvm_init ();
+ 
+-  dest_dev = get_device_name (arguments.device);
++  if (arguments.device)
++      dest_dev = get_device_name (arguments.device);
++  else
++      dest_dev = grub_util_get_grub_dev ("//./PHYSICALDRIVE0/");
+   if (! dest_dev)
+     {
+       /* Possibly, the user specified an OS device file.  */
+@@ -948,6 +951,8 @@
+     }
+   else
+     {
++      root_dev = "//./PHYSICALDRIVE0/";
++      /*
+       char *root_device =
+         grub_guess_root_device (arguments.dir ? : DEFAULT_DIRECTORY);
+ 
+@@ -962,6 +967,7 @@
+       grub_util_info ("guessed root device `%s' and root_dev `%s' from "
+                       "dir `%s'", root_device, root_dev,
+                       arguments.dir ? : DEFAULT_DIRECTORY);
++      */
+     }
+ 
+ #ifdef __linux__
+@@ -1023,5 +1029,6 @@
+   free (root_dev);
+   free (dest_dev);
+ 
++  fprintf (stderr, "%s", _("Completed successfully.\n"));
+   return 0;
+ }

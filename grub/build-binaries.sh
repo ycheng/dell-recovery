@@ -40,3 +40,31 @@ sed "s,#OS#,$OS,; /^search/d" \
 
 #blank grubenv so we can fail installs
 grub-editenv $TARGET/grubenv unset recordfail
+
+#grub-setup.exe
+if [ -d /usr/lib/gcc/i586-mingw32msvc ] &&
+   [ -d /usr/share/dell/grub/patches ]  &&
+   [ -x /usr/bin/quilt ] &&
+   [ -x /usr/bin/autogen ] &&
+   [ -x /usr/bin/autoreconf ] &&
+   [ -x /usr/bin/libtoolize ] &&
+   [ -x /usr/bin/bison ] &&
+   [ -x /usr/bin/flex ] &&
+   [ ! -f $TARGET/grub-setup.exe ]; then
+    echo "Building bootloader installer for mingw32"
+    BUILD_DIR=$(mktemp -d)
+    cd $BUILD_DIR
+    apt-get source -qq grub2
+    cd grub2*
+    for item in $(ls /usr/share/dell/grub/patches); do
+        echo $item >> debian/patches/series
+        cp -f /usr/share/dell/grub/patches/$item debian/patches
+    done
+    QUILT_PATCHES=debian/patches quilt push -a -q
+    ./autogen.sh >/dev/null 2>&1
+    CC=i586-mingw32msvc-gcc ./configure --host=i586-mingw32msvc >/dev/null
+    cd grub-core/gnulib && make > /dev/null && cd ../..
+    make grub_script.tab.h grub_script.yy.h grub-setup.exe >/dev/null
+    cp grub-setup.exe $TARGET
+    rm -rf $BUILD_DIR
+fi
