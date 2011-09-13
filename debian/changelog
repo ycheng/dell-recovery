@@ -1,16 +1,16 @@
-dell-recovery (1.05) UNRELEASED; urgency=low
+dell-recovery (1.05) oneiric; urgency=low
 
   * If binaries already have been built for dell-recovery-bootloader, don't
     build them again.
   * Clean up all dell-recovery-bootloader built binaries on purge.
   * Drop devicekit-disks references.
-  * Add extra variables to hide EFI recovery partition as well as legacy recovery
-    partition.
+  * Add extra variables to hide EFI recovery partition as well as legacy
+    recovery partition.
   * Add support to build grub-setup.exe for a mingw32 target in postinst.
   * Add depends of ubiquity for dell-recovery-bootloader and -casper to force
     them to be removed during OOBE.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 12 Sep 2011 16:26:59 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 13 Sep 2011 12:52:05 -0500
 
 dell-recovery (1.04) oneiric; urgency=low
 
