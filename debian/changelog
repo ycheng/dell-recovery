@@ -1,8 +1,8 @@
-dell-recovery (1.07) UNRELEASED; urgency=low
+dell-recovery (1.07) oneiric; urgency=low
 
   * Whoops, actually make the change I was talking about in 1.06.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Sep 2011 10:29:19 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Sep 2011 10:29:41 -0500
 
 dell-recovery (1.06) oneiric; urgency=low
 
