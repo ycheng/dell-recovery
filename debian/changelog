@@ -1,8 +1,8 @@
-dell-recovery (1.06) UNRELEASED; urgency=low
+dell-recovery (1.06) oneiric; urgency=low
 
   * Recommends on dpkg-dev to fix mingw32 grub-setup.exe build.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Sep 2011 10:17:52 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Sep 2011 10:18:50 -0500
 
 dell-recovery (1.05) oneiric; urgency=low
 
