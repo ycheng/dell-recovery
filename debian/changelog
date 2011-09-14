@@ -1,3 +1,9 @@
+dell-recovery (1.07) UNRELEASED; urgency=low
+
+  * Whoops, actually make the change I was talking about in 1.06.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 14 Sep 2011 10:29:19 -0500
+
 dell-recovery (1.06) oneiric; urgency=low
 
   * Recommends on dpkg-dev to fix mingw32 grub-setup.exe build.
