@@ -50,6 +50,7 @@ if [ -d /usr/lib/gcc/i586-mingw32msvc ] &&
    [ -x /usr/bin/libtoolize ] &&
    [ -x /usr/bin/bison ] &&
    [ -x /usr/bin/flex ] &&
+   [ -x /usr/bin/dpkg-source ] &&
    [ ! -f $TARGET/grub-setup.exe ]; then
     echo "Building bootloader installer for mingw32"
     BUILD_DIR=$(mktemp -d)
