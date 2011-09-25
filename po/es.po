@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-09 17:16-0500\n"
-"PO-Revision-Date: 2011-09-01 00:34+0000\n"
+"PO-Revision-Date: 2011-09-24 06:39+0000\n"
 "Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-11 04:46+0000\n"
-"X-Generator: Launchpad (build 13900)\n"
+"X-Launchpad-Export-Date: 2011-09-25 04:42+0000\n"
+"X-Generator: Launchpad (build 14012)\n"
 
 #: ../Dell/recovery_gtk.py:92
 msgid "Cannot connect to dbus"
@@ -318,7 +318,7 @@ msgstr "Esto requiere un disco DVD editable."
 
 #: ../gtk/recovery_media_creator.ui.h:10
 msgid "USB Flash Drive"
-msgstr "Unidad Flash USB"
+msgstr "Unidad flash USB"
 
 #: ../gtk/recovery_media_creator.ui.h:11
 msgid "Version:"
