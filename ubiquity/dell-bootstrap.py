@@ -937,6 +937,7 @@ class Page(Plugin):
         if os.path.isdir('/proc/efi') or os.path.isdir('/sys/firmware/efi'):
             self.efi = True
             self.disk_layout = 'gpt'
+            self.preseed(DISK_LAYOUT_QUESTION, self.disk_layout)
 
         #dynamic partition map.
         #EFI layout:        esp, up, rp, os, swap

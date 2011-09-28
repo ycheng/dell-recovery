@@ -1,3 +1,10 @@
+dell-recovery (1.09) UNRELEASED; urgency=low
+
+  * In EFI installs, make sure to preseed the disk layout question to ensure
+    the MBR isn't rewritten in the cleanup stages.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 28 Sep 2011 09:35:46 -0500
+
 dell-recovery (1.08) oneiric; urgency=low
 
   * grub-setup.exe: ignore failures in the embedding test that may be caused by
