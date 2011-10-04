@@ -1874,6 +1874,7 @@ class Install(InstallPlugin):
         #install dell-recovery in non dual mode only if there is an RP
         elif rec_part:
             to_install.append('dell-recovery')
+            to_install.append('dell-eula')
 
             #block os-prober in grub-installer
             os.rename('/usr/bin/os-prober', '/usr/bin/os-prober.real')
