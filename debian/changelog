@@ -1,4 +1,4 @@
-dell-recovery (1.10) oneiric; urgency=low
+dell-recovery (1.11) UNRELEASED; urgency=low
 
   * If dell-eula is in the pool mark it for installation.  No changes for livefs
     type installs.
