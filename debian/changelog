@@ -1,6 +1,8 @@
 dell-recovery (1.11) UNRELEASED; urgency=low
 
   * Update bootloader patches to current grub2-trunk.
+  * Add support to run GRUB2 binary builder out of tree via environment
+    variables.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 06 Oct 2011 15:44:43 -0500
 

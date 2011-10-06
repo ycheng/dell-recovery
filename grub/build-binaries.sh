@@ -1,6 +1,18 @@
 #!/bin/sh -e
 
-TARGET=/var/lib/dell-recovery
+#Dell factory GRUB2 binary builder
+#Creates binaries for use within Dell factory process
+
+#This script can be easily ran on a development system by modifying some
+#environment variables for source and target directories.
+#
+# TARGET specifies where the binaries will end up
+# PATCHES specifies where the patches
+# GRUB_SRC specifies where to find a grub source tree containing a debian/
+#          directory (including a collection of distro patches)
+
+[ -n "$TARGET" ] || TARGET=/var/lib/dell-recovery
+[ -n "$PATCHES" ] || PATCHES=/usr/share/dell/grub/patches
 mkdir -p $TARGET
 
 common_modules="loadenv part_gpt fat ntfs ext2 ntfscomp search linux boot \
@@ -43,7 +55,7 @@ grub-editenv $TARGET/grubenv unset recordfail
 
 #grub-setup.exe
 if [ -d /usr/lib/gcc/i586-mingw32msvc ] &&
-   [ -d /usr/share/dell/grub/patches ]  &&
+   [ -d $PATCHES ] &&
    [ -x /usr/bin/quilt ] &&
    [ -x /usr/bin/autogen ] &&
    [ -x /usr/bin/autoreconf ] &&
@@ -54,12 +66,17 @@ if [ -d /usr/lib/gcc/i586-mingw32msvc ] &&
    [ ! -f $TARGET/grub-setup.exe ]; then
     echo "Building bootloader installer for mingw32"
     BUILD_DIR=$(mktemp -d)
+    echo $BUILD_DIR
     cd $BUILD_DIR
-    apt-get source -qq grub2
+    if [ -n "$GRUB_SRC" ]; then
+        cp -R $GRUB_SRC .
+    else
+        apt-get source -qq grub2
+    fi
     cd grub2*
-    for item in $(ls /usr/share/dell/grub/patches); do
+    for item in $(ls $PATCHES); do
         echo $item >> debian/patches/series
-        cp -f /usr/share/dell/grub/patches/$item debian/patches
+        cp -f $PATCHES/$item debian/patches
     done
     QUILT_PATCHES=debian/patches quilt push -a -q
     ./autogen.sh >/dev/null 2>&1
