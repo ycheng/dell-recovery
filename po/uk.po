@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-08-03 02:58-0500\n"
+"POT-Creation-Date: 2011-09-09 17:16-0500\n"
 "PO-Revision-Date: 2011-02-17 19:39+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-04 04:35+0000\n"
-"X-Generator: Launchpad (build 13573)\n"
+"X-Launchpad-Export-Date: 2011-09-11 04:46+0000\n"
+"X-Generator: Launchpad (build 13900)\n"
 
 #: ../Dell/recovery_gtk.py:92
 msgid "Cannot connect to dbus"
@@ -93,11 +93,11 @@ msgid "Included"
 msgstr "Включено"
 
 #. wizard.resize(400,400)
-#: ../Dell/recovery_advanced_gtk.py:74
+#: ../Dell/recovery_advanced_gtk.py:71
 msgid " (BTO Image Builder Mode)"
 msgstr " (Режим збирання образу BTO)"
 
-#: ../Dell/recovery_advanced_gtk.py:76
+#: ../Dell/recovery_advanced_gtk.py:73
 msgid ""
 "This will integrate a Dell OEM FID framework & driver package set into a "
 "customized OS media image.  You will have the option to create an USB key or "
@@ -108,100 +108,100 @@ msgstr ""
 "один з варіантів: створення образу флеш-картки USB або образу DVD."
 
 #. insert builder pages in reverse order
-#: ../Dell/recovery_advanced_gtk.py:95
+#: ../Dell/recovery_advanced_gtk.py:92
 msgid "Installation Mode"
 msgstr "Режим встановлення"
 
-#: ../Dell/recovery_advanced_gtk.py:96
+#: ../Dell/recovery_advanced_gtk.py:93
 msgid "Application Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:97
+#: ../Dell/recovery_advanced_gtk.py:94
 msgid "Driver Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:98 ../Dell/recovery_advanced_gtk.py:336
+#: ../Dell/recovery_advanced_gtk.py:95 ../Dell/recovery_advanced_gtk.py:333
 msgid "Utility Partition"
 msgstr "Допоміжний розділ"
 
-#: ../Dell/recovery_advanced_gtk.py:99
+#: ../Dell/recovery_advanced_gtk.py:96
 msgid "FID Content"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:100
+#: ../Dell/recovery_advanced_gtk.py:97
 msgid "Base OS Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:197
+#: ../Dell/recovery_advanced_gtk.py:194
 msgid "Builder Summary"
 msgstr "Резюме збирання"
 
-#: ../Dell/recovery_advanced_gtk.py:198
+#: ../Dell/recovery_advanced_gtk.py:195
 msgid "Base Image Distributor"
 msgstr "Поширювач основного образу"
 
-#: ../Dell/recovery_advanced_gtk.py:200
+#: ../Dell/recovery_advanced_gtk.py:197
 msgid "Base Image Release"
 msgstr "Випуск основного образу"
 
-#: ../Dell/recovery_advanced_gtk.py:203
+#: ../Dell/recovery_advanced_gtk.py:200
 msgid "BTO Base Image"
 msgstr "Основний образ BTO"
 
-#: ../Dell/recovery_advanced_gtk.py:206
+#: ../Dell/recovery_advanced_gtk.py:203
 msgid "Base Image"
 msgstr "Основний образ"
 
-#: ../Dell/recovery_advanced_gtk.py:210
+#: ../Dell/recovery_advanced_gtk.py:207
 msgid "Utility Partition: "
 msgstr "Допоміжний розділ: "
 
-#: ../Dell/recovery_advanced_gtk.py:213
+#: ../Dell/recovery_advanced_gtk.py:210
 msgid "Application"
 msgstr "Програма"
 
-#: ../Dell/recovery_advanced_gtk.py:214
+#: ../Dell/recovery_advanced_gtk.py:211
 msgid "Driver"
 msgstr "Драйвер"
 
-#: ../Dell/recovery_advanced_gtk.py:220
+#: ../Dell/recovery_advanced_gtk.py:217
 msgid "Packages"
 msgstr "Пакунки"
 
-#: ../Dell/recovery_advanced_gtk.py:226
+#: ../Dell/recovery_advanced_gtk.py:223
 msgid "Inject Dell Recovery Package"
 msgstr "Додавання відновлювального пакунка Dell"
 
-#: ../Dell/recovery_advanced_gtk.py:229
+#: ../Dell/recovery_advanced_gtk.py:226
 msgid "OIE Installation Mode"
 msgstr "Режим встановлення OIE"
 
-#: ../Dell/recovery_advanced_gtk.py:232
+#: ../Dell/recovery_advanced_gtk.py:229
 msgid "Additional Success Script"
 msgstr "Додатковий скрипт для успішного завершення"
 
-#: ../Dell/recovery_advanced_gtk.py:235
+#: ../Dell/recovery_advanced_gtk.py:232
 msgid "Additional Fail Script"
 msgstr "Додатковий скрипт для завершення з помилками"
 
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:245
+#: ../Dell/recovery_advanced_gtk.py:242
 msgid "Assembling Image Components"
 msgstr "Збирання компонентів образу"
 
-#: ../Dell/recovery_advanced_gtk.py:339
+#: ../Dell/recovery_advanced_gtk.py:336
 msgid "No Additional Utility Partition"
 msgstr "Не виявлено додаткового допоміжного розділу"
 
-#: ../Dell/recovery_advanced_gtk.py:535
+#: ../Dell/recovery_advanced_gtk.py:532
 msgid "All SRVs must be filled to proceed."
 msgstr "Щоб перейти до наступного кроку, слід вказати всі SRV."
 
-#: ../Dell/recovery_advanced_gtk.py:564
+#: ../Dell/recovery_advanced_gtk.py:561
 msgid "SUCCESS Script: "
 msgstr "Скрипт SUCCESS: "
 
-#: ../Dell/recovery_advanced_gtk.py:568
+#: ../Dell/recovery_advanced_gtk.py:565
 msgid "FAIL Script: "
 msgstr "Скрипт FAIL: "
 
@@ -594,43 +594,14 @@ msgstr "Зберегти носій для відновлення на DVD"
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Зберегти носій для відновлення на зовнішньому флеш-диску USB"
 
-#~ msgid "Invalid utility partition"
-#~ msgstr "Некоректний допоміжний розділ"
-
-#~ msgid ""
-#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
-#~ "detection."
-#~ msgstr ""
-#~ " у параметрах командного рядка. Повертаємося до визначення, заснованого на "
-#~ "DeviceKit або HAL."
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Некоректний розділ для відновлення"
-
-#~ msgid "Welcome"
-#~ msgstr "Вітаємо"
-
 #~ msgid "Choose Media Type"
 #~ msgstr "Вибір типу носія"
 
 #~ msgid "Overlaying FID content"
 #~ msgstr "Додаткові дані FID"
 
-#~ msgid "Inserting FISH packages"
-#~ msgstr "Вставка пакунків FISH"
-
 #~ msgid "No media, create ISO image"
 #~ msgstr "Без носія, створити образ ISO"
-
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to restore "
-#~ "the computer to its factory shipped state.  You will have the option to "
-#~ "create an USB key or DVD image."
-#~ msgstr ""
-#~ "За допомогою цієї програми можна створити носій для відновлення ОС, яким "
-#~ "можна буде скористатися для відновлення операційної системи комп’ютера до "
-#~ "стану, у якому вам її передав виробник обладнання. Ви зможете створити "
-#~ "відновлювальний флеш-диск USB або диск DVD."
 
 #~ msgid ""
 #~ "<b>The GIT fetch is in progress.  </b>\n"
@@ -660,32 +631,11 @@ msgstr "Зберегти носій для відновлення на зовн�
 #~ msgid "Show Details"
 #~ msgstr "Показати подробиці"
 
-#~ msgid ""
-#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
-#~ "the event that you are generating from an existing BTO image, you can use "
-#~ "the framework built into that image."
-#~ msgstr ""
-#~ "Оболонка FID — це початковий набір даних, які буде дописано до образу "
-#~ "Vanilla. Якщо ви створюєте носій на основі поточного образу BTO, ви можете "
-#~ "скористатися оболонкою, вбудованою до цього образу."
-
-#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
-#~ msgstr "<big><b>Створити носій для відновлення Dell?</b></big>"
-
 #~ msgid "python-vte is missing"
 #~ msgstr "Не виявлено python-vte"
 
 #~ msgid "Builder mode requires python-vte to function"
 #~ msgstr "Для роботи у режимі збирання потрібен пакунок python-vte"
-
-#~ msgid ""
-#~ "This application will integrate a Dell OEM FID framework & driver package "
-#~ "set into a customized OS media image.  You will have the option to create an "
-#~ "USB key or DVD image."
-#~ msgstr ""
-#~ "За допомогою цієї програми можна поєднати оболонку Dell OEM FID і набір "
-#~ "пакунків з драйверами у один налаштований образ носія ОС. Ви зможете вибрати "
-#~ "один з варіантів: створення образу флеш-картки USB або образу DVD."
 
 #~ msgid "Choose Base OS Image"
 #~ msgstr "Виберіть базовий образ ОС"
@@ -711,22 +661,5 @@ msgstr "Зберегти носій для відновлення на зовн�
 #~ msgid "Not present in ISO or GIT tree"
 #~ msgstr "Немає на ISO або у дереві GIT"
 
-#~ msgid "Add dell-recovery"
-#~ msgstr "Додати dell-recovery"
-
-#~ msgid ""
-#~ "The combination of the image and GIT tree you have provided do not supply "
-#~ "the necessary dell-recovery package.  It will have to be injected into the "
-#~ "image separately."
-#~ msgstr ""
-#~ "Поєднання образу та дерева GIT, яке ви вказали, не містить необхідного "
-#~ "пакунка dell-recovery. Його доведеться додати до образу окремо."
-
 #~ msgid "FID Overlay"
 #~ msgstr "Додаток FID"
-
-#~ msgid "DBus Exception"
-#~ msgstr "Виключення DBus"
-
-#~ msgid "Calculating FISH MD5SUMs"
-#~ msgstr "Обчислення сум MD5 FISH"

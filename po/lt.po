@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-08-03 02:58-0500\n"
+"POT-Creation-Date: 2011-09-09 17:16-0500\n"
 "PO-Revision-Date: 2010-02-19 14:51+0000\n"
 "Last-Translator: Mantas Kriaučiūnas <mantas@akl.lt>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-04 04:35+0000\n"
-"X-Generator: Launchpad (build 13573)\n"
+"X-Launchpad-Export-Date: 2011-09-11 04:46+0000\n"
+"X-Generator: Launchpad (build 13900)\n"
 
 #: ../Dell/recovery_gtk.py:92
 msgid "Cannot connect to dbus"
@@ -90,11 +90,11 @@ msgid "Included"
 msgstr ""
 
 #. wizard.resize(400,400)
-#: ../Dell/recovery_advanced_gtk.py:74
+#: ../Dell/recovery_advanced_gtk.py:71
 msgid " (BTO Image Builder Mode)"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:76
+#: ../Dell/recovery_advanced_gtk.py:73
 msgid ""
 "This will integrate a Dell OEM FID framework & driver package set into a "
 "customized OS media image.  You will have the option to create an USB key or "
@@ -102,100 +102,100 @@ msgid ""
 msgstr ""
 
 #. insert builder pages in reverse order
-#: ../Dell/recovery_advanced_gtk.py:95
+#: ../Dell/recovery_advanced_gtk.py:92
 msgid "Installation Mode"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:96
+#: ../Dell/recovery_advanced_gtk.py:93
 msgid "Application Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:97
+#: ../Dell/recovery_advanced_gtk.py:94
 msgid "Driver Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:98 ../Dell/recovery_advanced_gtk.py:336
+#: ../Dell/recovery_advanced_gtk.py:95 ../Dell/recovery_advanced_gtk.py:333
 msgid "Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:99
+#: ../Dell/recovery_advanced_gtk.py:96
 msgid "FID Content"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:100
+#: ../Dell/recovery_advanced_gtk.py:97
 msgid "Base OS Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:197
+#: ../Dell/recovery_advanced_gtk.py:194
 msgid "Builder Summary"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:198
+#: ../Dell/recovery_advanced_gtk.py:195
 msgid "Base Image Distributor"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:200
+#: ../Dell/recovery_advanced_gtk.py:197
 msgid "Base Image Release"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:203
+#: ../Dell/recovery_advanced_gtk.py:200
 msgid "BTO Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:206
+#: ../Dell/recovery_advanced_gtk.py:203
 msgid "Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:210
+#: ../Dell/recovery_advanced_gtk.py:207
 msgid "Utility Partition: "
 msgstr "Įrankių skirsnis: "
 
-#: ../Dell/recovery_advanced_gtk.py:213
+#: ../Dell/recovery_advanced_gtk.py:210
 msgid "Application"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:214
+#: ../Dell/recovery_advanced_gtk.py:211
 msgid "Driver"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:220
+#: ../Dell/recovery_advanced_gtk.py:217
 msgid "Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:226
+#: ../Dell/recovery_advanced_gtk.py:223
 msgid "Inject Dell Recovery Package"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:229
+#: ../Dell/recovery_advanced_gtk.py:226
 msgid "OIE Installation Mode"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:232
+#: ../Dell/recovery_advanced_gtk.py:229
 msgid "Additional Success Script"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:235
+#: ../Dell/recovery_advanced_gtk.py:232
 msgid "Additional Fail Script"
 msgstr ""
 
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:245
+#: ../Dell/recovery_advanced_gtk.py:242
 msgid "Assembling Image Components"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:339
+#: ../Dell/recovery_advanced_gtk.py:336
 msgid "No Additional Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:535
+#: ../Dell/recovery_advanced_gtk.py:532
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:564
+#: ../Dell/recovery_advanced_gtk.py:561
 msgid "SUCCESS Script: "
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:568
+#: ../Dell/recovery_advanced_gtk.py:565
 msgid "FAIL Script: "
 msgstr ""
 
@@ -553,29 +553,8 @@ msgstr "Išsaugoti atkūrimo atvaizdį į DVD"
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Išsaugoti atkūrimo atvaizdį į išimamą USB \"flash\" atmintuką"
 
-#~ msgid "Welcome"
-#~ msgstr "Sveiki"
-
 #~ msgid "Choose Media Type"
 #~ msgstr "Pasirinkite laikmenos tipą"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Netinkamas įrankių skirsnis"
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Netinkamas atkūrimo skirsnis"
-
-#~ msgid "File Name: "
-#~ msgstr "Failo pavadinimas: "
-
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to restore "
-#~ "the computer to its factory shipped state.  You will have the option to "
-#~ "create an USB key or DVD image."
-#~ msgstr ""
-#~ "Ši programa sukurs kompiuterio operacinės sistemos atkūrimo laikmeną, kurios "
-#~ "pagalba galėsite atkurti kompiuterio programinę įrangą iki dabar esančios "
-#~ "būsenos. Jūs galėsite įrašyti atkūrimo atvaizdį į USB atmintuką ar DVD diską."
 
 #~ msgid "No media, create ISO image"
 #~ msgstr "tik sukurti ISO atvaizdžio failą"
@@ -585,18 +564,3 @@ msgstr "Išsaugoti atkūrimo atvaizdį į išimamą USB \"flash\" atmintuką"
 
 #~ msgid "Show Details"
 #~ msgstr "Rodyti išsamią informaciją"
-
-#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
-#~ msgstr "<big><b>Sukurti Dell sistemos atkūrimo laikmeną?</b></big>"
-
-#~ msgid ""
-#~ "Dell Recovery Media can be used to restore your system to the same state as "
-#~ "when it was first shipped to you.\n"
-#~ "<b>It is highly recommended that you generate media and store it in a safe "
-#~ "place.</b>"
-#~ msgstr ""
-#~ "Dell sistemos atkūrimo laikmena gali būti naudojama atstatant jūsų "
-#~ "kompiuterio operacinę sistemą. Po atstatymo sistema bus kaip naujame "
-#~ "kompiuteryje.\n"
-#~ "<b>Primygtinai Jums rekomenduojame sukurti atkūrimo laikmeną ir padėti ją į "
-#~ "saugią vietą.</b>"

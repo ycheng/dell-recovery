@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-08-03 02:58-0500\n"
+"POT-Creation-Date: 2011-09-09 17:16-0500\n"
 "PO-Revision-Date: 2010-04-16 21:48+0000\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-04 04:35+0000\n"
-"X-Generator: Launchpad (build 13573)\n"
+"X-Launchpad-Export-Date: 2011-09-11 04:46+0000\n"
+"X-Generator: Launchpad (build 13900)\n"
 
 #: ../Dell/recovery_gtk.py:92
 msgid "Cannot connect to dbus"
@@ -92,11 +92,11 @@ msgid "Included"
 msgstr "Beleértve"
 
 #. wizard.resize(400,400)
-#: ../Dell/recovery_advanced_gtk.py:74
+#: ../Dell/recovery_advanced_gtk.py:71
 msgid " (BTO Image Builder Mode)"
 msgstr " (BTO lemezkép-összeállító mód)"
 
-#: ../Dell/recovery_advanced_gtk.py:76
+#: ../Dell/recovery_advanced_gtk.py:73
 msgid ""
 "This will integrate a Dell OEM FID framework & driver package set into a "
 "customized OS media image.  You will have the option to create an USB key or "
@@ -104,100 +104,100 @@ msgid ""
 msgstr ""
 
 #. insert builder pages in reverse order
-#: ../Dell/recovery_advanced_gtk.py:95
+#: ../Dell/recovery_advanced_gtk.py:92
 msgid "Installation Mode"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:96
+#: ../Dell/recovery_advanced_gtk.py:93
 msgid "Application Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:97
+#: ../Dell/recovery_advanced_gtk.py:94
 msgid "Driver Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:98 ../Dell/recovery_advanced_gtk.py:336
+#: ../Dell/recovery_advanced_gtk.py:95 ../Dell/recovery_advanced_gtk.py:333
 msgid "Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:99
+#: ../Dell/recovery_advanced_gtk.py:96
 msgid "FID Content"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:100
+#: ../Dell/recovery_advanced_gtk.py:97
 msgid "Base OS Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:197
+#: ../Dell/recovery_advanced_gtk.py:194
 msgid "Builder Summary"
 msgstr "Összegzés"
 
-#: ../Dell/recovery_advanced_gtk.py:198
+#: ../Dell/recovery_advanced_gtk.py:195
 msgid "Base Image Distributor"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:200
+#: ../Dell/recovery_advanced_gtk.py:197
 msgid "Base Image Release"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:203
+#: ../Dell/recovery_advanced_gtk.py:200
 msgid "BTO Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:206
+#: ../Dell/recovery_advanced_gtk.py:203
 msgid "Base Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:210
+#: ../Dell/recovery_advanced_gtk.py:207
 msgid "Utility Partition: "
 msgstr "Szervizpartíció: "
 
-#: ../Dell/recovery_advanced_gtk.py:213
+#: ../Dell/recovery_advanced_gtk.py:210
 msgid "Application"
 msgstr "Alkalmazás"
 
-#: ../Dell/recovery_advanced_gtk.py:214
+#: ../Dell/recovery_advanced_gtk.py:211
 msgid "Driver"
 msgstr "Meghajtó"
 
-#: ../Dell/recovery_advanced_gtk.py:220
+#: ../Dell/recovery_advanced_gtk.py:217
 msgid "Packages"
 msgstr "Csomagok"
 
-#: ../Dell/recovery_advanced_gtk.py:226
+#: ../Dell/recovery_advanced_gtk.py:223
 msgid "Inject Dell Recovery Package"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:229
+#: ../Dell/recovery_advanced_gtk.py:226
 msgid "OIE Installation Mode"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:232
+#: ../Dell/recovery_advanced_gtk.py:229
 msgid "Additional Success Script"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:235
+#: ../Dell/recovery_advanced_gtk.py:232
 msgid "Additional Fail Script"
 msgstr ""
 
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:245
+#: ../Dell/recovery_advanced_gtk.py:242
 msgid "Assembling Image Components"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:339
+#: ../Dell/recovery_advanced_gtk.py:336
 msgid "No Additional Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:535
+#: ../Dell/recovery_advanced_gtk.py:532
 msgid "All SRVs must be filled to proceed."
 msgstr "A folytatáshoz minden SRV-t ki kell tölteni."
 
-#: ../Dell/recovery_advanced_gtk.py:564
+#: ../Dell/recovery_advanced_gtk.py:561
 msgid "SUCCESS Script: "
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:568
+#: ../Dell/recovery_advanced_gtk.py:565
 msgid "FAIL Script: "
 msgstr ""
 
@@ -569,45 +569,14 @@ msgstr "Helyreállító adathordozó mentése DVD-re"
 msgid "Save recovery media to an external USB flash drive"
 msgstr "A helyreállító adathordozó mentése külső USB flash kulcsra."
 
-#~ msgid "File Name: "
-#~ msgstr "Fájlnév "
-
-#~ msgid ""
-#~ " in command line arguments.  Falling back to DeviceKit or HAL based "
-#~ "detection."
-#~ msgstr ""
-#~ " a parancssori paraméterekben. Visszatérés a DeviceKit vagy HAL alapú "
-#~ "felismeréshez."
-
-#~ msgid "Welcome"
-#~ msgstr "Üdvözöljük"
-
 #~ msgid "Choose Media Type"
 #~ msgstr "Válassza ki az adathordozó típusát"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Érvénytelen szervizpartíció"
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Érvénytelen helyreállítási partíció"
 
 #~ msgid "Overlaying FID content"
 #~ msgstr "FID-tartalom elhelyezése"
 
-#~ msgid "Inserting FISH packages"
-#~ msgstr "FISH-csomagok beszúrása"
-
 #~ msgid "No media, create ISO image"
 #~ msgstr "Nincs adathordozó, ISO-lemezkép létrehozása"
-
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to restore "
-#~ "the computer to its factory shipped state.  You will have the option to "
-#~ "create an USB key or DVD image."
-#~ msgstr ""
-#~ "Ez az alkalmazás létrehoz egy rendszer-helyreállító adathordozót, amellyel a "
-#~ "számítógépet a gyári állapotára állíthatja vissza. Választhat USB-meghajtó "
-#~ "vagy DVD-lemezkép létrehozása között."
 
 #~ msgid "FID GIT Tree"
 #~ msgstr "FID GIT fa"
@@ -628,18 +597,6 @@ msgstr "A helyreállító adathordozó mentése külső USB flash kulcsra."
 #~ msgstr "Részletek megjelenítése"
 
 #~ msgid ""
-#~ "The FID framework is the first piece overlaid on top of a Vanilla image.  In "
-#~ "the event that you are generating from an existing BTO image, you can use "
-#~ "the framework built into that image."
-#~ msgstr ""
-#~ "A FID-keretrendszer a változatlan lemezképre elsőként felkerülő darab. Ha "
-#~ "meglévő BTO lemezképből építkezik, akkor használhatja az abba a lemezképbe "
-#~ "épített keretrendszert."
-
-#~ msgid "<big><b>Create Dell Recovery Media?</b></big>"
-#~ msgstr "<big><b>Létrehoz Dell helyreállító adathordozót?</b></big>"
-
-#~ msgid ""
 #~ "<b>The GIT fetch is in progress.  </b>\n"
 #~ "This window will close automatically when the process is complete. \n"
 #~ "<b>NOTE:</b> Please be patient, the initial fetch may take a while."
@@ -647,15 +604,6 @@ msgstr "A helyreállító adathordozó mentése külső USB flash kulcsra."
 #~ "<b>A GIT lekérés folyamatban van.</b>\n"
 #~ "Ez az ablak automatikusan bezáródik a folyamat befejeződésekor. \n"
 #~ "<b>MEGJEGYZÉS:</b> Legyen türelemmel, a kiinduló lekérés sokáig tarthat."
-
-#~ msgid ""
-#~ "This application will integrate a Dell OEM FID framework & driver package "
-#~ "set into a customized OS media image.  You will have the option to create an "
-#~ "USB key or DVD image."
-#~ msgstr ""
-#~ "Ez az alkalmazás a Dell OEM FID keretrendszert és meghajtócsomagot egy "
-#~ "személyre szabott rendszerlemezképbe fogja integrálni. Lehetősége van USB-"
-#~ "kulcsot vagy DVD-lemezképet létrehozni."
 
 #~ msgid "Choose Driver Packages"
 #~ msgstr "Válassza ki az eszközmeghajtó-csomagokat"
@@ -678,9 +626,6 @@ msgstr "A helyreállító adathordozó mentése külső USB flash kulcsra."
 #~ msgid "Choose FID Overlay"
 #~ msgstr "Válassza ki a FID-elrendezést"
 
-#~ msgid "Add dell-recovery"
-#~ msgstr "Dell helyreállító hozzáadása"
-
 #~ msgid "<b>ERROR</b>: git is not installed"
 #~ msgstr "<b>HIBA</b>: a git nincs telepítve"
 
@@ -689,11 +634,3 @@ msgstr "A helyreállító adathordozó mentése külső USB flash kulcsra."
 
 #~ msgid "Not present in ISO or GIT tree"
 #~ msgstr "Nincs jelen az ISO-ban vagy a GIT fában"
-
-#~ msgid ""
-#~ "The combination of the image and GIT tree you have provided do not supply "
-#~ "the necessary dell-recovery package.  It will have to be injected into the "
-#~ "image separately."
-#~ msgstr ""
-#~ "A lemezkép és a GIT fa megadott kombinációja nem tartalmazza a szükséges "
-#~ "dell-recovery csomagot. A lemezképbe külön kell beszúrni."
