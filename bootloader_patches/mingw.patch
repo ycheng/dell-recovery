@@ -1,70 +1,35 @@
-This is a collection of patches that make the GRUB2 build work on mingw32.  
-They've been submitted upstream, but not yet accepted.
+This is a collection of patches that make the GRUB2 build work on mingw32.
+These were explicitly rejected upstream due to needing rework.
 
-Index: grub2-1.99/grub-core/kern/emu/misc.c
-===================================================================
---- grub2-1.99.orig/grub-core/kern/emu/misc.c	2011-09-06 22:25:48.157785280 -0500
-+++ grub2-1.99/grub-core/kern/emu/misc.c	2011-09-06 22:25:53.149810026 -0500
-@@ -232,6 +232,11 @@
- canonicalize_file_name (const char *path)
- {
-   char *ret;
+=== modified file 'grub2/grub-core/lib/crypto.c'
+--- grub2/grub-core/lib/crypto.c	2011-04-24 15:15:55 +0000
++++ grub2/grub-core/lib/crypto.c	2011-09-21 21:00:59 +0000
+@@ -23,6 +23,12 @@
+ #include <grub/term.h>
+ #include <grub/dl.h>
+ 
++/* mingw32 does not support termios as required
++   by GRUB_UTIL throughout this file*/
 +#ifdef __MINGW32__
-+  ret = xmalloc(PATH_MAX);
-+  if (!_fullpath(ret, path, PATH_MAX))
-+    return NULL;
-+#else
- #ifdef PATH_MAX
-   ret = xmalloc (PATH_MAX);
-   if (!realpath (path, ret))
-@@ -239,6 +244,7 @@
- #else
-   ret = realpath (path, NULL);
- #endif
-+#endif /* __MINGW32__ */
-   return ret;
- }
- 
-Index: grub2-1.99/include/grub/util/misc.h
-===================================================================
---- grub2-1.99.orig/include/grub/util/misc.h	2011-09-06 22:25:27.737684020 -0500
-+++ grub2-1.99/include/grub/util/misc.h	2011-09-06 22:25:33.993715034 -0500
-@@ -47,7 +47,6 @@
- 
- void sync (void);
- int fsync (int fno);
--void sleep(int s);
- 
- grub_int64_t grub_util_get_disk_size (char *name);
- 
-Index: grub2-1.99/util/misc.c
-===================================================================
---- grub2-1.99.orig/util/misc.c	2011-09-06 22:25:22.085655995 -0500
-+++ grub2-1.99/util/misc.c	2011-09-06 22:26:21.941952796 -0500
-@@ -55,6 +55,7 @@
- #ifdef __MINGW32__
- #include <windows.h>
- #include <winioctl.h>
-+#include "dirname.h"
- #endif
- 
++#undef GRUB_UTIL
++#endif
++
  #ifdef GRUB_UTIL
-@@ -316,17 +317,13 @@
-   return 0;
- }
+ #include <termios.h>
+ #include <stdlib.h>
+
+=== modified file 'grub2/grub-core/disk/geli.c'
+--- grub2/grub-core/disk/geli.c	2011-04-25 12:52:07 +0000
++++ grub2/grub-core/disk/geli.c	2011-09-21 21:18:21 +0000
+@@ -189,8 +189,10 @@
+   if (fd < 0)
+     return NULL;
  
--void sleep (int s)
--{
--  Sleep (s * 1000);
--}
--
- grub_int64_t
- grub_util_get_disk_size (char *name)
- {
-   HANDLE hd;
-   grub_int64_t size = -1LL;
++#if !defined(__MINGW32__)
+   s = grub_util_get_fd_sectors (fd, &log_secsize);
+   grub_util_fd_seek (fd, dev, (s << log_secsize) - 512);
++#endif
  
-+  strip_trailing_slashes(name);
-   hd = CreateFile (name, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
-                    0, OPEN_EXISTING, 0, 0);
- 
+   uuid = xmalloc (GRUB_MD_SHA256->mdlen * 2 + 1);
+   if (grub_util_fd_read (fd, (void *) &hdr, 512) < 0)
+

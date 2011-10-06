@@ -1,3 +1,9 @@
+dell-recovery (1.11) UNRELEASED; urgency=low
+
+  * Update bootloader patches to current grub2-trunk.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 06 Oct 2011 15:44:43 -0500
+
 dell-recovery (1.10) oneiric; urgency=low
 
   * If dell-eula is in the pool mark it for installation.  No changes for livefs
