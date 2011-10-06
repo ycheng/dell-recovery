@@ -25,8 +25,7 @@
 
 . /usr/share/dell/scripts/fifuncs ""
 
-#If EFI install, turn off OS prober once more since we switched bootloader
-if [ -d /sys/firmware/efi ] && ! grep "^GRUB_DISABLE_OS_PROBER" /etc/default/grub >/dev/null; then
+if dpkg -l | grep fist >/dev/null && ! grep "^GRUB_DISABLE_OS_PROBER" /etc/default/grub >/dev/null; then
     echo "GRUB_DISABLE_OS_PROBER=true" >> /etc/default/grub
 fi
 
