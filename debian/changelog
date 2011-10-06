@@ -1,11 +1,11 @@
-dell-recovery (1.11) UNRELEASED; urgency=low
+dell-recovery (1.11) oneiric; urgency=low
 
   * If dell-eula is in the pool mark it for installation.  No changes for livefs
     type installs.
   * Only do the extra check for OS prober disable when using FIST.
   * Update translations from launchpad.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 06 Oct 2011 15:25:20 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 06 Oct 2011 16:07:30 -0500
 
 dell-recovery (1.09) oneiric; urgency=low
 
