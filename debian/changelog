@@ -2,6 +2,7 @@ dell-recovery (1.10) UNRELEASED; urgency=low
 
   * If dell-eula is in the pool mark it for installation.  No changes for livefs
     type installs.
+  * Don't disable os-prober on dual boot installs, only on factory and EFI installs.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 04 Oct 2011 11:25:25 -0500
 
