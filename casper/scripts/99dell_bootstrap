@@ -90,11 +90,6 @@ if [ -f /root/cdrom/factory/mbr.bin ];  then
     dd if=/root/cdrom/factory/mbr.bin of=/dev/sda
 fi
 
-#Emergency installer fixes
-if [ -e /root/cdrom/scripts/emergency.sh ]; then
-    . /root/cdrom/scripts/emergency.sh
-fi
-
 ###Set up all preseeds###
 # First test for and load override / configurations preseed
 # - needs to be loaded first so that we know if we are dual boot
@@ -125,6 +120,11 @@ fi
 
 # Clear out debconf database backup files to save memory.
 rm -f /root/var/cache/debconf/*.dat-old
+
+#Emergency installer fixes
+if [ -e /root/cdrom/scripts/emergency.sh ]; then
+    . /root/cdrom/scripts/emergency.sh
+fi
 
 log_end_msg
 

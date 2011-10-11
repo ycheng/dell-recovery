@@ -7,6 +7,7 @@ dell-recovery (1.12) UNRELEASED; urgency=low
     - This has been verified in HDD = /dev/sda scenario.
     - This has NOT yet been verified in ISO/DVD scenario.
     - This has not yet been verified in HDD =/dev/sdb scenario.
+  * Call emergency.sh as LAST item in casper.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 06 Oct 2011 15:44:43 -0500
 
