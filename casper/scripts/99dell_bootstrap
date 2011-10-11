@@ -63,6 +63,7 @@ fi
 #Force ubiquity to run in automatic regardless if there are ubiquity options in /proc/cmdline (except single user mode)
 if ! grep -q "single" /proc/cmdline 2>&1 >/dev/null; then
     sed -i "s/ubiquity=\$/ubiquity=1/; s/\$automatic\ \$choose/--automatic/" /root/etc/init/ubiquity.conf
+    sed -i "s/prompt=1$/prompt=/;" /root/etc/init.d/casper
 fi
 
 #Build custom pool (static and dynamic)

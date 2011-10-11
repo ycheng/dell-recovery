@@ -426,54 +426,6 @@
       </row>
     </data>
   </object>
-  <object class="GtkMessageDialog" id="dual_dialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="window_position">center-always</property>
-    <property name="type_hint">dialog</property>
-    <property name="skip_taskbar_hint">True</property>
-    <property name="deletable">False</property>
-    <property name="text" translatable="yes">The Ubuntu installation files have been loaded to the recovery partition.
-Now, run the Windows installation process.  After it completes, use the Ubuntu restore tool for Windows to complete install.</property>
-    <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox6">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area6">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="continue_button">
-                <property name="label" translatable="yes">Continue</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
-                <property name="image">image1</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="0">continue_button</action-widget>
-    </action-widgets>
-  </object>
   <object class="GtkListStore" id="dual_layout_liststore">
     <columns>
       <!-- column-name layout -->
@@ -608,53 +560,6 @@ Now, run the Windows installation process.  After it completes, use the Ubuntu r
         <col id="0" translatable="yes">fglrx,nvidia</col>
       </row>
     </data>
-  </object>
-  <object class="GtkMessageDialog" id="reboot_dialog">
-    <property name="can_focus">False</property>
-    <property name="border_width">5</property>
-    <property name="window_position">center-always</property>
-    <property name="type_hint">dialog</property>
-    <property name="skip_taskbar_hint">True</property>
-    <property name="deletable">False</property>
-    <property name="text" translatable="yes">Please restart your system.</property>
-    <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox8">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area8">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="reboot_button">
-                <property name="label" translatable="yes">Restart</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_action_appearance">False</property>
-                <property name="image">image6</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="0">reboot_button</action-widget>
-    </action-widgets>
   </object>
   <object class="GtkListStore" id="rp_filesystem_liststore">
     <columns>
@@ -1159,6 +1064,22 @@ Now, run the Windows installation process.  After it completes, use the Ubuntu r
               </packing>
             </child>
             <child>
+              <object class="GtkLabel" id="status_restart_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="yalign">0</property>
+                <property name="label" translatable="yes">Your system will restart automatically several times.</property>
+                <property name="use_markup">True</property>
+                <property name="wrap">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkEventBox" id="info_spinner_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -1169,7 +1090,7 @@ Now, run the Windows installation process.  After it completes, use the Ubuntu r
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>

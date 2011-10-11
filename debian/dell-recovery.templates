@@ -153,6 +153,10 @@ Template: ubiquity/text/status_info_label
 Type: text
 _Description: NOTE: Please be patient, this may take a while.
 
+Template: ubiquity/text/status_restart_label
+Type: text
+_Description: Your system will restart automatically several times.
+
 Template: ubiquity/text/recovery_heading_label
 Type: text
 _Description: Create Dell Recovery Media

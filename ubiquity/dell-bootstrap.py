@@ -26,6 +26,7 @@
 from ubiquity.plugin import InstallPlugin, Plugin, PluginUI
 from ubiquity import misc
 from threading import Thread
+import time
 from Dell.recovery_threading import ProgressBySize
 import debconf
 import Dell.recovery_common as magic
@@ -155,13 +156,10 @@ class PageGtk(PluginUI):
             self.hdd_recovery = builder.get_object('hdd_recovery')
             self.hdd_recovery_box = builder.get_object('hdd_recovery_box')
             self.hidden_radio = builder.get_object('hidden_radio')
-            self.reboot_dialog = builder.get_object('reboot_dialog')
-            self.reboot_dialog.set_title('Dell Recovery')
-            self.dual_dialog = builder.get_object('dual_dialog')
-            self.dual_dialog.set_title('Dell Recovery')
             self.info_box = builder.get_object('info_box')
             self.info_spinner = Gtk.Spinner()
             builder.get_object('info_spinner_box').add(self.info_spinner)
+            self.restart_box = builder.get_object('restart_box')
             self.err_dialog = builder.get_object('err_dialog')
 
             #advanced page widgets
@@ -276,13 +274,6 @@ class PageGtk(PluginUI):
                 self.err_dialog.run()
                 self.err_dialog.hide()
                 return
-
-            self.controller.toggle_top_level()
-            if which == "reboot":
-                self.reboot_dialog.run()
-
-            elif which == DUAL_BOOT_QUESTION:
-                self.dual_dialog.run()
 
     def populate_devices(self, devices):
         """Feeds a selection of devices into the GUI
@@ -670,28 +661,6 @@ class Page(Plugin):
             if umount is False:
                 raise RuntimeError, ("Error unmounting utility partition post-explosion.")
 
-
-    def boot_rp(self):
-        """reboots the system"""
-        with open ('/proc/cmdline', 'r') as rfd:
-            noprompt = 'noprompt' in rfd.readline()
-
-        #only cache casper if it's not going to ask the user to eject the media
-        if noprompt:
-            #Set up a listen for udisks to let us know a usb device has left
-            subprocess.call(['/etc/init.d/casper', 'stop'])
-
-            bus = dbus.SystemBus()
-            bus.add_signal_receiver(reboot_machine, 'DeviceRemoved', 'org.freedesktop.UDisks')
-
-        if self.dual:
-            dialog = DUAL_BOOT_QUESTION
-        else:
-            dialog = "reboot"
-
-        self.ui.show_dialog(dialog)
-        
-        reboot_machine(None)
 
     def unset_drive_preseeds(self):
         """Unsets any preseeds that are related to setting a drive"""
@@ -1136,7 +1105,7 @@ class Page(Plugin):
                 self.rp_builder.join()
                 if self.rp_builder.exception:
                     self.handle_exception(self.rp_builder.exception)
-                self.boot_rp()
+                reboot_machine(None)
 
             # User recovery - resizing drives
             elif rec_type == "interactive":
@@ -1554,6 +1523,11 @@ manually to proceed.")
                 self.xml_obj.replace_node_contents('date', date)
             self.xml_obj.write_xml('/mnt/bto.xml')
         misc.execute_root('umount', '/mnt')
+
+        for count in range(100,0,-10):
+            self.status("Restarting in %d seconds." % int(count/10), count)
+            time.sleep(1)
+
 
     def exit(self):
         """Function to request the builder thread to close"""
