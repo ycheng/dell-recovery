@@ -26,6 +26,11 @@
 
 [ -d /cdrom/debs ]
 
+#Persistent mode has a tendency to break the dynamic apt cache
+if grep -q persistent /proc/cmdline 2>/dev/null; then
+    rm -f /etc/apt/sources.list.d/dell.list
+fi
+
 #This allows things that aren't signed to be installed
 if [ ! -f /etc/apt/apt.conf.d/00AllowUnauthenticated ]; then
     cat > /etc/apt/apt.conf.d/00AllowUnauthenticated << EOF

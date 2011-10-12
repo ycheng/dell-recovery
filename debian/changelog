@@ -8,6 +8,8 @@ dell-recovery (1.12) UNRELEASED; urgency=low
     - This has NOT yet been verified in ISO/DVD scenario.
     - This has not yet been verified in HDD =/dev/sdb scenario.
   * Call emergency.sh as LAST item in casper.
+  * If running in persistent mode, forcefully regenerate the apt-cache
+    on boot.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 06 Oct 2011 15:44:43 -0500
 
