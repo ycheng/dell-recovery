@@ -1169,7 +1169,7 @@ class RPbuilder(Thread):
            but those would require extra dependencies, and are generally more complex
            than necessary for what needs to be accomplished here."""
 
-        white_pattern = re.compile('.')
+        black_pattern = re.compile('casper-rw')
 
         #Things we know ahead of time will cause us to error out
         if self.disk_layout == 'gpt':
@@ -1203,7 +1203,7 @@ manually to proceed.")
         grub_part = STANDARD_RP_PARTITION
 
         #Calculate RP size
-        rp_size = magic.white_tree("size", white_pattern, CDROM_MOUNT)
+        rp_size = magic.black_tree("size", black_pattern, CDROM_MOUNT)
         #in mbytes
         rp_size_mb = (rp_size / 1000000) + cushion
 
@@ -1362,7 +1362,7 @@ manually to proceed.")
 
         #Copy RP Files
         with misc.raised_privileges():
-            magic.white_tree("copy", white_pattern, CDROM_MOUNT, '/mnt')
+            magic.black_tree("copy", black_pattern, CDROM_MOUNT, '/mnt')
 
         self.file_size_thread.join()
 
