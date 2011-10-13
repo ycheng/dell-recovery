@@ -7,43 +7,43 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2011-01-10 19:55-0600\n"
+"POT-Creation-Date: 2011-10-06 16:00-0500\n"
 "PO-Revision-Date: 2010-12-14 05:08+0000\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 05:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:14001
+#: ../dell-recovery.templates:17001
 msgid "Building Dell Recovery Media..."
 msgstr "Dell helyreállító adathordozó összeállítása…"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:16001
+#: ../dell-recovery.templates:19001
 msgid "Opening Burner..."
 msgstr "Író megnyitása…"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:17001
+#: ../dell-recovery.templates:20001
 msgid "Dell Recovery"
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:18001
+#: ../dell-recovery.templates:21001
 msgid "Recovery Type"
 msgstr "Helyreállítás típusa"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:19001
+#: ../dell-recovery.templates:22001
 msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
@@ -53,7 +53,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:20001
+#: ../dell-recovery.templates:23001
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
@@ -61,13 +61,13 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:21001
+#: ../dell-recovery.templates:24001
 msgid "Restore Linux OS partitions"
 msgstr "Linux partíciók helyreállítása"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:22001
+#: ../dell-recovery.templates:25001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
 "Az összes rendszer- és swap partíció visszaállítása a gyári "
@@ -77,63 +77,69 @@ msgstr ""
 #. Description
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:23001 ../dell-recovery.templates:26001
+#: ../dell-recovery.templates:26001 ../dell-recovery.templates:29001
 msgid "WARNING: All personal files and changes will be lost."
 msgstr "FIGYELMEZTETÉS: minden személyes fájl és módosítás elvész."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:24001
+#: ../dell-recovery.templates:27001
 msgid "Restore entire hard drive."
 msgstr "Teljes merevlemez visszaállítása."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:25001
+#: ../dell-recovery.templates:28001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr ""
 "Az összes szerviz-, helyreállítási és rendszerpartíció visszaállítása."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:27001
+#: ../dell-recovery.templates:30001
 msgid "Restore only Linux OS partition."
 msgstr "Csak a Linux rendszerpartíció helyreállítása."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:28001
+#: ../dell-recovery.templates:31001
 msgid "This option allows you to resize any existing partitions."
 msgstr "Ez lehetővé teszi a meglévő partíciók átméretezését."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:29001
+#: ../dell-recovery.templates:32001
 msgid ""
 "ERROR: This recovery media only functions on Dell and Alienware systems."
 msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:30001
+#: ../dell-recovery.templates:33001
 msgid "Building Recovery Partition"
 msgstr "Helyreállítási partíció építése"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:31001
+#: ../dell-recovery.templates:34001
 msgid "NOTE: Please be patient, this may take a while."
 msgstr "MEGJEGYZÉS: Legyen türelemmel, a kiinduló lekérés sokáig tarthat."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:32001
+#: ../dell-recovery.templates:35001
+msgid "Your system will restart automatically several times."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:36001
 msgid "Create Dell Recovery Media"
 msgstr "Dell Recovery Media létrehozása"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:33001
+#: ../dell-recovery.templates:37001
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
@@ -143,7 +149,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:34001
+#: ../dell-recovery.templates:38001
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
@@ -151,13 +157,13 @@ msgstr "Ajánlott előállítani az adathordozót, és biztonságos helyen tarta
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:35001
+#: ../dell-recovery.templates:39001
 msgid "Save recovery media to an external USB flash drive"
 msgstr "A helyreállító adathordozó mentése külső USB flash kulcsra."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:36001
+#: ../dell-recovery.templates:40001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 "Megjegyzés: Ehhez egy USB-kulcsra lesz szükség, körülbelül 2 GB szabad "
@@ -165,25 +171,25 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:37001
+#: ../dell-recovery.templates:41001
 msgid "Save recovery media to DVD"
 msgstr "Helyreállító adathordozó mentése DVD-re"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:38001
+#: ../dell-recovery.templates:42001
 msgid "Note: This requires writable DVD media."
 msgstr "Megjegyzés: Ehhez egy írható DVD-re lesz szükség."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:39001
+#: ../dell-recovery.templates:43001
 msgid "Don't generate recovery media at this time"
 msgstr "Most nem hozok létre helyreállító adathordozót"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:40001
+#: ../dell-recovery.templates:44001
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -193,56 +199,30 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:41001
+#: ../dell-recovery.templates:45001
 msgid "ERROR: This media is only valid on Dell systems."
 msgstr "HIBA: Ez az adathordozó csak Dell rendszereken érvényes."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:42001
+#: ../dell-recovery.templates:46001
 msgid "Dell End User License Agreement"
 msgstr "Dell végfelhasználói licencszerződés"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:43001
+#: ../dell-recovery.templates:47001
 msgid "I accept the license terms. (required to use your computer)"
 msgstr "Elfogadom a licencfeltételeket (kötelező a számítógép használatához)"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:44001
+#: ../dell-recovery.templates:48001
 msgid "Restore #OS# to factory state"
 msgstr ""
 
 #~ msgid "Opening Burner"
 #~ msgstr "Író megnyitása"
-
-#~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
-#~ "present to function."
-#~ msgstr ""
-#~ "Ennek az eszköznek a működéséhez \"Utility\" és \"Linux Recovery\" partíció "
-#~ "szükséges."
-
-#~ msgid ""
-#~ "If you would like to archive another copy, the generated image has been "
-#~ "stored under the filename:"
-#~ msgstr ""
-#~ "Ha szeretnél még egy másolatot, a létrehozott képfájl mentése az alábbi "
-#~ "fájlnéven:"
-
-#~ msgid "File Name: "
-#~ msgstr "Fájlnév "
-
-#~ msgid "OS Release: "
-#~ msgstr "OS verzió "
-
-#~ msgid "Create Dell Recovery ISO"
-#~ msgstr "Dell Recovery ISO létrehozása"
-
-#~ msgid "Generating UUID"
-#~ msgstr "UUID generálása"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW lemez"
@@ -250,26 +230,8 @@ msgstr ""
 #~ msgid "Building ISO"
 #~ msgstr "ISO létrehozása"
 
-#~ msgid "Select a directory for the ISO"
-#~ msgstr "Válassza ki az ISO képfájl könyvtárát!"
-
-#~ msgid "Retry burn?"
-#~ msgstr "Ismételt írás?"
-
-#~ msgid "The media burn process failed.  Would you like to retry?"
-#~ msgstr "A média írása nem sikerült. Megpróbálja újra?"
-
-#~ msgid "Choose Target Directory"
-#~ msgstr "Cél könyvtár kiválasztása"
-
-#~ msgid "Welcome"
-#~ msgstr "Üdvözöljük"
-
 #~ msgid "Choose Media Type"
 #~ msgstr "Válassza ki az adathordozó típusát"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Érvénytelen szervizpartíció"
 
 #~ msgid "Permission Denied"
 #~ msgstr "Hozzáférés megtagadva"
@@ -279,9 +241,6 @@ msgstr ""
 
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "A helyreállító adathordozó létrehozása kész"
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Érvénytelen helyreállítási partíció"
 
 #~ msgid "Recovery Partition: "
 #~ msgstr "Helyreállító partíció: "
@@ -316,15 +275,6 @@ msgstr ""
 #~ msgid "No media, create ISO image"
 #~ msgstr "Nincs adathordozó, ISO-lemezkép létrehozása"
 
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to restore "
-#~ "the computer to its factory shipped state.  You will have the option to "
-#~ "create an USB key or DVD image."
-#~ msgstr ""
-#~ "Ez az alkalmazás létrehoz egy rendszer-helyreállító adathordozót, amellyel a "
-#~ "számítógépet a gyári állapotára állíthatja vissza. Választhat USB-meghajtó "
-#~ "vagy DVD-lemezkép létrehozása között."
-
 #~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
 #~ msgstr "Biztos, hogy megszakítja a helyreállító adathordozó létrehozását?"
 
@@ -334,9 +284,3 @@ msgstr ""
 #~ msgstr ""
 #~ "Már létezik lemezkép, valószínűleg egy előző futtatás eredményeként. El "
 #~ "szeretné távolítani ezt a régi másolatot, és újra előállítani a lemezképet?"
-
-#~ msgid "Create Dell Recovery Media?"
-#~ msgstr "Létrehoz Dell helyreállító adathordozót?"
-
-#~ msgid "This window will close automatically when the process is complete. "
-#~ msgstr "Ez az ablak automatikusan bezáródik a folyamat befejeződésekor. "

@@ -7,43 +7,43 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2011-01-10 19:55-0600\n"
+"POT-Creation-Date: 2011-10-06 16:00-0500\n"
 "PO-Revision-Date: 2011-06-04 11:28+0000\n"
 "Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-06-05 04:36+0000\n"
-"X-Generator: Launchpad (build 12959)\n"
+"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:14001
+#: ../dell-recovery.templates:17001
 msgid "Building Dell Recovery Media..."
 msgstr "Construyendo disco de recuperación Dell..."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:16001
+#: ../dell-recovery.templates:19001
 msgid "Opening Burner..."
 msgstr "Abriendo copiador..."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:17001
+#: ../dell-recovery.templates:20001
 msgid "Dell Recovery"
 msgstr "Recuperación de Dell"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:18001
+#: ../dell-recovery.templates:21001
 msgid "Recovery Type"
 msgstr "Tipo de recuperación"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:19001
+#: ../dell-recovery.templates:22001
 msgid ""
 "This Dell Recovery Media can be used to restore the original factory "
 "software."
@@ -53,7 +53,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:20001
+#: ../dell-recovery.templates:23001
 msgid ""
 "It is recommended you back up all important data before running this tool."
 msgstr ""
@@ -62,13 +62,13 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:21001
+#: ../dell-recovery.templates:24001
 msgid "Restore Linux OS partitions"
 msgstr "Restaurar particiones Linux"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:22001
+#: ../dell-recovery.templates:25001
 msgid "This will rebuild all OS and swap partitions to factory defaults."
 msgstr ""
 "Esto reconstruirá todos los SO y particiones de intercambio a los "
@@ -78,38 +78,38 @@ msgstr ""
 #. Description
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:23001 ../dell-recovery.templates:26001
+#: ../dell-recovery.templates:26001 ../dell-recovery.templates:29001
 msgid "WARNING: All personal files and changes will be lost."
 msgstr "AVISO: Todos los archivos personales y cambios se perderán."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:24001
+#: ../dell-recovery.templates:27001
 msgid "Restore entire hard drive."
 msgstr "Restaurar todo el disco duro."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:25001
+#: ../dell-recovery.templates:28001
 msgid "This will rebuild all utility, recovery, and OS partitions."
 msgstr ""
 "Esto reconstruirá todas las utilidades, recuperaciones y particiones de SO."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:27001
+#: ../dell-recovery.templates:30001
 msgid "Restore only Linux OS partition."
 msgstr "Restaurar sólo la partición Linux"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:28001
+#: ../dell-recovery.templates:31001
 msgid "This option allows you to resize any existing partitions."
 msgstr "Esta opción le permite redimensionar cualquier partición existente."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:29001
+#: ../dell-recovery.templates:32001
 msgid ""
 "ERROR: This recovery media only functions on Dell and Alienware systems."
 msgstr ""
@@ -117,25 +117,31 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:30001
+#: ../dell-recovery.templates:33001
 msgid "Building Recovery Partition"
 msgstr "Construyendo partición de recuperación"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:31001
+#: ../dell-recovery.templates:34001
 msgid "NOTE: Please be patient, this may take a while."
 msgstr "NOTA: Tenga paciencia, esto llevará un tiempo."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:32001
+#: ../dell-recovery.templates:35001
+msgid "Your system will restart automatically several times."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:36001
 msgid "Create Dell Recovery Media"
 msgstr "Crear medio de recuperación DELL"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:33001
+#: ../dell-recovery.templates:37001
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
@@ -145,7 +151,7 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:34001
+#: ../dell-recovery.templates:38001
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
@@ -154,37 +160,37 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:35001
+#: ../dell-recovery.templates:39001
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Guardar el disco de recuperación en una memoria flash USB externa"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:36001
+#: ../dell-recovery.templates:40001
 msgid "Note: This requires a USB flash drive with approximately 2GB free."
 msgstr "Nota: Requiere un disco flash USB con aproximadamente 2GB libre."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:37001
+#: ../dell-recovery.templates:41001
 msgid "Save recovery media to DVD"
 msgstr "Guardar el disco de recuperación en un DVD"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:38001
+#: ../dell-recovery.templates:42001
 msgid "Note: This requires writable DVD media."
 msgstr "Nota: requiere un DVD re-escribible."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:39001
+#: ../dell-recovery.templates:43001
 msgid "Don't generate recovery media at this time"
 msgstr "No generar disco de recuperación en este momento"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:40001
+#: ../dell-recovery.templates:44001
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -194,25 +200,25 @@ msgstr ""
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:41001
+#: ../dell-recovery.templates:45001
 msgid "ERROR: This media is only valid on Dell systems."
 msgstr "ERROR: Este disco sólo es válido en sistemas Dell."
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:42001
+#: ../dell-recovery.templates:46001
 msgid "Dell End User License Agreement"
 msgstr "Acuerdo de licencia de usuario final Dell"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:43001
+#: ../dell-recovery.templates:47001
 msgid "I accept the license terms. (required to use your computer)"
 msgstr "Acepto los términos de la licencia. (necesario para usar su equipo)"
 
 #. Type: text
 #. Description
-#: ../dell-recovery.templates:44001
+#: ../dell-recovery.templates:48001
 msgid "Restore #OS# to factory state"
 msgstr "Restaurar #OS# al estado de fábrica"
 
@@ -225,17 +231,11 @@ msgstr "Restaurar #OS# al estado de fábrica"
 #~ msgid "<activity placeholder>"
 #~ msgstr "<indicador de posición de actividades>"
 
-#~ msgid "USB Flash Drive"
-#~ msgstr "Unidad Flash USB"
-
 #~ msgid "Opening Burner"
 #~ msgstr "Abriendo grabadora"
 
 #~ msgid "Media Type: "
 #~ msgstr "Tipo de medio: "
-
-#~ msgid "Welcome"
-#~ msgstr "Bienvenido"
 
 #~ msgid "Confirm Selections"
 #~ msgstr "Confirmar selecciones"
@@ -246,17 +246,8 @@ msgstr "Restaurar #OS# al estado de fábrica"
 #~ msgid "Dell Recovery Media Creator"
 #~ msgstr "Creador de soportes de recuperación de Dell"
 
-#~ msgid "Retry burn?"
-#~ msgstr "¿ Reintentar grabación ?"
-
 #~ msgid "Recovery Partition: "
 #~ msgstr "Particion de recuperación: "
-
-#~ msgid "File Name: "
-#~ msgstr "Nombre del archivo: "
-
-#~ msgid "Choose Target Directory"
-#~ msgstr "Seleccione un directorio vacío"
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "No se puede conectar con dbus"
@@ -264,17 +255,8 @@ msgstr "Restaurar #OS# al estado de fábrica"
 #~ msgid "No media, create ISO image"
 #~ msgstr "Sin medio, crear imagen ISO"
 
-#~ msgid "Select a directory for the ISO"
-#~ msgstr "Seleccione una carpeta para la imagen ISO"
-
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "La política del sistema impide leer dispositivos raw"
-
-#~ msgid "Building UP"
-#~ msgstr "Creando UP"
-
-#~ msgid "Generating UUID"
-#~ msgstr "Generando UUID"
 
 #~ msgid "Permission Denied"
 #~ msgstr "Permiso denegado"
@@ -282,18 +264,8 @@ msgstr "Restaurar #OS# al estado de fábrica"
 #~ msgid "ISO Image"
 #~ msgstr "Imagen ISO"
 
-#~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition are "
-#~ "present to function."
-#~ msgstr ""
-#~ "Esta herramienta requiere de una partición de utilidad y de una partición de "
-#~ "recuperación de Linux para poder funcionar."
-
 #~ msgid "Utility Partition: "
 #~ msgstr "Partición de utilidad: "
-
-#~ msgid "Create Dell Recovery ISO"
-#~ msgstr "Crear ISO de recuperación DELL"
 
 #~ msgid "Building ISO"
 #~ msgstr "Creando ISO"
@@ -302,41 +274,8 @@ msgstr "Restaurar #OS# al estado de fábrica"
 #~ msgstr ""
 #~ "¿Seguro que quiere cancelar el proceso de creación del Medio de Recuperación?"
 
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to restore "
-#~ "the computer to its factory shipped state.  You will have the option to "
-#~ "create an USB key or DVD image."
-#~ msgstr ""
-#~ "Esta aplicación crea soportes de recuperación del sistema que se pueden usar "
-#~ "para devolver el equipo al estado de salida de fábrica. Existe la opción de "
-#~ "crear un disco USB o una imagen de DVD."
-
-#~ msgid "The media burn process failed.  Would you like to retry?"
-#~ msgstr "Ha fallado la grabación en el soporte. ¿Quiere volver a intentarlo?"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Partición de utilidad no válida"
-
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Proceso de creación del soporte de recuperación finalizado"
-
-#~ msgid ""
-#~ "If you would like to archive another copy, the generated image has been "
-#~ "stored under the filename:"
-#~ msgstr ""
-#~ "Si decidiera crear otra copia, la imagen producida se ha guardado con el "
-#~ "nombre:"
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Partición de recuperación no válida."
-
-#~ msgid " in command line arguments.  Falling back to HAL based detection."
-#~ msgstr ""
-#~ " en los argumentos de la línea de comandos. Recurriendo a la detección "
-#~ "basada en HAL."
-
-#~ msgid "OS Release: "
-#~ msgstr "Versión del SO: "
 
 #~ msgid ""
 #~ "An existing image was found (possibly from a previous run).  Would you like "
@@ -345,12 +284,5 @@ msgstr "Restaurar #OS# al estado de fábrica"
 #~ "Ya existe una imagen (posiblemente de una ejecución anterior). ¿Quiere "
 #~ "eliminar esta copia antigua y volver a generar la imagen?"
 
-#~ msgid "Create Dell Recovery Media?"
-#~ msgstr "¿Crear disco de recuperación Dell?"
-
-#~ msgid ""
-#~ "ERROR: This media only functions on Dell systems booted directly into "
-#~ "recovery mode."
-#~ msgstr ""
-#~ "ERROR: Este medio solamente funciona en sistemas Dell arrancados "
-#~ "directamente en el modo de recuperación."
+#~ msgid "USB Flash Drive"
+#~ msgstr "Unidad flash USB"
