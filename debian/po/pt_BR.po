@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2011-10-06 16:00-0500\n"
-"PO-Revision-Date: 2011-06-05 18:24+0000\n"
+"PO-Revision-Date: 2011-10-15 01:00+0000\n"
 "Last-Translator: Celio Alves <dreamcelio@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
+"X-Launchpad-Export-Date: 2011-10-15 04:57+0000\n"
 "X-Generator: Launchpad (build 14124)\n"
 
 #. Type: text
@@ -134,7 +134,7 @@ msgstr "NOTA: Por favor, seja paciente. Isto pode demorar um pouco."
 #. Description
 #: ../dell-recovery.templates:35001
 msgid "Your system will restart automatically several times."
-msgstr ""
+msgstr "Seu sistema irá reinicializar várias vezes."
 
 #. Type: text
 #. Description
