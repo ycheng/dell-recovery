@@ -129,7 +129,7 @@
  d-i oem-config/remove boolean true
  d-i oem-config/early_command string dynamic
  d-i oem-config/late_command string /usr/share/dell/scripts/oem_config.sh late
- d-i oem-config/remove_extras boolean true
+ d-i oem-config/remove_extras boolean false
  d-i oem-config/install-language-support boolean true
 
 ### Package selection

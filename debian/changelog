@@ -12,6 +12,8 @@ dell-recovery (1.12) UNRELEASED; urgency=low
     on boot.
   * Copy files using a blacklist excluding casper-rw rather than an all
     inclusive whitelist.  Fixes problems with persistence and dell-recovery.
+  * Disable oem-config/remove_extras.  It will cause problems with DKMS installed
+    packages as of oem-config r5084.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 06 Oct 2011 15:44:43 -0500
 
