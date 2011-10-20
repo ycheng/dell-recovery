@@ -577,8 +577,8 @@ class Page(Plugin):
 
         #if the destination is somewhere special, change the language
         if dest == 'CN':
-            self.preseed('debian-installer/locale', 'zh_CN')
-            self.ui.controller.translate('zh_CN')
+            self.preseed('debian-installer/locale', 'zh_CN.UTF-8')
+            self.ui.controller.translate('zh_CN.UTF-8')
 
     def explode_utility_partition(self):
         '''Explodes all content onto the utility partition

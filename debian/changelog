@@ -1,5 +1,6 @@
 dell-recovery (1.12) UNRELEASED; urgency=low
 
+  [ Mario Limonciello ]
   * Update bootloader patches to current grub2-trunk.
   * Add support to run GRUB2 binary builder out of tree via environment
     variables.
@@ -15,6 +16,10 @@ dell-recovery (1.12) UNRELEASED; urgency=low
   * Update the GPT utility partition creation logic.  (LP: #877858)
   * Capture the state of all packages after post install scripts to prevent
     bad interactions with remove_oem_extras after ubiquity r5804
+
+  [ Kent Baxley ]
+  * Preseed chinese installs as zh_CN.UTF-8 rather than just zh_CN.  Fixes
+    translation problems for chinese factory installs. (LP: #879114)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 06 Oct 2011 15:44:43 -0500
 
