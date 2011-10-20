@@ -1314,19 +1314,17 @@ manually to proceed.")
                         raise RuntimeError, ("Error creating new %s mb grub partition on %s" % (grub_size, self.device))
 
             up_part = '2'
-            command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', str(grub_size), str(grub_size+up_size))
-            result = misc.execute_root(*command)
-            if result is False:
-                raise RuntimeError, ("Error creating new %s mb utility partition on %s" % (up_size, self.device))
+            commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', str(grub_size), str(grub_size+up_size)),
+                        ('parted', '-s', self.device, 'set', up_part, 'diag', 'on'),
+                        ('parted', '-s', self.device, 'name', up_part, 'DellUtility')]
+            for command in commands:
+                result = misc.execute_root(*command)
+                if result is False:
+                    raise RuntimeError, ("Error creating new %s mb utility partition on %s" % (up_size, self.device))
 
-            #TODO: clean method to write a dell bootsector while GPT.
-            #with misc.raised_privileges():
-            #    #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
-            #    data = 't\nde\n\nw\n'
-            #    magic.fetch_output(['fdisk', self.device], data)
-            #
-            #    #build the bootsector of the partition
-            #    magic.write_up_bootsector(self.device, up_part)
+            with misc.raised_privileges():
+                #build the bootsector of the partition
+                magic.write_up_bootsector(self.device, up_part)
 
 
             #GPT Doesn't support active partitions, so we must install directly to the disk rather than
