@@ -16,6 +16,7 @@ dell-recovery (1.12) UNRELEASED; urgency=low
   * Update the GPT utility partition creation logic.  (LP: #877858)
   * Capture the state of all packages after post install scripts to prevent
     bad interactions with remove_oem_extras after ubiquity r5804
+  * Update README for more current information.
 
   [ Kent Baxley ]
   * Preseed chinese installs as zh_CN.UTF-8 rather than just zh_CN.  Fixes
