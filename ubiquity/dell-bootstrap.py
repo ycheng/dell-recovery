@@ -1478,23 +1478,6 @@ manually to proceed.")
                 shutil.copy(os.path.join('/tmp', files[item]), \
                             os.path.join('/mnt', 'factory', files[item]))
 
-
-        #Build new UUID
-        if int(self.mem) >= 1: #GB
-            if os.path.isdir(ISO_MOUNT):
-                syslog.syslog("Skipping UUID generation - booted from ISO image.")
-            else:
-                self.status("Regenerating UUID / initramfs", 90)
-                with misc.raised_privileges():
-                    magic.create_new_uuid(os.path.join(CDROM_MOUNT, 'casper'),
-                            os.path.join(CDROM_MOUNT, '.disk'),
-                            os.path.join('/mnt', 'casper'),
-                            os.path.join('/mnt', '.disk'))
-        else:
-            #The new UUID just fixes the installed-twice-on-same-system scenario
-            #most users won't need that anyway so it's just nice to have
-            syslog.syslog("Skipping casper UUID build due to low memory")
-
         #update bto.xml
         path = os.path.join(CDROM_MOUNT, 'bto.xml')
         if os.path.exists(path):
