@@ -987,21 +987,13 @@ class Page(Plugin):
             self.ui.set_advanced(twaddle, twiddle[twaddle])
         self.ui.set_type(rec_type)
 
-        #set the language in the UI
+        #Make sure some locale was set so we can guarantee automatic mode
         try:
-            language = self.db.get('debian-installer/language')
+            language = self.db.get('debian-installer/locale')
         except debconf.DebconfError:
             language = ''
         if not language:
-            with open('/proc/cmdline', 'r') as rfd:
-                for item in rfd.readline().split():
-                    if 'locale=' in item:
-                        items = item.split('=')
-                        if len(items) > 1:
-                            language = items[1]
-                            break
-        if language:
-            self.preseed('debian-installer/locale', language)
+            self.preseed('debian-installer/locale', 'en')
             self.ui.controller.translate(language)
 
         #Clarify which device we're operating on initially in the UI

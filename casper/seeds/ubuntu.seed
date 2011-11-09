@@ -33,11 +33,6 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-### Localization
-
-# Locale sets language and country.
- d-i debian-installer/locale string en
-
 # Keyboard selection.
  d-i keyboard-configuration/layoutcode string us
  d-i keyboard-configuration/variantcode string
