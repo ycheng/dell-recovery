@@ -83,6 +83,8 @@ SWAP_QUESTION = 'dell-recovery/swap'
 RP_FILESYSTEM_QUESTION = 'dell-recovery/recovery_partition_filesystem'
 DRIVER_INSTALL_QUESTION = 'dell-recovery/disable-driver-install'
 OIE_QUESTION = 'dell-recovery/oie_mode'
+SUCCESS_COMMAND = 'ubiquity/success_command'
+FAILURE_COMMAND = 'ubiquity/failure_command'
 
 #######################
 # Noninteractive Page #
@@ -661,27 +663,36 @@ class Page(Plugin):
             if umount is False:
                 raise RuntimeError, ("Error unmounting utility partition post-explosion.")
 
-
-    def unset_drive_preseeds(self):
-        """Unsets any preseeds that are related to setting a drive"""
-        for key in [ 'partman-auto/init_automatically_partition',
-                     'partman-auto/disk',
-                     'partman-auto/expert_recipe',
-                     'partman-basicfilesystems/no_swap',
-                     'grub-installer/only_debian',
-                     'grub-installer/with_other_os',
-                     'grub-installer/bootdev',
-                     'grub-installer/make_active',
-                     'oem-config/early_command',
-                     'oem-config/late_command',
-                     'dell-recovery/active_partition',
-                     'dell-recovery/fail_partition',
-                     'ubiquity/poweroff',
-                     'ubiquity/reboot' ]:
+    def usb_boot_preseeds(self, more_keys=None):
+        """Sets/unsets preseeds that are common to a USB boot scenario.
+           This can either happen if booted from USB stick while in stage 2
+           or if booted from USB stick in stage 1 and choosing to only restore
+           the linux partition
+        """
+        keys = ['ubiquity/poweroff', 'ubiquity/reboot']
+        if more_keys:
+            keys += more_keys
+        for key in keys:
             self.db.fset(key, 'seen', 'false')
             self.db.set(key, '')
         self.db.set('ubiquity/partman-skip-unmount', 'false')
         self.db.set('partman/filter_mounted', 'true')
+
+    def unset_drive_preseeds(self):
+        """Unsets any preseeds that are related to setting a drive"""
+        keys = [ 'partman-auto/init_automatically_partition',
+                 'partman-auto/disk',
+                 'partman-auto/expert_recipe',
+                 'partman-basicfilesystems/no_swap',
+                 'grub-installer/only_debian',
+                 'grub-installer/with_other_os',
+                 'grub-installer/bootdev',
+                 'grub-installer/make_active',
+                 'oem-config/early_command',
+                 'oem-config/late_command',
+                 'dell-recovery/active_partition',
+                 'dell-recovery/fail_partition']
+        self.usb_boot_preseeds(keys)
 
     def fixup_recovery_devices(self):
         """Discovers the first hard disk to install to"""
@@ -738,6 +749,14 @@ class Page(Plugin):
             location = ISO_MOUNT
         else:
             location = CDROM_MOUNT
+
+        #Preseed success and failure with the real location of the RP in case
+        #we are booted from USB or DVD instead of HDD
+        success = "%s %s" % (self.db.get(SUCCESS_COMMAND), rec_part["device"])
+        self.db.set(SUCCESS_COMMAND, success)
+        failure = "%s %s" % (self.db.get(FAILURE_COMMAND), rec_part["device"])
+        self.db.set(FAILURE_COMMAND, failure)
+
         early = '/usr/share/dell/scripts/oem_config.sh early %s' % location
         self.db.set('oem-config/early_command', early)
         self.db.set('partman-auto/disk', self.device)
@@ -791,10 +810,31 @@ class Page(Plugin):
         #If we were preseeded to dynamic, look for an RP
         rec_part = magic.find_factory_rp_stats()
         if rec_type == 'dynamic':
-            if rec_part and rec_part["slave"] in mount:
-                self.log("Detected RP at %s, setting to factory boot" % mount)
-                rec_type = 'factory'
-            if not rec_part:
+            if rec_part:
+                # we rebooted with no USB stick or DVD in drive and have the RP
+                # mounted at /cdrom
+                if rec_part["slave"] in mount:
+                    self.log("Detected RP at %s, setting to factory boot" % mount)
+                    rec_type = 'factory'
+                # we rebooted with the USB stick still in drive and loaded the
+                # initrd from there
+                else:
+                    test = misc.execute_root('mount' ,rec_part['device'], '/mnt')
+                    if test is False:
+                        raise RuntimeError, ("Error mounting recovery partition.")
+                    path = '/mnt/factory/install-in-progress'
+                    if os.path.exists(path):
+                        self.log("Detected RP at %s, with install-in-progress set." % rec_part['device'])
+                        #don't trigger again
+                        with misc.raised_privileges():
+                            os.remove(path)
+                        rec_type = 'factory'
+                        #tell them when the install is done now so they don't boot the stick again
+                        self.usb_boot_preseeds()
+                    test = misc.execute_root('umount', rec_part['device'])
+                    if test is False:
+                        raise RuntimeError, ("Error unmounting recovery partition.")
+            else:
                 self.log("No (matching) RP found.  Assuming media based boot")
                 rec_type = 'dvd'
 
@@ -1416,6 +1456,11 @@ manually to proceed.")
                 with misc.raised_privileges():
                     magic.white_tree("copy", re.compile('.'), '/var/lib/dell-recovery', '/mnt/factory')
                 break
+
+        #set install-in-progress flag
+        with misc.raised_privileges():
+            with open('/mnt/factory/install-in-progress', 'w'):
+                pass
 
         #Install grub
         self.status("Installing GRUB", 88)

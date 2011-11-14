@@ -26,6 +26,9 @@ dell-recovery (1.12) UNRELEASED; urgency=low
       casper's attempt at setting the language.
     - Don't let dell-bootstrap set language based on locale.  Only have it
       set English if no other language has been specified yet.
+  * Create a flag on the disk filesystem to indicate an install is in progress.
+  * When booted in dell-recovery dynamic mode, test for the install in progress
+    flag.  This ensures that stage 2 continues even if booted from USB.
 
   [ Kent Baxley ]
   * Preseed chinese installs as zh_CN.UTF-8 rather than just zh_CN.  Fixes

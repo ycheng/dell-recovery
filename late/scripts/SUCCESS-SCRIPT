@@ -45,13 +45,19 @@ rm -f $TARGET/etc/apt/sources.list.d/dell.list
 #https://bugs.launchpad.net/ubuntu/+source/choose-mirror/+bug/550694
 sed -i "s/http:\/\/.*.archive.ubuntu.com/http:\/\/archive.ubuntu.com/" $TARGET/etc/apt/sources.list
 
-if [ "$BOOTDEV" = "$TARGETDEV" ]; then
-    if [ -d "/isodevice" ]; then
-        RP="/isodevice"
+if [ "$BOOTDEV" = "$TARGETDEV" ] || [ -n "$RPDEV" ]; then
+    if [ -z "$RPDEV" ]; then
+        if [ -d "/isodevice" ]; then
+            RP="/isodevice"
+        else
+            RP="/cdrom"
+        fi
+        mount -o remount,rw $RP
     else
-        RP="/cdrom"
+        RP="/mnt"
+        mount $RPDEV $RP
     fi
-    mount -o remount,rw $RP
+
     IFHALT "Resetting grub fail state"
     [ -s $RP/factory/grubenv ] || rm -f $RP/factory/grubenv
     mkdir -p $RP/factory
@@ -82,6 +88,7 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     rm -rf $RP/factory/*.dll
     rm -rf $RP/factory/*.exe
     rm -rf $RP/factory/*.bat
+    rm -rf $RP/factory/install-in-progress
 
     IFHALT "Report the LOG..."
     if [ -f /dell/fist/tal ]; then
