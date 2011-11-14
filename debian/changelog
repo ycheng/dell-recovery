@@ -17,9 +17,6 @@ dell-recovery (1.12) UNRELEASED; urgency=low
   * Capture the state of all packages after post install scripts to prevent
     bad interactions with remove_oem_extras after ubiquity r5804
   * Update README for more current information.
-  * Don't regenerate the UUID during stage 1 anymore.  Instead, pre-populate
-    the disk's UUID on the kernel command line of the target install.
-    Requires casper 1.290 or later to work.
   * Add some preseeded language fixes that are reactive to casper 1.289 
     from precise and 1.287.1 from oneiric. (LP: #888298)
     - Don't preseed the language in a standard preseed file as it overrides

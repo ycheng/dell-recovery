@@ -5,7 +5,6 @@ source /usr/lib/grub/grub-mkconfig_lib
 cat << EOF
 menuentry "#RECOVERY_TEXT#" {
         search --no-floppy --hint '(hd0,#PARTITION#)' --set --fs-uuid #UUID#
-        set uuid_options="uuid=#UUID#"
         if [ -s /factory/common.cfg ]; then
             source /factory/common.cfg
         else
@@ -21,7 +20,7 @@ menuentry "#RECOVERY_TEXT#" {
             set options="\$options locale=\$lang"
         fi
 
-        linux   /casper/vmlinuz dell-recovery/recovery_type=hdd \$uuid_options \$options #EXTRA#
+        linux   /casper/vmlinuz dell-recovery/recovery_type=hdd \$options #EXTRA#
 	initrd	/casper/initrd.lz
 }
 EOF

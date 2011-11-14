@@ -46,7 +46,7 @@ fi
 
 #generate grub.cfg
 OS=$(lsb_release -s -d)
-sed "s,#OS#,$OS,; /^#UUID#/d" \
+sed "s,#OS#,$OS,; /^search/d" \
     /usr/share/dell/grub/recovery_partition.cfg \
     > $TARGET/grub.cfg
 
