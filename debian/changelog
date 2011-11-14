@@ -29,6 +29,7 @@ dell-recovery (1.12) UNRELEASED; urgency=low
   * Create a flag on the disk filesystem to indicate an install is in progress.
   * When booted in dell-recovery dynamic mode, test for the install in progress
     flag.  This ensures that stage 2 continues even if booted from USB.
+  * Don't include grubenv in the files that go in /factory on install media.
 
   [ Kent Baxley ]
   * Preseed chinese installs as zh_CN.UTF-8 rather than just zh_CN.  Fixes
