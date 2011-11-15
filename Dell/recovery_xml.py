@@ -93,12 +93,17 @@ class BTOxml:
             self.new = False
             try:
                 if os.path.exists(fname):
-                    self.dom = xml.dom.minidom.parse(fname)
-                else:
+                    with open(fname) as f:
+                        fname = f.read()
+                self.dom = xml.dom.minidom.parseString(fname)
+            except xml.parsers.expat.ExpatError, e:
+                # if content is not well-format xml, try to convert it to utf-8
+                fname = unicode(fname, errors='replace').encode('utf-8')
+                try:
                     self.dom = xml.dom.minidom.parseString(fname)
-            except xml.parsers.expat.ExpatError:
-                print "Damaged XML file, regenerating"
-            
+                except xml.parsers.expat.ExpatError, e:
+                    print "Damaged XML file, regenerating"
+
         if not (fname and self.dom):
             self.new = True
             self.dom = xml.dom.minidom.Document()
