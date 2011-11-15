@@ -62,6 +62,7 @@ if [ "$BOOTDEV" = "$TARGETDEV" ] || [ -n "$RPDEV" ]; then
     [ -s $RP/factory/grubenv ] || rm -f $RP/factory/grubenv
     mkdir -p $RP/factory
     grub-editenv $RP/factory/grubenv unset recordfail
+    grub-editenv $RP/factory/gruvenv unset install_in_progress
 
     #Set the right partition active and restore MBR
     /tmp/set_bootable
@@ -88,7 +89,6 @@ if [ "$BOOTDEV" = "$TARGETDEV" ] || [ -n "$RPDEV" ]; then
     rm -rf $RP/factory/*.dll
     rm -rf $RP/factory/*.exe
     rm -rf $RP/factory/*.bat
-    rm -rf $RP/factory/install-in-progress
 
     IFHALT "Report the LOG..."
     if [ -f /dell/fist/tal ]; then

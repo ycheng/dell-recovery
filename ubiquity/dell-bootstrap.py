@@ -822,12 +822,10 @@ class Page(Plugin):
                     test = misc.execute_root('mount' ,rec_part['device'], '/mnt')
                     if test is False:
                         raise RuntimeError, ("Error mounting recovery partition.")
-                    path = '/mnt/factory/install-in-progress'
-                    if os.path.exists(path):
-                        self.log("Detected RP at %s, with install-in-progress set." % rec_part['device'])
-                        #don't trigger again
-                        with misc.raised_privileges():
-                            os.remove(path)
+                    progress = filter(lambda value: 'install_in_progress=1' in value,
+                                        magic.fetch_output(['grub-editenv','/mnt/factory/grubenv','list']).split('\n'))
+                    if progress:
+                        self.log("Detected RP at %s, with install_in_progress set." % rec_part['device'])
                         rec_type = 'factory'
                         #tell them when the install is done now so they don't boot the stick again
                         self.usb_boot_preseeds()
@@ -1457,10 +1455,9 @@ manually to proceed.")
                     magic.white_tree("copy", re.compile('.'), '/var/lib/dell-recovery', '/mnt/factory')
                 break
 
-        #set install-in-progress flag
+        #set install_in_progress flag
         with misc.raised_privileges():
-            with open('/mnt/factory/install-in-progress', 'w'):
-                pass
+            magic.fetch_output(['grub-editenv', '/mnt/factory/grubenv', 'set', 'install_in_progress=1'])
 
         #Install grub
         self.status("Installing GRUB", 88)
