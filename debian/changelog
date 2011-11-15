@@ -32,7 +32,11 @@ dell-recovery (1.12) UNRELEASED; urgency=low
   * Encode all strings stored in XML as UTF-8. (LP: #890113)
   * Add a unit test to test for bug 890113.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 06 Oct 2011 15:44:43 -0500
+  [ Chris Townsend ]
+  * Fix pyflakes error of assigned but unused variable 'e' from UTF-8 XML
+    patch.
+
+ -- Chris Townsend <christopher.townsend@canonical.com>  Tue, 15 Nov 2011 15:18:27 -0500
 
 dell-recovery (1.11) oneiric; urgency=low
 
