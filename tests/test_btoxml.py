@@ -50,7 +50,7 @@ class BTOxmlTestCase(unittest.TestCase):
         self.rxmlobj.load_bto_xml(self.xmlpath)
         return self.rxmlobj.fetch_node_contents(tag)
 
-class NewBTOxmlTestCase(BTOxmlTestCase):
+class ReadWriteNewBTOxmlTestCase(BTOxmlTestCase):
 
     def test_read_with_ascii(self):
         self._write_node([('syslog', '123')])
@@ -65,7 +65,7 @@ class NewBTOxmlTestCase(BTOxmlTestCase):
         self._write_node([('date', '2011-11-22'), ('syslog', non_ascii_string)])
         self.assertEquals(u'2011-11-22', self._read_node('date'))
 
-class OldBTOxmlTestCase(BTOxmlTestCase):
+class ReadWriteExistedBTOxmlTestCase(BTOxmlTestCase):
 
     def test_read_with_ascii(self):
         lines = [
@@ -87,8 +87,8 @@ class OldBTOxmlTestCase(BTOxmlTestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(NewBTOxmlTestCase, 'test'))
-    suite.addTest(unittest.makeSuite(OldBTOxmlTestCase, 'test'))
+    suite.addTest(unittest.makeSuite(ReadWriteNewBTOxmlTestCase, 'test'))
+    suite.addTest(unittest.makeSuite(ReadWriteExistedBTOxmlTestCase, 'test'))
     return suite
 
 if __name__ == '__main__':
