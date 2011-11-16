@@ -24,7 +24,11 @@
 ##################################################################################
 
 import xml.dom.minidom
+import codecs
 import os
+
+def utf8str(old):
+    return unicode(str(old), 'utf-8', errors='ignore').encode('utf-8')
 
 class BTOxml:
     def __init__(self):
@@ -57,7 +61,7 @@ class BTOxml:
             child = elements[0].firstChild
             if child:
                 return child.nodeValue.strip()
-        return None
+        return u''
 
     def replace_node_contents(self, tag, new):
         """Replaces a node contents (that we assume exists)"""
@@ -68,7 +72,7 @@ class BTOxml:
         if elements[0].hasChildNodes():
             for node in elements[0].childNodes:
                 elements[0].removeChild(node)
-        noob = self.dom.createTextNode(new)
+        noob = self.dom.createTextNode(utf8str(new))
         elements[0].appendChild(noob)
 
     def load_bto_xml(self, fname=None):
@@ -95,14 +99,9 @@ class BTOxml:
                 if os.path.exists(fname):
                     with open(fname) as f:
                         fname = f.read()
-                self.dom = xml.dom.minidom.parseString(fname)
+                self.dom = xml.dom.minidom.parseString(utf8str(fname))
             except xml.parsers.expat.ExpatError:
-                # if content is not well-format xml, try to convert it to utf-8
-                fname = unicode(fname, errors='replace').encode('utf-8')
-                try:
-                    self.dom = xml.dom.minidom.parseString(fname)
-                except xml.parsers.expat.ExpatError:
-                    print "Damaged XML file, regenerating"
+                print "Damaged XML file, regenerating"
 
         if not (fname and self.dom):
             self.new = True
@@ -131,8 +130,8 @@ class BTOxml:
 
     def write_xml(self, fname):
         """Writes out a BTO XML file based on the current data"""
-        with open(fname, 'w') as wfd:
+        with codecs.open(fname, 'w', 'utf-8') as wfd:
             if self.new:
-                self.dom.writexml(wfd, "", "  ", "\n")
+                self.dom.writexml(wfd, "", "  ", "\n", encoding='utf-8')
             else:
-                self.dom.writexml(wfd)
+                self.dom.writexml(wfd, encoding='utf-8')
