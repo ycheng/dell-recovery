@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 #
 # @copyright 2011 Canonical Ltd.
@@ -29,8 +28,10 @@ class BTOxmlTestCase(unittest.TestCase):
 
     def setUp(self):
         self.xmlpath = tempfile.mktemp()
+        self._load()
 
     def tearDown(self):
+        self.xmlobj = None
         os.remove(self.xmlpath)
 
     def _write(self, lines):
@@ -38,52 +39,53 @@ class BTOxmlTestCase(unittest.TestCase):
         with open(self.xmlpath, 'w') as f:
             f.write('\n'.join(lines))
 
-    def _write_node(self, datas):
-        self.wxmlobj = recovery_xml.BTOxml()
+    def _load(self):
+        self.xmlobj = recovery_xml.BTOxml()
+        if os.path.exists(self.xmlpath):
+            self.xmlobj.load_bto_xml(self.xmlpath)
+
+    def set_node(self, datas):
         for e in datas:
             (tag, val) = e
-            self.wxmlobj.replace_node_contents(tag, val)
-        self.wxmlobj.write_xml(self.xmlpath)
+            self.xmlobj.replace_node_contents(tag, val)
 
     def _read_node(self, tag):
-        self.rxmlobj = recovery_xml.BTOxml()
-        self.rxmlobj.load_bto_xml(self.xmlpath)
-        return self.rxmlobj.fetch_node_contents(tag)
+        """load a btoxml and read a node"""
+        self.newxmlobj = recovery_xml.BTOxml()
+        self.newxmlobj.load_bto_xml(self.xmlpath)
+        return self.newxmlobj.fetch_node_contents(tag)
+
+    def _save(self):
+        self.xmlobj.write_xml(self.xmlpath)
 
 class ReadWriteNewBTOxmlTestCase(BTOxmlTestCase):
 
-    def test_read_with_ascii(self):
-        self._write_node([('syslog', '123')])
-        self.assertEquals('123', self._read_node('syslog'))
+    def test_set_node_ascii(self):
+        self.set_node([('date', '123')])
+        self._save()
+        self.assertEquals('123', self._read_node('date'))
 
-    def test_read_with_nonascii(self):
-        self._write_node([('syslog', non_ascii_string)])
+    def test_set_node_nonascii(self):
+        self.set_node([('syslog', non_ascii_string)])
+        self._save()
         self.assertEquals(unicode(non_ascii_string, errors='replace'),
                           self._read_node('syslog'))
 
-    def test_read_with_mix(self):
-        self._write_node([('date', '2011-11-22'), ('syslog', non_ascii_string)])
+    def test_set_node_mix(self):
+        self.set_node([('date', '2011-11-22'), ('syslog', non_ascii_string)])
+        self._save()
         self.assertEquals(u'2011-11-22', self._read_node('date'))
 
-class ReadWriteExistedBTOxmlTestCase(BTOxmlTestCase):
+class ReadWriteExistedBTOxmlTestCase(ReadWriteNewBTOxmlTestCase):
 
-    def test_read_with_ascii(self):
+    def setUp(self):
         lines = [
             '<date>2011-11-22</date>',
-            '<syslog>2011-11-22</syslog>',
+            '<syslog>{}</syslog>'.format(non_ascii_string),
         ]
+        self.xmlpath = tempfile.mktemp()
         self._write(lines)
-        self.assertEquals('2011-11-22', self._read_node('date'))
-        self.assertEquals('2011-11-22', self._read_node('syslog'))
-
-    def test_read_with_nonascii(self):
-        lines = [
-            '<date>2011-11-22</date>',
-            '<syslog>{}</syslog>'.format(non_ascii_string)
-        ]
-        self._write(lines)
-        self.assertEquals(unicode(non_ascii_string, errors='replace'),
-                          self._read_node('syslog'))
+        self._load()
 
 def suite():
     suite = unittest.TestSuite()
