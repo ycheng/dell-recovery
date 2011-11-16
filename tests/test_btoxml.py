@@ -25,6 +25,14 @@ from Dell import recovery_xml
 
 ilegal_utf8string = ''.join(map(chr, range(129,255)))
 
+class NewStr(object):
+
+    def __init__(self, _str):
+        self._str = _str
+
+    def __repr__(self):
+        return self._str
+
 class BTOxmlTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -60,6 +68,11 @@ class BTOxmlTestCase(unittest.TestCase):
         self.xmlobj.write_xml(self.xmlpath)
 
 class ReadWriteNewBTOxmlTestCase(BTOxmlTestCase):
+
+    def test_enhance_str(self):
+        self.set_node([('syslog', NewStr('ooo'))])
+        self._save()
+        self.assertEquals(u'ooo', self._read_node('syslog'))
 
     def test_set_emptystring(self):
         self.set_node([('syslog', '')])

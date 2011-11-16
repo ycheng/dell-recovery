@@ -27,6 +27,9 @@ import xml.dom.minidom
 import codecs
 import os
 
+def utf8str(old):
+    return unicode(str(old), 'utf-8', errors='ignore').encode('utf-8')
+
 class BTOxml:
     def __init__(self):
         self.dom = None
@@ -69,8 +72,7 @@ class BTOxml:
         if elements[0].hasChildNodes():
             for node in elements[0].childNodes:
                 elements[0].removeChild(node)
-        new = unicode(new, 'utf-8', errors='ignore').encode('utf-8')
-        noob = self.dom.createTextNode(new)
+        noob = self.dom.createTextNode(utf8str(new))
         elements[0].appendChild(noob)
 
     def load_bto_xml(self, fname=None):
@@ -97,9 +99,7 @@ class BTOxml:
                 if os.path.exists(fname):
                     with open(fname) as f:
                         fname = f.read()
-                # always convert to utf-8 string for ignore ilegal utf-8 string
-                fname = unicode(fname, 'utf-8', errors='ignore').encode('utf-8')
-                self.dom = xml.dom.minidom.parseString(fname)
+                self.dom = xml.dom.minidom.parseString(utf8str(fname))
             except xml.parsers.expat.ExpatError:
                 print "Damaged XML file, regenerating"
 
