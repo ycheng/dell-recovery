@@ -89,6 +89,7 @@ if [ "$BOOTDEV" = "$TARGETDEV" ] || [ -n "$RPDEV" ]; then
     rm -rf $RP/factory/*.dll
     rm -rf $RP/factory/*.exe
     rm -rf $RP/factory/*.bat
+    rm -rf $RP/.disk/casper-uuid*
 
     IFHALT "Report the LOG..."
     if [ -f /dell/fist/tal ]; then

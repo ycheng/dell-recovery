@@ -1199,7 +1199,7 @@ class RPbuilder(Thread):
            but those would require extra dependencies, and are generally more complex
            than necessary for what needs to be accomplished here."""
 
-        black_pattern = re.compile('casper-rw')
+        black_pattern = re.compile('casper-rw|casper-uuid')
 
         #Things we know ahead of time will cause us to error out
         if self.disk_layout == 'gpt':
