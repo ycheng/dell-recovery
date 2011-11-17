@@ -83,8 +83,6 @@ SWAP_QUESTION = 'dell-recovery/swap'
 RP_FILESYSTEM_QUESTION = 'dell-recovery/recovery_partition_filesystem'
 DRIVER_INSTALL_QUESTION = 'dell-recovery/disable-driver-install'
 OIE_QUESTION = 'dell-recovery/oie_mode'
-SUCCESS_COMMAND = 'ubiquity/success_command'
-FAILURE_COMMAND = 'ubiquity/failure_command'
 
 #######################
 # Noninteractive Page #
@@ -749,13 +747,6 @@ class Page(Plugin):
             location = ISO_MOUNT
         else:
             location = CDROM_MOUNT
-
-        #Preseed success and failure with the real location of the RP in case
-        #we are booted from USB or DVD instead of HDD
-        success = "%s %s" % (self.db.get(SUCCESS_COMMAND), rec_part["device"])
-        self.db.set(SUCCESS_COMMAND, success)
-        failure = "%s %s" % (self.db.get(FAILURE_COMMAND), rec_part["device"])
-        self.db.set(FAILURE_COMMAND, failure)
 
         early = '/usr/share/dell/scripts/oem_config.sh early %s' % location
         self.db.set('oem-config/early_command', early)

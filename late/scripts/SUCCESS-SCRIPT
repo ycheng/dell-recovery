@@ -52,7 +52,7 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
         RP="/cdrom"
     fi
     mount -o remount,rw $RP
-    UUID=$(blkid -s UUID -o value $RPDEV)
+    UUID=$(blkid -s UUID -o value `blkid -L OS`)
 
     IFHALT "Resetting grub fail state"
     mkdir -p $RP/factory

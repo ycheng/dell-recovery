@@ -40,7 +40,6 @@ fi
 export BOOTDEV=${DEVICE%%[0-9]*}
 DEVICE=$(mount | sed -n 's/\ on\ \/target.*//p')
 export TARGETDEV=${DEVICE%%[0-9]*}
-export RPDEV="$2"
 
 LOG="var/log"
 if [ -d "$TARGET/$LOG/installer" ]; then
