@@ -56,13 +56,16 @@ if [ "$BOOTDEV" = "$TARGETDEV" ] || [ -n "$RPDEV" ]; then
     else
         RP="/mnt"
         mount $RPDEV $RP
+        UUID=$(blkid -s UUID -o value $RPDEV)
     fi
 
     IFHALT "Resetting grub fail state"
-    [ -s $RP/factory/grubenv ] || rm -f $RP/factory/grubenv
     mkdir -p $RP/factory
     grub-editenv $RP/factory/grubenv unset recordfail
-    grub-editenv $RP/factory/gruvenv unset install_in_progress
+    grub-editenv $RP/factory/grubenv unset install_in_progress
+    if [ -n "$UUID" ]; then
+        grub-editenv $RP/factory/grubenv set install_finished=$RP
+    fi
 
     #Set the right partition active and restore MBR
     /tmp/set_bootable

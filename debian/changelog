@@ -33,6 +33,8 @@ dell-recovery (1.12) UNRELEASED; urgency=low
     This will prevent the RP from booting unless the UUID is present on 
     /proc/cmdline.
   * Don't include grubenv in the files that go in /factory on install media.
+  * Include a grub.cfg script that will be copied into the recovery media and
+    source the proper location of installs in progress.
 
   [ Kent Baxley ]
   * Preseed chinese installs as zh_CN.UTF-8 rather than just zh_CN.  Fixes
