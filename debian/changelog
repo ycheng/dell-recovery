@@ -35,6 +35,9 @@ dell-recovery (1.12) UNRELEASED; urgency=low
   * Don't include grubenv in the files that go in /factory on install media.
   * Include a grub.cfg script that will be copied into the recovery media and
     source the proper location of installs in progress.
+  * Always set install_finished on completion to ensure sticks aren't booted
+    again.
+  * Unset install_finished when mounting the RP during OOBE.
 
   [ Kent Baxley ]
   * Preseed chinese installs as zh_CN.UTF-8 rather than just zh_CN.  Fixes

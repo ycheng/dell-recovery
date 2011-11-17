@@ -36,7 +36,11 @@ print find_partitions('','')[1]
 EOF
 )
     mkdir -p $2
-    mount -o ro $DEVICE $2
+    mount $DEVICE $2
+    if [ -f "$2/factory/grubenv" ]; then
+        grub-editenv $2/factory/grubenv unset install_finished
+    fi
+    mount -o remount,ro $2
     if [ -f "$2/ubuntu.iso" ]; then
         mount -o loop $2/ubuntu.iso /cdrom
     fi

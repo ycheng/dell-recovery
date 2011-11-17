@@ -34,24 +34,19 @@ set -e
 
 IFHALT "(FAIL) Clean-Up .."
 
-if [ "$BOOTDEV" = "$TARGETDEV" ] || [ -n "$RPDEV" ]; then
+if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     #cleanup potentially stale mount points
     for mountpoint in $MOUNT_CLEANUP;
     do
         umount -l $mountpoint
     done
 
-    if [ -z "$RPDEV" ]; then
-        if [ -d "/isodevice" ]; then
-            RP="/isodevice"
-        else
-            RP="/cdrom"
-        fi
-        mount -o remount,rw $RP
+    if [ -d "/isodevice" ]; then
+        RP="/isodevice"
     else
-        RP="/mnt"
-        mount $RPDEV $RP
+        RP="/cdrom"
     fi
+    mount -o remount,rw $RP
 
     IFHALT "Resetting grub fail state"
     [ -s $RP/factory/grubenv ] || rm -f $RP/factory/grubenv
