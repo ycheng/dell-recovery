@@ -801,28 +801,11 @@ class Page(Plugin):
         #If we were preseeded to dynamic, look for an RP
         rec_part = magic.find_factory_rp_stats()
         if rec_type == 'dynamic':
-            if rec_part:
-                # we rebooted with no USB stick or DVD in drive and have the RP
-                # mounted at /cdrom
-                if rec_part["slave"] in mount:
-                    self.log("Detected RP at %s, setting to factory boot" % mount)
-                    rec_type = 'factory'
-                # we rebooted with the USB stick still in drive and loaded the
-                # initrd from there
-                else:
-                    test = misc.execute_root('mount' ,rec_part['device'], '/mnt')
-                    if test is False:
-                        raise RuntimeError, ("Error mounting recovery partition.")
-                    progress = filter(lambda value: 'install_in_progress=1' in value,
-                                        magic.fetch_output(['grub-editenv','/mnt/factory/grubenv','list']).split('\n'))
-                    if progress:
-                        self.log("Detected RP at %s, with install_in_progress set." % rec_part['device'])
-                        rec_type = 'factory'
-                        #tell them when the install is done now so they don't boot the stick again
-                        self.usb_boot_preseeds()
-                    test = misc.execute_root('umount', rec_part['device'])
-                    if test is False:
-                        raise RuntimeError, ("Error unmounting recovery partition.")
+            # we rebooted with no USB stick or DVD in drive and have the RP
+            # mounted at /cdrom
+            if rec_part["slave"] in mount:
+                self.log("Detected RP at %s, setting to factory boot" % mount)
+                rec_type = 'factory'
             else:
                 self.log("No (matching) RP found.  Assuming media based boot")
                 rec_type = 'dvd'

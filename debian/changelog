@@ -27,8 +27,6 @@ dell-recovery (1.12) UNRELEASED; urgency=low
     - Don't let dell-bootstrap set language based on locale.  Only have it
       set English if no other language has been specified yet.
   * Create a flag on the disk filesystem to indicate an install is in progress.
-  * When booted in dell-recovery dynamic mode, test for the install in progress
-    flag.  This ensures that stage 2 continues even if booted from USB.
   * Remove the casper UUID in SUCCESS_SCRIPT as well as stage 1 of recovery.
     This will prevent the RP from booting unless the UUID is present on 
     /proc/cmdline.
