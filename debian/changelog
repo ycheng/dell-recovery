@@ -17,12 +17,25 @@ dell-recovery (1.12) UNRELEASED; urgency=low
   * Capture the state of all packages after post install scripts to prevent
     bad interactions with remove_oem_extras after ubiquity r5804
   * Update README for more current information.
+  * Don't regenerate the UUID during stage 1 anymore.  Instead, pre-populate
+    the disk's UUID on the kernel command line of the target install.
+    Requires casper 1.290 or later to work.
   * Add some preseeded language fixes that are reactive to casper 1.289 
     from precise and 1.287.1 from oneiric. (LP: #888298)
     - Don't preseed the language in a standard preseed file as it overrides
       casper's attempt at setting the language.
     - Don't let dell-bootstrap set language based on locale.  Only have it
       set English if no other language has been specified yet.
+  * Create a flag on the disk filesystem to indicate an install is in progress.
+  * Remove the casper UUID in SUCCESS_SCRIPT as well as stage 1 of recovery.
+    This will prevent the RP from booting unless the UUID is present on 
+    /proc/cmdline.
+  * Don't include grubenv in the files that go in /factory on install media.
+  * Include a grub.cfg script that will be copied into the recovery media and
+    source the proper location of installs in progress.
+  * Always set install_finished on completion to ensure sticks aren't booted
+    again.
+  * Unset install_finished when mounting the RP during OOBE.
 
   [ Kent Baxley ]
   * Preseed chinese installs as zh_CN.UTF-8 rather than just zh_CN.  Fixes

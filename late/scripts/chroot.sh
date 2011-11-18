@@ -36,10 +36,10 @@ if [ -d "/isodevice" ]; then
 else
     DEVICE=$(mount | sed -n 's/\ on\ \/cdrom.*//p')
 fi
+
 export BOOTDEV=${DEVICE%%[0-9]*}
 DEVICE=$(mount | sed -n 's/\ on\ \/target.*//p')
 export TARGETDEV=${DEVICE%%[0-9]*}
-
 
 LOG="var/log"
 if [ -d "$TARGET/$LOG/installer" ]; then

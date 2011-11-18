@@ -512,8 +512,8 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     try:
         old_uuid_file   = glob.glob('%s/casper-uuid*' % old_casper_directory)[0]
     except Exception, msg:
-        print str(msg)
-        raise dbus.DBusException, ("Missing casper UUID in image.")
+        print "Old casper UUID not found, assuming 'casper-uuid'"
+        old_uuid_file   = '%s/casper-uuid' % old_casper_directory
 
     old_initrd_file = ''
     old_compression = ''

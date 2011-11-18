@@ -952,6 +952,8 @@ class Backend(dbus.service.Object):
         grub_root = os.path.join(mntdir,'boot', 'grub', 'i386-pc')
         if os.path.exists(grub_root):
             os.makedirs(os.path.join(tmpdir, 'boot', 'grub'))
+            shutil.copy('/usr/share/dell/grub/iso_image.cfg',
+                        os.path.join(tmpdir, 'boot', 'grub', 'grub.cfg'))
             if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img')):
                 genisoargs.append('-m')
                 genisoargs.append(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img'))
@@ -975,6 +977,8 @@ class Backend(dbus.service.Object):
             genisoargs.append('boot/grub/eltorito.img')
             genisoargs.append('-c')
             genisoargs.append('boot/boot.catalog')
+            genisoargs.append('-m')
+            genisoargs.append(os.path.join(mntdir,'boot/grub/grub.cfg'))
 
         #isolinux based
         else:

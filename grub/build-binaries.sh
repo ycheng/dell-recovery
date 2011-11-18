@@ -46,12 +46,9 @@ fi
 
 #generate grub.cfg
 OS=$(lsb_release -s -d)
-sed "s,#OS#,$OS,; /^search/d" \
+sed "s,#OS#,$OS,; /^#UUID#/d" \
     /usr/share/dell/grub/recovery_partition.cfg \
     > $TARGET/grub.cfg
-
-#blank grubenv so we can fail installs
-grub-editenv $TARGET/grubenv unset recordfail
 
 #grub-setup.exe
 if [ -d /usr/lib/gcc/i586-mingw32msvc ] &&

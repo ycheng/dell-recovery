@@ -52,10 +52,12 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
         RP="/cdrom"
     fi
     mount -o remount,rw $RP
+
     IFHALT "Resetting grub fail state"
-    [ -s $RP/factory/grubenv ] || rm -f $RP/factory/grubenv
     mkdir -p $RP/factory
     grub-editenv $RP/factory/grubenv unset recordfail
+    grub-editenv $RP/factory/grubenv unset install_in_progress
+    grub-editenv $RP/factory/grubenv set install_finished=1
 
     #Set the right partition active and restore MBR
     /tmp/set_bootable
@@ -82,6 +84,7 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     rm -rf $RP/factory/*.dll
     rm -rf $RP/factory/*.exe
     rm -rf $RP/factory/*.bat
+    rm -rf $RP/.disk/casper-uuid*
 
     IFHALT "Report the LOG..."
     if [ -f /dell/fist/tal ]; then
