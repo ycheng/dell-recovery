@@ -5,9 +5,6 @@ dell-recovery (1.12) UNRELEASED; urgency=low
   * Add support to run GRUB2 binary builder out of tree via environment
     variables.
   * Add a 10 second countdown and automatic reboot at the end of stage 1.
-    - This has been verified in HDD = /dev/sda scenario.
-    - This has NOT yet been verified in ISO/DVD scenario.
-    - This has not yet been verified in HDD =/dev/sdb scenario.
   * Call emergency.sh as LAST item in casper.
   * If running in persistent mode, forcefully regenerate the apt-cache
     on boot.
