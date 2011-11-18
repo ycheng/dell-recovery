@@ -52,13 +52,12 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
         RP="/cdrom"
     fi
     mount -o remount,rw $RP
-    UUID=$(blkid -s UUID -o value `blkid -L OS`)
 
     IFHALT "Resetting grub fail state"
     mkdir -p $RP/factory
     grub-editenv $RP/factory/grubenv unset recordfail
     grub-editenv $RP/factory/grubenv unset install_in_progress
-    grub-editenv $RP/factory/grubenv set install_finished=$UUID
+    grub-editenv $RP/factory/grubenv set install_finished=1
 
     #Set the right partition active and restore MBR
     /tmp/set_bootable
