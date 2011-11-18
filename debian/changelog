@@ -1,4 +1,4 @@
-dell-recovery (1.12) UNRELEASED; urgency=low
+dell-recovery (1.12) precise; urgency=low
 
   [ Mario Limonciello ]
   * Update bootloader patches to current grub2-trunk.
@@ -46,7 +46,7 @@ dell-recovery (1.12) UNRELEASED; urgency=low
   * Fix pyflakes error of assigned but unused variable 'e' from UTF-8 XML
     patch.
 
- -- Chris Townsend <christopher.townsend@canonical.com>  Tue, 15 Nov 2011 15:18:27 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Nov 2011 19:04:21 -0600
 
 dell-recovery (1.11) oneiric; urgency=low
 
