@@ -1,7 +1,13 @@
 dell-recovery (1.13) UNRELEASED; urgency=low
 
+  [ Mario Limonciello ]
   * Include some updated patches from tyson for XML parsing in bad BIOS
     scenarios.
+
+  [ David Chen ]
+  * Update the maximum size of a partition in the ubuntu.seed recipe
+    to make sure partman doesn't make bad decisions about swap partition
+    size when working with a >=2TB HDD.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Nov 2011 19:06:33 -0600
 
