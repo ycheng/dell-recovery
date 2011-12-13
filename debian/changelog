@@ -3,13 +3,14 @@ dell-recovery (1.13) UNRELEASED; urgency=low
   [ Mario Limonciello ]
   * Include some updated patches from tyson for XML parsing in bad BIOS
     scenarios.
+  * If no matching rec_part initially (blank disk) then don't crash
 
   [ David Chen ]
   * Update the maximum size of a partition in the ubuntu.seed recipe
     to make sure partman doesn't make bad decisions about swap partition
     size when working with a >=2TB HDD.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 17 Nov 2011 19:06:33 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 13 Dec 2011 16:41:12 -0600
 
 dell-recovery (1.12) precise; urgency=low
 

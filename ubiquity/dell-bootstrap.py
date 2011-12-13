@@ -803,7 +803,7 @@ class Page(Plugin):
         if rec_type == 'dynamic':
             # we rebooted with no USB stick or DVD in drive and have the RP
             # mounted at /cdrom
-            if rec_part["slave"] in mount:
+            if rec_part.has_key("slave") and rec_part["slave"] in mount:
                 self.log("Detected RP at %s, setting to factory boot" % mount)
                 rec_type = 'factory'
             else:
