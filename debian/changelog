@@ -4,6 +4,7 @@ dell-recovery (1.13) UNRELEASED; urgency=low
   * Include some updated patches from tyson for XML parsing in bad BIOS
     scenarios.
   * If no matching rec_part initially (blank disk) then don't crash
+  * Don't build grub.cfg again if building binaries from bootstrap.
 
   [ David Chen ]
   * Update the maximum size of a partition in the ubuntu.seed recipe

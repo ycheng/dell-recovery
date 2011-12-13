@@ -12,6 +12,7 @@
 #          directory (including a collection of distro patches)
 
 [ -n "$TARGET" ] || TARGET=/var/lib/dell-recovery
+[ -n "$GRUBCFG" ] || GRUBCFG=$TARGET/grub.cfg
 [ -n "$PATCHES" ] || PATCHES=/usr/share/dell/grub/patches
 mkdir -p $TARGET
 
