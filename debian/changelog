@@ -8,6 +8,7 @@ dell-recovery (1.13) UNRELEASED; urgency=low
   * Query the release that we're running on to figure out whether to
     use patches for that release when building grub-setup.exe.
   * Include patches for both trunk and precise.
+  * Fix file cleanup for dell-recovery-bootloader during purge.
 
   [ David Chen ]
   * Update the maximum size of a partition in the ubuntu.seed recipe
