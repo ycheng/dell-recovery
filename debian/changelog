@@ -5,6 +5,9 @@ dell-recovery (1.13) UNRELEASED; urgency=low
     scenarios.
   * If no matching rec_part initially (blank disk) then don't crash
   * Don't build grub.cfg again if building binaries from bootstrap.
+  * Query the release that we're running on to figure out whether to
+    use patches for that release when building grub-setup.exe.
+  * Include patches for both trunk and precise.
 
   [ David Chen ]
   * Update the maximum size of a partition in the ubuntu.seed recipe

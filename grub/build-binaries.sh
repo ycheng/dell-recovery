@@ -13,7 +13,11 @@
 
 [ -n "$TARGET" ] || TARGET=/var/lib/dell-recovery
 [ -n "$GRUBCFG" ] || GRUBCFG=$TARGET/grub.cfg
-[ -n "$PATCHES" ] || PATCHES=/usr/share/dell/grub/patches
+if [ -z "$PATCHES" ]; then
+    RELEASE=$(lsb_release -sc)
+    [ ! -d /usr/share/dell/grub/patches/$RELEASE ] && RELEASE=trunk
+    PATCHES=/usr/share/dell/grub/patches/$RELEASE
+fi
 mkdir -p $TARGET
 
 common_modules="loadenv part_gpt fat ntfs ext2 ntfscomp search linux boot \
@@ -62,9 +66,8 @@ if [ -d /usr/lib/gcc/i586-mingw32msvc ] &&
    [ -x /usr/bin/flex ] &&
    [ -x /usr/bin/dpkg-source ] &&
    [ ! -f $TARGET/grub-setup.exe ]; then
-    echo "Building bootloader installer for mingw32"
+    echo "Building bootloader installer for mingw32 ($RELEASE)"
     BUILD_DIR=$(mktemp -d)
-    echo $BUILD_DIR
     cd $BUILD_DIR
     if [ -n "$GRUB_SRC" ]; then
         cp -R $GRUB_SRC .
