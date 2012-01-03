@@ -51,9 +51,9 @@ fi
 
 #generate grub.cfg
 OS=$(lsb_release -s -d)
-sed "s,#OS#,$OS,; /^#UUID#/d" \
+sed "s,#OS#,$OS,; /#UUID#/d" \
     /usr/share/dell/grub/recovery_partition.cfg \
-    > $TARGET/grub.cfg
+    > $GRUBCFG
 
 #grub-setup.exe
 if [ -d /usr/lib/gcc/i586-mingw32msvc ] &&
