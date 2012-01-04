@@ -182,20 +182,8 @@
           </screenshot>
         </figure>
         <para>
-        A Dell logo will appear.  If you speak a non-english language, press any key to interrupt this screen
-        and select your language.
+        A Dell logo will appear.  Press enter to boot into the OS recovery wizard.
         </para>
-        <figure id="languages">
-          <title>Language Selector</title>
-          <screenshot>
-            <mediaobject>
-              <imageobject>
-                <imagedata fileref="figures/language_list.png"
-                           format="PNG"/>
-              </imageobject>
-            </mediaobject>
-          </screenshot>
-        </figure>
         <para>
         You will be brought to a recovery screen allowing you to rebuild entirely to factory state, or to resize
         your existing OS install.  If you choose the second option, the installer will not build a utility partition
@@ -275,21 +263,9 @@
       able to optionally skip this page and use the FID overlay included in the image.
     </para>
     <para>
-      Otherwise, you will want to select the "FID GIT Tree" option.  The tool will detect
-      if you are missing additional tools necessary to check out this GIT tree.  If so, it
-      will offer to install them for you.
-    </para>
-    <para>
-      Once all the necessary tools are installed, press the "Fetch/Update" GIT tree button
-      to fetch the latest updates available for that Ubuntu OS series.  Updates are organized
-      by a series of tags such as 10.04_A00 or 10.04_A01.  Generally you will want to select
-      the highest tag.
-    </para>
-    <para>
-      While an OS is in development, X-rev tags will be created, such as 10.04_X00.
-      These are considered unstable tags, and so when these are present, a special additional
-      option will also be available called "origin/master".  This will check out the absolute
-      latest content available.
+      Otherwise, you will want to select the "FID framework enclosed in a debian package".  You will
+      be able to either build the debian package from the currently running dell recovery version
+      or provide a .deb from launchpad or a similar source.
     </para>
     <figure id="bto-fid-figure">
       <title>FID Overlay Page</title>
