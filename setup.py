@@ -56,6 +56,7 @@ setup(
                 ('share/dell/scripts/non-negotiable', glob.glob('late/chroot_scripts/*')),
                 ('/etc/dbus-1/system.d/', glob.glob('backend/*.conf')),
                 ('share/dell/grub', glob.glob('grub/*')),
+                ('share/dell/grub/theme', glob.glob('bootloader_theme/*')),
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
                 ('/lib/udev/rules.d', glob.glob('udev/*')),
                 ('lib/ubiquity/plugins', glob.glob('ubiquity/*.py')),
