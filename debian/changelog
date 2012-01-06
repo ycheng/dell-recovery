@@ -2,6 +2,8 @@ dell-recovery (1.15) UNRELEASED; urgency=low
 
   * Update all screenshots in the help document to a current version.
   * Include a GRUB2 theme based on the default GRUB2 upstream theme.
+  * If either an i386-pc or x86_64-efi based GRUB is found in the base image
+    copy the theme in place.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 04 Jan 2012 16:35:56 -0600
 

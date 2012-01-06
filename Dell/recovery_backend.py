@@ -952,8 +952,6 @@ class Backend(dbus.service.Object):
         grub_root = os.path.join(mntdir,'boot', 'grub', 'i386-pc')
         if os.path.exists(grub_root):
             os.makedirs(os.path.join(tmpdir, 'boot', 'grub'))
-            shutil.copy('/usr/share/dell/grub/iso_image.cfg',
-                        os.path.join(tmpdir, 'boot', 'grub', 'grub.cfg'))
             if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img')):
                 genisoargs.append('-m')
                 genisoargs.append(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img'))
@@ -977,8 +975,6 @@ class Backend(dbus.service.Object):
             genisoargs.append('boot/grub/eltorito.img')
             genisoargs.append('-c')
             genisoargs.append('boot/boot.catalog')
-            genisoargs.append('-m')
-            genisoargs.append(os.path.join(mntdir,'boot/grub/grub.cfg'))
 
         #isolinux based
         else:
@@ -996,6 +992,26 @@ class Backend(dbus.service.Object):
             else:
                 #Copy boot section for ISO to somewhere writable
                 shutil.copytree(os.path.join(mntdir, 'isolinux'), os.path.join(tmpdir, 'isolinux'))
+
+        #if we have any any ISO/USB bootable bootloader on the image, copy in a theme
+        grub_theme = False
+        for topdir in [mntdir, tmpdir]:
+            for bottomdir in ['i386-pc', 'x86_64-efi']:
+                if os.path.exists(os.path.join(topdir, 'boot', 'grub', bottomdir)):
+                    grub_theme = True
+        if grub_theme:
+            if not os.path.exists(os.path.join(tmpdir, 'boot', 'grub')):
+                os.makedirs(os.path.join(tmpdir, 'boot', 'grub'))
+            #conffile
+            shutil.copy('/usr/share/dell/grub/iso_image.cfg',
+                        os.path.join(tmpdir, 'boot', 'grub', 'grub.cfg'))
+            genisoargs.append('-m')
+            genisoargs.append(os.path.join(mntdir,'boot/grub/grub.cfg'))
+            #theme
+            if not os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'dell')):
+                shutil.copytree('/usr/share/dell/grub/theme', 
+                                os.path.join(tmpdir, 'boot', 'grub', 'dell'))
+
 
         #if we previously backed up a grub.cfg or common.cfg
         for path in ['factory/grub.cfg', 'factory/common.cfg']:
