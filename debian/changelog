@@ -4,6 +4,8 @@ dell-recovery (1.15) UNRELEASED; urgency=low
   * Include a GRUB2 theme based on the default GRUB2 upstream theme.
   * If either an i386-pc or x86_64-efi based GRUB is found in the base image
     copy the theme in place.
+  * If copying in the GRUB theme, check that the dejavu fonts are already
+    generated.  If not, create them.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 04 Jan 2012 16:35:56 -0600
 
