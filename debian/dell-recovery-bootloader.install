@@ -1,1 +1,1 @@
-bootloader_patches/* usr/share/dell/grub/patches
+grub/bootloader_patches/* usr/share/dell/grub/patches
