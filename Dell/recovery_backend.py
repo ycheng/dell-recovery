@@ -1002,14 +1002,23 @@ class Backend(dbus.service.Object):
         if grub_theme:
             if not os.path.exists(os.path.join(tmpdir, 'boot', 'grub')):
                 os.makedirs(os.path.join(tmpdir, 'boot', 'grub'))
-            #conffile
-            shutil.copy('/usr/share/dell/grub/iso_image.cfg',
+            #conffiles
+            shutil.copy('/usr/share/dell/grub/theme/grub.cfg',
                         os.path.join(tmpdir, 'boot', 'grub', 'grub.cfg'))
             genisoargs.append('-m')
             genisoargs.append(os.path.join(mntdir,'boot/grub/grub.cfg'))
+            for bottomdir in ['i386-pc', 'x86_64-efi']:
+                directory = os.path.join(mntdir, 'boot', 'grub', bottomdir)
+                if os.path.exists(directory):
+                    if not os.path.exists(os.path.join(tmpdir, 'boot', 'grub', bottomdir)):
+                        os.makedirs(os.path.join(tmpdir, 'boot', 'grub', bottomdir))
+                    shutil.copy('/usr/share/dell/grub/theme/%s/grub.cfg' % bottomdir,
+                                os.path.join(tmpdir, 'boot', 'grub', bottomdir, 'grub.cfg'))
+                    genisoargs.append('-m')
+                    genisoargs.append(os.path.join(mntdir,'boot/grub/%s/grub.cfg' % bottomdir))
             #theme
             if not os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'dell')):
-                shutil.copytree('/usr/share/dell/grub/theme', 
+                shutil.copytree('/usr/share/dell/grub/theme/dell', 
                                 os.path.join(tmpdir, 'boot', 'grub', 'dell'))
             #fonts
             if not os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'dejavu-sans-12.pf2')):

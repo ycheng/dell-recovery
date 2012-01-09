@@ -26,7 +26,17 @@ from DistUtilsExtra.command import (build_extra,
                                    build_icons,
                                    clean_i18n)
 
-import glob, os.path
+import glob, os.path, os
+
+def files_only(directory):
+    for root, dirs, files in os.walk(directory):
+        if root == directory:
+            array = []
+            for file in files:
+                array.append(os.path.join(directory, file))
+            print array
+            return array
+
 
 I18NFILES = []
 for filepath in glob.glob("po/mo/*/LC_MESSAGES/*.mo"):
@@ -55,8 +65,11 @@ setup(
                 ('share/dell/oie', glob.glob('oie/*')),
                 ('share/dell/scripts/non-negotiable', glob.glob('late/chroot_scripts/*')),
                 ('/etc/dbus-1/system.d/', glob.glob('backend/*.conf')),
-                ('share/dell/grub', glob.glob('grub/*')),
-                ('share/dell/grub/theme', glob.glob('bootloader_theme/*')),
+                ('share/dell/grub', files_only('grub')),
+                ('share/dell/grub/theme', files_only('grub/bootloader_theme')),
+                ('share/dell/grub/theme/dell', files_only('grub/bootloader_theme/dell')),
+                ('share/dell/grub/theme/i386-pc', files_only('grub/bootloader_theme/i386-pc')),
+                ('share/dell/grub/theme/x86_64-efi', files_only('grub/bootloader_theme/x86_64-efi')),
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
                 ('/lib/udev/rules.d', glob.glob('udev/*')),
                 ('lib/ubiquity/plugins', glob.glob('ubiquity/*.py')),
