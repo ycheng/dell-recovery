@@ -1,4 +1,4 @@
-dell-recovery (1.15) UNRELEASED; urgency=low
+dell-recovery (1.15) precise; urgency=low
 
   * Update all screenshots in the help document to a current version.
   * Include a GRUB2 theme based on the default GRUB2 upstream theme.
@@ -9,7 +9,7 @@ dell-recovery (1.15) UNRELEASED; urgency=low
   * In the grub.cfg files sourced before loading the common one on ISO/USB
     boot, load the appropriate backends first.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 04 Jan 2012 16:35:56 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 09 Jan 2012 19:45:45 -0600
 
 dell-recovery (1.14) precise; urgency=low
 
