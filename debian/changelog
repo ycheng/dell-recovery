@@ -6,6 +6,8 @@ dell-recovery (1.15) UNRELEASED; urgency=low
     copy the theme in place.
   * If copying in the GRUB theme, check that the dejavu fonts are already
     generated.  If not, create them.
+  * In the grub.cfg files sourced before loading the common one on ISO/USB
+    boot, load the appropriate backends first.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 04 Jan 2012 16:35:56 -0600
 
