@@ -40,7 +40,7 @@ fi
 if [ -d /usr/lib/grub/i386-pc ] &&
    [ ! -f $TARGET/core.img ]; then
     echo "Building bootloader images for i386-pc"
-    x86_modules="biosdisk part_msdos vga vga_text"
+    x86_modules="biosdisk part_msdos vbe vga vga_text"
     #build core image
     grub-mkimage -c /usr/share/dell/grub/embedded.cfg \
                  --prefix=/factory                    \

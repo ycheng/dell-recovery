@@ -1,6 +1,7 @@
 dell-recovery (1.17) UNRELEASED; urgency=low
 
   * When showing the install complete screen, set the timeout to -1.
+  * Include the 'vbe' module in factory mode too.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 10 Jan 2012 16:34:09 -0600
 
