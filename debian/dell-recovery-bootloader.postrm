@@ -8,6 +8,7 @@ if [ "$1" = "purge" ]; then
 	for file in $FILES; do
 		rm -f $TARGET/$file
 	done
+        rm -rf $TARGET/iso
 fi
 
 #DEBHELPER#

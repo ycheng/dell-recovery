@@ -13,6 +13,7 @@
 
 [ -n "$TARGET" ] || TARGET=/var/lib/dell-recovery
 [ -n "$GRUBCFG" ] || GRUBCFG=$TARGET/grub.cfg
+[ -n "$ISO_LOADER" ] || ISO_LOADER=$TARGET/iso/i386-pc
 if [ -z "$PATCHES" ]; then
     RELEASE=$(lsb_release -sc)
     [ ! -d /usr/share/dell/grub/patches/$RELEASE ] && RELEASE=trunk
@@ -24,7 +25,7 @@ common_modules="loadenv part_gpt fat ntfs ext2 ntfscomp search linux boot \
                 minicmd cat cpuid chain halt help ls reboot echo test     \
                 configfile sleep keystatus normal true font"
 
-#x86_64-efi, EFI target.  requires grub-efi-amd64-bin
+#x86_64-efi factory bootloader, EFI target.  requires grub-efi-amd64-bin
 if [ -d /usr/lib/grub/x86_64-efi ] &&
    [ ! -f $TARGET/grubx64.efi ]; then
     echo "Building bootloader images for x86_64-efi"
@@ -35,7 +36,7 @@ if [ -d /usr/lib/grub/x86_64-efi ] &&
                  $common_modules $efi_modules
 fi
 
-#i386-pc, legacy target.  reguires grub-pc-bin
+#i386-pc factory bootloader, legacy target.  reguires grub-pc-bin
 if [ -d /usr/lib/grub/i386-pc ] &&
    [ ! -f $TARGET/core.img ]; then
     echo "Building bootloader images for i386-pc"
@@ -49,11 +50,46 @@ if [ -d /usr/lib/grub/i386-pc ] &&
     cat /usr/lib/grub/i386-pc/boot.img > $TARGET/boot.img
 fi
 
-#generate grub.cfg
+#generate grub.cfg used for factory bootloaders
 OS=$(lsb_release -s -d)
 sed "s,#OS#,$OS,; /#UUID#/d" \
     /usr/share/dell/grub/recovery_partition.cfg \
     > $GRUBCFG
+
+#i386 ISO/USB legacy bootloader. requires grub-pc-bin
+if [ -d /usr/lib/grub/i386-pc ] &&
+   [ ! -c $ISO_LOADER ] &&
+   [ ! -d $ISO_LOADER ]; then
+    echo "Building bootloader images for i386-pc DVD/USB boot"
+    mkdir -p $ISO_LOADER
+    #common
+    cp /usr/lib/grub/i386-pc/*.mod $ISO_LOADER
+    cp /usr/lib/grub/i386-pc/*.lst $ISO_LOADER
+    cp /usr/lib/grub/i386-pc/efiemu??.o $ISO_LOADER
+    #eltorito
+    cp /usr/lib/grub/i386-pc/cdboot.img $ISO_LOADER
+    #usb creator
+    cp /usr/lib/grub/i386-pc/boot.img $ISO_LOADER
+    workdir="$(mktemp -d workdir-image.XXXXXX)"
+    mkdir -p "$workdir"
+    cat >"$workdir/grub.cfg" <<EOF
+search.file /.disk/casper-uuid root
+set prefix=(\$root)/boot/grub/i386-pc
+source \$prefix/grub.cfg
+EOF
+
+    #core.img
+    grub-mkimage -c "$workdir/grub.cfg" \
+                 -p '/boot/grub/i386-pc' \
+                 -o $ISO_LOADER/core.img \
+                 -O i386-pc \
+                 search_fs_file biosdisk iso9660 part_msdos fat
+    #eltorito
+    cat $ISO_LOADER/cdboot.img $ISO_LOADER/core.img > $ISO_LOADER/../eltorito.img
+
+    #cleanup
+    rm -rf $workdir
+fi
 
 #grub-setup.exe
 if [ -d /usr/lib/gcc/i586-mingw32msvc ] &&

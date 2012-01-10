@@ -1,3 +1,10 @@
+dell-recovery (1.16) UNRELEASED; urgency=low
+
+  * When building binaries in grub/build-binaries.sh, also build an i386-pc 
+    DVD/USB bootloader.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 10 Jan 2012 09:36:03 -0600
+
 dell-recovery (1.15) precise; urgency=low
 
   * Update all screenshots in the help document to a current version.
