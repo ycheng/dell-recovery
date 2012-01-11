@@ -1,0 +1,10 @@
+#!/bin/sh -e
+export TARGET=$(mktemp -d)
+if [ -z "$PATCHES" ]; then
+	export RELEASE=$(lsb_release -sc)
+	[ ! -d `pwd`/grub/bootloader_patches/$RELEASE ] && RELEASE=trunk
+	export PATCHES=`pwd`/grub/bootloader_patches/$RELEASE
+fi
+grub/build-binaries.sh
+rm -rf $TARGET
+echo "No problems building grub binaries."

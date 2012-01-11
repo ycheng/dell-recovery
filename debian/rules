@@ -7,6 +7,7 @@ check:
 	# Sanity-check before upload.
 	find -name debian -prune -o -name \*.py -print | xargs pycompile
 	find -type f \( -name \*.pyc -o -name \*.pyo \) -print0 | xargs -0r rm -f
+
 	# Check the syntax of any shell scripts.
 	set -e; for x in $$(find -type f -print0 | xargs -0 file -i | grep "text/x-shellscript" | cut -d':' -f1); do \
 			sh -n $$x; \
@@ -14,6 +15,9 @@ check:
 	# Check the syntax of any Python scripts.
 	./tests/run-pyflakes
 
+	# Check that we can build all the GRUB binaries (don't actually ship these though)
+	# build without the MINGW32 binary as it would require apt-get source to work on binary build
+	PATCHES=/dev/null ./tests/grub-binaries
 
 override_dh_clean: check
 	dh_clean
