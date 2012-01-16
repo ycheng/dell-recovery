@@ -1,5 +1,8 @@
 #!/usr/bin/make -f
 
+#optipng makes png's indexed which GRUB2 doesn't understand
+export NO_PNG_PKG_MANGLE=1
+
 %:
 	dh $@ --buildsystem=python_distutils --with=python2
 
