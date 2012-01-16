@@ -5,6 +5,7 @@ dell-recovery (1.17) UNRELEASED; urgency=low
   * Add a test to make sure most GRUB binaries will build in the chroot.
   * Build depends on grub-efi-amd64-bin and grub-pc-bin to make sure we test
     building those bootloaders.
+  * Remove the theme README (unnecessary)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 10 Jan 2012 16:34:09 -0600
 
