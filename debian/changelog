@@ -8,6 +8,7 @@ dell-recovery (1.17) UNRELEASED; urgency=low
   * Remove the theme README (unnecessary)
   * Disable PNG optimization.  Causes problems with GRUB2 theme (GRUB2 can't
     read indexed PNG's).
+  * Make GRUB2 theme text white instead of black.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 16 Jan 2012 14:45:28 -0600
 
