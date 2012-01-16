@@ -1422,7 +1422,7 @@ manually to proceed.")
                            '/mnt/factory/boot.img']
         for item in grub_files:
             if not os.path.exists(item):
-                os.environ['GRUBCFG'] = '/dev/null'
+                os.environ['TARGET_GRUBCFG'] = '/dev/null'
                 os.environ['ISO_LOADER'] = '/dev/null'
                 build = misc.execute_root('/usr/share/dell/grub/build-binaries.sh')
                 if build is False:

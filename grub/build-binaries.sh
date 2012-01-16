@@ -10,14 +10,23 @@
 # PATCHES specifies where the patches
 # GRUB_SRC specifies where to find a grub source tree containing a debian/
 #          directory (including a collection of distro patches)
+# LEGACY_GRUBDIR specifies where legacy GRUB2  (i386-pc) files are stored
+# UEFI_GRUBDIR specifies where uEFI GRUB2  (x86_64-efi) files are stored
+# ISO_LOADER specifies the directory where the i386-pc ISO loader files
+#            will be stored
+# SOURCE_GRUBDIR is where the conf files used are stored
+# TARGET_GRUBCFG is where the main grubcfg will be placed after modification
 
-[ -n "$TARGET" ] || TARGET=/var/lib/dell-recovery
-[ -n "$GRUBCFG" ] || GRUBCFG=$TARGET/grub.cfg
-[ -n "$ISO_LOADER" ] || ISO_LOADER=$TARGET/iso/i386-pc
+[ -n "$TARGET" ]         || TARGET=/var/lib/dell-recovery
+[ -n "$LEGACY_GRUBDIR" ] || LEGACY_GRUBDIR=/usr/lib/grub/i386-pc
+[ -n "$UEFI_GRUBDIR" ]   || UEFI_GRUBDIR=/usr/lib/grub/x86_64-efi
+[ -n "$SOURCE_GRUBDIR" ] || SOURCE_GRUBDIR=/usr/share/dell/grub
+[ -n "$ISO_LOADER" ]     || ISO_LOADER=$TARGET/iso/i386-pc
+[ -n "$TARGET_GRUBCFG" ] || TARGET_GRUBCFG=$TARGET/grub.cfg
 if [ -z "$PATCHES" ]; then
     RELEASE=$(lsb_release -sc)
-    [ ! -d /usr/share/dell/grub/patches/$RELEASE ] && RELEASE=trunk
-    PATCHES=/usr/share/dell/grub/patches/$RELEASE
+    [ ! -d $SOURCE_GRUBDIR/patches/$RELEASE ] && RELEASE=trunk
+    PATCHES=$SOURCE_GRUBDIR/patches/$RELEASE
 fi
 mkdir -p $TARGET
 
@@ -26,23 +35,23 @@ common_modules="loadenv part_gpt fat ntfs ext2 ntfscomp search linux boot \
                 configfile sleep keystatus normal true font"
 
 #x86_64-efi factory bootloader, EFI target.  requires grub-efi-amd64-bin
-if [ -d /usr/lib/grub/x86_64-efi ] &&
+if [ -d $UEFI_GRUBDIR ] &&
    [ ! -f $TARGET/grubx64.efi ]; then
     echo "Building bootloader images for x86_64-efi"
     efi_modules="efi_uga efi_gop gfxterm part_gpt"
-    grub-mkimage -c /usr/share/dell/grub/embedded.cfg \
+    grub-mkimage -c $SOURCE_GRUBDIR/embedded.cfg \
                  --prefix=/factory                    \
                  -o $TARGET/grubx64.efi -O x86_64-efi \
                  $common_modules $efi_modules
 fi
 
 #i386-pc factory bootloader, legacy target.  reguires grub-pc-bin
-if [ -d /usr/lib/grub/i386-pc ] &&
+if [ -d $LEGACY_GRUBDIR ] &&
    [ ! -f $TARGET/core.img ]; then
     echo "Building bootloader images for i386-pc"
     x86_modules="biosdisk part_msdos vbe vga vga_text"
     #build core image
-    grub-mkimage -c /usr/share/dell/grub/embedded.cfg \
+    grub-mkimage -c $SOURCE_GRUBDIR/embedded.cfg \
                  --prefix=/factory                    \
                  -o $TARGET/core.img -O i386-pc       \
                  $common_modules $x86_modules
@@ -51,25 +60,28 @@ if [ -d /usr/lib/grub/i386-pc ] &&
 fi
 
 #generate grub.cfg used for factory bootloaders
-OS=$(lsb_release -s -d)
-sed "s,#OS#,$OS,; /#UUID#/d" \
-    /usr/share/dell/grub/recovery_partition.cfg \
-    > $GRUBCFG
+if [ ! -c $TARGET_GRUBCFG ]; then
+    echo "Creating factory grub.cfg"
+    OS=$(lsb_release -s -d)
+    sed "s,#OS#,$OS,; /#UUID#/d" \
+        $SOURCE_GRUBDIR/recovery_partition.cfg \
+        > $TARGET_GRUBCFG
+fi
 
 #i386 ISO/USB legacy bootloader. requires grub-pc-bin
-if [ -d /usr/lib/grub/i386-pc ] &&
+if [ -d $LEGACY_GRUBDIR ] &&
    [ ! -c $ISO_LOADER ] &&
    [ ! -d $ISO_LOADER ]; then
     echo "Building bootloader images for i386-pc DVD/USB boot"
     mkdir -p $ISO_LOADER
     #common
-    cp /usr/lib/grub/i386-pc/*.mod $ISO_LOADER
-    cp /usr/lib/grub/i386-pc/*.lst $ISO_LOADER
-    cp /usr/lib/grub/i386-pc/efiemu??.o $ISO_LOADER
+    cp $LEGACY_GRUBDIR/*.mod $ISO_LOADER
+    cp $LEGACY_GRUBDIR/*.lst $ISO_LOADER
+    cp $LEGACY_GRUBDIR/efiemu??.o $ISO_LOADER
     #eltorito
-    cp /usr/lib/grub/i386-pc/cdboot.img $ISO_LOADER
+    cp $LEGACY_GRUBDIR/cdboot.img $ISO_LOADER
     #usb creator
-    cp /usr/lib/grub/i386-pc/boot.img $ISO_LOADER
+    cp $LEGACY_GRUBDIR/boot.img $ISO_LOADER
     workdir="$(mktemp -d workdir-image.XXXXXX)"
     mkdir -p "$workdir"
     cat >"$workdir/grub.cfg" <<EOF

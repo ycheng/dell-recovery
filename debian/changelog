@@ -1,3 +1,10 @@
+dell-recovery (1.18) UNRELEASED; urgency=low
+
+  * Fix bootloader build test so it works on machines without dell-recovery
+    already installed too to avoid a circular dependency.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 16 Jan 2012 15:34:05 -0600
+
 dell-recovery (1.17) precise; urgency=low
 
   * When showing the install complete screen, set the timeout to -1.
