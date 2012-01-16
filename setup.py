@@ -34,7 +34,6 @@ def files_only(directory):
             array = []
             for file in files:
                 array.append(os.path.join(directory, file))
-            print array
             return array
 
 
