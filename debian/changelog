@@ -1,4 +1,4 @@
-dell-recovery (1.17) UNRELEASED; urgency=low
+dell-recovery (1.17) precise; urgency=low
 
   * When showing the install complete screen, set the timeout to -1.
   * Include the 'vbe' module in factory mode too.
@@ -10,7 +10,7 @@ dell-recovery (1.17) UNRELEASED; urgency=low
     read indexed PNG's).
   * Make GRUB2 theme text white instead of black.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 16 Jan 2012 14:45:28 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 16 Jan 2012 14:50:35 -0600
 
 dell-recovery (1.16) precise; urgency=low
 
