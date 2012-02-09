@@ -1,0 +1,43 @@
+Backport portions of r3766 from trunk to allow autotools on precise
+to call autoreconf and automake properly.
+
+Note: not all of the patch was backported, just enough to allow
+automake to exit 0.  On trunk there are also no warnings from
+autotools.
+
+Index: grub2-1.99/Makefile.am
+===================================================================
+--- grub2-1.99.orig/Makefile.am	2012-02-09 00:00:18.931556135 -0600
++++ grub2-1.99/Makefile.am	2012-02-09 00:02:21.011552307 -0600
+@@ -101,8 +101,7 @@
+ # Install config.h into platformdir
+ platform_HEADERS = config.h
+ 
+-pkglib_DATA += grub-mkconfig_lib
+-pkglib_DATA += update-grub_lib
++pkgdata_DATA += grub-mkconfig_lib
+ 
+ 
+ if COND_i386_coreboot
+Index: grub2-1.99/conf/Makefile.common
+===================================================================
+--- grub2-1.99.orig/conf/Makefile.common	2011-04-08 06:45:13.000000000 -0500
++++ grub2-1.99/conf/Makefile.common	2012-02-09 00:02:21.015552306 -0600
+@@ -137,7 +137,7 @@
+ 
+ man_MANS =
+ noinst_DATA =
+-pkglib_DATA =
++pkgdata_DATA =
+ bin_SCRIPTS =
+ sbin_SCRIPTS =
+ bin_PROGRAMS =
+@@ -147,7 +147,6 @@
+ grubconf_DATA =
+ check_PROGRAMS =
+ noinst_SCRIPTS =
+-pkglib_SCRIPTS =
+ noinst_PROGRAMS =
+ grubconf_SCRIPTS =
+ noinst_LIBRARIES =
+ 
