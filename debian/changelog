@@ -7,6 +7,7 @@ dell-recovery (1.20) UNRELEASED; urgency=low
     - Add a preinst to clean up the old scenario.
   * debian/control:
     - Bump standards version.
+  * Make 99_dell_recovery executable in source package.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 09 Feb 2012 00:24:41 -0600
 
