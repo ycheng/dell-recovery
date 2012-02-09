@@ -1,4 +1,4 @@
-dell-recovery (1.20) UNRELEASED; urgency=low
+dell-recovery (1.20) precise; urgency=low
 
   * Backport support for newer autotools to the precise set of grub patches.
     (LP: #928881)
@@ -10,7 +10,7 @@ dell-recovery (1.20) UNRELEASED; urgency=low
   * Make 99_dell_recovery executable in source package.
   * Override more lintian warnings we don't care about.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 09 Feb 2012 00:24:41 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 09 Feb 2012 00:54:49 -0600
 
 dell-recovery (1.19) precise; urgency=low
 
