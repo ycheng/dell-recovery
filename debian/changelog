@@ -4,6 +4,7 @@ dell-recovery (1.20) UNRELEASED; urgency=low
     (LP: #928881)
   * Make the oneiric patches individual symlinks to precise patches rather
     than a full symlinked directory.
+    - Add a preinst to clean up the old scenario.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 09 Feb 2012 00:24:41 -0600
 
