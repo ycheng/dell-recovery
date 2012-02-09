@@ -3,7 +3,7 @@ Section: utils
 Priority: optional
 Maintainer: Mario Limonciello <superm1@ubuntu.com>
 XSBC-Original-Maintainer: Mario Limonciello <mario_limonciello@dell.com>
-Build-Depends: debhelper (>= 7.0.50~), python-all, python-distutils-extra, po-debconf, pyflakes, grub-pc-bin, grub-efi-amd64-bin
+Build-Depends: debhelper (>= 7.0.50~), python-all, python-distutils-extra, po-debconf, pyflakes, grub-pc-bin, grub-efi-amd64-bin, lsb-release
 XS-Python-Version: current
 Homepage: http://linux.dell.com/
 Vcs-Bzr: http://bazaar.launchpad.net/~dell-team/dell-recovery/trunk
