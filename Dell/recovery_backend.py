@@ -347,6 +347,9 @@ class Backend(dbus.service.Object):
                 else:
                     safe_tar_extract(fishie, assembly_tmp)
                     logging.debug("_process_driver_fish: Extracting tar fishie %s", fishie)
+                    pre_package = os.path.join(assembly_tmp, 'prepackage.dell')
+                    if os.path.exists(pre_package):
+                        os.remove(pre_package)
             else:
                 logging.debug("_process_driver_fish: ignoring fishie %s", fishie)
 

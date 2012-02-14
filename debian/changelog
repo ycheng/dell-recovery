@@ -3,6 +3,8 @@ dell-recovery (1.21) UNRELEASED; urgency=low
   * If any directories are found in /kernel on the CD, symlink them
     into /lib/modules on the overlayfs to ensure that alternate kernels
     can be loaded.
+  * If 'prepackage.dell' is found in a tarball, ignore it.  Only applicable
+    for other tools that will be processing packages.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 09 Feb 2012 16:36:52 -0600
 
