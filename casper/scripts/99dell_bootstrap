@@ -118,6 +118,15 @@ if [ -d /sys/firmware/efi ]; then
     casper-preseed /root ubiquity/force_failsafe_graphics false
 fi
 
+# In case we're running a kernel not in the squashfs already
+# we need to load modules into squashfs somehow
+KERNELS=$(find /root/cdrom/kernel -maxdepth 1 -type d 2>/dev/null | sed "s,/root,,; /\/cdrom\/kernel\/$/d")
+if [ -n "$KERNELS" ]; then
+    for KERNEL in $KERNELS; do
+        ln -s $KERNEL /root/lib/modules
+    done
+fi
+
 # Clear out debconf database backup files to save memory.
 rm -f /root/var/cache/debconf/*.dat-old
 

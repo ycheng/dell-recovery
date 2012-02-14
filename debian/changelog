@@ -1,3 +1,11 @@
+dell-recovery (1.21) UNRELEASED; urgency=low
+
+  * If any directories are found in /kernel on the CD, symlink them
+    into /lib/modules on the overlayfs to ensure that alternate kernels
+    can be loaded.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 09 Feb 2012 16:36:52 -0600
+
 dell-recovery (1.20) precise; urgency=low
 
   * Backport support for newer autotools to the precise set of grub patches.
