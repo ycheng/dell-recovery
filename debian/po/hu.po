@@ -11,12 +11,11 @@ msgstr ""
 "PO-Revision-Date: 2010-12-14 05:08+0000\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
-"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 05:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #. Type: text
 #. Description
@@ -92,7 +91,8 @@ msgstr "Teljes merevlemez visszaállítása."
 #. Description
 #: ../dell-recovery.templates:28001
 msgid "This will rebuild all utility, recovery, and OS partitions."
-msgstr "Az összes szerviz-, helyreállítási és rendszerpartíció visszaállítása."
+msgstr ""
+"Az összes szerviz-, helyreállítási és rendszerpartíció visszaállítása."
 
 #. Type: text
 #. Description
@@ -224,58 +224,14 @@ msgstr ""
 #~ msgid "Opening Burner"
 #~ msgstr "Író megnyitása"
 
-#~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
-#~ msgstr ""
-#~ "Ennek az eszköznek a működéséhez \"Utility\" és \"Linux Recovery\" "
-#~ "partíció szükséges."
-
-#~ msgid ""
-#~ "If you would like to archive another copy, the generated image has been "
-#~ "stored under the filename:"
-#~ msgstr ""
-#~ "Ha szeretnél még egy másolatot, a létrehozott képfájl mentése az alábbi "
-#~ "fájlnéven:"
-
-#~ msgid "File Name: "
-#~ msgstr "Fájlnév "
-
-#~ msgid "OS Release: "
-#~ msgstr "OS verzió "
-
-#~ msgid "Create Dell Recovery ISO"
-#~ msgstr "Dell Recovery ISO létrehozása"
-
-#~ msgid "Generating UUID"
-#~ msgstr "UUID generálása"
-
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW lemez"
 
 #~ msgid "Building ISO"
 #~ msgstr "ISO létrehozása"
 
-#~ msgid "Select a directory for the ISO"
-#~ msgstr "Válassza ki az ISO képfájl könyvtárát!"
-
-#~ msgid "Retry burn?"
-#~ msgstr "Ismételt írás?"
-
-#~ msgid "The media burn process failed.  Would you like to retry?"
-#~ msgstr "A média írása nem sikerült. Megpróbálja újra?"
-
-#~ msgid "Choose Target Directory"
-#~ msgstr "Cél könyvtár kiválasztása"
-
-#~ msgid "Welcome"
-#~ msgstr "Üdvözöljük"
-
 #~ msgid "Choose Media Type"
 #~ msgstr "Válassza ki az adathordozó típusát"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Érvénytelen szervizpartíció"
 
 #~ msgid "Permission Denied"
 #~ msgstr "Hozzáférés megtagadva"
@@ -285,9 +241,6 @@ msgstr ""
 
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "A helyreállító adathordozó létrehozása kész"
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Érvénytelen helyreállítási partíció"
 
 #~ msgid "Recovery Partition: "
 #~ msgstr "Helyreállító partíció: "
@@ -322,28 +275,12 @@ msgstr ""
 #~ msgid "No media, create ISO image"
 #~ msgstr "Nincs adathordozó, ISO-lemezkép létrehozása"
 
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to "
-#~ "restore the computer to its factory shipped state.  You will have the "
-#~ "option to create an USB key or DVD image."
-#~ msgstr ""
-#~ "Ez az alkalmazás létrehoz egy rendszer-helyreállító adathordozót, "
-#~ "amellyel a számítógépet a gyári állapotára állíthatja vissza. Választhat "
-#~ "USB-meghajtó vagy DVD-lemezkép létrehozása között."
-
 #~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
 #~ msgstr "Biztos, hogy megszakítja a helyreállító adathordozó létrehozását?"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you "
-#~ "like to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
 #~ msgstr ""
 #~ "Már létezik lemezkép, valószínűleg egy előző futtatás eredményeként. El "
-#~ "szeretné távolítani ezt a régi másolatot, és újra előállítani a "
-#~ "lemezképet?"
-
-#~ msgid "Create Dell Recovery Media?"
-#~ msgstr "Létrehoz Dell helyreállító adathordozót?"
-
-#~ msgid "This window will close automatically when the process is complete. "
-#~ msgstr "Ez az ablak automatikusan bezáródik a folyamat befejeződésekor. "
+#~ "szeretné távolítani ezt a régi másolatot, és újra előállítani a lemezképet?"

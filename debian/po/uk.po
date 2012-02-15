@@ -11,12 +11,11 @@ msgstr ""
 "PO-Revision-Date: 2011-02-17 19:29+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
-"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-02-18 04:36+0000\n"
-"X-Generator: Launchpad (build 12351)\n"
+"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #. Type: text
 #. Description
@@ -229,18 +228,6 @@ msgstr ""
 msgid "Restore #OS# to factory state"
 msgstr "Відновлення #ОС# до початкового стану"
 
-#~ msgid "This window will close automatically when the process is complete. "
-#~ msgstr "Це вікно буде автоматично закрито після завершення операції. "
-
-#~ msgid "Create Dell Recovery Media?"
-#~ msgstr "Створити носій для відновлення Dell?"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Некоректний допоміжний розділ"
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Некоректний розділ для відновлення"
-
 #~ msgid "Permission Denied"
 #~ msgstr "Відмовлено у доступі"
 
@@ -252,9 +239,6 @@ msgstr "Відновлення #ОС# до початкового стану"
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Не вдалося встановити зв’язок з D-Bus"
-
-#~ msgid "Welcome"
-#~ msgstr "Вітаємо"
 
 #~ msgid "Choose Media Type"
 #~ msgstr "Вибір типу носія"
@@ -288,11 +272,11 @@ msgstr "Відновлення #ОС# до початкового стану"
 #~ msgstr "<замінник дії>"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you "
-#~ "like to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
 #~ msgstr ""
-#~ "Виявлено готовий образ (ймовірно, створений під час попереднього "
-#~ "запуску). Бажаєте вилучити цю стару копію і повторно створити образ?"
+#~ "Виявлено готовий образ (ймовірно, створений під час попереднього запуску). "
+#~ "Бажаєте вилучити цю стару копію і повторно створити образ?"
 
 #~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
 #~ msgstr ""
@@ -307,22 +291,5 @@ msgstr "Відновлення #ОС# до початкового стану"
 #~ msgid "No media, create ISO image"
 #~ msgstr "Без носія, створити образ ISO"
 
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to "
-#~ "restore the computer to its factory shipped state.  You will have the "
-#~ "option to create an USB key or DVD image."
-#~ msgstr ""
-#~ "За допомогою цієї програми можна створити носій для відновлення ОС, яким "
-#~ "можна буде скористатися для відновлення операційної системи комп’ютера до "
-#~ "стану, у якому вам її передав виробник обладнання. Ви зможете створити "
-#~ "відновлювальний флеш-диск USB або диск DVD."
-
 #~ msgid "USB Flash Drive"
 #~ msgstr "Флеш-диск USB"
-
-#~ msgid ""
-#~ "ERROR: This media only functions on Dell systems booted directly into "
-#~ "recovery mode."
-#~ msgstr ""
-#~ "ПОМИЛКА: цей носій працюватиме лише у системах Dell, завантажених "
-#~ "безпосередньо у режимі відновлення."

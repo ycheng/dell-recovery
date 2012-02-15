@@ -8,15 +8,14 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2011-10-06 16:00-0500\n"
-"PO-Revision-Date: 2010-02-19 14:11+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2011-11-10 14:07+0000\n"
+"Last-Translator: Mantas Kriaučiūnas <mantas@akl.lt>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
-"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 05:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-11-11 04:54+0000\n"
+"X-Generator: Launchpad (build 14277)\n"
 
 #. Type: text
 #. Description
@@ -28,7 +27,7 @@ msgstr ""
 #. Description
 #: ../dell-recovery.templates:19001
 msgid "Opening Burner..."
-msgstr ""
+msgstr "Atveriama CD/DVD rašymo programa"
 
 #. Type: text
 #. Description
@@ -210,32 +209,23 @@ msgstr ""
 msgid "Restore #OS# to factory state"
 msgstr ""
 
-#~ msgid "Welcome"
-#~ msgstr "Sveiki"
-
 #~ msgid "Choose Media Type"
 #~ msgstr "Pasirinkite laikmenos tipą"
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Nepavyko prisijungti prie dbus"
 
-#~ msgid "Invalid utility partition"
-#~ msgstr "Netinkamas įrankių skirsnis"
-
 #~ msgid "Permission Denied"
 #~ msgstr "Priėjimas uždraustas"
+
+#~ msgid "Opening Burner"
+#~ msgstr "Atveriama CD/DVD įrašymo programa"
 
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Atkūrimo laikmena sukurta"
 
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Netinkamas atkūrimo skirsnis"
-
 #~ msgid "Recovery Partition: "
 #~ msgstr "Atkūrimo skirsnis: "
-
-#~ msgid "File Name: "
-#~ msgstr "Failo pavadinimas: "
 
 #~ msgid "Media Type: "
 #~ msgstr "Laikmenos tipas: "
@@ -255,16 +245,6 @@ msgstr ""
 #~ msgid "Dell Recovery Media Creator"
 #~ msgstr "Dell sistemos atkūrimo laikmenų įrankis"
 
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to "
-#~ "restore the computer to its factory shipped state.  You will have the "
-#~ "option to create an USB key or DVD image."
-#~ msgstr ""
-#~ "Ši programa sukurs kompiuterio operacinės sistemos atkūrimo laikmeną, "
-#~ "kurios pagalba galėsite atkurti kompiuterio programinę įrangą iki dabar "
-#~ "esančios būsenos. Jūs galėsite įrašyti atkūrimo atvaizdį į USB atmintuką "
-#~ "ar DVD diską."
-
 #~ msgid "Cancel Recovery Media Creator"
 #~ msgstr "Nutraukti atkūrimo laikmenos generavimą"
 
@@ -281,8 +261,8 @@ msgstr ""
 #~ msgstr "Ar tikrai norite nutraukti atkūrimo laikmenos generavimą?"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you "
-#~ "like to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
 #~ msgstr ""
-#~ "Radau jau sukurtą atkūrimo atvaizdžio failą. Ar norite išmesti šį failą "
-#~ "ir iš naujo sukurti sistemos atkūrimo atvaizdį?"
+#~ "Radau jau sukurtą atkūrimo atvaizdžio failą. Ar norite išmesti šį failą ir "
+#~ "iš naujo sukurti sistemos atkūrimo atvaizdį?"

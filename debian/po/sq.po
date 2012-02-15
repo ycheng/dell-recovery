@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 05:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #. Type: text
 #. Description
@@ -209,9 +209,6 @@ msgstr ""
 #: ../dell-recovery.templates:48001
 msgid "Restore #OS# to factory state"
 msgstr ""
-
-#~ msgid "Welcome"
-#~ msgstr "Mirëseerdhët"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW Disk"

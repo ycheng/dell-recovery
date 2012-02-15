@@ -11,12 +11,11 @@ msgstr ""
 "PO-Revision-Date: 2009-12-08 12:30+0000\n"
 "Last-Translator: cumulus007 <cumulus0007@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 05:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #. Type: text
 #. Description
@@ -210,21 +209,8 @@ msgstr ""
 msgid "Restore #OS# to factory state"
 msgstr ""
 
-#~ msgid "Welcome"
-#~ msgstr "Welkom"
-
 #~ msgid "Permission Denied"
 #~ msgstr "Toegang geweigerd"
-
-#~ msgid "Choose Target Directory"
-#~ msgstr "Selecteer doel"
-
-#~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
-#~ msgstr ""
-#~ "Voor deze toepassing dienen er een Utility-partitie en een Linux-"
-#~ "herstelpartitie aanwezig te zijn, om te kunnen functioneren."
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Kan geen verbinding maken met dbus"
@@ -232,29 +218,14 @@ msgstr ""
 #~ msgid "Opening Burner"
 #~ msgstr "Brander openen"
 
-#~ msgid "Create Dell Recovery ISO"
-#~ msgstr "Dell herstel-ISO aanmaken"
-
-#~ msgid "Generating UUID"
-#~ msgstr "UUID aanmaken"
-
 #~ msgid "Recovery Partition: "
 #~ msgstr "Herstelpartitie: "
-
-#~ msgid "File Name: "
-#~ msgstr "Bestandsnaam: "
 
 #~ msgid "Building ISO"
 #~ msgstr "ISO wordt aangemaakt"
 
-#~ msgid "OS Release: "
-#~ msgstr "OS-uitgave: "
-
 #~ msgid "ISO Image"
 #~ msgstr "ISO-beeldbestand"
-
-#~ msgid "Building UP"
-#~ msgstr "UP wordt aangemaakt"
 
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "Systeem houdt lezen raw-apparaten tegen"
@@ -268,60 +239,24 @@ msgstr ""
 #~ msgid "Cancel Recovery Media Creator"
 #~ msgstr "Herstelmedia aanmaken annuleren"
 
-#~ msgid "Select a directory for the ISO"
-#~ msgstr "Selecteer een map voor het ISO-bestand"
-
 #~ msgid "No media, create ISO image"
 #~ msgstr "Geen media, maak ISO-beeldbestand aan"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "Dvd+/-rw-schijf"
 
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to "
-#~ "restore the computer to its factory shipped state.  You will have the "
-#~ "option to create an USB key or DVD image."
-#~ msgstr ""
-#~ "Met deze toepassing kunt u herstelmedia aanmaken die u kunt gebruiken om "
-#~ "uw computer weer terug te brengen naar de fabrieksinstellingen. U heeft "
-#~ "de keuze tussen een usb-stick of een dvd-beeldbestand."
-
-#~ msgid "Retry burn?"
-#~ msgstr "Opnieuw proberen te branden?"
-
 #~ msgid "USB Flash Drive"
 #~ msgstr "Usb-stick"
-
-#~ msgid "The media burn process failed.  Would you like to retry?"
-#~ msgstr "Het branden is niet gelukt. Wilt u het opnieuw proberen?"
-
-#~ msgid ""
-#~ "If you would like to archive another copy, the generated image has been "
-#~ "stored under the filename:"
-#~ msgstr ""
-#~ "Als u nog een kopie wilt opslaan dan vindt u het gemaakte beeldbestand "
-#~ "onder de naam:"
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Ongeldige herstelpartitie"
 
 #~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
 #~ msgstr "Weet u zeker dat u het herstelmediaproces wilt stoppen?"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you "
-#~ "like to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
 #~ msgstr ""
 #~ "Er is een bestaand beeldbestand gevonden (waarschijnlijk van een vorige "
-#~ "keer). Wilt u deze oude kopie verwijderen en een nieuw beeldbestand "
-#~ "aanmaken?"
-
-#~ msgid " in command line arguments.  Falling back to HAL based detection."
-#~ msgstr ""
-#~ " in opdrachtregelargumenten. Terugvallen op HAL-gebaseerde detectie."
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Ongeldige hulpmiddelen-partitie"
+#~ "keer). Wilt u deze oude kopie verwijderen en een nieuw beeldbestand aanmaken?"
 
 #~ msgid "Utility Partition: "
 #~ msgstr "Hulpmiddelen-partitie "

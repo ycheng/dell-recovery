@@ -11,12 +11,11 @@ msgstr ""
 "PO-Revision-Date: 2009-05-23 16:53+0000\n"
 "Last-Translator: Jimmy Frydkær Dürr <thewolf40@mailme.dk>\n"
 "Language-Team: Danish <da@li.org>\n"
-"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 05:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #. Type: text
 #. Description
@@ -213,12 +212,6 @@ msgstr ""
 #~ msgid "Opening Burner"
 #~ msgstr "Åbner brænder"
 
-#~ msgid "Welcome"
-#~ msgstr "Velkommen"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Ugyldig nytte partition"
-
 #~ msgid "Permission Denied"
 #~ msgstr "Tilladelse nægtet"
 
@@ -228,42 +221,14 @@ msgstr ""
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Genskabelses Medie Oprettelses Proces Færdig"
 
-#~ msgid ""
-#~ "If you would like to archive another copy, the generated image has been "
-#~ "stored under the filename:"
-#~ msgstr ""
-#~ "Hvis du ønsker at arkivere en anden kopi, er det generede billede gemt "
-#~ "under filnavnet:"
-
-#~ msgid " in command line arguments.  Falling back to HAL based detection."
-#~ msgstr " i kommandolinje argument. Falder tilbage til HAL detection."
-
-#~ msgid "Building UP"
-#~ msgstr "Bygger op"
-
 #~ msgid "Confirm Selections"
 #~ msgstr "Godkend valgene"
-
-#~ msgid "File Name: "
-#~ msgstr "Filbavn: "
-
-#~ msgid "OS Release: "
-#~ msgstr "OS udgivelse: "
 
 #~ msgid "ISO Image"
 #~ msgstr "ISO billede"
 
-#~ msgid "Choose Target Directory"
-#~ msgstr "Vælg mål-mappe"
-
 #~ msgid "<activity placeholder>"
 #~ msgstr "<activity placeholder>"
-
-#~ msgid "Create Dell Recovery ISO"
-#~ msgstr "Opret Dell Gendannelses ISO"
-
-#~ msgid "Generating UUID"
-#~ msgstr "Genererer UUID"
 
 #~ msgid "Building ISO"
 #~ msgstr "Bygger ISO"
@@ -272,45 +237,17 @@ msgstr ""
 #~ msgstr "DVD+/-RW Disc"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you "
-#~ "like to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
 #~ msgstr ""
 #~ "Et eksisterende billede blev fundet (formentlig fra en tidligere kørsel). "
 #~ "Ønsker du at fjerne den gamle kopi og regenerere billedet?"
-
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to "
-#~ "restore the computer to its factory shipped state.  You will have the "
-#~ "option to create an USB key or DVD image."
-#~ msgstr ""
-#~ "Dette program vil oprette et gendannelses medie som kan bruges til at "
-#~ "gendanne computeren til den tilstand den forlod fabrikken i. Du vil få "
-#~ "mulighed for at oprette enten en USB nøgle eller et DVD billede."
 
 #~ msgid "USB Flash Drive"
 #~ msgstr "USB Flash Drive"
 
 #~ msgid "No media, create ISO image"
 #~ msgstr "Ingen medie, opret ISO billede"
-
-#~ msgid "Select a directory for the ISO"
-#~ msgstr "Vælg en mappe til ISO billedet"
-
-#~ msgid "The media burn process failed.  Would you like to retry?"
-#~ msgstr "Brænding af medie mislukkedes. Vil du prøve igen?"
-
-#~ msgid "Retry burn?"
-#~ msgstr "Prøv at brænde igen?"
-
-#~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
-#~ msgstr ""
-#~ "Dette værktøj kræver at en nytte-partition og Linux Recovery Partition er "
-#~ "til stede og fungerer."
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Ugyldig genskabelsespartition"
 
 #~ msgid "Recovery Partition: "
 #~ msgstr "Genskabelsespartiton: "

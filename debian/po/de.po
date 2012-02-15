@@ -8,15 +8,14 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2011-10-06 16:00-0500\n"
-"PO-Revision-Date: 2011-02-26 13:33+0000\n"
+"PO-Revision-Date: 2012-01-06 15:50+0000\n"
 "Last-Translator: Dennis Baudys <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-02-27 04:40+0000\n"
-"X-Generator: Launchpad (build 12351)\n"
+"X-Launchpad-Export-Date: 2012-01-07 05:21+0000\n"
+"X-Generator: Launchpad (build 14640)\n"
 
 #. Type: text
 #. Description
@@ -81,7 +80,8 @@ msgstr ""
 #. Description
 #: ../dell-recovery.templates:26001 ../dell-recovery.templates:29001
 msgid "WARNING: All personal files and changes will be lost."
-msgstr "WARNUNG: Alle persönlichen Daten und Änderungen werden verloren gehen."
+msgstr ""
+"WARNUNG: Alle persönlichen Daten und Änderungen werden verloren gehen."
 
 #. Type: text
 #. Description
@@ -136,7 +136,7 @@ msgstr "HINWEIS: Bitte haben Sie Geduld, dies könnte eine Weile dauern."
 #. Description
 #: ../dell-recovery.templates:35001
 msgid "Your system will restart automatically several times."
-msgstr ""
+msgstr "Ihr Rechner wird automatisch mehrere Male neu starten."
 
 #. Type: text
 #. Description
@@ -239,26 +239,14 @@ msgstr "Werkszustand von #OS# wiederherstellen"
 #~ msgid "Media Type: "
 #~ msgstr "Medientyp: "
 
-#~ msgid "Welcome"
-#~ msgstr "Willkommen"
-
 #~ msgid "Choose Media Type"
 #~ msgstr "Medientyp wählen"
-
-#~ msgid "Retry burn?"
-#~ msgstr "Brennen erneut versuchen?"
 
 #~ msgid "Recovery Partition: "
 #~ msgstr "Wiederherstellungspartition: "
 
-#~ msgid "File Name: "
-#~ msgstr "Dateiname: "
-
 #~ msgid "Utility Partition: "
 #~ msgstr "Dienstpartition: "
-
-#~ msgid "OS Release: "
-#~ msgstr "Betriebssystemversion: "
 
 #~ msgid "Permission Denied"
 #~ msgstr "Zugriff verweigert"
@@ -266,67 +254,16 @@ msgstr "Werkszustand von #OS# wiederherstellen"
 #~ msgid "ISO Image"
 #~ msgstr "ISO-Abbild"
 
-#~ msgid "Choose Target Directory"
-#~ msgstr "Zielverzeichnis auswählen"
-
-#~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
-#~ msgstr ""
-#~ "Dieses Programm benötigt eine vorhandene Dienstprogramm- und eine "
-#~ "Linuxwiederherstellungspartition."
-
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Keine Verbindung zum D-Bus"
 
-#~ msgid "Create Dell Recovery ISO"
-#~ msgstr "Dell Recovery ISO erstellen"
-
-#~ msgid "Generating UUID"
-#~ msgstr "Erzeuge UUID"
-
-#~ msgid "Select a directory for the ISO"
-#~ msgstr "Wähle Verzeichnis für ISO-Abbild"
-
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "Systemrichtlinie verhindert das Lesen von Raw-Devices"
-
-#~ msgid "Building UP"
-#~ msgstr "Erstelle"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Ungültige Werkzeugpartition"
-
-#~ msgid "The media burn process failed.  Would you like to retry?"
-#~ msgstr ""
-#~ "Das Brennen des Datenträgers ist fehlgeschlagen. Wollen sie es noch "
-#~ "einmal versuchen?"
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Ungültige Wiederherstellungspartition"
-
-#~ msgid ""
-#~ "If you would like to archive another copy, the generated image has been "
-#~ "stored under the filename:"
-#~ msgstr ""
-#~ "Falls Sie eine weitere Kopie archivieren möchten, das erzeugte Abbild "
-#~ "wurde unter dem folgendem Dateinamen gespeichert:"
-
-#~ msgid " in command line arguments.  Falling back to HAL based detection."
-#~ msgstr " in Kommandozeilenargumenten. Benutze HAL-basierte Erkennung."
 
 #~ msgid "Are you sure you want to cancel the Recovery Media creation process?"
 #~ msgstr ""
 #~ "Sind Sie sich sicher, dass Sie den Erstellungsprozess des "
 #~ "Wiederherstellungsdatenträgers abbrechen möchten?"
-
-#~ msgid "Create Dell Recovery Media?"
-#~ msgstr "Dell-Wiederherstellungsmedium erstellen?"
-
-#~ msgid "This window will close automatically when the process is complete. "
-#~ msgstr ""
-#~ "Dieses Fenster wird sich nach Beendigung des Vorgangs automatisch "
-#~ "schließen. "
 
 #~ msgid "Opening Burner"
 #~ msgstr "Brenner wird geöffnet"
@@ -344,25 +281,15 @@ msgstr "Werkszustand von #OS# wiederherstellen"
 #~ msgstr "Dell-Wiederherstellungsmedien-Ersteller"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you "
-#~ "like to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
 #~ msgstr ""
-#~ "Ein existierendes Abbild wurde gefunden (wahrscheinlich von einer "
-#~ "vorherigen Aufruf dieser Anwendung). Möchten Sie diese alte Kopie löschen "
-#~ "und das Abbild neu erstellen?"
+#~ "Ein existierendes Abbild wurde gefunden (wahrscheinlich von einer vorherigen "
+#~ "Aufruf dieser Anwendung). Möchten Sie diese alte Kopie löschen und das "
+#~ "Abbild neu erstellen?"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW-Disk"
-
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to "
-#~ "restore the computer to its factory shipped state.  You will have the "
-#~ "option to create an USB key or DVD image."
-#~ msgstr ""
-#~ "Diese Anwendung wird ein Rettungsmedium für das Betriebssystem erstellen, "
-#~ "das zum Zurücksetzen des Rechners auf die Werkseinstellungen verwendet "
-#~ "werden kann. Sie haben die Möglichkeit, einen USB-Stick oder ein DVD-"
-#~ "Abbild zu erstellen."
 
 #~ msgid "Cancel Recovery Media Creator"
 #~ msgstr "Wiederherstellungsmedien-Ersteller abbrechen"
@@ -372,10 +299,3 @@ msgstr "Werkszustand von #OS# wiederherstellen"
 
 #~ msgid "No media, create ISO image"
 #~ msgstr "Kein Medium, ISO-Abbild erzeugen"
-
-#~ msgid ""
-#~ "ERROR: This media only functions on Dell systems booted directly into "
-#~ "recovery mode."
-#~ msgstr ""
-#~ "FEHLER: Dieses Medium funktioniert nur auf Dell Systemen, welche direkt "
-#~ "in den Wiederherstellungsmodus gestartet wurden."

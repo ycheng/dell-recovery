@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 05:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #. Type: text
 #. Description
@@ -216,17 +216,11 @@ msgstr ""
 #~ msgid "USB Flash Drive"
 #~ msgstr "Dysk USB Flash"
 
-#~ msgid "Welcome"
-#~ msgstr "Witamy"
-
 #~ msgid "Confirm Selections"
 #~ msgstr "Potwierdź wybory"
 
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Proces Tworzenia Dysku Odzyskiwania Zakończony"
-
-#~ msgid "File Name: "
-#~ msgstr "Nazwa pliku: "
 
 #~ msgid "Media Type: "
 #~ msgstr "Typ nośnika: "
@@ -237,29 +231,17 @@ msgstr ""
 #~ msgid "ISO Image"
 #~ msgstr "Obraz ISO"
 
-#~ msgid "Choose Target Directory"
-#~ msgstr "Wybierz folder docelowy"
-
 #~ msgid "Permission Denied"
 #~ msgstr "Dostęp zabroniony"
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Nie można się połączyć z dbus"
 
-#~ msgid "Retry burn?"
-#~ msgstr "Powtórzyć wypalanie?"
-
 #~ msgid "Recovery Partition: "
 #~ msgstr "Partycja przywracania "
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Nieprawidłowa partycja systemowa"
 
 #~ msgid "Utility Partition: "
 #~ msgstr "Partycja Narzędziowa "
 
 #~ msgid "Opening Burner"
 #~ msgstr "Otwieranie nagrywarki"
-
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Nieprawidłowa partycja odzyskiwania"

@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 05:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #. Type: text
 #. Description
@@ -210,23 +210,11 @@ msgstr ""
 msgid "Restore #OS# to factory state"
 msgstr ""
 
-#~ msgid "Welcome"
-#~ msgstr "Vítejte!"
-
 #~ msgid "Permission Denied"
 #~ msgstr "Nedostatečná oprávnění"
 
-#~ msgid "File Name: "
-#~ msgstr "Název souboru: "
-
 #~ msgid "ISO Image"
 #~ msgstr "ISO obraz"
-
-#~ msgid "Create Dell Recovery ISO"
-#~ msgstr "Vytvořit Dell Recovery ISO"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Invalidní rozdělení utility"
 
 #~ msgid "Choose Media Type"
 #~ msgstr "Vyberte typ média"

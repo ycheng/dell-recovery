@@ -11,12 +11,11 @@ msgstr ""
 "PO-Revision-Date: 2009-06-21 07:02+0000\n"
 "Last-Translator: Ibrahim Elias <imen802003@netscape.net>\n"
 "Language-Team: Malay <ms@li.org>\n"
-"Language: ms\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 05:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #. Type: text
 #. Description
@@ -210,21 +209,8 @@ msgstr ""
 msgid "Restore #OS# to factory state"
 msgstr ""
 
-#~ msgid "Welcome"
-#~ msgstr "Selamat Datang"
-
-#~ msgid "Invalid utility partition"
-#~ msgstr "Partition utiliti tidak sah"
-
 #~ msgid "Permission Denied"
 #~ msgstr "Kebenaran ditolak"
-
-#~ msgid ""
-#~ "This tool requires that a Utility Partition and Linux Recovery partition "
-#~ "are present to function."
-#~ msgstr ""
-#~ "Perkakas ini memerlukan Partition Utiliti dan partition Linux Recovery "
-#~ "hadir untuk berfungsi."
 
 #~ msgid "Cannot connect to dbus"
 #~ msgstr "Tidak boleh sambung ke dbus"
@@ -235,24 +221,8 @@ msgstr ""
 #~ msgid "Recovery Media Creation Process Complete"
 #~ msgstr "Proses Recovery Medi Creation Selesai"
 
-#~ msgid "Invalid recovery partition"
-#~ msgstr "Partition recovery tidak sah"
-
-#~ msgid ""
-#~ "If you would like to archive another copy, the generated image has been "
-#~ "stored under the filename:"
-#~ msgstr ""
-#~ "Sekiranya anda mahu arkib salinan lain, imej terjana telah disimpan di "
-#~ "bawah nama fail:"
-
-#~ msgid "Building UP"
-#~ msgstr "Membina UP"
-
 #~ msgid "Recovery Partition: "
 #~ msgstr "Partition Recovery: "
-
-#~ msgid "File Name: "
-#~ msgstr "Nama File: "
 
 #~ msgid "Media Type: "
 #~ msgstr "Jenis Media: "
@@ -266,26 +236,14 @@ msgstr ""
 #~ msgid "Utility Partition: "
 #~ msgstr "Partition Utiliti: "
 
-#~ msgid "OS Release: "
-#~ msgstr "Versi keluaran OS: "
-
 #~ msgid "ISO Image"
 #~ msgstr "Imej ISO"
-
-#~ msgid "Choose Target Directory"
-#~ msgstr "Pilih Direktori Tujuan"
 
 #~ msgid "System policy prevents reading raw devices"
 #~ msgstr "Polisi sistem menghalang baca raw device"
 
 #~ msgid "<activity placeholder>"
 #~ msgstr "<activity placeholder>"
-
-#~ msgid "Create Dell Recovery ISO"
-#~ msgstr "Cipta Dell Recovery ISO"
-
-#~ msgid "Generating UUID"
-#~ msgstr "Menjana UUID"
 
 #~ msgid "Cancel Recovery Media Creator"
 #~ msgstr "Batal Media Recovery Creator"
@@ -300,8 +258,8 @@ msgstr ""
 #~ msgstr "Adakah anda pasti untuk batal proses cipta Media Recovery?"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you "
-#~ "like to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you like "
+#~ "to remove this old copy and regenerate the image?"
 #~ msgstr ""
 #~ "Imej yang telah ada dijumpai (kemungkinan dari jalan sebelum ini). Adakah "
 #~ "anda mahu untuk buang salinan lama ini dan regenerate imej?"
@@ -314,24 +272,3 @@ msgstr ""
 
 #~ msgid "No media, create ISO image"
 #~ msgstr "Tiada media, cipta imej ISO"
-
-#~ msgid "Select a directory for the ISO"
-#~ msgstr "Pilih direktori untuk ISO"
-
-#~ msgid ""
-#~ "This application will create OS Recovery Media that can be used to "
-#~ "restore the computer to its factory shipped state.  You will have the "
-#~ "option to create an USB key or DVD image."
-#~ msgstr ""
-#~ "Aplikasi ini akan cipta Media OS Recovery yang boleh digunakan untuk "
-#~ "restore komputer ke keadaan asal dari kilang. Anda mempunyai pilih untuk "
-#~ "cipta key USB atau imej DVD."
-
-#~ msgid "Retry burn?"
-#~ msgstr "Cuba lagi bakar?"
-
-#~ msgid "The media burn process failed.  Would you like to retry?"
-#~ msgstr "Proses bakar media gagal. Adakah anda mahu cuba lagi?"
-
-#~ msgid " in command line arguments.  Falling back to HAL based detection."
-#~ msgstr " in command line arguments.  Falling back to HAL based detection."

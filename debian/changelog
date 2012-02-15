@@ -5,6 +5,7 @@ dell-recovery (1.21) UNRELEASED; urgency=low
     can be loaded.
   * If 'prepackage.dell' is found in a tarball, ignore it.  Only applicable
     for other tools that will be processing packages.
+  * Merge translations from launchpad.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 09 Feb 2012 16:36:52 -0600
 
