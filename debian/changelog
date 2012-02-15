@@ -1,4 +1,4 @@
-dell-recovery (1.21) UNRELEASED; urgency=low
+dell-recovery (1.21) precise; urgency=low
 
   * If any directories are found in /kernel on the CD, symlink them
     into /lib/modules on the overlayfs to ensure that alternate kernels
@@ -7,7 +7,7 @@ dell-recovery (1.21) UNRELEASED; urgency=low
     for other tools that will be processing packages.
   * Merge translations from launchpad.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 09 Feb 2012 16:36:52 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 14 Feb 2012 18:57:06 -0600
 
 dell-recovery (1.20) precise; urgency=low
 
