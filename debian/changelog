@@ -1,9 +1,9 @@
-dell-recovery (1.22) UNRELEASED; urgency=low
+dell-recovery (1.22) precise; urgency=low
 
   * Drop new_autotools.patch.  It's no longer necessary with GRUB2 
     1.99-17ubuntu1.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 07 Mar 2012 16:30:03 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 07 Mar 2012 16:31:31 -0600
 
 dell-recovery (1.21) precise; urgency=low
 
