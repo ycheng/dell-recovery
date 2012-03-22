@@ -129,7 +129,7 @@ if [ -d /usr/lib/gcc/i586-mingw32msvc ] &&
     done
     QUILT_PATCHES=debian/patches quilt push -a -q
     ./autogen.sh >/dev/null 2>&1
-    CC=i586-mingw32msvc-gcc ./configure --host=i586-mingw32msvc >/dev/null
+    CC=i586-mingw32msvc-gcc ./configure --host=i586-mingw32msvc --disable-efiemu>/dev/null
     cd grub-core/gnulib && make > /dev/null && cd ../..
     make grub_script.tab.h grub_script.yy.h grub-setup.exe >/dev/null
     cp grub-setup.exe $TARGET
