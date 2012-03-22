@@ -1,9 +1,9 @@
-dell-recovery (1.23) UNRELEASED; urgency=low
+dell-recovery (1.23) precise; urgency=low
 
   * Disable unnecessary efiemu in the 32 bit factory bootloader.  Prevents
     failed postinst due to grub2 1.99-18ubuntu1.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 22 Mar 2012 17:01:26 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 22 Mar 2012 17:02:41 -0500
 
 dell-recovery (1.22) precise; urgency=low
 
