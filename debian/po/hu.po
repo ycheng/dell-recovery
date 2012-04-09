@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2011-10-06 16:00-0500\n"
-"PO-Revision-Date: 2010-12-14 05:08+0000\n"
+"PO-Revision-Date: 2012-04-08 16:39+0000\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
-"X-Generator: Launchpad (build 14124)\n"
+"X-Launchpad-Export-Date: 2012-04-09 04:57+0000\n"
+"X-Generator: Launchpad (build 15060)\n"
 
 #. Type: text
 #. Description
@@ -33,7 +33,7 @@ msgstr "Író megnyitása…"
 #. Description
 #: ../dell-recovery.templates:20001
 msgid "Dell Recovery"
-msgstr ""
+msgstr "Dell helyreállító"
 
 #. Type: text
 #. Description
@@ -112,6 +112,7 @@ msgstr "Ez lehetővé teszi a meglévő partíciók átméretezését."
 msgid ""
 "ERROR: This recovery media only functions on Dell and Alienware systems."
 msgstr ""
+"HIBA: ez a helyreállító média csak Dell és Alienware rendszereken működik."
 
 #. Type: text
 #. Description
@@ -129,7 +130,7 @@ msgstr "MEGJEGYZÉS: Legyen türelemmel, a kiinduló lekérés sokáig tarthat."
 #. Description
 #: ../dell-recovery.templates:35001
 msgid "Your system will restart automatically several times."
-msgstr ""
+msgstr "A rendszer többször is automatikusan újra fog indulni."
 
 #. Type: text
 #. Description
@@ -219,7 +220,7 @@ msgstr "Elfogadom a licencfeltételeket (kötelező a számítógép használat�
 #. Description
 #: ../dell-recovery.templates:48001
 msgid "Restore #OS# to factory state"
-msgstr ""
+msgstr "#OS# helyreállítása a gyári állapotra"
 
 #~ msgid "Opening Burner"
 #~ msgstr "Író megnyitása"
