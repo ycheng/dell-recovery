@@ -483,8 +483,7 @@ class Page(Plugin):
 
         #If we are in dynamic (dell-recovery/swap=dynamic) and small drive 
         #   or we explicitly disabled (dell-recovery/swap=false)
-        if not self.swap or (self.swap == "dynamic" and \
-                                       (self.mem >= 4 or self.disk_size <= 64)):
+        if not self.swap or (self.swap == "dynamic" and self.disk_size <= 64):
             self.log("Performing swap recipe fixup (%s, hdd: %i, mem: %f)" % \
                                         (self.swap, self.disk_size, self.mem))
             try:
