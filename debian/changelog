@@ -1,3 +1,9 @@
+dell-recovery (1.25) UNRELEASED; urgency=low
+
+  * Pass the destination as found in the SDR to target system.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
+
 dell-recovery (1.24) precise; urgency=low
 
   * Disable memory check for swap determination.

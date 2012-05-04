@@ -545,7 +545,7 @@ class Page(Plugin):
 
         #Parse SDR
         srv_list = []
-        dest = 'US'
+        dest = ''
         with open(sdr_file[0], 'r') as rfd:
             sdr_lines = rfd.readlines()
         for line in sdr_lines:
@@ -575,6 +575,8 @@ class Page(Plugin):
             archive.close()
 
         #if the destination is somewhere special, change the language
+        if dest:
+            self.preseed('dell-recovery/destination', dest)
         if dest == 'CN':
             self.preseed('debian-installer/locale', 'zh_CN.UTF-8')
             self.ui.controller.translate('zh_CN.UTF-8')
@@ -1864,6 +1866,16 @@ class Install(InstallPlugin):
         if oie:
             with open('/tmp/oie', 'w') as wfd:
                 pass
+
+        #for tos
+        try:
+            destination = progress.get('dell-recovery/destination')
+        except debconf.DebconfError:
+            destination = ''
+        fname = os.path.join(self.target, 'etc', 'default', 'dell-eula')
+        if destination and not os.path.exists(fname):
+            with open(fname, 'w') as wfd:
+                wfd.write('WARRANTY=%s\n' % destination)
 
         to_install += self.mark_upgrades()
 

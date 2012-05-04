@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2011-10-06 16:00-0500\n"
+"POT-Creation-Date: 2012-05-04 15:41-0500\n"
 "PO-Revision-Date: 2011-01-17 09:45+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -214,14 +215,17 @@ msgstr "Dellin loppukäyttäjän lisenssiehdot"
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:47001
-msgid "I accept the license terms. (required to use your computer)"
-msgstr "Hyväksyn lisenssiehdot. (vaaditaan tietokoneen käyttöön)"
+msgid "I have read and accept these terms."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:48001
 msgid "Restore #OS# to factory state"
 msgstr "Palauta #OS# tehdastilaan"
+
+#~ msgid "I accept the license terms. (required to use your computer)"
+#~ msgstr "Hyväksyn lisenssiehdot. (vaaditaan tietokoneen käyttöön)"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW-levy"
@@ -282,8 +286,9 @@ msgstr "Palauta #OS# tehdastilaan"
 #~ msgstr "Haluatko varmasti perua palautusmedian luonnin?"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you like "
-#~ "to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you "
+#~ "like to remove this old copy and regenerate the image?"
 #~ msgstr ""
-#~ "Olemassa oleva levykuva löytyi (mahdollisesti edelliseltä suorituskerralta). "
-#~ "Haluatko poistaa tämän vanhan kopion ja luoda levykuvan uudelleen?"
+#~ "Olemassa oleva levykuva löytyi (mahdollisesti edelliseltä "
+#~ "suorituskerralta). Haluatko poistaa tämän vanhan kopion ja luoda "
+#~ "levykuvan uudelleen?"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2011-10-06 16:00-0500\n"
+"POT-Creation-Date: 2012-05-04 15:41-0500\n"
 "PO-Revision-Date: 2010-05-19 19:47+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -201,7 +201,7 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:47001
-msgid "I accept the license terms. (required to use your computer)"
+msgid "I have read and accept these terms."
 msgstr ""
 
 #. Type: text

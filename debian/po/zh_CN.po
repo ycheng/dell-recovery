@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2011-10-06 16:00-0500\n"
+"POT-Creation-Date: 2012-05-04 15:41-0500\n"
 "PO-Revision-Date: 2010-12-14 05:39+0000\n"
 "Last-Translator: Eleanor Chen <chenyueg@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -200,14 +201,17 @@ msgstr "Dell 最终用户协议"
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:47001
-msgid "I accept the license terms. (required to use your computer)"
-msgstr "我同意此协议（使用此计算机）"
+msgid "I have read and accept these terms."
+msgstr ""
 
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:48001
 msgid "Restore #OS# to factory state"
 msgstr ""
+
+#~ msgid "I accept the license terms. (required to use your computer)"
+#~ msgstr "我同意此协议（使用此计算机）"
 
 #~ msgid "DVD+/-RW Disc"
 #~ msgstr "DVD+/-RW 光盘"
@@ -240,9 +244,11 @@ msgstr ""
 #~ msgstr "制作 ISO 光盘镜像"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you like "
-#~ "to remove this old copy and regenerate the image?"
-#~ msgstr "发现已经存在的镜像(可能是上次运行产生的)。是否删除旧的镜像，并重新生成新镜像？"
+#~ "An existing image was found (possibly from a previous run).  Would you "
+#~ "like to remove this old copy and regenerate the image?"
+#~ msgstr ""
+#~ "发现已经存在的镜像(可能是上次运行产生的)。是否删除旧的镜像，并重新生成新镜"
+#~ "像？"
 
 #~ msgid "Dell Recovery Media Creator"
 #~ msgstr "Dell 恢复光盘创建程序"

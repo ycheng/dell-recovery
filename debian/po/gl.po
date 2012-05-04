@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2011-10-06 16:00-0500\n"
+"POT-Creation-Date: 2012-05-04 15:41-0500\n"
 "PO-Revision-Date: 2010-12-14 04:56+0000\n"
 "Last-Translator: Mario Limonciello <superm1@ubuntu.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -154,8 +155,7 @@ msgstr ""
 msgid ""
 "It is highly recommended that you generate media and store it in a safe "
 "place."
-msgstr ""
-"É moi recomendábel que xere un soporte e o almacene nun lugar seguro."
+msgstr "É moi recomendábel que xere un soporte e o almacene nun lugar seguro."
 
 #. Type: text
 #. Description
@@ -213,7 +213,7 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:47001
-msgid "I accept the license terms. (required to use your computer)"
+msgid "I have read and accept these terms."
 msgstr ""
 
 #. Type: text
@@ -259,8 +259,8 @@ msgstr ""
 #~ msgstr "<indicador de posición de actividades>"
 
 #~ msgid ""
-#~ "An existing image was found (possibly from a previous run).  Would you like "
-#~ "to remove this old copy and regenerate the image?"
+#~ "An existing image was found (possibly from a previous run).  Would you "
+#~ "like to remove this old copy and regenerate the image?"
 #~ msgstr ""
 #~ "Xa existe una imaxe (posibelmente de unha execución anterior). Desexa "
 #~ "eliminar esta copia antiga e volver a xerar a imaxe?"
