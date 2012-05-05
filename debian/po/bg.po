@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2011-10-06 16:00-0500\n"
+"POT-Creation-Date: 2012-05-04 15:41-0500\n"
 "PO-Revision-Date: 2010-12-14 08:49+0000\n"
 "Last-Translator: Boyan Sotirov <lz1dsb@abv.bg>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-13 04:39+0000\n"
-"X-Generator: Launchpad (build 14124)\n"
+"X-Launchpad-Export-Date: 2012-05-05 05:00+0000\n"
+"X-Generator: Launchpad (build 15195)\n"
 
 #. Type: text
 #. Description
@@ -215,9 +215,8 @@ msgstr "Dell Лицензно споразумение с крайния кли�
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:47001
-msgid "I accept the license terms. (required to use your computer)"
+msgid "I have read and accept these terms."
 msgstr ""
-"Приемам условията на лиценза. (необходимо, за да използвате вашия компютър)"
 
 #. Type: text
 #. Description
