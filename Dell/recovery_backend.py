@@ -230,7 +230,8 @@ class Backend(dbus.service.Object):
             return recovery
 
         #check for an existing mount
-        command = subprocess.Popen(['mount'], stdout=subprocess.PIPE)
+        command = subprocess.Popen(['mount'], stdout=subprocess.PIPE,
+                                   universal_newlines=True)
         output = command.communicate()[0].split('\n')
         for line in output:
             processed_line = line.split()
@@ -248,7 +249,8 @@ class Backend(dbus.service.Object):
                                                 'com.dell.recoverymedia.create')
         command = subprocess.Popen(mnt_args,
                                  stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
+                                 stderr=subprocess.PIPE,
+                                 universal_newlines=True)
         output = command.communicate()
         ret = command.wait()
         if ret is not 0:
@@ -302,7 +304,8 @@ class Backend(dbus.service.Object):
                 dest = os.path.join(assembly_tmp, 'debs')
                 if not os.path.isdir(dest):
                     os.makedirs(dest)
-                call = subprocess.Popen(['dpkg-repack', 'dell-recovery'], cwd=dest)
+                call = subprocess.Popen(['dpkg-repack', 'dell-recovery'],
+                                        cwd=dest, universal_newlines=True)
                 (out, err) = call.communicate()
         else:
             logging.debug("_test_for_new_dell_recovery: RP Distro %s doesn't match our distro %s, not injecting updated package", rp_distro, package_distro)
@@ -510,7 +513,8 @@ class Backend(dbus.service.Object):
                 os.makedirs(dest)
             if 'dpkg-repack' in dell_recovery_package:
                 logging.debug("Repacking dell-recovery using dpkg-repack")
-                call = subprocess.Popen(['dpkg-repack', 'dell-recovery'], cwd=dest)
+                call = subprocess.Popen(['dpkg-repack', 'dell-recovery'],
+                                        cwd=dest, universal_newlines=True)
                 (out, err) = call.communicate()
             else:
                 logging.debug("Adding manually included dell-recovery package, %s", dell_recovery_package)
@@ -559,7 +563,8 @@ class Backend(dbus.service.Object):
         #Ubuntu disks have .disk/info
         if os.path.isfile(iso) and iso.endswith('.iso'):
             cmd = ['isoinfo', '-J', '-i', iso, '-x', '/.disk/info']
-            invokation = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+            invokation = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                          universal_newlines=True)
             out, err = invokation.communicate()
             if invokation.returncode is None:
                 invokation.wait()
@@ -610,7 +615,8 @@ class Backend(dbus.service.Object):
             cmd2 = ['cpio', '-it', '--quiet']
             chain0 = subprocess.Popen(cmd0, stdout=subprocess.PIPE)
             chain1 = subprocess.Popen(cmd1, stdin=chain0.stdout, stdout=subprocess.PIPE)
-            chain2 = subprocess.Popen(cmd2, stdin=chain1.stdout, stdout=subprocess.PIPE)
+            chain2 = subprocess.Popen(cmd2, stdin=chain1.stdout, stdout=subprocess.PIPE,
+                                      universal_newlines=True)
             out, err = chain2.communicate()
             if chain2.returncode is None:
                 chain2.wait()
@@ -671,7 +677,8 @@ class Backend(dbus.service.Object):
 
         def run_isoinfo_command(cmd):
             """Returns the output of an isoinfo command"""
-            invokation = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+            invokation = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                          universal_newlines=True)
             out, err = invokation.communicate()
             if invokation.returncode is None:
                 invokation.wait()
@@ -1050,7 +1057,8 @@ class Backend(dbus.service.Object):
         if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'efi.img')):
             efi_genisoimage = subprocess.Popen(['genisoimage','-help'],
                                                 stdout=subprocess.PIPE,
-                                                stderr=subprocess.PIPE)
+                                                stderr=subprocess.PIPE,
+                                                universal_newlines=True)
             results = efi_genisoimage.communicate()[1]
             if 'efi' in results:
                 genisoargs.append('-eltorito-alt-boot')
@@ -1099,7 +1107,8 @@ You will need to create this image on a system with a newer genisoimage." % vers
         #ISO Creation
         seg1 = subprocess.Popen(genisoargs,
                               stdout=subprocess.PIPE,
-                              stderr=subprocess.PIPE)
+                              stderr=subprocess.PIPE,
+                              universal_newlines=True)
         retval = seg1.poll()
         output = ""
         while (retval is None):

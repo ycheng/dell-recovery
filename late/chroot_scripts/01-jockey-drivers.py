@@ -93,7 +93,8 @@ class ProcessJockey():
             exit(code)
       
         #call out jockey detection algorithms
-        ret = subprocess.Popen(["jockey-text", "-l"],stdout=subprocess.PIPE)
+        ret = subprocess.Popen(["jockey-text", "-l"],stdout=subprocess.PIPE,
+                               universal_newlines=True)
         output = ret.communicate()[0]
         code = ret.wait()
         if (code != 0):
@@ -139,7 +140,9 @@ exit 0""" % binary, file=f)
                 if item == "xorg:fglrx":
                     with open(DONT_BUILD_DKMS_FILE,'w'):
                         pass
-                ret = subprocess.Popen(["jockey-text", "-e", item],stdout=subprocess.PIPE)
+                ret = subprocess.Popen(["jockey-text", "-e", item],
+                                       stdout=subprocess.PIPE,
+                                       universal_newlines=True)
                 output = ret.communicate()[0]
                 code = ret.wait()
                 if (code != 0):
@@ -151,7 +154,9 @@ exit 0""" % binary, file=f)
             for binary in fake_binaries:
                 os.rename('%s.REAL' % binary, binary)
             #Update initramfs now
-            ret = subprocess.Popen(["update-initramfs", "-u"],stdout=subprocess.PIPE)
+            ret = subprocess.Popen(["update-initramfs", "-u"],
+                                   stdout=subprocess.PIPE,
+                                   universal_newlines=True)
             output = ret.communicate()[0]
             code = ret.wait()
             if (code != 0):

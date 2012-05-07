@@ -203,7 +203,8 @@ def fetch_output(cmd, data=None):
     '''Helper function to just read the output from a command'''
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE,
-                                 stdin=subprocess.PIPE)
+                                 stdin=subprocess.PIPE,
+                                 universal_newlines=True)
     (out, err) = proc.communicate(data)
     if proc.returncode is None:
         proc.wait()

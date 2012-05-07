@@ -329,7 +329,8 @@ create an USB key or DVD image."))
 
         if self.bto_up:
             call = subprocess.Popen(['file', self.bto_up],
-                                    stdout=subprocess.PIPE)
+                                    stdout=subprocess.PIPE,
+                                    universal_newlines=True)
             output_text  = "<b>" + _("Utility Partition") + "</b>:\n"
             output_text += call.communicate()[0].replace(', ', '\n')
         else:

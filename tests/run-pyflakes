@@ -38,7 +38,7 @@ def main():
     p = subprocess.Popen(['pyflakes'] + modules,
                          stderr=subprocess.PIPE,
                          stdout=subprocess.PIPE,
-                         close_fds=True)
+                         close_fds=True, universal_newlines=True)
 
     contents = p.stdout.readlines()
 
