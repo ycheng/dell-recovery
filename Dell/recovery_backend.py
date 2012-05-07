@@ -24,6 +24,8 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
+from __future__ import print_function
+
 import logging, os, os.path, signal, sys, re
 
 from gi.repository import GObject
@@ -270,11 +272,11 @@ class Backend(dbus.service.Object):
         if os.path.exists(mnt):
             ret = subprocess.call(['umount', mnt])
             if ret is not 0:
-                print >> sys.stderr, "Error unmounting %s" % mnt
+                print("Error unmounting %s" % mnt, file=sys.stderr)
             try:
                 os.rmdir(mnt)
             except OSError, msg:
-                print >> sys.stderr, "Error cleaning up: %s" % str(msg)
+                print("Error cleaning up: %s" % str(msg), file=sys.stderr)
 
     def _test_for_new_dell_recovery(self, mount, assembly_tmp):
         """Tests if the distro currently on the system matches the recovery media.
@@ -857,8 +859,8 @@ class Backend(dbus.service.Object):
             mntdir = self.request_mount(os.path.join(mntdir, 'ubuntu.iso'), sender, conn)
 
         if not os.path.exists(os.path.join(mntdir, '.disk', 'info')):
-            print >> sys.stderr, \
-                "recovery partition is missing critical ubuntu files."
+            print("recovery partition is missing critical ubuntu files.",
+                  file=sys.stderr)
             raise CreateFailed("Recovery partition is missing critical Ubuntu files.")
 
         #Generate BTO XML File
@@ -890,8 +892,7 @@ class Backend(dbus.service.Object):
                 try:
                     shutil.copy(utility, os.path.join(tmpdir, 'up.tgz'))
                 except Exception, msg:
-                    print >> sys.stderr, \
-                        "Error with tgz: %s." % str(msg)
+                    print("Error with tgz: %s." % str(msg), file=sys.stderr)
                     raise CreateFailed("Error building Utility Partition : %s" %
                                        str(msg))
 
@@ -901,8 +902,8 @@ class Backend(dbus.service.Object):
                     zip_obj = zipfile.ZipFile(utility)
                     shutil.copy(utility, os.path.join(tmpdir, 'up.zip'))
                 except Exception, msg:
-                    print >> sys.stderr, \
-                        "Error with zipfile: %s." % str(msg)
+                    print("Error with zipfile: %s." % str(msg),
+                          file=sys.stderr)
                     raise CreateFailed("Error building Utility Partition : %s" %
                                        str(msg))
 
@@ -1111,12 +1112,12 @@ You will need to create this image on a system with a newer genisoimage." % vers
                     self.report_progress(_('Building ISO'), progress[:-1])
             retval = seg1.poll()
         if retval is not 0:
-            print >> sys.stderr, genisoargs
-            print >> sys.stderr, output.strip()
-            print >> sys.stderr, seg1.stderr.readlines()
-            print >> sys.stderr, seg1.stdout.readlines()
-            print >> sys.stderr, \
-                "genisoimage exited with a nonstandard return value."
+            print(genisoargs, file=sys.stderr)
+            print(output.strip(), file=sys.stderr)
+            print(seg1.stderr.readlines(), file=sys.stderr)
+            print(seg1.stdout.readlines(), file=sys.stderr)
+            print("genisoimage exited with a nonstandard return value.",
+                  file=sys.stderr)
             raise CreateFailed("ISO Building exited unexpectedly:\n%s" %
                                output.strip())
 

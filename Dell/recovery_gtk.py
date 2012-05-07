@@ -23,6 +23,8 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ################################################################################
 
+from __future__ import print_function
+
 import os
 import subprocess
 import dbus
@@ -208,8 +210,8 @@ class DellRecoveryToolGTK:
                     'org.freedesktop.DBus.Error.ServiceUnknown':
                 pass
             else:
-                print "%s when closing DBus service from %s (data: %s)" % \
-                                             (str(msg), widget.get_name(), data)
+                print("%s when closing DBus service from %s (data: %s)" %
+                      (str(msg), widget.get_name(), data))
         Gtk.main_quit()
 
 def translate_widgets(widgets):

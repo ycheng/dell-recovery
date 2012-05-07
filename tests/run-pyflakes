@@ -5,6 +5,8 @@
 
 # Taken from Review Board, MIT license
 
+from __future__ import print_function
+
 import os
 import re
 import subprocess
@@ -61,7 +63,7 @@ def main():
         test_line = re.sub(r'line [0-9]+', r'line *', test_line)
 
         if test_line not in exclusions:
-            print line
+            print(line)
             error = True
     if error:
         sys.exit(1)

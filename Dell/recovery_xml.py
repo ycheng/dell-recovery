@@ -23,6 +23,8 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
+from __future__ import print_function
+
 import xml.dom.minidom
 import codecs
 import os
@@ -67,7 +69,7 @@ class BTOxml:
         """Replaces a node contents (that we assume exists)"""
         elements = self.dom.getElementsByTagName(tag)
         if not elements:
-            print "Missing elements for tag"
+            print("Missing elements for tag")
             return
         if elements[0].hasChildNodes():
             for node in elements[0].childNodes:
@@ -101,7 +103,7 @@ class BTOxml:
                         fname = f.read()
                 self.dom = xml.dom.minidom.parseString(utf8str(fname))
             except xml.parsers.expat.ExpatError:
-                print "Damaged XML file, regenerating"
+                print("Damaged XML file, regenerating")
 
         if not (fname and self.dom):
             self.new = True
