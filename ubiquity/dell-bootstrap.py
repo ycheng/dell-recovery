@@ -804,7 +804,7 @@ class Page(Plugin):
         if rec_type == 'dynamic':
             # we rebooted with no USB stick or DVD in drive and have the RP
             # mounted at /cdrom
-            if rec_part.has_key("slave") and rec_part["slave"] in mount:
+            if "slave" in rec_part and rec_part["slave"] in mount:
                 self.log("Detected RP at %s, setting to factory boot" % mount)
                 rec_type = 'factory'
             else:
@@ -1599,7 +1599,7 @@ class Install(InstallPlugin):
             """ read a deb """
             control = apt_inst.debExtractControl(open(fname, 'rb'))
             sections = apt_pkg.TagSection(control)
-            if sections.has_key("Modaliases"):
+            if "Modaliases" in sections:
                 modaliases = sections["Modaliases"]
             else:
                 modaliases = ''

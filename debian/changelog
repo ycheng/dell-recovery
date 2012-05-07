@@ -19,6 +19,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
       in Python 3.
     - Open files in binary mode where necessary.
     - Use new-style octal literals.
+    - Use "key in mapping" rather than "mapping.has_key(key)".
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 
