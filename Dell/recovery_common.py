@@ -586,7 +586,7 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
                                '-H', 'newc'],
                                cwd=tmpdir, stdin=chain0.stdout,
                                stdout=subprocess.PIPE)
-    with open(new_initrd_file, 'w') as initrd_fd:
+    with open(new_initrd_file, 'wb') as initrd_fd:
         if new_compression:
             chain2 = subprocess.Popen([new_compression, '-9c'],
                                       stdin=chain1.stdout,
@@ -649,9 +649,9 @@ def create_g2ldr(chroot, rp_mount, install_mount):
         from ubiquity import misc
         misc.execute_root(*build_command)
 
-    with open(os.path.join(rp_mount, 'g2ldr'), 'w') as wfd:
+    with open(os.path.join(rp_mount, 'g2ldr'), 'wb') as wfd:
         for fname in ['/usr/lib/grub/i386-pc/g2hdr.bin', os.path.join(chroot, 'tmp', 'core.img')]:
-            with open(fname) as rfd:
+            with open(fname, 'rb') as rfd:
                 wfd.write(rfd.read())
 
 def parse_seed(seed):

@@ -17,6 +17,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
       objects to read str rather than bytes.
     - Use 'isinstance(obj, collections.Callable)' instead of 'callable(obj)'
       in Python 3.
+    - Open files in binary mode where necessary.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 

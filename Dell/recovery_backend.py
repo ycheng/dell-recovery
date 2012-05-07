@@ -318,7 +318,7 @@ class Backend(dbus.service.Object):
             self.report_progress(_('Processing FISH packages'),
                                  driver_fish.index(fishie)/length*100)
             if os.path.isfile(fishie):
-                with open(fishie, 'r') as fish:
+                with open(fishie, 'rb') as fish:
                     md5sum = md5(fish.read()).hexdigest()
                 self.xml_obj.append_fish('driver', os.path.basename(fishie), md5sum)
             dest = None
@@ -465,7 +465,7 @@ class Backend(dbus.service.Object):
             dest = os.path.join(assembly_tmp, 'srv')
             os.makedirs(dest)
             for fishie in application_fish:
-                with open(fishie, 'r') as fish:
+                with open(fishie, 'rb') as fish:
                     md5sum = md5(fish.read()).hexdigest()
                 new_name = application_fish[fishie]
                 self.xml_obj.append_fish('application', os.path.basename(fishie), md5sum, new_name)
@@ -889,7 +889,7 @@ class Backend(dbus.service.Object):
                 seg2 = subprocess.Popen(['gzip', '-c'],
                                       stdin=seg1.stdout,
                                       stdout=subprocess.PIPE)
-                partition_file = open(os.path.join(tmpdir, 'upimg.gz'), "w")
+                partition_file = open(os.path.join(tmpdir, 'upimg.gz'), "wb")
                 partition_file.write(seg2.communicate()[0])
                 partition_file.close()
                 self.stop_progress_thread()
@@ -975,9 +975,9 @@ class Backend(dbus.service.Object):
                     raise CreateFailed("The target requested GRUB support, but cdboot.img is missing.")
 
                 self.start_pulsable_progress_thread(_('Building GRUB core image'))
-                with open(os.path.join(tmpdir, 'boot', 'grub', 'eltorito.img'), 'w') as wfd:
+                with open(os.path.join(tmpdir, 'boot', 'grub', 'eltorito.img'), 'wb') as wfd:
                     for fname in ('cdboot.img', 'core.img'):
-                        with open(os.path.join(grub_root, fname), 'r') as rfd:
+                        with open(os.path.join(grub_root, fname), 'rb') as rfd:
                             wfd.write(rfd.read())                    
                 self.stop_progress_thread()
             genisoargs.append('-m')

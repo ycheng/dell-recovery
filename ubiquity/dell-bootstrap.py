@@ -632,7 +632,7 @@ class Page(Plugin):
                 if '.bin' in fname or '.gz' in fname:
                     self.log("Exploding utility partition from %s" % fname)
                     with misc.raised_privileges():
-                        with open(self.device + self.up_part, 'w') as partition:
+                        with open(self.device + self.up_part, 'wb') as partition:
                             p1 = subprocess.Popen(['gzip', '-dc', os.path.join(CDROM_MOUNT, fname)], stdout=subprocess.PIPE)
                             partition.write(p1.communicate()[0])
                 #Restore UP (zip/tgz)
@@ -1501,10 +1501,10 @@ manually to proceed.")
             self.xml_obj.replace_node_contents('bootstrap', dr_version)
             self.xml_obj.replace_node_contents('ubiquity' , ubi_version)
             if os.path.exists('/var/log/syslog'):
-                with open('/var/log/syslog', 'r') as rfd:
+                with open('/var/log/syslog', 'rb') as rfd:
                     self.xml_obj.replace_node_contents('syslog', rfd.read())
             if os.path.exists('/var/log/installer/debug'):
-                with open('/var/log/installer/debug', 'r') as rfd:
+                with open('/var/log/installer/debug', 'rb') as rfd:
                     self.xml_obj.replace_node_contents('debug', rfd.read())
             if not bto_version:
                 self.xml_obj.replace_node_contents('iso', '[native]')
@@ -1597,7 +1597,7 @@ class Install(InstallPlugin):
 
         def parse(fname):
             """ read a deb """
-            control = apt_inst.debExtractControl(open(fname))
+            control = apt_inst.debExtractControl(open(fname, 'rb'))
             sections = apt_pkg.TagSection(control)
             if sections.has_key("Modaliases"):
                 modaliases = sections["Modaliases"]
