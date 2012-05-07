@@ -170,7 +170,7 @@ class Install(InstallPlugin):
                                     rp_number = str(rpart["number"]),                   \
                                     recovery_text = rec_text)
 
-            os.chmod('/etc/grub.d/99_dell_recovery', 0755)
+            os.chmod('/etc/grub.d/99_dell_recovery', 0o755)
             subprocess.call(['update-grub'],env=env)
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)

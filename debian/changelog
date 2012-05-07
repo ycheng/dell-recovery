@@ -18,6 +18,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
     - Use 'isinstance(obj, collections.Callable)' instead of 'callable(obj)'
       in Python 3.
     - Open files in binary mode where necessary.
+    - Use new-style octal literals.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 

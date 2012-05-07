@@ -1798,7 +1798,7 @@ class Install(InstallPlugin):
                             raise RuntimeError("Error working around bug 592813.")
                         
                         wfd.write('grub-install --no-floppy %s\n' % disk)
-            os.chmod('/tmp/set_bootable', 0755)
+            os.chmod('/tmp/set_bootable', 0o755)
 
         #if we are loop mounted, make sure the chroot knows it too
         if os.path.isdir(ISO_MOUNT):

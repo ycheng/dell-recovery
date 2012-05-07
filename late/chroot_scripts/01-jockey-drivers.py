@@ -132,7 +132,7 @@ class ProcessJockey():
 echo 1>&2
 echo 'Warning: Fake %s called, doing nothing.' 1>&2
 exit 0""" % binary, file=f)
-                os.chmod(binary, 0755)
+                os.chmod(binary, 0o755)
 
             #Perform installation
             for item in install:
