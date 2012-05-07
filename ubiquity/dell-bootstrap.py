@@ -1597,7 +1597,7 @@ class Install(InstallPlugin):
 
         def parse(fname):
             """ read a deb """
-            control = apt_inst.debExtractControl(open(fname, 'rb'))
+            control = apt_inst.DebFile(fname).control.extractdata("control")
             sections = apt_pkg.TagSection(control)
             if "Modaliases" in sections:
                 modaliases = sections["Modaliases"]

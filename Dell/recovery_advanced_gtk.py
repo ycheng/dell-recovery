@@ -647,7 +647,7 @@ create an USB key or DVD image."))
         if ret is not None:
             import apt_inst
             import apt_pkg
-            control = apt_inst.debExtractControl(open(ret, 'rb'))
+            control = apt_inst.DebFile(ret).control.extractdata("control")
             sections = apt_pkg.TagSection(control)
             if sections["Package"] != 'dell-recovery' or \
                                               debian_support.Version(sections["Version"]) < 0.72:

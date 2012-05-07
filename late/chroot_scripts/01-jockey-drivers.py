@@ -30,9 +30,9 @@ from __future__ import print_function
 
 import subprocess
 import os
-import apt
 import sys
-from apt.progress import InstallProgress
+from apt.progress.text import AcquireProgress
+from apt.progress.base import InstallProgress
 from apt.cache import Cache
 
 DONT_BUILD_DKMS_FILE = "/tmp/do_not_build_dkms_module"
@@ -40,11 +40,11 @@ DONT_BUILD_DKMS_FILE = "/tmp/do_not_build_dkms_module"
 class TextInstallProgress(InstallProgress):
     
     def __init__(self):
-        apt.progress.InstallProgress.__init__(self)
+        InstallProgress.__init__(self)
         self.last = 0.0
 
-    def updateInterface(self):
-        InstallProgress.updateInterface(self)
+    def update_interface(self):
+        InstallProgress.update_interface(self)
         if self.last >= self.percent:
             return
         sys.stdout.write("\r[%s] %s\n" %(self.percent, self.status))
@@ -64,7 +64,7 @@ class ProcessJockey():
         '''If new modaliases are available, install them right now
            so that they will be available to Jockey later in the process'''
         cache = Cache()
-        fprogress = apt.progress.TextFetchProgress()
+        aprogress = AcquireProgress()
         iprogress = TextInstallProgress()
         
         for pkg in cache.keys():
@@ -74,7 +74,7 @@ class ProcessJockey():
                 print("Marking %s for upgrade" % pkg)
                 cache[pkg].mark_install()
         
-        res = cache.commit(fprogress, iprogress)
+        res = cache.commit(aprogress, iprogress)
         print(res)
         del cache
 

@@ -201,17 +201,16 @@ def config_dell_recovery_package(callback, base, dell_deb):
         print('Incorporate specific dell-recovery package')
         import apt_inst
         import apt_pkg
-        with open(os.path.realpath(dell_deb), 'rb') as rfd:
-            control = apt_inst.debExtractControl(rfd)
-            sections = apt_pkg.ParseSection(control)
-            if sections["Package"] != 'dell-recovery':
-                print('Provided dell recovery, %s is invalid' %
-                      os.path.basename(dell_deb))
-                return ''
-            else:
-                print('Using provided dell recovery:%s' %
-                      os.path.basename(dell_deb))
-                return os.path.realpath(dell_deb)
+        control = apt_inst.DebFile(dell_deb).control.extractdata("control")
+        sections = apt_pkg.TagSection(control)
+        if sections["Package"] != 'dell-recovery':
+            print('Provided dell recovery, %s is invalid' %
+                  os.path.basename(dell_deb))
+            return ''
+        else:
+            print('Using provided dell recovery:%s' %
+                  os.path.basename(dell_deb))
+            return os.path.realpath(dell_deb)
 
 if __name__ == '__main__':
     options, params = parse_argv()
