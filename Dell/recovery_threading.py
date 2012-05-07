@@ -26,6 +26,12 @@
 from threading import Thread, Event
 import logging
 import os
+import sys
+
+if sys.version >= '3':
+    def callable(obj):
+        import collections
+        return isinstance(obj, collections.Callable)
 
 #--------------------------------------------------------------------#
 #Borrowed from USB-Creator initially
