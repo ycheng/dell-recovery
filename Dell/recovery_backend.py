@@ -148,7 +148,7 @@ class Backend(dbus.service.Object):
             backend.bus = dbus.SystemBus()
         try:
             backend.dbus_name = dbus.service.BusName(DBUS_BUS_NAME, backend.bus)
-        except dbus.exceptions.DBusException, msg:
+        except dbus.exceptions.DBusException as msg:
             logging.error("Exception when spawning dbus service")
             logging.error(msg)
             return None
@@ -199,7 +199,7 @@ class Backend(dbus.service.Object):
                     ('unix-process', {'pid': dbus.UInt32(pid, variant_level=1),
                         'start-time': dbus.UInt64(0, variant_level=1)}),
                     privilege, {'': ''}, dbus.UInt32(1), '', timeout=600)
-        except dbus.DBusException, msg:
+        except dbus.DBusException as msg:
             if msg.get_dbus_name() == \
                                     'org.freedesktop.DBus.Error.ServiceUnknown':
                 # polkitd timed out, connect again
@@ -275,7 +275,7 @@ class Backend(dbus.service.Object):
                 print("Error unmounting %s" % mnt, file=sys.stderr)
             try:
                 os.rmdir(mnt)
-            except OSError, msg:
+            except OSError as msg:
                 print("Error cleaning up: %s" % str(msg), file=sys.stderr)
 
     def _test_for_new_dell_recovery(self, mount, assembly_tmp):
@@ -891,7 +891,7 @@ class Backend(dbus.service.Object):
             elif tarfile.is_tarfile(utility):
                 try:
                     shutil.copy(utility, os.path.join(tmpdir, 'up.tgz'))
-                except Exception, msg:
+                except Exception as msg:
                     print("Error with tgz: %s." % str(msg), file=sys.stderr)
                     raise CreateFailed("Error building Utility Partition : %s" %
                                        str(msg))
@@ -901,7 +901,7 @@ class Backend(dbus.service.Object):
                 try:
                     zip_obj = zipfile.ZipFile(utility)
                     shutil.copy(utility, os.path.join(tmpdir, 'up.zip'))
-                except Exception, msg:
+                except Exception as msg:
                     print("Error with zipfile: %s." % str(msg),
                           file=sys.stderr)
                     raise CreateFailed("Error building Utility Partition : %s" %

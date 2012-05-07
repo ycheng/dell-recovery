@@ -70,7 +70,7 @@ class PageGtk(PluginUI):
                     builder.get_object('dvd_box').hide()
                     builder.get_object('none_box').hide()
                     builder.get_object('genuine_box').show()
-            except Exception, err:
+            except Exception as err:
                 syslog.syslog('Could not create Dell Recovery page: %s', err)
                 self.plugin_widgets = None
         else:
@@ -192,7 +192,7 @@ class Install(InstallPlugin):
                 dbus_iface = dbus.Interface(bus.get_object(magic.DBUS_BUS_NAME,
                                             '/RecoveryMedia'),
                                             magic.DBUS_INTERFACE_NAME)
-            except Exception, err:
+            except Exception as err:
                 self.log('install function exception while creating dbus backend: %s' % str(err))
                 return
 
@@ -216,14 +216,14 @@ class Install(InstallPlugin):
                 uid = pwd.getpwnam(user).pw_uid
                 gid = pwd.getpwnam(user).pw_gid
                 os.chown(fname, uid, gid)
-            except dbus.DBusException, err:
+            except dbus.DBusException as err:
                 self.log('install function exception while calling backend: %s' % str(err))
                 return
 
             #Close backend
             try:
                 dbus_iface.request_exit()
-            except dbus.DBusException, err:
+            except dbus.DBusException as err:
                 if hasattr(err, '_dbus_error_name') and err._dbus_error_name == \
                         'org.freedesktop.DBus.Error.ServiceUnknown':
                     pass

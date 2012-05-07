@@ -490,7 +490,7 @@ class Page(Plugin):
                 recipe = self.db.get('partman-auto/expert_recipe')
                 self.db.set('partman-auto/expert_recipe',
                                                      recipe.split('.')[0] + '.')
-            except debconf.DebconfError, err:
+            except debconf.DebconfError as err:
                 self.log(str(err))
 
     def remove_extra_partitions(self):
@@ -617,7 +617,7 @@ class Page(Plugin):
             with misc.raised_privileges():
                 try:
                     archive.extractall(path='/boot')
-                except IOError, msg:
+                except IOError as msg:
                     #Partition is corrupted, abort doing anything else here but don't
                     #fail the install
                     #TODO ML (1/10/11) - instead rebuild the UP if possible.
@@ -793,7 +793,7 @@ class Page(Plugin):
         rec_type = None
         try:
             rec_type = self.db.get(RECOVERY_TYPE_QUESTION)
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             rec_type = 'dynamic'
             self.db.register('debian-installer/dummy', RECOVERY_TYPE_QUESTION)
@@ -821,52 +821,52 @@ class Page(Plugin):
         #In case we preseeded the partitions we need installed to
         try:
             self.up_part = self.db.get('dell-recovery/up_partition')
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             self.up_part = '1'
 
         try:
             self.rp_part = self.db.get('dell-recovery/rp_partition')
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             self.rp_part = '2'
 
         try:
             self.os_part = self.db.get('dell-recovery/os_partition')
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             self.os_part = '3'
 
         try:
             self.swap_part = self.db.get('dell-recovery/swap_partition')
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             self.swap_part = '4'
 
         #Support cases where the recovery partition isn't a linux partition
         try:
             self.rp_filesystem = self.db.get(RP_FILESYSTEM_QUESTION)
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             self.rp_filesystem = TYPE_VFAT_LBA
 
         #Check if we are set in dual-boot mode
         try:
             self.dual = misc.create_bool(self.db.get(DUAL_BOOT_QUESTION))
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             self.dual = False
 
         try:
             self.dual_layout = self.db.get(DUAL_BOOT_LAYOUT_QUESTION)
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             self.dual_layout = 'primary'
 
         #If we are successful for an MBR install, this is where we boot to
         try:
             pass_partition = self.db.get(ACTIVE_PARTITION_QUESTION)
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             pass_partition = self.os_part
             self.preseed(ACTIVE_PARTITION_QUESTION, pass_partition)
@@ -874,7 +874,7 @@ class Page(Plugin):
         #In case an MBR install fails, this is where we boot to
         try:
             self.fail_partition = self.db.get(FAIL_PARTITION_QUESTION)
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             self.fail_partition = STANDARD_RP_PARTITION
             self.preseed(FAIL_PARTITION_QUESTION, self.fail_partition)
@@ -884,7 +884,7 @@ class Page(Plugin):
         #determine that we are actually going to be doing an EFI install
         try:
             self.disk_layout = self.db.get(DISK_LAYOUT_QUESTION)
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             self.disk_layout = 'msdos'
             self.preseed(DISK_LAYOUT_QUESTION, self.disk_layout)
@@ -894,21 +894,21 @@ class Page(Plugin):
             self.swap = self.db.get(SWAP_QUESTION)
             if self.swap != "dynamic":
                 self.swap = misc.create_bool(self.swap)
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             self.swap = 'dynamic'
 
         #Proprietary driver installation preventions
         try:
             proprietary = self.db.get(DRIVER_INSTALL_QUESTION)
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             proprietary = ''
 
         #test for OIE.  OIE images turn off after install
         try:
             self.oie = misc.create_bool(self.db.get(OIE_QUESTION))
-        except debconf.DebconfError, err:
+        except debconf.DebconfError as err:
             self.log(str(err))
             self.oie = False
 
@@ -1015,7 +1015,7 @@ class Page(Plugin):
                 self.fixup_recovery_devices()
             else:
                 self.fixup_factory_devices(rec_part)
-        except Exception, err:
+        except Exception as err:
             self.handle_exception(err)
             self.cancel_handler()
 
@@ -1126,7 +1126,7 @@ class Page(Plugin):
                 self.remove_extra_partitions()
                 self.explode_utility_partition()
                 self.explode_sdr()
-        except Exception, err:
+        except Exception as err:
             #For interactive types of installs show an error then reboot
             #Otherwise, just reboot the system
             if rec_type == "automatic" or rec_type == "interactive" or \
@@ -1533,7 +1533,7 @@ manually to proceed.")
         """Start the RP builder thread"""
         try:
             self.build_rp()
-        except Exception, err:
+        except Exception as err:
             self.exception = err
         self.exit()
 

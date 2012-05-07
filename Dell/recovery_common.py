@@ -149,7 +149,7 @@ def check_version(package='dell-recovery'):
         cache = apt.cache.Cache()
         if cache[package].is_installed:
             return cache[package].installed.version
-    except Exception, msg:
+    except Exception as msg:
         print("Error checking %s version: %s" % (package, msg),
               file=sys.stderr)
         return "unknown"
@@ -259,7 +259,7 @@ def find_factory_rp_stats():
                 recovery["slave"] = dev.Get(dev_bus_name, 'DeviceFile')
                 break
 
-    except dbus.DBusException, msg:
+    except dbus.DBusException as msg:
         print("%s, UDisks Failed" % str(msg))
 
     return recovery
@@ -286,7 +286,7 @@ def find_partitions(utility, recovery):
                             ('recovery' in label and 'ntfs' in filesystem):
                 recovery = dev.Get('org.freedesktop.Udisks.Device', 'DeviceFile')
         return (utility, recovery)
-    except dbus.DBusException, msg:
+    except dbus.DBusException as msg:
         print("%s, UDisks Failed" % str(msg))
 
     try:
@@ -308,7 +308,7 @@ def find_partitions(utility, recovery):
                 recovery = dev.Get('org.freedesktop.DeviceKit.Disks.Device', 'device-file')
         return (utility, recovery)
 
-    except dbus.DBusException, msg:
+    except dbus.DBusException as msg:
         print("%s, DeviceKit-Disks Failed" % str(msg))
 
     try:
@@ -328,7 +328,7 @@ def find_partitions(utility, recovery):
                             ('RECOVERY' in label and 'ntfs' in filesystem):
                 recovery = dev.GetProperty('block.device')
         return (utility, recovery)
-    except dbus.DBusException, msg:
+    except dbus.DBusException as msg:
         print("%s, HAL Failed" % str(msg))
 
 def find_burners():
@@ -385,7 +385,7 @@ def find_burners():
             if not found_supported_dvdr:
                 dvd = None
             return (dvd, usb)
-        except dbus.DBusException, msg:
+        except dbus.DBusException as msg:
             print("%s, UDisks Failed burner parse" % str(msg))
         try:
             #first try to use devkit-disks. if this fails, then, it's OK
@@ -405,7 +405,7 @@ def find_burners():
                     break
             if not found_supported_dvdr:
                 dvd = None
-        except dbus.DBusException, msg:
+        except dbus.DBusException as msg:
             print("%s, device kit Failed burner parse" % str(msg))
 
     return (dvd, usb)
@@ -509,12 +509,12 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     #Detect the old initramfs stuff
     try:
         old_initrd_files = glob.glob('%s/initrd*' % old_initrd_directory)
-    except Exception, msg:
+    except Exception as msg:
         print(str(msg))
         raise dbus.DBusException, ("Missing initrd in image.")
     try:
         old_uuid_file   = glob.glob('%s/casper-uuid*' % old_casper_directory)[0]
-    except Exception, msg:
+    except Exception as msg:
         print("Old casper UUID not found, assuming 'casper-uuid'")
         old_uuid_file   = '%s/casper-uuid' % old_casper_directory
 

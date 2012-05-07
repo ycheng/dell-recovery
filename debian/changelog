@@ -6,6 +6,8 @@ dell-recovery (1.25) UNRELEASED; urgency=low
   [ Colin Watson ]
   * Port to Python 3:
     - Use Python 3-compatible print functions.
+    - Use "except Exception as e" syntax rather than the old-style "except
+      Exception, e".
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 

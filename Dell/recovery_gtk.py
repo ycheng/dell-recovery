@@ -79,10 +79,10 @@ class DellRecoveryToolGTK:
                 self._dbus_iface = dbus.Interface(bus.get_object(DBUS_BUS_NAME,
                                                   '/RecoveryMedia'),
                                                   DBUS_INTERFACE_NAME)
-            except dbus.DBusException, msg:
+            except dbus.DBusException as msg:
                 self.dbus_exception_handler(msg)
                 sys.exit(1)
-            except Exception, msg:
+            except Exception as msg:
                 self.show_alert(Gtk.MessageType.ERROR, "Exception", str(msg),
                            parent=self.tool_widgets.get_object('tool_selector'))
 
@@ -123,7 +123,7 @@ class DellRecoveryToolGTK:
                 iface = dbus.Interface(obj, 'org.gnome.SessionManager')
                 iface.RequestReboot()
                 self.destroy()
-            except dbus.DBusException, msg:
+            except dbus.DBusException as msg:
                 self.dbus_exception_handler(msg)
             tool_selector.set_sensitive(True)
             
@@ -205,7 +205,7 @@ class DellRecoveryToolGTK:
         try:
             if self._dbus_iface is not None:
                 self.backend().request_exit()
-        except dbus.DBusException, msg:
+        except dbus.DBusException as msg:
             if hasattr(msg, '_dbus_error_name') and msg.get_dbus_name() == \
                     'org.freedesktop.DBus.Error.ServiceUnknown':
                 pass

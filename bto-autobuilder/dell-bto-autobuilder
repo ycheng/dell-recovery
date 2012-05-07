@@ -226,7 +226,7 @@ if __name__ == '__main__':
                     continue # accomodate simple comments
                 drivers.append(line)
 
-    except Exception, err:
+    except Exception as err:
         print('There was an error parsing the drivers driver file, aborting',
               file=sys.stderr)
         print(err, file=sys.stderr)
@@ -308,14 +308,14 @@ if __name__ == '__main__':
             os.path.join(options.bto_dir, bto_name))
 
         print('Build complete: %s' % os.path.join(options.bto_dir, bto_name))
-    except dbus.DBusException, err:
+    except dbus.DBusException as err:
         if hasattr(err, '_dbus_error_name') and err._dbus_error_name == \
                 'org.freedesktop.DBus.Error.ServiceUnknown':
             pass
         else:
             print('Received %s when closing recovery-media-backend '\
                 'DBus service' % str(err))
-    except Exception, err:
+    except Exception as err:
         print(err, file=sys.stderr)
         sys.exit(1)
     finally:

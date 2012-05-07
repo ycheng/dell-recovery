@@ -381,7 +381,7 @@ create an USB key or DVD image."))
                                             'query_iso_information',
                                             {'report_iso_info': self.update_version_gui},
                                             ret)
-            except dbus.DBusException, msg:
+            except dbus.DBusException as msg:
                 parent = self.widgets.get_object('wizard')
                 self.dbus_exception_handler(msg, parent)
             self.toggle_spinner_popup(False)
@@ -579,7 +579,7 @@ create an USB key or DVD image."))
             dialog = AptProgressDialog(trans, parent=wizard)
             dialog.run()
             super(AptProgressDialog, dialog).run()
-        except dbus.exceptions.DBusException, msg:
+        except dbus.exceptions.DBusException as msg:
             self.dbus_exception_handler(msg, wizard)
 
         widget.hide()
