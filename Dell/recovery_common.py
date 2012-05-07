@@ -211,7 +211,7 @@ def fetch_output(cmd, data=None):
         error = "Command %s failed with stdout/stderr: %s\n%s" % (cmd, out, err)
         import syslog
         syslog.syslog(error)
-        raise RuntimeError, (error)
+        raise RuntimeError(error)
     return out
 
 def find_extra_kernel_options():
@@ -511,7 +511,7 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
         old_initrd_files = glob.glob('%s/initrd*' % old_initrd_directory)
     except Exception as msg:
         print(str(msg))
-        raise dbus.DBusException, ("Missing initrd in image.")
+        raise dbus.DBusException("Missing initrd in image.")
     try:
         old_uuid_file   = glob.glob('%s/casper-uuid*' % old_casper_directory)[0]
     except Exception as msg:
@@ -536,7 +536,7 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
             old_suffix = ''
 
     if not old_suffix or not old_initrd_file or not old_uuid_file:
-        raise dbus.DBusException, ("Unable to detect valid initrd.")
+        raise dbus.DBusException("Unable to detect valid initrd.")
 
     print("Old initrd: %s" % old_initrd_file)
     print("Old uuid file: %s" % old_uuid_file)

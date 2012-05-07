@@ -8,6 +8,8 @@ dell-recovery (1.25) UNRELEASED; urgency=low
     - Use Python 3-compatible print functions.
     - Use "except Exception as e" syntax rather than the old-style "except
       Exception, e".
+    - Use "raise Exception(value)" syntax rather than the old-style "raise
+      Exception, value".
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 
