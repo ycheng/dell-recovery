@@ -84,27 +84,27 @@ class ReadWriteNewBTOxmlTestCase(BTOxmlTestCase):
     def test_enhance_str(self):
         self.set_node([('syslog', NewStr('ooo'))])
         self._save()
-        self.assertEquals(u('ooo'), self._read_node('syslog'))
+        self.assertEqual(u('ooo'), self._read_node('syslog'))
 
     def test_set_emptystring(self):
         self.set_node([('syslog', '')])
         self._save()
-        self.assertEquals(u(''), self._read_node('syslog'))
+        self.assertEqual(u(''), self._read_node('syslog'))
 
     def test_set_node_ascii(self):
         self.set_node([('date', '123')])
         self._save()
-        self.assertEquals('123', self._read_node('date'))
+        self.assertEqual('123', self._read_node('date'))
 
     def test_set_node_nonascii(self):
         self.set_node([('syslog', ilegal_utf8string)])
         self._save()
-        self.assertEquals(u(''), self._read_node('syslog'))
+        self.assertEqual(u(''), self._read_node('syslog'))
 
     def test_set_node_mix(self):
         self.set_node([('date', '2011-11-22'), ('syslog', ilegal_utf8string)])
         self._save()
-        self.assertEquals(u('2011-11-22'), self._read_node('date'))
+        self.assertEqual(u('2011-11-22'), self._read_node('date'))
 
 class ReadWriteExistedBTOxmlTestCase(ReadWriteNewBTOxmlTestCase):
 
@@ -119,7 +119,7 @@ class ReadWriteExistedBTOxmlTestCase(ReadWriteNewBTOxmlTestCase):
         self._load()
 
     def test_read_utf8str(self):
-        self.assertEquals(u('中文測試'), self._read_node('syslog'))
+        self.assertEqual(u('中文測試'), self._read_node('syslog'))
 
 def suite():
     suite = unittest.TestSuite()
