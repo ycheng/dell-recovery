@@ -22,6 +22,8 @@ dell-recovery (1.25) UNRELEASED; urgency=low
     - Use "key in mapping" rather than "mapping.has_key(key)".
     - Port to python-apt 0.8 API.
     - Use "dict.items()" rather than "dict.iteritems()".
+    - Make XML handling more explicit about binary/text distinctions so that
+      it works with Python 3.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 
