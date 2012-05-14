@@ -202,7 +202,7 @@ msgstr "Dell 最终用户协议"
 #. Description
 #: ../dell-recovery.templates:47001
 msgid "I have read and accept these terms."
-msgstr ""
+msgstr "我已阅读并接受上述条款"
 
 #. Type: text
 #. Description
