@@ -1,6 +1,7 @@
-dell-recovery (1.25) UNRELEASED; urgency=low
+dell-recovery (1.24.1) precise-proposed; urgency=low
 
-  * Pass the destination as found in the SDR to target system.
+  * Backport from trunk:
+    - Pass the destination as found in the SDR to target system.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 
