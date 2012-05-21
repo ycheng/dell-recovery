@@ -7,6 +7,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
   * debian/control: bump to standards 3.9.3.
   * dell-bootstrap: Set the bootloader path to a raw string literal.
   * ubiquity plugins: set shebang to python3 to match other ubiquity plugins.
+  * For fetch_output's subprocess call, encode data sent as utf8.
 
   [ Colin Watson ]
   * Port to Python 3:
