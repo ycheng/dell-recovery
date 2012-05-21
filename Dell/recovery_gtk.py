@@ -29,9 +29,8 @@ import os
 import subprocess
 import dbus
 import sys
-import glib
 
-from gi.repository import Gtk
+from gi.repository import Gtk,GLib
 
 from Dell.recovery_common import (DOMAIN, LOCALEDIR, UIDIR, DBUS_INTERFACE_NAME,
                                   DBUS_BUS_NAME, dbus_sync_call_signal_wrapper,
@@ -142,7 +141,7 @@ class DellRecoveryToolGTK:
             # run yelp
             proc = subprocess.Popen(["yelp", "ghelp:dell-recovery"])
             # collect the exit status (otherwise we leave zombies)
-            glib.timeout_add_seconds(1, lambda proc: proc.poll() == None, proc)
+            GLib.timeout_add_seconds(1, lambda proc: proc.poll() == None, proc)
         elif widget == self.tool_widgets.get_object('about_menu_item'):
             tool_selector = self.tool_widgets.get_object('tool_selector')
             if not self.about_box:

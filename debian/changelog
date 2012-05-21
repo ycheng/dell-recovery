@@ -8,6 +8,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
   * dell-bootstrap: Set the bootloader path to a raw string literal.
   * ubiquity plugins: set shebang to python3 to match other ubiquity plugins.
   * For fetch_output's subprocess call, encode data sent as utf8.
+  * Import GLib from gi.repository.
 
   [ Colin Watson ]
   * Port to Python 3:
