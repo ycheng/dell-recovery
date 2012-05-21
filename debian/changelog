@@ -21,6 +21,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
     - debian/control: drop python-vte
     - debian/control: update to python3-progressbar recommends (not yet
       in ubuntu though).
+    - Update bto autobuilder for changes in python3-progressbar.
 
   [ Colin Watson ]
   * Port to Python 3:

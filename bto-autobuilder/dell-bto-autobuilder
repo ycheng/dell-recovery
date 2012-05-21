@@ -92,6 +92,7 @@ class Install:
         self.old_state = 'starting progress tracking'
         self.state = None
         self.progress = progressbar.ProgressBar()
+        self.progress.start()
 
     def update_percent(self, state, num):
         self._print_once(state)
@@ -114,7 +115,8 @@ class Install:
     # to the dell bto builder, we make the class itself
     # callable and just pass the instance
     def __call__(self, state, num):
-        if float(num) < 0:
+        num = float(num)
+        if num < 0:
             self.update_plain(state)
         else:
             self.update_percent(state, num)
