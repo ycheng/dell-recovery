@@ -329,7 +329,8 @@ create an USB key or DVD image."))
 
         if self.bto_up:
             call = subprocess.Popen(['file', self.bto_up],
-                                    stdout=subprocess.PIPE)
+                                    stdout=subprocess.PIPE,
+                                    universal_newlines=True)
             output_text  = "<b>" + _("Utility Partition") + "</b>:\n"
             output_text += call.communicate()[0].replace(', ', '\n')
         else:
@@ -381,7 +382,7 @@ create an USB key or DVD image."))
                                             'query_iso_information',
                                             {'report_iso_info': self.update_version_gui},
                                             ret)
-            except dbus.DBusException, msg:
+            except dbus.DBusException as msg:
                 parent = self.widgets.get_object('wizard')
                 self.dbus_exception_handler(msg, parent)
             self.toggle_spinner_popup(False)
@@ -579,7 +580,7 @@ create an USB key or DVD image."))
             dialog = AptProgressDialog(trans, parent=wizard)
             dialog.run()
             super(AptProgressDialog, dialog).run()
-        except dbus.exceptions.DBusException, msg:
+        except dbus.exceptions.DBusException as msg:
             self.dbus_exception_handler(msg, wizard)
 
         widget.hide()
@@ -646,7 +647,7 @@ create an USB key or DVD image."))
         if ret is not None:
             import apt_inst
             import apt_pkg
-            control = apt_inst.debExtractControl(open(ret))
+            control = apt_inst.DebFile(ret).control.extractdata("control")
             sections = apt_pkg.TagSection(control)
             if sections["Package"] != 'dell-recovery' or \
                                               debian_support.Version(sections["Version"]) < 0.72:

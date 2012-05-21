@@ -26,11 +26,13 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+from __future__ import print_function
+
 import subprocess
 import os
-import apt
 import sys
-from apt.progress import InstallProgress
+from apt.progress.text import AcquireProgress
+from apt.progress.base import InstallProgress
 from apt.cache import Cache
 
 DONT_BUILD_DKMS_FILE = "/tmp/do_not_build_dkms_module"
@@ -38,11 +40,11 @@ DONT_BUILD_DKMS_FILE = "/tmp/do_not_build_dkms_module"
 class TextInstallProgress(InstallProgress):
     
     def __init__(self):
-        apt.progress.InstallProgress.__init__(self)
+        InstallProgress.__init__(self)
         self.last = 0.0
 
-    def updateInterface(self):
-        InstallProgress.updateInterface(self)
+    def update_interface(self):
+        InstallProgress.update_interface(self)
         if self.last >= self.percent:
             return
         sys.stdout.write("\r[%s] %s\n" %(self.percent, self.status))
@@ -50,10 +52,10 @@ class TextInstallProgress(InstallProgress):
         self.last = self.percent
 
     def conffile(self, current, new):
-        print "conffile prompt: %s %s" % (current, new)
+        print("conffile prompt: %s %s" % (current, new))
     
     def error(self, errorstr):
-        print "got dpkg error: '%s'" % errorstr
+        print("got dpkg error: '%s'" % errorstr)
 
 
 class ProcessJockey():
@@ -62,18 +64,18 @@ class ProcessJockey():
         '''If new modaliases are available, install them right now
            so that they will be available to Jockey later in the process'''
         cache = Cache()
-        fprogress = apt.progress.TextFetchProgress()
+        aprogress = AcquireProgress()
         iprogress = TextInstallProgress()
         
         for pkg in cache.keys():
             if '-modaliases' in pkg and \
                 cache[pkg].is_installed and \
                 cache[pkg].is_upgradable:
-                print "Marking %s for upgrade" % pkg
+                print("Marking %s for upgrade" % pkg)
                 cache[pkg].mark_install()
         
-        res = cache.commit(fprogress, iprogress)
-        print res
+        res = cache.commit(aprogress, iprogress)
+        print(res)
         del cache
 
     def find_and_install_drivers(self):
@@ -87,15 +89,16 @@ class ProcessJockey():
         backend = subprocess.Popen(["/usr/share/jockey/jockey-backend"])
         code = backend.poll()
         if (code and code != 0):
-            print "Error starting jockey backend"
+            print("Error starting jockey backend")
             exit(code)
       
         #call out jockey detection algorithms
-        ret = subprocess.Popen(["jockey-text", "-l"],stdout=subprocess.PIPE)
+        ret = subprocess.Popen(["jockey-text", "-l"],stdout=subprocess.PIPE,
+                               universal_newlines=True)
         output = ret.communicate()[0]
         code = ret.wait()
         if (code != 0):
-            print "jockey returned a non-zero return code"
+            print("jockey returned a non-zero return code")
         output = output.split('\n')
 
         #Build and array of things to install
@@ -107,12 +110,12 @@ class ProcessJockey():
                     if not biggest_nv or (biggest_nv and line.split()[0] > biggest_nv.split()[0]):
                         biggest_nv = line
                 elif 'Disabled' in line:
-                    print "Marking for installation: %s" % line.split()[0]
+                    print("Marking for installation: %s" % line.split()[0])
                     install.append(line.split()[0])
 
         #Append the selected nvidia driver
         if len(biggest_nv) > 0 and 'Disabled' in biggest_nv:
-            print "Marking for installation: %s" % biggest_nv.split()[0]
+            print("Marking for installation: %s" % biggest_nv.split()[0])
             install.append(biggest_nv.split()[0])
 
         #Install any detected drivers
@@ -124,24 +127,26 @@ class ProcessJockey():
             for binary in fake_binaries:
                 os.rename(binary, '%s.REAL' % binary)
                 with open(binary, 'w') as f:
-                    print >>f, """\
+                    print("""\
 #!/bin/sh
 echo 1>&2
 echo 'Warning: Fake %s called, doing nothing.' 1>&2
-exit 0""" % binary
-                os.chmod(binary, 0755)
+exit 0""" % binary, file=f)
+                os.chmod(binary, 0o755)
 
             #Perform installation
             for item in install:
-                print "Installing: %s" % item
+                print("Installing: %s" % item)
                 if item == "xorg:fglrx":
                     with open(DONT_BUILD_DKMS_FILE,'w'):
                         pass
-                ret = subprocess.Popen(["jockey-text", "-e", item],stdout=subprocess.PIPE)
+                ret = subprocess.Popen(["jockey-text", "-e", item],
+                                       stdout=subprocess.PIPE,
+                                       universal_newlines=True)
                 output = ret.communicate()[0]
                 code = ret.wait()
                 if (code != 0):
-                    print "Error installing: %s" % item
+                    print("Error installing: %s" % item)
                 if os.path.exists(DONT_BUILD_DKMS_FILE):
                     os.remove(DONT_BUILD_DKMS_FILE)
 
@@ -149,14 +154,16 @@ exit 0""" % binary
             for binary in fake_binaries:
                 os.rename('%s.REAL' % binary, binary)
             #Update initramfs now
-            ret = subprocess.Popen(["update-initramfs", "-u"],stdout=subprocess.PIPE)
+            ret = subprocess.Popen(["update-initramfs", "-u"],
+                                   stdout=subprocess.PIPE,
+                                   universal_newlines=True)
             output = ret.communicate()[0]
             code = ret.wait()
             if (code != 0):
-                print "Error updating initramfs"
+                print("Error updating initramfs")
 
         else:
-            print "No Jockey supported drivers necessary"
+            print("No Jockey supported drivers necessary")
 
         backend.terminate()
         if code:
@@ -168,4 +175,4 @@ if __name__ == "__main__":
         processor.install_new_aliases()
         processor.find_and_install_drivers()
     else:
-        print "Jockey isn't installed on target.  Unable to detect drivers"
+        print("Jockey isn't installed on target.  Unable to detect drivers")

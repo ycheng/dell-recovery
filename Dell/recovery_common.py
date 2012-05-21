@@ -23,6 +23,8 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
+from __future__ import print_function
+
 import dbus.mainloop.glib
 import subprocess
 from gi.repository import GObject
@@ -147,8 +149,9 @@ def check_version(package='dell-recovery'):
         cache = apt.cache.Cache()
         if cache[package].is_installed:
             return cache[package].installed.version
-    except Exception, msg:
-        print >> sys.stderr, "Error checking %s version: %s" % (package, msg)
+    except Exception as msg:
+        print("Error checking %s version: %s" % (package, msg),
+              file=sys.stderr)
         return "unknown"
 
 def process_conf_file(original, new, uuid, rp_number, ako='', recovery_text=''):
@@ -200,7 +203,8 @@ def fetch_output(cmd, data=None):
     '''Helper function to just read the output from a command'''
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE,
-                                 stdin=subprocess.PIPE)
+                                 stdin=subprocess.PIPE,
+                                 universal_newlines=True)
     (out, err) = proc.communicate(data)
     if proc.returncode is None:
         proc.wait()
@@ -208,7 +212,7 @@ def fetch_output(cmd, data=None):
         error = "Command %s failed with stdout/stderr: %s\n%s" % (cmd, out, err)
         import syslog
         syslog.syslog(error)
-        raise RuntimeError, (error)
+        raise RuntimeError(error)
     return out
 
 def find_extra_kernel_options():
@@ -256,8 +260,8 @@ def find_factory_rp_stats():
                 recovery["slave"] = dev.Get(dev_bus_name, 'DeviceFile')
                 break
 
-    except dbus.DBusException, msg:
-        print "%s, UDisks Failed" % str(msg)
+    except dbus.DBusException as msg:
+        print("%s, UDisks Failed" % str(msg))
 
     return recovery
 
@@ -283,8 +287,8 @@ def find_partitions(utility, recovery):
                             ('recovery' in label and 'ntfs' in filesystem):
                 recovery = dev.Get('org.freedesktop.Udisks.Device', 'DeviceFile')
         return (utility, recovery)
-    except dbus.DBusException, msg:
-        print "%s, UDisks Failed" % str(msg)
+    except dbus.DBusException as msg:
+        print("%s, UDisks Failed" % str(msg))
 
     try:
         #next try to use devkit-disks. if this fails, then we can fall back to hal
@@ -305,8 +309,8 @@ def find_partitions(utility, recovery):
                 recovery = dev.Get('org.freedesktop.DeviceKit.Disks.Device', 'device-file')
         return (utility, recovery)
 
-    except dbus.DBusException, msg:
-        print "%s, DeviceKit-Disks Failed" % str(msg)
+    except dbus.DBusException as msg:
+        print("%s, DeviceKit-Disks Failed" % str(msg))
 
     try:
         obj = bus.get_object('org.freedesktop.Hal', '/org/freedesktop/Hal/Manager')
@@ -325,8 +329,8 @@ def find_partitions(utility, recovery):
                             ('RECOVERY' in label and 'ntfs' in filesystem):
                 recovery = dev.GetProperty('block.device')
         return (utility, recovery)
-    except dbus.DBusException, msg:
-        print "%s, HAL Failed" % str(msg)
+    except dbus.DBusException as msg:
+        print("%s, HAL Failed" % str(msg))
 
 def find_burners():
     """Checks for what utilities are available to burn with"""
@@ -382,8 +386,8 @@ def find_burners():
             if not found_supported_dvdr:
                 dvd = None
             return (dvd, usb)
-        except dbus.DBusException, msg:
-            print "%s, UDisks Failed burner parse" % str(msg)
+        except dbus.DBusException as msg:
+            print("%s, UDisks Failed burner parse" % str(msg))
         try:
             #first try to use devkit-disks. if this fails, then, it's OK
             obj = bus.get_object('org.freedesktop.DeviceKit.Disks', '/org/freedesktop/DeviceKit/Disks')
@@ -402,8 +406,8 @@ def find_burners():
                     break
             if not found_supported_dvdr:
                 dvd = None
-        except dbus.DBusException, msg:
-            print "%s, device kit Failed burner parse" % str(msg)
+        except dbus.DBusException as msg:
+            print("%s, device kit Failed burner parse" % str(msg))
 
     return (dvd, usb)
 
@@ -506,13 +510,13 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     #Detect the old initramfs stuff
     try:
         old_initrd_files = glob.glob('%s/initrd*' % old_initrd_directory)
-    except Exception, msg:
-        print str(msg)
-        raise dbus.DBusException, ("Missing initrd in image.")
+    except Exception as msg:
+        print(str(msg))
+        raise dbus.DBusException("Missing initrd in image.")
     try:
         old_uuid_file   = glob.glob('%s/casper-uuid*' % old_casper_directory)[0]
-    except Exception, msg:
-        print "Old casper UUID not found, assuming 'casper-uuid'"
+    except Exception as msg:
+        print("Old casper UUID not found, assuming 'casper-uuid'")
         old_uuid_file   = '%s/casper-uuid' % old_casper_directory
 
     old_initrd_file = ''
@@ -533,12 +537,12 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
             old_suffix = ''
 
     if not old_suffix or not old_initrd_file or not old_uuid_file:
-        raise dbus.DBusException, ("Unable to detect valid initrd.")
+        raise dbus.DBusException("Unable to detect valid initrd.")
 
-    print "Old initrd: %s" % old_initrd_file
-    print "Old uuid file: %s" % old_uuid_file
-    print "Old suffix: %s" % old_suffix
-    print "Old compression method: %s" % old_compression
+    print("Old initrd: %s" % old_initrd_file)
+    print("Old uuid file: %s" % old_uuid_file)
+    print("Old suffix: %s" % old_suffix)
+    print("Old compression method: %s" % old_compression)
 
     #Extract old initramfs
     chain0 = subprocess.Popen([old_compression, '-cd', old_initrd_file, '-S',
@@ -549,10 +553,10 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     #Generate new UUID
     new_uuid_file = os.path.join(new_casper_directory,
                                  os.path.basename(old_uuid_file))
-    print "New uuid file: %s" % new_uuid_file
+    print("New uuid file: %s" % new_uuid_file)
     chain0 = subprocess.Popen(['uuidgen', '-r'], stdout=subprocess.PIPE)
     new_uuid = chain0.communicate()[0]
-    print "New UUID: %s" % new_uuid.strip()
+    print("New UUID: %s" % new_uuid.strip())
     for item in [new_uuid_file, os.path.join(tmpdir, 'conf', 'uuid.conf')]:
         with open(item, "w") as uuid_fd:
             uuid_fd.write(new_uuid)
@@ -571,18 +575,18 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     elif new_compression == "auto":
         new_compression = old_compression
         new_suffix = '.' + old_suffix
-    print "New suffix: %s" % new_suffix
-    print "New compression method: %s" % new_compression
+    print("New suffix: %s" % new_suffix)
+    print("New compression method: %s" % new_compression)
 
     #Generate new initramfs
     new_initrd_file = os.path.join(new_initrd_directory, 'initrd' + new_suffix)
-    print "New initrd file: %s" % new_initrd_file
+    print("New initrd file: %s" % new_initrd_file)
     chain0 = subprocess.Popen(['find'], cwd=tmpdir, stdout=subprocess.PIPE)
     chain1 = subprocess.Popen(['cpio', '--quiet', '--dereference', '-o',
                                '-H', 'newc'],
                                cwd=tmpdir, stdin=chain0.stdout,
                                stdout=subprocess.PIPE)
-    with open(new_initrd_file, 'w') as initrd_fd:
+    with open(new_initrd_file, 'wb') as initrd_fd:
         if new_compression:
             chain2 = subprocess.Popen([new_compression, '-9c'],
                                       stdin=chain1.stdout,
@@ -645,9 +649,9 @@ def create_g2ldr(chroot, rp_mount, install_mount):
         from ubiquity import misc
         misc.execute_root(*build_command)
 
-    with open(os.path.join(rp_mount, 'g2ldr'), 'w') as wfd:
+    with open(os.path.join(rp_mount, 'g2ldr'), 'wb') as wfd:
         for fname in ['/usr/lib/grub/i386-pc/g2hdr.bin', os.path.join(chroot, 'tmp', 'core.img')]:
-            with open(fname) as rfd:
+            with open(fname, 'rb') as rfd:
                 wfd.write(rfd.read())
 
 def parse_seed(seed):
@@ -729,7 +733,7 @@ def dbus_sync_call_signal_wrapper(dbus_iface, func, handler_map, *args, **kwargs
     kwargs['reply_handler'] = _h_reply
     kwargs['error_handler'] = _h_error
     kwargs['timeout'] = 86400
-    for signame, sighandler in handler_map.iteritems():
+    for signame, sighandler in handler_map.items():
         dbus_iface.connect_to_signal(signame, sighandler, utf8_strings=True)
     dbus_iface.get_dbus_method(func)(*args, **kwargs)
     loop.run()

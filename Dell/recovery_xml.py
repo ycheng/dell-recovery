@@ -23,12 +23,25 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
+from __future__ import print_function
+
 import xml.dom.minidom
 import codecs
 import os
+import sys
+
+if sys.version >= '3':
+    text_type = str
+    binary_type = bytes
+else:
+    text_type = unicode
+    binary_type = str
 
 def utf8str(old):
-    return unicode(str(old), 'utf-8', errors='ignore').encode('utf-8')
+    if isinstance(old, text_type):
+        return old
+    else:
+        return text_type(binary_type(old), 'utf-8', errors='ignore')
 
 class BTOxml:
     def __init__(self):
@@ -61,13 +74,13 @@ class BTOxml:
             child = elements[0].firstChild
             if child:
                 return child.nodeValue.strip()
-        return u''
+        return text_type('')
 
     def replace_node_contents(self, tag, new):
         """Replaces a node contents (that we assume exists)"""
         elements = self.dom.getElementsByTagName(tag)
         if not elements:
-            print "Missing elements for tag"
+            print("Missing elements for tag")
             return
         if elements[0].hasChildNodes():
             for node in elements[0].childNodes:
@@ -97,11 +110,11 @@ class BTOxml:
             self.new = False
             try:
                 if os.path.exists(fname):
-                    with open(fname) as f:
+                    with open(fname, 'rb') as f:
                         fname = f.read()
                 self.dom = xml.dom.minidom.parseString(utf8str(fname))
             except xml.parsers.expat.ExpatError:
-                print "Damaged XML file, regenerating"
+                print("Damaged XML file, regenerating")
 
         if not (fname and self.dom):
             self.new = True

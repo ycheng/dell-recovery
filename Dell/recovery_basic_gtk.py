@@ -124,7 +124,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
                                             'query_iso_information',
                                             {'report_iso_info': self.update_version_gui},
                                             self.rp)
-            except dbus.DBusException, msg:
+            except dbus.DBusException as msg:
                 self.toggle_spinner_popup(False)
                 parent = self.widgets.get_object('wizard')
                 self.dbus_exception_handler(msg, parent)
@@ -180,7 +180,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
                                 {'report_progress':self.update_progress_gui},
                                 *args)
                 self.update_progress_gui(_("Opening Burner"), 1.00)
-            except dbus.DBusException, msg:
+            except dbus.DBusException as msg:
                 parent = self.widgets.get_object('progress_dialog')
                 fallback = self.widgets.get_object('wizard')
                 self.dbus_exception_handler(msg, parent, fallback)

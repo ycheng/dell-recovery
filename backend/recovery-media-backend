@@ -57,7 +57,13 @@ def setup_logging(debug=False, logfile=None):
         logging.basicConfig(level=logging.WARNING, filename=logfile,
             format='%(levelname)s: %(message)s')
 
-gettext.install('dell-recovery', unicode=True)
+def setup_gettext():
+    kwargs = {}
+    if sys.version < '3':
+        kwargs['unicode'] = True
+    gettext.install('dell-recovery', **kwargs)
+
+setup_gettext()
 argv_options, argv_args = parse_argv()
 setup_logging(argv_options.debug, argv_options.logfile)
 

@@ -21,6 +21,8 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
+from __future__ import print_function
+
 from Dell.recovery_common import find_partitions, check_version, find_burners
 import optparse
 import os
@@ -28,7 +30,8 @@ import subprocess
 
 target = os.path.expanduser("~/Downloads")
 try:
-    p = subprocess.Popen(["xdg-user-dir","DOWNLOAD"], stdout=subprocess.PIPE)
+    p = subprocess.Popen(["xdg-user-dir","DOWNLOAD"], stdout=subprocess.PIPE,
+                         universal_newlines=True)
     downloadpath = p.communicate()[0].strip()
     if p.returncode == 0 and downloadpath:
         target = downloadpath
@@ -78,7 +81,7 @@ parser.add_option('--burn', dest='burn', action='store_true',
 
 if __name__ == '__main__':
     if options.checkversion:
-        print "Version: %s" % check_version()
+        print("Version: %s" % check_version())
     else:
         import dbus.mainloop.glib
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
@@ -108,7 +111,7 @@ if __name__ == '__main__':
             elif options.media == 'usb' and usb and iso:
                 command = usb + [iso]
             else:
-                print "Error with burn mode.  Please invoke in standard mode."
+                print("Error with burn mode.  Please invoke in standard mode.")
             if command:
                 subprocess.call(command)
             #don't ever autostart again

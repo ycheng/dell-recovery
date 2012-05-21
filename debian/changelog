@@ -1,6 +1,30 @@
 dell-recovery (1.25) UNRELEASED; urgency=low
 
+  [ Mario Limonciello ]
   * Pass the destination as found in the SDR to target system.
+
+  [ Colin Watson ]
+  * Port to Python 3:
+    - Use Python 3-compatible print functions.
+    - Use "except Exception as e" syntax rather than the old-style "except
+      Exception, e".
+    - Use "raise Exception(value)" syntax rather than the old-style "raise
+      Exception, value".
+    - Only pass unicode=True to gettext.install in Python 2.
+    - Open subprocesses with universal_newlines=True when expecting to read
+      text from them.  On Python 2, this only enables \r\n conversion and
+      the like, but on Python 3 this also causes subprocess-related file
+      objects to read str rather than bytes.
+    - Use 'isinstance(obj, collections.Callable)' instead of 'callable(obj)'
+      in Python 3.
+    - Open files in binary mode where necessary.
+    - Use new-style octal literals.
+    - Use "key in mapping" rather than "mapping.has_key(key)".
+    - Port to python-apt 0.8 API.
+    - Use "dict.items()" rather than "dict.iteritems()".
+    - Make XML handling more explicit about binary/text distinctions so that
+      it works with Python 3.
+    - Modernise use of unittest methods.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 

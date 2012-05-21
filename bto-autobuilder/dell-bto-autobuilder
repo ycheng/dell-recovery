@@ -12,6 +12,8 @@ Coding Style:
  * Generally styled after Linux kernel C coding standards
 '''
 
+from __future__ import print_function
+
 import os, sys, subprocess, optparse, re, tempfile
 from Dell.recovery_common import DBUS_BUS_NAME, DBUS_INTERFACE_NAME, \
                                  check_version,           \
@@ -22,7 +24,7 @@ from datetime import datetime
 try:
     import progressbar
 except ImportError:
-    print >> sys.stderr, 'Error: python-progressbar is not installed'
+    print('Error: python-progressbar is not installed', file=sys.stderr)
     sys.exit(1)
 
 class FidTag:
@@ -108,7 +110,7 @@ class Install:
         self.state = state
 
         if self.old_state != self.state:
-            print 'Stage: %s' % self.state
+            print('Stage: %s' % self.state)
 
     # instead of defining a callback function to pass
     # to the dell bto builder, we make the class itself
@@ -174,7 +176,7 @@ def parse_argv():
         sys.exit(1)
 
     if opts.bto_name != None and opts.bto_name_prefix != None:
-        print >> sys.stderr, 'Use one bto naming style'
+        print('Use one bto naming style', file=sys.stderr)
         sys.exit(1)
 
     return opts, args
@@ -192,22 +194,23 @@ def config_dell_recovery_package(callback, base, dell_deb):
         the BTO iso.'''
 
     if callback(base) and dell_deb == None:
-        print 'Using ISO included dell-recovery package'
+        print('Using ISO included dell-recovery package')
         return ''
 
     if dell_deb != None:
-        print 'Incorporate specific dell-recovery package'
+        print('Incorporate specific dell-recovery package')
         import apt_inst
         import apt_pkg
-        with open(os.path.realpath(dell_deb), 'r') as rfd:
-            control = apt_inst.debExtractControl(rfd)
-            sections = apt_pkg.ParseSection(control)
-            if sections["Package"] != 'dell-recovery':
-                print 'Provided dell recovery, %s is invalid' % os.path.basename(dell_deb)
-                return ''
-            else:
-                print 'Using provided dell recovery:%s' % os.path.basename(dell_deb)
-                return os.path.realpath(dell_deb)
+        control = apt_inst.DebFile(dell_deb).control.extractdata("control")
+        sections = apt_pkg.TagSection(control)
+        if sections["Package"] != 'dell-recovery':
+            print('Provided dell recovery, %s is invalid' %
+                  os.path.basename(dell_deb))
+            return ''
+        else:
+            print('Using provided dell recovery:%s' %
+                  os.path.basename(dell_deb))
+            return os.path.realpath(dell_deb)
 
 if __name__ == '__main__':
     options, params = parse_argv()
@@ -222,10 +225,10 @@ if __name__ == '__main__':
                     continue # accomodate simple comments
                 drivers.append(line)
 
-    except Exception, err:
-        print >> sys.stderr, \
-            'There was an error parsing the drivers driver file, aborting'
-        print >> sys.stderr, err
+    except Exception as err:
+        print('There was an error parsing the drivers driver file, aborting',
+              file=sys.stderr)
+        print(err, file=sys.stderr)
         sys.exit(1)
 
     try:
@@ -277,11 +280,11 @@ if __name__ == '__main__':
             #writing files as a user, oh well, we tried
             pass
 
-        print 'BTO ISO: %s' % os.path.join(options.bto_dir, bto_name)
+        print('BTO ISO: %s' % os.path.join(options.bto_dir, bto_name))
 
-        print 'List of drivers to be mixed into %s' % bto_name
+        print('List of drivers to be mixed into %s' % bto_name)
         for fishie in drivers:
-            print fishie
+            print(fishie)
 
         # so what's happening here is two dbus functions are being called,
         # create_ubuntu on behalf of assemble_image. The former handles the
@@ -303,16 +306,16 @@ if __name__ == '__main__':
             current_tag.revision,
             os.path.join(options.bto_dir, bto_name))
 
-        print 'Build complete: %s' % os.path.join(options.bto_dir, bto_name)
-    except dbus.DBusException, err:
+        print('Build complete: %s' % os.path.join(options.bto_dir, bto_name))
+    except dbus.DBusException as err:
         if hasattr(err, '_dbus_error_name') and err._dbus_error_name == \
                 'org.freedesktop.DBus.Error.ServiceUnknown':
             pass
         else:
-            print 'Received %s when closing recovery-media-backend '\
-                'DBus service' % str(err)
-    except Exception, err:
-        print >> sys.stderr, err
+            print('Received %s when closing recovery-media-backend '\
+                'DBus service' % str(err))
+    except Exception as err:
+        print(err, file=sys.stderr)
         sys.exit(1)
     finally:
         iface.request_exit() # will call atexit in dell backend
