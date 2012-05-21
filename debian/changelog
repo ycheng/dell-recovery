@@ -5,6 +5,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
   * Drop OIE support.  Only used for 10.10 release.
   * Fix lintian NMU override to include wildcard.
   * debian/control: bump to standards 3.9.3.
+  * In builder mode, don't allow proceeding with an unknown base image.
   * Python 3 port:
     - dell-bootstrap: Set the bootloader path to a raw string literal.
     - ubiquity plugins: set shebang to python3 to match other ubiquity plugins.

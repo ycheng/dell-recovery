@@ -592,9 +592,10 @@ create an USB key or DVD image."))
         BasicGeneratorGTK.update_version_gui(self, version, distributor, release, arch, output_text)
 
         if output_text:
+            complete = (output_text != "Unknown Base Image")
             base_page = self.builder_widgets.get_object('base_page')
             wizard = self.widgets.get_object('wizard')
-            wizard.set_page_complete(base_page, True)
+            wizard.set_page_complete(base_page, complete)
             #If this is a BTO image, then allow using built in framework
             if not self.bto_base and self.builder_widgets.get_object('builtin_radio').get_active():
                 self.builder_widgets.get_object('deb_radio').set_active(True)
