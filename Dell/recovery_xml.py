@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
 # «recovery_xml» - Helper Class for parsing and using a bto.xml
@@ -22,8 +22,6 @@
 # with this application; if not, write to the Free Software Foundation, Inc., 51
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
-
-from __future__ import print_function
 
 import xml.dom.minidom
 import codecs

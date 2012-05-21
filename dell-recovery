@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
 # Dell Recovery
@@ -20,8 +20,6 @@
 # with this application; if not, write to the Free Software Foundation, Inc., 51
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
-
-from __future__ import print_function
 
 from Dell.recovery_common import find_partitions, check_version, find_burners
 import optparse

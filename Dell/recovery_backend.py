@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
 # «recovery_backend» - Backend Manager.  Handles backend service calls
@@ -23,8 +23,6 @@
 # with this application; if not, write to the Free Software Foundation, Inc., 51
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
-
-from __future__ import print_function
 
 import logging, os, os.path, signal, sys, re
 

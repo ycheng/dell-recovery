@@ -30,8 +30,7 @@
 # $2 -> /cdrom or /isodevice
 
 if [ "$1" = "early" ]; then
-    DEVICE=$(python << EOF
-from __future__ import print_function
+    DEVICE=$(python3 << EOF
 from Dell.recovery_common import find_partitions
 print(find_partitions('','')[1])
 EOF

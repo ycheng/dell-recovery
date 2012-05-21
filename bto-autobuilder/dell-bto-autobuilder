@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # vim: set filetype=python :
 ''' BTO Automatic Builder
 Author: peter.petrakis@canonical.com
@@ -11,8 +11,6 @@ Coding Style:
    where necessary to achieve this.
  * Generally styled after Linux kernel C coding standards
 '''
-
-from __future__ import print_function
 
 import os, sys, subprocess, optparse, re, tempfile
 from Dell.recovery_common import DBUS_BUS_NAME, DBUS_INTERFACE_NAME, \

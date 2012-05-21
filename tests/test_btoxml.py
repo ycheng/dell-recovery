@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- encoding:utf-8 -*-
 #
 # @copyright 2011 Canonical Ltd.
@@ -20,17 +20,8 @@
 import os
 import unittest
 import tempfile
-import sys
 
 from Dell import recovery_xml
-
-if sys.version >= '3':
-    def u(s):
-        return s
-else:
-    def u(s):
-        return unicode(s, "utf-8")
-
 ilegal_utf8string = bytes(bytearray(range(129, 255)))
 
 class NewStr(object):
@@ -41,9 +32,8 @@ class NewStr(object):
     def __repr__(self):
         return self._str
 
-    if sys.version >= '3':
-        def __iter__(self):
-            return iter(self._str.encode())
+    def __iter__(self):
+        return iter(self._str.encode())
 
 class BTOxmlTestCase(unittest.TestCase):
 
@@ -84,12 +74,12 @@ class ReadWriteNewBTOxmlTestCase(BTOxmlTestCase):
     def test_enhance_str(self):
         self.set_node([('syslog', NewStr('ooo'))])
         self._save()
-        self.assertEqual(u('ooo'), self._read_node('syslog'))
+        self.assertEqual('ooo', self._read_node('syslog'))
 
     def test_set_emptystring(self):
         self.set_node([('syslog', '')])
         self._save()
-        self.assertEqual(u(''), self._read_node('syslog'))
+        self.assertEqual('', self._read_node('syslog'))
 
     def test_set_node_ascii(self):
         self.set_node([('date', '123')])
@@ -99,19 +89,19 @@ class ReadWriteNewBTOxmlTestCase(BTOxmlTestCase):
     def test_set_node_nonascii(self):
         self.set_node([('syslog', ilegal_utf8string)])
         self._save()
-        self.assertEqual(u(''), self._read_node('syslog'))
+        self.assertEqual('', self._read_node('syslog'))
 
     def test_set_node_mix(self):
         self.set_node([('date', '2011-11-22'), ('syslog', ilegal_utf8string)])
         self._save()
-        self.assertEqual(u('2011-11-22'), self._read_node('date'))
+        self.assertEqual('2011-11-22', self._read_node('date'))
 
 class ReadWriteExistedBTOxmlTestCase(ReadWriteNewBTOxmlTestCase):
 
     def setUp(self):
         lines = [
             b'<date>2011-11-22</date>',
-            b'<syslog>' + u('中文測試').encode('utf-8') + ilegal_utf8string +
+            b'<syslog>' + '中文測試'.encode('utf-8') + ilegal_utf8string +
                 b'</syslog>'
         ]
         self.xmlpath = tempfile.mktemp()
@@ -119,7 +109,7 @@ class ReadWriteExistedBTOxmlTestCase(ReadWriteNewBTOxmlTestCase):
         self._load()
 
     def test_read_utf8str(self):
-        self.assertEqual(u('中文測試'), self._read_node('syslog'))
+        self.assertEqual('中文測試', self._read_node('syslog'))
 
 def suite():
     suite = unittest.TestSuite()
