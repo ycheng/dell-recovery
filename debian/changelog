@@ -2,6 +2,8 @@ dell-recovery (1.25) UNRELEASED; urgency=low
 
   [ Mario Limonciello ]
   * Pass the destination as found in the SDR to target system.
+  * Add an exclusion for python2/3 compatibility to tests. (Can be dropped
+    when python2 is dropped).
 
   [ Colin Watson ]
   * Port to Python 3:

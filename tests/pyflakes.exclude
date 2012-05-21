@@ -25,3 +25,6 @@ ubiquity/dell-default-ui.py:*: redefinition of unused 'install_misc' from line *
 #ignore error
 ubiquity/dell-default-ui.py:*: local variable 'e' is assigned to but never used
 
+
+#python 3 port, when python2 support dropped this can drop
+tests/test_btoxml.py:*: redefinition of function 'u' from line *
