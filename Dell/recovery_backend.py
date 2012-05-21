@@ -57,6 +57,19 @@ from Dell.recovery_xml import BTOxml
 from gettext import gettext as _
 from gettext import bindtextdomain, textdomain
 
+#TODO, when python3 version of debian-support is available,
+# drop this ugly test
+if sys.version >= "3":
+    class emulator:
+        def version_compare(self, this, that):
+            if this > that:
+                return 1
+            else:
+                return -1
+    debian_support = emulator()
+else:
+    from debian_bundle import debian_support
+
 def safe_tar_extract(filename, destination):
     """Safely extracts a tarball into destination"""
     logging.debug('safe_tar_extract: %s to %s', (filename, destination))
@@ -293,7 +306,6 @@ class Backend(dbus.service.Object):
             
         if rp_distro in package_distro:
             from apt.cache import Cache
-            from debian_bundle import debian_support
             logging.debug("_test_for_new_dell_recovery: Distro %s matches %s", rp_distro, package_distro)
             cache = Cache()
             package_version = cache['dell-recovery'].installed.version

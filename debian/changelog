@@ -11,6 +11,8 @@ dell-recovery (1.25) UNRELEASED; urgency=low
   * Import GLib from gi.repository.
   * Drop the debian_support version test in the GTK frontend.  Older versions
     of dell-recovery will fail in more creative ways now.
+  * Add a quick hack around debian_support version test in the backend until
+    python3 support for python-debian shows up.
 
   [ Colin Watson ]
   * Port to Python 3:
