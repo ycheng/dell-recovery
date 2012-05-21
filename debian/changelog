@@ -4,6 +4,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
   * Pass the destination as found in the SDR to target system.
   * Add an exclusion for python2/3 compatibility to tests. (Can be dropped
     when python2 is dropped).
+  * debian/control: bump to standards 3.9.3.
 
   [ Colin Watson ]
   * Port to Python 3:
