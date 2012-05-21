@@ -17,6 +17,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
       python3 support for python-debian shows up.
     - Remove unused utf8_strings argument in python3 dbus.
     - Drop python2 compatibility from tests.
+    - debian/control: Add python3 build depends/depends/python stanzas
 
   [ Colin Watson ]
   * Port to Python 3:
