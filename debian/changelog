@@ -18,6 +18,9 @@ dell-recovery (1.25) UNRELEASED; urgency=low
     - Drop python2 compatibility.
     - debian/control: Add python3 build depends/depends/python stanzas
     - debian/rules: Build for only python3.
+    - debian/control: drop python-vte
+    - debian/control: update to python3-progressbar recommends (not yet
+      in ubuntu though).
 
   [ Colin Watson ]
   * Port to Python 3:
