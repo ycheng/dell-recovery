@@ -1,11 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Utility script to run pyflakes with the modules we care about and
 # exclude errors we know to be fine.
 
 # Taken from Review Board, MIT license
-
-from __future__ import print_function
 
 import os
 import re
