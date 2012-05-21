@@ -18,7 +18,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
     - Remove unused utf8_strings argument in python3 dbus.
     - Drop python2 compatibility from tests.
     - debian/control: Add python3 build depends/depends/python stanzas
-    - debian/rules: Build for python3 as well.
+    - debian/rules: Build for only python3.
 
   [ Colin Watson ]
   * Port to Python 3:
