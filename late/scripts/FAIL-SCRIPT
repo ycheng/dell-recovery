@@ -67,10 +67,6 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
         /cdrom/scripts/chroot-scripts/FAIL-SCRIPT
     fi
 
-    #Check if we'll display OIE
-    if [ -f /tmp/oie ]; then
-        /usr/share/dell/oie/oie.py fail
-    fi
 fi
 
 IFHALT "(FAIL) Clean-Up.. Done!"

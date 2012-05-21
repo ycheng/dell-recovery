@@ -354,44 +354,5 @@
       </screenshot>
     </figure>
   </sect2>
-  <sect2 id="bto-oie">
-    <title>Installation Mode</title>
-    <para>
-      If the image is intended to be used in an ODM factory, it should be generated in OIE mode.
-      OIE Mode images are not directly bootable.  The bootloader needs to be installed separately from the image.
-    </para>
-    <para>
-      An OIE image is generated as gzipped tarball (tar.gz) and diskpartioning recipe.  These images are intended
-      to be used from within a Windows based factory environment such as WinPE.  The intended steps are:
-      <variablelist>
-      <varlistentry>
-        <term>1) Create the disk partitions using diskpart with the included recipe.</term>
-        <term>2) Extract the gzipped tarball onto the second partition</term>
-        <term>3) Load an SDR onto the second partition (if applicable)</term>
-        <term>4) Install the bootloader using a Windows executable utility</term>
-        <term>5) Reboot the machine.</term>
-      </varlistentry>
-    </variablelist>
-
-    </para>
-    <para>
-      The installation will continue from this point in loading the SDR into memory and preparing SRVs.  After the installation
-      completes, the customer bootloader will be installed.  If the installation is interrupted before this, the installer
-      will restart when powered on.
-      When the installation is a complete, any custom SUCCESS or FAIL scripts will be ran and then a passing
-      (Green) or failing (Red) screen will be displayed.  The system will be powered off after pressing any key.
-    </para>
-    <figure id="bto-oie-figure">
-      <title>OIE Page</title>
-      <screenshot>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="figures/oie.png"
-                       format="PNG"/>
-          </imageobject>
-        </mediaobject>
-      </screenshot>
-    </figure>
-  </sect2>
 </sect1>
 </article>

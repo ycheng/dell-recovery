@@ -158,17 +158,6 @@ def parse_argv():
                       default=None,
                       help=('Use specific dell recovery package'))
 
-    parser.add_option('--oie', action='store_true', dest='oie',
-                      help=('Enable OIE install mode'))
-
-    parser.add_option('--success', type='string', dest='success_script',
-                      default='',
-                      help=('Add an additional script to run on SUCCESS.'))
-
-    parser.add_option('--fail', type='string', dest='fail_script',
-                      default='',
-                      help=('Add an additional script to run on FAIL.'))
-
     opts, args = parser.parse_args()
 
     if opts.drivers == None or opts.base == None:
@@ -298,9 +287,6 @@ if __name__ == '__main__':
             drivers,                         # driver FISH packages
             '',                              # application FISH packages
             dell_recovery_pkg,               # specify pkg source
-            options.oie,                     # enable OIE install mode
-            options.success_script,          # enable OIE install mode
-            options.fail_script,             # enable OIE install mode
             'create_ubuntu',                 # called by 'assemble_image'
             '',                              # create_ubuntu args...
             current_tag.revision,

@@ -101,10 +101,6 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
         IFHALT "(SUCCESS) Report to logs.. Done!"
     fi
 
-    #Check if we'll display OIE
-    if [ -f /tmp/oie ]; then
-        /usr/share/dell/oie/oie.py pass
-    fi
 fi
 
 IFHALT "(SUCCESS) Clean-Up .. Done!"

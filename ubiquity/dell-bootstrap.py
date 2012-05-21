@@ -82,7 +82,6 @@ DISK_LAYOUT_QUESTION = 'dell-recovery/disk_layout'
 SWAP_QUESTION = 'dell-recovery/swap'
 RP_FILESYSTEM_QUESTION = 'dell-recovery/recovery_partition_filesystem'
 DRIVER_INSTALL_QUESTION = 'dell-recovery/disable-driver-install'
-OIE_QUESTION = 'dell-recovery/oie_mode'
 
 #######################
 # Noninteractive Page #
@@ -178,7 +177,6 @@ class PageGtk(PluginUI):
             self.disk_layout_combobox = builder.get_object('disk_layout_combobox')
             self.swap_combobox = builder.get_object('swap_behavior_combobox')
             self.ui_combobox = builder.get_object('default_ui_combobox')
-            self.oie_combobox = builder.get_object('oie_combobox')
 
             if not (self.genuine and 'UBIQUITY_AUTOMATIC' in os.environ):
                 builder.get_object('error_box').show()
@@ -300,9 +298,7 @@ class PageGtk(PluginUI):
     def _map_combobox(self, item):
         """Maps a combobox to a question"""
         combobox = None
-        if item == OIE_QUESTION:
-            combobox = self.oie_combobox
-        elif item == DRIVER_INSTALL_QUESTION:
+        if item == DRIVER_INSTALL_QUESTION:
             combobox = self.proprietary_combobox
         elif item == ACTIVE_PARTITION_QUESTION:
             combobox = self.active_partition_combobox
@@ -451,20 +447,6 @@ class Page(Plugin):
                 if misc is False:
                     raise RuntimeError("Error removing swap for device %s" %
                                        device)
-
-    def test_oie(self):
-        """Prepares the installation for running in OIE mode"""
-        if self.oie:
-            #rewrite the bootsector of the UP (it might not have been created
-            #if the ODM is using a WIM)
-            with misc.raised_privileges():
-                magic.write_up_bootsector(self.device, self.up_part)
-            #turn off machine when OIE process is done
-            self.preseed('ubiquity/poweroff', 'true')
-            self.preseed('ubiquity/reboot',   'false')
-            #so that if we fail we can red screen
-            with open('/tmp/oie', 'w') as wfd:
-                pass
 
     def sleep_network(self):
         """Requests the network be disabled for the duration of install to
@@ -905,13 +887,6 @@ class Page(Plugin):
             self.log(str(err))
             proprietary = ''
 
-        #test for OIE.  OIE images turn off after install
-        try:
-            self.oie = misc.create_bool(self.db.get(OIE_QUESTION))
-        except debconf.DebconfError as err:
-            self.log(str(err))
-            self.oie = False
-
         #If we detect that we are booted into uEFI mode, then we only want
         #to do a GPT install.  Actually a MBR install would work in most
         #cases, but we can't make assumptions about 16-bit anymore (and
@@ -993,7 +968,6 @@ class Page(Plugin):
                    SWAP_QUESTION: self.swap,
                    DRIVER_INSTALL_QUESTION: proprietary,
                    RP_FILESYSTEM_QUESTION: self.rp_filesystem,
-                   OIE_QUESTION: self.oie,
                    "mem": self.mem,
                    "efi": self.efi}
         for twaddle in twiddle:
@@ -1040,7 +1014,6 @@ class Page(Plugin):
                          DISK_LAYOUT_QUESTION,
                          SWAP_QUESTION,
                          DRIVER_INSTALL_QUESTION,
-                         OIE_QUESTION,
                          RP_FILESYSTEM_QUESTION]:
             answer = self.ui.get_advanced(question)
             if answer:
@@ -1053,9 +1026,6 @@ class Page(Plugin):
                 elif question == DUAL_BOOT_QUESTION:
                     answer = misc.create_bool(answer)
                     self.dual = answer
-                elif question == OIE_QUESTION:
-                    answer = misc.create_bool(answer)
-                    self.oie = answer
                 elif question == DUAL_BOOT_LAYOUT_QUESTION:
                     self.dual_layout = answer
             if type(answer) is bool:
@@ -1121,7 +1091,6 @@ class Page(Plugin):
             else:
                 self.sleep_network()
                 self.disable_swap()
-                self.test_oie()
                 self.clean_recipe()
                 self.remove_extra_partitions()
                 self.explode_utility_partition()
@@ -1856,16 +1825,6 @@ class Install(InstallPlugin):
                     wfd.write(line)
                 if not found:
                     wfd.write("GRUB_DISABLE_OS_PROBER=true\n")
-
-
-        #if oie, pass on information to post install
-        try:
-            oie = misc.create_bool(progress.get(OIE_QUESTION))
-        except debconf.DebconfError:
-            oie = False
-        if oie:
-            with open('/tmp/oie', 'w') as wfd:
-                pass
 
         #for tos
         try:

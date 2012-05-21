@@ -2,6 +2,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
 
   [ Mario Limonciello ]
   * Pass the destination as found in the SDR to target system.
+  * Drop OIE support.  Only used for 10.10 release.
   * Python 3 port:
     - Add an exclusion for python2/3 compatibility to tests. (Can be dropped
       when python2 is dropped).

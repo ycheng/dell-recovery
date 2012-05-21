@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
-  <!-- interface-naming-policy toplevel-contextual -->
+  <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkListStore" id="active_part_liststore">
     <columns>
       <!-- column-name partition -->
@@ -32,12 +31,12 @@
     <property name="type_hint">dialog</property>
     <property name="deletable">False</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox7">
+      <object class="GtkBox" id="dialog-vbox7">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area7">
+          <object class="GtkButtonBox" id="dialog-action_area7">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -47,6 +46,7 @@
             <child>
               <object class="GtkButton" id="button1">
                 <property name="label">gtk-close</property>
+                <property name="use_action_appearance">False</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -138,7 +138,7 @@
           <object class="GtkTable" id="advanced_table">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="n_rows">8</property>
+            <property name="n_rows">7</property>
             <property name="n_columns">2</property>
             <property name="column_spacing">10</property>
             <property name="row_spacing">10</property>
@@ -301,39 +301,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkComboBox" id="active_partition_combobox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="model">active_part_liststore</property>
-                <signal name="changed" handler="advanced_callback" swapped="no"/>
-                <child>
-                  <object class="GtkCellRendererText" id="cellrenderertext2"/>
-                  <attributes>
-                    <attribute name="text">0</attribute>
-                  </attributes>
-                </child>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="top_attach">7</property>
-                <property name="bottom_attach">8</property>
-                <property name="x_options">GTK_FILL</property>
-                <property name="y_options"></property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label7">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Active Partition After Install</property>
-              </object>
-              <packing>
-                <property name="top_attach">7</property>
-                <property name="bottom_attach">8</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="label11">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -368,10 +335,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label12">
+              <object class="GtkLabel" id="label7">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">ODM Image Enablement (OIE)</property>
+                <property name="label" translatable="yes">Active Partition After Install</property>
               </object>
               <packing>
                 <property name="top_attach">6</property>
@@ -379,14 +346,15 @@
               </packing>
             </child>
             <child>
-              <object class="GtkComboBox" id="oie_combobox">
+              <object class="GtkComboBox" id="active_partition_combobox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="model">oie_liststore</property>
+                <property name="model">active_part_liststore</property>
+                <signal name="changed" handler="advanced_callback" swapped="no"/>
                 <child>
-                  <object class="GtkCellRendererText" id="cellrenderertext12"/>
+                  <object class="GtkCellRendererText" id="cellrenderertext2"/>
                   <attributes>
-                    <attribute name="text">1</attribute>
+                    <attribute name="text">0</attribute>
                   </attributes>
                 </child>
               </object>
@@ -473,12 +441,12 @@
     <property name="buttons">ok</property>
     <property name="text" translatable="yes">Exception Encountered</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox4">
+      <object class="GtkBox" id="dialog-vbox4">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area4">
+          <object class="GtkButtonBox" id="dialog-action_area4">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -522,24 +490,6 @@
     <property name="xalign">0</property>
     <property name="yalign">0</property>
     <property name="icon_name">gnome-session-reboot</property>
-  </object>
-  <object class="GtkListStore" id="oie_liststore">
-    <columns>
-      <!-- column-name oie -->
-      <column type="gchararray"/>
-      <!-- column-name pretty_name -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">true</col>
-        <col id="1" translatable="yes">Enabled</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">false</col>
-        <col id="1" translatable="yes">Disabled</col>
-      </row>
-    </data>
   </object>
   <object class="GtkListStore" id="proprietary_liststore">
     <columns>
@@ -691,6 +641,7 @@
                 <child>
                   <object class="GtkRadioButton" id="hdd_recovery">
                     <property name="label" translatable="yes">Restore Linux OS partitions.</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -792,6 +743,7 @@
                 <child>
                   <object class="GtkRadioButton" id="automated_recovery">
                     <property name="label" translatable="yes">Restore entire hard drive.</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -921,6 +873,7 @@
                 <child>
                   <object class="GtkRadioButton" id="interactive_recovery">
                     <property name="label" translatable="yes">Restore only Linux OS partition.</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -977,6 +930,7 @@
         <child>
           <object class="GtkRadioButton" id="hidden_radio">
             <property name="label" translatable="yes">Internal Radio Button</property>
+            <property name="use_action_appearance">False</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
             <property name="use_action_appearance">False</property>

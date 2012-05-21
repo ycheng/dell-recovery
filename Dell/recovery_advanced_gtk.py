@@ -27,14 +27,12 @@ import dbus
 import os
 from gi.repository import Gtk
 import subprocess
-import datetime
 
 from Dell.recovery_gtk import DellRecoveryToolGTK, translate_widgets
 from Dell.recovery_basic_gtk import BasicGeneratorGTK
 
 from Dell.recovery_common import (UIDIR, UP_FILENAMES,
-                                  dbus_sync_call_signal_wrapper,
-                                  find_burners)
+                                  dbus_sync_call_signal_wrapper)
 
 try:
     from aptdaemon import client
@@ -88,15 +86,13 @@ create an USB key or DVD image."))
             self.builder_widgets.get_object(window).set_transient_for(wizard)
 
         #insert builder pages in reverse order
-        titles = {'oie_page' : _("Installation Mode"),
-                 'application_page' : _("Application Packages"),
+        titles = {'application_page' : _("Application Packages"),
                  'driver_page' : _("Driver Packages"),
                  'up_page' : _("Utility Partition"),
                  'fid_page' : _("FID Content"),
                  'base_page' : _("Base OS Image")
                 }
-        for page in ['oie_page',
-                     'application_page',
+        for page in ['application_page',
                      'driver_page',
                      'up_page',
                      'fid_page',
@@ -114,9 +110,6 @@ create an USB key or DVD image."))
         self.bto_base = False
         self.bto_up = ''
         self.add_dell_recovery_deb = ''
-        self.oie_mode = False
-        self.success_script = ''
-        self.fail_script = ''
         self.apt_client = None
 
         self.builder_widgets.connect_signals(self)
@@ -180,12 +173,6 @@ create an USB key or DVD image."))
             self.file_dialog.set_filter(filefilter)
             self.calculate_srvs(None, -1, "check")
 
-        elif page == self.builder_widgets.get_object('oie_page'):
-            filefilter = Gtk.FileFilter()
-            filefilter.add_pattern('*')
-            self.file_dialog.set_filter(filefilter)
-            wizard.set_page_complete(page, True)
-
         elif page == self.widgets.get_object('conf_page') or \
              widget == self.widgets.get_object('version'):
 
@@ -222,15 +209,6 @@ create an USB key or DVD image."))
                 output_text += "<b>" + _("Inject Dell Recovery Package") + "</b>: "
                 output_text += self.add_dell_recovery_deb + '\n'
 
-            output_text += "<b>" + _("OIE Installation Mode") + "</b>: "
-            output_text += str(self.oie_mode) + '\n'
-            if self.success_script:
-                output_text += "<b>" + _("Additional Success Script") + "</b>: "
-                output_text += self.success_script + '\n'
-            if self.success_script:
-                output_text += "<b>" + _("Additional Fail Script") + "</b>: "
-                output_text += self.fail_script + '\n'
-
             output_text += self.widgets.get_object('conf_text').get_label()
 
             self.widgets.get_object('conf_text').set_markup(output_text)
@@ -258,27 +236,11 @@ create an USB key or DVD image."))
             application_fish_list[path] = srv
             iterator = model.iter_next(iterator)
 
-        if self.oie_mode:
-            build = 0
-            while True:
-                path = os.path.join(self.path, 'oie-%s-%i' % (datetime.date.today(), build))
-                if not os.path.exists(path):
-                    self.path = path
-                    break
-                build = build + 1
-            self.image = '%s-%s-%s-dell-oie_%s.tar' % (self.distributor,
-                                                          self.release,
-                                                          self.arch,
-                              self.widgets.get_object('version').get_text())
-
         function = 'assemble_image'
         args = (self.builder_base_image,
                 driver_fish_list,
                 application_fish_list,
                 self.add_dell_recovery_deb,
-                self.oie_mode,
-                self.success_script,
-                self.fail_script,
                 'create_' + self.distributor,
                 self.bto_up)
 
@@ -532,37 +494,6 @@ create an USB key or DVD image."))
             warning.set_text(_("All SRVs must be filled to proceed."))
         wizard.set_page_complete(page, proceed)
         return proceed
-
-    def oie_toggled(self, widget):
-        """The OIE radio was toggled. Only called back by active radio"""
-        self.oie_mode = widget.get_active()
-        
-        if not widget.get_active():
-            for label in ['success_label', 'fail_label']:
-                obj = self.builder_widgets.get_object('success_label')
-                obj.set_text('')
-            self.success_script = ''
-            self.fail_script = ''
-            (self.cd_burn_cmd, self.usb_burn_cmd) = find_burners()
-        else:
-            self.cd_burn_cmd = None
-            self.usb_burn_cmd = None
-
-        file = self.builder_widgets.get_object('oie_file_chooser_vbox')
-        file.set_sensitive(widget.get_active())
-
-    def oie_file_chooser_clicked(self, widget):
-        """The OIE file chooser was pressed"""
-        ret = self.run_file_dialog()
-        if ret is not None:
-            if widget == self.builder_widgets.get_object('set_success_script'):
-                self.success_script = ret
-                label = self.builder_widgets.get_object('success_label')
-                label.set_markup('<b>' + _("SUCCESS Script: " ) + '</b>' + ret)
-            else:
-                self.fail_script = ret
-                label = self.builder_widgets.get_object('fail_label')
-                label.set_markup('<b>' + _("FAIL Script: " ) + '</b>' + ret)
 
     def install_app(self, widget):
         """Launch into an installer for dpkg-repack"""
