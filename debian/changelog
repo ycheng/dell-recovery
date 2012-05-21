@@ -5,6 +5,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
   * Add an exclusion for python2/3 compatibility to tests. (Can be dropped
     when python2 is dropped).
   * debian/control: bump to standards 3.9.3.
+  * dell-bootstrap: Set the bootloader path to a raw string literal.
 
   [ Colin Watson ]
   * Port to Python 3:

@@ -1466,7 +1466,7 @@ manually to proceed.")
             #create new boot entry
             bootmgr = misc.execute_root('efibootmgr', '-q', '-c', '-d',
                                         self.device, '-p', EFI_ESP_PARTITION, '-w',
-                                        '-L', 'ubuntu', '-l', '\\EFI\ubuntu\\grubx64.efi')
+                                        '-L', 'ubuntu', '-l', r'\\EFI\ubuntu\\grubx64.efi')
             if bootmgr is False:
                 raise RuntimeError("Error creating EFI boot manager entry.")
 
