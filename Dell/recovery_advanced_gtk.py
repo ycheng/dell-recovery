@@ -29,7 +29,6 @@ from gi.repository import Gtk
 import subprocess
 import datetime
 
-from debian import debian_support
 from Dell.recovery_gtk import DellRecoveryToolGTK, translate_widgets
 from Dell.recovery_basic_gtk import BasicGeneratorGTK
 
@@ -649,8 +648,7 @@ create an USB key or DVD image."))
             import apt_pkg
             control = apt_inst.DebFile(ret).control.extractdata("control")
             sections = apt_pkg.TagSection(control)
-            if sections["Package"] != 'dell-recovery' or \
-                                              debian_support.Version(sections["Version"]) < 0.72:
+            if sections["Package"] != 'dell-recovery':
                 self.add_dell_recovery_deb = ''
             else:
                 self.add_dell_recovery_deb = ret

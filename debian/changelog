@@ -9,6 +9,8 @@ dell-recovery (1.25) UNRELEASED; urgency=low
   * ubiquity plugins: set shebang to python3 to match other ubiquity plugins.
   * For fetch_output's subprocess call, encode data sent as utf8.
   * Import GLib from gi.repository.
+  * Drop the debian_support version test in the GTK frontend.  Older versions
+    of dell-recovery will fail in more creative ways now.
 
   [ Colin Watson ]
   * Port to Python 3:
