@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Dell Recovery Media install script
 # Copyright (C) 2008-2009, Dell Inc.
