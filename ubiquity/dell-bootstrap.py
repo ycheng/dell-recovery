@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
 # «dell-bootstrap» - Ubiquity plugin for Dell Factory Process

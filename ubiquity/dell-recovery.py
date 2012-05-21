@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
 # «dell-recovery» - OEM Config plugin for Dell-Recovery Media
