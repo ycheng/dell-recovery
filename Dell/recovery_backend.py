@@ -806,6 +806,14 @@ class Backend(dbus.service.Object):
         #mount the recovery partition
         mntdir = self.request_mount(recovery, sender, conn)
 
+        #validate that ubuntu is on the partition
+        if not os.path.exists(os.path.join(mntdir, '.disk', 'info')):
+            print("recovery partition is missing critical ubuntu files.",
+                  file=sys.stderr)
+            if os.path.exists(os.path.join(mntdir, 'bootmgr')):
+                raise CreateFailed("This tool can not create a recovery image from a Windows recovery partition.")
+            raise CreateFailed("Recovery partition is missing critical ubuntu files.")
+
         #test for an updated dell recovery deb to put in
         try:
             self._test_for_new_dell_recovery(mntdir, tmpdir)
@@ -822,11 +830,6 @@ class Backend(dbus.service.Object):
             black_tree("copy", pattern, mntdir, tmpdir)
             self.stop_progress_thread()
             mntdir = self.request_mount(os.path.join(mntdir, 'ubuntu.iso'), sender, conn)
-
-        if not os.path.exists(os.path.join(mntdir, '.disk', 'info')):
-            print("recovery partition is missing critical ubuntu files.",
-                  file=sys.stderr)
-            raise CreateFailed("Recovery partition is missing critical Ubuntu files.")
 
         #Generate BTO XML File
         self.xml_obj.replace_node_contents('date', str(datetime.date.today()))

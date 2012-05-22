@@ -7,6 +7,8 @@ dell-recovery (1.25) UNRELEASED; urgency=low
   * debian/control: bump to standards 3.9.3.
   * In builder mode, don't allow proceeding with an unknown base image.
   * For default distributor (via lsb_release), make sure it's lower case.
+  * Don't allow the create_ubuntu backend to even attempt making ISO images
+    when the recovery partition only contains Windows.
   * Python 3 port:
     - dell-bootstrap: Set the bootloader path to a raw string literal.
     - ubiquity plugins: set shebang to python3 to match other ubiquity plugins.
