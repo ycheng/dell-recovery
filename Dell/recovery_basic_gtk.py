@@ -79,7 +79,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
 
         try:
             self.release = fetch_output(['lsb_release', '-r', '-s']).strip('\n')
-            self.distributor = fetch_output(['lsb_release', '-i', '-s']).strip('\n')
+            self.distributor = fetch_output(['lsb_release', '-i', '-s']).strip('\n').lower()
         except RuntimeError:
             self.release = '0.00'
             self.distributor = 'unknown'
