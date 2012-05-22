@@ -70,6 +70,7 @@ else:
 def safe_tar_extract(filename, destination):
     """Safely extracts a tarball into destination"""
     logging.debug('safe_tar_extract: %s to %s', (filename, destination))
+
     rfd = tarfile.open(filename)
     dangerous_file = False
     for name in rfd.getnames():
@@ -234,6 +235,7 @@ class Backend(dbus.service.Object):
            If we find that it's already mounted elsewhere, return that mount
            If unsuccessful, return an empty string
         '''
+        logging.debug("request_mount: %s" % recovery)
 
         #In this is just a directory
         if os.path.isdir(recovery):
@@ -281,29 +283,32 @@ class Backend(dbus.service.Object):
 
     def _unmount_drive(self, mnt):
         """Unmounts something mounted at a particular mount point"""
+        logging.debug("_unmount_drive: %s" % mnt)
+
         if os.path.exists(mnt):
             ret = subprocess.call(['umount', mnt])
             if ret is not 0:
-                print("Error unmounting %s" % mnt, file=sys.stderr)
+                logging.warning(" _unmount_drive: Error unmounting %s" % mnt)
             try:
                 os.rmdir(mnt)
             except OSError as msg:
-                print("Error cleaning up: %s" % str(msg), file=sys.stderr)
+                logging.warning(" _unmount_drive: Error cleaning up: %s" % str(msg))
 
     def _test_for_new_dell_recovery(self, mount, assembly_tmp):
         """Tests if the distro currently on the system matches the recovery media.
            If it does, check for any potential SRUs to apply to the recovery media
         """
-    
+        logging.debug("_test_for_new_dell_recovery: testing mount %s and assembly_tmp %s" % (mount, assembly_tmp))
+        
         output = fetch_output(['zcat', '/usr/share/doc/dell-recovery/changelog.gz'])
         package_distro = output.split('\n')[0].split()[2].strip(';')
-    
+
         with open(os.path.join(mount, '.disk', 'info')) as rfd:
             rp_distro = rfd.readline().split()[2].strip('"').lower()
             
         if rp_distro in package_distro:
-            from apt.cache import Cache
             logging.debug("_test_for_new_dell_recovery: Distro %s matches %s", rp_distro, package_distro)
+            from apt.cache import Cache
             cache = Cache()
             package_version = cache['dell-recovery'].installed.version
             rp_version = self.query_have_dell_recovery(mount)
@@ -322,8 +327,10 @@ class Backend(dbus.service.Object):
 
     def _process_driver_fish(self, driver_fish, assembly_tmp):
         """Processes a driver FISH archive"""
+        logging.debug("_process_driver_fish: assmebly_tmp: %s" % assembly_tmp)
         length = len(driver_fish)
         for fishie in driver_fish:
+            logging.debug(" processing %s" % fishie)
             self.report_progress(_('Processing FISH packages'),
                                  driver_fish.index(fishie)/length*100)
             if os.path.isfile(fishie):
@@ -333,13 +340,13 @@ class Backend(dbus.service.Object):
             dest = None
             if fishie.endswith('.deb'):
                 dest = os.path.join(assembly_tmp, 'debs')
-                logging.debug("_process_driver_fish: Copying debian archive fishie %s", fishie)
+                logging.debug("  Copying debian archive fishie %s", fishie)
             elif fishie.endswith('.pdf'):
                 dest = os.path.join(assembly_tmp, 'docs')
-                logging.debug("_process_driver_fish: Copying document fishie fishie %s", fishie)
+                logging.debug("  Copying document fishie fishie %s", fishie)
             elif fishie.endswith('.py') or fishie.endswith('.sh'):
                 dest = os.path.join(assembly_tmp, 'scripts', 'chroot-scripts', 'fish')
-                logging.debug("_process_driver_fish: Copying python or shell fishie %s", fishie)
+                logging.debug("  Copying python or shell fishie %s", fishie)
             elif os.path.exists(fishie) and tarfile.is_tarfile(fishie):
                 nested = False
                 rfd = tarfile.open(fishie)
@@ -356,16 +363,16 @@ class Backend(dbus.service.Object):
                     for child in os.listdir(archive_tmp):
                         if child != name:
                             children.append(os.path.join(archive_tmp,child))
-                    logging.debug("_process_driver_fish: Extracting nested archive %s", fishie)
+                    logging.debug("  Extracting nested archive %s", fishie)
                     self._process_driver_fish(children, assembly_tmp)
                 else:
                     safe_tar_extract(fishie, assembly_tmp)
-                    logging.debug("_process_driver_fish: Extracting tar fishie %s", fishie)
+                    logging.debug(":  Extracting tar fishie %s", fishie)
                     pre_package = os.path.join(assembly_tmp, 'prepackage.dell')
                     if os.path.exists(pre_package):
                         os.remove(pre_package)
             else:
-                logging.debug("_process_driver_fish: ignoring fishie %s", fishie)
+                logging.debug("  ignoring fishie %s", fishie)
 
             #If we just do a flat copy
             if dest is not None:
@@ -434,6 +441,10 @@ class Backend(dbus.service.Object):
            utility: utility partition
            version: version for ISO creation purposes
            iso: iso file name to create"""
+        logging.debug("assemble_image: base %s, driver_fish %s, application_fish\
+%s, recovery %s, create_fn %s, utility %s, version %s, iso %s" %
+                    (base, driver_fish, application_fish, dell_recovery_package,
+                    create_fn, utility, version, iso))
 
         self._reset_timeout()
 
@@ -528,6 +539,7 @@ class Backend(dbus.service.Object):
                 logging.debug("query_iso_information: find_float found %d", release)
                 return piece
             return ''
+        logging.debug("query_iso_information: iso %s" % iso)
 
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn,
@@ -582,6 +594,8 @@ class Backend(dbus.service.Object):
             bto_version = ''
 
         self.report_iso_info(bto_version, distributor, release, arch, distributor_str)
+        logging.debug(" returning bto_version %s, distributor %s, release %s, \
+arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distributor_str))
         return (bto_version, distributor, release, arch, distributor_str)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
@@ -606,6 +620,7 @@ class Backend(dbus.service.Object):
                     if 'scripts/casper-bottom/99dell_bootstrap' in line:
                         return '[native]'
             return ''
+        logging.debug("query_bto_version: recovery %s" % recovery)
 
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn,
@@ -673,6 +688,7 @@ class Backend(dbus.service.Object):
                 if 'dell-recovery' in line:
                     return line.split()[1]
             return ''
+        logging.debug("query_have_dell_recovery: recovery %s" % recovery)
 
         found = ''
 
@@ -742,6 +758,7 @@ class Backend(dbus.service.Object):
         """Enables the default one-time boot option to be recovery"""
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.restore')
+        logging.debug("enable_boot_to_restore")
 
         #find our one time boot entry
         if not os.path.exists("/etc/grub.d/99_dell_recovery"):
@@ -796,6 +813,9 @@ class Backend(dbus.service.Object):
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn,
                                                 'com.dell.recoverymedia.create')
+        logging.debug("create_ubuntu: utility %s, recovery %s, version %s, iso %s" %
+            (utility, recovery, version, iso))
+
         #re-encode to utf8
         iso = iso.encode('utf8')
 
@@ -808,8 +828,7 @@ class Backend(dbus.service.Object):
 
         #validate that ubuntu is on the partition
         if not os.path.exists(os.path.join(mntdir, '.disk', 'info')):
-            print("recovery partition is missing critical ubuntu files.",
-                  file=sys.stderr)
+            logging.warning("create_ubuntu: recovery partition missing .disk/info.")
             if os.path.exists(os.path.join(mntdir, 'bootmgr')):
                 raise CreateFailed("This tool can not create a recovery image from a Windows recovery partition.")
             raise CreateFailed("Recovery partition is missing critical ubuntu files.")
@@ -860,7 +879,7 @@ class Backend(dbus.service.Object):
                 try:
                     shutil.copy(utility, os.path.join(tmpdir, 'up.tgz'))
                 except Exception as msg:
-                    print("Error with tgz: %s." % str(msg), file=sys.stderr)
+                    logging.warning(" create_ubuntu: Error with tgz: %s." % str(msg))
                     raise CreateFailed("Error building Utility Partition : %s" %
                                        str(msg))
 
@@ -870,8 +889,7 @@ class Backend(dbus.service.Object):
                     zip_obj = zipfile.ZipFile(utility)
                     shutil.copy(utility, os.path.join(tmpdir, 'up.zip'))
                 except Exception as msg:
-                    print("Error with zipfile: %s." % str(msg),
-                          file=sys.stderr)
+                    logging.warning(" create_ubuntu: Error with zipfile: %s." % str(msg))
                     raise CreateFailed("Error building Utility Partition : %s" %
                                        str(msg))
 
@@ -1060,8 +1078,7 @@ You will need to create this image on a system with a newer genisoimage." % vers
             print(output.strip(), file=sys.stderr)
             print(seg1.stderr.readlines(), file=sys.stderr)
             print(seg1.stdout.readlines(), file=sys.stderr)
-            print("genisoimage exited with a nonstandard return value.",
-                  file=sys.stderr)
+            logging.error(" create_ubuntu: genisoimage exited with a nonstandard return value.")
             raise CreateFailed("ISO Building exited unexpectedly:\n%s" %
                                output.strip())
 

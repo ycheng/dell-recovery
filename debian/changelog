@@ -10,6 +10,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
   * Don't allow the create_ubuntu backend to even attempt making ISO images
     when the recovery partition only contains Windows.
   * Enable logging by default on the backend to /var/log/dell-recovery.log
+  * Increase the debugging logging covereage on the backend.
   * Python 3 port:
     - dell-bootstrap: Set the bootloader path to a raw string literal.
     - ubiquity plugins: set shebang to python3 to match other ubiquity plugins.
