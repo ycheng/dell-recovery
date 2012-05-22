@@ -182,6 +182,7 @@ class DellRecoveryToolGTK:
         message = "<b><big>%s</big></b>" % header
         if not body == None:
             message = "%s\n\n%s" % (message, body)
+            print(body, file=sys.stderr)
         label_hig.set_markup(message)
         
         if alert_type == Gtk.MessageType.ERROR:
