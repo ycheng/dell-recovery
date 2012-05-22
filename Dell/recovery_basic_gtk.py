@@ -167,8 +167,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
                 self.widgets.get_object('action').set_text( \
                                                        _("Building Base image"))
                 function = 'create_' + self.distributor
-                args = (False,
-                        self.up,
+                args = (self.up,
                         self.rp)
 
             #all functions require this at the end
