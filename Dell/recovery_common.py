@@ -33,6 +33,7 @@ import tempfile
 import glob
 import sys
 import datetime
+import logging
 
 ##                ##
 ##Common Variables##
@@ -509,12 +510,12 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     try:
         old_initrd_files = glob.glob('%s/initrd*' % old_initrd_directory)
     except Exception as msg:
-        print(str(msg))
+        logging.warning("create_new_uuid: %s" % str(msg))
         raise dbus.DBusException("Missing initrd in image.")
     try:
         old_uuid_file   = glob.glob('%s/casper-uuid*' % old_casper_directory)[0]
     except Exception as msg:
-        print("Old casper UUID not found, assuming 'casper-uuid'")
+        logging.warning("create_new_uuid: Old casper UUID not found, assuming 'casper-uuid'")
         old_uuid_file   = '%s/casper-uuid' % old_casper_directory
 
     old_initrd_file = ''
@@ -537,10 +538,9 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     if not old_suffix or not old_initrd_file or not old_uuid_file:
         raise dbus.DBusException("Unable to detect valid initrd.")
 
-    print("Old initrd: %s" % old_initrd_file)
-    print("Old uuid file: %s" % old_uuid_file)
-    print("Old suffix: %s" % old_suffix)
-    print("Old compression method: %s" % old_compression)
+    logging.debug("create_new_uuid: old initrd %s, old uuid %s, old suffix %s, \
+old compression method %s" % (old_initrd_file, old_uuid_file,
+                              old_suffix, old_compression))
 
     #Extract old initramfs
     chain0 = subprocess.Popen([old_compression, '-cd', old_initrd_file, '-S',
@@ -551,10 +551,10 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     #Generate new UUID
     new_uuid_file = os.path.join(new_casper_directory,
                                  os.path.basename(old_uuid_file))
-    print("New uuid file: %s" % new_uuid_file)
+    logging.debug("create_new_uuid: new uuid file: %s" % new_uuid_file)
     chain0 = subprocess.Popen(['uuidgen', '-r'], stdout=subprocess.PIPE)
     new_uuid = chain0.communicate()[0]
-    print("New UUID: %s" % new_uuid.strip())
+    logging.debug("create_new_uuid: new UUID: %s" % new_uuid.strip())
     for item in [new_uuid_file, os.path.join(tmpdir, 'conf', 'uuid.conf')]:
         with open(item, "w") as uuid_fd:
             uuid_fd.write(new_uuid)
@@ -573,12 +573,12 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     elif new_compression == "auto":
         new_compression = old_compression
         new_suffix = '.' + old_suffix
-    print("New suffix: %s" % new_suffix)
-    print("New compression method: %s" % new_compression)
+    logging.debug("create_new_uuid: new suffix: %s" % new_suffix)
+    logging.debug("create_new_uuid: new compression method: %s" % new_compression)
 
     #Generate new initramfs
     new_initrd_file = os.path.join(new_initrd_directory, 'initrd' + new_suffix)
-    print("New initrd file: %s" % new_initrd_file)
+    logging.debug("create_new_uuid: new initrd file: %s" % new_initrd_file)
     chain0 = subprocess.Popen(['find'], cwd=tmpdir, stdout=subprocess.PIPE)
     chain1 = subprocess.Popen(['cpio', '--quiet', '--dereference', '-o',
                                '-H', 'newc'],
