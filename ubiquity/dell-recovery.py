@@ -208,7 +208,6 @@ class Install(InstallPlugin):
                 magic.dbus_sync_call_signal_wrapper(dbus_iface,
                                                     'create_ubuntu',
                                                     {'report_progress':self._update_progress_gui},
-                                                    False,
                                                     upart,
                                                     rpart,
                                                     version,
