@@ -980,7 +980,8 @@ class Page(Plugin):
         except debconf.DebconfError:
             language = ''
         if not language:
-            self.preseed('debian-installer/locale', 'en')
+            language = 'en_US.UTF-8'
+            self.preseed('debian-installer/locale', language)
             self.ui.controller.translate(language)
 
         #Clarify which device we're operating on initially in the UI
