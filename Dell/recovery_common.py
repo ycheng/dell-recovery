@@ -556,7 +556,7 @@ old compression method %s" % (old_initrd_file, old_uuid_file,
     new_uuid = chain0.communicate()[0]
     logging.debug("create_new_uuid: new UUID: %s" % new_uuid.strip())
     for item in [new_uuid_file, os.path.join(tmpdir, 'conf', 'uuid.conf')]:
-        with open(item, "w") as uuid_fd:
+        with open(item, "wb") as uuid_fd:
             uuid_fd.write(new_uuid)
 
     #Newer (Ubuntu 11.04+) images may support including the bootstrap in initrd
