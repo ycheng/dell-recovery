@@ -448,9 +448,6 @@ class Backend(dbus.service.Object):
 
         self._reset_timeout()
 
-        #Work around issues sending a UTF-8 directory over dbus
-        base = base.encode('utf8')
-
         base_mnt = self.request_mount(base, sender, conn)
 
         assembly_tmp = tempfile.mkdtemp()
@@ -544,9 +541,6 @@ class Backend(dbus.service.Object):
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn,
                                 'com.dell.recoverymedia.query_iso_information')
-
-        #re-encode to utf8
-        iso = iso.encode('utf8')
 
         (bto_version, bto_date) = self.query_bto_version(iso, sender, conn)
 
@@ -815,9 +809,6 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                                                 'com.dell.recoverymedia.create')
         logging.debug("create_ubuntu: utility %s, recovery %s, version %s, iso %s" %
             (utility, recovery, version, iso))
-
-        #re-encode to utf8
-        iso = iso.encode('utf8')
 
         #create temporary workspace
         tmpdir = tempfile.mkdtemp()
