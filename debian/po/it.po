@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
 "POT-Creation-Date: 2012-05-04 15:41-0500\n"
-"PO-Revision-Date: 2012-04-17 13:52+0000\n"
+"PO-Revision-Date: 2012-05-24 14:40+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-05-05 05:00+0000\n"
-"X-Generator: Launchpad (build 15195)\n"
+"X-Launchpad-Export-Date: 2012-05-25 04:41+0000\n"
+"X-Generator: Launchpad (build 15288)\n"
 
 #. Type: text
 #. Description
@@ -216,7 +216,7 @@ msgstr "Accordo di licenza per l'utente finale"
 #. Description
 #: ../dell-recovery.templates:47001
 msgid "I have read and accept these terms."
-msgstr ""
+msgstr "Ho letto e accetto queste condizioni."
 
 #. Type: text
 #. Description
