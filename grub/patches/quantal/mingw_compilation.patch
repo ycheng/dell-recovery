@@ -1,0 +1,63 @@
+These patches are already upstream.  They just haven't been added to precise yet.
+
+=== modified file 'grub-core/kern/emu/misc.c'
+Index: grub2/grub-core/kern/emu/misc.c
+===================================================================
+--- grub2.orig/grub-core/kern/emu/misc.c	2011-11-28 15:00:58.122373889 -0600
++++ grub2/grub-core/kern/emu/misc.c	2011-11-28 15:00:58.142373889 -0600
+@@ -232,7 +232,11 @@
+ canonicalize_file_name (const char *path)
+ {
+   char *ret;
+-#ifdef PATH_MAX
++#ifdef __MINGW32__
++  ret = xmalloc (PATH_MAX);
++  if (!_fullpath (ret, path, PATH_MAX))
++    return NULL;
++#elif defined (PATH_MAX)
+   ret = xmalloc (PATH_MAX);
+   if (!realpath (path, ret))
+     return NULL;
+Index: grub2/include/grub/util/misc.h
+===================================================================
+--- grub2.orig/include/grub/util/misc.h	2011-10-21 15:06:06.000000000 -0500
++++ grub2/include/grub/util/misc.h	2011-11-28 15:00:58.142373889 -0600
+@@ -47,7 +47,6 @@
+ 
+ void sync (void);
+ int fsync (int fno);
+-void sleep(int s);
+ 
+ grub_int64_t grub_util_get_disk_size (char *name);
+ 
+Index: grub2/util/misc.c
+===================================================================
+--- grub2.orig/util/misc.c	2011-10-21 15:06:08.000000000 -0500
++++ grub2/util/misc.c	2011-11-28 15:00:58.142373889 -0600
+@@ -55,6 +55,7 @@
+ #ifdef __MINGW32__
+ #include <windows.h>
+ #include <winioctl.h>
++#include "dirname.h"
+ #endif
+ 
+ #ifdef GRUB_UTIL
+@@ -316,17 +317,13 @@
+   return 0;
+ }
+ 
+-void sleep (int s)
+-{
+-  Sleep (s * 1000);
+-}
+-
+ grub_int64_t
+ grub_util_get_disk_size (char *name)
+ {
+   HANDLE hd;
+   grub_int64_t size = -1LL;
+ 
++  strip_trailing_slashes(name);
+   hd = CreateFile (name, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                    0, OPEN_EXISTING, 0, 0);
+ 
