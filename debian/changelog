@@ -34,6 +34,7 @@ dell-recovery (1.25) UNRELEASED; urgency=low
     - Fix dbus service activation unicode issues by sourcing 
       /etc/default/locale before spawning service.
     - Write new UUID in binary mode.
+  * Update translations from launchpad.
 
   [ Colin Watson ]
   * Port to Python 3:
