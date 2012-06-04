@@ -1055,21 +1055,23 @@ You will need to create this image on a system with a newer genisoimage." % vers
                               universal_newlines=True)
         retval = seg1.poll()
         output = ""
+        logging.debug(" create_ubuntu: genisoimage debug")
         while (retval is None):
             stdout = seg1.stderr.readline()
             if stdout != "":
                 output = stdout
             if output:
                 progress = output.split()[0]
+                logging.debug(" %s" % output)
                 if (progress[-1:] == '%'):
                     self.report_progress(_('Building ISO'), progress[:-1])
             retval = seg1.poll()
         if retval is not 0:
-            print(genisoargs, file=sys.stderr)
-            print(output.strip(), file=sys.stderr)
-            print(seg1.stderr.readlines(), file=sys.stderr)
-            print(seg1.stdout.readlines(), file=sys.stderr)
             logging.error(" create_ubuntu: genisoimage exited with a nonstandard return value.")
+            logging.error("  genisoargs: %s" % genisoargs)
+            logging.error("  stdout: %s" % seg1.stdout.readlines())
+            logging.error("  stderror: %s" % seg1.stderr.readlines())
+            logging.error("  error: %s" % output.strip())
             raise CreateFailed("ISO Building exited unexpectedly:\n%s" %
                                output.strip())
 

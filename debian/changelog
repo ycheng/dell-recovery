@@ -1,3 +1,9 @@
+dell-recovery (1.26) UNRELEASED; urgency=low
+
+  * Capture more debugging information in genisoimage failures in logs.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 04 Jun 2012 14:49:09 -0500
+
 dell-recovery (1.25) quantal; urgency=low
 
   [ Mario Limonciello ]
