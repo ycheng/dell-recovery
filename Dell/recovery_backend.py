@@ -61,6 +61,8 @@ if sys.version >= "3":
         def version_compare(self, this, that):
             if this > that:
                 return 1
+            if this == that:
+                return 0
             else:
                 return -1
     debian_support = emulator()
@@ -313,7 +315,7 @@ class Backend(dbus.service.Object):
             package_version = cache['dell-recovery'].installed.version
             rp_version = self.query_have_dell_recovery(mount)
             
-            if debian_support.version_compare(package_version, rp_version):
+            if debian_support.version_compare(package_version, rp_version) > 0:
                 logging.debug("_test_for_new_dell_recovery: Including updated dell-recovery package version, %s (original was %s)", package_version, rp_version)
                 dest = os.path.join(assembly_tmp, 'debs')
                 if not os.path.isdir(dest):
