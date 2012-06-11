@@ -2,6 +2,7 @@ dell-recovery (1.26) UNRELEASED; urgency=low
 
   * Capture more debugging information in genisoimage failures in logs.
   * Fix logic for adding updated dell-recovery deb to avoid double inclusions.
+  * Strip stdout when capturing information in debug mode.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 04 Jun 2012 14:49:09 -0500
 

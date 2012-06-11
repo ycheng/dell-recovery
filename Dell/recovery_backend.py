@@ -1061,7 +1061,7 @@ You will need to create this image on a system with a newer genisoimage." % vers
         while (retval is None):
             stdout = seg1.stderr.readline()
             if stdout != "":
-                output = stdout
+                output = stdout.strip('\n')
             if output:
                 progress = output.split()[0]
                 logging.debug(" %s" % output)
