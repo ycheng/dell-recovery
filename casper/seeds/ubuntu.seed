@@ -81,6 +81,11 @@
  d-i partman-auto/expert_recipe string \
                                        \
    dell ::                             \
+       100 150 200 free                \
+       $iflabel{ gpt }                 \
+       $reusemethod{ }                 \
+       method{ efi }                   \
+       format{ } .                     \
                                        \
        500 10000 4000000 ext4          \
        $primary{ }                     \
