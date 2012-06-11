@@ -2,6 +2,8 @@ dell-recovery (1.24.1) precise-proposed; urgency=low
 
   * Backport from trunk:
     - Pass the destination as found in the SDR to target system.
+    - Add an extra stanza indicating what to do with existing EFI partitions
+      to workaround the regression caused by the fix to bug 855871.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 
