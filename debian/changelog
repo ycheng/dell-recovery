@@ -1,3 +1,9 @@
+dell-recovery (1.27) UNRELEASED; urgency=low
+
+  * Forwardport fix from precise branch to fix 64GB SSD recipe.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 12 Jun 2012 17:44:13 -0500
+
 dell-recovery (1.26) quantal; urgency=low
 
   * Capture more debugging information in genisoimage failures in logs.
