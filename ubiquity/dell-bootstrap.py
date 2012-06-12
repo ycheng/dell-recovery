@@ -489,7 +489,7 @@ class Page(Plugin):
             try:
                 recipe = self.db.get('partman-auto/expert_recipe')
                 self.db.set('partman-auto/expert_recipe',
-                                                     recipe.split('.')[0] + '.')
+                                                     recipe.split('.')[0:-1])
             except debconf.DebconfError, err:
                 self.log(str(err))
 
