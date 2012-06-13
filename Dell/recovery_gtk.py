@@ -30,7 +30,7 @@ import sys
 
 from gi.repository import Gtk,GLib
 
-from Dell.recovery_common import (DOMAIN, LOCALEDIR, UIDIR, DBUS_INTERFACE_NAME,
+from Dell.recovery_common import (DOMAIN, LOCALEDIR, UIDIR, SVGDIR, DBUS_INTERFACE_NAME,
                                   DBUS_BUS_NAME, dbus_sync_call_signal_wrapper,
                                   PermissionDeniedByPolicy, check_version)
 
@@ -47,7 +47,7 @@ class DellRecoveryToolGTK:
         textdomain(DOMAIN)
         self.tool_widgets = Gtk.Builder()
         self.tool_widgets.add_from_file(os.path.join(UIDIR, 'tool_selector.ui'))
-        Gtk.Window.set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
+        Gtk.Window.set_default_icon_from_file(os.path.join(SVGDIR, 'dell-dvd.svg'))
 
         translate_widgets(self.tool_widgets)
         self.tool_widgets.connect_signals(self)

@@ -30,7 +30,7 @@ import dbus
 from gi.repository import Gtk
 
 from Dell.recovery_gtk import DellRecoveryToolGTK, translate_widgets
-from Dell.recovery_common import (find_partitions, find_burners, UIDIR,
+from Dell.recovery_common import (find_partitions, find_burners, UIDIR, SVGDIR,
                                   increment_bto_version,
                                   dbus_sync_call_signal_wrapper,
                                   fetch_output)
@@ -62,7 +62,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
             wizard.insert_page(self.widgets.get_object(page), 0)
             wizard.set_page_title(wizard.get_nth_page(0), titles[page])
 
-        Gtk.Window.set_default_icon_from_file('/usr/share/pixmaps/dell-dvd.svg')
+        Gtk.Window.set_default_icon_from_file(os.path.join(SVGDIR, 'dell-dvd.svg'))
         translate_widgets(self.widgets)
         self.widgets.connect_signals(self)
 
