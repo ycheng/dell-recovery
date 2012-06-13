@@ -53,6 +53,12 @@ if os.path.isdir('gtk') and 'DEBUG' in os.environ:
 else:
     UIDIR = '/usr/share/dell'
 
+#SVG file directory
+if os.path.isdir('gtk') and 'DEBUG' in os.environ:
+    SVGDIR = 'gtk'
+else:
+    SVGDIR = '/usr/share/pixmaps'
+
 
 #Supported burners and their arguments
 DVD_BURNERS = { 'brasero':['-i'],
