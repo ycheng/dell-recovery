@@ -2,6 +2,8 @@ dell-recovery (1.27) UNRELEASED; urgency=low
 
   [ Mario Limonciello ]
   * Forwardport fix from precise branch to fix 64GB SSD recipe.
+  * Add support to override preseed and GRUB cmdline configurations
+    for updated gfx and wlan peripherals.
 
   [ Shih-Yuan Lee ]
   * Add debug support for SVGDIR.

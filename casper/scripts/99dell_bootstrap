@@ -91,11 +91,13 @@ if [ -f /root/cdrom/factory/mbr.bin ];  then
 fi
 
 ###Set up all preseeds###
-# First test for and load override / configurations preseed
+# First test for and load override / configurations preseeds
 # - needs to be loaded first so that we know if we are dual boot
-if [ -e /root/cdrom/preseed/dell-recovery.seed ]; then
-    casper-set-selections "/root/cdrom/preseed/dell-recovery.seed"
-fi
+for seed in dell-recovery gfx wlan; do
+    if [ -e /root/cdrom/preseed/$seed.seed ]; then
+        casper-set-selections /root/cdrom/pressed/$seed.seed
+    fi
+done
 
 # Now load all the defaults included in all installs
 casper-set-selections "/root/usr/share/dell/casper/seeds/ubuntu.seed"
@@ -105,10 +107,12 @@ if db_get dell-recovery/dual_boot && [ "$RET" = true ] || [ -e /root/usr/lib/ubi
     casper-set-selections "/root/usr/share/dell/casper/seeds/dual.seed"
 fi
 
-# Lastly, reload the override / configurations preseed so that it is allowed to override stuff from ubuntu.seed and dual.seed
-if [ -e /root/cdrom/preseed/dell-recovery.seed ]; then
-    casper-set-selections "/root/cdrom/preseed/dell-recovery.seed"
-fi
+# Lastly, reload the override / configurations preseeds so that it is allowed to override stuff from ubuntu.seed and dual.seed
+for seed in dell-recovery gfx wlan; do
+    if [ -e /root/cdrom/preseed/$seed.seed ]; then
+        casper-set-selections /root/cdrom/pressed/$seed.seed
+    fi
+done
 
 #EFI deviations
 if [ -d /sys/firmware/efi ]; then
