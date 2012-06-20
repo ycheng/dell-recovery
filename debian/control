@@ -11,7 +11,7 @@ Standards-Version: 3.9.3
 
 Package: dell-recovery
 Architecture: all
-Depends: ${python3:Depends}, ${misc:Depends}, python3-dbus, python3-apt, gir1.2-gtk-3.0, policykit-1, uuid-runtime, udisks | devicekit-disks | hal, policykit-1-gnome, genisoimage, dpkg-repack, python-gobject (>= 2.28), python-debian, lzma | xz-lzma, ttf-dejavu-core
+Depends: ${python3:Depends}, ${misc:Depends}, python3-dbus, python3-apt, gir1.2-gtk-3.0, policykit-1, uuid-runtime, udisks | devicekit-disks | hal, policykit-1-gnome, genisoimage, dpkg-repack, python-gobject (>= 2.28), python-debian, lzma | xz-utils (>= 5.1.1alpha+20120614-1) | xz-lzma, ttf-dejavu-core
 Replaces: dell-artwork, dell-oobe
 Conflicts: dell-oobe
 Recommends: usb-creator-gtk, brasero | nautilus-cd-burner, lsb-release, python-aptdaemon.gtk3widgets, parted, python3-progressbar
