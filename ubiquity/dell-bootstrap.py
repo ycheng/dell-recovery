@@ -474,6 +474,14 @@ class Page(Plugin):
         backend_iface.force_network(False)
         backend_iface.request_exit() 
 
+    def test_swap(self):
+        """Tests what to do with swap"""
+        if not self.swap or (self.swap == "dynamic" and \
+                                       (self.mem >= 32 or self.disk_size <= 64)):
+            return True
+        else:
+            return False
+
     def clean_recipe(self):
         """Cleans up the recipe to remove swap if we have a small drive"""
 
@@ -483,8 +491,7 @@ class Page(Plugin):
 
         #If we are in dynamic (dell-recovery/swap=dynamic) and small drive 
         #   or we explicitly disabled (dell-recovery/swap=false)
-        if not self.swap or (self.swap == "dynamic" and \
-                                       (self.mem >= 32 or self.disk_size <= 64)):
+        if self.test_swap():
             self.log("Performing swap recipe fixup (%s, hdd: %i, mem: %f)" % \
                                         (self.swap, self.disk_size, self.mem))
             try:
@@ -505,8 +512,7 @@ class Page(Plugin):
                                              (self.fail_partition, self.device))
         #check for small disks.
         #on small disks or big mem, don't look for extended or delete swap.
-        if not self.swap or (self.swap == "dynamic" and \
-                                       (self.mem >= 4 or self.disk_size <= 64)):
+        if self.test_swap():
             self.swap_part = ''
             total_partitions = 0
         else:

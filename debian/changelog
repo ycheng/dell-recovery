@@ -7,6 +7,7 @@ dell-recovery (1.24.1) precise-proposed; urgency=low
     - Add support to override preseed and GRUB cmdline configurations
       for updated gfx and wlan peripherals.
     - Disable swap in very large memory configurations ( >32GB ).
+    - Split out swap test to avoid code duplication (LP: #1025707)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 
