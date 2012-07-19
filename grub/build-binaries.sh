@@ -84,6 +84,12 @@ if [ -d $LEGACY_GRUBDIR ] &&
     cp $LEGACY_GRUBDIR/boot.img $ISO_LOADER
     workdir="$(mktemp -d workdir-image.XXXXXX)"
     mkdir -p "$workdir"
+###TODO###
+##
+#fix up to search casper-uuid or casper-uuid-generic
+#depending upon situation somehow
+##
+##########
     cat >"$workdir/grub.cfg" <<EOF
 search.file /.disk/casper-uuid root
 set prefix=(\$root)/boot/grub/i386-pc
