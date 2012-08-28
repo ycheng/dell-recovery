@@ -25,10 +25,6 @@
 
 . /usr/share/dell/scripts/fifuncs ""
 
-if [ -d /dell/fist ] && ! grep "^GRUB_DISABLE_OS_PROBER" /etc/default/grub >/dev/null; then
-    echo "GRUB_DISABLE_OS_PROBER=true" >> /etc/default/grub
-fi
-
 IFHALT "Rerun GRUB update"
 /usr/sbin/update-grub
 IFHALT "Done with GRUB update"
