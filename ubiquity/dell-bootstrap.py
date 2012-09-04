@@ -98,7 +98,7 @@ class PageNoninteractive(PluginUI):
             mode, which expects such a str""'''
         return ""
 
-    def set_type(self, value):
+    def set_type(self, value, stage):
         """Empty skeleton function for the non-interactive UI"""
         pass
 
@@ -224,7 +224,7 @@ class PageGtk(PluginUI):
             size = model.get_value(iterator, 1)
         return (device, size)
 
-    def set_type(self, value):
+    def set_type(self, value, stage):
         """Sets the type of recovery to do in GUI"""
         if not self.genuine:
             return
@@ -235,7 +235,8 @@ class PageGtk(PluginUI):
         elif value == "interactive":
             self.interactive_recovery.set_active(True)
         elif value == "factory":
-            self.plugin_widgets.hide()
+            if stage == 2:
+                self.plugin_widgets.hide()
         else:
             self.controller.allow_go_forward(False)
             if value == "hdd":
@@ -980,7 +981,7 @@ class Page(Plugin):
                    "efi": self.efi}
         for twaddle in twiddle:
             self.ui.set_advanced(twaddle, twiddle[twaddle])
-        self.ui.set_type(rec_type)
+        self.ui.set_type(rec_type, self.stage)
 
         #Make sure some locale was set so we can guarantee automatic mode
         try:
@@ -1062,7 +1063,8 @@ class Page(Plugin):
             if rec_type == "automatic" or \
                (rec_type == "factory" and self.stage == 1):
 
-                self.ui.show_dialog("info")
+                if not (rec_type == "factory" and self.stage == 1):
+                    self.ui.show_dialog("info")
                 self.disable_swap()
 
                 #init progress bar and size thread
