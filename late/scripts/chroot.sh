@@ -110,6 +110,11 @@ if [ -d /isodevice ]; then
 fi
 export MOUNT_CLEANUP
 
+#Make sure that WinPE isn't in our menus (happens in uEFI case)
+if [ -d /dell/fist ] && ! grep "^GRUB_DISABLE_OS_PROBER" $TARGET/etc/default/grub >/dev/null; then
+    echo "GRUB_DISABLE_OS_PROBER=true" >> $TARGET/etc/default/grub
+fi
+
 #Run chroot scripts
 chroot $TARGET /usr/share/dell/scripts/target_chroot.sh
 
