@@ -420,7 +420,6 @@ class Page(Plugin):
         self.swap_part = None
         self.swap = None
         self.dual = None
-        self.uuid = None
         self.rp_part = None
         self.up_part = None
         Plugin.__init__(self, frontend, db, ui)
@@ -761,7 +760,6 @@ class Page(Plugin):
             self.db.set('ubiquity/install_bootloader', 'false')
 
         self.disk_size = rec_part["size_gb"]
-        self.uuid = rec_part["uuid"]
 
         self.log("Detected device we are operating on is %s" % self.device)
         self.log("Detected a %s filesystem on the %s recovery partition" % (rec_part["fs"], rec_part["label"]))
