@@ -422,6 +422,7 @@ class Page(Plugin):
         self.dual = None
         self.rp_part = None
         self.up_part = None
+        self.stage = 1
         Plugin.__init__(self, frontend, db, ui)
 
     def log(self, error):
@@ -788,10 +789,12 @@ class Page(Plugin):
 
         #If we were preseeded to dynamic, look for an RP
         rec_part = magic.find_factory_rp_stats()
+        if rec_part.has_key("slave"):
+            self.stage = 2
         if rec_type == 'dynamic':
             # we rebooted with no USB stick or DVD in drive and have the RP
             # mounted at /cdrom
-            if "slave" in rec_part and rec_part["slave"] in mount:
+            if self.stage == 2 and rec_part["slave"] in mount:
                 self.log("Detected RP at %s, setting to factory boot" % mount)
                 rec_type = 'factory'
             else:
@@ -991,9 +994,8 @@ class Page(Plugin):
 
         #Clarify which device we're operating on initially in the UI
         try:
-            if rec_type != 'factory' and rec_type != 'hdd':
-                self.fixup_recovery_devices()
-            else:
+            self.fixup_recovery_devices()
+            if (rec_type == 'factory' and self.stage == 2) or rec_type == 'hdd':
                 self.fixup_factory_devices(rec_part)
         except Exception as err:
             self.handle_exception(err)
@@ -1057,10 +1059,11 @@ class Page(Plugin):
 
         try:
             # User recovery - need to copy RP
-            if rec_type == "automatic":
+            if rec_type == "automatic" or \
+               (rec_type == "factory" and self.stage == 1):
+
                 self.ui.show_dialog("info")
                 self.disable_swap()
-
 
                 #init progress bar and size thread
                 self.frontend.debconf_progress_start(0, 100, "")

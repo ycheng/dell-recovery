@@ -7,6 +7,8 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * Move os-prober test out of chroot section to guarantee passing
     in other scenarios.
   * Remove unused UUID statement from bootstrap.
+  * If preseeded to 'factory', automatically install to the first hard disk on the
+    system.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 20 Jun 2012 16:27:56 -0500
 
