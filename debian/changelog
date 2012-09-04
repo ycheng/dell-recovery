@@ -9,6 +9,8 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * Remove unused UUID statement from bootstrap.
   * If preseeded to 'factory', automatically install to the first hard disk on the
     system.
+  * Fix a typographical error causing dell-recovery.seed, gfx.seed, and wlan.seed
+    to not get loaded.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 20 Jun 2012 16:27:56 -0500
 
