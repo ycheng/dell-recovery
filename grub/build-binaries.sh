@@ -137,7 +137,7 @@ if [ -d /usr/lib/gcc/i586-mingw32msvc ] &&
     ./autogen.sh >/dev/null 2>&1
     CC=i586-mingw32msvc-gcc ./configure --host=i586-mingw32msvc --disable-efiemu>/dev/null
     cd grub-core/gnulib && make > /dev/null && cd ../..
-    make grub_script.tab.h grub_script.yy.h grub-setup.exe >/dev/null
-    cp grub-setup.exe $TARGET
+    make grub_script.tab.h grub_script.yy.h grub-bios-setup.exe >/dev/null
+    cp grub-bios-setup.exe $TARGET
     rm -rf $BUILD_DIR
 fi
