@@ -2,11 +2,13 @@ This is a collection of patches that make the GRUB2 build work on mingw32.
 These were explicitly rejected upstream due to needing rework.
 
 === modified file 'grub2/grub-core/lib/crypto.c'
---- grub2/grub-core/lib/crypto.c	2011-04-24 15:15:55 +0000
-+++ grub2/grub-core/lib/crypto.c	2011-09-21 21:00:59 +0000
-@@ -23,6 +23,12 @@
- #include <grub/term.h>
+Index: grub2-2.00/grub-core/lib/crypto.c
+===================================================================
+--- grub2-2.00.orig/grub-core/lib/crypto.c	2012-09-14 12:24:37.000000000 -0500
++++ grub2-2.00/grub-core/lib/crypto.c	2012-09-14 12:24:51.681425395 -0500
+@@ -24,6 +24,12 @@
  #include <grub/dl.h>
+ #include <grub/i18n.h>
  
 +/* mingw32 does not support termios as required
 +   by GRUB_UTIL throughout this file*/
@@ -17,19 +19,19 @@ These were explicitly rejected upstream due to needing rework.
  #ifdef GRUB_UTIL
  #include <termios.h>
  #include <stdlib.h>
-
-=== modified file 'grub2/grub-core/disk/geli.c'
---- grub2/grub-core/disk/geli.c	2011-04-25 12:52:07 +0000
-+++ grub2/grub-core/disk/geli.c	2011-09-21 21:18:21 +0000
-@@ -189,8 +189,10 @@
+Index: grub2-2.00/grub-core/disk/geli.c
+===================================================================
+--- grub2-2.00.orig/grub-core/disk/geli.c	2012-09-14 12:24:37.000000000 -0500
++++ grub2-2.00/grub-core/disk/geli.c	2012-09-14 12:25:49.813427083 -0500
+@@ -221,9 +221,11 @@
    if (fd < 0)
      return NULL;
  
 +#if !defined(__MINGW32__)
-   s = grub_util_get_fd_sectors (fd, &log_secsize);
+   s = grub_util_get_fd_size (fd, dev, &log_secsize);
+   s >>= log_secsize;
    grub_util_fd_seek (fd, dev, (s << log_secsize) - 512);
 +#endif
  
    uuid = xmalloc (GRUB_MD_SHA256->mdlen * 2 + 1);
    if (grub_util_fd_read (fd, (void *) &hdr, 512) < 0)
-

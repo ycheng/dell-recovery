@@ -9,10 +9,10 @@ After this patch, it's possible to just install like this:
 
 # grub-setup.exe
 
-Index: grub2-1.99/include/grub/emu/misc.h
+Index: grub2-2.00/include/grub/emu/misc.h
 ===================================================================
---- grub2-1.99.orig/include/grub/emu/misc.h	2011-09-26 15:31:02.257912346 -0500
-+++ grub2-1.99/include/grub/emu/misc.h	2011-09-26 15:31:35.117912343 -0500
+--- grub2-2.00.orig/include/grub/emu/misc.h	2012-09-14 09:33:04.000000000 -0500
++++ grub2-2.00/include/grub/emu/misc.h	2012-09-14 09:33:26.333127435 -0500
 @@ -36,8 +36,12 @@
  /* NetBSD uses /boot for its boot block.  */
  # define DEFAULT_DIRECTORY	"/"GRUB_DIR_NAME
@@ -26,11 +26,11 @@ Index: grub2-1.99/include/grub/emu/misc.h
  
  #define DEFAULT_DEVICE_MAP	DEFAULT_DIRECTORY "/device.map"
  
-Index: grub2-1.99/util/grub-setup.c
+Index: grub2-2.00/util/grub-setup.c
 ===================================================================
---- grub2-1.99.orig/util/grub-setup.c	2011-09-26 15:31:02.273912346 -0500
-+++ grub2-1.99/util/grub-setup.c	2011-09-26 15:51:52.357912209 -0500
-@@ -75,6 +75,8 @@
+--- grub2-2.00.orig/util/grub-setup.c	2012-09-14 09:33:04.000000000 -0500
++++ grub2-2.00/util/grub-setup.c	2012-09-14 09:34:17.493128912 -0500
+@@ -83,6 +83,8 @@
   * result.
   */
  
@@ -39,9 +39,9 @@ Index: grub2-1.99/util/grub-setup.c
  #define DEFAULT_BOOT_FILE	"boot.img"
  #define DEFAULT_CORE_FILE	"core.img"
  #define CORE_IMG_IN_FS		"setup_left_core_image_in_filesystem"
-@@ -439,6 +441,13 @@
- 	goto unable_to_embed;
-       }
+@@ -494,6 +496,13 @@
+ 
+     assert (nsec <= maxsec);
  
 +    /* Ignore failures in the embedding test */
 +    if (grub_errno != GRUB_ERR_NONE)
@@ -53,7 +53,7 @@ Index: grub2-1.99/util/grub-setup.c
      /* Clean out the blocklists.  */
      block = first_block;
      while (block->len)
-@@ -831,8 +840,8 @@
+@@ -1071,8 +1080,8 @@
          break;
  
        case ARGP_KEY_NO_ARGS:
@@ -61,19 +61,19 @@ Index: grub2-1.99/util/grub-setup.c
 -          argp_usage (state);
 +          fprintf(stderr, "Installing GRUB2 to `%s'\n", DELL_TARGET);
 +          //argp_usage (state);
+ 	  exit (1);
            break;
  
-       default:
-@@ -869,7 +878,7 @@
+@@ -1109,7 +1118,7 @@
+ int
  main (int argc, char *argv[])
  {
-   struct stat dev_map_stat;
 -  char *root_dev = NULL;
 +  char *root_dev = DELL_TARGET;
    char *dest_dev = NULL;
-   int must_embed = 0;
    struct arguments arguments;
-@@ -914,7 +923,10 @@
+ 
+@@ -1151,7 +1160,10 @@
    grub_mdraid1x_init ();
    grub_lvm_init ();
  
@@ -85,27 +85,7 @@ Index: grub2-1.99/util/grub-setup.c
    if (! dest_dev)
      {
        /* Possibly, the user specified an OS device file.  */
-@@ -946,8 +958,10 @@
- 
-       root_dev = xstrdup (root_dev);
-     }
--  else
-+  else if (arguments.device)
-     {
-+      root_dev = dest_dev;
-+      /*
-       char *root_device =
-         grub_guess_root_device (arguments.dir ? : DEFAULT_DIRECTORY);
- 
-@@ -962,6 +976,7 @@
-       grub_util_info ("guessed root device `%s' and root_dev `%s' from "
-                       "dir `%s'", root_device, root_dev,
-                       arguments.dir ? : DEFAULT_DIRECTORY);
-+      */
-     }
- 
- #ifdef __linux__
-@@ -1023,5 +1038,6 @@
+@@ -1193,5 +1205,6 @@
    free (root_dev);
    free (dest_dev);
  
