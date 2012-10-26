@@ -42,6 +42,9 @@ import logging
 DBUS_BUS_NAME = 'com.dell.RecoveryMedia'
 DBUS_INTERFACE_NAME = 'com.dell.RecoveryMedia'
 
+#For install time
+CDROM_MOUNT = '/cdrom'
+ISO_MOUNT = '/isodevice'
 
 #Translation Support
 DOMAIN = 'dell-recovery'
