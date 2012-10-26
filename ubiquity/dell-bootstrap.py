@@ -1566,40 +1566,6 @@ class Install(InstallPlugin):
         self.target = None
         InstallPlugin.__init__(self, frontend, db, ui)
 
-    def find_unconditional_debs(self):
-        '''Finds any debs from debs/main that we want unconditionally installed
-           (but ONLY the latest version on the media)'''
-        import apt_inst
-        import apt_pkg
-
-        def parse(fname):
-            """ read a deb """
-            control = apt_inst.DebFile(fname).control.extractdata("control")
-            sections = apt_pkg.TagSection(control)
-            if "Modaliases" in sections:
-                modaliases = sections["Modaliases"]
-            else:
-                modaliases = ''
-            return (sections["Architecture"], sections["Package"], modaliases)
-
-        #process debs/main
-        to_install = []
-        my_arch = magic.fetch_output(['dpkg', '--print-architecture']).strip()
-        for top in [ISO_MOUNT, CDROM_MOUNT]:
-            repo = os.path.join(top, 'debs', 'main')
-            if os.path.isdir(repo):
-                for fname in os.listdir(repo):
-                    if '.deb' in fname:
-                        arch, package, modaliases = parse(os.path.join(repo, fname))
-                        if not modaliases and (arch == "all" or arch == my_arch):
-                            to_install.append(package)
-
-        #These aren't in all images, but desirable if available
-        to_install.append('dkms')
-        to_install.append('adobe-flashplugin')
-
-        return to_install
-
     def remove_ricoh_mmc(self):
         '''Removes the ricoh_mmc kernel module which is known to cause problems
            with MDIAGS'''
@@ -1659,17 +1625,6 @@ class Install(InstallPlugin):
                 if driver:
                     with open (os.path.join(self.target, 'usr/share/jockey/modaliases/', driver), 'w') as wfd:
                         wfd.write('reset %s\n' % driver)
-
-    def mark_upgrades(self):
-        '''Mark packages that can upgrade to upgrade during install'''
-        cache = Cache()
-        to_install = []
-        for key in cache.keys():
-            if cache[key].is_upgradable:
-                to_install.append(key)
-        del cache
-        return to_install
-
 
     def g2ldr(self):
         '''Builds a grub2 based loader to allow booting a logical partition'''
@@ -1790,7 +1745,7 @@ class Install(InstallPlugin):
         install_misc.chrex(self.target, os.path.join('/tmp', os.path.basename(pool_cmd)))
 
         #Stuff that is installed on all configs without fish scripts
-        to_install += self.find_unconditional_debs()
+        to_install += magic.mark_unconditional_debs()
 
         #Query Dual boot or not
         try:
@@ -1844,7 +1799,7 @@ class Install(InstallPlugin):
             with open(fname, 'w') as wfd:
                 wfd.write('WARRANTY=%s\n' % destination)
 
-        to_install += self.mark_upgrades()
+        to_install += magic.mark_upgrades()
 
         self.remove_unwanted_drivers()
                     

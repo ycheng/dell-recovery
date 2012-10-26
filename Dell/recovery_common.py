@@ -711,6 +711,50 @@ def write_up_bootsector(device, partition):
     else:
         fetch_output(['dosfslabel', device + partition, "DellUtility"])
 
+def mark_upgrades():
+    '''Mark packages that can upgrade to upgrade during install'''
+    from apt.cache import Cache
+    cache = Cache()
+    to_install = []
+    for key in cache.keys():
+        if cache[key].is_upgradable:
+            to_install.append(key)
+    del cache
+    return to_install
+
+def mark_unconditional_debs(add_directory=''):
+    '''Finds any debs from debs/main that we want unconditionally installed
+       (but ONLY the latest version on the media)'''
+    import apt_inst
+    import apt_pkg
+
+    def parse(fname):
+        """ read a deb """
+        control = apt_inst.DebFile(fname).control.extractdata("control")
+        sections = apt_pkg.TagSection(control)
+        if "Modaliases" in sections:
+            modaliases = sections["Modaliases"]
+        else:
+            modaliases = ''
+        return (sections["Architecture"], sections["Package"], modaliases)
+
+    #process debs/main
+    to_install = []
+    my_arch = fetch_output(['dpkg', '--print-architecture']).strip()
+    for top in [ISO_MOUNT, CDROM_MOUNT, add_directory]:
+        repo = os.path.join(top, 'debs', 'main')
+        if os.path.isdir(repo):
+            for fname in os.listdir(repo):
+                if '.deb' in fname:
+                    arch, package, modaliases = parse(os.path.join(repo, fname))
+                    if not modaliases and (arch == "all" or arch == my_arch):
+                        to_install.append(package)
+
+    #These aren't in all images, but desirable if available
+    to_install.append('dkms')
+    to_install.append('adobe-flashplugin')
+
+    return to_install
 
 def dbus_sync_call_signal_wrapper(dbus_iface, func, handler_map, *args, **kwargs):
     '''Run a D-BUS method call while receiving signals.

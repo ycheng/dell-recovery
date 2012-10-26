@@ -21,6 +21,7 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * recovery_common: Cleanup standalone files if in walk_cleanup list.
   * recovery_common: Add an environment feature to fetch_output.
   * recovery_common/dell-bootstrap: move ISO_MOUNT and CDROM_MOUNT.
+  * recovery_common/dell-bootstrap: Move upgrade and autoinstall calculation.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 20 Jun 2012 16:27:56 -0500
 
