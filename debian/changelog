@@ -29,6 +29,12 @@ dell-recovery (1.28) UNRELEASED; urgency=low
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 20 Jun 2012 16:27:56 -0500
 
+dell-recovery (1.27build1) raring; urgency=low
+
+  * Rebuild against python3.3.
+
+ -- Dmitrijs Ledkovs <dmitrij.ledkov@ubuntu.com>  Fri, 26 Oct 2012 18:55:48 +0100
+
 dell-recovery (1.27) quantal; urgency=low
 
   [ Mario Limonciello ]
