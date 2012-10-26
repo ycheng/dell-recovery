@@ -13,6 +13,7 @@ dell-recovery (1.24.1) precise-proposed; urgency=low
   * Backport from driver-install-branch:
     - Don't do APT stuff with 01-jockey (not necessary anymore)
     - recovery_xml: Return all matching nodes for a tag, not just one.
+    - recovery_common: Cleanup standalone files if in walk_cleanup list.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 
