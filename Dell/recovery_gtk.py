@@ -41,7 +41,13 @@ from gettext import bindtextdomain, textdomain
 
 class DellRecoveryToolGTK:
     """GTK implementation of the Dell Recovery suite for Linux"""
-    def __init__(self, recovery):
+    def __init__(self, recovery, mode='recovery'):
+        def action_objects(widgets, objects, action):
+            for item in ['button', 'image', 'label']:
+                if action == 'hide':
+                    widgets.get_object(objects + '_' + item).hide()
+                else:
+                    widgets.get_object(objects + '_' + item).show_all()
 
         #setup locales
         bindtextdomain(DOMAIN, LOCALEDIR)
@@ -53,10 +59,15 @@ class DellRecoveryToolGTK:
         translate_widgets(self.tool_widgets)
         self.tool_widgets.connect_signals(self)
 
-        #hide restore from HDD unless there is a recovery partition
-        if not (recovery and os.path.exists('/etc/grub.d/99_dell_recovery')):
-            for item in ['button', 'image', 'label']:
-                self.tool_widgets.get_object('restore_system_' + item).hide()
+        #if running in driver install mode,  hide other stuff
+        if mode == 'driver':
+            for item in ['restore_system', 'build_os_media']:
+                action_objects(self.tool_widgets, item, 'hide')
+                action_objects(self.tool_widgets, 'install_drivers', 'show')
+        else:
+            #hide restore from HDD unless there is a recovery partition
+            if not (recovery and os.path.exists('/etc/grub.d/99_dell_recovery')):
+                action_objects(self.tool_widgets, 'restore_system', 'hide')
 
         #about dialog
         self.about_box = None
@@ -127,8 +138,9 @@ class DellRecoveryToolGTK:
             
             #don't do further processing
             return False
-        #Restore Media Button
-        elif widget == self.tool_widgets.get_object('build_os_media_button'):
+        #Restore Media Button / Driver install button
+        elif widget == self.tool_widgets.get_object('build_os_media_button') or \
+             widget == self.tool_widgets.get_object('install_drivers_button'):
             self.tool_widgets.get_object('tool_selector').set_sensitive(False)
 
             #continue
@@ -147,7 +159,7 @@ class DellRecoveryToolGTK:
                 self.about_box = Gtk.AboutDialog()
                 self.about_box.set_version(check_version())
                 self.about_box.set_name(_("Dell Recovery"))
-                self.about_box.set_copyright(_("Copyright 2008-2010 Dell Inc."))
+                self.about_box.set_copyright(_("Copyright 2008-2012 Dell Inc."))
                 self.about_box.set_website("http://www.dell.com/ubuntu")
                 self.about_box.set_authors(["Mario Limonciello"])
                 self.about_box.set_destroy_with_parent(True)
@@ -198,8 +210,8 @@ class DellRecoveryToolGTK:
             return True
         return False
 
-    def destroy(self, widget=None, data=None):
-        """Closes any open backend connections and stops GTK threads"""
+    def cleanup_backend(self, widget=None, data=None):
+        '''cleans up the backend process'''
         try:
             if self._dbus_iface is not None:
                 self.backend().request_exit()
@@ -209,7 +221,11 @@ class DellRecoveryToolGTK:
                 pass
             else:
                 print "%s when closing DBus service from %s (data: %s)" % \
-                                             (str(msg), widget.get_name(), data)
+                                             (str(msg), widget, data)
+
+    def destroy(self, widget=None, data=None):
+        """Closes any open backend connections and stops GTK threads"""
+        self.cleanup_backend(widget, data)
         Gtk.main_quit()
 
 def translate_widgets(widgets):

@@ -74,7 +74,7 @@ setup(
                 ('lib/ubiquity/plugins', glob.glob('ubiquity/*.py')),
                 ('share/ubiquity/gtk', glob.glob('ubiquity/*.ui')),
                 ('share/ubiquity', ['ubiquity/dell-bootstrap'])]+I18NFILES,
-    scripts=["dell-recovery"],
+    scripts=["dell-recovery", "dell-driver-installer"],
 
     cmdclass = { 'build': build_extra.build_extra,
                  'build_i18n': build_i18n.build_i18n,
