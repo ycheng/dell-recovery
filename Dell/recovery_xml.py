@@ -55,13 +55,20 @@ class BTOxml:
         elements[0].appendChild(new_element)
 
     def fetch_node_contents(self, tag):
-        """Fetches the current child of a tag"""
+        """Fetches all children of a tag"""
         elements = self.dom.getElementsByTagName(tag)
+        values = u''
+        if len(elements) > 1:
+            values = []
         if elements:
-            child = elements[0].firstChild
-            if child:
-                return child.nodeValue.strip()
-        return u''
+            for element in elements:
+                child = element.firstChild
+                if child:
+                    if len(elements) > 1:
+                        values.append(child.nodeValue.strip())
+                    else:
+                        values = child.nodeValue.strip()
+        return values
 
     def replace_node_contents(self, tag, new):
         """Replaces a node contents (that we assume exists)"""
@@ -120,7 +127,7 @@ class BTOxml:
             element = create_tag(self.dom, tag, bto)
             subtags = []
             if tag == 'versions':
-                subtags = ['iso', 'generator', 'bootstrap', 'ubiquity']
+                subtags = ['os', 'iso', 'generator', 'bootstrap', 'ubiquity']
             elif tag == 'fid':
                 subtags = ['git_tag', 'deb_archive']
             elif tag == 'logs':
