@@ -50,6 +50,9 @@ from Dell.recovery_common import (DOMAIN, LOCALEDIR, UP_FILENAMES,
 from Dell.recovery_threading import ProgressByPulse, ProgressBySize
 from Dell.recovery_xml import BTOxml
 
+import fcntl
+import select
+
 #Translation support
 from gettext import gettext as _
 from gettext import bindtextdomain, textdomain
@@ -1052,27 +1055,31 @@ You will need to create this image on a system with a newer genisoimage." % vers
 
         #ISO Creation
         seg1 = subprocess.Popen(genisoargs,
-                              stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE,
                               universal_newlines=True)
+        pipe = seg1.stderr
+
+        fcntl.fcntl(
+            pipe.fileno(),
+            fcntl.F_SETFL,
+            fcntl.fcntl(pipe.fileno(), fcntl.F_GETFL) | os.O_NONBLOCK)
+
         retval = seg1.poll()
-        output = ""
         logging.debug(" create_ubuntu: genisoimage debug")
         while (retval is None):
-            stdout = seg1.stderr.readline()
-            if stdout != "":
-                output = stdout.strip('\n')
-            if output:
-                progress = output.split()[0]
-                logging.debug(" %s" % output)
-                if (progress[-1:] == '%'):
-                    self.report_progress(_('Building ISO'), progress[:-1])
+            readx = select.select([pipe.fileno()], [], [])[0]
+            if readx:
+                output = pipe.read()
+                if output.strip():
+                    logging.debug(output.strip())
+                    progress = output.split()[0]
+                    if (progress[-1:] == '%'):
+                        self.report_progress(_('Building ISO'), progress[:-1])
             retval = seg1.poll()
         if retval is not 0:
             logging.error(" create_ubuntu: genisoimage exited with a nonstandard return value.")
             logging.error("  genisoargs: %s" % genisoargs)
-            logging.error("  stdout: %s" % seg1.stdout.readlines())
-            logging.error("  stderror: %s" % seg1.stderr.readlines())
+            logging.error("  stderror: %s" % pipe.readlines())
             logging.error("  error: %s" % output.strip())
             raise CreateFailed("ISO Building exited unexpectedly:\n%s" %
                                output.strip())

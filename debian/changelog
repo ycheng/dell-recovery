@@ -14,6 +14,7 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * Make the debconf updates work in stage 1 in the 'factory' preseeded 
     automagic case.
   * Rebase GRUB patches on GRUB 2.00
+  * recovery_backend: Set the genisoimage call to nonblocking on Popen.
   New Driver Tool:
   * Drop ancient modalias installation on 01-jockey late script.
   * 01-jockey: Call update-initramfs w/ full path.
