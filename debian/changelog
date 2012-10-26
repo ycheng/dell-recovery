@@ -23,6 +23,9 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * recovery_common: Add an environment feature to fetch_output.
   * recovery_common/dell-bootstrap: move ISO_MOUNT and CDROM_MOUNT.
   * recovery_common/dell-bootstrap: Move upgrade and autoinstall calculation.
+  * Introduce new driver package installation tool.
+  * Add a helper script that can be used to manually upgrade an old format
+    package to be usable in driver package installation tool.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 20 Jun 2012 16:27:56 -0500
 
