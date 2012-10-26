@@ -10,6 +10,8 @@ dell-recovery (1.24.1) precise-proposed; urgency=low
     - Split out swap test to avoid code duplication (LP: #1025707)
     - Move os-prober test out of chroot section to guarantee passing
     in other scenarios.
+  * Backport from driver-install-branch:
+    - Don't do APT stuff with 01-jockey (not necessary anymore)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 
