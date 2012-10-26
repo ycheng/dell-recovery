@@ -64,9 +64,6 @@ EFI_RP_PARTITION        =     '3'
 EFI_OS_PARTITION        =     '4'
 EFI_SWAP_PARTITION      =     '5'
 
-CDROM_MOUNT = '/cdrom'
-ISO_MOUNT = '/isodevice'
-
 TYPE_NTFS = '07'
 TYPE_NTFS_RE = '27'
 TYPE_VFAT = '0b'
@@ -538,15 +535,15 @@ class Page(Plugin):
         '''Explodes all content explicitly defined in an SDR
            If no SDR was found, don't change drive at all
         '''
-        sdr_file = glob.glob(CDROM_MOUNT + "/*SDR")
+        sdr_file = glob.glob(magic.CDROM_MOUNT + "/*SDR")
         if not sdr_file:
-            sdr_file = glob.glob(ISO_MOUNT + "/*SDR")
+            sdr_file = glob.glob(magic.ISO_MOUNT + "/*SDR")
         if not sdr_file:
             return
 
         #RP Needs to be writable no matter what
-        if not os.path.exists(ISO_MOUNT):
-            cd_mount = misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
+        if not os.path.exists(magic.ISO_MOUNT):
+            cd_mount = misc.execute_root('mount', '-o', 'remount,rw', magic.CDROM_MOUNT)
             if cd_mount is False:
                 raise RuntimeError, ("Error remounting RP to explode SDR.")
 
@@ -568,7 +565,7 @@ class Page(Plugin):
 
         #Explode SRVs that match SDR
         for srv in srv_list:
-            fname = os.path.join(os.path.join(CDROM_MOUNT, 'srv', '%s' % srv))
+            fname = os.path.join(os.path.join(magic.CDROM_MOUNT, 'srv', '%s' % srv))
             if os.path.exists('%s.tgz' % fname):
                 archive = tarfile.open('%s.tgz' % fname)
             elif os.path.exists('%s.zip' % fname):
@@ -578,7 +575,7 @@ class Page(Plugin):
                 continue
             with misc.raised_privileges():
                 self.log("Extracting SRV %s onto filesystem" % srv)
-                archive.extractall(path=CDROM_MOUNT)
+                archive.extractall(path=magic.CDROM_MOUNT)
             archive.close()
 
         #if the destination is somewhere special, change the language
@@ -612,8 +609,8 @@ class Page(Plugin):
         path = ''
         if os.path.exists('/usr/share/dell/up/drmk.zip'):
             path = '/usr/share/dell/up/drmk.zip'
-        elif os.path.exists(os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip')):
-            path = os.path.join(CDROM_MOUNT, 'misc', 'drmk.zip')
+        elif os.path.exists(os.path.join(magic.CDROM_MOUNT, 'misc', 'drmk.zip')):
+            path = os.path.join(magic.CDROM_MOUNT, 'misc', 'drmk.zip')
         #If we have DRMK available, explode that first
         if path:
             self.log("Extracting DRMK onto utility partition %s" % self.device + self.up_part)
@@ -634,13 +631,13 @@ class Page(Plugin):
 
         #Now check for additional UP content to explode
         for fname in magic.UP_FILENAMES:
-            if os.path.exists(os.path.join(CDROM_MOUNT, fname)):
+            if os.path.exists(os.path.join(magic.CDROM_MOUNT, fname)):
                 #Restore full UP backup (dd)
                 if '.bin' in fname or '.gz' in fname:
                     self.log("Exploding utility partition from %s" % fname)
                     with misc.raised_privileges():
                         with open(self.device + self.up_part, 'w') as partition:
-                            p1 = subprocess.Popen(['gzip', '-dc', os.path.join(CDROM_MOUNT, fname)], stdout=subprocess.PIPE)
+                            p1 = subprocess.Popen(['gzip', '-dc', os.path.join(magic.CDROM_MOUNT, fname)], stdout=subprocess.PIPE)
                             partition.write(p1.communicate()[0])
                 #Restore UP (zip/tgz)
                 elif '.zip' in fname or '.tgz' in fname:
@@ -650,9 +647,9 @@ class Page(Plugin):
                         if mount is False:
                             raise RuntimeError, ("Error mounting utility partition pre-explosion.")
                     if '.zip' in fname:
-                        archive = zipfile.ZipFile(os.path.join(CDROM_MOUNT, fname))
+                        archive = zipfile.ZipFile(os.path.join(magic.CDROM_MOUNT, fname))
                     elif '.tgz' in file:
-                        archive = tarfile.open(os.path.join(CDROM_MOUNT, fname))
+                        archive = tarfile.open(os.path.join(magic.CDROM_MOUNT, fname))
                     with misc.raised_privileges():
                         archive.extractall(path='/boot')
                     archive.close()
@@ -751,10 +748,10 @@ class Page(Plugin):
 
         self.device = rec_part["slave"]
 
-        if os.path.exists(ISO_MOUNT):
-            location = ISO_MOUNT
+        if os.path.exists(magic.ISO_MOUNT):
+            location = magic.ISO_MOUNT
         else:
-            location = CDROM_MOUNT
+            location = magic.CDROM_MOUNT
 
         early = '/usr/share/dell/scripts/oem_config.sh early %s' % location
         self.db.set('oem-config/early_command', early)
@@ -1215,7 +1212,7 @@ manually to proceed.")
         grub_part = STANDARD_RP_PARTITION
 
         #Calculate RP size
-        rp_size = magic.black_tree("size", black_pattern, CDROM_MOUNT)
+        rp_size = magic.black_tree("size", black_pattern, magic.CDROM_MOUNT)
         #in mbytes
         rp_size_mb = (rp_size / 1000000) + cushion
 
@@ -1230,9 +1227,9 @@ manually to proceed.")
 
         #Utility partition image (dd)#
         for fname in magic.UP_FILENAMES:
-            if 'img' in fname and os.path.exists(os.path.join(CDROM_MOUNT, fname)):
+            if 'img' in fname and os.path.exists(os.path.join(magic.CDROM_MOUNT, fname)):
                 #in a string
-                up_size = magic.fetch_output(['gzip', '-lq', os.path.join(CDROM_MOUNT, fname)])
+                up_size = magic.fetch_output(['gzip', '-lq', os.path.join(magic.CDROM_MOUNT, fname)])
                 #in bytes
                 up_size = float(up_size.split()[1])
                 #in mbytes
@@ -1372,7 +1369,7 @@ manually to proceed.")
 
         #Copy RP Files
         with misc.raised_privileges():
-            magic.black_tree("copy", black_pattern, CDROM_MOUNT, '/mnt')
+            magic.black_tree("copy", black_pattern, magic.CDROM_MOUNT, '/mnt')
 
         self.file_size_thread.join()
 
@@ -1497,7 +1494,7 @@ manually to proceed.")
                             os.path.join('/mnt', 'factory', files[item]))
 
         #update bto.xml
-        path = os.path.join(CDROM_MOUNT, 'bto.xml')
+        path = os.path.join(magic.CDROM_MOUNT, 'bto.xml')
         if os.path.exists(path):
             self.xml_obj.load_bto_xml(path)
         bto_version = self.xml_obj.fetch_node_contents('iso')
@@ -1516,7 +1513,7 @@ manually to proceed.")
             if not bto_version:
                 self.xml_obj.replace_node_contents('iso', '[native]')
             if not bto_date:
-                with open(os.path.join(CDROM_MOUNT, '.disk', 'info')) as rfd:
+                with open(os.path.join(magic.CDROM_MOUNT, '.disk', 'info')) as rfd:
                     line = rfd.readline().strip()
                 date = line.split()[len(line.split())-1]
                 self.xml_obj.replace_node_contents('date', date)
@@ -1551,10 +1548,10 @@ def find_boot_device():
     """Finds the device we're booted from'"""
     with open('/proc/mounts', 'r') as mounts:
         for line in mounts.readlines():
-            if ISO_MOUNT in line:
+            if magic.ISO_MOUNT in line:
                 mounted_device = line.split()[0]
                 break
-            if CDROM_MOUNT in line:
+            if magic.CDROM_MOUNT in line:
                 found = line.split()[0]
                 if not 'loop' in found:
                     mounted_device = line.split()[0]
@@ -1595,40 +1592,6 @@ class Install(InstallPlugin):
         self.progress = None
         self.target = None
         InstallPlugin.__init__(self, frontend, db, ui)
-
-    def find_unconditional_debs(self):
-        '''Finds any debs from debs/main that we want unconditionally installed
-           (but ONLY the latest version on the media)'''
-        import apt_inst
-        import apt_pkg
-
-        def parse(fname):
-            """ read a deb """
-            control = apt_inst.debExtractControl(open(fname))
-            sections = apt_pkg.TagSection(control)
-            if sections.has_key("Modaliases"):
-                modaliases = sections["Modaliases"]
-            else:
-                modaliases = ''
-            return (sections["Architecture"], sections["Package"], modaliases)
-
-        #process debs/main
-        to_install = []
-        my_arch = magic.fetch_output(['dpkg', '--print-architecture']).strip()
-        for top in [ISO_MOUNT, CDROM_MOUNT]:
-            repo = os.path.join(top, 'debs', 'main')
-            if os.path.isdir(repo):
-                for fname in os.listdir(repo):
-                    if '.deb' in fname:
-                        arch, package, modaliases = parse(os.path.join(repo, fname))
-                        if not modaliases and (arch == "all" or arch == my_arch):
-                            to_install.append(package)
-
-        #These aren't in all images, but desirable if available
-        to_install.append('dkms')
-        to_install.append('adobe-flashplugin')
-
-        return to_install
 
     def remove_ricoh_mmc(self):
         '''Removes the ricoh_mmc kernel module which is known to cause problems
@@ -1690,25 +1653,14 @@ class Install(InstallPlugin):
                     with open (os.path.join(self.target, 'usr/share/jockey/modaliases/', driver), 'w') as wfd:
                         wfd.write('reset %s\n' % driver)
 
-    def mark_upgrades(self):
-        '''Mark packages that can upgrade to upgrade during install'''
-        cache = Cache()
-        to_install = []
-        for key in cache.keys():
-            if cache[key].is_upgradable:
-                to_install.append(key)
-        del cache
-        return to_install
-
-
     def g2ldr(self):
         '''Builds a grub2 based loader to allow booting a logical partition'''
         #Mount the disk
-        if os.path.exists(ISO_MOUNT):
-            mount = ISO_MOUNT
+        if os.path.exists(magic.ISO_MOUNT):
+            mount = magic.ISO_MOUNT
         else:
-            mount = CDROM_MOUNT
-            misc.execute_root('mount', '-o', 'remount,rw', CDROM_MOUNT)
+            mount = magic.CDROM_MOUNT
+            misc.execute_root('mount', '-o', 'remount,rw', magic.CDROM_MOUNT)
 
         magic.create_g2ldr(self.target, mount, self.target)
 
@@ -1774,7 +1726,7 @@ class Install(InstallPlugin):
 
                     #in factory process if we backed up an MBR, that would have already
                     #been restored.
-                    if not os.path.exists(os.path.join(CDROM_MOUNT, 'factory', 'mbr.bin')):
+                    if not os.path.exists(os.path.join(magic.CDROM_MOUNT, 'factory', 'mbr.bin')):
                         #test the md5 of the MBR to match DRMK or syslinux
                         #if they don't match, rewrite MBR
                         with misc.raised_privileges():
@@ -1808,9 +1760,9 @@ class Install(InstallPlugin):
             os.chmod('/tmp/set_bootable', 0755)
 
         #if we are loop mounted, make sure the chroot knows it too
-        if os.path.isdir(ISO_MOUNT):
-            os.makedirs(os.path.join(self.target, ISO_MOUNT.lstrip('/')))
-            misc.execute_root('mount', '--bind', ISO_MOUNT, os.path.join(self.target, ISO_MOUNT.lstrip('/')))
+        if os.path.isdir(magic.ISO_MOUNT):
+            os.makedirs(os.path.join(self.target, magic.ISO_MOUNT.lstrip('/')))
+            misc.execute_root('mount', '--bind', magic.ISO_MOUNT, os.path.join(self.target, magic.ISO_MOUNT.lstrip('/')))
 
         #Fixup pool to only accept stuff on /cdrom or /isodevice
         # - This is reverted during SUCCESS_SCRIPT
@@ -1820,7 +1772,7 @@ class Install(InstallPlugin):
         install_misc.chrex(self.target, os.path.join('/tmp', os.path.basename(pool_cmd)))
 
         #Stuff that is installed on all configs without fish scripts
-        to_install += self.find_unconditional_debs()
+        to_install += magic.mark_unconditional_debs()
 
         #Query Dual boot or not
         try:
@@ -1884,7 +1836,7 @@ class Install(InstallPlugin):
             with open(fname, 'w') as wfd:
                 wfd.write('WARRANTY=%s\n' % destination)
 
-        to_install += self.mark_upgrades()
+        to_install += magic.mark_upgrades()
 
         self.remove_unwanted_drivers()
                     
