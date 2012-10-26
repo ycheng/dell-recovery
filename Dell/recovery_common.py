@@ -196,11 +196,12 @@ def process_conf_file(original, new, uuid, rp_number, ako='', recovery_text=''):
                     line = line.replace("#EXTRA#", "%s" % extra_cmdline.strip())
                 output.write(line)
 
-def fetch_output(cmd, data=None):
+def fetch_output(cmd, data=None, environment=os.environ):
     '''Helper function to just read the output from a command'''
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE,
-                                 stdin=subprocess.PIPE)
+                                 stdin=subprocess.PIPE,
+                                 env = environment)
     (out, err) = proc.communicate(data)
     if proc.returncode is None:
         proc.wait()
