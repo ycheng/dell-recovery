@@ -14,6 +14,8 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * Make the debconf updates work in stage 1 in the 'factory' preseeded 
     automagic case.
   * Rebase GRUB patches on GRUB 2.00
+  New Driver Tool:
+  * Drop ancient modalias installation on 01-jockey late script.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 20 Jun 2012 16:27:56 -0500
 

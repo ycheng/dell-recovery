@@ -28,53 +28,10 @@
 
 import subprocess
 import os
-import sys
-from apt.progress.text import AcquireProgress
-from apt.progress.base import InstallProgress
-from apt.cache import Cache
 
 DONT_BUILD_DKMS_FILE = "/tmp/do_not_build_dkms_module"
 
-class TextInstallProgress(InstallProgress):
-    
-    def __init__(self):
-        InstallProgress.__init__(self)
-        self.last = 0.0
-
-    def update_interface(self):
-        InstallProgress.update_interface(self)
-        if self.last >= self.percent:
-            return
-        sys.stdout.write("\r[%s] %s\n" %(self.percent, self.status))
-        sys.stdout.flush()
-        self.last = self.percent
-
-    def conffile(self, current, new):
-        print("conffile prompt: %s %s" % (current, new))
-    
-    def error(self, errorstr):
-        print("got dpkg error: '%s'" % errorstr)
-
-
 class ProcessJockey():
-
-    def install_new_aliases(self):
-        '''If new modaliases are available, install them right now
-           so that they will be available to Jockey later in the process'''
-        cache = Cache()
-        aprogress = AcquireProgress()
-        iprogress = TextInstallProgress()
-        
-        for pkg in cache.keys():
-            if '-modaliases' in pkg and \
-                cache[pkg].is_installed and \
-                cache[pkg].is_upgradable:
-                print("Marking %s for upgrade" % pkg)
-                cache[pkg].mark_install()
-        
-        res = cache.commit(aprogress, iprogress)
-        print(res)
-        del cache
 
     def find_and_install_drivers(self):
         '''Uses jockey to detect and install necessary drivers'''
@@ -170,7 +127,6 @@ exit 0""" % binary, file=f)
 if __name__ == "__main__":
     if os.path.exists('/usr/share/jockey/jockey-backend'):
         processor = ProcessJockey()
-        processor.install_new_aliases()
         processor.find_and_install_drivers()
     else:
         print("Jockey isn't installed on target.  Unable to detect drivers")
