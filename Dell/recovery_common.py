@@ -484,6 +484,9 @@ def increment_bto_version(version):
 def walk_cleanup(directory):
     """Walks a directory, removes all files, and removes that directory"""
     if os.path.exists(directory):
+        if os.path.isfile(directory):
+            os.remove(directory)
+            return
         for root, dirs, files in os.walk(directory, topdown=False):
             for name in files:
                 os.remove(os.path.join(root, name))

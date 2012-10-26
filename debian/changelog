@@ -18,6 +18,7 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * Drop ancient modalias installation on 01-jockey late script.
   * 01-jockey: Call update-initramfs w/ full path.
   * recovery_xml: Return all matching nodes for a tag, not just one.
+  * recovery_common: Cleanup standalone files if in walk_cleanup list.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 20 Jun 2012 16:27:56 -0500
 
