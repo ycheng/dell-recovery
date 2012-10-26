@@ -109,7 +109,7 @@ exit 0""" % binary, file=f)
             for binary in fake_binaries:
                 os.rename('%s.REAL' % binary, binary)
             #Update initramfs now
-            ret = subprocess.Popen(["update-initramfs", "-u"],
+            ret = subprocess.Popen(["/usr/sbin/update-initramfs", "-u"],
                                    stdout=subprocess.PIPE,
                                    universal_newlines=True)
             output = ret.communicate()[0]
