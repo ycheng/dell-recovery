@@ -1,5 +1,6 @@
 dell-recovery (1.24.2) precise-proposed; urgency=low
 
+  [ Mario Limonciello ]
   * Backport from trunk:
     - Pass the destination as found in the SDR to target system.
     - Add an extra stanza indicating what to do with existing EFI partitions
@@ -18,6 +19,9 @@ dell-recovery (1.24.2) precise-proposed; urgency=low
     - recovery_common/dell-bootstrap: move ISO_MOUNT, CDROM_MOUNT, mark_upgrades,
       mark_unconditional_debs.
     - Introduce driver install tool and helper package format migration tool.
+
+  [ Liu Hao-Ran ]
+  * Remove nomodeset from stage to to prevent kernel oops with quantal kernels.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
 
