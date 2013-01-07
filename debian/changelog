@@ -1,5 +1,6 @@
 dell-recovery (1.28) UNRELEASED; urgency=low
 
+  [ Mario Limonciello ]
   * Add another override for post rts deliverables to on ISO
     grub configuration.
   * Disable swap in very large memory configurations ( >32GB ).
@@ -26,6 +27,9 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * Introduce new driver package installation tool.
   * Add a helper script that can be used to manually upgrade an old format
     package to be usable in driver package installation tool.
+
+  [ Liu Hao-Ran ]
+  * No longer run with nomodeset to prevent kernel oops on quantal kernels.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 20 Jun 2012 16:27:56 -0500
 
