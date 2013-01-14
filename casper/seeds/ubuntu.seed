@@ -61,7 +61,7 @@
 
 ### APT stuff
  d-i apt-setup/use_mirror boolean true
- d-i apt-setup/security_host string
+ d-i apt-setup/security_host string security.ubuntu.com
  d-i apt-setup/partner boolean true
 
 ### Partitioning
