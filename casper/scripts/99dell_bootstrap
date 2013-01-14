@@ -95,7 +95,7 @@ fi
 # - needs to be loaded first so that we know if we are dual boot
 for seed in dell-recovery gfx wlan; do
     if [ -e /root/cdrom/preseed/$seed.seed ]; then
-        casper-set-selections /root/cdrom/pressed/$seed.seed
+        casper-set-selections /root/cdrom/preseed/$seed.seed
     fi
 done
 
@@ -110,7 +110,7 @@ fi
 # Lastly, reload the override / configurations preseeds so that it is allowed to override stuff from ubuntu.seed and dual.seed
 for seed in dell-recovery gfx wlan; do
     if [ -e /root/cdrom/preseed/$seed.seed ]; then
-        casper-set-selections /root/cdrom/pressed/$seed.seed
+        casper-set-selections /root/cdrom/preseed/$seed.seed
     fi
 done
 
