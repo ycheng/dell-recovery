@@ -744,7 +744,6 @@ def mark_unconditional_debs(add_directory=''):
 
     #These aren't in all images, but desirable if available
     to_install.append('dkms')
-    to_install.append('adobe-flashplugin')
 
     return to_install
 
