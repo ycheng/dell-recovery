@@ -118,6 +118,10 @@ done
 if [ -d /sys/firmware/efi ]; then
     #grub-pc is in livefs, need grub-efi-amd64
     chroot /root apt-get install grub-efi-amd64 -y
+    # Install signed EFI bootloaders.
+    if [ -d /sys/firmware/efi/vars/SecureBoot-8be4df61-93ca-11d2-aa0d-00e098032b8c ]; then
+        chroot /root apt-get install grub-efi-amd64-signed shim-signed -y
+    fi
     #force failsafe graphics off, we're guaranteed efifb
     casper-preseed /root ubiquity/force_failsafe_graphics false
 fi
