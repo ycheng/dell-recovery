@@ -34,6 +34,31 @@ common_modules="loadenv part_gpt fat ntfs ext2 ntfscomp search linux boot \
                 minicmd cat cpuid chain halt help ls reboot echo test     \
                 configfile sleep keystatus normal true font"
 
+build_grub_setup() {
+    MINGW=$1
+    BITS=$2
+    echo "Building bootloader installer for Windows $BITS ($RELEASE)"
+    BUILD_DIR=$(mktemp -d)
+    cd $BUILD_DIR
+    if [ -n "$GRUB_SRC" ]; then
+        cp -R $GRUB_SRC .
+    else
+        apt-get source -qq grub2
+    fi
+    cd grub2*
+    for item in $(ls $PATCHES); do
+        echo $item >> debian/patches/series
+        cp -f $PATCHES/$item debian/patches
+    done
+    QUILT_PATCHES=debian/patches quilt push -a -q
+    ./autogen.sh >/dev/null 2>&1
+    CC=${MINGW}-gcc ./configure --host=${MINGW} --disable-efiemu>/dev/null
+    cd grub-core/gnulib && make > /dev/null && cd ../..
+    make grub_script.tab.h grub_script.yy.h grub-setup.exe >/dev/null
+    cp grub-setup.exe $TARGET/grub-setup-$BITS.exe
+    rm -rf $BUILD_DIR
+}
+
 #x86_64-efi factory bootloader, EFI target.  requires grub-efi-amd64-bin
 if [ -d $UEFI_GRUBDIR ] &&
    [ ! -f $TARGET/grubx64.efi ]; then
@@ -104,34 +129,20 @@ EOF
 fi
 
 #grub-setup.exe
-if [ -d /usr/lib/gcc/i586-mingw32msvc ] &&
-   [ -d $PATCHES ] &&
+if [ -d $PATCHES ] &&
    [ -x /usr/bin/quilt ] &&
    [ -x /usr/bin/autogen ] &&
    [ -x /usr/bin/autoreconf ] &&
    [ -x /usr/bin/libtoolize ] &&
    [ -x /usr/bin/bison ] &&
    [ -x /usr/bin/flex ] &&
-   [ -x /usr/bin/dpkg-source ] &&
-   [ ! -f $TARGET/grub-setup.exe ]; then
-    echo "Building bootloader installer for mingw32 ($RELEASE)"
-    BUILD_DIR=$(mktemp -d)
-    cd $BUILD_DIR
-    if [ -n "$GRUB_SRC" ]; then
-        cp -R $GRUB_SRC .
-    else
-        apt-get source -qq grub2
-    fi
-    cd grub2*
-    for item in $(ls $PATCHES); do
-        echo $item >> debian/patches/series
-        cp -f $PATCHES/$item debian/patches
-    done
-    QUILT_PATCHES=debian/patches quilt push -a -q
-    ./autogen.sh >/dev/null 2>&1
-    CC=i586-mingw32msvc-gcc ./configure --host=i586-mingw32msvc --disable-efiemu>/dev/null
-    cd grub-core/gnulib && make > /dev/null && cd ../..
-    make grub_script.tab.h grub_script.yy.h grub-setup.exe >/dev/null
-    cp grub-setup.exe $TARGET
-    rm -rf $BUILD_DIR
+   [ -x /usr/bin/dpkg-source ]; then
+      if [ -d /usr/lib/gcc/i686-w64-mingw32 ] &&
+         [ ! -f $TARGET/grub-setup-32.exe ]; then
+         build_grub_setup i686-w64-mingw32 32
+      fi
+      if [ -d /usr/lib/gcc/x86_64-w64-mingw32 ] &&
+         [ ! -f $TARGET/grub-setup-64.exe ]; then
+         build_grub_setup x86_64-w64-mingw32 64
+      fi
 fi

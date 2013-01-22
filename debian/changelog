@@ -19,6 +19,10 @@ dell-recovery (1.24.2) precise-proposed; urgency=low
     - recovery_common/dell-bootstrap: move ISO_MOUNT, CDROM_MOUNT, mark_upgrades,
       mark_unconditional_debs.
     - Introduce driver install tool and helper package format migration tool.
+  * debian/control: depends on mingw-w64 rather than mingw32.
+  * grub/build-binaries.sh: build 32 and 64 bit binaries.
+  * precise grub patches: ignore type error for 64 bit, grub-setup.exe should
+    still work and that's all we care about.
 
   [ Liu Hao-Ran ]
   * Remove nomodeset from stage to to prevent kernel oops with quantal kernels.
