@@ -11,8 +11,8 @@ After this patch, it's possible to just install like this:
 
 Index: grub2-1.99/include/grub/emu/misc.h
 ===================================================================
---- grub2-1.99.orig/include/grub/emu/misc.h	2011-09-26 15:31:02.257912346 -0500
-+++ grub2-1.99/include/grub/emu/misc.h	2011-09-26 15:31:35.117912343 -0500
+--- grub2-1.99.orig/include/grub/emu/misc.h	2013-01-23 12:47:13.900052704 -0600
++++ grub2-1.99/include/grub/emu/misc.h	2013-01-23 12:47:14.544052733 -0600
 @@ -36,8 +36,12 @@
  /* NetBSD uses /boot for its boot block.  */
  # define DEFAULT_DIRECTORY	"/"GRUB_DIR_NAME
@@ -28,8 +28,8 @@ Index: grub2-1.99/include/grub/emu/misc.h
  
 Index: grub2-1.99/util/grub-setup.c
 ===================================================================
---- grub2-1.99.orig/util/grub-setup.c	2011-09-26 15:31:02.273912346 -0500
-+++ grub2-1.99/util/grub-setup.c	2011-09-26 15:51:52.357912209 -0500
+--- grub2-1.99.orig/util/grub-setup.c	2013-01-23 12:47:14.300052722 -0600
++++ grub2-1.99/util/grub-setup.c	2013-01-23 15:46:37.284534803 -0600
 @@ -75,6 +75,8 @@
   * result.
   */
@@ -39,7 +39,16 @@ Index: grub2-1.99/util/grub-setup.c
  #define DEFAULT_BOOT_FILE	"boot.img"
  #define DEFAULT_CORE_FILE	"core.img"
  #define CORE_IMG_IN_FS		"setup_left_core_image_in_filesystem"
-@@ -439,6 +441,13 @@
+@@ -190,6 +192,8 @@
+   struct grub_boot_blocklist *first_block, *block;
+   char *tmp_img;
+   int i;
++  if (!root)
++    root = DELL_TARGET;
+   grub_disk_addr_t first_sector;
+ #ifdef GRUB_MACHINE_PCBIOS
+   grub_uint16_t current_segment
+@@ -439,6 +443,13 @@
  	goto unable_to_embed;
        }
  
@@ -53,7 +62,7 @@ Index: grub2-1.99/util/grub-setup.c
      /* Clean out the blocklists.  */
      block = first_block;
      while (block->len)
-@@ -831,8 +840,8 @@
+@@ -831,8 +842,8 @@
          break;
  
        case ARGP_KEY_NO_ARGS:
@@ -64,16 +73,7 @@ Index: grub2-1.99/util/grub-setup.c
            break;
  
        default:
-@@ -869,7 +878,7 @@
- main (int argc, char *argv[])
- {
-   struct stat dev_map_stat;
--  char *root_dev = NULL;
-+  char *root_dev = DELL_TARGET;
-   char *dest_dev = NULL;
-   int must_embed = 0;
-   struct arguments arguments;
-@@ -914,7 +923,10 @@
+@@ -914,7 +925,10 @@
    grub_mdraid1x_init ();
    grub_lvm_init ();
  
@@ -85,7 +85,7 @@ Index: grub2-1.99/util/grub-setup.c
    if (! dest_dev)
      {
        /* Possibly, the user specified an OS device file.  */
-@@ -946,8 +958,10 @@
+@@ -946,8 +960,10 @@
  
        root_dev = xstrdup (root_dev);
      }
@@ -97,16 +97,21 @@ Index: grub2-1.99/util/grub-setup.c
        char *root_device =
          grub_guess_root_device (arguments.dir ? : DEFAULT_DIRECTORY);
  
-@@ -962,6 +976,7 @@
+@@ -962,6 +978,7 @@
        grub_util_info ("guessed root device `%s' and root_dev `%s' from "
                        "dir `%s'", root_device, root_dev,
                        arguments.dir ? : DEFAULT_DIRECTORY);
 +      */
      }
  
- #ifdef __linux__
-@@ -1023,5 +1038,6 @@
-   free (root_dev);
+ #if defined(__linux__) || defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+@@ -1022,8 +1039,10 @@
+   free (arguments.root_dev);
+   free (arguments.dev_map);
+   free (arguments.device);
+-  free (root_dev);
++  if (root_dev != DELL_TARGET)
++    free (root_dev);
    free (dest_dev);
  
 +  fprintf (stderr, "%s", _("Completed successfully.\n"));
