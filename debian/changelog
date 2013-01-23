@@ -16,6 +16,8 @@ dell-recovery (1.28) UNRELEASED; urgency=low
     automagic case.
   * Rebase GRUB patches on GRUB 2.00
   * recovery_backend: Set the genisoimage call to nonblocking on Popen.
+  * merge in precise GRUB patch reworks.
+  * build using ming-w64 rather than mingw32.
   New Driver Tool:
   * Drop ancient modalias installation on 01-jockey late script.
   * 01-jockey: Call update-initramfs w/ full path.
