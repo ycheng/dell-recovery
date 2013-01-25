@@ -29,6 +29,8 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * Introduce new driver package installation tool.
   * Add a helper script that can be used to manually upgrade an old format
     package to be usable in driver package installation tool.
+  * Don't install signed bootloaders in the OS, require that we're booted into
+    them from the ISO and install from there.
 
   [ Liu Hao-Ran ]
   * No longer run with nomodeset to prevent kernel oops on quantal kernels.

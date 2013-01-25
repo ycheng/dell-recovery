@@ -1416,6 +1416,20 @@ manually to proceed.")
         #Install grub
         self.status("Installing GRUB", 88)
         if self.efi:
+            #Secure boot?
+            secure_boot = False
+            if os.path.exists('/sys/firmware/efi/vars/SecureBoot-8be4df61-93ca-11d2-aa0d-00e098032b8c/data'):
+                with misc.raised_privileges():
+                    with open('/sys/firmware/efi/vars/SecureBoot-8be4df61-93ca-11d2-aa0d-00e098032b8c/data', 'r') as rfd:
+                        output = rfd.read()
+                        if output:
+                            secure_boot = bool(ord(output))
+
+            #secure boot on then we need to use that bootloader
+            if secure_boot:
+                grub_files = ['/cdrom/efi/boot/bootx64.efi',
+                              '/cdrom/efi/boot/grubx64.efi']
+
             #Mount ESP
             if not os.path.exists('/mnt/efi'):
                 with misc.raised_privileges():
@@ -1428,8 +1442,13 @@ manually to proceed.")
             direct_path = '/mnt/efi' + '/efi/ubuntu'
             with misc.raised_privileges():
                 os.makedirs(direct_path)
-                #copy our pre-built loader
-                shutil.copy('/mnt/factory/grubx64.efi', direct_path)
+
+                #copy boot loader
+                for item in grub_files:
+                    if not os.path.exists(item):
+                        raise RuntimeError, ("Error, %s doesn't exist." % item)
+                    shutil.copy(item, direct_path)
+
                 #find old entries
                 bootmgr_output = magic.fetch_output(['efibootmgr']).split('\n')
 
@@ -1440,10 +1459,20 @@ manually to proceed.")
                     bootmgr = misc.execute_root('efibootmgr', '-q', '-b', bootnum, '-B')
                     if bootmgr is False:
                         raise RuntimeError("Error removing old EFI boot manager entries")
+
+            #rename to shimx64.efi so that it gets overwritten later
+            if secure_boot:
+                target = 'shimx64.efi'
+                with misc.raised_privileges():
+                    os.rename(os.path.join(direct_path,'bootx64.efi'),
+                              '/mnt/efi/efi/ubuntu/%s' % target)
+            else:
+                target = 'grubx64.efi'
+
             #create new boot entry
             bootmgr = misc.execute_root('efibootmgr', '-q', '-c', '-d',
                                         self.device, '-p', EFI_ESP_PARTITION, '-w',
-                                        '-L', 'ubuntu', '-l', r'\\EFI\ubuntu\\grubx64.efi')
+                                        '-L', 'ubuntu', '-l', r'\\EFI\ubuntu\\%s' % target)
             if bootmgr is False:
                 raise RuntimeError("Error creating EFI boot manager entry.")
 
