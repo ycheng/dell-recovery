@@ -1,4 +1,4 @@
-dell-recovery (1.24.2) precise-proposed; urgency=low
+dell-recovery (1.24.2) precise; urgency=low
 
   [ Mario Limonciello ]
   * Backport from trunk:
@@ -23,6 +23,8 @@ dell-recovery (1.24.2) precise-proposed; urgency=low
   * grub/build-binaries.sh: build 32 and 64 bit binaries.
   * precise grub patches: ignore type error for 64 bit, grub-setup.exe should
     still work and that's all we care about.
+  * Don't install signed bootloaders in the OS, require that we're booted into
+    them from the ISO and install from there.
 
   [ Liu Hao-Ran ]
   * Remove nomodeset from stage to to prevent kernel oops with quantal kernels.
