@@ -501,13 +501,13 @@
         <col id="0" translatable="yes"></col>
       </row>
       <row>
-        <col id="0" translatable="yes">fglrx</col>
+        <col id="0" translatable="yes">fglrx_updates</col>
       </row>
       <row>
-        <col id="0" translatable="yes">nvidia</col>
+        <col id="0" translatable="yes">nvidia_current_updates</col>
       </row>
       <row>
-        <col id="0" translatable="yes">fglrx,nvidia</col>
+        <col id="0" translatable="yes">fglrx_updates,nvidia_current_updates</col>
       </row>
     </data>
   </object>
