@@ -1,4 +1,4 @@
-dell-recovery (1.24.2) precise; urgency=low
+dell-recovery (1.24.2~precise11) precise; urgency=low
 
   [ Mario Limonciello ]
   * Backport from trunk:
@@ -31,8 +31,9 @@ dell-recovery (1.24.2) precise; urgency=low
   * Fix typo in bootstrap.
   * Set the apt security host.
   * Add secure boot support.
+  * Adjust string for dell-recovery/disable-driver-install (LP: #1103810)
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 02 May 2012 22:33:27 -0500
+ -- Hao-Ran Liu (Joseph Liu) <hao-ran.liu@canonical.com>  Fri, 01 Feb 2013 20:47:00 +0800
 
 dell-recovery (1.24) precise; urgency=low
 
