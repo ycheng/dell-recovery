@@ -1446,7 +1446,7 @@ manually to proceed.")
                 #copy boot loader
                 for item in grub_files:
                     if not os.path.exists(item):
-                        raise RuntimeError, ("Error, %s doesn't exist." % item)
+                        raise RuntimeError("Error, %s doesn't exist." % item)
                     shutil.copy(item, direct_path)
 
                 #find old entries
