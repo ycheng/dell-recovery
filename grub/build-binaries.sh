@@ -52,10 +52,10 @@ build_grub_setup() {
     done
     QUILT_PATCHES=debian/patches quilt push -a -q
     ./autogen.sh >/dev/null 2>&1
-    CC=${MINGW}-gcc ./configure --host=${MINGW} --disable-efiemu>/dev/null
+    CC=${MINGW}-gcc ./configure --host=${MINGW} --disable-efiemu --disable-werror>/dev/null
     cd grub-core/gnulib && make > /dev/null && cd ../..
-    make grub_script.tab.h grub_script.yy.h grub-setup.exe >/dev/null
-    cp grub-setup.exe $TARGET/grub-setup-$BITS.exe
+    make grub_script.tab.h grub_script.yy.h grub-bios-setup.exe >/dev/null
+    cp grub-bios-setup.exe $TARGET/grub-setup-$BITS.exe
     rm -rf $BUILD_DIR
 }
 
