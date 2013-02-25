@@ -787,7 +787,7 @@ class Page(Plugin):
 
         #If we were preseeded to dynamic, look for an RP
         rec_part = magic.find_factory_rp_stats()
-        if rec_part.has_key("slave"):
+        if "slave" in rec_part:
             self.stage = 2
         if rec_type == 'dynamic':
             # we rebooted with no USB stick or DVD in drive and have the RP
