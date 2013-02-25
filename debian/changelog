@@ -1,4 +1,4 @@
-dell-recovery (1.28) UNRELEASED; urgency=low
+dell-recovery (1.28) raring; urgency=low
 
   [ Mario Limonciello ]
   * Add another override for post rts deliverables to on ISO
@@ -43,7 +43,7 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * Add secure boot support.
   * Adjust string for dell-recovery/disable-driver-install (LP: #1103810)
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 20 Jun 2012 16:27:56 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 25 Feb 2013 13:24:02 -0600
 
 dell-recovery (1.27build1) raring; urgency=low
 
