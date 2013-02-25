@@ -29,7 +29,7 @@ Index: grub2-2.00/include/grub/emu/misc.h
 Index: grub2-2.00/util/grub-setup.c
 ===================================================================
 --- grub2-2.00.orig/util/grub-setup.c	2013-02-25 12:07:04.000000000 -0600
-+++ grub2-2.00/util/grub-setup.c	2013-02-25 12:11:02.613025638 -0600
++++ grub2-2.00/util/grub-setup.c	2013-02-25 12:56:56.933047545 -0600
 @@ -83,6 +83,8 @@
   * result.
   */
@@ -39,7 +39,45 @@ Index: grub2-2.00/util/grub-setup.c
  #define DEFAULT_BOOT_FILE	"boot.img"
  #define DEFAULT_CORE_FILE	"core.img"
  #define CORE_IMG_IN_FS		"setup_left_core_image_in_filesystem"
-@@ -494,6 +496,13 @@
+@@ -147,7 +149,7 @@
+ {
+   char *boot_path, *core_path, *core_path_dev, *core_path_dev_full;
+   char *boot_img, *core_img;
+-  char *root = 0;
++  char *root = grub_util_get_grub_dev (DELL_TARGET);
+   size_t boot_size, core_size;
+   grub_uint16_t core_sectors;
+   grub_device_t root_dev = 0, dest_dev, core_dev;
+@@ -247,13 +249,19 @@
+ 						- sizeof (*block));
+   grub_util_info ("root is `%s', dest is `%s'", root, dest);
+ 
++  /* Open the root device and the destination device.  */
++  grub_util_info ("Opening root");
++  root_dev = grub_device_open (root);
++  if (! root_dev)
++    grub_util_error ("%s", grub_errmsg);
++
+   grub_util_info ("Opening dest");
+   dest_dev = grub_device_open (dest);
+   if (! dest_dev)
+     grub_util_error ("%s", grub_errmsg);
+ 
+   core_dev = dest_dev;
+-
++/*
+   {
+     char **root_devices = grub_guess_root_devices (dir);
+     char **cur;
+@@ -298,6 +306,7 @@
+     grub_util_info ("guessed root_dev `%s' from "
+ 		    "dir `%s'", root_dev->disk->name, dir);
+   }
++*/
+ 
+   grub_util_info ("setting the root device to `%s'", root);
+   if (grub_env_set ("root", root) != GRUB_ERR_NONE)
+@@ -494,6 +503,13 @@
  
      assert (nsec <= maxsec);
  
@@ -53,7 +91,7 @@ Index: grub2-2.00/util/grub-setup.c
      /* Clean out the blocklists.  */
      block = first_block;
      while (block->len)
-@@ -1071,9 +1080,11 @@
+@@ -1071,9 +1087,11 @@
          break;
  
        case ARGP_KEY_NO_ARGS:
@@ -67,16 +105,7 @@ Index: grub2-2.00/util/grub-setup.c
            break;
  
        default:
-@@ -1109,7 +1120,7 @@
- int
- main (int argc, char *argv[])
- {
--  char *root_dev = NULL;
-+  char *root_dev = DELL_TARGET;
-   char *dest_dev = NULL;
-   struct arguments arguments;
- 
-@@ -1151,7 +1162,10 @@
+@@ -1151,7 +1169,10 @@
    grub_mdraid1x_init ();
    grub_lvm_init ();
  
@@ -88,7 +117,7 @@ Index: grub2-2.00/util/grub-setup.c
    if (! dest_dev)
      {
        /* Possibly, the user specified an OS device file.  */
-@@ -1193,5 +1207,6 @@
+@@ -1193,5 +1214,6 @@
    free (root_dev);
    free (dest_dev);
  
