@@ -1479,7 +1479,7 @@ manually to proceed.")
             #clean up ESP mount
             misc.execute_root('umount', '/mnt/efi')
         else:
-            grub = misc.execute_root('grub-setup', '-d', '/mnt/factory', self.device)
+            grub = misc.execute_root('grub-bios-setup', '-d', '/mnt/factory', self.device)
             if grub is False:
                 raise RuntimeError("Error installing grub to %s" % (self.device))
 

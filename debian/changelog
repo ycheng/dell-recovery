@@ -19,6 +19,7 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * merge in precise GRUB patch reworks.
   * build using ming-w64 rather than mingw32.
   * drop extra has_key reference.
+  * grub-setup -> grub-bios-setup
   New Driver Tool:
   * Drop ancient modalias installation on 01-jockey late script.
   * 01-jockey: Call update-initramfs w/ full path.
