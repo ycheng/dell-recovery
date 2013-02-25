@@ -117,7 +117,7 @@ EOF
 
     #core.img
     grub-mkimage -c "$workdir/grub.cfg" \
-                 -p '/boot/grub/i386-pc' \
+                 -p '/boot/grub' \
                  -o $ISO_LOADER/core.img \
                  -O i386-pc \
                  search_fs_file biosdisk iso9660 part_msdos fat
