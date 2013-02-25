@@ -11,8 +11,8 @@ After this patch, it's possible to just install like this:
 
 Index: grub2-2.00/include/grub/emu/misc.h
 ===================================================================
---- grub2-2.00.orig/include/grub/emu/misc.h	2012-09-14 09:33:04.000000000 -0500
-+++ grub2-2.00/include/grub/emu/misc.h	2012-09-14 09:33:26.333127435 -0500
+--- grub2-2.00.orig/include/grub/emu/misc.h	2012-02-09 17:22:27.000000000 -0600
++++ grub2-2.00/include/grub/emu/misc.h	2013-02-25 12:08:02.553024206 -0600
 @@ -36,8 +36,12 @@
  /* NetBSD uses /boot for its boot block.  */
  # define DEFAULT_DIRECTORY	"/"GRUB_DIR_NAME
@@ -28,8 +28,8 @@ Index: grub2-2.00/include/grub/emu/misc.h
  
 Index: grub2-2.00/util/grub-setup.c
 ===================================================================
---- grub2-2.00.orig/util/grub-setup.c	2012-09-14 09:33:04.000000000 -0500
-+++ grub2-2.00/util/grub-setup.c	2012-09-14 09:34:17.493128912 -0500
+--- grub2-2.00.orig/util/grub-setup.c	2013-02-25 12:07:04.000000000 -0600
++++ grub2-2.00/util/grub-setup.c	2013-02-25 12:11:02.613025638 -0600
 @@ -83,6 +83,8 @@
   * result.
   */
@@ -53,18 +53,21 @@ Index: grub2-2.00/util/grub-setup.c
      /* Clean out the blocklists.  */
      block = first_block;
      while (block->len)
-@@ -1071,8 +1080,8 @@
+@@ -1071,9 +1080,11 @@
          break;
  
        case ARGP_KEY_NO_ARGS:
 -          fprintf (stderr, "%s", _("No device is specified.\n"));
 -          argp_usage (state);
 +          fprintf(stderr, "Installing GRUB2 to `%s'\n", DELL_TARGET);
-+          //argp_usage (state);
++          /*
++	  argp_usage (state);
  	  exit (1);
++          */
            break;
  
-@@ -1109,7 +1118,7 @@
+       default:
+@@ -1109,7 +1120,7 @@
  int
  main (int argc, char *argv[])
  {
@@ -73,7 +76,7 @@ Index: grub2-2.00/util/grub-setup.c
    char *dest_dev = NULL;
    struct arguments arguments;
  
-@@ -1151,7 +1160,10 @@
+@@ -1151,7 +1162,10 @@
    grub_mdraid1x_init ();
    grub_lvm_init ();
  
@@ -85,7 +88,7 @@ Index: grub2-2.00/util/grub-setup.c
    if (! dest_dev)
      {
        /* Possibly, the user specified an OS device file.  */
-@@ -1193,5 +1205,6 @@
+@@ -1193,5 +1207,6 @@
    free (root_dev);
    free (dest_dev);
  
