@@ -4,8 +4,8 @@ These were explicitly rejected upstream due to needing rework.
 === modified file 'grub2/grub-core/lib/crypto.c'
 Index: grub2-2.00/grub-core/lib/crypto.c
 ===================================================================
---- grub2-2.00.orig/grub-core/lib/crypto.c	2012-09-14 12:24:37.000000000 -0500
-+++ grub2-2.00/grub-core/lib/crypto.c	2012-09-14 12:24:51.681425395 -0500
+--- grub2-2.00.orig/grub-core/lib/crypto.c	2012-02-08 06:57:20.000000000 -0600
++++ grub2-2.00/grub-core/lib/crypto.c	2013-02-24 21:47:41.618896677 -0600
 @@ -24,6 +24,12 @@
  #include <grub/dl.h>
  #include <grub/i18n.h>
@@ -21,8 +21,8 @@ Index: grub2-2.00/grub-core/lib/crypto.c
  #include <stdlib.h>
 Index: grub2-2.00/grub-core/disk/geli.c
 ===================================================================
---- grub2-2.00.orig/grub-core/disk/geli.c	2012-09-14 12:24:37.000000000 -0500
-+++ grub2-2.00/grub-core/disk/geli.c	2012-09-14 12:25:49.813427083 -0500
+--- grub2-2.00.orig/grub-core/disk/geli.c	2012-03-08 06:49:11.000000000 -0600
++++ grub2-2.00/grub-core/disk/geli.c	2013-02-24 21:47:41.618896677 -0600
 @@ -221,9 +221,11 @@
    if (fd < 0)
      return NULL;
@@ -35,3 +35,47 @@ Index: grub2-2.00/grub-core/disk/geli.c
  
    uuid = xmalloc (GRUB_MD_SHA256->mdlen * 2 + 1);
    if (grub_util_fd_read (fd, (void *) &hdr, 512) < 0)
+Index: grub2-2.00/grub-core/gnulib/argp-fmtstream.c
+===================================================================
+--- grub2-2.00.orig/grub-core/gnulib/argp-fmtstream.c	2012-02-29 06:41:40.000000000 -0600
++++ grub2-2.00/grub-core/gnulib/argp-fmtstream.c	2013-02-24 22:25:18.030915606 -0600
+@@ -135,7 +135,7 @@
+       s = mbrtowc (&wc, ptr, end - ptr, &ps);
+       if (s == (size_t) -1)
+ 	break;
+-      r += wcwidth (wc);
++      //r += wcwidth (wc);
+       ptr += s;
+     }
+   return r;
+@@ -156,7 +156,7 @@
+       s = mbrtowc (&wc, ptr, end - ptr, &ps);
+       if (s == (size_t) -1)
+ 	break;
+-      k = wcwidth (wc);
++      //k = wcwidth (wc);
+       if (k >= l)
+ 	break;
+       l -= k;
+Index: grub2/include/grub/types.h
+===================================================================
+--- grub2.orig/include/grub/types.h     2013-01-22 11:01:33.145372651 -0600
++++ grub2/include/grub/types.h  2013-01-22 11:02:12.165371202 -0600
+@@ -40,6 +40,8 @@
+ # endif
+ #endif /* ! GRUB_UTIL */
+ 
++//Disable these errors specifically for mingw64 compilation
++/*
+ #if GRUB_CPU_SIZEOF_VOID_P != GRUB_CPU_SIZEOF_LONG
+ ## error "This architecture is not supported because sizeof(void *) != sizeof(long)"
+ #endif
+@@ -47,6 +49,7 @@
+ #if GRUB_CPU_SIZEOF_VOID_P != 4 && GRUB_CPU_SIZEOF_VOID_P != 8
+ # error "This architecture is not supported because sizeof(void *) != 4 and sizeof(void *) != 8"
+ #endif
++*/
+ 
+ #ifndef GRUB_TARGET_WORDSIZE
+ # if GRUB_TARGET_SIZEOF_VOID_P == 4
+
