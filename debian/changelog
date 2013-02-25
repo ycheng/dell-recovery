@@ -22,6 +22,7 @@ dell-recovery (1.28) UNRELEASED; urgency=low
   * grub-setup -> grub-bios-setup
   * drop support for oneiric and precise.  enough has changed that
     the code base won't work there anymore.
+  * Merge translations from LP.
   New Driver Tool:
   * Drop ancient modalias installation on 01-jockey late script.
   * 01-jockey: Call update-initramfs w/ full path.
