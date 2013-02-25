@@ -214,7 +214,7 @@ def fetch_output(cmd, data='', environment=os.environ):
                                  stdin=subprocess.PIPE,
                                  env=environment,
                                  universal_newlines=True)
-    (out, err) = proc.communicate(data.encode("utf-8"))
+    (out, err) = proc.communicate(data)
     if proc.returncode is None:
         proc.wait()
     if proc.returncode != 0:
