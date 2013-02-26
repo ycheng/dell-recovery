@@ -157,21 +157,35 @@ class Install(InstallPlugin):
             return
         delayed_burn = False
 
+        env = os.environ
+        lang = progress.get('debian-installer/locale')
+        env['LANG'] = lang
+
         #can also expect that this was mounted at /cdrom during OOBE
-        rpart = magic.find_factory_rp_stats()
+        rpart = magic.find_factory_partition_stats('rp')
         if rpart and os.path.exists('/cdrom/.disk/info'):
-            env = os.environ
-            lang = progress.get('debian-installer/locale')
-            env['LANG'] = lang
             rec_text = progress.get('ubiquity/text/99_grub_menu')
             magic.process_conf_file(original = '/usr/share/dell/grub/99_dell_recovery', \
                                     new = '/etc/grub.d/99_dell_recovery',               \
                                     uuid = str(rpart["uuid"]),                          \
-                                    rp_number = str(rpart["number"]),                   \
+                                    number = str(rpart["number"]),                      \
                                     recovery_text = rec_text)
 
             os.chmod('/etc/grub.d/99_dell_recovery', 0755)
-            subprocess.call(['update-grub'],env=env)
+
+        #if we have a up and not in EFI mode, we can do BIOS flashing via DOS
+        upart = magic.find_factory_partition_stats('up')
+        if not os.path.isdir('/sys/firmware/efi') and upart:
+            rec_text = progress.get('ubiquity/text/98_grub_menu')
+            magic.process_conf_file(original = '/usr/share/dell/grub/98_dell_bios', \
+                                    new = '/etc/grub.d/98_dell_bios',               \
+                                    uuid = str(upart["uuid"]),                      \
+                                    number = str(upart["number"]),                  \
+                                    recovery_text = rec_text)
+
+            os.chmod('/etc/grub.d/98_dell_bios', 0755)
+
+        subprocess.call(['update-grub'],env=env)
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.progress = progress

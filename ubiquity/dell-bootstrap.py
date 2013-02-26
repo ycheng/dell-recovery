@@ -804,7 +804,7 @@ class Page(Plugin):
             self.db.set(RECOVERY_TYPE_QUESTION, rec_type)
 
         #If we were preseeded to dynamic, look for an RP
-        rec_part = magic.find_factory_rp_stats()
+        rec_part = magic.find_factory_partition_stats('rp')
         if rec_type == 'dynamic':
             # we rebooted with no USB stick or DVD in drive and have the RP
             # mounted at /cdrom

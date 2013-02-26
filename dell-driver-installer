@@ -54,7 +54,7 @@ if __name__ == '__main__':
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
     utility, recovery = find_partitions('', '')
 
-    args = (recovery, parser_args.fname, 'driver')
+    args = (recovery, utility, parser_args.fname, 'driver')
     tool = DriverGTK(*args)
     
     tool.run()

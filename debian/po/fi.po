@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: dell-recovery@packages.debian.org\n"
-"POT-Creation-Date: 2012-05-04 15:41-0500\n"
+"POT-Creation-Date: 2013-02-25 18:38-0600\n"
 "PO-Revision-Date: 2011-01-17 09:45+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -221,6 +221,12 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:48001
+msgid "Flash BIOS image from DOS"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:49001
 msgid "Restore #OS# to factory state"
 msgstr "Palauta #OS# tehdastilaan"
 

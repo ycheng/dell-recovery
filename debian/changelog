@@ -1,4 +1,4 @@
-dell-recovery (1.24.2) precise; urgency=low
+dell-recovery (1.24.2) UNRELEASED; urgency=low
 
   [ Mario Limonciello ]
   * Backport from trunk:
@@ -25,6 +25,7 @@ dell-recovery (1.24.2) precise; urgency=low
     still work and that's all we care about.
   * Don't install signed bootloaders in the OS, require that we're booted into
     them from the ISO and install from there.
+  * Add a basic tool for installing a BIOS update.
 
   [ Liu Hao-Ran ]
   * Remove nomodeset from stage to to prevent kernel oops with quantal kernels.

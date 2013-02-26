@@ -46,7 +46,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
 
         #Run the normal init first
         #This sets up lots of common variables as well as translation domain
-        DellRecoveryToolGTK.__init__(self, recovery)
+        DellRecoveryToolGTK.__init__(self, recovery, utility)
 
         #init the UI and translate widgets/connect signals
         self.widgets = Gtk.Builder()
