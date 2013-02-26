@@ -173,17 +173,9 @@ class Install(InstallPlugin):
 
             os.chmod('/etc/grub.d/99_dell_recovery', 0755)
 
-        #if we have a up and not in EFI mode, we can do BIOS flashing via DOS
-        upart = magic.find_factory_partition_stats('up')
-        if not os.path.isdir('/sys/firmware/efi') and upart:
-            rec_text = progress.get('ubiquity/text/98_grub_menu')
-            magic.process_conf_file(original = '/usr/share/dell/grub/98_dell_bios', \
-                                    new = '/etc/grub.d/98_dell_bios',               \
-                                    uuid = str(upart["uuid"]),                      \
-                                    number = str(upart["number"]),                  \
-                                    recovery_text = rec_text)
-
-            os.chmod('/etc/grub.d/98_dell_bios', 0755)
+        #if we have a UP and not in EFI mode, we can do BIOS flashing via DOS
+        rec_text = progress.get('ubiquity/text/98_grub_menu')
+        magic.create_up_boot_entry(rec_text)
 
         subprocess.call(['update-grub'],env=env)
 

@@ -710,6 +710,18 @@ def write_up_bootsector(device, partition):
     else:
         fetch_output(['dosfslabel', device + partition, "DellUtility"])
 
+def create_up_boot_entry(new_text):
+    upart = find_factory_partition_stats('up')
+
+    if not os.path.isdir('/sys/firmware/efi') and upart:
+        process_conf_file(original = '/usr/share/dell/grub/98_dell_bios', \
+                                new = '/etc/grub.d/98_dell_bios',               \
+                                uuid = str(upart["uuid"]),                      \
+                                number = str(upart["number"]),                  \
+                                recovery_text = new_text)
+
+        os.chmod('/etc/grub.d/98_dell_bios', 0755)
+
 def mark_upgrades():
     '''Mark packages that can upgrade to upgrade during install'''
     from apt.cache import Cache
