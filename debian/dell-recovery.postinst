@@ -6,7 +6,9 @@ case "$1" in
   configure)
 
     #if there is a UP while installing, add 98_dell_bios
-    up=$(find /dev/disk/by-label/ -iname dellutility)
+    if [ -d /dev/disk/by-label ]; then
+        up=$(find /dev/disk/by-label/ -iname dellutility)
+    fi
     if [ ! -f /etc/grub.d/98_dell_bios ] && [ -n "$up" ] && [ ! -d /sys/firmware/efi ]; then
         upgrade_script=$(tempfile)
         cat > $upgrade_script << EOF
