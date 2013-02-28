@@ -6,36 +6,37 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-09-09 17:16-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-28 17:46-0600\n"
 "PO-Revision-Date: 2010-04-17 00:59+0000\n"
 "Last-Translator: Fran Diéguez <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-09-11 04:46+0000\n"
 "X-Generator: Launchpad (build 13900)\n"
 
-#: ../Dell/recovery_gtk.py:92
+#: ../Dell/recovery_gtk.py:109
 msgid "Cannot connect to dbus"
 msgstr "Non é posíbel conectarse a dbus"
 
-#: ../Dell/recovery_gtk.py:94
+#: ../Dell/recovery_gtk.py:111
 msgid "Permission Denied"
 msgstr "Permiso denegado"
 
-#: ../Dell/recovery_gtk.py:101
+#: ../Dell/recovery_gtk.py:118
 msgid "Exception"
 msgstr ""
 
-#: ../Dell/recovery_gtk.py:149 ../gtk/dell-recovery-media.desktop.in.h:1
+#: ../Dell/recovery_gtk.py:198 ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/tool_selector.ui.h:2
 msgid "Dell Recovery"
 msgstr ""
 
-#: ../Dell/recovery_gtk.py:150
-msgid "Copyright 2008-2010 Dell Inc."
+#: ../Dell/recovery_gtk.py:199
+msgid "Copyright 2008-2012 Dell Inc."
 msgstr ""
 
 #: ../Dell/recovery_basic_gtk.py:58
@@ -201,83 +202,112 @@ msgstr ""
 msgid "FAIL Script: "
 msgstr ""
 
-#: ../Dell/recovery_backend.py:313
+#: ../Dell/recovery_backend.py:319
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:440
+#: ../Dell/recovery_backend.py:449
 msgid "Adding in base image"
 msgstr "Engadindo á imaxe base"
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:1058
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:873
+#: ../Dell/recovery_backend.py:1082
 msgid "Building Dell Utility Partition"
 msgstr "Construindo a partición de utilidade de Dell"
 
-#: ../Dell/recovery_backend.py:937
+#: ../Dell/recovery_backend.py:1146
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Rexerando o UUID / Reconstruindo o initramfs"
 
-#: ../Dell/recovery_backend.py:966
+#: ../Dell/recovery_backend.py:1175
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1033
+#: ../Dell/recovery_backend.py:1282
 msgid "Building OIE Archive"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1068
+#: ../Dell/recovery_backend.py:1317
 msgid "Building ISO"
 msgstr "Creando a imaxe ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
-msgid "Create/Assemble Dell Recovery ISO"
-msgstr "Crear/Ensamblar a imaxe ISO de recupración de Dell"
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
 msgstr "Consultar a versión do BTO"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:2
+msgid "System policy prevents reading raw devices"
+msgstr "A normativa do sistema impide ler dispositivos raw"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:3
 msgid "Query ISO Information"
 msgstr "Consultar información da imaxe ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
-msgid "Request closing the backend"
-msgstr "Solicitar o pechado da infraestrutura"
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "Restore to Factory state"
 msgstr ""
 
-#: ../backend/com.dell.recoverymedia.policy.in.h:6
+#: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "System policy prevents changing system bootup"
 msgstr ""
 
+#: ../backend/com.dell.recoverymedia.policy.in.h:6
+#, fuzzy
+msgid "Boot utility partition to flash BIOS"
+msgstr "Seleccione a partición de utilidade"
+
 #: ../backend/com.dell.recoverymedia.policy.in.h:7
-msgid "System policy prevents closing processes without notice"
-msgstr "A normativa do sistema impide que peche procesos sen avisar"
+#, fuzzy
+msgid "Install Dell driver packages"
+msgstr "Seleccione os paquetes de controladores"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:8
-msgid "System policy prevents reading raw devices"
+#, fuzzy
+msgid "System policy prevents installing packages."
 msgstr "A normativa do sistema impide ler dispositivos raw"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:9
-msgid "System policy prohibits changing network without user consent"
-msgstr ""
+msgid "Create/Assemble Dell Recovery ISO"
+msgstr "Crear/Ensamblar a imaxe ISO de recupración de Dell"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:10
+msgid "Request closing the backend"
+msgstr "Solicitar o pechado da infraestrutura"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:11
+msgid "System policy prevents closing processes without notice"
+msgstr "A normativa do sistema impide que peche procesos sen avisar"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:12
 msgid "Toggle Network Connectivity"
 msgstr ""
 
+#: ../backend/com.dell.recoverymedia.policy.in.h:13
+msgid "System policy prohibits changing network without user consent"
+msgstr ""
+
+#: ../gtk/dell-driver-installer.desktop.in.h:1
+msgid "Dell Driver Installer"
+msgstr ""
+
 #: ../gtk/recovery_media_creator.ui.h:1
-msgid "<activity placeholder>"
-msgstr "<indicador de posición de actividades>"
+msgid "Cancel Recovery Media Creator"
+msgstr "Cancelar o creador do Soporte de recuperación"
 
 #: ../gtk/recovery_media_creator.ui.h:2
+msgid "Are you sure you want to cancel the Recovery Media creation process?"
+msgstr ""
+"Ten a certeza que quere cancelar o proceso de creación do Soporte de "
+"Recuperación?"
+
+#: ../gtk/recovery_media_creator.ui.h:3
+msgid "Version:"
+msgstr "Versión:"
+
+#: ../gtk/recovery_media_creator.ui.h:4
 msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
@@ -285,105 +315,35 @@ msgstr ""
 "Xa existe una imaxe (posibelmente de unha execución anterior). Desexa "
 "eliminar esta copia antiga e volver a xerar a imaxe?"
 
-#: ../gtk/recovery_media_creator.ui.h:3
-msgid "Are you sure you want to cancel the Recovery Media creation process?"
-msgstr ""
-"Ten a certeza que quere cancelar o proceso de creación do Soporte de "
-"Recuperación?"
-
-#: ../gtk/recovery_media_creator.ui.h:4
-msgid "Cancel Recovery Media Creator"
-msgstr "Cancelar o creador do Soporte de recuperación"
-
 #: ../gtk/recovery_media_creator.ui.h:5
 msgid "DVD+/-RW Disc"
 msgstr "Disco DVD+/-RW"
 
-#: ../gtk/recovery_media_creator.ui.h:6 ../gtk/tool_selector.ui.h:3
-msgid "Dell Recovery Media Creator"
-msgstr "Creador de soportes de recuperación de Dell"
+#: ../gtk/recovery_media_creator.ui.h:6
+msgid "This requires writable DVD media."
+msgstr "ISto require un soporte DVD escribíbel."
 
 #: ../gtk/recovery_media_creator.ui.h:7
-msgid "No media, create image"
-msgstr ""
+msgid "USB Flash Drive"
+msgstr "Unidade Flash USB"
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid "This requires a USB flash drive with approximately 2GB free."
 msgstr "Isto require unha unidade flash USB con aproximadamente 2GB libres."
 
 #: ../gtk/recovery_media_creator.ui.h:9
-msgid "This requires writable DVD media."
-msgstr "ISto require un soporte DVD escribíbel."
+msgid "No media, create image"
+msgstr ""
 
-#: ../gtk/recovery_media_creator.ui.h:10
-msgid "USB Flash Drive"
-msgstr "Unidade Flash USB"
+#: ../gtk/recovery_media_creator.ui.h:10 ../gtk/tool_selector.ui.h:1
+msgid "Dell Recovery Media Creator"
+msgstr "Creador de soportes de recuperación de Dell"
 
 #: ../gtk/recovery_media_creator.ui.h:11
-msgid "Version:"
-msgstr "Versión:"
+msgid "<activity placeholder>"
+msgstr "<indicador de posición de actividades>"
 
 #: ../gtk/builder.ui.h:1
-msgid "\n"
-msgstr ""
-
-#: ../gtk/builder.ui.h:3
-msgid ""
-"\n"
-"\n"
-msgstr ""
-"\n"
-"\n"
-
-#: ../gtk/builder.ui.h:6
-msgid "Add Dell Recovery"
-msgstr "Engadir Dell Recovery"
-
-#: ../gtk/builder.ui.h:7
-msgid ""
-"Any add-on drivers or applications that need to be integrated into the image "
-"can be added here."
-msgstr ""
-"Calquera controlador engadido ou aplicativo que se necesite integrar na "
-"imaxe pode engadirse aquí."
-
-#: ../gtk/builder.ui.h:8
-msgid ""
-"BTO images can optionally include a Utility Partition for diagnostic "
-"utilities."
-msgstr ""
-"As imaxes BTO poden incluír opcionalmente unha partición de Utilidade para "
-"as utilidades de diagnóstico."
-
-#: ../gtk/builder.ui.h:9
-msgid "Browse for a dell-recovery package"
-msgstr "Explorar polo paquete de dell-recovery"
-
-#: ../gtk/builder.ui.h:10
-msgid "Build dell-recovery package from this system"
-msgstr "Construir o paquete de dell-recovery para este sistema"
-
-#: ../gtk/builder.ui.h:11
-msgid "Choose Content"
-msgstr "Seleccione o contido"
-
-#: ../gtk/builder.ui.h:12
-msgid "Choose Image"
-msgstr "Seleccione unha imaxe"
-
-#: ../gtk/builder.ui.h:13
-msgid "Choose package"
-msgstr "Seleccionar paquete"
-
-#: ../gtk/builder.ui.h:14
-msgid "Detected Recovery Partition"
-msgstr "Detectouse a partición de recuperación"
-
-#: ../gtk/builder.ui.h:15
-msgid "Detected Utility Partition"
-msgstr "Partición de utilidades eliminada"
-
-#: ../gtk/builder.ui.h:16
 msgid ""
 "During Factory Installation, applications are only installed if the order "
 "record (SDR) refers to the service release vehicle (SRV).  This populates "
@@ -393,96 +353,7 @@ msgstr ""
 "rexistro de orde (SDR) se refire ao vehículo de liberación do servizo (SRV). "
 "Isto completa os posíbeis SRV para ser consultados durante a instalación."
 
-#: ../gtk/builder.ui.h:17
-msgid "Extracted Directory"
-msgstr "O cartafol foi extraido"
-
-#: ../gtk/builder.ui.h:18
-msgid "FID Framework enclosed in debian package"
-msgstr ""
-
-#: ../gtk/builder.ui.h:19
-msgid "FID framework built into BTO image"
-msgstr "Marco de traballo FID construida dentro de imaxe BTO"
-
-#: ../gtk/builder.ui.h:20
-msgid "ISO Image"
-msgstr "Imaxe ISO"
-
-#: ../gtk/builder.ui.h:21
-msgid "Install dpkg-repack"
-msgstr "Instalar dpkg-repack"
-
-#: ../gtk/builder.ui.h:22
-msgid "No additional Utility Partition"
-msgstr "Non hai unha Partición de utilidades adicional"
-
-#: ../gtk/builder.ui.h:23
-msgid ""
-"OIE compliant images can only be installed from ODM factory environments.  "
-"They will notify the user at completion of a success or failure."
-msgstr ""
-
-#: ../gtk/builder.ui.h:24
-msgid ""
-"OIE mode also allows you to provide additional SUCCESS and FAIL scripts to "
-"be ran prior to notification the image is complete.  These can each be any "
-"executable program or script."
-msgstr ""
-
-#: ../gtk/builder.ui.h:25
-msgid ""
-"Part of the FID overlay requires a dell-recovery package to be included."
-msgstr ""
-
-#: ../gtk/builder.ui.h:26
-msgid "Please enter the SRV to use:"
-msgstr "Insira un SRV a usar:"
-
-#: ../gtk/builder.ui.h:27
-msgid "Produce a standard installation image."
-msgstr ""
-
-#: ../gtk/builder.ui.h:28
-msgid "Produce an OIE compliant installation image."
-msgstr ""
-
-#: ../gtk/builder.ui.h:29
-msgid "SRV Entry"
-msgstr "Entrada SRV"
-
-#: ../gtk/builder.ui.h:30
-msgid "Select content for Utility Partition"
-msgstr "Seleccione o contido para a Partición de utilidades"
-
-#: ../gtk/builder.ui.h:31
-msgid "Selected Content Details:"
-msgstr "Detalles do contido seleccionados:"
-
-#: ../gtk/builder.ui.h:32
-msgid "Selected Image Details:"
-msgstr "Detalles da imaxe seleccionada:"
-
-#: ../gtk/builder.ui.h:33
-msgid "Selected Overlay Details:"
-msgstr ""
-
-#: ../gtk/builder.ui.h:34
-msgid "Set FAIL script"
-msgstr ""
-
-#: ../gtk/builder.ui.h:35
-msgid "Set SUCCESS script"
-msgstr ""
-
-#: ../gtk/builder.ui.h:36
-msgid ""
-"The BTO FID framework is the first thing injected into a base vanilla image. "
-" If you are generating from an existing BTO compatible image, you may use "
-"the built-in framework."
-msgstr ""
-
-#: ../gtk/builder.ui.h:37
+#: ../gtk/builder.ui.h:2
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
@@ -490,34 +361,206 @@ msgstr ""
 "A imaxe base do sistema fornece a maioría do contido para unha imaxe BTO. "
 "Pode ser unha imaxe de sistema limpa ou unha imaxe BTO existente."
 
-#: ../gtk/tool_selector.ui.h:1
-msgid "Build OS Media"
+#: ../gtk/builder.ui.h:3
+msgid "ISO Image"
+msgstr "Imaxe ISO"
+
+#: ../gtk/builder.ui.h:4
+msgid "Extracted Directory"
+msgstr "O cartafol foi extraido"
+
+#: ../gtk/builder.ui.h:5
+msgid "Detected Recovery Partition"
+msgstr "Detectouse a partición de recuperación"
+
+#: ../gtk/builder.ui.h:6
+msgid "Choose Image"
+msgstr "Seleccione unha imaxe"
+
+#: ../gtk/builder.ui.h:7
+msgid "Selected Image Details:"
+msgstr "Detalles da imaxe seleccionada:"
+
+#: ../gtk/builder.ui.h:8
+msgid ""
+"\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+
+#: ../gtk/builder.ui.h:11
+msgid "Add Dell Recovery"
+msgstr "Engadir Dell Recovery"
+
+#: ../gtk/builder.ui.h:12
+msgid ""
+"Part of the FID overlay requires a dell-recovery package to be included."
+msgstr ""
+
+#: ../gtk/builder.ui.h:13
+msgid "Browse for a dell-recovery package"
+msgstr "Explorar polo paquete de dell-recovery"
+
+#: ../gtk/builder.ui.h:14
+msgid "Choose package"
+msgstr "Seleccionar paquete"
+
+#: ../gtk/builder.ui.h:15
+msgid "Build dell-recovery package from this system"
+msgstr "Construir o paquete de dell-recovery para este sistema"
+
+#: ../gtk/builder.ui.h:16
+msgid "Install dpkg-repack"
+msgstr "Instalar dpkg-repack"
+
+#: ../gtk/builder.ui.h:17
+msgid ""
+"Any add-on drivers or applications that need to be integrated into the image "
+"can be added here."
+msgstr ""
+"Calquera controlador engadido ou aplicativo que se necesite integrar na "
+"imaxe pode engadirse aquí."
+
+#: ../gtk/builder.ui.h:18
+msgid ""
+"The BTO FID framework is the first thing injected into a base vanilla "
+"image.  If you are generating from an existing BTO compatible image, you may "
+"use the built-in framework."
+msgstr ""
+
+#: ../gtk/builder.ui.h:19
+msgid "FID framework built into BTO image"
+msgstr "Marco de traballo FID construida dentro de imaxe BTO"
+
+#: ../gtk/builder.ui.h:20
+msgid "FID Framework enclosed in debian package"
+msgstr ""
+
+#: ../gtk/builder.ui.h:21
+msgid "Selected Overlay Details:"
+msgstr ""
+
+#: ../gtk/builder.ui.h:22
+msgid ""
+"OIE compliant images can only be installed from ODM factory environments.  "
+"They will notify the user at completion of a success or failure."
+msgstr ""
+
+#: ../gtk/builder.ui.h:23
+msgid "Produce a standard installation image."
+msgstr ""
+
+#: ../gtk/builder.ui.h:24
+msgid "Produce an OIE compliant installation image."
+msgstr ""
+
+#: ../gtk/builder.ui.h:25
+msgid ""
+"OIE mode also allows you to provide additional SUCCESS and FAIL scripts to "
+"be ran prior to notification the image is complete.  These can each be any "
+"executable program or script."
+msgstr ""
+
+#: ../gtk/builder.ui.h:26
+msgid "Set SUCCESS script"
+msgstr ""
+
+#: ../gtk/builder.ui.h:27
+msgid "Set FAIL script"
+msgstr ""
+
+#: ../gtk/builder.ui.h:28
+msgid "\n"
+msgstr ""
+
+#: ../gtk/builder.ui.h:30
+msgid "SRV Entry"
+msgstr "Entrada SRV"
+
+#: ../gtk/builder.ui.h:31
+msgid "Please enter the SRV to use:"
+msgstr "Insira un SRV a usar:"
+
+#: ../gtk/builder.ui.h:32
+msgid ""
+"BTO images can optionally include a Utility Partition for diagnostic "
+"utilities."
+msgstr ""
+"As imaxes BTO poden incluír opcionalmente unha partición de Utilidade para "
+"as utilidades de diagnóstico."
+
+#: ../gtk/builder.ui.h:33
+msgid "No additional Utility Partition"
+msgstr "Non hai unha Partición de utilidades adicional"
+
+#: ../gtk/builder.ui.h:34
+msgid "Select content for Utility Partition"
+msgstr "Seleccione o contido para a Partición de utilidades"
+
+#: ../gtk/builder.ui.h:35
+msgid "Detected Utility Partition"
+msgstr "Partición de utilidades eliminada"
+
+#: ../gtk/builder.ui.h:36
+msgid "Choose Content"
+msgstr "Seleccione o contido"
+
+#: ../gtk/builder.ui.h:37
+msgid "Selected Content Details:"
+msgstr "Detalles do contido seleccionados:"
+
+#: ../gtk/tool_selector.ui.h:3
+msgid "_Help"
 msgstr ""
 
 #: ../gtk/tool_selector.ui.h:4
-msgid "Restore System"
-msgstr ""
-
-#: ../gtk/tool_selector.ui.h:5
 msgid ""
 "This will create OS Recovery Media that can be used to restore the computer "
 "to its factory shipped state.  You will have the option to create an USB key "
 "or DVD image."
 msgstr ""
 
-#: ../gtk/tool_selector.ui.h:6
+#: ../gtk/tool_selector.ui.h:5
 msgid ""
 "This will restore the system to the factory shipped state using the recovery "
 "partition stored on the hard drive."
 msgstr ""
 
+#: ../gtk/tool_selector.ui.h:6
+msgid "Build OS Media"
+msgstr ""
+
 #: ../gtk/tool_selector.ui.h:7
-msgid "_Help"
+msgid "Restore System"
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:8
+msgid ""
+"This will install a Dell driver package that you downloaded from the "
+"Internet."
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:9
+#, fuzzy
+msgid "Install Drivers"
+msgstr "Instalar git"
+
+#: ../gtk/tool_selector.ui.h:10
+msgid "This will flash a DOS based BIOS image."
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:11
+msgid "Flash BIOS"
 msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
-msgid "<b>ERROR:</b> This media is only valid on Dell systems."
-msgstr "<b>ERRO:</b> Este soporte só é válido en sistemas Dell."
+msgid ""
+"Dell Recovery Media can be used to restore your system to the same state as "
+"when it was first shipped to you."
+msgstr ""
+"O soporte de recuperación de Dell pode usarse para restaurar o seu sistema "
+"ao mesmo estado que cando o comprou."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
@@ -527,29 +570,29 @@ msgstr ""
 "<b>É moi recomendábel que xere un soporte e o almacene nun lugar seguro.</b>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid "Save recovery media to an external USB flash drive"
+msgstr "Gardar o soporte de recuperación nunha unidade flash USB externa"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 "<b>Nota:</b> Isto require una unidade USB flash con aproximadamente 2GB "
 "libres."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
+msgid "Save recovery media to DVD"
+msgstr "Gardar o soporte de recuperación nun DVD"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>Nota:</b> Isto require un disco DVD grabable."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:5
-msgid ""
-"Dell Recovery Media can be used to restore your system to the same state as "
-"when it was first shipped to you."
-msgstr ""
-"O soporte de recuperación de Dell pode usarse para restaurar o seu sistema "
-"ao mesmo estado que cando o comprou."
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
 msgstr "Non xerar o soporte de recuperación neste momento"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -557,17 +600,13 @@ msgstr ""
 "Pode xerar o soporte de recuperación máis tarde seleccionando a ferramenta "
 "no menú Sistema."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
-msgid "Restore #OS# to factory state"
-msgstr ""
-
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
-msgid "Save recovery media to DVD"
-msgstr "Gardar o soporte de recuperación nun DVD"
+msgid "<b>ERROR:</b> This media is only valid on Dell systems."
+msgstr "<b>ERRO:</b> Este soporte só é válido en sistemas Dell."
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:10
-msgid "Save recovery media to an external USB flash drive"
-msgstr "Gardar o soporte de recuperación nunha unidade flash USB externa"
+msgid "Restore #OS# to factory state"
+msgstr ""
 
 #~ msgid "Choose Media Type"
 #~ msgstr "Seleccione o tipo de soporte"
@@ -587,9 +626,6 @@ msgstr "Gardar o soporte de recuperación nunha unidade flash USB externa"
 #~ msgid "GIT Tags/Branches:"
 #~ msgstr "Etiquetas/ramas de GIT:"
 
-#~ msgid "Install git"
-#~ msgstr "Instalar git"
-
 #~ msgid "Show Details"
 #~ msgstr "Mostrar os detalles"
 
@@ -603,17 +639,11 @@ msgstr "Gardar o soporte de recuperación nunha unidade flash USB externa"
 #~ "<b>NOTA:</b> Teña paciencia, o procexo iniciar de obtención pode levar un "
 #~ "anaco."
 
-#~ msgid "Choose Driver Packages"
-#~ msgstr "Seleccione os paquetes de controladores"
-
 #~ msgid "python-vte is missing"
 #~ msgstr "falta python-vte"
 
 #~ msgid "Builder mode requires python-vte to function"
 #~ msgstr "O modo Builder require python-vte para funcionar"
-
-#~ msgid "Choose Utility Partition"
-#~ msgstr "Seleccione a partición de utilidade"
 
 #~ msgid "Choose Application Packages"
 #~ msgstr "Seleccione os paquetes de aplicativos"

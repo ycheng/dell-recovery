@@ -7,35 +7,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-09 17:16-0500\n"
+"POT-Creation-Date: 2013-02-28 17:46-0600\n"
 "PO-Revision-Date: 2011-01-20 02:20+0000\n"
 "Last-Translator: Li Jin <lijin@lijinit.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-09-11 04:47+0000\n"
 "X-Generator: Launchpad (build 13900)\n"
 
-#: ../Dell/recovery_gtk.py:92
+#: ../Dell/recovery_gtk.py:109
 msgid "Cannot connect to dbus"
 msgstr "无法连接到 dbus"
 
-#: ../Dell/recovery_gtk.py:94
+#: ../Dell/recovery_gtk.py:111
 msgid "Permission Denied"
 msgstr "权限不足"
 
-#: ../Dell/recovery_gtk.py:101
+#: ../Dell/recovery_gtk.py:118
 msgid "Exception"
 msgstr "异常报错"
 
-#: ../Dell/recovery_gtk.py:149 ../gtk/dell-recovery-media.desktop.in.h:1
+#: ../Dell/recovery_gtk.py:198 ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/tool_selector.ui.h:2
 msgid "Dell Recovery"
 msgstr "戴尔系统恢复"
 
-#: ../Dell/recovery_gtk.py:150
-msgid "Copyright 2008-2010 Dell Inc."
+#: ../Dell/recovery_gtk.py:199
+msgid "Copyright 2008-2012 Dell Inc."
 msgstr ""
 
 #: ../Dell/recovery_basic_gtk.py:58
@@ -99,7 +100,9 @@ msgid ""
 "This will integrate a Dell OEM FID framework & driver package set into a "
 "customized OS media image.  You will have the option to create an USB key or "
 "DVD image."
-msgstr "将会合并戴尔OEM安装包和驱动程序到操作系统镜像中。可以选择以此建立USB存储盘或DVD光盘。"
+msgstr ""
+"将会合并戴尔OEM安装包和驱动程序到操作系统镜像中。可以选择以此建立USB存储盘或"
+"DVD光盘。"
 
 #. insert builder pages in reverse order
 #: ../Dell/recovery_advanced_gtk.py:92
@@ -199,129 +202,183 @@ msgstr ""
 msgid "FAIL Script: "
 msgstr ""
 
-#: ../Dell/recovery_backend.py:313
+#: ../Dell/recovery_backend.py:319
 msgid "Processing FISH packages"
 msgstr "处理工厂预安装包"
 
-#: ../Dell/recovery_backend.py:440
+#: ../Dell/recovery_backend.py:449
 msgid "Adding in base image"
 msgstr "添加到原始镜像"
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:1058
 msgid "Preparing nested image"
 msgstr "准备内建的镜像"
 
-#: ../Dell/recovery_backend.py:873
+#: ../Dell/recovery_backend.py:1082
 msgid "Building Dell Utility Partition"
 msgstr "建立 Dell 工具分区"
 
-#: ../Dell/recovery_backend.py:937
+#: ../Dell/recovery_backend.py:1146
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "重新生成 UUID / 重新构建 initramfs"
 
-#: ../Dell/recovery_backend.py:966
+#: ../Dell/recovery_backend.py:1175
 msgid "Building GRUB core image"
 msgstr "建立GRUB核心镜像"
 
-#: ../Dell/recovery_backend.py:1033
+#: ../Dell/recovery_backend.py:1282
 msgid "Building OIE Archive"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1068
+#: ../Dell/recovery_backend.py:1317
 msgid "Building ISO"
 msgstr "制作 ISO 光盘镜像"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
-msgid "Create/Assemble Dell Recovery ISO"
-msgstr "创建/集成 Dell 系统恢复 ISO"
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
 msgstr "查询 BTO 版本"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:2
+msgid "System policy prevents reading raw devices"
+msgstr "系统策略阻止读取 raw 设备"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:3
 msgid "Query ISO Information"
 msgstr "查询 ISO 信息"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
-msgid "Request closing the backend"
-msgstr "请求关闭后台"
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "Restore to Factory state"
 msgstr "恢复到出厂状态"
 
-#: ../backend/com.dell.recoverymedia.policy.in.h:6
+#: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "System policy prevents changing system bootup"
 msgstr "系统策略阻止改变系统启动项"
 
+#: ../backend/com.dell.recoverymedia.policy.in.h:6
+#, fuzzy
+msgid "Boot utility partition to flash BIOS"
+msgstr "选择工具分区"
+
 #: ../backend/com.dell.recoverymedia.policy.in.h:7
-msgid "System policy prevents closing processes without notice"
-msgstr "系统策略不允许不经提示即结束进程。"
+#, fuzzy
+msgid "Install Dell driver packages"
+msgstr "加入戴尔恢复系统包"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:8
-msgid "System policy prevents reading raw devices"
+#, fuzzy
+msgid "System policy prevents installing packages."
 msgstr "系统策略阻止读取 raw 设备"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:9
-msgid "System policy prohibits changing network without user consent"
-msgstr ""
+msgid "Create/Assemble Dell Recovery ISO"
+msgstr "创建/集成 Dell 系统恢复 ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:10
+msgid "Request closing the backend"
+msgstr "请求关闭后台"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:11
+msgid "System policy prevents closing processes without notice"
+msgstr "系统策略不允许不经提示即结束进程。"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:12
 msgid "Toggle Network Connectivity"
 msgstr ""
 
+#: ../backend/com.dell.recoverymedia.policy.in.h:13
+msgid "System policy prohibits changing network without user consent"
+msgstr ""
+
+#: ../gtk/dell-driver-installer.desktop.in.h:1
+msgid "Dell Driver Installer"
+msgstr ""
+
 #: ../gtk/recovery_media_creator.ui.h:1
-msgid "<activity placeholder>"
-msgstr "<启动标识符>"
+msgid "Cancel Recovery Media Creator"
+msgstr "中止恢复介质创建程序"
 
 #: ../gtk/recovery_media_creator.ui.h:2
-msgid ""
-"An existing image was found (possibly from a previous run).  Would you like "
-"to remove this old copy and regenerate the image?"
-msgstr "发现已经存在的镜像(可能是上次运行产生的)。是否删除旧的镜像，并重新生成新镜像？"
-
-#: ../gtk/recovery_media_creator.ui.h:3
 msgid "Are you sure you want to cancel the Recovery Media creation process?"
 msgstr "确定要中止创建恢复光盘吗？"
 
+#: ../gtk/recovery_media_creator.ui.h:3
+msgid "Version:"
+msgstr "版本："
+
 #: ../gtk/recovery_media_creator.ui.h:4
-msgid "Cancel Recovery Media Creator"
-msgstr "中止恢复介质创建程序"
+msgid ""
+"An existing image was found (possibly from a previous run).  Would you like "
+"to remove this old copy and regenerate the image?"
+msgstr ""
+"发现已经存在的镜像(可能是上次运行产生的)。是否删除旧的镜像，并重新生成新镜"
+"像？"
 
 #: ../gtk/recovery_media_creator.ui.h:5
 msgid "DVD+/-RW Disc"
 msgstr "DVD+/-RW 光盘"
 
-#: ../gtk/recovery_media_creator.ui.h:6 ../gtk/tool_selector.ui.h:3
-msgid "Dell Recovery Media Creator"
-msgstr "Dell 恢复光盘创建程序"
+#: ../gtk/recovery_media_creator.ui.h:6
+msgid "This requires writable DVD media."
+msgstr "需要可写入的 DVD 光盘。"
 
 #: ../gtk/recovery_media_creator.ui.h:7
-msgid "No media, create image"
-msgstr ""
+msgid "USB Flash Drive"
+msgstr "USB 闪存驱动器"
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid "This requires a USB flash drive with approximately 2GB free."
 msgstr "需要有至少 2GB 空间的 USB 闪存驱动器。"
 
 #: ../gtk/recovery_media_creator.ui.h:9
-msgid "This requires writable DVD media."
-msgstr "需要可写入的 DVD 光盘。"
-
-#: ../gtk/recovery_media_creator.ui.h:10
-msgid "USB Flash Drive"
-msgstr "USB 闪存驱动器"
-
-#: ../gtk/recovery_media_creator.ui.h:11
-msgid "Version:"
-msgstr "版本："
-
-#: ../gtk/builder.ui.h:1
-msgid "\n"
+msgid "No media, create image"
 msgstr ""
 
+#: ../gtk/recovery_media_creator.ui.h:10 ../gtk/tool_selector.ui.h:1
+msgid "Dell Recovery Media Creator"
+msgstr "Dell 恢复光盘创建程序"
+
+#: ../gtk/recovery_media_creator.ui.h:11
+msgid "<activity placeholder>"
+msgstr "<启动标识符>"
+
+#: ../gtk/builder.ui.h:1
+msgid ""
+"During Factory Installation, applications are only installed if the order "
+"record (SDR) refers to the service release vehicle (SRV).  This populates "
+"the possible SRVs to be queried during installation."
+msgstr ""
+"在工厂安装中，所有要安装的应用程序会根据 SDR 中的 SRV 来安装。 所有可能的 "
+"SRV 都要放入其中，在安装中会被查寻 。"
+
+#: ../gtk/builder.ui.h:2
+msgid ""
+"The Base OS image provides the majority of the content for a BTO image.  It "
+"can be a Vanilla OS image, or existing BTO Image."
+msgstr ""
+"原始 OS 镜像为 BTO 镜像提供了主要内容。它可能是 Vanilla OS 镜像，或一个已经存"
+"在的 BTO 镜像。"
+
 #: ../gtk/builder.ui.h:3
+msgid "ISO Image"
+msgstr "ISO 镜像"
+
+#: ../gtk/builder.ui.h:4
+msgid "Extracted Directory"
+msgstr "已展开的目录"
+
+#: ../gtk/builder.ui.h:5
+msgid "Detected Recovery Partition"
+msgstr "已检出的恢复分区"
+
+#: ../gtk/builder.ui.h:6
+msgid "Choose Image"
+msgstr "选择镜像"
+
+#: ../gtk/builder.ui.h:7
+msgid "Selected Image Details:"
+msgstr "选中的镜像的详情："
+
+#: ../gtk/builder.ui.h:8
 msgid ""
 "\n"
 "\n"
@@ -329,180 +386,176 @@ msgstr ""
 "\n"
 "\n"
 
-#: ../gtk/builder.ui.h:6
+#: ../gtk/builder.ui.h:11
 msgid "Add Dell Recovery"
 msgstr "添加 Dell Recovery"
 
-#: ../gtk/builder.ui.h:7
+#: ../gtk/builder.ui.h:12
+msgid ""
+"Part of the FID overlay requires a dell-recovery package to be included."
+msgstr "某些FID overlay需要包含戴尔恢复包。"
+
+#: ../gtk/builder.ui.h:13
+msgid "Browse for a dell-recovery package"
+msgstr "浏览 dell-recovery 软件包"
+
+#: ../gtk/builder.ui.h:14
+msgid "Choose package"
+msgstr "选择软件包"
+
+#: ../gtk/builder.ui.h:15
+msgid "Build dell-recovery package from this system"
+msgstr "从此系统创建 dell-recovery 软件包"
+
+#: ../gtk/builder.ui.h:16
+msgid "Install dpkg-repack"
+msgstr "安装 dpkg-repack"
+
+#: ../gtk/builder.ui.h:17
 msgid ""
 "Any add-on drivers or applications that need to be integrated into the image "
 "can be added here."
 msgstr "要将额外附加的驱动或应用集成到镜像里，请在这里添加。"
 
-#: ../gtk/builder.ui.h:8
-msgid ""
-"BTO images can optionally include a Utility Partition for diagnostic "
-"utilities."
-msgstr "BTO 镜像可以包括或不包括带有诊断工具的 Utility 分区。"
-
-#: ../gtk/builder.ui.h:9
-msgid "Browse for a dell-recovery package"
-msgstr "浏览 dell-recovery 软件包"
-
-#: ../gtk/builder.ui.h:10
-msgid "Build dell-recovery package from this system"
-msgstr "从此系统创建 dell-recovery 软件包"
-
-#: ../gtk/builder.ui.h:11
-msgid "Choose Content"
-msgstr "选择内容"
-
-#: ../gtk/builder.ui.h:12
-msgid "Choose Image"
-msgstr "选择镜像"
-
-#: ../gtk/builder.ui.h:13
-msgid "Choose package"
-msgstr "选择软件包"
-
-#: ../gtk/builder.ui.h:14
-msgid "Detected Recovery Partition"
-msgstr "已检出的恢复分区"
-
-#: ../gtk/builder.ui.h:15
-msgid "Detected Utility Partition"
-msgstr "已检出的工具分区"
-
-#: ../gtk/builder.ui.h:16
-msgid ""
-"During Factory Installation, applications are only installed if the order "
-"record (SDR) refers to the service release vehicle (SRV).  This populates "
-"the possible SRVs to be queried during installation."
-msgstr "在工厂安装中，所有要安装的应用程序会根据 SDR 中的 SRV 来安装。 所有可能的 SRV 都要放入其中，在安装中会被查寻 。"
-
-#: ../gtk/builder.ui.h:17
-msgid "Extracted Directory"
-msgstr "已展开的目录"
-
 #: ../gtk/builder.ui.h:18
-msgid "FID Framework enclosed in debian package"
-msgstr "工厂安装构架封装入Debian包"
+msgid ""
+"The BTO FID framework is the first thing injected into a base vanilla "
+"image.  If you are generating from an existing BTO compatible image, you may "
+"use the built-in framework."
+msgstr ""
+"工厂安装构架应首先放入基准系统中。如果使用已兼容工厂安装的镜像，可以使用镜像"
+"内已有的构架。"
 
 #: ../gtk/builder.ui.h:19
 msgid "FID framework built into BTO image"
 msgstr "FID 框架建立 BTO 镜像"
 
 #: ../gtk/builder.ui.h:20
-msgid "ISO Image"
-msgstr "ISO 镜像"
+msgid "FID Framework enclosed in debian package"
+msgstr "工厂安装构架封装入Debian包"
 
 #: ../gtk/builder.ui.h:21
-msgid "Install dpkg-repack"
-msgstr "安装 dpkg-repack"
+msgid "Selected Overlay Details:"
+msgstr "选中的覆盖详情："
 
 #: ../gtk/builder.ui.h:22
-msgid "No additional Utility Partition"
-msgstr "无附加工具分区"
-
-#: ../gtk/builder.ui.h:23
 msgid ""
 "OIE compliant images can only be installed from ODM factory environments.  "
 "They will notify the user at completion of a success or failure."
 msgstr ""
 
+#: ../gtk/builder.ui.h:23
+msgid "Produce a standard installation image."
+msgstr ""
+
 #: ../gtk/builder.ui.h:24
+msgid "Produce an OIE compliant installation image."
+msgstr ""
+
+#: ../gtk/builder.ui.h:25
 msgid ""
 "OIE mode also allows you to provide additional SUCCESS and FAIL scripts to "
 "be ran prior to notification the image is complete.  These can each be any "
 "executable program or script."
 msgstr ""
 
-#: ../gtk/builder.ui.h:25
-msgid ""
-"Part of the FID overlay requires a dell-recovery package to be included."
-msgstr "某些FID overlay需要包含戴尔恢复包。"
-
 #: ../gtk/builder.ui.h:26
-msgid "Please enter the SRV to use:"
-msgstr "请输入要使用的 SRV ："
-
-#: ../gtk/builder.ui.h:27
-msgid "Produce a standard installation image."
-msgstr ""
-
-#: ../gtk/builder.ui.h:28
-msgid "Produce an OIE compliant installation image."
-msgstr ""
-
-#: ../gtk/builder.ui.h:29
-msgid "SRV Entry"
-msgstr "SRV 条目"
-
-#: ../gtk/builder.ui.h:30
-msgid "Select content for Utility Partition"
-msgstr "选择工具分区内容"
-
-#: ../gtk/builder.ui.h:31
-msgid "Selected Content Details:"
-msgstr "已选择的内容详情："
-
-#: ../gtk/builder.ui.h:32
-msgid "Selected Image Details:"
-msgstr "选中的镜像的详情："
-
-#: ../gtk/builder.ui.h:33
-msgid "Selected Overlay Details:"
-msgstr "选中的覆盖详情："
-
-#: ../gtk/builder.ui.h:34
-msgid "Set FAIL script"
-msgstr ""
-
-#: ../gtk/builder.ui.h:35
 msgid "Set SUCCESS script"
 msgstr ""
 
-#: ../gtk/builder.ui.h:36
+#: ../gtk/builder.ui.h:27
+msgid "Set FAIL script"
+msgstr ""
+
+#: ../gtk/builder.ui.h:28
+msgid "\n"
+msgstr ""
+
+#: ../gtk/builder.ui.h:30
+msgid "SRV Entry"
+msgstr "SRV 条目"
+
+#: ../gtk/builder.ui.h:31
+msgid "Please enter the SRV to use:"
+msgstr "请输入要使用的 SRV ："
+
+#: ../gtk/builder.ui.h:32
 msgid ""
-"The BTO FID framework is the first thing injected into a base vanilla image. "
-" If you are generating from an existing BTO compatible image, you may use "
-"the built-in framework."
-msgstr "工厂安装构架应首先放入基准系统中。如果使用已兼容工厂安装的镜像，可以使用镜像内已有的构架。"
+"BTO images can optionally include a Utility Partition for diagnostic "
+"utilities."
+msgstr "BTO 镜像可以包括或不包括带有诊断工具的 Utility 分区。"
+
+#: ../gtk/builder.ui.h:33
+msgid "No additional Utility Partition"
+msgstr "无附加工具分区"
+
+#: ../gtk/builder.ui.h:34
+msgid "Select content for Utility Partition"
+msgstr "选择工具分区内容"
+
+#: ../gtk/builder.ui.h:35
+msgid "Detected Utility Partition"
+msgstr "已检出的工具分区"
+
+#: ../gtk/builder.ui.h:36
+msgid "Choose Content"
+msgstr "选择内容"
 
 #: ../gtk/builder.ui.h:37
-msgid ""
-"The Base OS image provides the majority of the content for a BTO image.  It "
-"can be a Vanilla OS image, or existing BTO Image."
-msgstr "原始 OS 镜像为 BTO 镜像提供了主要内容。它可能是 Vanilla OS 镜像，或一个已经存在的 BTO 镜像。"
+msgid "Selected Content Details:"
+msgstr "已选择的内容详情："
 
-#: ../gtk/tool_selector.ui.h:1
-msgid "Build OS Media"
-msgstr "建立操作系统光盘"
+#: ../gtk/tool_selector.ui.h:3
+msgid "_Help"
+msgstr "帮助(_H)"
 
 #: ../gtk/tool_selector.ui.h:4
-msgid "Restore System"
-msgstr "恢复系统"
-
-#: ../gtk/tool_selector.ui.h:5
 msgid ""
 "This will create OS Recovery Media that can be used to restore the computer "
 "to its factory shipped state.  You will have the option to create an USB key "
 "or DVD image."
-msgstr "生成操作系统恢复镜像来恢复计算机至出厂状态。可以选择以此建立USB存储盘或DVD光盘。"
+msgstr ""
+"生成操作系统恢复镜像来恢复计算机至出厂状态。可以选择以此建立USB存储盘或DVD光"
+"盘。"
 
-#: ../gtk/tool_selector.ui.h:6
+#: ../gtk/tool_selector.ui.h:5
 msgid ""
 "This will restore the system to the factory shipped state using the recovery "
 "partition stored on the hard drive."
 msgstr "从硬盘上的恢复分区中把系统恢复至出厂状态。"
 
+#: ../gtk/tool_selector.ui.h:6
+msgid "Build OS Media"
+msgstr "建立操作系统光盘"
+
 #: ../gtk/tool_selector.ui.h:7
-msgid "_Help"
-msgstr "帮助(_H)"
+msgid "Restore System"
+msgstr "恢复系统"
+
+#: ../gtk/tool_selector.ui.h:8
+msgid ""
+"This will install a Dell driver package that you downloaded from the "
+"Internet."
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:9
+#, fuzzy
+msgid "Install Drivers"
+msgstr "安装 git"
+
+#: ../gtk/tool_selector.ui.h:10
+msgid "This will flash a DOS based BIOS image."
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:11
+msgid "Flash BIOS"
+msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
-msgid "<b>ERROR:</b> This media is only valid on Dell systems."
-msgstr "<b>错误：</b>本介质只适合 Dell 电脑使用。"
+msgid ""
+"Dell Recovery Media can be used to restore your system to the same state as "
+"when it was first shipped to you."
+msgstr "Dell 还原盘可以把您的电脑恢复到出厂系统。"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:2
 msgid ""
@@ -511,41 +564,39 @@ msgid ""
 msgstr "<b>强烈建议创建还原镜像并保存在安全的地方。</b>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid "Save recovery media to an external USB flash drive"
+msgstr "将恢复介质保存为外接的 USB 闪存盘"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr "<b>提示：</b>这要求 USB 闪存盘至少有 2GB 的可用空间。"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
+msgid "Save recovery media to DVD"
+msgstr "将恢复介质保存为 DVD"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>提示：</b>这需要可写的 DVD 盘片。"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:5
-msgid ""
-"Dell Recovery Media can be used to restore your system to the same state as "
-"when it was first shipped to you."
-msgstr "Dell 还原盘可以把您的电脑恢复到出厂系统。"
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Don't generate recovery media at this time"
 msgstr "这次不生成恢复盘"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr "可以在“系统”菜单里选择“工具”，稍后再生成恢复盘。"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
-msgid "Restore #OS# to factory state"
-msgstr ""
-
 #: ../ubiquity/stepRecoveryMedia.ui.h:9
-msgid "Save recovery media to DVD"
-msgstr "将恢复介质保存为 DVD"
+msgid "<b>ERROR:</b> This media is only valid on Dell systems."
+msgstr "<b>错误：</b>本介质只适合 Dell 电脑使用。"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:10
-msgid "Save recovery media to an external USB flash drive"
-msgstr "将恢复介质保存为外接的 USB 闪存盘"
+msgid "Restore #OS# to factory state"
+msgstr ""
 
 #~ msgid "No media, create ISO image"
 #~ msgstr "没有刻录光盘，只创建 ISO 镜像文件"
@@ -555,9 +606,6 @@ msgstr "将恢复介质保存为外接的 USB 闪存盘"
 
 #~ msgid "GIT Tree Status"
 #~ msgstr "GIT 树状态"
-
-#~ msgid "Install git"
-#~ msgstr "安装 git"
 
 #~ msgid "Fetch/Update GIT Tree"
 #~ msgstr "获取/更新 GIT 树"
@@ -606,9 +654,6 @@ msgstr "将恢复介质保存为外接的 USB 闪存盘"
 
 #~ msgid "Choose Driver Packages"
 #~ msgstr "选择驱动程序软件包"
-
-#~ msgid "Choose Utility Partition"
-#~ msgstr "选择工具分区"
 
 #~ msgid "Choose Application Packages"
 #~ msgstr "选择应用程序软件包"
