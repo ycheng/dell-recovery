@@ -9,7 +9,11 @@ case "$1" in
     if [ -d /dev/disk/by-label ]; then
         up=$(find /dev/disk/by-label/ -iname dellutility)
     fi
-    if [ ! -f /etc/grub.d/98_dell_bios ] && [ -n "$up" ] && [ ! -d /sys/firmware/efi ]; then
+    #in install mode we might be running in a chroot
+    casper=$(grep "boot=casper" /proc/cmdline)
+    if [ ! -f /etc/grub.d/98_dell_bios ] &&
+       [ -n "$up" ] && [ -z "$casper" ] &&
+       [ ! -d /sys/firmware/efi ]; then
         upgrade_script=$(tempfile)
         cat > $upgrade_script << EOF
 #!/usr/bin/python
