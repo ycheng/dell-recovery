@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 17:46-0600\n"
+"POT-Creation-Date: 2013-03-01 14:47-0600\n"
 "PO-Revision-Date: 2011-10-07 11:12+0000\n"
 "Last-Translator: Timo Jyrinki <timo.jyrinki@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -594,29 +594,37 @@ msgstr ""
 "turvalliseen paikkaan.</b>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid "Restore #OS# to factory state"
+msgstr "Palauta #OS# tehdastilaan"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
+msgid "Flash BIOS image from DOS"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Tallenna palautusmedia ulkoiselle USB-muistivälineelle"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 "<b>Huomaa:</b> Tämä vaatii USB-muistivälineen, jolla on noin 2GB vapaata "
 "tilaa."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:5
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Save recovery media to DVD"
 msgstr "Tallenna palautusmedia DVD-levylle"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>Huomaa:</b> Tämä vaatii kirjoitettavan DVD-levyn"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Don't generate recovery media at this time"
 msgstr "Älä luo palautusmediaa tällä kertaa"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -624,13 +632,9 @@ msgstr ""
 "Palautusmedian voi luoda myöhemmin valitsemalla työkalun Järjestelmä-"
 "valikosta."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:11
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
 msgstr "<b>VIRHE:</b> Tämä media on tarkoitettu vain Dell-järjestelmille."
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:10
-msgid "Restore #OS# to factory state"
-msgstr "Palauta #OS# tehdastilaan"
 
 #~ msgid "Choose Media Type"
 #~ msgstr "Valitse median tyyppi"

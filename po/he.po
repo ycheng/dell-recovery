@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 17:46-0600\n"
+"POT-Creation-Date: 2013-03-01 14:47-0600\n"
 "PO-Revision-Date: 2010-04-21 10:39+0000\n"
 "Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
@@ -546,38 +546,42 @@ msgid ""
 msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
-msgid "Save recovery media to an external USB flash drive"
+msgid "Restore #OS# to factory state"
 msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:4
+msgid "Flash BIOS image from DOS"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
+msgid "Save recovery media to an external USB flash drive"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:5
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Save recovery media to DVD"
 msgstr ""
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr ""
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Don't generate recovery media at this time"
 msgstr ""
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr ""
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:11
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
-msgstr ""
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:10
-msgid "Restore #OS# to factory state"
 msgstr ""
 
 #~ msgid "Choose Media Type"

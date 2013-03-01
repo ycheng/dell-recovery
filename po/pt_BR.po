@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 17:46-0600\n"
+"POT-Creation-Date: 2013-03-01 14:47-0600\n"
 "PO-Revision-Date: 2011-10-15 01:02+0000\n"
 "Last-Translator: André Gondim <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -569,29 +569,37 @@ msgstr ""
 "</b>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid "Restore #OS# to factory state"
+msgstr "Restaurar #OS# para o estado de fábrica"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
+msgid "Flash BIOS image from DOS"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Salvar mídia de recuperação na unidade flash USB"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 "<b>Nota:</b> Isso requer uma unidade flash USB com aproximadamente 2 GB de "
 "espaço livre."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:5
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Save recovery media to DVD"
 msgstr "Salvar mídia de recuperação no DVD"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>Nota:</b> Isso requer mídia de DVD gravável."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Don't generate recovery media at this time"
 msgstr "Não criar mídia de recuperação neste momento"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -599,13 +607,9 @@ msgstr ""
 "A mídia de recuperação poderá ser criada depois, escolhendo esta ferramenta "
 "a partir do menu Sistema."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:11
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
 msgstr "<b>ERRO:</b> Esta mídia é válida somente em sistemas Dell."
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:10
-msgid "Restore #OS# to factory state"
-msgstr "Restaurar #OS# para o estado de fábrica"
 
 #~ msgid "Choose Media Type"
 #~ msgstr "Escolher o tipo de mídia"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 17:46-0600\n"
+"POT-Creation-Date: 2013-03-01 14:47-0600\n"
 "PO-Revision-Date: 2011-02-26 20:56+0000\n"
 "Last-Translator: Rachid <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -572,27 +572,35 @@ msgstr ""
 "plaats bewaart.</b>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid "Restore #OS# to factory state"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
+msgid "Flash BIOS image from DOS"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Herstelmedia opslaan op een extern usb-station"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr "<b>Opmerking:</b> Dit vereist een USB-stick met ongeveer 2 GB vrij."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:5
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Save recovery media to DVD"
 msgstr "Herstelmedia opslaan op dvd"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>Opmerking:</b> Dit vereist een beschrijfbare DVD-schijf."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Don't generate recovery media at this time"
 msgstr "Op dit ogenblik herstelmedia niet genereren"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -600,13 +608,9 @@ msgstr ""
 "Herstelmedia kan later worden gegenereerd door het hulpmiddel te kiezen uit "
 "het menu Systeem."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:11
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
 msgstr "<b>FOUT:</b> Dit medium is alleen geldig op Dell-systemen."
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:10
-msgid "Restore #OS# to factory state"
-msgstr ""
 
 #~ msgid "No media, create ISO image"
 #~ msgstr "Geen media, maak ISO-beeldbestand aan"

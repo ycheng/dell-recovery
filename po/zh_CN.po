@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 17:46-0600\n"
+"POT-Creation-Date: 2013-03-01 14:47-0600\n"
 "PO-Revision-Date: 2011-01-20 02:20+0000\n"
 "Last-Translator: Li Jin <lijin@lijinit.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
@@ -564,39 +564,43 @@ msgid ""
 msgstr "<b>强烈建议创建还原镜像并保存在安全的地方。</b>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid "Restore #OS# to factory state"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
+msgid "Flash BIOS image from DOS"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid "Save recovery media to an external USB flash drive"
 msgstr "将恢复介质保存为外接的 USB 闪存盘"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr "<b>提示：</b>这要求 USB 闪存盘至少有 2GB 的可用空间。"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:5
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Save recovery media to DVD"
 msgstr "将恢复介质保存为 DVD"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>提示：</b>这需要可写的 DVD 盘片。"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Don't generate recovery media at this time"
 msgstr "这次不生成恢复盘"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
 msgstr "可以在“系统”菜单里选择“工具”，稍后再生成恢复盘。"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:11
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
 msgstr "<b>错误：</b>本介质只适合 Dell 电脑使用。"
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:10
-msgid "Restore #OS# to factory state"
-msgstr ""
 
 #~ msgid "No media, create ISO image"
 #~ msgstr "没有刻录光盘，只创建 ISO 镜像文件"

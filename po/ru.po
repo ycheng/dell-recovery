@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-28 17:46-0600\n"
+"POT-Creation-Date: 2013-03-01 14:47-0600\n"
 "PO-Revision-Date: 2011-05-06 18:05+0000\n"
 "Last-Translator: stmc <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -589,29 +589,37 @@ msgstr ""
 "месте.</b>"
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid "Restore #OS# to factory state"
+msgstr "Восстановить #OS# в первоначальное состояние"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
+msgid "Flash BIOS image from DOS"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid "Save recovery media to an external USB flash drive"
 msgstr "Сохранить диск восстановления на USB накопитель"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:4
+#: ../ubiquity/stepRecoveryMedia.ui.h:6
 msgid ""
 "<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
 msgstr ""
 "<b>Примечание:</b> Это действие потребует USB диск с не менее 2 Гб "
 "свободного места."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:5
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
 msgid "Save recovery media to DVD"
 msgstr "Сохранить диск восстановления на DVD"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:6
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
 msgid "<b>Note:</b> This requires writable DVD media."
 msgstr "<b>Примечание:</b> Это действие потребует записываемый DVD диск."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Don't generate recovery media at this time"
 msgstr "Не создавать диск восстановления сейчас"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -620,14 +628,10 @@ msgstr ""
 "\"Система\" - \"Администрирование\" - \"Создание дисков восстановления Dell"
 "\"."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
+#: ../ubiquity/stepRecoveryMedia.ui.h:11
 msgid "<b>ERROR:</b> This media is only valid on Dell systems."
 msgstr ""
 "<b>  ОШИБКА: </ B> Этот образ (диск) совместим только с системами Dell."
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:10
-msgid "Restore #OS# to factory state"
-msgstr "Восстановить #OS# в первоначальное состояние"
 
 #~ msgid "Choose Media Type"
 #~ msgstr "Выберите тип носителя"
