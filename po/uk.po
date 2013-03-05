@@ -6,36 +6,38 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dell-recovery\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-09-09 17:16-0500\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-05 15:27-0600\n"
 "PO-Revision-Date: 2011-02-17 19:39+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <translation@linux.org.ua>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-09-11 04:46+0000\n"
 "X-Generator: Launchpad (build 13900)\n"
 
-#: ../Dell/recovery_gtk.py:92
+#: ../Dell/recovery_gtk.py:108
 msgid "Cannot connect to dbus"
 msgstr "Не вдалося встановити зв’язок з D-Bus"
 
-#: ../Dell/recovery_gtk.py:94
+#: ../Dell/recovery_gtk.py:110
 msgid "Permission Denied"
 msgstr "Відмовлено у доступі"
 
-#: ../Dell/recovery_gtk.py:101
+#: ../Dell/recovery_gtk.py:117
 msgid "Exception"
 msgstr "Виключення"
 
-#: ../Dell/recovery_gtk.py:149 ../gtk/dell-recovery-media.desktop.in.h:1
+#: ../Dell/recovery_gtk.py:197 ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/tool_selector.ui.h:2
 msgid "Dell Recovery"
 msgstr "Dell Recovery"
 
-#: ../Dell/recovery_gtk.py:150
-msgid "Copyright 2008-2010 Dell Inc."
+#: ../Dell/recovery_gtk.py:198
+#, fuzzy
+msgid "Copyright 2008-2012 Dell Inc."
 msgstr "© Dell Inc., 2008–2010"
 
 #: ../Dell/recovery_basic_gtk.py:58
@@ -50,15 +52,15 @@ msgstr ""
 msgid "Building Base image"
 msgstr "Побудова основного образу"
 
-#: ../Dell/recovery_basic_gtk.py:182
+#: ../Dell/recovery_basic_gtk.py:181
 msgid "Opening Burner"
 msgstr "Відкриття програми запису"
 
-#: ../Dell/recovery_basic_gtk.py:207
+#: ../Dell/recovery_basic_gtk.py:206
 msgid "Recovery Media Creation Process Complete"
 msgstr "Процес створення носія для відновлення завершено"
 
-#: ../Dell/recovery_basic_gtk.py:208
+#: ../Dell/recovery_basic_gtk.py:207
 msgid ""
 "If you would like to archive another copy, the generated image has been "
 "stored under the filename:\n"
@@ -66,38 +68,38 @@ msgstr ""
 "Якщо ви бажаєте створити архів з ще однією копією, створений образ було "
 "збережено до файла з назвою:\n"
 
-#: ../Dell/recovery_basic_gtk.py:222
+#: ../Dell/recovery_basic_gtk.py:221
 msgid "Unable to proceed"
 msgstr "Не можна виконати дію"
 
-#: ../Dell/recovery_basic_gtk.py:223
+#: ../Dell/recovery_basic_gtk.py:222
 msgid ""
 "System does not appear to contain Dell factory installed partition layout."
 msgstr ""
 "У системі не міститься встановленого розділу з початковими даними Dell."
 
-#: ../Dell/recovery_basic_gtk.py:334
+#: ../Dell/recovery_basic_gtk.py:333
 msgid "Image File"
 msgstr "Файл образу"
 
-#: ../Dell/recovery_basic_gtk.py:336
+#: ../Dell/recovery_basic_gtk.py:335
 msgid "Media Type: "
 msgstr "Тип носія: "
 
-#: ../Dell/recovery_basic_gtk.py:339 ../Dell/recovery_basic_gtk.py:342
+#: ../Dell/recovery_basic_gtk.py:338 ../Dell/recovery_basic_gtk.py:341
 msgid "Recovery Partition: "
 msgstr "Розділ для відновлення: "
 
-#: ../Dell/recovery_basic_gtk.py:343
+#: ../Dell/recovery_basic_gtk.py:342
 msgid "Included"
 msgstr "Включено"
 
 #. wizard.resize(400,400)
-#: ../Dell/recovery_advanced_gtk.py:71
+#: ../Dell/recovery_advanced_gtk.py:68
 msgid " (BTO Image Builder Mode)"
 msgstr " (Режим збирання образу BTO)"
 
-#: ../Dell/recovery_advanced_gtk.py:73
+#: ../Dell/recovery_advanced_gtk.py:70
 msgid ""
 "This will integrate a Dell OEM FID framework & driver package set into a "
 "customized OS media image.  You will have the option to create an USB key or "
@@ -108,183 +110,184 @@ msgstr ""
 "один з варіантів: створення образу флеш-картки USB або образу DVD."
 
 #. insert builder pages in reverse order
-#: ../Dell/recovery_advanced_gtk.py:92
-msgid "Installation Mode"
-msgstr "Режим встановлення"
-
-#: ../Dell/recovery_advanced_gtk.py:93
+#: ../Dell/recovery_advanced_gtk.py:89
 msgid "Application Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:94
+#: ../Dell/recovery_advanced_gtk.py:90
 msgid "Driver Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:95 ../Dell/recovery_advanced_gtk.py:333
+#: ../Dell/recovery_advanced_gtk.py:91 ../Dell/recovery_advanced_gtk.py:295
 msgid "Utility Partition"
 msgstr "Допоміжний розділ"
 
-#: ../Dell/recovery_advanced_gtk.py:96
+#: ../Dell/recovery_advanced_gtk.py:92
 msgid "FID Content"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:97
+#: ../Dell/recovery_advanced_gtk.py:93
 msgid "Base OS Image"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:194
+#: ../Dell/recovery_advanced_gtk.py:180
 msgid "Builder Summary"
 msgstr "Резюме збирання"
 
-#: ../Dell/recovery_advanced_gtk.py:195
+#: ../Dell/recovery_advanced_gtk.py:181
 msgid "Base Image Distributor"
 msgstr "Поширювач основного образу"
 
-#: ../Dell/recovery_advanced_gtk.py:197
+#: ../Dell/recovery_advanced_gtk.py:183
 msgid "Base Image Release"
 msgstr "Випуск основного образу"
 
-#: ../Dell/recovery_advanced_gtk.py:200
+#: ../Dell/recovery_advanced_gtk.py:186
 msgid "BTO Base Image"
 msgstr "Основний образ BTO"
 
-#: ../Dell/recovery_advanced_gtk.py:203
+#: ../Dell/recovery_advanced_gtk.py:189
 msgid "Base Image"
 msgstr "Основний образ"
 
-#: ../Dell/recovery_advanced_gtk.py:207
+#: ../Dell/recovery_advanced_gtk.py:193
 msgid "Utility Partition: "
 msgstr "Допоміжний розділ: "
 
-#: ../Dell/recovery_advanced_gtk.py:210
+#: ../Dell/recovery_advanced_gtk.py:196
 msgid "Application"
 msgstr "Програма"
 
-#: ../Dell/recovery_advanced_gtk.py:211
+#: ../Dell/recovery_advanced_gtk.py:197
 msgid "Driver"
 msgstr "Драйвер"
 
-#: ../Dell/recovery_advanced_gtk.py:217
+#: ../Dell/recovery_advanced_gtk.py:203
 msgid "Packages"
 msgstr "Пакунки"
 
-#: ../Dell/recovery_advanced_gtk.py:223
+#: ../Dell/recovery_advanced_gtk.py:209
 msgid "Inject Dell Recovery Package"
 msgstr "Додавання відновлювального пакунка Dell"
 
-#: ../Dell/recovery_advanced_gtk.py:226
-msgid "OIE Installation Mode"
-msgstr "Режим встановлення OIE"
-
-#: ../Dell/recovery_advanced_gtk.py:229
-msgid "Additional Success Script"
-msgstr "Додатковий скрипт для успішного завершення"
-
-#: ../Dell/recovery_advanced_gtk.py:232
-msgid "Additional Fail Script"
-msgstr "Додатковий скрипт для завершення з помилками"
-
 #. update gui
-#: ../Dell/recovery_advanced_gtk.py:242
+#: ../Dell/recovery_advanced_gtk.py:219
 msgid "Assembling Image Components"
 msgstr "Збирання компонентів образу"
 
-#: ../Dell/recovery_advanced_gtk.py:336
+#: ../Dell/recovery_advanced_gtk.py:298
 msgid "No Additional Utility Partition"
 msgstr "Не виявлено додаткового допоміжного розділу"
 
-#: ../Dell/recovery_advanced_gtk.py:532
+#: ../Dell/recovery_advanced_gtk.py:494
 msgid "All SRVs must be filled to proceed."
 msgstr "Щоб перейти до наступного кроку, слід вказати всі SRV."
 
-#: ../Dell/recovery_advanced_gtk.py:561
-msgid "SUCCESS Script: "
-msgstr "Скрипт SUCCESS: "
-
-#: ../Dell/recovery_advanced_gtk.py:565
-msgid "FAIL Script: "
-msgstr "Скрипт FAIL: "
-
-#: ../Dell/recovery_backend.py:313
+#: ../Dell/recovery_backend.py:344
 msgid "Processing FISH packages"
 msgstr "Обробка пакунків FISH"
 
-#: ../Dell/recovery_backend.py:440
+#: ../Dell/recovery_backend.py:469
 msgid "Adding in base image"
 msgstr "Додавання до основного образу"
 
-#: ../Dell/recovery_backend.py:849
+#: ../Dell/recovery_backend.py:1050
 msgid "Preparing nested image"
 msgstr "Приготування вкладеного образу"
 
-#: ../Dell/recovery_backend.py:873
+#: ../Dell/recovery_backend.py:1069
 msgid "Building Dell Utility Partition"
 msgstr "Створення допоміжного розділу Dell"
 
-#: ../Dell/recovery_backend.py:937
+#: ../Dell/recovery_backend.py:1131
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr "Повторне створення UUID / Перебудова initramfs"
 
-#: ../Dell/recovery_backend.py:966
+#: ../Dell/recovery_backend.py:1160
 msgid "Building GRUB core image"
 msgstr "Збирання основного образу GRUB"
 
-#: ../Dell/recovery_backend.py:1033
-msgid "Building OIE Archive"
-msgstr "Збирання архіву OIE"
-
-#: ../Dell/recovery_backend.py:1068
+#: ../Dell/recovery_backend.py:1285
 msgid "Building ISO"
 msgstr "Створення ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:1
-msgid "Create/Assemble Dell Recovery ISO"
-msgstr "Створення/Збирання образу ISO для відновлення Dell"
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:2
 msgid "Query BTO Version"
 msgstr "Опитування версії BTO"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:2
+msgid "System policy prevents reading raw devices"
+msgstr ""
+"Системними правилами заборонено читання з пристроїв з необробленими даними"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:3
 msgid "Query ISO Information"
 msgstr "Опитування відомостей щодо ISO"
 
 #: ../backend/com.dell.recoverymedia.policy.in.h:4
-msgid "Request closing the backend"
-msgstr "Запит на закриття допоміжної програми"
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "Restore to Factory state"
 msgstr "Відновити початковий стан"
 
-#: ../backend/com.dell.recoverymedia.policy.in.h:6
+#: ../backend/com.dell.recoverymedia.policy.in.h:5
 msgid "System policy prevents changing system bootup"
 msgstr "Системними правилами заборонено зміну системи завантаження"
 
+#: ../backend/com.dell.recoverymedia.policy.in.h:6
+#, fuzzy
+msgid "Boot utility partition to flash BIOS"
+msgstr "Виберіть допоміжний розділ"
+
 #: ../backend/com.dell.recoverymedia.policy.in.h:7
+#, fuzzy
+msgid "Install Dell driver packages"
+msgstr "Додавання відновлювального пакунка Dell"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:8
+#, fuzzy
+msgid "System policy prevents installing packages."
+msgstr ""
+"Системними правилами заборонено читання з пристроїв з необробленими даними"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:9
+msgid "Create/Assemble Dell Recovery ISO"
+msgstr "Створення/Збирання образу ISO для відновлення Dell"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:10
+msgid "Request closing the backend"
+msgstr "Запит на закриття допоміжної програми"
+
+#: ../backend/com.dell.recoverymedia.policy.in.h:11
 msgid "System policy prevents closing processes without notice"
 msgstr ""
 "Системні правила забороняють завершення роботи процесів без сповіщення "
 "користувача"
 
-#: ../backend/com.dell.recoverymedia.policy.in.h:8
-msgid "System policy prevents reading raw devices"
-msgstr ""
-"Системними правилами заборонено читання з пристроїв з необробленими даними"
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:9
-msgid "System policy prohibits changing network without user consent"
-msgstr ""
-
-#: ../backend/com.dell.recoverymedia.policy.in.h:10
+#: ../backend/com.dell.recoverymedia.policy.in.h:12
 msgid "Toggle Network Connectivity"
 msgstr ""
 
+#: ../backend/com.dell.recoverymedia.policy.in.h:13
+msgid "System policy prohibits changing network without user consent"
+msgstr ""
+
+#: ../gtk/dell-driver-installer.desktop.in.h:1
+msgid "Dell Driver Installer"
+msgstr ""
+
 #: ../gtk/recovery_media_creator.ui.h:1
-msgid "<activity placeholder>"
-msgstr "<замінник дії>"
+msgid "Cancel Recovery Media Creator"
+msgstr "Скасування створення носія для відновлення"
 
 #: ../gtk/recovery_media_creator.ui.h:2
+msgid "Are you sure you want to cancel the Recovery Media creation process?"
+msgstr ""
+"Ви справді бажаєте скасувати операцію зі створення носія для відновлення?"
+
+#: ../gtk/recovery_media_creator.ui.h:3
+msgid "Version:"
+msgstr "Версія:"
+
+#: ../gtk/recovery_media_creator.ui.h:4
 msgid ""
 "An existing image was found (possibly from a previous run).  Would you like "
 "to remove this old copy and regenerate the image?"
@@ -292,104 +295,35 @@ msgstr ""
 "Виявлено готовий образ (ймовірно, створений під час попереднього запуску). "
 "Бажаєте вилучити цю стару копію і повторно створити образ?"
 
-#: ../gtk/recovery_media_creator.ui.h:3
-msgid "Are you sure you want to cancel the Recovery Media creation process?"
-msgstr ""
-"Ви справді бажаєте скасувати операцію зі створення носія для відновлення?"
-
-#: ../gtk/recovery_media_creator.ui.h:4
-msgid "Cancel Recovery Media Creator"
-msgstr "Скасування створення носія для відновлення"
-
 #: ../gtk/recovery_media_creator.ui.h:5
 msgid "DVD+/-RW Disc"
 msgstr "Диск DVD+/-RW"
 
-#: ../gtk/recovery_media_creator.ui.h:6 ../gtk/tool_selector.ui.h:3
-msgid "Dell Recovery Media Creator"
-msgstr "Створення носія для відновлення Dell"
+#: ../gtk/recovery_media_creator.ui.h:6
+msgid "This requires writable DVD media."
+msgstr "Вам знадобиться придатний для запису носій даних DVD."
 
 #: ../gtk/recovery_media_creator.ui.h:7
-msgid "No media, create image"
-msgstr "Без носія, створити образ"
+msgid "USB Flash Drive"
+msgstr "Флеш-диск USB"
 
 #: ../gtk/recovery_media_creator.ui.h:8
 msgid "This requires a USB flash drive with approximately 2GB free."
 msgstr "На флеш-диску USB має бути приблизно 2 ГБ вільного простору."
 
 #: ../gtk/recovery_media_creator.ui.h:9
-msgid "This requires writable DVD media."
-msgstr "Вам знадобиться придатний для запису носій даних DVD."
+msgid "No media, create image"
+msgstr "Без носія, створити образ"
 
-#: ../gtk/recovery_media_creator.ui.h:10
-msgid "USB Flash Drive"
-msgstr "Флеш-диск USB"
+#: ../gtk/recovery_media_creator.ui.h:10 ../gtk/tool_selector.ui.h:1
+msgid "Dell Recovery Media Creator"
+msgstr "Створення носія для відновлення Dell"
 
 #: ../gtk/recovery_media_creator.ui.h:11
-msgid "Version:"
-msgstr "Версія:"
+msgid "<activity placeholder>"
+msgstr "<замінник дії>"
 
 #: ../gtk/builder.ui.h:1
-msgid "\n"
-msgstr "\n"
-
-#: ../gtk/builder.ui.h:3
-msgid ""
-"\n"
-"\n"
-msgstr ""
-"\n"
-"\n"
-
-#: ../gtk/builder.ui.h:6
-msgid "Add Dell Recovery"
-msgstr "Додати Dell Recovery"
-
-#: ../gtk/builder.ui.h:7
-msgid ""
-"Any add-on drivers or applications that need to be integrated into the image "
-"can be added here."
-msgstr ""
-"Тут можна додати будь-які додаткові драйвери і програми, які слід "
-"інтегрувати до образу."
-
-#: ../gtk/builder.ui.h:8
-msgid ""
-"BTO images can optionally include a Utility Partition for diagnostic "
-"utilities."
-msgstr ""
-"Образи BTO можуть додатково включати допоміжний розділ для діагностичних "
-"програм."
-
-#: ../gtk/builder.ui.h:9
-msgid "Browse for a dell-recovery package"
-msgstr "Вказати пакунок dell-recovery"
-
-#: ../gtk/builder.ui.h:10
-msgid "Build dell-recovery package from this system"
-msgstr "Зібрати пакунок dell-recovery за цією системою"
-
-#: ../gtk/builder.ui.h:11
-msgid "Choose Content"
-msgstr "Виберіть вміст"
-
-#: ../gtk/builder.ui.h:12
-msgid "Choose Image"
-msgstr "Вибір образу"
-
-#: ../gtk/builder.ui.h:13
-msgid "Choose package"
-msgstr "Виберіть пакунок"
-
-#: ../gtk/builder.ui.h:14
-msgid "Detected Recovery Partition"
-msgstr "Виявлений розділ для відновлення"
-
-#: ../gtk/builder.ui.h:15
-msgid "Detected Utility Partition"
-msgstr "Виявлений допоміжний розділ"
-
-#: ../gtk/builder.ui.h:16
 msgid ""
 "During Factory Installation, applications are only installed if the order "
 "record (SDR) refers to the service release vehicle (SRV).  This populates "
@@ -399,105 +333,7 @@ msgstr ""
 "посилається на засіб надання випусків (SRV).  Таким чином, під час "
 "встановлення виконується опитування всіх можливих SRV."
 
-#: ../gtk/builder.ui.h:17
-msgid "Extracted Directory"
-msgstr "Каталог видобування"
-
-#: ../gtk/builder.ui.h:18
-msgid "FID Framework enclosed in debian package"
-msgstr "Оболонка FID, вкладене до пакунка debian"
-
-#: ../gtk/builder.ui.h:19
-msgid "FID framework built into BTO image"
-msgstr "Оболонка FID, вбудована до образу BTO"
-
-#: ../gtk/builder.ui.h:20
-msgid "ISO Image"
-msgstr "Образ ISO"
-
-#: ../gtk/builder.ui.h:21
-msgid "Install dpkg-repack"
-msgstr "Встановити dpkg-repack"
-
-#: ../gtk/builder.ui.h:22
-msgid "No additional Utility Partition"
-msgstr "Не виявлено додаткового допоміжного розділу"
-
-#: ../gtk/builder.ui.h:23
-msgid ""
-"OIE compliant images can only be installed from ODM factory environments.  "
-"They will notify the user at completion of a success or failure."
-msgstr ""
-"Сумісні з OIE образи можна встановлювати лише з середовищ виробника. Після "
-"завершення їхнього створення програма сповістить користувача про успішне "
-"виконання дії або помилки."
-
-#: ../gtk/builder.ui.h:24
-msgid ""
-"OIE mode also allows you to provide additional SUCCESS and FAIL scripts to "
-"be ran prior to notification the image is complete.  These can each be any "
-"executable program or script."
-msgstr ""
-"У режимі OIE також можна визначати додаткові скрипти SUCCESS та FAIL, які "
-"буде запущено до появи сповіщення щодо завершення створення образу. Обидва "
-"скрипти можуть бути довільними виконуваними програмами або скриптами."
-
-#: ../gtk/builder.ui.h:25
-msgid ""
-"Part of the FID overlay requires a dell-recovery package to be included."
-msgstr "Для частини додатка FID слід включити пакунок dell-recovery."
-
-#: ../gtk/builder.ui.h:26
-msgid "Please enter the SRV to use:"
-msgstr "Вкажіть SRV, який слід використати:"
-
-#: ../gtk/builder.ui.h:27
-msgid "Produce a standard installation image."
-msgstr "Створити стандартний образ для встановлення."
-
-#: ../gtk/builder.ui.h:28
-msgid "Produce an OIE compliant installation image."
-msgstr "Створити образ для встановлення, сумісний з OIE."
-
-#: ../gtk/builder.ui.h:29
-msgid "SRV Entry"
-msgstr "Запис SRV"
-
-#: ../gtk/builder.ui.h:30
-msgid "Select content for Utility Partition"
-msgstr "Визначте вміст допоміжного розділу"
-
-#: ../gtk/builder.ui.h:31
-msgid "Selected Content Details:"
-msgstr "Подробиці щодо вибраних даних:"
-
-#: ../gtk/builder.ui.h:32
-msgid "Selected Image Details:"
-msgstr "Параметри позначеного образу:"
-
-#: ../gtk/builder.ui.h:33
-msgid "Selected Overlay Details:"
-msgstr "Параметри позначеного сховища:"
-
-#: ../gtk/builder.ui.h:34
-msgid "Set FAIL script"
-msgstr "Вказати скрипт FAIL"
-
-#: ../gtk/builder.ui.h:35
-msgid "Set SUCCESS script"
-msgstr "Вказати скрипт SUCCESS"
-
-#: ../gtk/builder.ui.h:36
-msgid ""
-"The BTO FID framework is the first thing injected into a base vanilla image. "
-" If you are generating from an existing BTO compatible image, you may use "
-"the built-in framework."
-msgstr ""
-"Оболонку BTO FID буде додано до основного образу першою. Якщо побудова "
-"образу відбувається на основі раніше створеного сумісного з BTO образу, ви "
-"можете скористатися вбудованою оболонкою."
-
-#: ../gtk/builder.ui.h:37
+#: ../gtk/builder.ui.h:2
 msgid ""
 "The Base OS image provides the majority of the content for a BTO image.  It "
 "can be a Vanilla OS image, or existing BTO Image."
@@ -505,15 +341,130 @@ msgstr ""
 "Образ ОС Base (базовий) містить переважну частину даних для образу BTO. Цим "
 "образом може бути образ ОС Vanilla (початковий) або поточний образ BTO."
 
-#: ../gtk/tool_selector.ui.h:1
-msgid "Build OS Media"
-msgstr "Створення носія ОС"
+#: ../gtk/builder.ui.h:3
+msgid "ISO Image"
+msgstr "Образ ISO"
+
+#: ../gtk/builder.ui.h:4
+msgid "Extracted Directory"
+msgstr "Каталог видобування"
+
+#: ../gtk/builder.ui.h:5
+msgid "Detected Recovery Partition"
+msgstr "Виявлений розділ для відновлення"
+
+#: ../gtk/builder.ui.h:6
+msgid "Choose Image"
+msgstr "Вибір образу"
+
+#: ../gtk/builder.ui.h:7
+msgid "Selected Image Details:"
+msgstr "Параметри позначеного образу:"
+
+#: ../gtk/builder.ui.h:8
+msgid ""
+"\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+
+#: ../gtk/builder.ui.h:11
+msgid "Add Dell Recovery"
+msgstr "Додати Dell Recovery"
+
+#: ../gtk/builder.ui.h:12
+msgid ""
+"Part of the FID overlay requires a dell-recovery package to be included."
+msgstr "Для частини додатка FID слід включити пакунок dell-recovery."
+
+#: ../gtk/builder.ui.h:13
+msgid "Browse for a dell-recovery package"
+msgstr "Вказати пакунок dell-recovery"
+
+#: ../gtk/builder.ui.h:14
+msgid "Choose package"
+msgstr "Виберіть пакунок"
+
+#: ../gtk/builder.ui.h:15
+msgid "Build dell-recovery package from this system"
+msgstr "Зібрати пакунок dell-recovery за цією системою"
+
+#: ../gtk/builder.ui.h:16
+msgid "Install dpkg-repack"
+msgstr "Встановити dpkg-repack"
+
+#: ../gtk/builder.ui.h:17
+msgid ""
+"Any add-on drivers or applications that need to be integrated into the image "
+"can be added here."
+msgstr ""
+"Тут можна додати будь-які додаткові драйвери і програми, які слід "
+"інтегрувати до образу."
+
+#: ../gtk/builder.ui.h:18
+msgid ""
+"The BTO FID framework is the first thing injected into a base vanilla "
+"image.  If you are generating from an existing BTO compatible image, you may "
+"use the built-in framework."
+msgstr ""
+"Оболонку BTO FID буде додано до основного образу першою. Якщо побудова "
+"образу відбувається на основі раніше створеного сумісного з BTO образу, ви "
+"можете скористатися вбудованою оболонкою."
+
+#: ../gtk/builder.ui.h:19
+msgid "FID framework built into BTO image"
+msgstr "Оболонка FID, вбудована до образу BTO"
+
+#: ../gtk/builder.ui.h:20
+msgid "FID Framework enclosed in debian package"
+msgstr "Оболонка FID, вкладене до пакунка debian"
+
+#: ../gtk/builder.ui.h:21
+msgid "Selected Overlay Details:"
+msgstr "Параметри позначеного сховища:"
+
+#: ../gtk/builder.ui.h:22
+msgid "SRV Entry"
+msgstr "Запис SRV"
+
+#: ../gtk/builder.ui.h:23
+msgid "Please enter the SRV to use:"
+msgstr "Вкажіть SRV, який слід використати:"
+
+#: ../gtk/builder.ui.h:24
+msgid ""
+"BTO images can optionally include a Utility Partition for diagnostic "
+"utilities."
+msgstr ""
+"Образи BTO можуть додатково включати допоміжний розділ для діагностичних "
+"програм."
+
+#: ../gtk/builder.ui.h:25
+msgid "No additional Utility Partition"
+msgstr "Не виявлено додаткового допоміжного розділу"
+
+#: ../gtk/builder.ui.h:26
+msgid "Select content for Utility Partition"
+msgstr "Визначте вміст допоміжного розділу"
+
+#: ../gtk/builder.ui.h:27
+msgid "Detected Utility Partition"
+msgstr "Виявлений допоміжний розділ"
+
+#: ../gtk/builder.ui.h:28
+msgid "Choose Content"
+msgstr "Виберіть вміст"
+
+#: ../gtk/builder.ui.h:29
+msgid "Selected Content Details:"
+msgstr "Подробиці щодо вибраних даних:"
+
+#: ../gtk/tool_selector.ui.h:3
+msgid "_Help"
+msgstr "_Довідка"
 
 #: ../gtk/tool_selector.ui.h:4
-msgid "Restore System"
-msgstr "Відновити систему"
-
-#: ../gtk/tool_selector.ui.h:5
 msgid ""
 "This will create OS Recovery Media that can be used to restore the computer "
 "to its factory shipped state.  You will have the option to create an USB key "
@@ -524,7 +475,7 @@ msgstr ""
 "стану, у якому вам її передав виробник обладнання. Ви зможете створити "
 "відновлювальний флеш-диск USB або диск DVD."
 
-#: ../gtk/tool_selector.ui.h:6
+#: ../gtk/tool_selector.ui.h:5
 msgid ""
 "This will restore the system to the factory shipped state using the recovery "
 "partition stored on the hard drive."
@@ -532,37 +483,34 @@ msgstr ""
 "За допомогою цього пункту можна відновити початковий стан вашої системи за "
 "допомогою розділу для відновлення, що зберігається на жорсткому диску."
 
+#: ../gtk/tool_selector.ui.h:6
+msgid "Build OS Media"
+msgstr "Створення носія ОС"
+
 #: ../gtk/tool_selector.ui.h:7
-msgid "_Help"
-msgstr "_Довідка"
+msgid "Restore System"
+msgstr "Відновити систему"
+
+#: ../gtk/tool_selector.ui.h:8
+msgid ""
+"This will install a Dell driver package that you downloaded from the "
+"Internet."
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:9
+#, fuzzy
+msgid "Install Drivers"
+msgstr "Встановити git"
+
+#: ../gtk/tool_selector.ui.h:10
+msgid "This will flash a DOS based BIOS image."
+msgstr ""
+
+#: ../gtk/tool_selector.ui.h:11
+msgid "Flash BIOS"
+msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1
-msgid "<b>ERROR:</b> This media is only valid on Dell systems."
-msgstr ""
-"<b>ПОМИЛКА:</b> цим носієм можна скористатися лише у системах виробництва "
-"Dell."
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:2
-msgid ""
-"<b>It is highly recommended that you generate media and store it in a safe "
-"place.</b>"
-msgstr ""
-"<b>Рекомендуємо вам створити такий носій і зберігати його у безпечному "
-"місці.</b>"
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:3
-msgid ""
-"<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
-msgstr ""
-"<b>Зауваження:</b> на флеш-диску USB має бути приблизно 2 ГБ вільного "
-"простору."
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:4
-msgid "<b>Note:</b> This requires writable DVD media."
-msgstr ""
-"<b>Зауваження:</b> вам знадобиться придатний для запису носій даних DVD."
-
-#: ../ubiquity/stepRecoveryMedia.ui.h:5
 msgid ""
 "Dell Recovery Media can be used to restore your system to the same state as "
 "when it was first shipped to you."
@@ -570,11 +518,47 @@ msgstr ""
 "Носієм для відновлення Dell можна скористатися для відновлення вашої системи "
 "до стану, у якому вам було передано її виробником обладнання."
 
+#: ../ubiquity/stepRecoveryMedia.ui.h:2
+msgid ""
+"<b>It is highly recommended that you generate media and store it in a safe "
+"place.</b>"
+msgstr ""
+"<b>Рекомендуємо вам створити такий носій і зберігати його у безпечному місці."
+"</b>"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:3
+msgid "Restore #OS# to factory state"
+msgstr "Відновлення #ОС# до початкового стану"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:4
+msgid "Flash BIOS image from DOS"
+msgstr ""
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:5
+msgid "Save recovery media to an external USB flash drive"
+msgstr "Зберегти носій для відновлення на зовнішньому флеш-диску USB"
+
 #: ../ubiquity/stepRecoveryMedia.ui.h:6
+msgid ""
+"<b>Note:</b> This requires a USB flash drive with approximately 2GB free."
+msgstr ""
+"<b>Зауваження:</b> на флеш-диску USB має бути приблизно 2 ГБ вільного "
+"простору."
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:7
+msgid "Save recovery media to DVD"
+msgstr "Зберегти носій для відновлення на DVD"
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:8
+msgid "<b>Note:</b> This requires writable DVD media."
+msgstr ""
+"<b>Зауваження:</b> вам знадобиться придатний для запису носій даних DVD."
+
+#: ../ubiquity/stepRecoveryMedia.ui.h:9
 msgid "Don't generate recovery media at this time"
 msgstr "Не створювати носія для відновлення цього разу"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:7
+#: ../ubiquity/stepRecoveryMedia.ui.h:10
 msgid ""
 "Recovery Media can be generated later by choosing the tool from the System "
 "menu."
@@ -582,17 +566,66 @@ msgstr ""
 "Носій для відновлення можна створити пізніше. Для цього слід скористатися "
 "пунктом відповідного інструменту з меню «Система»."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:8
-msgid "Restore #OS# to factory state"
-msgstr "Відновлення #ОС# до початкового стану"
+#: ../ubiquity/stepRecoveryMedia.ui.h:11
+msgid "<b>ERROR:</b> This media is only valid on Dell systems."
+msgstr ""
+"<b>ПОМИЛКА:</b> цим носієм можна скористатися лише у системах виробництва "
+"Dell."
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:9
-msgid "Save recovery media to DVD"
-msgstr "Зберегти носій для відновлення на DVD"
+#~ msgid "Installation Mode"
+#~ msgstr "Режим встановлення"
 
-#: ../ubiquity/stepRecoveryMedia.ui.h:10
-msgid "Save recovery media to an external USB flash drive"
-msgstr "Зберегти носій для відновлення на зовнішньому флеш-диску USB"
+#~ msgid "OIE Installation Mode"
+#~ msgstr "Режим встановлення OIE"
+
+#~ msgid "Additional Success Script"
+#~ msgstr "Додатковий скрипт для успішного завершення"
+
+#~ msgid "Additional Fail Script"
+#~ msgstr "Додатковий скрипт для завершення з помилками"
+
+#~ msgid "SUCCESS Script: "
+#~ msgstr "Скрипт SUCCESS: "
+
+#~ msgid "FAIL Script: "
+#~ msgstr "Скрипт FAIL: "
+
+#~ msgid "Building OIE Archive"
+#~ msgstr "Збирання архіву OIE"
+
+#~ msgid ""
+#~ "OIE compliant images can only be installed from ODM factory "
+#~ "environments.  They will notify the user at completion of a success or "
+#~ "failure."
+#~ msgstr ""
+#~ "Сумісні з OIE образи можна встановлювати лише з середовищ виробника. "
+#~ "Після завершення їхнього створення програма сповістить користувача про "
+#~ "успішне виконання дії або помилки."
+
+#~ msgid "Produce a standard installation image."
+#~ msgstr "Створити стандартний образ для встановлення."
+
+#~ msgid "Produce an OIE compliant installation image."
+#~ msgstr "Створити образ для встановлення, сумісний з OIE."
+
+#~ msgid ""
+#~ "OIE mode also allows you to provide additional SUCCESS and FAIL scripts "
+#~ "to be ran prior to notification the image is complete.  These can each be "
+#~ "any executable program or script."
+#~ msgstr ""
+#~ "У режимі OIE також можна визначати додаткові скрипти SUCCESS та FAIL, які "
+#~ "буде запущено до появи сповіщення щодо завершення створення образу. "
+#~ "Обидва скрипти можуть бути довільними виконуваними програмами або "
+#~ "скриптами."
+
+#~ msgid "Set SUCCESS script"
+#~ msgstr "Вказати скрипт SUCCESS"
+
+#~ msgid "Set FAIL script"
+#~ msgstr "Вказати скрипт FAIL"
+
+#~ msgid "\n"
+#~ msgstr "\n"
 
 #~ msgid "Choose Media Type"
 #~ msgstr "Вибір типу носія"
@@ -610,8 +643,8 @@ msgstr "Зберегти носій для відновлення на зовн�
 #~ msgstr ""
 #~ "<b>Звантаження даних з GIT.</b>\n"
 #~ "Це вікно буде автоматично закрито після завершення операції.\n"
-#~ "<b>ЗАУВАЖЕННЯ:</b> будь ласка, зачекайте, початкове звантаження даних може "
-#~ "бути досить тривалим."
+#~ "<b>ЗАУВАЖЕННЯ:</b> будь ласка, зачекайте, початкове звантаження даних "
+#~ "може бути досить тривалим."
 
 #~ msgid "FID GIT Tree"
 #~ msgstr "GIT-дерево FID"
@@ -624,9 +657,6 @@ msgstr "Зберегти носій для відновлення на зовн�
 
 #~ msgid "GIT Tree Status"
 #~ msgstr "Стан GIT-дерева"
-
-#~ msgid "Install git"
-#~ msgstr "Встановити git"
 
 #~ msgid "Show Details"
 #~ msgstr "Показати подробиці"
@@ -642,9 +672,6 @@ msgstr "Зберегти носій для відновлення на зовн�
 
 #~ msgid "Choose FID Overlay"
 #~ msgstr "Виберіть додаток FID"
-
-#~ msgid "Choose Utility Partition"
-#~ msgstr "Виберіть допоміжний розділ"
 
 #~ msgid "Choose Driver Packages"
 #~ msgstr "Виберіть пакунки драйверів"

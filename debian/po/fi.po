@@ -221,6 +221,12 @@ msgstr ""
 #. Type: text
 #. Description
 #: ../dell-recovery.templates:48001
+msgid "Flash BIOS image from DOS"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../dell-recovery.templates:49001
 msgid "Restore #OS# to factory state"
 msgstr "Palauta #OS# tehdastilaan"
 

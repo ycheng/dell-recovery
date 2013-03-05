@@ -206,6 +206,10 @@ Template: ubiquity/text/accept_button
 Type: text
 _Description: I have read and accept these terms.
 
+Template: ubiquity/text/98_grub_menu
+Type: text
+_Description: Flash BIOS image from DOS
+
 Template: ubiquity/text/99_grub_menu
 Type: text
 _Description: Restore #OS# to factory state

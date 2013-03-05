@@ -60,7 +60,8 @@ class PageGtk(PluginUI):
                 self.usb_media = builder.get_object('save_to_usb')
                 self.dvd_media = builder.get_object('save_to_dvd')
                 self.none_media = builder.get_object('save_to_none')
-                self.grub_line = builder.get_object('99_grub_menu')
+                self.grub_menu_98 = builder.get_object('98_grub_menu')
+                self.grub_menu_99 = builder.get_object('99_grub_menu')
                 if not dvd:
                     builder.get_object('dvd_box').hide()
                 if not usb:
@@ -89,8 +90,12 @@ class PageGtk(PluginUI):
             self.controller.allow_go_forward(False)
         return self.plugin_widgets
 
-    def get_grub_line(self):
-        return self.grub_line.get_text()
+    def get_grub_line(self, grub_line):
+        if grub_line == '98_grub_menu':
+            obj = self.grub_menu_98
+        else:
+            obj = self.grub_menu_99
+        return obj.get_text()
 
     def get_type(self):
         """Returns the type of recovery to do from GUI"""
@@ -122,7 +127,8 @@ class Page(Plugin):
         """Handler ran when OK is pressed"""
         destination = self.ui.get_type()
         self.preseed('dell-recovery/destination', destination)
-        self.preseed('ubiquity/text/99_grub_menu', self.ui.get_grub_line())
+        for item in ['98', '99']:        
+            self.preseed('ubiquity/text/%s_grub_menu' % item, self.ui.get_grub_line('%s_grub_menu' % item))
         Plugin.ok_handler(self)
 
 class Install(InstallPlugin):
@@ -157,21 +163,27 @@ class Install(InstallPlugin):
             return
         delayed_burn = False
 
+        env = os.environ
+        lang = progress.get('debian-installer/locale')
+        env['LANG'] = lang
+
         #can also expect that this was mounted at /cdrom during OOBE
-        rpart = magic.find_factory_rp_stats()
+        rpart = magic.find_factory_partition_stats('rp')
         if rpart and os.path.exists('/cdrom/.disk/info'):
-            env = os.environ
-            lang = progress.get('debian-installer/locale')
-            env['LANG'] = lang
             rec_text = progress.get('ubiquity/text/99_grub_menu')
             magic.process_conf_file(original = '/usr/share/dell/grub/99_dell_recovery', \
                                     new = '/etc/grub.d/99_dell_recovery',               \
                                     uuid = str(rpart["uuid"]),                          \
-                                    rp_number = str(rpart["number"]),                   \
+                                    number = str(rpart["number"]),                      \
                                     recovery_text = rec_text)
 
             os.chmod('/etc/grub.d/99_dell_recovery', 0o755)
-            subprocess.call(['update-grub'],env=env)
+
+        #if we have a UP and not in EFI mode, we can do BIOS flashing via DOS
+        rec_text = progress.get('ubiquity/text/98_grub_menu')
+        magic.create_up_boot_entry(rec_text)
+
+        subprocess.call(['update-grub'],env=env)
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.progress = progress

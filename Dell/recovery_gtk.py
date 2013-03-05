@@ -40,7 +40,7 @@ from gettext import bindtextdomain, textdomain
 
 class DellRecoveryToolGTK:
     """GTK implementation of the Dell Recovery suite for Linux"""
-    def __init__(self, recovery, mode='recovery'):
+    def __init__(self, recovery, utility, mode='recovery'):
         def action_objects(widgets, objects, action):
             for item in ['button', 'image', 'label']:
                 if action == 'hide':
@@ -60,19 +60,25 @@ class DellRecoveryToolGTK:
 
         #if running in driver install mode,  hide other stuff
         if mode == 'driver':
-            for item in ['restore_system', 'build_os_media']:
+            for item in ['flash_bios', 'restore_system', 'build_os_media']:
                 action_objects(self.tool_widgets, item, 'hide')
-                action_objects(self.tool_widgets, 'install_drivers', 'show')
+            action_objects(self.tool_widgets, 'install_drivers', 'show')
         else:
             #hide restore from HDD unless there is a recovery partition
             if not (recovery and os.path.exists('/etc/grub.d/99_dell_recovery')):
                 action_objects(self.tool_widgets, 'restore_system', 'hide')
+
+            #hide bios flash if not UEFI or no UP
+            if os.path.exists('/sys/firmware/efi') or \
+               not (utility and os.path.exists('/etc/grub.d/98_dell_bios')):
+                action_objects(self.tool_widgets, "flash_bios", "hide")
 
         #about dialog
         self.about_box = None
 
         #variables
         self.rp = recovery
+        self.up = utility
         self._dbus_iface = None
 
 #### Polkit enhanced ###
@@ -117,33 +123,64 @@ class DellRecoveryToolGTK:
 #### Callbacks ###
     def top_button_clicked(self, widget):
         """Callback for a button pushed in the main UI"""
-        #Restore System Button
-        if widget == self.tool_widgets.get_object('restore_system_button'):
-            tool_selector = self.tool_widgets.get_object('tool_selector')
-            try:
-                tool_selector.set_sensitive(False)
-                dbus_sync_call_signal_wrapper(self.backend(),
-                                              "enable_boot_to_restore",
-                                              {})
-                bus = dbus.SessionBus()
-                obj = bus.get_object('org.gnome.SessionManager',
-                                     '/org/gnome/SessionManager')
-                iface = dbus.Interface(obj, 'org.gnome.SessionManager')
-                iface.RequestReboot()
-                self.destroy()
-            except dbus.DBusException as msg:
-                self.dbus_exception_handler(msg)
-            tool_selector.set_sensitive(True)
-            
-            #don't do further processing
-            return False
         #Restore Media Button / Driver install button
-        elif widget == self.tool_widgets.get_object('build_os_media_button') or \
+        if widget == self.tool_widgets.get_object('build_os_media_button') or \
              widget == self.tool_widgets.get_object('install_drivers_button'):
             self.tool_widgets.get_object('tool_selector').set_sensitive(False)
 
             #continue
             return True
+        #Reboot action
+        else:
+            tool_selector = self.tool_widgets.get_object('tool_selector')
+            tool_selector.set_sensitive(False)
+            bus = dbus.SessionBus()
+            obj = bus.get_object('org.gnome.SessionManager',
+                                 '/org/gnome/SessionManager')
+            iface = dbus.Interface(obj, 'org.gnome.SessionManager')
+            #Restore System Button
+            if widget == self.tool_widgets.get_object('restore_system_button'):
+                try:
+                    dbus_sync_call_signal_wrapper(self.backend(),
+                                                  "enable_boot_to_restore",
+                                                  {})
+                    iface.RequestReboot()
+                    self.destroy()
+                except dbus.DBusException as msg:
+                    self.dbus_exception_handler(msg)
+            #BIOS flash button
+            elif widget == self.tool_widgets.get_object('flash_bios_button'):
+
+                file_dialog = Gtk.FileChooserDialog("Choose DOS BIOS Executable",
+                                        None,
+                                        Gtk.FileChooserAction.OPEN,
+                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+                file_dialog.set_default_response(Gtk.ResponseType.OK)
+                file_filter = Gtk.FileFilter()
+                file_filter.add_pattern("*.exe")
+                file_filter.add_pattern("*.EXE")
+                file_dialog.set_filter(file_filter)
+                response = file_dialog.run()
+                file_dialog.hide()
+                if response == Gtk.ResponseType.OK:
+                    fname = file_dialog.get_filename()
+                else:
+                    tool_selector.set_sensitive(True)
+                    return False
+                try:
+                    dbus_sync_call_signal_wrapper(self.backend(),
+                                                  "enable_boot_to_utility",
+                                                  {},
+                                                  self.up, fname)
+                    iface.RequestReboot()
+                    self.destroy()
+                except dbus.DBusException as msg:
+                    self.dbus_exception_handler(msg)
+            tool_selector.set_sensitive(True)
+            
+            #don't do further processing
+            return False
 
     def menu_item_clicked(self, widget):
         """Callback for help menu items"""

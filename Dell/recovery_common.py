@@ -162,7 +162,7 @@ def check_version(package='dell-recovery'):
               file=sys.stderr)
         return "unknown"
 
-def process_conf_file(original, new, uuid, rp_number, ako='', recovery_text=''):
+def process_conf_file(original, new, uuid, number, ako='', recovery_text=''):
     """Replaces all instances of a partition, OS, and extra in a conf type file
        Generally used for things that need to touch grub"""
     if not os.path.isdir(os.path.split(new)[0]):
@@ -190,7 +190,7 @@ def process_conf_file(original, new, uuid, rp_number, ako='', recovery_text=''):
     #starting with 10.10, we replace the whole drive string (/dev/sdX,msdosY)
     #earlier releases are hardcoded to (hd0,Y)
     if float(release["RELEASE"]) >= 10.10:
-        rp_number = 'msdos' + rp_number
+        number = 'msdos' + number
 
     with open(original, "r") as base:
         with open(new, 'w') as output:
@@ -200,7 +200,7 @@ def process_conf_file(original, new, uuid, rp_number, ako='', recovery_text=''):
                 if "#UUID#" in line:
                     line = line.replace("#UUID#", uuid)
                 if "#PARTITION#" in line:
-                    line = line.replace("#PARTITION#", rp_number)
+                    line = line.replace("#PARTITION#", number)
                 if "#OS#" in line:
                     line = line.replace("#OS#", "%s %s" % (release["ID"], release["RELEASE"]))
                 if "#EXTRA#" in line:
@@ -233,25 +233,32 @@ def find_extra_kernel_options():
     else:
         return ''
 
-def find_factory_rp_stats():
+def find_factory_partition_stats(partition_type):
     """Uses udisks to find the RP of a system and return stats on it
-       Only use this method during bootstrap."""
+       Only use this method during bootstrap.
+       args: 'up' or 'rp'
+    """
     bus = dbus.SystemBus()
     recovery = {}
     udisk_bus_name = 'org.freedesktop.UDisks'
     dev_bus_name   = 'org.freedesktop.UDisks.Device'
 
+    if partition_type == 'up':
+        labels = ['dellutility']
+    elif partition_type == 'rp':
+        labels = ['recovery', 'install', 'os']
     try:
         obj = bus.get_object(udisk_bus_name, '/org/freedesktop/UDisks')
         iface = dbus.Interface(obj, udisk_bus_name)
         devices = iface.EnumerateDevices()
-        for check_label in ['RECOVERY', 'install', 'OS']:
+        for check_label in labels:
             for device in devices:
                 obj = bus.get_object(udisk_bus_name, device)
                 dev = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
+                label = dev.Get(dev_bus_name, 'IdLabel')
 
-                if check_label == dev.Get(dev_bus_name, 'IdLabel'):
-                    recovery["label" ] = check_label
+                if check_label == label.lower():
+                    recovery["label" ] = label
                     recovery["device"] = dev.Get(dev_bus_name, 'DeviceFile')
                     recovery["fs"    ] = dev.Get(dev_bus_name, 'IdType')
                     recovery["slave" ] = dev.Get(dev_bus_name, 'PartitionSlave')
@@ -710,6 +717,18 @@ def write_up_bootsector(device, partition):
             #If we don't have the bootsector code, then just set the label properly
     else:
         fetch_output(['dosfslabel', device + partition, "DellUtility"])
+
+def create_up_boot_entry(new_text):
+    upart = find_factory_partition_stats('up')
+
+    if not os.path.isdir('/sys/firmware/efi') and upart:
+        process_conf_file(original = '/usr/share/dell/grub/98_dell_bios', \
+                                new = '/etc/grub.d/98_dell_bios',               \
+                                uuid = str(upart["uuid"]),                      \
+                                number = str(upart["number"]),                  \
+                                recovery_text = new_text)
+
+        os.chmod('/etc/grub.d/98_dell_bios', 0o755)
 
 def mark_upgrades():
     '''Mark packages that can upgrade to upgrade during install'''

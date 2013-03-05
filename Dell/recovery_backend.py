@@ -238,7 +238,7 @@ class Backend(dbus.service.Object):
     # Internal API for calling from Handlers (not exported through D-BUS)
     #
 
-    def request_mount(self, recovery, sender=None, conn=None):
+    def request_mount(self, recovery, type="r", sender=None, conn=None):
         '''Attempts to mount the recovery partition
 
            If successful, return mntdir.
@@ -262,7 +262,7 @@ class Backend(dbus.service.Object):
 
         #if not already, mounted, produce a mount point
         mntdir = tempfile.mkdtemp()
-        mnt_args = ['mount', '-r', recovery, mntdir]
+        mnt_args = ['mount', '-%s' %type, recovery, mntdir]
         if ".iso" in recovery:
             mnt_args.insert(1, 'loop')
             mnt_args.insert(1, '-o')
@@ -934,15 +934,48 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.restore')
         logging.debug("enable_boot_to_restore")
 
-        #find our one time boot entry
-        if not os.path.exists("/etc/grub.d/99_dell_recovery"):
-            raise RestoreFailed("missing 99_dell_recovery to parse")
+        self._prepare_reboot("99_dell_recovery")
 
-        with open('/etc/grub.d/99_dell_recovery') as rfd:
-            dell_rec_file = rfd.readlines()
+        self._prepare_reboot("99_dell_recovery")
+
+    @dbus.service.method(DBUS_INTERFACE_NAME,
+        in_signature = 'ss', out_signature = '', sender_keyword = 'sender',
+        connection_keyword = 'conn')
+    def enable_boot_to_utility(self, utility, executable, sender=None, conn=None):
+        """Enables the default one-time boot option to be utility partition"""
+        self._reset_timeout()
+        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.utility')
+        #prep the content for UP
+        mntdir = self.request_mount(utility, "rw")
+        target = os.path.join(mntdir, os.path.basename(executable))
+        if os.path.exists(target):
+            os.remove(target)
+        shutil.copy(executable, target)
+        old = False
+        target = os.path.join(mntdir, 'autoexec.bat')
+        if os.path.exists(target):
+            shutil.move(target, 
+                        os.path.join(mntdir, 'autoexec.old'))
+            old = True
+        with open (target, 'w') as wfd:
+            wfd.write("DEL AUTOEXEC.BAT\r\n")
+            if old:
+                wfd.write("REN AUTOEXEC.OLD AUTOEXEC.BAT\r\n")
+            wfd.write("%s\r\n" % os.path.basename(executable))
+        
+        self._prepare_reboot("98_dell_bios")
+
+    def _prepare_reboot(self, dest):
+        """Helper function to reboot into an entry"""
+        #find our one time boot entry
+        if not os.path.exists("/etc/grub.d/%s" % dest):
+            raise RestoreFailed("missing %s to parse" % dest) 
+
+        with open('/etc/grub.d/%s' % dest) as rfd:
+            grub_file = rfd.readlines()
 
         entry = False
-        for line in dell_rec_file:
+        for line in grub_file:
             if "menuentry" in line:
                 split = line.split('"')
                 if len(split) > 1:
@@ -950,7 +983,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                     break
 
         if not entry:
-            raise RestoreFailed("Error parsing 99_dell_recovery for bootentry.")
+            raise RestoreFailed("Error parsing %s for bootentry." % dest)
 
         #set us up to boot saved entries
         with open('/etc/default/grub', 'r') as rfd:

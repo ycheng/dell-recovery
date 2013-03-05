@@ -5,6 +5,24 @@
 case "$1" in
   configure)
 
+    #if there is a UP while installing, add 98_dell_bios
+    if [ -d /dev/disk/by-label ]; then
+        up=$(find /dev/disk/by-label/ -iname dellutility)
+    fi
+    if [ ! -f /etc/grub.d/98_dell_bios ] &&
+       [ -n "$up" ] && grep -v "boot=casper" /proc/cmdline 2>&1 1>/dev/null &&
+       [ ! -d /sys/firmware/efi ]; then
+        upgrade_script=$(tempfile)
+        cat > $upgrade_script << EOF
+#!/usr/bin/python
+import Dell.recovery_common as magic
+magic.create_up_boot_entry("Flash BIOS using DOS")
+EOF
+        python $upgrade_script
+        rm $upgrade_script
+        update-grub
+    fi
+
     #reload dbus so this works immediately
     if status dbus >/dev/null 2>&1; then
       service dbus reload || true
