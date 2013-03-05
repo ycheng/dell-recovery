@@ -111,7 +111,7 @@ if [ -d $LEGACY_GRUBDIR ] &&
     mkdir -p "$workdir"
     cat >"$workdir/grub.cfg" <<EOF
 search.file /.disk/casper-uuid root
-set prefix=(\$root)/boot/grub/i386-pc
+set prefix=(\$root)/boot/grub
 source \$prefix/grub.cfg
 EOF
 

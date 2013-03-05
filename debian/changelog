@@ -1,3 +1,9 @@
+dell-recovery (1.29) UNRELEASED; urgency=low
+
+  * fix the prefix for grub2 ISO bootloader build.
+
+ -- Mario Limonciello <superm1@ubuntu.com>  Mon, 04 Mar 2013 22:14:40 -0600
+
 dell-recovery (1.28) raring; urgency=low
 
   [ Mario Limonciello ]
