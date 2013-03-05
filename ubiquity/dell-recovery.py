@@ -60,7 +60,8 @@ class PageGtk(PluginUI):
                 self.usb_media = builder.get_object('save_to_usb')
                 self.dvd_media = builder.get_object('save_to_dvd')
                 self.none_media = builder.get_object('save_to_none')
-                self.grub_line = builder.get_object('99_grub_menu')
+                self.grub_menu_98 = builder.get_object('98_grub_menu')
+                self.grub_menu_99 = builder.get_object('99_grub_menu')
                 if not dvd:
                     builder.get_object('dvd_box').hide()
                 if not usb:
@@ -89,8 +90,12 @@ class PageGtk(PluginUI):
             self.controller.allow_go_forward(False)
         return self.plugin_widgets
 
-    def get_grub_line(self):
-        return self.grub_line.get_text()
+    def get_grub_line(self, grub_line):
+        if grub_line == '98_grub_menu':
+            obj = self.grub_menu_98
+        else:
+            obj = self.grub_menu_99
+        return obj.get_text()
 
     def get_type(self):
         """Returns the type of recovery to do from GUI"""
@@ -122,7 +127,8 @@ class Page(Plugin):
         """Handler ran when OK is pressed"""
         destination = self.ui.get_type()
         self.preseed('dell-recovery/destination', destination)
-        self.preseed('ubiquity/text/99_grub_menu', self.ui.get_grub_line())
+        for item in ['98', '99']:        
+            self.preseed('ubiquity/text/%s_grub_menu' % item, self.ui.get_grub_line('%s_grub_menu' % item))
         Plugin.ok_handler(self)
 
 class Install(InstallPlugin):
