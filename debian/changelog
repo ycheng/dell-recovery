@@ -1,10 +1,14 @@
 dell-recovery (1.29) UNRELEASED; urgency=low
 
+  [ Mario Limonciello ]
   * fix the prefix for grub2 ISO bootloader build.
   * Add a basic tool for installing a BIOS update.
   * During postinst if the BIOS update GRUB option wasn't installed during
     OOBE, add it.
   * Fix udev rules for udisks1->udisks2.
+
+  [ Martin Pitt ]
+  * Dell/driver_gtk.py: Port from ConsoleKit to logind.
 
  -- Mario Limonciello <superm1@ubuntu.com>  Mon, 04 Mar 2013 22:14:40 -0600
 
