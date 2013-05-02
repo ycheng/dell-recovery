@@ -6,6 +6,7 @@ dell-recovery (1.29) UNRELEASED; urgency=low
   * During postinst if the BIOS update GRUB option wasn't installed during
     OOBE, add it.
   * Fix udev rules for udisks1->udisks2.
+  * Correct some misuses of request_mount causing crashes (LP: #1173688)
 
   [ Martin Pitt ]
   * Dell/driver_gtk.py: Port from ConsoleKit to logind.

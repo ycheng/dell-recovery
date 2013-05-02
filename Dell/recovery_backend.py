@@ -458,7 +458,7 @@ class Backend(dbus.service.Object):
 
         self._reset_timeout()
 
-        base_mnt = self.request_mount(base, sender, conn)
+        base_mnt = self.request_mount(base, "r", sender, conn)
 
         assembly_tmp = tempfile.mkdtemp()
         atexit.register(walk_cleanup, assembly_tmp)
@@ -571,7 +571,7 @@ class Backend(dbus.service.Object):
             if err:
                 logging.debug("error during isoinfo invokation: %s", err)
         else:
-            mntdir = self.request_mount(iso, sender, conn)
+            mntdir = self.request_mount(iso, "r", sender, conn)
 
             if os.path.exists(os.path.join(mntdir, '.disk', 'info')):
                 with open(os.path.join(mntdir, '.disk', 'info'), 'r') as rfd:
@@ -653,7 +653,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                     version = test_initrd(['isoinfo', '-J', '-i', recovery, '-x', '/casper/initrd.lz'])
 
         else:
-            mntdir = self.request_mount(recovery, sender, conn)
+            mntdir = self.request_mount(recovery, "r", sender, conn)
             if os.path.exists(os.path.join(mntdir, 'bto.xml')):
                 self.xml_obj.load_bto_xml(os.path.join(mntdir, 'bto.xml'))
                 version = self.xml_obj.fetch_node_contents('iso')
@@ -817,7 +817,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         #mount RP (if possible)
         if recovery:
             self.report_progress("Mounting recovery partition.")
-            mntdir = self.request_mount(recovery)
+            mntdir = self.request_mount(recovery, "r")
             #build the pool with stuff from RP
             for directory in ['debs', 'pool']:
                 if os.path.exists(os.path.join(mntdir, directory)):
@@ -1028,7 +1028,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         atexit.register(walk_cleanup, tmpdir)
 
         #mount the recovery partition
-        mntdir = self.request_mount(recovery, sender, conn)
+        mntdir = self.request_mount(recovery, "r", sender, conn)
 
         #validate that ubuntu is on the partition
         if not os.path.exists(os.path.join(mntdir, '.disk', 'info')):
@@ -1052,7 +1052,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                                            w_size)
             black_tree("copy", pattern, mntdir, tmpdir)
             self.stop_progress_thread()
-            mntdir = self.request_mount(os.path.join(mntdir, 'ubuntu.iso'), sender, conn)
+            mntdir = self.request_mount(os.path.join(mntdir, 'ubuntu.iso'), "r", sender, conn)
 
         #Generate BTO XML File
         self.xml_obj.replace_node_contents('date', str(datetime.date.today()))
