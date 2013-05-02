@@ -9,6 +9,7 @@ dell-recovery (1.29) UNRELEASED; urgency=low
   * Correct some misuses of request_mount causing crashes (LP: #1173688)
   * Modify the ubiquity desktop file to run in automatic mode too in case
     it was executed from that desktop file.
+  * Correct some deprecated GI imports.
 
   [ Martin Pitt ]
   * Dell/driver_gtk.py: Port from ConsoleKit to logind.
