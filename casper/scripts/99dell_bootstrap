@@ -66,7 +66,7 @@ if ! grep -q "single" /proc/cmdline 2>&1 >/dev/null; then
 fi
 #if they use a ubiquity icon it needs to run in automatic
 sed -i "s/prompt=1$/prompt=/;" /root/etc/init.d/casper
-sed -i "s/Exec=ubiquity/Exec=ubiquity --automatic/" "/root/usr/share/applications/ubiquity-gtkui.desktop 2>/dev/null || true
+sed -i "s/Exec=ubiquity/Exec=ubiquity --automatic/" /root/usr/share/applications/ubiquity-gtkui.desktop 2>/dev/null || true
 
 #Build custom pool (static and dynamic)
 if [ ! -x /root/usr/share/dell/scripts/pool.sh ]; then
