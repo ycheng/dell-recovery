@@ -1,4 +1,4 @@
-dell-recovery (1.29) UNRELEASED; urgency=low
+dell-recovery (1.29) saucy; urgency=low
 
   [ Mario Limonciello ]
   * fix the prefix for grub2 ISO bootloader build.
@@ -14,7 +14,7 @@ dell-recovery (1.29) UNRELEASED; urgency=low
   [ Martin Pitt ]
   * Dell/driver_gtk.py: Port from ConsoleKit to logind.
 
- -- Mario Limonciello <superm1@ubuntu.com>  Mon, 04 Mar 2013 22:14:40 -0600
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 02 May 2013 13:04:19 -0500
 
 dell-recovery (1.28) raring; urgency=low
 
