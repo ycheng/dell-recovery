@@ -7,6 +7,8 @@ dell-recovery (1.29) UNRELEASED; urgency=low
     OOBE, add it.
   * Fix udev rules for udisks1->udisks2.
   * Correct some misuses of request_mount causing crashes (LP: #1173688)
+  * Modify the ubiquity desktop file to run in automatic mode too in case
+    it was executed from that desktop file.
 
   [ Martin Pitt ]
   * Dell/driver_gtk.py: Port from ConsoleKit to logind.
