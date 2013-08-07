@@ -804,10 +804,11 @@ class Backend(dbus.service.Object):
         self.report_progress("Extracting package.")
         safe_tar_extract(package, self.package_dir)
 
-        #emulate fat32 partition automatically setting sh and py scripts executable
-        for root, dirs, files in os.walk(self.package_dir, topdown=False):
-            for name in files:
-                if name.endswith('.sh') or name.endswith('.py'):
+        #emulate fat32 partition automatically setting all stuff in scripts executable
+        scripts = os.path.join(self.package_dir, 'scripts')
+        if os.path.isdir(scripts):
+            for root, dirs, files in os.walk(scripts, topdown=False):
+                for name in files:
                     os.chmod(os.path.join(root, name), 0755)
 
         #mount RP (if possible)

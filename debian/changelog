@@ -31,6 +31,9 @@ dell-recovery (1.24.2) UNRELEASED; urgency=low
   * Correct some misuses of request_mount causing crashes (LP: #1173688)
   * Modify the ubiquity desktop file to run in automatic mode too in case
     it was executed from that desktop file.
+  * Set all stuff in scripts directory of a driver package executable even
+    if it wasn't set as a shell script or python script.  That's what real
+    factory install does too.
 
   [ Liu Hao-Ran ]
   * Remove nomodeset from stage to to prevent kernel oops with quantal kernels.
