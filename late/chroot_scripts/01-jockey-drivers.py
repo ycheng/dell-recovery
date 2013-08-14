@@ -28,10 +28,20 @@
 
 import subprocess
 import os
+import signal
 
 DONT_BUILD_DKMS_FILE = "/tmp/do_not_build_dkms_module"
 
 class ProcessJockey():
+
+    def kill_old(self):
+        '''kill all old jockey processes'''
+        p = subprocess.Popen(['ps', '-A'], stdout=subprocess.PIPE)
+        out, err = p.communicate()
+        for line in out.splitlines():
+            if 'jockey-backend' in line:
+                pid = int(line.split(None, 1)[0])
+                os.kill(pid, signal.SIGKILL)
 
     def find_and_install_drivers(self):
         '''Uses jockey to detect and install necessary drivers'''
@@ -122,6 +132,7 @@ exit 0""" % binary
 if __name__ == "__main__":
     if os.path.exists('/usr/share/jockey/jockey-backend'):
         processor = ProcessJockey()
+        processor.kill_old()
         processor.find_and_install_drivers()
     else:
         print "Jockey isn't installed on target.  Unable to detect drivers"
