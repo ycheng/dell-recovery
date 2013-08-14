@@ -200,7 +200,7 @@ class DriverGTK(DellRecoveryToolGTK):
 
     def update_driver_gui(self, valid, description, error_warning):
         """backend trying to update frontend"""
-        text = "File: %s \n" % self.fname
+        text = "File: \n%s \n\n" % self.fname
         textbuffer = self.widgets.get_object('driver_textview').get_buffer()
         if valid < 0:
             self.widgets.get_object('driver_install_button').set_sensitive(False)
@@ -212,6 +212,7 @@ class DriverGTK(DellRecoveryToolGTK):
             if valid == 0:
                 text+= 'Warning: %s \n' % error_warning
                 #show warning
+            text+='Details:\n'
             if type(description) == dbus.Array:
                 for obj in description:
                     text += '%s \n' % obj
