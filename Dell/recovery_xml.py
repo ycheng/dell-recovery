@@ -107,8 +107,13 @@ class BTOxml:
                     with open(fname) as f:
                         fname = f.read()
                 self.dom = xml.dom.minidom.parseString(utf8str(fname))
-            except xml.parsers.expat.ExpatError:
-                print "Damaged XML file, regenerating"
+            except xml.parsers.expat.ExpatError,e:
+                print "Damaged XML file: %s, attempting to recover" % e
+                try:
+                    fname = fname.replace('&','')
+                    self.dom = xml.dom.minidom.parseString(utf8str(fname))
+                except xml.parsers.expat.ExpatError,e:
+                    print "Couldn't recover, regenerating"
 
         if not (fname and self.dom):
             self.new = True
