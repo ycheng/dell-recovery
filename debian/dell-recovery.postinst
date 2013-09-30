@@ -14,11 +14,11 @@ case "$1" in
        [ ! -d /sys/firmware/efi ]; then
         upgrade_script=$(tempfile)
         cat > $upgrade_script << EOF
-#!/usr/bin/python
+#!/usr/bin/python3
 import Dell.recovery_common as magic
 magic.create_up_boot_entry("Flash BIOS using DOS")
 EOF
-        python $upgrade_script
+        python3 $upgrade_script
         rm $upgrade_script
         update-grub
     fi

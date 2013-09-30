@@ -1,3 +1,11 @@
+dell-recovery (1.30) saucy; urgency=low
+
+  [ Michael Vogt ]
+  * debian/dell-recovery.postinst:
+    - use python3 -c 'import Dell' as its py3 only (LP: #1199776)
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Mon, 30 Sep 2013 13:13:56 -0500
+
 dell-recovery (1.29) saucy; urgency=low
 
   [ Mario Limonciello ]
