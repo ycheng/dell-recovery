@@ -1,3 +1,9 @@
+dell-recovery (1.31) UNRELEASED ; urgency=low
+
+  * refresh grub2 patches for trusty grub2 2.02~beta2-7.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 11 Mar 2014 14:07:52 -0500
+
 dell-recovery (1.30.1) trusty; urgency=medium
 
   * Rewrite the python shebang path to /usr/bin/python3.
