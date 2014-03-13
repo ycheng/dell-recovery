@@ -25,7 +25,7 @@
 
 import dbus.mainloop.glib
 import subprocess
-from gi.repository import GLib
+from gi.repository import GLib, UDisks
 import os
 import shutil
 import re
@@ -76,6 +76,9 @@ UP_FILENAMES =  [ 'upimg.bin',
                   'up.zip'   ,
                   'up.tgz'   ,
                 ]
+
+UP_LABELS = [ 'dellutility' ]
+RP_LABELS = [ 'recovery', 'install', 'os' ]
 
 ##                ##
 ##Common Functions##
@@ -238,115 +241,38 @@ def find_factory_partition_stats(partition_type):
        Only use this method during bootstrap.
        args: 'up' or 'rp'
     """
-    bus = dbus.SystemBus()
     recovery = {}
-    udisk_bus_name = 'org.freedesktop.UDisks'
-    dev_bus_name   = 'org.freedesktop.UDisks.Device'
-
     if partition_type == 'up':
-        labels = ['dellutility']
+        labels = UP_LABELS
     elif partition_type == 'rp':
-        labels = ['recovery', 'install', 'os']
-    try:
-        obj = bus.get_object(udisk_bus_name, '/org/freedesktop/UDisks')
-        iface = dbus.Interface(obj, udisk_bus_name)
-        devices = iface.EnumerateDevices()
-        for check_label in labels:
-            for device in devices:
-                obj = bus.get_object(udisk_bus_name, device)
-                dev = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
-                label = dev.Get(dev_bus_name, 'IdLabel')
+        labels = RP_LABELS
 
-                if check_label == label.lower():
-                    recovery["label" ] = label
-                    recovery["device"] = dev.Get(dev_bus_name, 'DeviceFile')
-                    recovery["fs"    ] = dev.Get(dev_bus_name, 'IdType')
-                    recovery["slave" ] = dev.Get(dev_bus_name, 'PartitionSlave')
-                    recovery["number"] = dev.Get(dev_bus_name, 'PartitionNumber')
-                    recovery["parent"] = dev.Get(dev_bus_name, 'PartitionSlave')
-                    recovery["uuid"]   = dev.Get(dev_bus_name, 'IdUuid')
-                    parent_obj    = bus.get_object(udisk_bus_name, recovery["parent"])
-                    parent_dev    = dbus.Interface(parent_obj, 'org.freedesktop.DBus.Properties')
-                    recovery["size_gb"] = parent_dev.Get(dev_bus_name, 'DeviceSize') \
-                                    / 1000000000
-                    break
-            if recovery:
-                dev_obj = bus.get_object(udisk_bus_name, recovery["slave"])
-                dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
-                recovery["slave"] = dev.Get(dev_bus_name, 'DeviceFile')
-                break
-
-    except dbus.DBusException as msg:
-        print("%s, UDisks Failed" % str(msg))
-
+    udisks = UDisks.Client.new_sync(None)
+    manager = udisks.get_object_manager()
+    for item in manager.get_objects():
+        block = item.get_block()
+        if not block:
+            continue
+        if block.get_cached_property('HintSystem').get_boolean():
+            check_label = block.get_cached_property("IdLabel")
+            if not check_label:
+                continue
+            if check_label.get_string().lower() in labels:
+                partition = item.get_partition()
+                recovery["label"] = check_label.get_string()
+                recovery["device"] = block.get_cached_property("Device").get_bytestring()
+                recovery["fs"] = block.get_cached_property("IdType").get_string()
+                recovery["drive"] = block.get_cached_property("Drive")
+                recovery["number"] = partition.get_cached_property("Number").unpack()
+                recovery["uuid"] = partition.get_cached_property("UUID")
+                recovery["size_gb"] = partition.get_cached_property("Size").unpack() / 1000000000
     return recovery
 
-def find_partitions(utility, recovery):
+def find_partitions():
     """Searches the system for utility and recovery partitions"""
-    bus = dbus.SystemBus()
-
-    try:
-        #first try to use udisks, if this fails, fall back to devkit-disks.
-        obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
-        iface = dbus.Interface(obj, 'org.freedesktop.UDisks')
-        devices = iface.EnumerateDevices()
-        for device in devices:
-            dev_obj = bus.get_object('org.freedesktop.UDisks', device)
-            dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
-
-            label = dev.Get('org.freedesktop.UDisks.Device', 'IdLabel').lower()
-            filesystem = dev.Get('org.freedesktop.Udisks.Device', 'IdType')
-
-            if not utility and label == 'dellutility':
-                utility = dev.Get('org.freedesktop.UDisks.Device', 'DeviceFile')
-            elif not recovery and ((label == 'install' or label == 'os') and 'vfat' in filesystem) or \
-                            ('recovery' in label and 'ntfs' in filesystem):
-                recovery = dev.Get('org.freedesktop.Udisks.Device', 'DeviceFile')
-        return (utility, recovery)
-    except dbus.DBusException as msg:
-        print("%s, UDisks Failed" % str(msg))
-
-    try:
-        #next try to use devkit-disks. if this fails, then we can fall back to hal
-        obj = bus.get_object('org.freedesktop.DeviceKit.Disks', '/org/freedesktop/DeviceKit/Disks')
-        iface = dbus.Interface(obj, 'org.freedesktop.DeviceKit.Disks')
-        devices = iface.EnumerateDevices()
-        for device in devices:
-            dev_obj = bus.get_object('org.freedesktop.DeviceKit.Disks', device)
-            dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
-
-            label = dev.Get('org.freedesktop.DeviceKit.Disks.Device', 'id-label')
-            filesystem = dev.Get('org.freedesktop.DeviceKit.Disks.Device', 'id-type')
-
-            if not utility and 'DellUtility' in label:
-                utility = dev.Get('org.freedesktop.DeviceKit.Disks.Device', 'device-file')
-            elif not recovery and (('install' in label or 'OS' in label) and 'vfat' in filesystem) or \
-                            ('RECOVERY' in label and 'ntfs' in filesystem):
-                recovery = dev.Get('org.freedesktop.DeviceKit.Disks.Device', 'device-file')
-        return (utility, recovery)
-
-    except dbus.DBusException as msg:
-        print("%s, DeviceKit-Disks Failed" % str(msg))
-
-    try:
-        obj = bus.get_object('org.freedesktop.Hal', '/org/freedesktop/Hal/Manager')
-        iface = dbus.Interface(obj, 'org.freedesktop.Hal.Manager')
-        devices = iface.FindDeviceByCapability('volume')
-
-        for device in devices:
-            dev_obj = bus.get_object('org.freedesktop.Hal', device)
-            dev = dbus.Interface(dev_obj, 'org.freedesktop.Hal.Device')
-
-            label = dev.GetProperty('volume.label')
-            filesystem = dev.GetProperty('volume.fstype')
-            if not utility and 'DellUtility' in label:
-                utility = dev.GetProperty('block.device')
-            elif not recovery and (('install' in label or 'OS' in label) and 'vfat' in filesystem) or \
-                            ('RECOVERY' in label and 'ntfs' in filesystem):
-                recovery = dev.GetProperty('block.device')
-        return (utility, recovery)
-    except dbus.DBusException as msg:
-        print("%s, HAL Failed" % str(msg))
+    utility = find_factory_partition_stats('up')['device']
+    recovery = find_factory_partition_stats('rp')['device']
+    return (utility, recovery)
 
 def find_burners():
     """Checks for what utilities are available to burn with"""
@@ -382,49 +308,24 @@ def find_burners():
     #If we have apps for DVD burning, check hardware
     if dvd:
         found_supported_dvdr = False
-        try:
-            bus = dbus.SystemBus()
-            #first try to use udisks, if this fails, fall back to devkit-disks.
-            obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
-            iface = dbus.Interface(obj, 'org.freedesktop.UDisks')
-            devices = iface.EnumerateDevices()
-            for device in devices:
-                obj = bus.get_object('org.freedesktop.UDisks', device)
-                dev = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
-
-                supported_media = dev.Get('org.freedesktop.UDisks.Device', 'DriveMediaCompatibility')
-                for item in supported_media:
-                    if 'optical_dvd_r' in item:
-                        found_supported_dvdr = True
-                        break
-                if found_supported_dvdr:
+        valid_media_types=[ 'optical_dvd_plus_r', 'optical_dvd_plus_r_dl',
+                            'optical_dvd_plus_rw', 'optical_dvd_r',
+                            'optical_dvd_ram', 'optical_dvd_rw' ]
+        udisks = UDisks.Client.new_sync(None)
+        manager = udisks.get_object_manager()
+        for item in manager.get_objects():
+            drive = item.get_drive()
+            if not drive or not drive.get_cached_property("MediaRemovable"):
+                continue
+            compatibility = drive.get_cached_property("MediaCompatibility")
+            for media in valid_media_types:
+                if media in compatibility:
+                    found_supported_dvdr = True
                     break
-            if not found_supported_dvdr:
-                dvd = None
-            return (dvd, usb)
-        except dbus.DBusException as msg:
-            print("%s, UDisks Failed burner parse" % str(msg))
-        try:
-            #first try to use devkit-disks. if this fails, then, it's OK
-            obj = bus.get_object('org.freedesktop.DeviceKit.Disks', '/org/freedesktop/DeviceKit/Disks')
-            iface = dbus.Interface(obj, 'org.freedesktop.DeviceKit.Disks')
-            devices = iface.EnumerateDevices()
-            for device in devices:
-                obj = bus.get_object('org.freedesktop.DeviceKit.Disks', device)
-                dev = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
-
-                supported_media = dev.Get('org.freedesktop.DeviceKit.Disks.Device', 'DriveMediaCompatibility')
-                for item in supported_media:
-                    if 'optical_dvd_r' in item:
-                        found_supported_dvdr = True
-                        break
-                if found_supported_dvdr:
-                    break
-            if not found_supported_dvdr:
-                dvd = None
-        except dbus.DBusException as msg:
-            print("%s, device kit Failed burner parse" % str(msg))
-
+            if found_supported_dvdr:
+                break
+        if not found_supported_dvdr:
+            dvd = None
     return (dvd, usb)
 
 def match_system_device(bus, vendor, device):
@@ -621,24 +522,20 @@ def create_g2ldr(chroot, rp_mount, install_mount):
        chroot: chroot to launch commands in
        rp_mount: mountpoint to find partition# and install g2ldr
        install_mount: mountpoint to find target OS UUID'''
-    bus = dbus.SystemBus()
-    udisk_bus_name = 'org.freedesktop.UDisks'
-    dev_bus_name   = 'org.freedesktop.UDisks.Device'
     uuid = ''
     partition = '-1'
 
-    #Find the UUID we are installing to
-    obj = bus.get_object(udisk_bus_name, '/org/freedesktop/UDisks')
-    iface = dbus.Interface(obj, udisk_bus_name)
-    devices = iface.EnumerateDevices()
-    for device in devices:
-        obj = bus.get_object(udisk_bus_name, device)
-        dev = dbus.Interface(obj, 'org.freedesktop.DBus.Properties')
-        mount = dev.Get(dev_bus_name, 'DeviceMountPaths')
+    udisks = UDisks.Client.new_sync(None)
+    manager = udisks.get_object_manager()
+    for item in manager.get_objects():
+        filesystem = item.get_filesystem()
+        part = item.get_partition()
+        if not filesystem or not part:
+            continue
+        mount = filesystem.get_cached_property('MountPoints')
         if mount and install_mount and install_mount in mount:
-            uuid = dev.Get(dev_bus_name, 'IdUuid')
-        elif mount and rp_mount and rp_mount in mount:
-            partition = str(dev.Get(dev_bus_name, 'DeviceMinor'))
+            uuid = part.get_cached_property('UUID')
+            partition = part.get_cached_property("Number")
 
     #The file that the Windows BCD will chainload
     shutil.copy('/usr/lib/grub/i386-pc/g2ldr.mbr', rp_mount)

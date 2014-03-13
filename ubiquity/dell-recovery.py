@@ -45,7 +45,7 @@ class PageGtk(PluginUI):
 
     def __init__(self, controller, *args, **kwargs):
         self.controller = controller
-        upart, rpart  = magic.find_partitions('','')
+        upart, rpart  = magic.find_partitions()
         dvd, usb = magic.find_burners()
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
         self.genuine = magic.check_vendor()
@@ -190,7 +190,7 @@ class Install(InstallPlugin):
         rec_type = progress.get('dell-recovery/destination')
         if rec_type != "none":
             dvd, usb = magic.find_burners()
-            upart, rpart  = magic.find_partitions('', '')
+            upart, rpart  = magic.find_partitions()
             self.index = 0
 
             #build all the user's home directories a little earlier than normal

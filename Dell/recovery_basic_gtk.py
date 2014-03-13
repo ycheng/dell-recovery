@@ -109,7 +109,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         if self.up and self.rp:
             return True
 
-        (self.up, self.rp) = find_partitions(self.up, self.rp)
+        (self.up, self.rp) = find_partitions()
 
         return self.rp
 

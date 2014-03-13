@@ -52,7 +52,7 @@ setup_logging(parser_args.debug, parser_args.logfile)
 if __name__ == '__main__':
     import dbus.mainloop.glib
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-    utility, recovery = find_partitions('', '')
+    utility, recovery = find_partitions()
 
     args = (recovery, utility, parser_args.fname, 'driver')
     tool = DriverGTK(*args)

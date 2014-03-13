@@ -40,8 +40,6 @@ except OSError:
 usage = '%prog [options]'
 parser = optparse.OptionParser(usage=usage)
 parser.set_defaults(
-    up='',
-    rp='',
     version='',
     media="dvd",
     builder=False,
@@ -53,10 +51,6 @@ parser.set_defaults(
     )
 parser.add_option('-c', '--check-version', dest='checkversion', action='store_true',
                   help='Show the version information.')
-parser.add_option('-u', '--up', dest='up',
-                  help='Override detected utility partition with this file.')
-parser.add_option('-r', '--rp', dest='rp',
-                  help='Override detected recovery partition with this file.')
 parser.add_option('-v', '--override-version', dest='version',
                   help='Override the automatic version number generation of this ISO.')
 parser.add_option('-m', '--media', dest='media',
@@ -83,7 +77,7 @@ if __name__ == '__main__':
     else:
         import dbus.mainloop.glib
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-        utility, recovery = find_partitions(options.up,options.rp)
+        utility, recovery = find_partitions()
 
         #If we don't find an RP, assume builder mode.
         if not options.burn and not recovery and not options.builder:

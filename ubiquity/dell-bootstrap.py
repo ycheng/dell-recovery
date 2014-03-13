@@ -1693,7 +1693,7 @@ class Install(InstallPlugin):
         self.target = target
         self.progress = progress
 
-        utility_part,  rec_part  = magic.find_partitions('', '')
+        utility_part,  rec_part  = magic.find_partitions()
 
         from ubiquity import install_misc
         to_install = []
