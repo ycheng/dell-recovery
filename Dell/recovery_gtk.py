@@ -98,11 +98,11 @@ class DellRecoveryToolGTK:
                 sys.exit(1)
             except Exception as msg:
                 self.show_alert(Gtk.MessageType.ERROR, "Exception", str(msg),
-                           parent=self.tool_widgets.get_object('tool_selector'))
+                           transient_for=self.tool_widgets.get_object('tool_selector'))
 
         return self._dbus_iface
 
-    def dbus_exception_handler(self, msg, parent=None, fallback=None):
+    def dbus_exception_handler(self, msg, transient_for=None, fallback=None):
         """Common handler used for dbus type exceptions"""
         if msg.get_dbus_name() == 'org.freedesktop.DBus.Error.FileNotFound':
             text = _("Cannot connect to dbus")
@@ -111,13 +111,13 @@ class DellRecoveryToolGTK:
         else:
             text = msg.get_dbus_message()
 
-        if not parent:
-            parent = self.tool_widgets.get_object('tool_selector')
+        if not transient_for:
+            transient_for = self.tool_widgets.get_object('tool_selector')
 
-        self.show_alert(Gtk.MessageType.ERROR, _("Exception"), text, parent)
+        self.show_alert(Gtk.MessageType.ERROR, _("Exception"), text, transient_for)
 
         if fallback:
-            parent.hide()
+            transient_for.hide()
             fallback.show()
 
 #### Callbacks ###
@@ -151,12 +151,12 @@ class DellRecoveryToolGTK:
             #BIOS flash button
             elif widget == self.tool_widgets.get_object('flash_bios_button'):
 
-                file_dialog = Gtk.FileChooserDialog("Choose DOS BIOS Executable",
-                                        None,
-                                        Gtk.FileChooserAction.OPEN,
-                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+                file_dialog = Gtk.FileChooserDialog(title = "Choose DOS BIOS Executable",
+                                        transient_for = None,
+                                        action = Gtk.FileChooserAction.OPEN)
                 file_dialog.set_default_response(Gtk.ResponseType.OK)
+                file_dialog.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
                 file_filter = Gtk.FileFilter()
                 file_filter.add_pattern("*.exe")
                 file_filter.add_pattern("*.EXE")
@@ -198,7 +198,7 @@ class DellRecoveryToolGTK:
                 self.about_box.set_copyright(_("Copyright 2008-2012 Dell Inc."))
                 self.about_box.set_website("http://www.dell.com/ubuntu")
                 self.about_box.set_authors(["Mario Limonciello"])
-                self.about_box.set_destroy_with_parent(True)
+                self.about_box.set_destroy_with_transient_for(True)
                 self.about_box.set_modal(True)
                 self.about_box.set_transient_for(tool_selector)
             tool_selector.set_sensitive(False)
@@ -216,15 +216,15 @@ class DellRecoveryToolGTK:
         self.tool_widgets.get_object('tool_selector').show()
         Gtk.main()
 
-    def show_alert(self, alert_type, header, body=None, parent=None):
+    def show_alert(self, alert_type, header, body=None, transient_for=None):
         """Displays an alert message"""
         dialog_hig = self.tool_widgets.get_object('dialog_hig')
         label_hig  = self.tool_widgets.get_object('label_hig')
         image_hig  = self.tool_widgets.get_object('image_hig')
         tool_selector = self.tool_widgets.get_object('tool_selector')
         
-        if parent is not None:
-            dialog_hig.set_transient_for(parent)
+        if transient_for is not None:
+            dialog_hig.set_transient_for(transient_for)
         else:
             dialog_hig.set_transient_for(tool_selector)
 

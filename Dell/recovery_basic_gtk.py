@@ -126,8 +126,8 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
                                             self.rp)
             except dbus.DBusException as msg:
                 self.toggle_spinner_popup(False)
-                parent = self.widgets.get_object('wizard')
-                self.dbus_exception_handler(msg, parent)
+                transient_for = self.widgets.get_object('wizard')
+                self.dbus_exception_handler(msg, transient_for)
                 return
             finally:
                 self.toggle_spinner_popup(False)
@@ -180,9 +180,9 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
                                 *args)
                 self.update_progress_gui(_("Opening Burner"), 1.00)
             except dbus.DBusException as msg:
-                parent = self.widgets.get_object('progress_dialog')
+                transient_for = self.widgets.get_object('progress_dialog')
                 fallback = self.widgets.get_object('wizard')
-                self.dbus_exception_handler(msg, parent, fallback)
+                self.dbus_exception_handler(msg, transient_for, fallback)
                 return
 
         self.burn()
@@ -208,7 +208,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
 image has been stored under the filename:\n") + \
 os.path.join(self.path, self.image)
         self.show_alert(Gtk.MessageType.INFO, header, body,
-            parent=self.widgets.get_object('progress_dialog'))
+            transient_for=self.widgets.get_object('progress_dialog'))
 
         self.destroy(None)
 
@@ -222,7 +222,7 @@ os.path.join(self.path, self.image)
             inst = _("System does not appear to contain Dell factory installed \
 partition layout.")
             self.show_alert(Gtk.MessageType.ERROR, header, inst,
-                parent=self.widgets.get_object('wizard'))
+                transient_for=self.widgets.get_object('wizard'))
             return
 
         if DellRecoveryToolGTK.top_button_clicked(self, widget):

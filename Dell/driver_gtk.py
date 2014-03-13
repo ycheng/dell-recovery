@@ -104,7 +104,7 @@ class DriverGTK(DellRecoveryToolGTK):
 
     def install_driver(self, widget):
         '''Installs a driver package.  Activated when install is pressed'''
-        parent = self.widgets.get_object('driver_window')
+        transient_for = self.widgets.get_object('driver_window')
         args = (self.fname, self.rp)
         try:
             status = _("Preparing to install package...")
@@ -117,17 +117,17 @@ class DriverGTK(DellRecoveryToolGTK):
                                     *args)
         except dbus.DBusException as msg:
             logging.error(msg)
-            self.dbus_exception_handler(msg, parent)
+            self.dbus_exception_handler(msg, transient_for)
             self.toggle_spinner()
             return
 
     def package_installed(self, exit_status, msg):
-        parent = self.widgets.get_object('driver_window')
+        transient_for = self.widgets.get_object('driver_window')
         if exit_status != EXIT_SUCCESS:
             if not msg:
                 msg = _("Package installation failed")
             logging.error(msg)
-            self.show_alert(Gtk.MessageType.ERROR, _("Package Install Failed"), msg , parent)
+            self.show_alert(Gtk.MessageType.ERROR, _("Package Install Failed"), msg , transient_for)
             self.toggle_spinner()
             return
 
@@ -186,9 +186,9 @@ class DriverGTK(DellRecoveryToolGTK):
                                             {'report_package_info': self.update_driver_gui},
                                             self.fname)
         except dbus.DBusException as msg:
-            parent = self.widgets.get_object('driver_window')
+            transient_for = self.widgets.get_object('driver_window')
             logging.error(msg)         
-            self.dbus_exception_handler(msg, parent)
+            self.dbus_exception_handler(msg, transient_for)
 
     def browse_clicked(self, widget):
         '''browse button clicked'''

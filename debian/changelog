@@ -1,6 +1,7 @@
-dell-recovery (1.31) UNRELEASED ; urgency=low
+dell-recovery (1.31) UNRELEASED; urgency=low
 
   * refresh grub2 patches for trusty grub2 2.02~beta2-7.
+  * fix some deprecated usage of python3 w/ gtk
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 11 Mar 2014 14:07:52 -0500
 

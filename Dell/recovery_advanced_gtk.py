@@ -73,11 +73,11 @@ OEM FID framework & driver package set into a customized \
 OS media image.  You will have the option to \
 create an USB key or DVD image."))
 
-        self.file_dialog = Gtk.FileChooserDialog("Choose Item",
-                                        None,
-                                        Gtk.FileChooserAction.OPEN,
-                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+        self.file_dialog = Gtk.FileChooserDialog(title = "Choose Item",
+                                        transient_for = None,
+                                        action = Gtk.FileChooserAction.OPEN)
+        self.file_dialog.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
         self.file_dialog.set_default_response(Gtk.ResponseType.OK)
 
         #setup transient windows
@@ -344,8 +344,8 @@ create an USB key or DVD image."))
                                             {'report_iso_info': self.update_version_gui},
                                             ret)
             except dbus.DBusException as msg:
-                parent = self.widgets.get_object('wizard')
-                self.dbus_exception_handler(msg, parent)
+                transient_for = self.widgets.get_object('wizard')
+                self.dbus_exception_handler(msg, transient_for)
             self.toggle_spinner_popup(False)
             self.builder_base_image = ret
 
@@ -507,7 +507,7 @@ create an USB key or DVD image."))
                                     reply_handler=None,
                                     error_handler=None)
             
-            dialog = AptProgressDialog(trans, parent=wizard)
+            dialog = AptProgressDialog(trans, transient_for=wizard)
             dialog.run()
             super(AptProgressDialog, dialog).run()
         except dbus.exceptions.DBusException as msg:
