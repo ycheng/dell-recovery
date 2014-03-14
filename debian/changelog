@@ -2,8 +2,9 @@ dell-recovery (1.31) UNRELEASED; urgency=low
 
   * refresh grub2 patches for trusty grub2 2.02~beta2-7.
   * fix some deprecated usage of python3 w/ gtk
-  * update some of the recovery-common for udisks2
   * drop argument in find_partitions()
+  * Update to udisks2.  Drop support for older udisks and devkit-disks
+    (LP: #1288253)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 11 Mar 2014 14:07:52 -0500
 
