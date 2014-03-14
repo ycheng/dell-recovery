@@ -334,7 +334,7 @@ partition layout.")
             text  = ''
             text += "<b>" + _("Media Type: ") + '</b>' + burn_type + '\n'
             if self.rp:
-                if not "/dev" in self.rp:
+                if not self.rp.startswith(b'/dev'):
                     text += "<b>" + _("Recovery Partition: ") + '</b>'
                     text += self.rp + '\n'
                 else:
