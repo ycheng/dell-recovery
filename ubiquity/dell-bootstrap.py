@@ -3,7 +3,7 @@
 #
 # «dell-bootstrap» - Ubiquity plugin for Dell Factory Process
 #
-# Copyright (C) 2010-2011, Dell Inc.
+# Copyright (C) 2010-2014, Dell Inc.
 #
 # Author:
 #  - Mario Limonciello <Mario_Limonciello@Dell.com>

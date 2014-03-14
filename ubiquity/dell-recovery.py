@@ -3,7 +3,7 @@
 #
 # «dell-recovery» - OEM Config plugin for Dell-Recovery Media
 #
-# Copyright (C) 2010, Dell Inc.
+# Copyright (C) 2010-2014, Dell Inc.
 #
 # Author:
 #  - Mario Limonciello <Mario_Limonciello@Dell.com>
