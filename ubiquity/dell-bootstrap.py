@@ -44,6 +44,7 @@ import zipfile
 import tarfile
 import hashlib
 from apt.cache import Cache
+from gi.repository import GLib, UDisks
 
 NAME = 'dell-bootstrap'
 BEFORE = 'language'
@@ -79,6 +80,8 @@ DISK_LAYOUT_QUESTION = 'dell-recovery/disk_layout'
 SWAP_QUESTION = 'dell-recovery/swap'
 RP_FILESYSTEM_QUESTION = 'dell-recovery/recovery_partition_filesystem'
 DRIVER_INSTALL_QUESTION = 'dell-recovery/disable-driver-install'
+
+no_options = GLib.Variant('a{sv}', {})
 
 #######################
 # Noninteractive Page #
@@ -429,22 +432,13 @@ class Page(Plugin):
 
     def disable_swap(self):
         """Disables any swap partitions in use"""
-        bus = dbus.SystemBus()
-
-        udisk_obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
-        udisk_int = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
-        devices = udisk_int.EnumerateDevices()
-        for device in devices:
-            dev_obj = bus.get_object('org.freedesktop.UDisks', device)
-            dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
-
-            #Find mounted swap
-            if dev.Get('org.freedesktop.UDisks.Device', 'IdType') == 'swap':
-                device = dev.Get('org.freedesktop.Udisks.Device', 'DeviceFile')
-                misc.execute_root('swapoff', device)
-                if misc is False:
-                    raise RuntimeError("Error removing swap for device %s" %
-                                       device)
+        udisks = UDisks.Client.new_sync(None)
+        manager = udisks.get_object_manager()
+        for item in manager.get_objects():
+            swap = item.get_swapspace()
+            if not swap:
+                continue
+            swap.call_stop_sync(no_options)
 
     def sleep_network(self):
         """Requests the network be disabled for the duration of install to
@@ -682,31 +676,36 @@ class Page(Plugin):
 
     def fixup_recovery_devices(self):
         """Discovers the first hard disk to install to"""
-        bus = dbus.SystemBus()
         disks = []
-
-        udisk_obj = bus.get_object('org.freedesktop.UDisks', '/org/freedesktop/UDisks')
-        udi = dbus.Interface(udisk_obj, 'org.freedesktop.UDisks')
-        devices = udi.EnumerateDevices()
-        for device in devices:
-            dev_obj = bus.get_object('org.freedesktop.UDisks', device)
-            dev = dbus.Interface(dev_obj, 'org.freedesktop.DBus.Properties')
-
-            #Skip USB, Removable Disks, Partitions, External, Loopback, Readonly
-            if dev.Get('org.freedesktop.UDisks.Device', 'DriveConnectionInterface') == 'usb' or \
-               dev.Get('org.freedesktop.UDisks.Device', 'DeviceIsRemovable') == 1 or \
-               dev.Get('org.freedesktop.UDisks.Device', 'DeviceIsPartition') == 1 or \
-               dev.Get('org.freedesktop.UDisks.Device', 'DeviceIsSystemInternal') == 0 or \
-               dev.Get('org.freedesktop.UDisks.Device', 'DeviceIsLinuxLoop') == 1 or \
-               dev.Get('org.freedesktop.UDisks.Device', 'DeviceIsReadOnly') == 1 :
+        udisks = UDisks.Client.new_sync(None)
+        manager = udisks.get_object_manager()
+        drive = None
+        for item in manager.get_objects():
+            loop = item.get_loop()
+            block = item.get_block()
+            partition = item.get_partition()
+            if loop or \
+               partition or \
+               not block or \
+               not block.get_cached_property("HintPartitionable").get_boolean():
                 continue
-
-            #if we made it this far, add it
-            devicefile = dev.Get('org.freedesktop.Udisks.Device',   'DeviceFile')
-            devicemodel = dev.Get('org.freedesktop.Udisks.Device',  'DriveModel')
-            devicevendor = dev.Get('org.freedesktop.Udisks.Device', 'DriveVendor')
-            devicesize = dev.Get('org.freedesktop.Udisks.Device',   'DeviceSize')
+        
+            drive_obj = block.get_cached_property("Drive").get_string()
+            if drive_obj == '/':
+                continue
+                
+            drive = udisks.get_object(drive_obj).get_drive()
+            if not drive or \
+               drive.get_cached_property("ConnectionBus").get_string() is 'usb' or \
+               drive.get_cached_property("Removable").get_boolean() is True:
+                continue
+        
+            devicefile = block.get_cached_property("Device").get_bytestring()
+            devicemodel = drive.get_cached_property("Model").get_string()
+            devicevendor = drive.get_cached_property("Vendor").get_string()
+            devicesize = drive.get_cached_property("Size").unpack()
             devicesize_gb = "%i" % (devicesize / 1000000000)
+            
             disks.append([devicefile, devicesize, "%s GB %s %s (%s)" % (devicesize_gb, devicevendor, devicemodel, devicefile)])
 
         #If multiple candidates were found, record in the logs
