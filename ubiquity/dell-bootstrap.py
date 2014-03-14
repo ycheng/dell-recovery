@@ -700,7 +700,7 @@ class Page(Plugin):
                drive.get_cached_property("Removable").get_boolean() is True:
                 continue
         
-            devicefile = block.get_cached_property("Device").get_bytestring()
+            devicefile = block.get_cached_property("Device").get_bytestring().decode('utf-8')
             devicemodel = drive.get_cached_property("Model").get_string()
             devicevendor = drive.get_cached_property("Vendor").get_string()
             devicesize = drive.get_cached_property("Size").unpack()
