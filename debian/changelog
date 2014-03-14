@@ -5,6 +5,7 @@ dell-recovery (1.31) UNRELEASED; urgency=low
   * drop argument in find_partitions()
   * Update to udisks2.  Drop support for older udisks and devkit-disks
     (LP: #1288253)
+  * debian/control: new standards version
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 11 Mar 2014 14:07:52 -0500
 

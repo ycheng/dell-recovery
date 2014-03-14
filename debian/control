@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 7.0.50~), python3-all, python3-distutils-extra, po-
 X-Python3-Version: >= 3.2
 Homepage: http://linux.dell.com/
 Vcs-Bzr: http://bazaar.launchpad.net/~dell-team/dell-recovery/trunk
-Standards-Version: 3.9.3
+Standards-Version: 3.9.5
 
 Package: dell-recovery
 Architecture: all
