@@ -278,7 +278,7 @@ def find_factory_partition_stats(partition_type):
             if not block:
                 continue
             if block.get_cached_property("Drive").get_string() == recovery["drive"]:
-                recovery["slave"] = block.get_cached_property("Device").get_bytestring()
+                recovery["slave"] = block.get_cached_property("Device").get_bytestring().decode('utf-8')
                 break
     return recovery
 
