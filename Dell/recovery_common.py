@@ -284,8 +284,17 @@ def find_factory_partition_stats(partition_type):
 
 def find_partitions():
     """Searches the system for utility and recovery partitions"""
-    utility = find_factory_partition_stats('up')['device']
-    recovery = find_factory_partition_stats('rp')['device']
+
+    utility = find_factory_partition_stats('up')
+    if 'device' in utility:
+        utility = utility['device']
+    else:
+        utility = None
+    recovery = find_factory_partition_stats('rp')
+    if 'device' in recovery:
+        recovery = recovery['device']
+    else:
+        recovery = None
     return (utility, recovery)
 
 def find_burners():
