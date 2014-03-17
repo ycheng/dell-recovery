@@ -933,9 +933,6 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.restore')
         logging.debug("enable_boot_to_restore")
-
-        self._prepare_reboot("99_dell_recovery")
-
         self._prepare_reboot("99_dell_recovery")
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
