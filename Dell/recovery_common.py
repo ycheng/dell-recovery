@@ -592,8 +592,7 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     new_initrd_file = os.path.join(new_initrd_directory, 'initrd' + new_suffix)
     print "New initrd file: %s" % new_initrd_file
     chain0 = subprocess.Popen(['find'], cwd=tmpdir, stdout=subprocess.PIPE)
-    chain1 = subprocess.Popen(['cpio', '--quiet', '--dereference', '-o',
-                               '-H', 'newc'],
+    chain1 = subprocess.Popen(['cpio', '--quiet', '-o', '-H', 'newc'],
                                cwd=tmpdir, stdin=chain0.stdout,
                                stdout=subprocess.PIPE)
     with open(new_initrd_file, 'w') as initrd_fd:
