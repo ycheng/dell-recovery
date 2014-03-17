@@ -524,8 +524,7 @@ old compression method %s" % (old_initrd_file, old_uuid_file,
     new_initrd_file = os.path.join(new_initrd_directory, 'initrd' + new_suffix)
     logging.debug("create_new_uuid: new initrd file: %s" % new_initrd_file)
     chain0 = subprocess.Popen(['find'], cwd=tmpdir, stdout=subprocess.PIPE)
-    chain1 = subprocess.Popen(['cpio', '--quiet', '--dereference', '-o',
-                               '-H', 'newc'],
+    chain1 = subprocess.Popen(['cpio', '--quiet', '-o', '-H', 'newc'],
                                cwd=tmpdir, stdin=chain0.stdout,
                                stdout=subprocess.PIPE)
     with open(new_initrd_file, 'wb') as initrd_fd:

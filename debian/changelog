@@ -8,6 +8,7 @@ dell-recovery (1.31) UNRELEASED; urgency=low
   * debian/control: new standards version
   * set booting kernel name to vmlinuz.efi now.
   * drop old GRUB patches, only want to be booting to trusty+ now.
+  * disable dereference in building initrd.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 11 Mar 2014 14:07:52 -0500
 
