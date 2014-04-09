@@ -146,12 +146,16 @@ def _tree(action, list, src, dst, base, white):
 
 def check_vendor():
     """Checks to make sure that the app is running on Dell HW"""
-    if os.path.exists('/sys/class/dmi/id/bios_vendor'):
-        with open('/sys/class/dmi/id/bios_vendor') as rfd:
-            vendor = rfd.readline().split()[0].lower()
-    else:
-        vendor = ''
-    return ((vendor == 'dell') or (vendor == 'alienware'))
+    path = '/sys/class/dmi/id/'
+    variables = ['bios_vendor', 'sys_vendor']
+    valid = ['dell', 'alienware', 'wyse']
+    for var in variables:
+        if os.path.exists(path + var):
+            with open(path + var) as rfd:
+                value = rfd.readline().split()[0].lower()
+            if value in valid:
+                return True
+    return False
 
 def check_version(package='dell-recovery'):
     """Queries the package management system for the current tool version"""
