@@ -1096,7 +1096,7 @@ class Page(Plugin):
 
             # Factory install, and booting from RP
             else:
-                self.sleep_network()
+                #self.sleep_network()
                 self.disable_swap()
                 self.clean_recipe()
                 self.remove_extra_partitions()
@@ -1226,10 +1226,12 @@ manually to proceed.")
                         out.write(mbr.read(440))
 
             #Build UP
-            command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '1', str(up_size))
-            result = misc.execute_root(*command)
-            if result is False:
-                raise RuntimeError("Error creating new %s mb utility partition on %s" % (up_size, self.device))
+            commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', '1', str(up_size)),
+                        ('mkfs.msdos', self.device + '1')]
+            for command in commands:
+                result = misc.execute_root(*command)
+                if result is False:
+                    raise RuntimeError("Error creating new %s mb utility partition on %s" % (up_size, self.device))
 
             with misc.raised_privileges():
                 #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
@@ -1279,9 +1281,10 @@ manually to proceed.")
             #In GPT we have a UP, but also a BIOS grub partition
             if self.efi:
                 grub_size = 50
-                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '0', str(grub_size)),
+                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'fat16', '0', str(grub_size)),
                             ('parted', '-s', self.device, 'name', '1', "'EFI System Partition'"),
-                            ('parted', '-s', self.device, 'set', '1', 'boot', 'on')]
+                            ('parted', '-s', self.device, 'set', '1', 'boot', 'on'),
+                            ('mkfs.msdos', self.device + '1')]
             else:
                 grub_size = 1.5
                 commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'biosboot', '0', str(grub_size)),
@@ -1295,9 +1298,10 @@ manually to proceed.")
                         raise RuntimeError("Error creating new %s mb grub partition on %s" % (grub_size, self.device))
 
             up_part = '2'
-            commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', str(grub_size), str(grub_size+up_size)),
+            commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', str(grub_size), str(grub_size+up_size)),
                         ('parted', '-s', self.device, 'set', up_part, 'diag', 'on'),
-                        ('parted', '-s', self.device, 'name', up_part, 'DellUtility')]
+                        ('parted', '-s', self.device, 'name', up_part, 'DellUtility'),
+                        ('mkfs.msdos', self.device + up_part)]
             for command in commands:
                 result = misc.execute_root(*command)
                 if result is False:
