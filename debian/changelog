@@ -1,3 +1,9 @@
+dell-recovery (1.31somerville3) trusty; urgency=low
+
+  * Using `udevadm settle` to wait for the event queue to finish.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Thu, 08 May 2014 22:34:41 +0800
+
 dell-recovery (1.31somerville2) trusty; urgency=low
 
   * Some disk's logical sector size is smaller than physical sector size so

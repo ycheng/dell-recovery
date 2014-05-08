@@ -1227,7 +1227,9 @@ manually to proceed.")
 
             #Build UP
             commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', '1', str(up_size)),
-                        ('mkfs.msdos', self.device + '1')]
+                        ('mkfs.msdos', self.device + '1'),
+                        ('udevadm', 'settle')] # Wait for the event queue to finish.
+
             for command in commands:
                 result = misc.execute_root(*command)
                 if result is False:
