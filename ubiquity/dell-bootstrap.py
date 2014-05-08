@@ -1258,10 +1258,10 @@ manually to proceed.")
                 my_os_part = 5120 #mb
                 other_os_part_end = (int(self.device_size) / 1000000) - my_os_part
 
-                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'ntfs', str(up_size + rp_size_mb), str(other_os_part_end)),
+                commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'ntfs', str(up_size + rp_size_mb), str(other_os_part_end)),
                             ('mkfs.ntfs' , '-f', '-L', 'OS', self.device + '3')]
                 if self.dual_layout == 'primary':
-                    commands.append(('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'fat32', str(other_os_part_end), str(other_os_part_end + my_os_part)))
+                    commands.append(('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat32', str(other_os_part_end), str(other_os_part_end + my_os_part)))
                     commands.append(('mkfs.msdos', '-n', 'ubuntu'  , self.device + '4'))
                     #Grub needs to be on the 4th partition to kick off the ubuntu install
                     grub_part = '4'
@@ -1281,13 +1281,13 @@ manually to proceed.")
             #In GPT we have a UP, but also a BIOS grub partition
             if self.efi:
                 grub_size = 50
-                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'fat16', '0', str(grub_size)),
+                commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', '0', str(grub_size)),
                             ('parted', '-s', self.device, 'name', '1', "'EFI System Partition'"),
                             ('parted', '-s', self.device, 'set', '1', 'boot', 'on'),
                             ('mkfs.msdos', self.device + '1')]
             else:
                 grub_size = 1.5
-                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'biosboot', '0', str(grub_size)),
+                commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'biosboot', '0', str(grub_size)),
                             ('parted', '-s', self.device, 'set', '1', 'bios_grub', 'on')]
             for command in commands:
                 result = misc.execute_root(*command)
@@ -1317,7 +1317,7 @@ manually to proceed.")
             grub_part = ''
 
             #Build RP
-            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(up_size + grub_size), str(up_size + rp_size_mb + grub_size))
+            command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(up_size + grub_size), str(up_size + rp_size_mb + grub_size))
             result = misc.execute_root(*command)
             if result is False:
                 raise RuntimeError("Error creating new %s mb recovery partition on %s" % (rp_size_mb, self.device))

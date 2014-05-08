@@ -1,3 +1,10 @@
+dell-recovery (1.31somerville2) trusty; urgency=low
+
+  * Some disk's logical sector size is smaller than physical sector size so
+    that using 'optimal' alignment type to get better performance.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Thu, 08 May 2014 18:43:45 +0800
+
 dell-recovery (1.31somerville1) trusty; urgency=low
 
   * Avoid using mkpartfs of parted. (LP: #1309410)
