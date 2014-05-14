@@ -1,3 +1,9 @@
+dell-recovery (1.31somerville6) trusty; urgency=low
+
+  * Avoid some issues from UEFI BIOS.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Wed, 14 May 2014 17:48:35 +0800
+
 dell-recovery (1.31somerville5) trusty; urgency=low
 
   * Fix the partition string decoding issue that causes the language page

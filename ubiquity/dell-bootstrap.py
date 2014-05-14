@@ -1455,12 +1455,19 @@ manually to proceed.")
                     shutil.copy(item, direct_path)
 
                 #find old entries
-                bootmgr_output = magic.fetch_output(['efibootmgr']).split('\n')
+                bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
 
             #delete old entries
             for line in bootmgr_output:
+                bootnum = ''
                 if line.startswith('Boot') and 'ubuntu' in line:
                     bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                # Some UEFI BIOS will automatically create a boot entry for '\EFI\BOOT\BOOTX64.EFI',
+                # but won't remove it afterward, so we will remove them here to avoid some issues,
+                # such as boot entries overflowed or unknown boot sequences.
+                elif line.startswith('Boot') and '\EFI\BOOT\BOOTX64.EFI' in line.upper():
+                    bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                if bootnum:
                     bootmgr = misc.execute_root('efibootmgr', '-q', '-b', bootnum, '-B')
                     if bootmgr is False:
                         raise RuntimeError("Error removing old EFI boot manager entries")
