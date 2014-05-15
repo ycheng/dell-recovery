@@ -475,6 +475,25 @@ class Page(Plugin):
             except debconf.DebconfError as err:
                 self.log(str(err))
 
+    def remove_extra_uefi_boot_entries(self):
+        """Remove extra UEFI boot entries for \EFI\BOOT\BOOTX64.EFI"""
+        if not self.efi:
+            return
+        with misc.raised_privileges():
+            #find old entries
+            bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
+        #delete old entries
+        for line in bootmgr_output:
+            bootnum = ''
+            # Some UEFI BIOS will automatically create boot entries for '\EFI\BOOT\BOOTX64.EFI',
+            # but won't remove it afterward, so we will remove them here to avoid some issues,
+            # such as boot entries overflowed or unknown boot sequences.
+            if line.startswith('Boot') and '\EFI\BOOT\BOOTX64.EFI' in line.upper():
+                bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                bootmgr = misc.execute_root('efibootmgr', '-q', '-b', bootnum, '-B')
+                if bootmgr is False:
+                    raise RuntimeError("Error removing old EFI boot manager entries")
+
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
         if self.disk_layout == 'msdos':
@@ -1099,6 +1118,7 @@ class Page(Plugin):
                 #self.sleep_network()
                 self.disable_swap()
                 self.clean_recipe()
+                self.remove_extra_uefi_boot_entries()
                 self.remove_extra_partitions()
                 self.explode_utility_partition()
                 self.explode_sdr()
@@ -1462,7 +1482,7 @@ manually to proceed.")
                 bootnum = ''
                 if line.startswith('Boot') and 'ubuntu' in line:
                     bootnum = line.split('Boot')[1].replace('*', '').split()[0]
-                # Some UEFI BIOS will automatically create a boot entry for '\EFI\BOOT\BOOTX64.EFI',
+                # Some UEFI BIOS will automatically create boot entries for '\EFI\BOOT\BOOTX64.EFI',
                 # but won't remove it afterward, so we will remove them here to avoid some issues,
                 # such as boot entries overflowed or unknown boot sequences.
                 elif line.startswith('Boot') and '\EFI\BOOT\BOOTX64.EFI' in line.upper():
