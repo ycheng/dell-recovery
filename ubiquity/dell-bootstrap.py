@@ -1367,6 +1367,9 @@ manually to proceed.")
 
         #Copy RP Files
         with misc.raised_privileges():
+            debs = os.path.join(magic.ISO_MOUNT, 'debs')
+            if os.path.exists(debs):
+                magic.white_tree("copy", re.compile('.'), debs, '/mnt/debs')
             magic.black_tree("copy", black_pattern, magic.CDROM_MOUNT, '/mnt')
 
         self.file_size_thread.join()

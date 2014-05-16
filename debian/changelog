@@ -1,3 +1,10 @@
+dell-recovery (1.31somerville8) trusty; urgency=medium
+
+  * Add basic ubuntu-drivers autoinstall support and improve isodevice
+    support.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Fri, 16 May 2014 14:54:41 +0800
+
 dell-recovery (1.31somerville7) trusty; urgency=medium
 
   * udev/96-dell-recovery-partition.rules: Hide recovery partition.

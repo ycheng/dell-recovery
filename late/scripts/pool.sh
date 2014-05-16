@@ -24,7 +24,7 @@
 #       MA 02110-1301, USA.
 # vim:ts=8:sw=8:et:tw=0
 
-[ -d /cdrom/debs ]
+[ -d /cdrom/debs -o -d /isodevice/debs ]
 
 #Persistent mode has a tendency to break the dynamic apt cache
 if grep -q persistent /proc/cmdline 2>/dev/null; then
