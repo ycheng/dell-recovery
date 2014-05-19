@@ -1,3 +1,10 @@
+dell-recovery (1.31somerville9) trusty; urgency=medium
+
+  * Manually install all matched DKMS packages instead of using autoinstall of
+    ubuntu-drivers-common.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Mon, 19 May 2014 11:09:51 +0800
+
 dell-recovery (1.31somerville8) trusty; urgency=medium
 
   * Add basic ubuntu-drivers autoinstall support and improve isodevice
