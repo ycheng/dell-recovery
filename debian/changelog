@@ -1,3 +1,9 @@
+dell-recovery (1.31somerville10) trusty; urgency=medium
+
+  * Improve isodevice support.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Tue, 20 May 2014 11:11:43 +0800
+
 dell-recovery (1.31somerville9) trusty; urgency=medium
 
   * Manually install all matched DKMS packages instead of using autoinstall of
