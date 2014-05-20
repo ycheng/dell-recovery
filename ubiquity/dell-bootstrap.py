@@ -1117,7 +1117,7 @@ class Page(Plugin):
             else:
                 #self.sleep_network()
                 self.disable_swap()
-                self.clean_recipe()
+                #self.clean_recipe()
                 self.remove_extra_uefi_boot_entries()
                 self.remove_extra_partitions()
                 self.explode_utility_partition()

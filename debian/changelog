@@ -1,3 +1,9 @@
+dell-recovery (1.31somerville11) trusty; urgency=medium
+
+  * Fix no swap issue that makes no hibernate option. (LP: #1284474)
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Tue, 20 May 2014 15:33:29 +0800
+
 dell-recovery (1.31somerville10) trusty; urgency=medium
 
   * Improve isodevice support.
