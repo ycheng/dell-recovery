@@ -21,7 +21,7 @@ menuentry "#RECOVERY_TEXT#" {
             set options="\$options locale=\$lang"
         fi
 
-        linux   /casper/vmlinuz dell-recovery/recovery_type=hdd \$uuid_options \$options #EXTRA#
+        linux   /casper/vmlinuz.efi dell-recovery/recovery_type=hdd \$uuid_options \$options #EXTRA#
 	initrd	/casper/initrd.lz
 }
 EOF

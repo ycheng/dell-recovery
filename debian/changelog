@@ -1,3 +1,10 @@
+dell-recovery (1.31somerville12) trusty; urgency=medium
+
+  * Disable hibernate (S4) if RAM >= 4GB. (LP: #1284474)
+  * Use /casper/vmlinuz.efi instead of /casper/vmlinuz in grub menu entries.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Wed, 21 May 2014 18:59:05 +0800
+
 dell-recovery (1.31somerville11) trusty; urgency=medium
 
   * Fix no swap issue that makes no hibernate option. (LP: #1284474)
