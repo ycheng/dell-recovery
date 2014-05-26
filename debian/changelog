@@ -1,3 +1,9 @@
+dell-recovery (1.31somerville13) trusty; urgency=medium
+
+  * Improve emergency scripts support.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Mon, 26 May 2014 12:33:29 +0800
+
 dell-recovery (1.31somerville12) trusty; urgency=medium
 
   * Disable hibernate (S4) if RAM >= 4GB. (LP: #1284474)

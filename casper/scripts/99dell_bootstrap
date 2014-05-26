@@ -139,6 +139,17 @@ rm -f /root/var/cache/debconf/*.dat-old
 #Emergency installer fixes
 if [ -e /root/cdrom/scripts/emergency.sh ]; then
     . /root/cdrom/scripts/emergency.sh
+elif [ -e /root/isodevice/scripts/emergency.sh ]; then
+    . /root/isodevice/scripts/emergency.sh
+fi
+if [ -d /root/cdrom/scripts/emergency-scripts ]; then
+    for script in /root/cdrom/scripts/emergency-scripts/[0-9]*; do
+        . $script
+    done
+elif [ -d /root/isodevice/scripts/emergency-scripts ]; then
+    for script in /root/isodevice/scripts/emergency-scripts/[0-9]*; do
+        . $script
+    done
 fi
 
 log_end_msg
