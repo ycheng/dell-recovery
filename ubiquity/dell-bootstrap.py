@@ -1163,7 +1163,7 @@ class RPbuilder(Thread):
         self.xml_obj = BTOxml()
         Thread.__init__(self)
 
-    def build_rp(self, cushion=300):
+    def build_rp(self, cushion=600):
         """Copies content to the recovery partition using a parted wrapper.
 
            This might be better implemented in python-parted or parted_server/partman,
