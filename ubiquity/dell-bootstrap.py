@@ -1008,6 +1008,16 @@ class Page(Plugin):
             self.preseed('debian-installer/locale', language)
             self.ui.controller.translate(language)
 
+        # If there is a Kylin overlay, set language to zh_CN.UTF-8
+        client_type = os.path.join('/cdrom', '.oem', 'client_type')
+        if os.path.isfile(client_type):
+            with open (client_type, "r") as myfile:
+                content=myfile.read().replace('\n', '') 
+            if content == "kylin":
+                language = 'zh_CN.UTF-8'
+                self.preseed('debian-installer/locale', language)
+                self.ui.controller.translate(language)
+
         #Clarify which device we're operating on initially in the UI
         try:
             self.fixup_recovery_devices()
