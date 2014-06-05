@@ -994,7 +994,8 @@ class Page(Plugin):
                    RP_FILESYSTEM_QUESTION: self.rp_filesystem,
                    "mem": self.mem,
                    "efi": self.efi}
-        for twaddle in twiddle:
+        # The order invoking set_advanced() is important. (LP: #1324394)
+        for twaddle in reversed(sorted(twiddle)):
             self.ui.set_advanced(twaddle, twiddle[twaddle])
         self.ui.set_type(rec_type, self.stage)
 
