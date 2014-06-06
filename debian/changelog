@@ -1,3 +1,10 @@
+dell-recovery (1.31somerville17) trusty; urgency=medium
+
+  * Disable network during the installation. (LP: #1309410)
+  * Delete swap partition after disabled. (LP: #1284474)
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Fri, 06 Jun 2014 12:09:16 +0800
+
 dell-recovery (1.31somerville16) trusty; urgency=medium
 
   * Fix disk_layout misjudgement issue. (LP: #1324394)

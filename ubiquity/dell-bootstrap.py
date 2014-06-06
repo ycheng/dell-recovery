@@ -430,7 +430,7 @@ class Page(Plugin):
         """Outputs a debugging string to /var/log/installer/debug"""
         self.debug("%s: %s" % (NAME, error))
 
-    def disable_swap(self):
+    def delete_swap(self):
         """Disables any swap partitions in use"""
         udisks = UDisks.Client.new_sync(None)
         manager = udisks.get_object_manager()
@@ -438,15 +438,23 @@ class Page(Plugin):
             swap = item.get_swapspace()
             if not swap:
                 continue
+            part = item.get_partition()
+            if not part:
+                continue
             swap.call_stop_sync(no_options)
+            part.call_delete_sync(no_options)
 
     def sleep_network(self):
         """Requests the network be disabled for the duration of install to
            prevent conflicts"""
         bus = dbus.SystemBus()
-        backend_iface = dbus.Interface(bus.get_object(magic.DBUS_BUS_NAME, '/RecoveryMedia'), magic.DBUS_INTERFACE_NAME)
-        backend_iface.force_network(False)
-        backend_iface.request_exit() 
+        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+        try:
+            backend_iface = dbus.Interface(bus.get_object(magic.DBUS_BUS_NAME, '/RecoveryMedia'), magic.DBUS_INTERFACE_NAME)
+            backend_iface.force_network(False)
+            backend_iface.request_exit() 
+        except Exception:
+            pass
 
     def test_swap(self):
         """Tests what to do with swap"""
@@ -1091,7 +1099,8 @@ class Page(Plugin):
 
                 if not (rec_type == "factory" and self.stage == 1):
                     self.ui.show_dialog("info")
-                self.disable_swap()
+                self.sleep_network()
+                self.delete_swap()
 
                 #init progress bar and size thread
                 self.frontend.debconf_progress_start(0, 100, "")
@@ -1126,8 +1135,8 @@ class Page(Plugin):
 
             # Factory install, and booting from RP
             else:
-                #self.sleep_network()
-                self.disable_swap()
+                self.sleep_network()
+                self.delete_swap()
                 #self.clean_recipe()
                 self.remove_extra_uefi_boot_entries()
                 self.remove_extra_partitions()
