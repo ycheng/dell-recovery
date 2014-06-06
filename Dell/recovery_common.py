@@ -269,7 +269,6 @@ def find_factory_partition_stats(partition_type):
                 recovery["drive"] = block.get_cached_property("Drive").get_string()
                 recovery["number"] = partition.get_cached_property("Number").unpack()
                 recovery["uuid"] = block.get_cached_property("IdUUID").get_string()
-                recovery["size_gb"] = partition.get_cached_property("Size").unpack() / 1000000000
                 break
 
     #find parent slave node, used for dell-bootstrap
@@ -283,6 +282,7 @@ def find_factory_partition_stats(partition_type):
                 continue
             if block.get_cached_property("Drive").get_string() == recovery["drive"]:
                 recovery["slave"] = block.get_cached_property("Device").get_bytestring().decode('utf-8')
+                recovery["size_gb"] = block.get_cached_property("Size").unpack() / 1000000000
                 break
     return recovery
 

@@ -2,6 +2,7 @@ dell-recovery (1.32) UNRELEASED; urgency=low
 
   [ Mario Limonciello ]
   * change vendor check to check more variables and check for Wyse.
+  * Fix swap check recipe.  It was checking the wrong variable for size_gb.
 
   [ Shih-Yuan Lee (FourDollars) ]
   * Fix the progressbar issue when restoring the system from recovery
