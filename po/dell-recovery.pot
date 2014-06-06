@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-14 14:21-0500\n"
+"POT-Creation-Date: 2014-05-16 20:46+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -183,23 +183,23 @@ msgstr ""
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1050
+#: ../Dell/recovery_backend.py:1047
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1069
+#: ../Dell/recovery_backend.py:1066
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1131
+#: ../Dell/recovery_backend.py:1128
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1160
+#: ../Dell/recovery_backend.py:1157
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1285
+#: ../Dell/recovery_backend.py:1282
 msgid "Building ISO"
 msgstr ""
 

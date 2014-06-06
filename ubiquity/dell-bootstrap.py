@@ -266,6 +266,7 @@ class PageGtk(PluginUI):
         elif which == "forward":
             self.automated_recovery_box.hide()
             self.interactive_recovery_box.hide()
+            self.toggle_progress()
         else:
             self.info_spinner.stop()
             if which == "exception":
@@ -430,7 +431,7 @@ class Page(Plugin):
         """Outputs a debugging string to /var/log/installer/debug"""
         self.debug("%s: %s" % (NAME, error))
 
-    def disable_swap(self):
+    def delete_swap(self):
         """Disables any swap partitions in use"""
         udisks = UDisks.Client.new_sync(None)
         manager = udisks.get_object_manager()
@@ -438,15 +439,23 @@ class Page(Plugin):
             swap = item.get_swapspace()
             if not swap:
                 continue
+            part = item.get_partition()
+            if not part:
+                continue
             swap.call_stop_sync(no_options)
+            part.call_delete_sync(no_options)
 
     def sleep_network(self):
         """Requests the network be disabled for the duration of install to
            prevent conflicts"""
         bus = dbus.SystemBus()
-        backend_iface = dbus.Interface(bus.get_object(magic.DBUS_BUS_NAME, '/RecoveryMedia'), magic.DBUS_INTERFACE_NAME)
-        backend_iface.force_network(False)
-        backend_iface.request_exit() 
+        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+        try:
+            backend_iface = dbus.Interface(bus.get_object(magic.DBUS_BUS_NAME, '/RecoveryMedia'), magic.DBUS_INTERFACE_NAME)
+            backend_iface.force_network(False)
+            backend_iface.request_exit() 
+        except Exception:
+            pass
 
     def test_swap(self):
         """Tests what to do with swap"""
@@ -474,6 +483,25 @@ class Page(Plugin):
                                      ' . '.join(recipe.split('.')[0:-2])+' .')
             except debconf.DebconfError as err:
                 self.log(str(err))
+
+    def remove_extra_uefi_boot_entries(self):
+        """Remove extra UEFI boot entries for \EFI\BOOT\BOOTX64.EFI"""
+        if not self.efi:
+            return
+        with misc.raised_privileges():
+            #find old entries
+            bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
+        #delete old entries
+        for line in bootmgr_output:
+            bootnum = ''
+            # Some UEFI BIOS will automatically create boot entries for '\EFI\BOOT\BOOTX64.EFI',
+            # but won't remove it afterward, so we will remove them here to avoid some issues,
+            # such as boot entries overflowed or unknown boot sequences.
+            if line.startswith('Boot') and '\EFI\BOOT\BOOTX64.EFI' in line.upper():
+                bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                bootmgr = misc.execute_root('efibootmgr', '-q', '-b', bootnum, '-B')
+                if bootmgr is False:
+                    raise RuntimeError("Error removing old EFI boot manager entries")
 
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
@@ -975,7 +1003,8 @@ class Page(Plugin):
                    RP_FILESYSTEM_QUESTION: self.rp_filesystem,
                    "mem": self.mem,
                    "efi": self.efi}
-        for twaddle in twiddle:
+        # The order invoking set_advanced() is important. (LP: #1324394)
+        for twaddle in reversed(sorted(twiddle)):
             self.ui.set_advanced(twaddle, twiddle[twaddle])
         self.ui.set_type(rec_type, self.stage)
 
@@ -988,6 +1017,16 @@ class Page(Plugin):
             language = 'en_US.UTF-8'
             self.preseed('debian-installer/locale', language)
             self.ui.controller.translate(language)
+
+        # If there is a Kylin overlay, set language to zh_CN.UTF-8
+        client_type = os.path.join('/cdrom', '.oem', 'client_type')
+        if os.path.isfile(client_type):
+            with open (client_type, "r") as myfile:
+                content=myfile.read().replace('\n', '') 
+            if content == "kylin":
+                language = 'zh_CN.UTF-8'
+                self.preseed('debian-installer/locale', language)
+                self.ui.controller.translate(language)
 
         #Clarify which device we're operating on initially in the UI
         try:
@@ -1061,7 +1100,8 @@ class Page(Plugin):
 
                 if not (rec_type == "factory" and self.stage == 1):
                     self.ui.show_dialog("info")
-                self.disable_swap()
+                self.sleep_network()
+                self.delete_swap()
 
                 #init progress bar and size thread
                 self.frontend.debconf_progress_start(0, 100, "")
@@ -1096,9 +1136,12 @@ class Page(Plugin):
 
             # Factory install, and booting from RP
             else:
+                if 'dell-recovery/recovery_type=hdd' in open('/proc/cmdline', 'r').read().split():
+                    self.ui.toggle_progress()
                 self.sleep_network()
-                self.disable_swap()
-                self.clean_recipe()
+                self.delete_swap()
+                #self.clean_recipe()
+                self.remove_extra_uefi_boot_entries()
                 self.remove_extra_partitions()
                 self.explode_utility_partition()
                 self.explode_sdr()
@@ -1143,7 +1186,7 @@ class RPbuilder(Thread):
         self.xml_obj = BTOxml()
         Thread.__init__(self)
 
-    def build_rp(self, cushion=300):
+    def build_rp(self, cushion=600):
         """Copies content to the recovery partition using a parted wrapper.
 
            This might be better implemented in python-parted or parted_server/partman,
@@ -1226,10 +1269,14 @@ manually to proceed.")
                         out.write(mbr.read(440))
 
             #Build UP
-            command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '1', str(up_size))
-            result = misc.execute_root(*command)
-            if result is False:
-                raise RuntimeError("Error creating new %s mb utility partition on %s" % (up_size, self.device))
+            commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', '1', str(up_size)),
+                        ('mkfs.msdos', self.device + '1'),
+                        ('udevadm', 'settle')] # Wait for the event queue to finish.
+
+            for command in commands:
+                result = misc.execute_root(*command)
+                if result is False:
+                    raise RuntimeError("Error creating new %s mb utility partition on %s" % (up_size, self.device))
 
             with misc.raised_privileges():
                 #parted marks it as w95 fat16 (LBA).  It *needs* to be type 'de'
@@ -1256,10 +1303,10 @@ manually to proceed.")
                 my_os_part = 5120 #mb
                 other_os_part_end = (int(self.device_size) / 1000000) - my_os_part
 
-                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'ntfs', str(up_size + rp_size_mb), str(other_os_part_end)),
+                commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'ntfs', str(up_size + rp_size_mb), str(other_os_part_end)),
                             ('mkfs.ntfs' , '-f', '-L', 'OS', self.device + '3')]
                 if self.dual_layout == 'primary':
-                    commands.append(('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'primary', 'fat32', str(other_os_part_end), str(other_os_part_end + my_os_part)))
+                    commands.append(('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat32', str(other_os_part_end), str(other_os_part_end + my_os_part)))
                     commands.append(('mkfs.msdos', '-n', 'ubuntu'  , self.device + '4'))
                     #Grub needs to be on the 4th partition to kick off the ubuntu install
                     grub_part = '4'
@@ -1279,12 +1326,13 @@ manually to proceed.")
             #In GPT we have a UP, but also a BIOS grub partition
             if self.efi:
                 grub_size = 50
-                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', '0', str(grub_size)),
+                commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', '0', str(grub_size)),
                             ('parted', '-s', self.device, 'name', '1', "'EFI System Partition'"),
-                            ('parted', '-s', self.device, 'set', '1', 'boot', 'on')]
+                            ('parted', '-s', self.device, 'set', '1', 'boot', 'on'),
+                            ('mkfs.msdos', self.device + '1')]
             else:
                 grub_size = 1.5
-                commands = [('parted', '-a', 'minimal', '-s', self.device, 'mkpart', 'biosboot', '0', str(grub_size)),
+                commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'biosboot', '0', str(grub_size)),
                             ('parted', '-s', self.device, 'set', '1', 'bios_grub', 'on')]
             for command in commands:
                 result = misc.execute_root(*command)
@@ -1295,9 +1343,10 @@ manually to proceed.")
                         raise RuntimeError("Error creating new %s mb grub partition on %s" % (grub_size, self.device))
 
             up_part = '2'
-            commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpartfs', 'primary', 'fat16', str(grub_size), str(grub_size+up_size)),
+            commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', str(grub_size), str(grub_size+up_size)),
                         ('parted', '-s', self.device, 'set', up_part, 'diag', 'on'),
-                        ('parted', '-s', self.device, 'name', up_part, 'DellUtility')]
+                        ('parted', '-s', self.device, 'name', up_part, 'DellUtility'),
+                        ('mkfs.msdos', self.device + up_part)]
             for command in commands:
                 result = misc.execute_root(*command)
                 if result is False:
@@ -1313,7 +1362,7 @@ manually to proceed.")
             grub_part = ''
 
             #Build RP
-            command = ('parted', '-a', 'minimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(up_size + grub_size), str(up_size + rp_size_mb + grub_size))
+            command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(up_size + grub_size), str(up_size + rp_size_mb + grub_size))
             result = misc.execute_root(*command)
             if result is False:
                 raise RuntimeError("Error creating new %s mb recovery partition on %s" % (rp_size_mb, self.device))
@@ -1341,6 +1390,8 @@ manually to proceed.")
 
         #Copy RP Files
         with misc.raised_privileges():
+            if os.path.exists(magic.ISO_MOUNT):
+                magic.black_tree("copy", re.compile(".*\.iso$"), magic.ISO_MOUNT, '/mnt')
             magic.black_tree("copy", black_pattern, magic.CDROM_MOUNT, '/mnt')
 
         self.file_size_thread.join()
@@ -1438,7 +1489,7 @@ manually to proceed.")
                 raise RuntimeError("Error mounting %s%s" % (self.device, EFI_ESP_PARTITION))
 
             #find old entries and prep directory
-            direct_path = '/mnt/efi' + '/efi/ubuntu'
+            direct_path = '/mnt/efi' + '/efi/boot'
             with misc.raised_privileges():
                 os.makedirs(direct_path)
 
@@ -1449,31 +1500,34 @@ manually to proceed.")
                     shutil.copy(item, direct_path)
 
                 #find old entries
-                bootmgr_output = magic.fetch_output(['efibootmgr']).split('\n')
+                bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
 
             #delete old entries
             for line in bootmgr_output:
+                bootnum = ''
                 if line.startswith('Boot') and 'ubuntu' in line:
                     bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                # Some UEFI BIOS will automatically create boot entries for '\EFI\BOOT\BOOTX64.EFI',
+                # but won't remove it afterward, so we will remove them here to avoid some issues,
+                # such as boot entries overflowed or unknown boot sequences.
+                elif line.startswith('Boot') and '\EFI\BOOT\BOOTX64.EFI' in line.upper():
+                    bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                if bootnum:
                     bootmgr = misc.execute_root('efibootmgr', '-q', '-b', bootnum, '-B')
                     if bootmgr is False:
                         raise RuntimeError("Error removing old EFI boot manager entries")
 
-            #rename to shimx64.efi so that it gets overwritten later
             if secure_boot:
+                #rename to shimx64.efi so that it gets overwritten later
                 target = 'shimx64.efi'
                 with misc.raised_privileges():
-                    os.rename(os.path.join(direct_path,'bootx64.efi'),
+                    os.rename(os.path.join(direct_path, 'bootx64.efi'),
                               '/mnt/efi/efi/ubuntu/%s' % target)
             else:
                 target = 'grubx64.efi'
-
-            #create new boot entry
-            bootmgr = misc.execute_root('efibootmgr', '-q', '-c', '-d',
-                                        self.device, '-p', EFI_ESP_PARTITION, '-w',
-                                        '-L', 'ubuntu', '-l', r'\\EFI\ubuntu\\%s' % target)
-            if bootmgr is False:
-                raise RuntimeError("Error creating EFI boot manager entry.")
+                with misc.raised_privileges():
+                    os.rename(os.path.join(direct_path, target),
+                              os.path.join(direct_path, 'bootx64.efi'))
 
             #clean up ESP mount
             misc.execute_root('umount', '/mnt/efi')

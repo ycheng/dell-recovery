@@ -1,6 +1,36 @@
 dell-recovery (1.32) UNRELEASED; urgency=low
 
+  [ Mario Limonciello ]
   * change vendor check to check more variables and check for Wyse.
+
+  [ Shih-Yuan Lee (FourDollars) ]
+  * Fix the progressbar issue when restoring the system from recovery
+    partition. (LP: #1324342)
+  * Disable network during the installation. (LP: #1309410)
+  * Delete swap partition after disabled. (LP: #1284474)
+  * Fix disk_layout misjudgement issue. (LP: #1324394)
+  * If there is a Kylin overlay, set language to zh_CN.UTF-8. (LP: #1321607) 
+  * Increase the cushion of recovery partition up to 600mb.
+  * Improve emergency scripts support.
+  * Disable hibernate (S4) if RAM >= 4GB. (LP: #1284474)
+  * Use /casper/vmlinuz.efi instead of /casper/vmlinuz in grub menu entries.
+  * Fix no swap issue that makes no hibernate option. (LP: #1284474)
+  * Improve isodevice support.
+  * Manually install all matched DKMS packages instead of using autoinstall of
+    ubuntu-drivers-common.
+  * Add basic ubuntu-drivers autoinstall support and improve isodevice
+    support.
+  * udev/96-dell-recovery-partition.rules: Hide recovery partition.
+    ubiquity/dell-bootstrap.py: Avoid some issues from UEFI BIOS.
+  * Avoid some issues from UEFI BIOS.
+  * Fix the partition string decoding issue that causes the language page
+    missing issue and other issues about the recovery partition.
+  * Fix the potential factory issue for UEFI BIOS.
+  * Using `udevadm settle` to wait for the event queue to finish.
+  * Some disk's logical sector size is smaller than physical sector size so
+    that using 'optimal' alignment type to get better performance.
+  * Avoid using mkpartfs of parted. (LP: #1309410)
+  * Avoid using sleep_network in factory install. (LP: #1309410)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 09 Apr 2014 17:57:28 -0500
 
