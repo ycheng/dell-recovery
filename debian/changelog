@@ -1,3 +1,10 @@
+dell-recovery (1.31somerville18) trusty; urgency=medium
+
+  * Fix the progressbar issue when restoring the system from recovery
+    partition. (LP: #1324342)
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Fri, 06 Jun 2014 15:43:11 +0800
+
 dell-recovery (1.31somerville17) trusty; urgency=medium
 
   * Disable network during the installation. (LP: #1309410)

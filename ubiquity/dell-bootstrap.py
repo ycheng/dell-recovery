@@ -266,6 +266,7 @@ class PageGtk(PluginUI):
         elif which == "forward":
             self.automated_recovery_box.hide()
             self.interactive_recovery_box.hide()
+            self.toggle_progress()
         else:
             self.info_spinner.stop()
             if which == "exception":
@@ -1135,6 +1136,8 @@ class Page(Plugin):
 
             # Factory install, and booting from RP
             else:
+                if 'dell-recovery/recovery_type=hdd' in open('/proc/cmdline', 'r').read().split():
+                    self.ui.toggle_progress()
                 self.sleep_network()
                 self.delete_swap()
                 #self.clean_recipe()
