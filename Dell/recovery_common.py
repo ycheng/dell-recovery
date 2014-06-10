@@ -146,12 +146,16 @@ def _tree(action, list, src, dst, base, white):
 
 def check_vendor():
     """Checks to make sure that the app is running on Dell HW"""
-    if os.path.exists('/sys/class/dmi/id/bios_vendor'):
-        with open('/sys/class/dmi/id/bios_vendor') as rfd:
-            vendor = rfd.readline().split()[0].lower()
-    else:
-        vendor = ''
-    return ((vendor == 'dell') or (vendor == 'alienware'))
+    path = '/sys/class/dmi/id/'
+    variables = ['bios_vendor', 'sys_vendor']
+    valid = ['dell', 'alienware', 'wyse']
+    for var in variables:
+        if os.path.exists(path + var):
+            with open(path + var) as rfd:
+                value = rfd.readline().split()[0].lower()
+            if value in valid:
+                return True
+    return False
 
 def check_version(package='dell-recovery'):
     """Queries the package management system for the current tool version"""
@@ -265,7 +269,6 @@ def find_factory_partition_stats(partition_type):
                 recovery["drive"] = block.get_cached_property("Drive").get_string()
                 recovery["number"] = partition.get_cached_property("Number").unpack()
                 recovery["uuid"] = block.get_cached_property("IdUUID").get_string()
-                recovery["size_gb"] = partition.get_cached_property("Size").unpack() / 1000000000
                 break
 
     #find parent slave node, used for dell-bootstrap
@@ -279,6 +282,7 @@ def find_factory_partition_stats(partition_type):
                 continue
             if block.get_cached_property("Drive").get_string() == recovery["drive"]:
                 recovery["slave"] = block.get_cached_property("Device").get_bytestring().decode('utf-8')
+                recovery["size_gb"] = block.get_cached_property("Size").unpack() / 1000000000
                 break
     return recovery
 
