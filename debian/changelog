@@ -32,6 +32,7 @@ dell-recovery (1.32) UNRELEASED; urgency=low
     that using 'optimal' alignment type to get better performance.
   * Avoid using mkpartfs of parted. (LP: #1309410)
   * Avoid using sleep_network in factory install. (LP: #1309410)
+  * Fix the wrong calculation of memory size. (LP: #1284474)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 09 Apr 2014 17:57:28 -0500
 
