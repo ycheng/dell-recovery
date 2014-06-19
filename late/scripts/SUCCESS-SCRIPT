@@ -44,6 +44,8 @@ rm -f $TARGET/var/lib/apt/lists/*Packages
 rm -f $TARGET/etc/apt/sources.list.d/dell.list
 #https://bugs.launchpad.net/ubuntu/+source/choose-mirror/+bug/550694
 sed -i "s/http:\/\/.*.archive.ubuntu.com/http:\/\/archive.ubuntu.com/" $TARGET/etc/apt/sources.list
+#We disabled Ethernet in phase 1 and 2 of installation, now enable it back. (LP: #1329148)
+mv $TARGET/etc/init/network-manager.conf.orig $TARGET/etc/init/network-manager.conf
 
 if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     if [ -d "/isodevice" ]; then

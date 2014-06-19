@@ -1,3 +1,10 @@
+dell-recovery (1.32~somerville3) trusty; urgency=low
+
+  * We disabled Ethernet in phase 1 and 2 of installation, now enable it back.
+    (LP: #1329148) 
+
+ -- Shengyao Xue <shengyao.xue@canonical.com>  Thu, 19 Jun 2014 12:18:38 +0800
+
 dell-recovery (1.32~somerville2) trusty; urgency=low
 
   [ Mario Limonciello ]
