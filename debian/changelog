@@ -36,6 +36,10 @@ dell-recovery (1.32) UNRELEASED; urgency=low
   * Avoid using sleep_network in factory install. (LP: #1309410)
   * Fix the wrong calculation of memory size. (LP: #1284474)
 
+  [ Shengyao Xue ]
+  * We disabled Ethernet in phase 1 and 2 of installation, now enable it back.
+    (LP: #1329148) 
+
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 09 Apr 2014 17:57:28 -0500
 
 dell-recovery (1.31) trusty; urgency=low
