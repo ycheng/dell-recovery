@@ -1,15 +1,10 @@
-dell-recovery (1.32~somerville3) trusty; urgency=low
-
-  * We disabled Ethernet in phase 1 and 2 of installation, now enable it back.
-    (LP: #1329148) 
-
- -- Shengyao Xue <shengyao.xue@canonical.com>  Thu, 19 Jun 2014 12:18:38 +0800
-
-dell-recovery (1.32~somerville2) trusty; urgency=low
+dell-recovery (1.32) UNRELEASED; urgency=low
 
   [ Mario Limonciello ]
   * change vendor check to check more variables and check for Wyse.
   * Fix swap check recipe.  It was checking the wrong variable for size_gb.
+  * Add a 7-day delayed popup when recovery media isn't created at OOBE.
+    It will be launched at login if later than the 7th day.
 
   [ Shih-Yuan Lee (FourDollars) ]
   * Fix the progressbar issue when restoring the system from recovery
@@ -41,7 +36,11 @@ dell-recovery (1.32~somerville2) trusty; urgency=low
   * Avoid using sleep_network in factory install. (LP: #1309410)
   * Fix the wrong calculation of memory size. (LP: #1284474)
 
- -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Tue, 10 Jun 2014 14:31:25 +0800
+  [ Shengyao Xue ]
+  * We disabled Ethernet in phase 1 and 2 of installation, now enable it back.
+    (LP: #1329148) 
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 09 Apr 2014 17:57:28 -0500
 
 dell-recovery (1.31) trusty; urgency=low
 

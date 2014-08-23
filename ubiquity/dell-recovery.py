@@ -161,7 +161,6 @@ class Install(InstallPlugin):
         """Perform actual install time activities for oem-config"""
         if not 'UBIQUITY_OEM_USER_CONFIG' in os.environ:
             return
-        delayed_burn = False
 
         env = os.environ
         lang = progress.get('debian-installer/locale')
@@ -187,6 +186,11 @@ class Install(InstallPlugin):
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         self.progress = progress
+
+        user = progress.get('passwd/username')
+        uid = pwd.getpwnam(user).pw_uid
+        gid = pwd.getpwnam(user).pw_gid
+
         rec_type = progress.get('dell-recovery/destination')
         if rec_type != "none":
             dvd, usb = magic.find_burners()
@@ -194,7 +198,6 @@ class Install(InstallPlugin):
             self.index = 0
 
             #build all the user's home directories a little earlier than normal
-            user = progress.get('passwd/username')
             subprocess.call(['su', user, '-c', 'xdg-user-dirs-update'])
             directory = magic.fetch_output(['su', user, '-c', '/usr/bin/xdg-user-dir DOWNLOAD']).strip()
             fname = os.path.join(directory, 'factory_image.iso')
@@ -224,8 +227,6 @@ class Install(InstallPlugin):
                                                     rpart,
                                                     version,
                                                     fname)
-                uid = pwd.getpwnam(user).pw_uid
-                gid = pwd.getpwnam(user).pw_gid
                 os.chown(fname, uid, gid)
             except dbus.DBusException as err:
                 self.log('install function exception while calling backend: %s' % str(err))
@@ -244,31 +245,44 @@ class Install(InstallPlugin):
                     return
 
             if rec_type:
-                #Mark burning tool to launch on first login
-                if delayed_burn:
-                    directory = '/home/%s/.config/autostart' % user
-                    if not os.path.exists(directory):
-                        os.makedirs(directory)
-                        os.chown('/home/%s/.config' % user, uid, gid)
-                        os.chown(directory, uid, gid)
-                    fname = os.path.join(directory, 'dell-recovery.desktop')
-                    with open('/usr/share/applications/dell-recovery-media.desktop') as rfd:
-                        with open(fname, 'w') as wfd:
-                            for line in rfd.readlines():
-                                if line.startswith('Exec='):
-                                    line = line.strip() + " --burn --media %s\n" % rec_type
-                                wfd.write(line)
-                    os.chown(fname, uid, gid)
-                #Launch burning tool
+                if rec_type == "dvd":
+                    cmd = ['dbus-launch'] + dvd + [fname]
                 else:
-                    if rec_type == "dvd":
-                        cmd = ['dbus-launch'] + dvd + [fname]
-                    else:
-                        cmd = ['dbus-launch'] + usb + [fname]
-                    if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
-                        os.environ.pop('DBUS_SESSION_BUS_ADDRESS')
-                    progress.info('dell-recovery/burning')
-                    subprocess.call(cmd)
+                    cmd = ['dbus-launch'] + usb + [fname]
+                if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
+                    os.environ.pop('DBUS_SESSION_BUS_ADDRESS')
+                progress.info('dell-recovery/burning')
+                subprocess.call(cmd)
+        else:
+            #Mark burning tool to launch on 7th day
+            directory = '/home/%s/.config/autostart' % user
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+                os.chown('/home/%s/.config' % user, uid, gid)
+                os.chown(directory, uid, gid)
+            fname = os.path.join(directory, 'dell-recovery.desktop')
+            with open('/usr/share/applications/dell-recovery-media.desktop') as rfd:
+                with open(fname, 'w') as wfd:
+                    for line in rfd.readlines():
+                        if line.startswith('Exec='):
+                            line = 'Exec=/home/%s/.config/dell-recovery/reminder\n' % user
+                        wfd.write(line)
+            os.chown(fname, uid, gid)
+            directory = '/home/%s/.config/dell-recovery' % user
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+                os.chown(directory, uid, gid)
+            fname = os.path.join(directory, 'reminder')
+            date = magic.fetch_output(['date', '-d', '+7 days', '+%y%m%d'])
+            with open(fname, 'w') as wfd:
+                wfd.write('#!/bin/sh\n')
+                wfd.write('LAUNCH=%s\n' % date)
+                wfd.write('TODAY=$(date +"%y%m%d")\n')
+                wfd.write('if [ $TODAY -ge $LAUNCH ]; then\n')
+                wfd.write('    dell-recovery\n')
+                wfd.write('fi\n')
+            os.chown(fname, uid, gid)
+            os.chmod(fname, 0o744)
 
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
 

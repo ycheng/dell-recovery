@@ -90,6 +90,13 @@ if __name__ == '__main__':
                 options.target,
                 options.overwrite)
 
+        #don't ever autostart again
+        autostart=os.path.expanduser("~/.config/autostart/dell-recovery.desktop")
+        reminder = os.path.expanduser("~/.config/dell-recovery/reminder")
+        for item in (autostart, reminder):
+            if os.path.exists(item):
+                os.remove(item)
+
         if options.burn:
             command = ''
             iso = ''
@@ -106,9 +113,6 @@ if __name__ == '__main__':
                 print("Error with burn mode.  Please invoke in standard mode.")
             if command:
                 subprocess.call(command)
-            #don't ever autostart again
-            if os.path.exists(os.path.expanduser("~/.config/autostart/dell-recovery.desktop")):
-                os.remove(os.path.expanduser("~/.config/autostart/dell-recovery.desktop"))
         else:
             if options.builder:
                 from Dell.recovery_advanced_gtk import AdvancedGeneratorGTK
