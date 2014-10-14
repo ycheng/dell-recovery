@@ -798,7 +798,6 @@ class Page(Plugin):
         self.log("version %s" % version)
         
         #mountpoint
-        mount = ''
         mount = find_boot_device()
         self.log("mounted from %s" % mount)
 
@@ -1601,6 +1600,7 @@ manually to proceed.")
 ####################
 def find_boot_device():
     """Finds the device we're booted from'"""
+    mounted_device = ''
     with open('/proc/mounts', 'r') as mounts:
         for line in mounts.readlines():
             if magic.ISO_MOUNT in line:

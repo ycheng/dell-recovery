@@ -1,4 +1,4 @@
-dell-recovery (1.32) UNRELEASED; urgency=low
+dell-recovery (1.32~somerville5) trusty; urgency=low
 
   [ Mario Limonciello ]
   * change vendor check to check more variables and check for Wyse.
@@ -35,12 +35,13 @@ dell-recovery (1.32) UNRELEASED; urgency=low
   * Avoid using mkpartfs of parted. (LP: #1309410)
   * Avoid using sleep_network in factory install. (LP: #1309410)
   * Fix the wrong calculation of memory size. (LP: #1284474)
+  * Prevent from the crash in the OOBE. (LP: #1380508)
 
   [ Shengyao Xue ]
   * We disabled Ethernet in phase 1 and 2 of installation, now enable it back.
     (LP: #1329148) 
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 09 Apr 2014 17:57:28 -0500
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Tue, 14 Oct 2014 12:54:20 +0800
 
 dell-recovery (1.31) trusty; urgency=low
 
