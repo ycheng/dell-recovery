@@ -1,3 +1,11 @@
+dell-recovery (1.32~somerville6) trusty; urgency=low
+
+  [ Kai-Heng Feng ]
+  * Explicitly specify UTF-8 encoding when opening multilingual files.
+    (LP: #1380900)
+
+ -- Kai-Heng Feng <kai.heng.feng@canonical.com>  Wed, 15 Oct 2014 14:07:22 +0800
+
 dell-recovery (1.32~somerville5) trusty; urgency=low
 
   [ Mario Limonciello ]
