@@ -261,8 +261,8 @@ class Install(InstallPlugin):
                 os.chown('/home/%s/.config' % user, uid, gid)
                 os.chown(directory, uid, gid)
             fname = os.path.join(directory, 'dell-recovery.desktop')
-            with open('/usr/share/applications/dell-recovery-media.desktop') as rfd:
-                with open(fname, 'w') as wfd:
+            with open('/usr/share/applications/dell-recovery-media.desktop', encoding='utf-8') as rfd:
+                with open(fname, 'w', encoding='utf-8') as wfd:
                     for line in rfd.readlines():
                         if line.startswith('Exec='):
                             line = 'Exec=/home/%s/.config/dell-recovery/reminder\n' % user
@@ -274,7 +274,7 @@ class Install(InstallPlugin):
                 os.chown(directory, uid, gid)
             fname = os.path.join(directory, 'reminder')
             date = magic.fetch_output(['date', '-d', '+7 days', '+%y%m%d'])
-            with open(fname, 'w') as wfd:
+            with open(fname, 'w', encoding='utf-8') as wfd:
                 wfd.write('#!/bin/sh\n')
                 wfd.write('LAUNCH=%s\n' % date)
                 wfd.write('TODAY=$(date +"%y%m%d")\n')
