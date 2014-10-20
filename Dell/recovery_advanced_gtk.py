@@ -246,12 +246,15 @@ create an USB key or DVD image."))
 
         BasicGeneratorGTK.wizard_complete(self, widget, function, args)
 
-    def run_file_dialog(self):
+    def run_file_dialog(self, mulit=False):
         """Browses all files under a particular filter"""
         response = self.file_dialog.run()
         self.file_dialog.hide()
         if response == Gtk.ResponseType.OK:
-            return self.file_dialog.get_filename()
+            if(mulit):
+                return self.file_dialog.get_filenames()
+            else:
+                return self.file_dialog.get_filename()
         else:
             return None
 
@@ -390,12 +393,19 @@ create an USB key or DVD image."))
         treeview = self.builder_widgets.get_object('driver_treeview')
         model = treeview.get_model()
         if widget == add_button:
-            ret = self.run_file_dialog()
+            self.file_dialog.set_select_multiple(True)
+            ret = self.run_file_dialog(True)
+            self.file_dialog.set_select_multiple(False)
             if ret is not None:
-                #test that we don't have a file named identically
-                if self.test_liststore_for_existing(model, ret):
-                    return
-                model.append([ret])
+                for filename in ret:
+                    #test that we don't have a file named identically
+                    if self.test_liststore_for_existing(model, filename):
+                        return
+					
+					# this is a work around, seems the list contains only one element can be appended into the treeview, otherwise append failed.
+                    files = []
+                    files.append(filename)
+                    model.append(files)
         elif widget == remove_button:
             row = treeview.get_selection().get_selected_rows()[1]
             if len(row) > 0:
