@@ -1,3 +1,12 @@
+dell-recovery (1.32~somerville7) trusty; urgency=low
+
+  [ Kai-Heng Feng ]
+  * Add an additional size assertion when finding installation drive to avoid
+    installing on non-disk persistent block device (e.g. Realtek rts5139.)
+    (LP: #1401422)
+
+ -- Kai-Heng Feng <kai.heng.feng@canonical.com>  Wed, 28 Jan 2015 14:25:17 +0800
+
 dell-recovery (1.32~somerville6) trusty; urgency=low
 
   [ Kai-Heng Feng ]
