@@ -1,3 +1,10 @@
+dell-recovery (1.32~somerville8) trusty; urgency=low
+
+  [ Kai-Heng Feng ]
+  * Force using utf-8 when writing grub menu. (LP: #1416280)
+
+ -- Kai-Heng Feng <kai.heng.feng@canonical.com>  Wed, 04 Feb 2015 11:41:22 +0800
+
 dell-recovery (1.32~somerville7) trusty; urgency=low
 
   [ Kai-Heng Feng ]
