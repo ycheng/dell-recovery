@@ -103,6 +103,9 @@
 # In case we decide to remove swap from a drive in FI:
  d-i partman-basicfilesystems/no_swap boolean false
 
+# Be more forceful.
+ d-i partman/confirm_nooverwrite boolean true
+
 ### Boot loader installation
 # Don't install to the MBR, we install to PBR instead
  d-i grub-installer/only_debian boolean false
