@@ -1345,7 +1345,7 @@ manually to proceed.")
             up_part = '2'
             commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', str(grub_size), str(grub_size+up_size)),
                         ('parted', '-s', self.device, 'set', up_part, 'diag', 'on'),
-                        ('parted', '-s', self.device, 'name', up_part, 'DellUtility'),
+                        ('parted', '-s', self.device, 'name', up_part, 'DIAGS'),
                         ('mkfs.msdos', self.device + up_part)]
             for command in commands:
                 result = misc.execute_root(*command)

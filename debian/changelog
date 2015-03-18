@@ -6,6 +6,8 @@ dell-recovery (1.32) trusty; urgency=low
   * Add a 7-day delayed popup when recovery media isn't created at OOBE.
     It will be launched at login if later than the 7th day.
   * If no UP or RP found send empty strings rather than None
+  * Set default partition name to be DIAGS instead of DellUtility.
+    (LP: #1431857)
 
   [ Steven Wu ]
   * Add support for selecting multiple FISH packages at a time.

@@ -77,7 +77,7 @@ UP_FILENAMES =  [ 'upimg.bin',
                   'up.tgz'   ,
                 ]
 
-UP_LABELS = [ 'dellutility' ]
+UP_LABELS = [ 'diags', 'dellutility' ]
 RP_LABELS = [ 'recovery', 'install', 'os' ]
 
 ##                ##
@@ -639,7 +639,7 @@ def write_up_bootsector(device, partition):
                 wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
             #If we don't have the bootsector code, then just set the label properly
     else:
-        fetch_output(['dosfslabel', device + partition, "DellUtility"])
+        fetch_output(['dosfslabel', device + partition, "DIAGS"])
 
 def create_up_boot_entry(new_text):
     upart = find_factory_partition_stats('up')
