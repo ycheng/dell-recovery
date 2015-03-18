@@ -200,7 +200,7 @@ def process_conf_file(original, new, uuid, number, ako='', recovery_text=''):
         number = 'msdos' + number
 
     with open(original, "r") as base:
-        with open(new, 'w') as output:
+        with open(new, 'w', encoding='utf-8') as output:
             for line in base.readlines():
                 if "#RECOVERY_TEXT#" in line:
                     line = line.replace("#RECOVERY_TEXT#", recovery_text)

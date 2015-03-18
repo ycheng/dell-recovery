@@ -46,6 +46,14 @@ dell-recovery (1.32) trusty; urgency=low
   * We disabled Ethernet in phase 1 and 2 of installation, now enable it back.
     (LP: #1329148) 
 
+  [ Kai-Heng Feng ]
+  * Force using utf-8 when writing grub menu. (LP: #1416280)
+  * Add an additional size assertion when finding installation drive to avoid
+    installing on non-disk persistent block device (e.g. Realtek rts5139.)
+    (LP: #1401422)
+  * Explicitly specify UTF-8 encoding when opening multilingual files.
+    (LP: #1380900)
+
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 09 Apr 2014 17:57:28 -0500
 
 dell-recovery (1.31) trusty; urgency=low

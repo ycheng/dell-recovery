@@ -728,10 +728,13 @@ class Page(Plugin):
                drive.get_cached_property("Removable").get_boolean() is True:
                 continue
         
+            devicesize = drive.get_cached_property("Size").unpack()
+            if devicesize == 0:
+                continue
+
             devicefile = block.get_cached_property("Device").get_bytestring().decode('utf-8')
             devicemodel = drive.get_cached_property("Model").get_string()
             devicevendor = drive.get_cached_property("Vendor").get_string()
-            devicesize = drive.get_cached_property("Size").unpack()
             devicesize_gb = "%i" % (devicesize / 1000000000)
             
             disks.append([devicefile, devicesize, "%s GB %s %s (%s)" % (devicesize_gb, devicevendor, devicemodel, devicefile)])
