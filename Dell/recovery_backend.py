@@ -836,7 +836,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                              stdout=subprocess.PIPE, 
                              cwd=debs_dir)
             output = build.communicate()[0]
-            with open(os.path.join(debs_dir, 'Packages'), 'w') as wfd:
+            with open(os.path.join(debs_dir, 'Packages'), 'wb') as wfd:
                 wfd.write(output)
 
             source_list = os.path.join('/etc', 'apt', 'sources.list.d', os.path.basename(self.package_dir) + '.list')

@@ -1,6 +1,7 @@
 dell-recovery (1.33) UNRELEASED; urgency=medium
 
   * Preseed partman/confirm_nooverwrite to prevent a prompt in newer OS.
+  * Fix driver installer for a mistake made in python2-3 conversion.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 18 Mar 2015 18:29:05 -0500
 
