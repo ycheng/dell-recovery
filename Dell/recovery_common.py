@@ -293,12 +293,12 @@ def find_partitions():
     if 'device' in utility:
         utility = utility['device']
     else:
-        utility = None
+        utility = ''
     recovery = find_factory_partition_stats('rp')
     if 'device' in recovery:
         recovery = recovery['device']
     else:
-        recovery = None
+        recovery = ''
     return (utility, recovery)
 
 def find_burners():
