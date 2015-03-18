@@ -913,6 +913,9 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         num = float(1)
         total = len(scripts)
         for script in scripts:
+            if 'installer' in script:
+                logging.debug('skipping script: %s' % script)
+                continue
             logging.debug('executing script: %s' % script)
             self.report_progress("executing %s" % script, num/total)
             #in case shell script is missing starting shebang (a few are)
