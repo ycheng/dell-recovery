@@ -811,6 +811,14 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         #emulate fat32 partition automatically setting sh and py scripts executable
         for root, dirs, files in os.walk(self.package_dir, topdown=False):
             for name in files:
+                if name.endswith('.sh'):
+                    with open(os.path.join(root, name), 'r') as rfd:
+                        script = rfd.readlines()
+                    with open(os.path.join(root, name), 'w') as wfd:
+                        for line in script:
+                            if '/cdrom' in line:
+                                line = line.replace('/cdrom', self.package_dir)
+                            wfd.write(line)
                 if name.endswith('.sh') or name.endswith('.py'):
                     os.chmod(os.path.join(root, name), 0o755)
 

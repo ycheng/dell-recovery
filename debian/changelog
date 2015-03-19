@@ -4,6 +4,7 @@ dell-recovery (1.33) UNRELEASED; urgency=medium
   * Fix driver installer for a mistake made in python2-3 conversion.
   * Skip any installation scripts with installer in them to avoid updating
     installer in a live system.
+  * Rewrite the path of anything referring to /cdrom in driver installer.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 18 Mar 2015 18:29:05 -0500
 
