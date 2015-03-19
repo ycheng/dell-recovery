@@ -229,7 +229,7 @@ class DriverGTK(DellRecoveryToolGTK):
             self.status_bar.push(self.current_context, label)
             self.status_label.hide()
         if tid:
-            if type(tid) == dbus.UTF8String:
+            if type(tid) == dbus.String:
                 logging.debug("APT transaction %s" % tid)
                 trans = get_transaction(tid)
                 self.progress_bar.show()
