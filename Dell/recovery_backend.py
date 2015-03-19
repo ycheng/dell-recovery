@@ -920,6 +920,8 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         environment = os.environ
         environment['DEBIAN_FRONTEND'] = 'noninteractive'
         environment['PATH'] = '/sbin:/usr/sbin:/bin:/usr/bin'
+        scripts.append('/usr/bin/apt-get -f install --yes')
+        scripts.append('/usr/bin/ubuntu-drivers autoinstall')
         num = float(1)
         total = len(scripts)
         for script in scripts:
@@ -932,7 +934,11 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
             if script.endswith('.sh'):
                 cmd = ['/bin/sh', script]
             else:
-                cmd = [script]
+                #for apt-get and ubuntu-drivers
+                if ' ' in script:
+                    cmd = script.split()
+                else:
+                    cmd = [script]
             logging.debug(fetch_output(cmd, None, environment))
             num+=1
         logging.debug("leave _process_scripts")
