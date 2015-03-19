@@ -5,6 +5,7 @@ dell-recovery (1.33) UNRELEASED; urgency=medium
   * Skip any installation scripts with installer in them to avoid updating
     installer in a live system.
   * Rewrite the path of anything referring to /cdrom in driver installer.
+  * Any apt-get purge lines don't fail the driver installer.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 18 Mar 2015 18:29:05 -0500
 

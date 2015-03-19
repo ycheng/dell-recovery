@@ -818,6 +818,8 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                         for line in script:
                             if '/cdrom' in line:
                                 line = line.replace('/cdrom', self.package_dir)
+                            elif 'apt-get purge' in line:
+                                line = line.replace('\n', ' || true\n')
                             wfd.write(line)
                 if name.endswith('.sh') or name.endswith('.py'):
                     os.chmod(os.path.join(root, name), 0o755)
