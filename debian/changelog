@@ -8,6 +8,7 @@ dell-recovery (1.33) UNRELEASED; urgency=medium
   * Any apt-get purge lines don't fail the driver installer.
   * Run ubuntu-drivers and apt-get -f install after driver installer finish
     to catch missing outliers that didn't already get installed and cleaned up.
+  * Prevent from the crash in the OOBE. (LP: #1380508)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 18 Mar 2015 18:29:05 -0500
 
