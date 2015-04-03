@@ -257,19 +257,18 @@ def find_factory_partition_stats(partition_type):
         block = item.get_block()
         if not block:
             continue
-        if block.get_cached_property('HintSystem').get_boolean():
-            check_label = block.get_cached_property("IdLabel")
-            if not check_label:
-                continue
-            if check_label.get_string().lower() in labels:
-                partition = item.get_partition()
-                recovery["label"] = check_label.get_string()
-                recovery["device"] = block.get_cached_property("Device").get_bytestring()
-                recovery["fs"] = block.get_cached_property("IdType").get_string()
-                recovery["drive"] = block.get_cached_property("Drive").get_string()
-                recovery["number"] = partition.get_cached_property("Number").unpack()
-                recovery["uuid"] = block.get_cached_property("IdUUID").get_string()
-                break
+        check_label = block.get_cached_property("IdLabel")
+        if not check_label:
+            continue
+        if check_label.get_string().lower() in labels:
+            partition = item.get_partition()
+            recovery["label"] = check_label.get_string()
+            recovery["device"] = block.get_cached_property("Device").get_bytestring()
+            recovery["fs"] = block.get_cached_property("IdType").get_string()
+            recovery["drive"] = block.get_cached_property("Drive").get_string()
+            recovery["number"] = partition.get_cached_property("Number").unpack()
+            recovery["uuid"] = block.get_cached_property("IdUUID").get_string()
+            break
 
     #find parent slave node, used for dell-bootstrap
     if "device" in recovery:
