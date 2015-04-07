@@ -715,7 +715,8 @@ class Page(Plugin):
             if loop or \
                partition or \
                not block or \
-               not block.get_cached_property("HintPartitionable").get_boolean():
+               not block.get_cached_property("HintPartitionable").get_boolean() or \
+               block.get_cached_property("ReadOnly").get_boolean():
                 continue
         
             drive_obj = block.get_cached_property("Drive").get_string()
@@ -723,9 +724,17 @@ class Page(Plugin):
                 continue
                 
             drive = udisks.get_object(drive_obj).get_drive()
-            if not drive or \
-               drive.get_cached_property("ConnectionBus").get_string() is 'usb' or \
-               drive.get_cached_property("Removable").get_boolean() is True:
+            if drive:
+                bus = drive.get_cached_property("ConnectionBus").get_string()
+                if bus is 'usb':
+                    continue
+                elif bus is 'sdio':
+                    media = drive.get_cached_property("Media").get_string()
+                    if not media:
+                        continue
+                elif drive.get_cached_property("Removable").get_boolean():
+                    continue
+            else:
                 continue
         
             devicesize = drive.get_cached_property("Size").unpack()
