@@ -1,6 +1,6 @@
 dell-recovery (1.34) UNRELEASED; urgency=medium
 
-  * Add more chnages to ubiquity plugin for eMMC disks.
+  * Add more changes to ubiquity plugin for eMMC disks.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 07 Apr 2015 17:44:40 -0500
 
