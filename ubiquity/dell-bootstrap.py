@@ -726,9 +726,9 @@ class Page(Plugin):
             drive = udisks.get_object(drive_obj).get_drive()
             if drive:
                 bus = drive.get_cached_property("ConnectionBus").get_string()
-                if bus is 'usb':
+                if bus == 'usb':
                     continue
-                elif bus is 'sdio':
+                elif bus == 'sdio':
                     media = drive.get_cached_property("Media").get_string()
                     if not media:
                         continue
