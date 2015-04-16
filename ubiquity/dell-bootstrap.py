@@ -1500,7 +1500,7 @@ manually to proceed.")
                 raise RuntimeError("Error mounting %s%s" % (self.device, EFI_ESP_PARTITION))
 
             #find old entries and prep directory
-            direct_path = '/mnt/efi' + '/efi/boot'
+            direct_path = '/mnt/efi' + '/efi/ubuntu'
             with misc.raised_privileges():
                 os.makedirs(direct_path)
 
@@ -1529,16 +1529,16 @@ manually to proceed.")
                         raise RuntimeError("Error removing old EFI boot manager entries")
 
             if secure_boot:
-                #rename to shimx64.efi so that it gets overwritten later
                 target = 'shimx64.efi'
                 with misc.raised_privileges():
                     os.rename(os.path.join(direct_path, 'bootx64.efi'),
-                              '/mnt/efi/efi/ubuntu/%s' % target)
+                              os.path.join(direct_path, target))
             else:
                 target = 'grubx64.efi'
-                with misc.raised_privileges():
-                    os.rename(os.path.join(direct_path, target),
-                              os.path.join(direct_path, 'bootx64.efi'))
+
+            add = misc.execute_root('efibootmgr', '-c', '-d', self.device, '-p', EFI_ESP_PARTITION, '-l', '\\EFI\\ubuntu\\%s' % target, '-L', 'ubuntu')
+            if add is False:
+                raise RuntimeError("Error adding efi entry to %s%s" % (self.device, EFI_ESP_PARTITION))
 
             #clean up ESP mount
             misc.execute_root('umount', '/mnt/efi')
