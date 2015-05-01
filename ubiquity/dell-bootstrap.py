@@ -1499,9 +1499,6 @@ manually to proceed.")
                               '/cdrom/efi/boot/grubx64.efi']
 
             #Mount ESP
-            if not os.path.exists('/mnt/efi'):
-                with misc.raised_privileges():
-                    os.makedirs('/mnt/efi')
             mount = misc.execute_root('mount', self.device + EFI_ESP_PARTITION, '/mnt/efi')
             if mount is False:
                 raise RuntimeError("Error mounting %s%s" % (self.device, EFI_ESP_PARTITION))
@@ -1544,6 +1541,11 @@ manually to proceed.")
 
             #clean up ESP mount
             misc.execute_root('umount', '/mnt/efi')
+
+            #rename efi directory so we don't offer it to customer boot in NVRAM menu
+            if os.path.exists('/mnt/efi'):
+                with misc.raised_privileges():
+                    shutil.move('/mnt/efi', '/mnt/efi.factory')
         else:
             grub = misc.execute_root('grub-bios-setup', '-d', '/mnt/factory', self.device)
             if grub is False:

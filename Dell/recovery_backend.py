@@ -1138,6 +1138,13 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
             '-m', os.path.join(mntdir, 'isolinux'),
             '-m', os.path.join(mntdir, 'bto_version')]
 
+
+        #include EFI binaries
+        if os.path.exists(os.path.join(mntdir, 'efi.factory')):
+            genisoargs.append('-m')
+            genisoargs.append('efi.factory')
+            shutil.copytree(os.path.join(mntdir, 'efi.factory'), os.path.join(tmpdir, 'efi'))
+
         #if no bootstrap in RP, we'll put it in the initrd
         bootstrap_initrd = not os.path.exists(os.path.join(mntdir, 'scripts', 'bootstrap.sh'))
 

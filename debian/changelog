@@ -9,6 +9,9 @@ dell-recovery (1.35) UNRELEASED; urgency=medium
   * Don't remove entries starting with \efi\boot\bootx64.efi.  These can possibly
     be coming from process or another OS and need to remain.
   * Merge in some of Woodrow's fix for NVMe support.
+  * Rename efi directory on RP to efi.factory so that it won't show up in
+    nvram menu.
+  * If efi.factory is found when building an ISO, rename in the target ISO.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 16 Apr 2015 13:33:50 -0500
 
