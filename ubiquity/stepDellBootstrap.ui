@@ -176,17 +176,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="label6">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Configure for Dualboot</property>
-              </object>
-              <packing>
-                <property name="top_attach">2</property>
-                <property name="bottom_attach">3</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkComboBox" id="recovery_partition_filesystem_checkbox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -279,62 +268,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkComboBox" id="dual_combobox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="model">dual_liststore</property>
-                <signal name="changed" handler="advanced_callback" swapped="no"/>
-                <child>
-                  <object class="GtkCellRendererText" id="cellrenderertext7"/>
-                  <attributes>
-                    <attribute name="text">1</attribute>
-                  </attributes>
-                </child>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="top_attach">2</property>
-                <property name="bottom_attach">3</property>
-                <property name="x_options">GTK_FILL</property>
-                <property name="y_options"></property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="label11">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Dual  Boot Layout</property>
-              </object>
-              <packing>
-                <property name="top_attach">3</property>
-                <property name="bottom_attach">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkComboBox" id="dual_layout_combobox">
-                <property name="visible">True</property>
-                <property name="sensitive">False</property>
-                <property name="can_focus">False</property>
-                <property name="model">dual_layout_liststore</property>
-                <signal name="changed" handler="advanced_callback" swapped="no"/>
-                <child>
-                  <object class="GtkCellRendererText" id="cellrenderertext11"/>
-                  <attributes>
-                    <attribute name="text">0</attribute>
-                  </attributes>
-                </child>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="top_attach">3</property>
-                <property name="bottom_attach">4</property>
-                <property name="x_options">GTK_FILL</property>
-                <property name="y_options"></property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="label7">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -391,42 +324,6 @@
       </row>
       <row>
         <col id="0" translatable="yes">gpt</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="dual_layout_liststore">
-    <columns>
-      <!-- column-name layout -->
-      <column type="gchararray"/>
-      <!-- column-name friendly -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">primary</col>
-        <col id="1" translatable="yes">Primary Partition</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">logical</col>
-        <col id="1" translatable="yes">Logical Partition</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkListStore" id="dual_liststore">
-    <columns>
-      <!-- column-name dualboot -->
-      <column type="gchararray"/>
-      <!-- column-name pretty_name -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">true</col>
-        <col id="1" translatable="yes">Enabled</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">false</col>
-        <col id="1" translatable="yes">Disabled</col>
       </row>
     </data>
   </object>

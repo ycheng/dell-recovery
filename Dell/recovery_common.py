@@ -542,58 +542,6 @@ old compression method %s" % (old_initrd_file, old_uuid_file,
 
     return (old_initrd_file, old_uuid_file)
 
-def create_g2ldr(chroot, rp_mount, install_mount):
-    '''Create a g2ldr compatible image using the install
-       chroot: chroot to launch commands in
-       rp_mount: mountpoint to find partition# and install g2ldr
-       install_mount: mountpoint to find target OS UUID'''
-    uuid = ''
-    partition = '-1'
-
-    udisks = UDisks.Client.new_sync(None)
-    manager = udisks.get_object_manager()
-    for item in manager.get_objects():
-        filesystem = item.get_filesystem()
-        part = item.get_partition()
-        if not filesystem or not part:
-            continue
-        mount = filesystem.get_cached_property('MountPoints')
-        if mount and install_mount and install_mount in mount:
-            uuid = part.get_cached_property('UUID')
-            partition = part.get_cached_property("Number")
-
-    #The file that the Windows BCD will chainload
-    shutil.copy('/usr/lib/grub/i386-pc/g2ldr.mbr', rp_mount)
-    
-    # This BCD configuration will load from the recovery partition if it exists
-    #   a /grub/grub.cfg.  As specified by the active partition flag
-    # If it doesn't, then it will look for /boot/grub/grub.cfg on the OS partition
-    #   as specified by the UUID.
-    process_conf_file('/usr/share/dell/grub/bcd.cfg', \
-                      os.path.join(chroot, 'tmp', 'bcd.cfg'), uuid, partition)
-
-    #Build the Grub2 Core Image
-    build_command = ['grub-mkimage', '-O', 'i386-pc',
-                                     '-c', '/tmp/bcd.cfg', 
-                                     '-o', '/tmp/core.img',
-                                     'biosdisk', 'part_msdos', 'part_gpt', 'ls',
-                                     'fat', 'ntfs', 'ntfscomp', 'search',
-                                     'linux', 'vbe', 'boot', 'minicmd', 
-                                     'cat', 'cpuid', 'chain', 'halt', 'linux16',
-                                     'echo', 'test', 'configfile', 'ext2',
-                                     'keystatus', 'help', 'boot', 'loadenv' ]
-    if chroot == '/target':
-        from ubiquity import install_misc
-        install_misc.chrex(chroot, *build_command)
-    else:
-        from ubiquity import misc
-        misc.execute_root(*build_command)
-
-    with open(os.path.join(rp_mount, 'g2ldr'), 'wb') as wfd:
-        for fname in ['/usr/lib/grub/i386-pc/g2hdr.bin', os.path.join(chroot, 'tmp', 'core.img')]:
-            with open(fname, 'rb') as rfd:
-                wfd.write(rfd.read())
-
 def parse_seed(seed):
     """Parses a preseed file and returns a set of keys"""
     keys = {}
