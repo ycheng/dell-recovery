@@ -8,6 +8,7 @@ dell-recovery (1.35) UNRELEASED; urgency=medium
     - Booting an added entry.
   * Don't remove entries starting with \efi\boot\bootx64.efi.  These can possibly
     be coming from process or another OS and need to remain.
+  * Merge in some of Woodrow's fix for NVMe support.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 16 Apr 2015 13:33:50 -0500
 

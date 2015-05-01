@@ -442,6 +442,10 @@ class Page(Plugin):
             part = item.get_partition()
             if not part:
                 continue
+            #Check if the swap is active or not
+            swap_active = swap.get_cached_property("Active").get_boolean()
+            if not swap_active:
+                continue
             swap.call_stop_sync(no_options)
             part.call_delete_sync(no_options)
 
@@ -699,7 +703,30 @@ class Page(Plugin):
                not block.get_cached_property("HintPartitionable").get_boolean() or \
                block.get_cached_property("ReadOnly").get_boolean():
                 continue
-        
+
+            #Check the disk is type of NVME SSD
+            device_path = block.get_cached_property("Device").get_bytestring().decode('utf-8')
+            if device_path.startswith('/dev/nvme'):
+                with misc.raised_privileges():
+                    getdisk_subp = subprocess.Popen(['smartctl', '-d', 'scsi', '--all', device_path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                    output = getdisk_subp.communicate()[0]
+                    vendor = ""
+                    model = ""
+                    for prop in output.decode('utf-8').split('\n'):
+                        if prop.startswith('Vendor:'):
+                            vendor = prop.split(':')[1].strip()
+                        elif prop.startswith('Product:'):
+                            model = prop.split(':')[1].strip()
+                        else:
+                            continue
+
+                nvme_dev_size = block.get_cached_property("Size").unpack()
+                nvme_size_gb = "%i" % (nvme_dev_size / 1000000000)
+                symlink = block.get_cached_property("Symlinks")[0]
+                nvme_dev_file = ''.join(chr(i) for i in symlink)
+                disks.append([nvme_dev_file, nvme_dev_size, "%s GB %s %s (%s)" % (nvme_size_gb, vendor, model, device_path)])
+                continue
+1
             drive_obj = block.get_cached_property("Drive").get_string()
             if drive_obj == '/':
                 continue
