@@ -194,10 +194,10 @@ def process_conf_file(original, new, uuid, number, ako='', recovery_text=''):
     else:
         extra_cmdline = find_extra_kernel_options()
 
-    #starting with 10.10, we replace the whole drive string (/dev/sdX,msdosY)
+    #starting with 10.10, we replace the whole drive string (/dev/sdX,gptY)
     #earlier releases are hardcoded to (hd0,Y)
     if float(release["RELEASE"]) >= 10.10:
-        number = 'msdos' + number
+        number = 'gpt' + number
 
     with open(original, "r") as base:
         with open(new, 'w', encoding='utf-8') as output:
