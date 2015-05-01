@@ -61,25 +61,10 @@ Type: string
 Default: dynamic
 Description: for internal use; determines the default UI; (une/ude) or dynamically determined based on LOB/screen rez (dynamic)
 
-Template: dell-recovery/dual_boot
-Type: boolean
-Default: false
-Description: for internal use; enables the factory installed dual boot solution.
-
-Template: dell-recovery/dual_boot_layout
-Type: string
-Default: primary
-Description: for internal use; sets the disk drive layout used for a factory installed dual boot solution. valid: [primary, logical]
-
 Template: dell-recovery/disk_layout
 Type: string
 Default: msdos
 Description: for internal use; when preseeded, determines the disk layout type to use
-
-Template: dell-recovery/oie_mode
-Type: boolean
-Default: false
-Description: for internal use; enables ODM image mode
 
 Template: dell-recovery/build_start
 Type: text
