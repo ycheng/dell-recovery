@@ -954,33 +954,6 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         logging.debug("enable_boot_to_restore")
         self._prepare_reboot("99_dell_recovery")
 
-    @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 'ss', out_signature = '', sender_keyword = 'sender',
-        connection_keyword = 'conn')
-    def enable_boot_to_utility(self, utility, executable, sender=None, conn=None):
-        """Enables the default one-time boot option to be utility partition"""
-        self._reset_timeout()
-        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.utility')
-        #prep the content for UP
-        mntdir = self.request_mount(utility, "rw")
-        target = os.path.join(mntdir, os.path.basename(executable))
-        if os.path.exists(target):
-            os.remove(target)
-        shutil.copy(executable, target)
-        old = False
-        target = os.path.join(mntdir, 'autoexec.bat')
-        if os.path.exists(target):
-            shutil.move(target, 
-                        os.path.join(mntdir, 'autoexec.old'))
-            old = True
-        with open (target, 'w') as wfd:
-            wfd.write("DEL AUTOEXEC.BAT\r\n")
-            if old:
-                wfd.write("REN AUTOEXEC.OLD AUTOEXEC.BAT\r\n")
-            wfd.write("%s\r\n" % os.path.basename(executable))
-        
-        self._prepare_reboot("98_dell_bios")
-
     def _prepare_reboot(self, dest):
         """Helper function to reboot into an entry"""
         #find our one time boot entry

@@ -20,10 +20,11 @@ dell-recovery (1.35) UNRELEASED; urgency=medium
   * Drop EFI factory bootloader.  Instead rely on signed bootloader.  This means
     in factory process that we'll need to make sure that an appropriate grubenv
     is placed to satisfy the factory the install process.
+  * Drop support for BIOS flash via UP (only works in legacy)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 16 Apr 2015 13:33:50 -0500
 
-dell-recovery (1.34~somerville1) trusty; urgency=medium
+dell-recovery (1.34) trusty; urgency=medium
 
   * Add more changes to ubiquity plugin for eMMC disks.
 

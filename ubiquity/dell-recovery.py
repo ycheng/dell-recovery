@@ -178,10 +178,6 @@ class Install(InstallPlugin):
 
             os.chmod('/etc/grub.d/99_dell_recovery', 0o755)
 
-        #if we have a UP and not in EFI mode, we can do BIOS flashing via DOS
-        rec_text = progress.get('ubiquity/text/98_grub_menu')
-        magic.create_up_boot_entry(rec_text)
-
         subprocess.call(['update-grub'],env=env)
 
         dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)

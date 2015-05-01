@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-01 18:08-0500\n"
+"POT-Creation-Date: 2015-05-01 18:43-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,24 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../Dell/recovery_gtk.py:108
+#: ../Dell/recovery_gtk.py:103
 msgid "Cannot connect to dbus"
 msgstr ""
 
-#: ../Dell/recovery_gtk.py:110
+#: ../Dell/recovery_gtk.py:105
 msgid "Permission Denied"
 msgstr ""
 
-#: ../Dell/recovery_gtk.py:117
+#: ../Dell/recovery_gtk.py:112
 msgid "Exception"
 msgstr ""
 
-#: ../Dell/recovery_gtk.py:197 ../gtk/dell-recovery-media.desktop.in.h:1
+#: ../Dell/recovery_gtk.py:163 ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/tool_selector.ui.h:2
 msgid "Dell Recovery"
 msgstr ""
 
-#: ../Dell/recovery_gtk.py:198
+#: ../Dell/recovery_gtk.py:164
 msgid "Copyright 2008-2012 Dell Inc."
 msgstr ""
 
@@ -183,23 +183,23 @@ msgstr ""
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1066
+#: ../Dell/recovery_backend.py:1039
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1085
+#: ../Dell/recovery_backend.py:1058
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1154
+#: ../Dell/recovery_backend.py:1127
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1183
+#: ../Dell/recovery_backend.py:1156
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1308
+#: ../Dell/recovery_backend.py:1281
 msgid "Building ISO"
 msgstr ""
 
@@ -461,14 +461,6 @@ msgstr ""
 
 #: ../gtk/tool_selector.ui.h:9
 msgid "Install Drivers"
-msgstr ""
-
-#: ../gtk/tool_selector.ui.h:10
-msgid "This will flash a DOS based BIOS image."
-msgstr ""
-
-#: ../gtk/tool_selector.ui.h:11
-msgid "Flash BIOS"
 msgstr ""
 
 #: ../ubiquity/stepRecoveryMedia.ui.h:1

@@ -60,18 +60,13 @@ class DellRecoveryToolGTK:
 
         #if running in driver install mode,  hide other stuff
         if mode == 'driver':
-            for item in ['flash_bios', 'restore_system', 'build_os_media']:
+            for item in ['restore_system', 'build_os_media']:
                 action_objects(self.tool_widgets, item, 'hide')
             action_objects(self.tool_widgets, 'install_drivers', 'show')
         else:
             #hide restore from HDD unless there is a recovery partition
             if not (recovery and os.path.exists('/etc/grub.d/99_dell_recovery')):
                 action_objects(self.tool_widgets, 'restore_system', 'hide')
-
-            #hide bios flash if not UEFI or no UP
-            if os.path.exists('/sys/firmware/efi') or \
-               not (utility and os.path.exists('/etc/grub.d/98_dell_bios')):
-                action_objects(self.tool_widgets, "flash_bios", "hide")
 
         #about dialog
         self.about_box = None
@@ -144,35 +139,6 @@ class DellRecoveryToolGTK:
                     dbus_sync_call_signal_wrapper(self.backend(),
                                                   "enable_boot_to_restore",
                                                   {})
-                    iface.RequestReboot()
-                    self.destroy()
-                except dbus.DBusException as msg:
-                    self.dbus_exception_handler(msg)
-            #BIOS flash button
-            elif widget == self.tool_widgets.get_object('flash_bios_button'):
-
-                file_dialog = Gtk.FileChooserDialog(title = "Choose DOS BIOS Executable",
-                                        transient_for = None,
-                                        action = Gtk.FileChooserAction.OPEN)
-                file_dialog.set_default_response(Gtk.ResponseType.OK)
-                file_dialog.add_buttons(Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK)
-                file_filter = Gtk.FileFilter()
-                file_filter.add_pattern("*.exe")
-                file_filter.add_pattern("*.EXE")
-                file_dialog.set_filter(file_filter)
-                response = file_dialog.run()
-                file_dialog.hide()
-                if response == Gtk.ResponseType.OK:
-                    fname = file_dialog.get_filename()
-                else:
-                    tool_selector.set_sensitive(True)
-                    return False
-                try:
-                    dbus_sync_call_signal_wrapper(self.backend(),
-                                                  "enable_boot_to_utility",
-                                                  {},
-                                                  self.up, fname)
                     iface.RequestReboot()
                     self.destroy()
                 except dbus.DBusException as msg:
