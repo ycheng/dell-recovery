@@ -14,6 +14,8 @@ dell-recovery (1.35) UNRELEASED; urgency=medium
   * If efi.factory is found when building an ISO, rename in the target ISO.
   * Drop aging code that allowed for setting up a dual boot configuration.
     This code was never updated for GPT installs, and that's what we do now.
+  * Drop support for setting up MBR layout and legacy.  All new systems are
+    GPT + UEFI.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 16 Apr 2015 13:33:50 -0500
 

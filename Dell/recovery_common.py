@@ -574,32 +574,6 @@ def write_seed(seed, keys):
                 type = 'string'
             wfd.write(" ubiquity %s %s %s\n" % (item, type, keys[item]))
 
-def write_up_bootsector(device, partition):
-    """Write out the bootsector to a utility partition"""
-    #build the bootsector of the partition
-    if os.path.exists('/usr/share/dell/up/up.bs'):
-        with open('/usr/share/dell/up/up.bs', 'rb') as rfd:
-            with open(device + partition, 'wb') as wfd:
-                wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
-                rfd.seek(43)
-                wfd.seek(43)
-                wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
-            #If we don't have the bootsector code, then just set the label properly
-    else:
-        fetch_output(['dosfslabel', device + partition, "DIAGS"])
-
-def create_up_boot_entry(new_text):
-    upart = find_factory_partition_stats('up')
-
-    if not os.path.isdir('/sys/firmware/efi') and upart:
-        process_conf_file(original = '/usr/share/dell/grub/98_dell_bios', \
-                                new = '/etc/grub.d/98_dell_bios',               \
-                                uuid = str(upart["uuid"]),                      \
-                                number = str(upart["number"]),                  \
-                                recovery_text = new_text)
-
-        os.chmod('/etc/grub.d/98_dell_bios', 0o755)
-
 def mark_upgrades():
     '''Mark packages that can upgrade to upgrade during install'''
     from apt.cache import Cache
