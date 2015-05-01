@@ -17,6 +17,9 @@ dell-recovery (1.35) UNRELEASED; urgency=medium
   * Drop support for setting up MBR layout and legacy.  All new systems are
     GPT + UEFI.
   * Set hints in grub.cfg to be gpt disks.
+  * Drop EFI factory bootloader.  Instead rely on signed bootloader.  This means
+    in factory process that we'll need to make sure that an appropriate grubenv
+    is placed to satisfy the factory the install process.
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 16 Apr 2015 13:33:50 -0500
 

@@ -4,7 +4,7 @@
 
 case "$1" in
   configure)
-    /usr/share/dell/grub/build-binaries.sh
+    /usr/share/dell/grub/build-factory.sh
   ;;
   abort-upgrade|abort-remove|abort-deconfigure)
   ;;

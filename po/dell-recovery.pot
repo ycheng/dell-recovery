@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-10 14:33+0800\n"
+"POT-Creation-Date: 2015-05-01 18:08-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Driver Packages"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:91 ../Dell/recovery_advanced_gtk.py:295
+#: ../Dell/recovery_advanced_gtk.py:91 ../Dell/recovery_advanced_gtk.py:298
 msgid "Utility Partition"
 msgstr ""
 
@@ -167,11 +167,11 @@ msgstr ""
 msgid "Assembling Image Components"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:298
+#: ../Dell/recovery_advanced_gtk.py:301
 msgid "No Additional Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_advanced_gtk.py:494
+#: ../Dell/recovery_advanced_gtk.py:504
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
@@ -183,23 +183,23 @@ msgstr ""
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1047
+#: ../Dell/recovery_backend.py:1066
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1066
+#: ../Dell/recovery_backend.py:1085
 msgid "Building Dell Utility Partition"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1128
+#: ../Dell/recovery_backend.py:1154
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1157
+#: ../Dell/recovery_backend.py:1183
 msgid "Building GRUB core image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1282
+#: ../Dell/recovery_backend.py:1308
 msgid "Building ISO"
 msgstr ""
 

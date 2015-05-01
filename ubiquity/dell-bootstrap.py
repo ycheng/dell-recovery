@@ -1029,62 +1029,30 @@ manually to proceed.")
                 magic.process_conf_file('/usr/share/dell/grub/' + item, \
                                         full_path, uuid, EFI_RP_PARTITION)
 
-        #If we don't have grub binaries, build them
-        if self.efi:
-            grub_files = [ '/mnt/factory/grubx64.efi']
-        else:
-            grub_files = [ '/mnt/factory/core.img',
-                           '/mnt/factory/boot.img']
-        for item in grub_files:
-            if not os.path.exists(item):
-                os.environ['TARGET_GRUBCFG'] = '/dev/null'
-                os.environ['ISO_LOADER'] = '/dev/null'
-                build = misc.execute_root('/usr/share/dell/grub/build-binaries.sh')
-                if build is False:
-                    raise RuntimeError("Error building grub binaries.")
-                with misc.raised_privileges():
-                    magic.white_tree("copy", re.compile('.'), '/var/lib/dell-recovery', '/mnt/factory')
-                break
-
-        #set install_in_progress flag
-        with misc.raised_privileges():
-            magic.fetch_output(['grub-editenv', '/mnt/factory/grubenv', 'set', 'install_in_progress=1'])
-
         #Install grub
         self.status("Installing GRUB", 88)
-        if self.efi:
-            #Secure boot?
-            secure_boot = False
-            if os.path.exists('/sys/firmware/efi/vars/SecureBoot-8be4df61-93ca-11d2-aa0d-00e098032b8c/data'):
-                with misc.raised_privileges():
-                    with open('/sys/firmware/efi/vars/SecureBoot-8be4df61-93ca-11d2-aa0d-00e098032b8c/data', 'r') as rfd:
-                        output = rfd.read()
-                        if output:
-                            secure_boot = bool(ord(output))
+        ##If we don't have grub binaries, build them
+        grub_files = ['/cdrom/efi/boot/bootx64.efi',
+                      '/cdrom/efi/boot/grubx64.efi']
 
-            #secure boot on then we need to use that bootloader
-            if secure_boot:
-                grub_files = ['/cdrom/efi/boot/bootx64.efi',
-                              '/cdrom/efi/boot/grubx64.efi']
+        ##Mount ESP
+        mount = misc.execute_root('mount', self.device + esp_part, '/mnt/efi')
+        if mount is False:
+            raise RuntimeError("Error mounting %s%s" % (self.device, esp_part))
 
-            #Mount ESP
-            mount = misc.execute_root('mount', self.device + esp_part, '/mnt/efi')
-            if mount is False:
-                raise RuntimeError("Error mounting %s%s" % (self.device, esp_part))
+        ##find old entries and prep directory
+        direct_path = '/mnt/efi' + '/efi/ubuntu'
+        with misc.raised_privileges():
+            os.makedirs(direct_path)
 
-            #find old entries and prep directory
-            direct_path = '/mnt/efi' + '/efi/ubuntu'
-            with misc.raised_privileges():
-                os.makedirs(direct_path)
+            #copy boot loader files
+            for item in grub_files:
+                if not os.path.exists(item):
+                    raise RuntimeError("Error, %s doesn't exist." % item)
+                shutil.copy(item, direct_path)
 
-                #copy boot loader
-                for item in grub_files:
-                    if not os.path.exists(item):
-                        raise RuntimeError("Error, %s doesn't exist." % item)
-                    shutil.copy(item, direct_path)
-
-                #find old entries
-                bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
+            #find old entries
+            bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
 
             #delete old entries
             for line in bootmgr_output:
@@ -1096,25 +1064,33 @@ manually to proceed.")
                     if bootmgr is False:
                         raise RuntimeError("Error removing old EFI boot manager entries")
 
-            if secure_boot:
-                target = 'shimx64.efi'
+        target = 'shimx64.efi'
+        with misc.raised_privileges():
+            os.rename(os.path.join(direct_path, 'bootx64.efi'),
+                      os.path.join(direct_path, target))
+
+        add = misc.execute_root('efibootmgr', '-c', '-d', self.device, '-p', EFI_ESP_PARTITION, '-l', '\\EFI\\ubuntu\\%s' % target, '-L', 'ubuntu')
+        if add is False:
+            raise RuntimeError("Error adding efi entry to %s%s" % (self.device, esp_part))
+
+        ##clean up ESP mount
+        misc.execute_root('umount', '/mnt/efi')
+
+        #Make changes that would normally be done in factory stage1
+        ##rename efi directory so we don't offer it to customer boot in NVRAM menu
+        if os.path.exists('/mnt/efi'):
+            with misc.raised_privileges():
+                shutil.move('/mnt/efi', '/mnt/efi.factory')
+
+        ##set install_in_progress flag
+        with misc.raised_privileges():
+            if not os.path.exists('/mnt/factory/grub.cfg'):
+                build = misc.execute_root('/usr/share/dell/grub/build-factory.sh')
+                if build is False:
+                    raise RuntimeError("Error building grub cfg.")
                 with misc.raised_privileges():
-                    os.rename(os.path.join(direct_path, 'bootx64.efi'),
-                              os.path.join(direct_path, target))
-            else:
-                target = 'grubx64.efi'
-
-            add = misc.execute_root('efibootmgr', '-c', '-d', self.device, '-p', EFI_ESP_PARTITION, '-l', '\\EFI\\ubuntu\\%s' % target, '-L', 'ubuntu')
-            if add is False:
-                raise RuntimeError("Error adding efi entry to %s%s" % (self.device, esp_part))
-
-            #clean up ESP mount
-            misc.execute_root('umount', '/mnt/efi')
-
-            #rename efi directory so we don't offer it to customer boot in NVRAM menu
-            if os.path.exists('/mnt/efi'):
-                with misc.raised_privileges():
-                    shutil.move('/mnt/efi', '/mnt/efi.factory')
+                    magic.white_tree("copy", re.compile('.'), '/var/lib/dell-recovery', '/mnt/factory')
+            magic.fetch_output(['grub-editenv', '/mnt/factory/grubenv', 'set', 'install_in_progress=1'])
 
         #update bto.xml
         path = os.path.join(magic.CDROM_MOUNT, 'bto.xml')

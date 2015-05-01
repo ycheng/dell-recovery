@@ -33,11 +33,10 @@ Description: Dell Recovery Casper Hooks
 Package: dell-recovery-bootloader
 Architecture: all
 Depends: dell-recovery, ubiquity, ${misc:Depends}
-Conflicts: mingw32-binutils
-Recommends: grub-pc-bin, grub-efi-amd64-bin, mingw-w64, quilt, autogen, autoconf, libtool, bison, flex, dpkg-dev
-Description: Bootloader images for Dell's factory process
- This package is used to generate GRUB2 bootable images that are
- injected into the Dell Linux factory installation process.
+Recommends: grub-efi-amd64-bin
+Description: Bootloader configuration for Dell's factory process
+ This package is used to generate GRUB2 configuration that is 
+ used in the Dell Linux factory installation process.
  .
  This package doesn't have much use outside of the Dell environment
  but is safe to install on other systems.

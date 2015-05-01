@@ -66,7 +66,6 @@ setup(
                 ('share/dell/grub', files_only('grub')),
                 ('share/dell/grub/theme', files_only('grub/theme')),
                 ('share/dell/grub/theme/dell', files_only('grub/theme/dell')),
-                ('share/dell/grub/theme/i386-pc', files_only('grub/theme/i386-pc')),
                 ('share/dell/grub/theme/x86_64-efi', files_only('grub/theme/x86_64-efi')),
                 ('share/dbus-1/system-services', glob.glob('backend/*.service')),
                 ('/lib/udev/rules.d', glob.glob('udev/*')),
