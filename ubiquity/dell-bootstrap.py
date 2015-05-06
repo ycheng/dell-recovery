@@ -941,7 +941,7 @@ manually to proceed.")
                     ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', str(grub_size), str(grub_size+up_size)),
                     ('parted', '-s', self.device, 'set',  EFI_UP_PARTITION, 'diag', 'on'),
                     ('parted', '-s', self.device, 'name', EFI_UP_PARTITION, 'DIAGS')]
-        if '/dev/nvme' in self.device:
+        if '/dev/nvme' in self.device or '/dev/mmcblk' in self.device:
             commands.append(('mkfs.msdos', self.device + 'p' + EFI_ESP_PARTITION))
             commands.append(('mkfs.msdos', self.device + 'p' + EFI_UP_PARTITION))
             rp_part = 'p' + EFI_RP_PARTITION
