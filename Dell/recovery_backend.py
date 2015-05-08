@@ -1194,6 +1194,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         #ISO Creation
         seg1 = subprocess.Popen(xorrisoargs,
                               stderr=subprocess.PIPE,
+                              stdout=subprocess.PIPE,
                               universal_newlines=True)
         pipe = seg1.stderr
 
@@ -1210,7 +1211,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                 output = pipe.read()
                 if output.strip():
                     logging.debug(output.strip())
-                    progress = output.split()[0]
+                    progress = output.split()[4]
                     if (progress[-1:] == '%'):
                         self.report_progress(_('Building ISO'), progress[:-1])
             retval = seg1.poll()
