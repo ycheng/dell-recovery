@@ -1,10 +1,10 @@
-dell-recovery (1.36) UNRELEASED; urgency=medium
+dell-recovery (1.36) wily; urgency=medium
 
   * Fix issue with formatting eMMC devices.
   * Fix ISO building now that we don't have GRUB 32 bit involved
   * Generate ISO image using xorriso so that it can be written using dd.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 06 May 2015 16:43:37 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 07 May 2015 21:06:27 -0500
 
 dell-recovery (1.35) wily; urgency=medium
 
