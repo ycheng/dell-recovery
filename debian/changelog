@@ -9,7 +9,7 @@ dell-recovery (1.37) wily; urgency=medium
   [ Chen-Han Hsiao (Stanley) ]
   * Use utf-8 encoding for filename. (LP: #1441060)
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 12 May 2015 17:56:52 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 12 May 2015 18:04:14 -0500
 
 dell-recovery (1.36) trusty; urgency=medium
 
