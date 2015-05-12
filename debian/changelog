@@ -1,4 +1,4 @@
-dell-recovery (1.36) UNRELEASED; urgency=medium
+dell-recovery (1.36~somerville3) trusty; urgency=medium
 
   [ Mario Limonciello ]
   * Fix issue with formatting eMMC devices.
@@ -8,7 +8,10 @@ dell-recovery (1.36) UNRELEASED; urgency=medium
   [ Chen-Han Hsiao (Stanley) ]
   * Use utf-8 encoding for filename. (LP: #1441060)
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 06 May 2015 16:43:37 -0500
+  [ Shih-Yuan Lee (FourDollars) ]
+  * Fix OOBE crash while creating recovery media. (LP: #1453652)
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Tue, 12 May 2015 14:01:49 +0800
 
 dell-recovery (1.35) wily; urgency=medium
 
