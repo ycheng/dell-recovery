@@ -811,6 +811,16 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         #emulate fat32 partition automatically setting sh and py scripts executable
         for root, dirs, files in os.walk(self.package_dir, topdown=False):
             for name in files:
+                if name.endswith('.sh'):
+                    with open(os.path.join(root, name), 'r') as rfd:
+                        script = rfd.readlines()
+                    with open(os.path.join(root, name), 'w') as wfd:
+                        for line in script:
+                            if '/cdrom' in line:
+                                line = line.replace('/cdrom', self.package_dir)
+                            elif 'apt-get purge' in line:
+                                line = line.replace('\n', ' || true\n')
+                            wfd.write(line)
                 if name.endswith('.sh') or name.endswith('.py'):
                     os.chmod(os.path.join(root, name), 0o755)
 
@@ -836,7 +846,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                              stdout=subprocess.PIPE, 
                              cwd=debs_dir)
             output = build.communicate()[0]
-            with open(os.path.join(debs_dir, 'Packages'), 'w') as wfd:
+            with open(os.path.join(debs_dir, 'Packages'), 'wb') as wfd:
                 wfd.write(output)
 
             source_list = os.path.join('/etc', 'apt', 'sources.list.d', os.path.basename(self.package_dir) + '.list')
@@ -910,16 +920,25 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         environment = os.environ
         environment['DEBIAN_FRONTEND'] = 'noninteractive'
         environment['PATH'] = '/sbin:/usr/sbin:/bin:/usr/bin'
+        scripts.append('/usr/bin/apt-get -f install --yes')
+        scripts.append('/usr/bin/ubuntu-drivers autoinstall')
         num = float(1)
         total = len(scripts)
         for script in scripts:
+            if 'installer' in script:
+                logging.debug('skipping script: %s' % script)
+                continue
             logging.debug('executing script: %s' % script)
             self.report_progress("executing %s" % script, num/total)
             #in case shell script is missing starting shebang (a few are)
             if script.endswith('.sh'):
                 cmd = ['/bin/sh', script]
             else:
-                cmd = [script]
+                #for apt-get and ubuntu-drivers
+                if ' ' in script:
+                    cmd = script.split()
+                else:
+                    cmd = [script]
             logging.debug(fetch_output(cmd, None, environment))
             num+=1
         logging.debug("leave _process_scripts")
@@ -934,33 +953,6 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.restore')
         logging.debug("enable_boot_to_restore")
         self._prepare_reboot("99_dell_recovery")
-
-    @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 'ss', out_signature = '', sender_keyword = 'sender',
-        connection_keyword = 'conn')
-    def enable_boot_to_utility(self, utility, executable, sender=None, conn=None):
-        """Enables the default one-time boot option to be utility partition"""
-        self._reset_timeout()
-        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.utility')
-        #prep the content for UP
-        mntdir = self.request_mount(utility, "rw")
-        target = os.path.join(mntdir, os.path.basename(executable))
-        if os.path.exists(target):
-            os.remove(target)
-        shutil.copy(executable, target)
-        old = False
-        target = os.path.join(mntdir, 'autoexec.bat')
-        if os.path.exists(target):
-            shutil.move(target, 
-                        os.path.join(mntdir, 'autoexec.old'))
-            old = True
-        with open (target, 'w') as wfd:
-            wfd.write("DEL AUTOEXEC.BAT\r\n")
-            if old:
-                wfd.write("REN AUTOEXEC.OLD AUTOEXEC.BAT\r\n")
-            wfd.write("%s\r\n" % os.path.basename(executable))
-        
-        self._prepare_reboot("98_dell_bios")
 
     def _prepare_reboot(self, dest):
         """Helper function to reboot into an entry"""
@@ -1095,29 +1087,38 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                                        str(msg))
 
         #Arg list
-        genisoargs = ['genisoimage',
-            '-o', iso,
-            '-input-charset', 'utf-8',
-            '-no-emul-boot',
-            '-boot-load-size', '4',
-            '-boot-info-table',
-            '-pad',
-            '-r',
-            '-J',
-            '-joliet-long',
-            '-N',
-            '-hide-joliet-trans-tbl',
-            '-cache-inodes',
-            '-l',
-            '-publisher', 'Dell Inc.',
-            '-V', 'Dell Ubuntu Reinstallation Media',
-            '-m', '*.exe',
-            '-m', '*.sys',
-            '-m', 'syslinux',
-            '-m', 'syslinux.cfg',
-            '-m', os.path.join(mntdir, 'bto.xml'),
-            '-m', os.path.join(mntdir, 'isolinux'),
-            '-m', os.path.join(mntdir, 'bto_version')]
+        xorrisoargs = ['xorriso',
+                       '-as', 'mkisofs',
+                       '-R',
+                       '-r',
+                       '-J',
+                       '-joliet-long',
+                       '-l',
+                       '-cache-inodes',
+                       '-iso-level', '3',
+                       '-isohybrid-mbr', '/usr/lib/syslinux/isohdpfx.bin',
+                       '-partition_offset', '16',
+                       '-A', 'Dell Recovery',
+                       '-p', 'Dell',
+                       '-publisher', 'Dell',
+                       '-no-emul-boot' ,
+                       '-boot-load-size', '4',
+                       '-boot-info-table', 
+                       '-b', 'boot/grub/efi.img',
+                       '-o', iso,
+                       '-m', '*.exe',
+                       '-m', '*.sys',
+                       '-m', 'syslinux',
+                       '-m', 'syslinux.cfg',
+                       '-m', os.path.join(mntdir, 'bto.xml'),
+                       '-m', os.path.join(mntdir, 'isolinux'),
+                       '-m', os.path.join(mntdir, 'bto_version')]
+                       
+        #include EFI binaries
+        if os.path.exists(os.path.join(mntdir, 'efi.factory')):
+            xorrisoargs.append('-m')
+            xorrisoargs.append('efi.factory')
+            shutil.copytree(os.path.join(mntdir, 'efi.factory'), os.path.join(tmpdir, 'efi'))
 
         #if no bootstrap in RP, we'll put it in the initrd
         bootstrap_initrd = not os.path.exists(os.path.join(mntdir, 'scripts', 'bootstrap.sh'))
@@ -1134,79 +1135,32 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                         new_compression="auto",
                         include_bootstrap=bootstrap_initrd)
         self.stop_progress_thread()
-        genisoargs.append('-m')
-        genisoargs.append(os.path.join('.disk', old_uuid))
-        genisoargs.append('-m')
-        genisoargs.append(os.path.join('casper', old_initrd))
-
-        #if we're grub based, generate a grub image
-        grub_root = os.path.join(mntdir,'boot', 'grub', 'i386-pc')
-        if os.path.exists(grub_root):
-            os.makedirs(os.path.join(tmpdir, 'boot', 'grub'))
-            if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img')):
-                genisoargs.append('-m')
-                genisoargs.append(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img'))
-                shutil.copy(os.path.join(mntdir, 'boot', 'grub', 'eltorito.img'),
-                            os.path.join(tmpdir, 'boot', 'grub', 'eltorito.img'))
-            else:
-                if not os.path.exists(os.path.join(grub_root, 'core.img')):
-                    raise CreateFailed("The target requested GRUB support, but core.img is missing.")
-                if not os.path.exists(os.path.join(grub_root, 'cdboot.img')):
-                    raise CreateFailed("The target requested GRUB support, but cdboot.img is missing.")
-
-                self.start_pulsable_progress_thread(_('Building GRUB core image'))
-                with open(os.path.join(tmpdir, 'boot', 'grub', 'eltorito.img'), 'wb') as wfd:
-                    for fname in ('cdboot.img', 'core.img'):
-                        with open(os.path.join(grub_root, fname), 'rb') as rfd:
-                            wfd.write(rfd.read())                    
-                self.stop_progress_thread()
-            genisoargs.append('-m')
-            genisoargs.append(os.path.join(mntdir,'boot/boot.catalog'))
-            genisoargs.append('-b')
-            genisoargs.append('boot/grub/eltorito.img')
-            genisoargs.append('-c')
-            genisoargs.append('boot/boot.catalog')
-
-        #isolinux based
-        else:
-            genisoargs.append('-b')
-            genisoargs.append('isolinux/isolinux.bin')
-            genisoargs.append('-c')
-            genisoargs.append('isolinux/boot.catalog')
-
-            #if we have ran this from a USB key, we might have syslinux which will
-            #break our build
-            if os.path.exists(os.path.join(mntdir, 'syslinux')):
-                shutil.copytree(os.path.join(mntdir, 'syslinux'), os.path.join(tmpdir, 'isolinux'))
-                if os.path.exists(os.path.join(tmpdir, 'isolinux', 'syslinux.cfg')):
-                    shutil.move(os.path.join(tmpdir, 'isolinux', 'syslinux.cfg'), os.path.join(tmpdir, 'isolinux', 'isolinux.cfg'))
-            else:
-                #Copy boot section for ISO to somewhere writable
-                shutil.copytree(os.path.join(mntdir, 'isolinux'), os.path.join(tmpdir, 'isolinux'))
+        xorrisoargs.append('-m')
+        xorrisoargs.append(os.path.join('.disk', old_uuid))
+        xorrisoargs.append('-m')
+        xorrisoargs.append(os.path.join('casper', old_initrd))
 
         #if we have any any ISO/USB bootable bootloader on the image, copy in a theme
         grub_theme = False
         for topdir in [mntdir, tmpdir]:
-            for bottomdir in ['i386-pc', 'x86_64-efi']:
-                if os.path.exists(os.path.join(topdir, 'boot', 'grub', bottomdir)):
-                    grub_theme = True
+            if os.path.exists(os.path.join(topdir, 'boot', 'grub', 'x86_64-efi')):
+                grub_theme = True
         if grub_theme:
             if not os.path.exists(os.path.join(tmpdir, 'boot', 'grub')):
                 os.makedirs(os.path.join(tmpdir, 'boot', 'grub'))
             #conffiles
             shutil.copy('/usr/share/dell/grub/theme/grub.cfg',
                         os.path.join(tmpdir, 'boot', 'grub', 'grub.cfg'))
-            genisoargs.append('-m')
-            genisoargs.append(os.path.join(mntdir,'boot/grub/grub.cfg'))
-            for bottomdir in ['i386-pc', 'x86_64-efi']:
-                directory = os.path.join(mntdir, 'boot', 'grub', bottomdir)
-                if os.path.exists(directory):
-                    if not os.path.exists(os.path.join(tmpdir, 'boot', 'grub', bottomdir)):
-                        os.makedirs(os.path.join(tmpdir, 'boot', 'grub', bottomdir))
-                    shutil.copy('/usr/share/dell/grub/theme/%s/grub.cfg' % bottomdir,
-                                os.path.join(tmpdir, 'boot', 'grub', bottomdir, 'grub.cfg'))
-                    genisoargs.append('-m')
-                    genisoargs.append(os.path.join(mntdir,'boot/grub/%s/grub.cfg' % bottomdir))
+            xorrisoargs.append('-m')
+            xorrisoargs.append(os.path.join(mntdir,'boot/grub/grub.cfg'))
+            directory = os.path.join(mntdir, 'boot', 'grub', 'x86-64_efi')
+            if os.path.exists(directory):
+                if not os.path.exists(os.path.join(tmpdir, 'boot', 'grub', 'x86_64-efi')):
+                    os.makedirs(os.path.join(tmpdir, 'boot', 'grub', 'x86_64-efi'))
+                shutil.copy('/usr/share/dell/grub/theme/%s/grub.cfg' % 'x86_64-efi',
+                            os.path.join(tmpdir, 'boot', 'grub', 'x86_64-efi', 'grub.cfg'))
+                xorrisoargs.append('-m')
+                xorrisoargs.append(os.path.join(mntdir,'boot/grub/%s/grub.cfg' % 'x86_64-efi'))
             #theme
             if not os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'dell')):
                 shutil.copytree('/usr/share/dell/grub/theme/dell', 
@@ -1227,39 +1181,18 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         #if we previously backed up a grub.cfg or common.cfg
         for path in ['factory/grub.cfg', 'factory/common.cfg']:
             if os.path.exists(os.path.join(mntdir, path + '.old')):
-                genisoargs.append('-m')
-                genisoargs.append(os.path.join(mntdir, path) + '*')
+                xorrisoargs.append('-m')
+                xorrisoargs.append(os.path.join(mntdir, path) + '*')
                 if not os.path.exists(os.path.join(tmpdir, 'factory')):
                     os.makedirs(os.path.join(tmpdir, 'factory'))
                 shutil.copy(os.path.join(mntdir, path + '.old'), os.path.join(tmpdir, path))
 
-        #Make the image EFI compatible if necessary
-        if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'efi.img')):
-            efi_genisoimage = subprocess.Popen(['genisoimage','-help'],
-                                                stdout=subprocess.PIPE,
-                                                stderr=subprocess.PIPE,
-                                                universal_newlines=True)
-            results = efi_genisoimage.communicate()[1]
-            if 'efi' in results:
-                genisoargs.append('-eltorito-alt-boot')
-                genisoargs.append('-efi-boot')
-                genisoargs.append('boot/grub/efi.img')
-                genisoargs.append('-no-emul-boot')
-            else:
-                import apt.cache
-                cache = apt.cache.Cache()
-                version = cache['genisoimage'].installed.version
-                del cache
-                raise CreateFailed("The target image requested EFI support, but genisoimage %s doesn't support EFI.  \
-You will need to create this image on a system with a newer genisoimage." % version)
-
-
         #Directories to install
-        genisoargs.append(tmpdir + '/')
-        genisoargs.append(mntdir + '/')
+        xorrisoargs.append(tmpdir + '/')
+        xorrisoargs.append(mntdir + '/')
 
         #ISO Creation
-        seg1 = subprocess.Popen(genisoargs,
+        seg1 = subprocess.Popen(xorrisoargs,
                               stderr=subprocess.PIPE,
                               universal_newlines=True)
         pipe = seg1.stderr
@@ -1270,7 +1203,7 @@ You will need to create this image on a system with a newer genisoimage." % vers
             fcntl.fcntl(pipe.fileno(), fcntl.F_GETFL) | os.O_NONBLOCK)
 
         retval = seg1.poll()
-        logging.debug(" create_ubuntu: genisoimage debug")
+        logging.debug(" create_ubuntu: xorriso debug")
         while (retval is None):
             readx = select.select([pipe.fileno()], [], [])[0]
             if readx:
@@ -1282,8 +1215,8 @@ You will need to create this image on a system with a newer genisoimage." % vers
                         self.report_progress(_('Building ISO'), progress[:-1])
             retval = seg1.poll()
         if retval is not 0:
-            logging.error(" create_ubuntu: genisoimage exited with a nonstandard return value.")
-            logging.error("  genisoargs: %s" % genisoargs)
+            logging.error(" create_ubuntu: xorriso exited with a nonstandard return value.")
+            logging.error("  cmd: %s" % xorrisoargs)
             logging.error("  stderror: %s" % pipe.readlines())
             logging.error("  error: %s" % output.strip())
             raise CreateFailed("ISO Building exited unexpectedly:\n%s" %

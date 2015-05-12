@@ -77,7 +77,7 @@ UP_FILENAMES =  [ 'upimg.bin',
                   'up.tgz'   ,
                 ]
 
-UP_LABELS = [ 'dellutility' ]
+UP_LABELS = [ 'diags', 'dellutility' ]
 RP_LABELS = [ 'recovery', 'install', 'os' ]
 
 ##                ##
@@ -194,10 +194,10 @@ def process_conf_file(original, new, uuid, number, ako='', recovery_text=''):
     else:
         extra_cmdline = find_extra_kernel_options()
 
-    #starting with 10.10, we replace the whole drive string (/dev/sdX,msdosY)
+    #starting with 10.10, we replace the whole drive string (/dev/sdX,gptY)
     #earlier releases are hardcoded to (hd0,Y)
     if float(release["RELEASE"]) >= 10.10:
-        number = 'msdos' + number
+        number = 'gpt' + number
 
     with open(original, "r") as base:
         with open(new, 'w', encoding='utf-8') as output:
@@ -257,19 +257,18 @@ def find_factory_partition_stats(partition_type):
         block = item.get_block()
         if not block:
             continue
-        if block.get_cached_property('HintSystem').get_boolean():
-            check_label = block.get_cached_property("IdLabel")
-            if not check_label:
-                continue
-            if check_label.get_string().lower() in labels:
-                partition = item.get_partition()
-                recovery["label"] = check_label.get_string()
-                recovery["device"] = block.get_cached_property("Device").get_bytestring()
-                recovery["fs"] = block.get_cached_property("IdType").get_string()
-                recovery["drive"] = block.get_cached_property("Drive").get_string()
-                recovery["number"] = partition.get_cached_property("Number").unpack()
-                recovery["uuid"] = block.get_cached_property("IdUUID").get_string()
-                break
+        check_label = block.get_cached_property("IdLabel")
+        if not check_label:
+            continue
+        if check_label.get_string().lower() in labels:
+            partition = item.get_partition()
+            recovery["label"] = check_label.get_string()
+            recovery["device"] = block.get_cached_property("Device").get_bytestring()
+            recovery["fs"] = block.get_cached_property("IdType").get_string()
+            recovery["drive"] = block.get_cached_property("Drive").get_string()
+            recovery["number"] = partition.get_cached_property("Number").unpack()
+            recovery["uuid"] = block.get_cached_property("IdUUID").get_string()
+            break
 
     #find parent slave node, used for dell-bootstrap
     if "device" in recovery:
@@ -293,12 +292,12 @@ def find_partitions():
     if 'device' in utility:
         utility = utility['device']
     else:
-        utility = None
+        utility = ''
     recovery = find_factory_partition_stats('rp')
     if 'device' in recovery:
         recovery = recovery['device']
     else:
-        recovery = None
+        recovery = ''
     return (utility, recovery)
 
 def find_burners():
@@ -543,58 +542,6 @@ old compression method %s" % (old_initrd_file, old_uuid_file,
 
     return (old_initrd_file, old_uuid_file)
 
-def create_g2ldr(chroot, rp_mount, install_mount):
-    '''Create a g2ldr compatible image using the install
-       chroot: chroot to launch commands in
-       rp_mount: mountpoint to find partition# and install g2ldr
-       install_mount: mountpoint to find target OS UUID'''
-    uuid = ''
-    partition = '-1'
-
-    udisks = UDisks.Client.new_sync(None)
-    manager = udisks.get_object_manager()
-    for item in manager.get_objects():
-        filesystem = item.get_filesystem()
-        part = item.get_partition()
-        if not filesystem or not part:
-            continue
-        mount = filesystem.get_cached_property('MountPoints')
-        if mount and install_mount and install_mount in mount:
-            uuid = part.get_cached_property('UUID')
-            partition = part.get_cached_property("Number")
-
-    #The file that the Windows BCD will chainload
-    shutil.copy('/usr/lib/grub/i386-pc/g2ldr.mbr', rp_mount)
-    
-    # This BCD configuration will load from the recovery partition if it exists
-    #   a /grub/grub.cfg.  As specified by the active partition flag
-    # If it doesn't, then it will look for /boot/grub/grub.cfg on the OS partition
-    #   as specified by the UUID.
-    process_conf_file('/usr/share/dell/grub/bcd.cfg', \
-                      os.path.join(chroot, 'tmp', 'bcd.cfg'), uuid, partition)
-
-    #Build the Grub2 Core Image
-    build_command = ['grub-mkimage', '-O', 'i386-pc',
-                                     '-c', '/tmp/bcd.cfg', 
-                                     '-o', '/tmp/core.img',
-                                     'biosdisk', 'part_msdos', 'part_gpt', 'ls',
-                                     'fat', 'ntfs', 'ntfscomp', 'search',
-                                     'linux', 'vbe', 'boot', 'minicmd', 
-                                     'cat', 'cpuid', 'chain', 'halt', 'linux16',
-                                     'echo', 'test', 'configfile', 'ext2',
-                                     'keystatus', 'help', 'boot', 'loadenv' ]
-    if chroot == '/target':
-        from ubiquity import install_misc
-        install_misc.chrex(chroot, *build_command)
-    else:
-        from ubiquity import misc
-        misc.execute_root(*build_command)
-
-    with open(os.path.join(rp_mount, 'g2ldr'), 'wb') as wfd:
-        for fname in ['/usr/lib/grub/i386-pc/g2hdr.bin', os.path.join(chroot, 'tmp', 'core.img')]:
-            with open(fname, 'rb') as rfd:
-                wfd.write(rfd.read())
-
 def parse_seed(seed):
     """Parses a preseed file and returns a set of keys"""
     keys = {}
@@ -626,32 +573,6 @@ def write_seed(seed, keys):
             else:
                 type = 'string'
             wfd.write(" ubiquity %s %s %s\n" % (item, type, keys[item]))
-
-def write_up_bootsector(device, partition):
-    """Write out the bootsector to a utility partition"""
-    #build the bootsector of the partition
-    if os.path.exists('/usr/share/dell/up/up.bs'):
-        with open('/usr/share/dell/up/up.bs', 'rb') as rfd:
-            with open(device + partition, 'wb') as wfd:
-                wfd.write(rfd.read(11))  # writes the jump to instruction and oem name
-                rfd.seek(43)
-                wfd.seek(43)
-                wfd.write(rfd.read(469)) # write the label, FS type, bootstrap code and signature
-            #If we don't have the bootsector code, then just set the label properly
-    else:
-        fetch_output(['dosfslabel', device + partition, "DellUtility"])
-
-def create_up_boot_entry(new_text):
-    upart = find_factory_partition_stats('up')
-
-    if not os.path.isdir('/sys/firmware/efi') and upart:
-        process_conf_file(original = '/usr/share/dell/grub/98_dell_bios', \
-                                new = '/etc/grub.d/98_dell_bios',               \
-                                uuid = str(upart["uuid"]),                      \
-                                number = str(upart["number"]),                  \
-                                recovery_text = new_text)
-
-        os.chmod('/etc/grub.d/98_dell_bios', 0o755)
 
 def mark_upgrades():
     '''Mark packages that can upgrade to upgrade during install'''

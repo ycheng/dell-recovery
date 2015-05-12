@@ -19,10 +19,6 @@ check:
 	# Check the syntax of any Python scripts.
 	./tests/run-pyflakes
 
-	# Check that we can build all the GRUB binaries (don't actually ship these though)
-	# build without the MINGW32 binary as it would require apt-get source to work on binary build
-	PATCHES=/dev/null ./tests/grub-binaries
-
 override_dh_clean: check
 	dh_clean
 	cd $(CURDIR)/po; make clean

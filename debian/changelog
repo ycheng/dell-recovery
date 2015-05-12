@@ -1,34 +1,76 @@
-dell-recovery (1.32~somerville8) trusty; urgency=low
+dell-recovery (1.36) UNRELEASED; urgency=medium
 
-  [ Kai-Heng Feng ]
-  * Force using utf-8 when writing grub menu. (LP: #1416280)
+  [ Mario Limonciello ]
+  * Fix issue with formatting eMMC devices.
+  * Fix ISO building now that we don't have GRUB 32 bit involved
+  * Generate ISO image using xorriso so that it can be written using dd.
 
- -- Kai-Heng Feng <kai.heng.feng@canonical.com>  Wed, 04 Feb 2015 11:41:22 +0800
+  [ Chen-Han Hsiao (Stanley) ]
+  * Use utf-8 encoding for filename. (LP: #1441060)
 
-dell-recovery (1.32~somerville7) trusty; urgency=low
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 06 May 2015 16:43:37 -0500
 
-  [ Kai-Heng Feng ]
-  * Add an additional size assertion when finding installation drive to avoid
-    installing on non-disk persistent block device (e.g. Realtek rts5139.)
-    (LP: #1401422)
+dell-recovery (1.35) wily; urgency=medium
 
- -- Kai-Heng Feng <kai.heng.feng@canonical.com>  Wed, 28 Jan 2015 14:25:17 +0800
+  * Fix UEFI secure boot installs working improperly.
+  * Create entries using efibootmgr rather than relying on auto-add behavior.
+    This is explicitly done to ensure the following paths are tested early:
+    - Auto add behavior (booting off live media).
+    - Adding an entry.
+    - Booting an added entry.
+  * Don't remove entries starting with \efi\boot\bootx64.efi.  These can possibly
+    be coming from process or another OS and need to remain.
+  * Merge in some of Woodrow's fix for NVMe support.
+  * Rename efi directory on RP to efi.factory so that it won't show up in
+    nvram menu.
+  * If efi.factory is found when building an ISO, rename in the target ISO.
+  * Drop aging code that allowed for setting up a dual boot configuration.
+    This code was never updated for GPT installs, and that's what we do now.
+  * Drop support for setting up MBR layout and legacy.  All new systems are
+    GPT + UEFI.
+  * Set hints in grub.cfg to be gpt disks.
+  * Drop EFI factory bootloader.  Instead rely on signed bootloader.  This means
+    in factory process that we'll need to make sure that an appropriate grubenv
+    is placed to satisfy the factory the install process.
+  * Drop support for BIOS flash via UP (only works in legacy)
 
-dell-recovery (1.32~somerville6) trusty; urgency=low
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 05 May 2015 15:41:29 -0500
 
-  [ Kai-Heng Feng ]
-  * Explicitly specify UTF-8 encoding when opening multilingual files.
-    (LP: #1380900)
+dell-recovery (1.34) trusty; urgency=medium
 
- -- Kai-Heng Feng <kai.heng.feng@canonical.com>  Wed, 15 Oct 2014 14:07:22 +0800
+  * Add more changes to ubiquity plugin for eMMC disks.
 
-dell-recovery (1.32~somerville5) trusty; urgency=low
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 07 Apr 2015 17:44:40 -0500
+
+dell-recovery (1.33) vivid; urgency=medium
+
+  * Preseed partman/confirm_nooverwrite to prevent a prompt in newer OS.
+  * Fix driver installer for a mistake made in python2-3 conversion.
+  * Skip any installation scripts with installer in them to avoid updating
+    installer in a live system.
+  * Rewrite the path of anything referring to /cdrom in driver installer.
+  * Any apt-get purge lines don't fail the driver installer.
+  * Run ubuntu-drivers and apt-get -f install after driver installer finish
+    to catch missing outliers that didn't already get installed and cleaned up.
+  * Prevent from the crash in the OOBE. (LP: #1380508)
+  * Don't follow HintSystem to determine if disk is in system.  This throws off
+    eMMC disks.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 18 Mar 2015 18:29:05 -0500
+
+dell-recovery (1.32) vivid; urgency=low
 
   [ Mario Limonciello ]
   * change vendor check to check more variables and check for Wyse.
   * Fix swap check recipe.  It was checking the wrong variable for size_gb.
   * Add a 7-day delayed popup when recovery media isn't created at OOBE.
     It will be launched at login if later than the 7th day.
+  * If no UP or RP found send empty strings rather than None
+  * Set default partition name to be DIAGS instead of DellUtility.
+    (LP: #1431857)
+
+  [ Steven Wu ]
+  * Add support for selecting multiple FISH packages at a time.
 
   [ Shih-Yuan Lee (FourDollars) ]
   * Fix the progressbar issue when restoring the system from recovery
@@ -59,13 +101,20 @@ dell-recovery (1.32~somerville5) trusty; urgency=low
   * Avoid using mkpartfs of parted. (LP: #1309410)
   * Avoid using sleep_network in factory install. (LP: #1309410)
   * Fix the wrong calculation of memory size. (LP: #1284474)
-  * Prevent from the crash in the OOBE. (LP: #1380508)
 
   [ Shengyao Xue ]
   * We disabled Ethernet in phase 1 and 2 of installation, now enable it back.
     (LP: #1329148) 
 
- -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Tue, 14 Oct 2014 12:54:20 +0800
+  [ Kai-Heng Feng ]
+  * Force using utf-8 when writing grub menu. (LP: #1416280)
+  * Add an additional size assertion when finding installation drive to avoid
+    installing on non-disk persistent block device (e.g. Realtek rts5139.)
+    (LP: #1401422)
+  * Explicitly specify UTF-8 encoding when opening multilingual files.
+    (LP: #1380900)
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 09 Apr 2014 17:57:28 -0500
 
 dell-recovery (1.31) trusty; urgency=low
 

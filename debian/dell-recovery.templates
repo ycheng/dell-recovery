@@ -9,42 +9,10 @@ Default: dynamic
 Description: for internal use;determines whether to offer the bootstrap 
  ubiquity plugin to the user. valid: [dynamic, factory, usb, dvd]
 
-Template: dell-recovery/up_partition
-Type: string
-Default: dynamic
-Description: for internal use; determines where the destination UP partition is
-
-Template: dell-recovery/rp_partition
-Type: string
-Default: dynamic
-Description: for internal use; determines where the destination RP partition is
-
-Template: dell-recovery/os_partition
-Type: string
-Default: dynamic
-Description: for internal use; determines where the destination OS partition is
-
-Template: dell-recovery/swap_partition
-Type: string
-Default: dynamic
-Description: for internal use; determines where the destination swap partition is
-
 Template: dell-recovery/recovery_partition_filesystem
 Type: string
 Default: 0c
 Description: for internal use; determines the filesystem of the recovery partition
-
-Template: dell-recovery/active_partition
-Type: string
-Default: dynamic
-Description: for internal use; sets which partition is active after successful installation
- This is only used when the disk_layout is 'msdos'.  It will otherwise be ignored.
-
-Template: dell-recovery/fail_partition
-Type: string
-Default: dynamic
-Description: for internal use; sets which partition is active after failed installation
- This is only used when the disk layout is 'msdos'.  It will otherwise be ignored.
 
 Template: dell-recovery/disable-driver-install
 Type: string
@@ -60,26 +28,6 @@ Template: dell-oobe/user-interface
 Type: string
 Default: dynamic
 Description: for internal use; determines the default UI; (une/ude) or dynamically determined based on LOB/screen rez (dynamic)
-
-Template: dell-recovery/dual_boot
-Type: boolean
-Default: false
-Description: for internal use; enables the factory installed dual boot solution.
-
-Template: dell-recovery/dual_boot_layout
-Type: string
-Default: primary
-Description: for internal use; sets the disk drive layout used for a factory installed dual boot solution. valid: [primary, logical]
-
-Template: dell-recovery/disk_layout
-Type: string
-Default: msdos
-Description: for internal use; when preseeded, determines the disk layout type to use
-
-Template: dell-recovery/oie_mode
-Type: boolean
-Default: false
-Description: for internal use; enables ODM image mode
 
 Template: dell-recovery/build_start
 Type: text
@@ -205,10 +153,6 @@ _Description: Dell End User License Agreement
 Template: ubiquity/text/accept_button
 Type: text
 _Description: I have read and accept these terms.
-
-Template: ubiquity/text/98_grub_menu
-Type: text
-_Description: Flash BIOS image from DOS
 
 Template: ubiquity/text/99_grub_menu
 Type: text
