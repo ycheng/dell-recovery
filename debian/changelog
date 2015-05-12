@@ -1,11 +1,11 @@
-dell-recovery (1.37) UNRELEASED; urgency=medium
+dell-recovery (1.37) wily; urgency=medium
 
   * Fix usb-creator failing to write bootloader with dropped legacy support.
   * Set BootNext after first stage.  Should help with systems that are failing to
     commit BootOrder immediately.
   * Drop another instance of DRMK reference.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 12 May 2015 15:43:21 -0500
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 12 May 2015 17:56:52 -0500
 
 dell-recovery (1.36) trusty; urgency=medium
 
