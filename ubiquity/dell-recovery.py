@@ -223,7 +223,7 @@ class Install(InstallPlugin):
                                                     rpart,
                                                     version,
                                                     fname)
-                os.chown(fname, uid, gid)
+                os.chown(fname.encode('utf-8'), uid, gid)
             except dbus.DBusException as err:
                 self.log('install function exception while calling backend: %s' % str(err))
                 return
@@ -242,9 +242,9 @@ class Install(InstallPlugin):
 
             if rec_type:
                 if rec_type == "dvd":
-                    cmd = ['dbus-launch'] + dvd + [fname]
+                    cmd = ['dbus-launch'] + dvd + [fname.encode('utf-8')]
                 else:
-                    cmd = ['dbus-launch'] + usb + [fname]
+                    cmd = ['dbus-launch'] + usb + [fname.encode('utf-8')]
                 if 'DBUS_SESSION_BUS_ADDRESS' in os.environ:
                     os.environ.pop('DBUS_SESSION_BUS_ADDRESS')
                 progress.info('dell-recovery/burning')

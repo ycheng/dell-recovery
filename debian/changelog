@@ -1,8 +1,12 @@
 dell-recovery (1.36) UNRELEASED; urgency=medium
 
+  [ Mario Limonciello ]
   * Fix issue with formatting eMMC devices.
   * Fix ISO building now that we don't have GRUB 32 bit involved
   * Generate ISO image using xorriso so that it can be written using dd.
+
+  [ Chen-Han Hsiao (Stanley) ]
+  * Use utf-8 encoding for filename. (LP: #1441060)
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 06 May 2015 16:43:37 -0500
 
