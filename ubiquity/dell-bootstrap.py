@@ -1073,6 +1073,15 @@ manually to proceed.")
         if add is False:
             raise RuntimeError("Error adding efi entry to %s%s" % (self.device, esp_part))
 
+        #find new entry and put it in BootNext
+        with misc.raised_privileges():
+            bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
+            for line in bootmgr_output:
+                bootnum = ''
+                if line.startswith('Boot') and 'ubuntu' in line:
+                    bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                    bootmgr = misc.execute_root('efibootmgr', '-n', bootnum)
+
         ##clean up ESP mount
         misc.execute_root('umount', '/mnt/efi')
 
