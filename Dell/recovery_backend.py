@@ -1113,6 +1113,17 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                        '-m', os.path.join(mntdir, 'bto.xml'),
                        '-m', os.path.join(mntdir, 'isolinux'),
                        '-m', os.path.join(mntdir, 'bto_version')]
+
+        #disable 32 bit bootloader if it was there.
+        grub_path = os.path.join(mntdir, 'boot', 'grub', 'i386-pc')
+        if os.path.exists(grub_path):
+            xorrisoargs.append('-m')
+            xorrisoargs.append(grub_path)
+        grub_path = os.path.join(tmpdir, 'boot', 'grub', 'i386-pc')
+        os.makedirs(grub_path)
+        for name in ['boot.img', 'core.img']:
+            with open(os.path.join(grub_path, name), 'w'):
+                pass
                        
         #include EFI binaries
         if os.path.exists(os.path.join(mntdir, 'efi.factory')):
