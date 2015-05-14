@@ -63,9 +63,6 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     grub-editenv $RP/factory/grubenv unset install_in_progress
     grub-editenv $RP/factory/grubenv set install_finished=1
 
-    #Set the right partition active and restore MBR
-    /tmp/set_bootable
-
     IFHALT "Clean up FI Env..."
     rm -rf $RP/scripts/chroot-scripts/os-post/95-set_UTC_TZ.sh
     rm -rf $RP/misc/dell-unsupported.py

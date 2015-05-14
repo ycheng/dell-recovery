@@ -1,3 +1,9 @@
+dell-recovery (1.38) UNRELEASED; urgency=medium
+
+  * SUCCESS_SCRIPT: don't call /tmp/set_bootable anymore.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 14 May 2015 09:05:34 -0500
+
 dell-recovery (1.37) wily; urgency=medium
 
   [ Mario Limonciello ]
