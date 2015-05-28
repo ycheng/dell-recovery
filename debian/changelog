@@ -1,6 +1,10 @@
 dell-recovery (1.38) UNRELEASED; urgency=medium
 
+  [ Mario Limonciello ]
   * SUCCESS_SCRIPT: don't call /tmp/set_bootable anymore.
+
+  [ Chen-Han Hsiao (Stanley) ]
+  * add dependency of smartmontools used in ubiquity/dell-bootstrap.py
 
  -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 14 May 2015 09:05:34 -0500
 
