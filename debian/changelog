@@ -1,8 +1,12 @@
 dell-recovery (1.38) UNRELEASED; urgency=medium
 
+  [ Mario Limonciello ]
   * SUCCESS_SCRIPT: don't call /tmp/set_bootable anymore.
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 14 May 2015 09:05:34 -0500
+  [ Shih-Yuan Lee (FourDollars) ]
+  * Always put 'ubuntu' in BootNext if any. (LP: #1454503)
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Wed, 03 Jun 2015 16:57:55 +0800
 
 dell-recovery (1.37) wily; urgency=medium
 
