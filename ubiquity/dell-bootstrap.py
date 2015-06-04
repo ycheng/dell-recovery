@@ -763,6 +763,15 @@ class Page(Plugin):
             self.handle_exception(err)
             self.cancel_handler()
 
+        # Always put 'ubuntu' in BootNext if any
+        with misc.raised_privileges():
+            bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
+            for line in bootmgr_output:
+                bootnum = ''
+                if line.startswith('Boot') and 'ubuntu' in line:
+                    bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                    misc.execute_root('efibootmgr', '-n', bootnum)
+
         return (['/usr/share/ubiquity/dell-bootstrap'], [RECOVERY_TYPE_QUESTION])
 
     def ok_handler(self):
@@ -1080,7 +1089,7 @@ manually to proceed.")
                 bootnum = ''
                 if line.startswith('Boot') and 'ubuntu' in line:
                     bootnum = line.split('Boot')[1].replace('*', '').split()[0]
-                    bootmgr = misc.execute_root('efibootmgr', '-n', bootnum)
+                    misc.execute_root('efibootmgr', '-n', bootnum)
 
         ##clean up ESP mount
         misc.execute_root('umount', '/mnt/efi')
