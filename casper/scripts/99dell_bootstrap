@@ -104,8 +104,6 @@ done
 if [ -d /sys/firmware/efi ]; then
     #grub-pc is in livefs, need grub-efi-amd64
     chroot /root apt-get install grub-efi-amd64 -y
-    #force failsafe graphics off, we're guaranteed efifb
-    casper-preseed /root ubiquity/force_failsafe_graphics false
 fi
 
 # In case we're running a kernel not in the squashfs already
