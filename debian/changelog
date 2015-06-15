@@ -3,6 +3,7 @@ dell-recovery (1.38) UNRELEASED; urgency=medium
   [ Mario Limonciello ]
   * SUCCESS_SCRIPT: don't call /tmp/set_bootable anymore.
   * Drop b-d on grub packages since GRUB bootloader isn't built anymore.
+  * To make debugging easier on VirtualBox, enable VirtualBox DMI ID.
 
   [ Chen-Han Hsiao (Stanley) ]
   * Add dependency of smartmontools used in ubiquity/dell-bootstrap.py
