@@ -26,12 +26,11 @@
 import dbus
 import os
 from gi.repository import Gtk
-import subprocess
 
 from Dell.recovery_gtk import DellRecoveryToolGTK, translate_widgets
 from Dell.recovery_basic_gtk import BasicGeneratorGTK
 
-from Dell.recovery_common import (UIDIR, UP_FILENAMES,
+from Dell.recovery_common import (UIDIR,
                                   dbus_sync_call_signal_wrapper)
 
 try:
@@ -48,12 +47,12 @@ class AdvancedGeneratorGTK(BasicGeneratorGTK):
        images from a variety of dynamic contents, including the recovery
        partition, drivers, applications, isos, and more.
     """
-    def __init__(self, utility, recovery, version, media, target,
+    def __init__(self, recovery, version, media, target,
                  overwrite, xrev, branch):
         """Inserts builder widgets into the Gtk.Assistant"""
 
         #Run the normal init first
-        BasicGeneratorGTK.__init__(self, utility, recovery,
+        BasicGeneratorGTK.__init__(self, recovery,
                                    version, media, target, overwrite)
 
         #Build our extra GUI in
@@ -88,13 +87,11 @@ create an USB key or DVD image."))
         #insert builder pages in reverse order
         titles = {'application_page' : _("Application Packages"),
                  'driver_page' : _("Driver Packages"),
-                 'up_page' : _("Utility Partition"),
                  'fid_page' : _("FID Content"),
                  'base_page' : _("Base OS Image")
                 }
         for page in ['application_page',
                      'driver_page',
-                     'up_page',
                      'fid_page',
                      'base_page']:
             wizard.insert_page(self.builder_widgets.get_object(page), 0)
@@ -108,7 +105,6 @@ create an USB key or DVD image."))
         self.branch = branch
         self.builder_base_image = ''
         self.bto_base = False
-        self.bto_up = ''
         self.add_dell_recovery_deb = ''
         self.apt_client = None
 
@@ -138,17 +134,6 @@ create an USB key or DVD image."))
 
         elif page == self.builder_widgets.get_object('fid_page'):
             self.fid_toggled(None)
-
-        elif page == self.builder_widgets.get_object('up_page'):
-            if self.up:
-                self.builder_widgets.get_object('utility_hbox').set_sensitive(True)
-            file_filter = Gtk.FileFilter()
-            for item in UP_FILENAMES:
-                pattern = item.split('.')[1]
-                file_filter.add_pattern("*.%s" % pattern)
-
-            self.file_dialog.set_filter(file_filter)
-            self.up_toggled(None)
 
         elif page == self.builder_widgets.get_object('driver_page'):
             self.file_dialog.set_action(Gtk.FileChooserAction.OPEN)
@@ -188,10 +173,6 @@ create an USB key or DVD image."))
             else:
                 output_text += "<b>" + _("Base Image") + "</b>: "
                 output_text += self.builder_base_image + '\n'
-
-            if self.bto_up:
-                output_text +="<b>" + _("Utility Partition: ") + '</b>'
-                output_text += self.bto_up + '\n'
 
             liststores = {'application_liststore' : _("Application"),
                           'driver_liststore' : _("Driver"),
@@ -241,8 +222,7 @@ create an USB key or DVD image."))
                 driver_fish_list,
                 application_fish_list,
                 self.add_dell_recovery_deb,
-                'create_' + self.distributor,
-                self.bto_up)
+                'create_' + self.distributor)
 
         BasicGeneratorGTK.wizard_complete(self, widget, function, args)
 
@@ -257,50 +237,6 @@ create an USB key or DVD image."))
                 return self.file_dialog.get_filename()
         else:
             return None
-
-    def up_toggled(self, widget):
-        """Called when the radio button for the Builder utility partition page
-           is changed"""
-        up_browse_button = self.builder_widgets.get_object('up_browse_button')
-        up_page = self.builder_widgets.get_object('up_page')
-        wizard = self.widgets.get_object('wizard')
-
-        if self.builder_widgets.get_object('up_files_radio').get_active():
-            self.builder_widgets.get_object('up_details_label').set_markup("")
-            self.file_dialog.set_action(Gtk.FileChooserAction.OPEN)
-            up_browse_button.set_sensitive(True)
-            wizard.set_page_complete(up_page, False)
-        else:
-            if self.builder_widgets.get_object('up_partition_radio').get_active():
-                self.bto_up = self.up
-            else:
-                self.bto_up = ''
-            wizard.set_page_complete(up_page, True)
-            up_browse_button.set_sensitive(False)
-            self.up_file_chooser_picked()
-
-    def up_file_chooser_picked(self, widget=None):
-        """Called when a file is selected on the up page"""
-
-        up_page = self.builder_widgets.get_object('up_page')
-        wizard = self.widgets.get_object('wizard')
-
-        if widget == self.builder_widgets.get_object('up_browse_button'):
-            ret = self.run_file_dialog()
-            if ret is not None:
-                self.bto_up = ret
-                wizard.set_page_complete(up_page, True)
-
-        if self.bto_up:
-            call = subprocess.Popen(['file', self.bto_up],
-                                    stdout=subprocess.PIPE,
-                                    universal_newlines=True)
-            output_text  = "<b>" + _("Utility Partition") + "</b>:\n"
-            output_text += call.communicate()[0].replace(', ', '\n')
-        else:
-            output_text  = _("No Additional Utility Partition")
-
-        self.builder_widgets.get_object('up_details_label').set_markup(output_text)
 
     def base_toggled(self, widget):
         """Called when the radio button for the Builder base image page is

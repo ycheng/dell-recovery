@@ -45,7 +45,7 @@ class PageGtk(PluginUI):
 
     def __init__(self, controller, *args, **kwargs):
         self.controller = controller
-        upart, rpart  = magic.find_partitions()
+        rpart  = magic.find_partition()
         dvd, usb = magic.find_burners()
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
         self.genuine = magic.check_vendor()
@@ -78,8 +78,8 @@ class PageGtk(PluginUI):
             if not oem:
                 pass
             elif not rpart:
-                syslog.syslog('%s: partition problems with up[%s] and rp[%s]'
-                % (NAME, upart, rpart))
+                syslog.syslog('%s: partition problems with  rp[%s]'
+                % (NAME, rpart))
             self.plugin_widgets = None
 
         PluginUI.__init__(self, controller, *args, **kwargs)
@@ -167,7 +167,7 @@ class Install(InstallPlugin):
         env['LANG'] = lang
 
         #can also expect that this was mounted at /cdrom during OOBE
-        rpart = magic.find_factory_partition_stats('rp')
+        rpart = magic.find_factory_partition_stats()
         if rpart and os.path.exists('/cdrom/.disk/info'):
             rec_text = progress.get('ubiquity/text/99_grub_menu')
             magic.process_conf_file(original = '/usr/share/dell/grub/99_dell_recovery', \
@@ -190,7 +190,7 @@ class Install(InstallPlugin):
         rec_type = progress.get('dell-recovery/destination')
         if rec_type != "none":
             dvd, usb = magic.find_burners()
-            upart, rpart  = magic.find_partitions()
+            rpart  = magic.find_partition()
             self.index = 0
 
             #build all the user's home directories a little earlier than normal
@@ -219,7 +219,6 @@ class Install(InstallPlugin):
                 magic.dbus_sync_call_signal_wrapper(dbus_iface,
                                                     'create_ubuntu',
                                                     {'report_progress':self._update_progress_gui},
-                                                    upart,
                                                     rpart,
                                                     version,
                                                     fname)

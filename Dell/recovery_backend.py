@@ -37,14 +37,12 @@ import tarfile
 import shutil
 import datetime
 import distutils.dir_util
-import stat
-import zipfile
 import lsb_release
 from hashlib import md5
 from aptdaemon import client
 from defer import inline_callbacks
 
-from Dell.recovery_common import (DOMAIN, LOCALEDIR, UP_FILENAMES,
+from Dell.recovery_common import (DOMAIN, LOCALEDIR,
                                   walk_cleanup, create_new_uuid, white_tree,
                                   black_tree, fetch_output, check_version,
                                   DBUS_BUS_NAME, DBUS_INTERFACE_NAME,
@@ -433,7 +431,7 @@ class Backend(dbus.service.Object):
         self.main_loop.quit()
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 'sasa{ss}sssss', out_signature = '', sender_keyword = 'sender',
+        in_signature = 'sasa{ss}ssss', out_signature = '', sender_keyword = 'sender',
         connection_keyword = 'conn')
     def assemble_image(self,
                        base,
@@ -441,20 +439,18 @@ class Backend(dbus.service.Object):
                        application_fish,
                        dell_recovery_package,
                        create_fn,
-                       utility,
                        version, iso, sender=None, conn=None):
         """Assemble pieces that would be used for building a BTO image.
            base: mount point of base image (or directory)
            fish: list of packages to fish
            dell_recovery_package: a dell-recovery package to inject
            create_fn: function to call for creation of ISO
-           utility: utility partition
            version: version for ISO creation purposes
            iso: iso file name to create"""
         logging.debug("assemble_image: base %s, driver_fish %s, application_fish\
-%s, recovery %s, create_fn %s, utility %s, version %s, iso %s" %
+%s, recovery %s, create_fn %s, version %s, iso %s" %
                     (base, driver_fish, application_fish, dell_recovery_package,
-                    create_fn, utility, version, iso))
+                    create_fn, version, iso))
 
         self._reset_timeout()
 
@@ -498,12 +494,6 @@ class Backend(dbus.service.Object):
                                               os.path.join(dest, new_name),
                                               verbose=1, update=0)
 
-        #If a utility partition exists and we wanted to replace it, wipe it away
-        if utility:
-            for fname in UP_FILENAMES:
-                if os.path.exists(os.path.join(assembly_tmp, fname)):
-                    os.remove(os.path.join(assembly_tmp, fname))
-
         #If dell-recovery needs to be injected into the image
         if dell_recovery_package:
             self.xml_obj.replace_node_contents('deb_archive', dell_recovery_package)
@@ -520,7 +510,7 @@ class Backend(dbus.service.Object):
                 distutils.file_util.copy_file(dell_recovery_package, dest)
 
         function = getattr(Backend, create_fn)
-        function(self, utility, assembly_tmp, version, iso)
+        function(self, assembly_tmp, version, iso)
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature = 's', out_signature = 'sssss', sender_keyword = 'sender',
@@ -1001,16 +991,16 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
 
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 'ssss', out_signature = '', sender_keyword = 'sender',
+        in_signature = 'sss', out_signature = '', sender_keyword = 'sender',
         connection_keyword = 'conn')
-    def create_ubuntu(self, utility, recovery, version, iso, sender=None, conn=None):
+    def create_ubuntu(self, recovery, version, iso, sender=None, conn=None):
         """Creates Ubuntu compatible recovery media"""
 
         self._reset_timeout()
         self._check_polkit_privilege(sender, conn,
                                                 'com.dell.recoverymedia.create')
-        logging.debug("create_ubuntu: utility %s, recovery %s, version %s, iso %s" %
-            (utility, recovery, version, iso))
+        logging.debug("create_ubuntu: recovery %s, version %s, iso %s" %
+            (recovery, version, iso))
 
         #create temporary workspace
         tmpdir = tempfile.mkdtemp()
@@ -1048,43 +1038,6 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         self.xml_obj.replace_node_contents('iso', version)
         self.xml_obj.replace_node_contents('generator', check_version())
         self.xml_obj.write_xml(os.path.join(tmpdir, 'bto.xml'))
-
-        #If necessary, include the utility partition
-        if utility and os.path.exists(utility) and \
-           not os.path.exists(os.path.join(mntdir, 'upimg.gz')):
-            #device node
-            if stat.S_ISBLK(os.stat(utility).st_mode):
-                self.start_pulsable_progress_thread(
-                    _('Building Dell Utility Partition'))
-
-                seg1 = subprocess.Popen(['dd', 'if=' + utility, 'bs=1M'],
-                                      stdout=subprocess.PIPE)
-                seg2 = subprocess.Popen(['gzip', '-c'],
-                                      stdin=seg1.stdout,
-                                      stdout=subprocess.PIPE)
-                partition_file = open(os.path.join(tmpdir, 'upimg.gz'), "wb")
-                partition_file.write(seg2.communicate()[0])
-                partition_file.close()
-                self.stop_progress_thread()
-
-            #tgz type
-            elif tarfile.is_tarfile(utility):
-                try:
-                    shutil.copy(utility, os.path.join(tmpdir, 'up.tgz'))
-                except Exception as msg:
-                    logging.warning(" create_ubuntu: Error with tgz: %s." % str(msg))
-                    raise CreateFailed("Error building Utility Partition : %s" %
-                                       str(msg))
-
-            #probably a zip
-            else:
-                try:
-                    zip_obj = zipfile.ZipFile(utility)
-                    shutil.copy(utility, os.path.join(tmpdir, 'up.zip'))
-                except Exception as msg:
-                    logging.warning(" create_ubuntu: Error with zipfile: %s." % str(msg))
-                    raise CreateFailed("Error building Utility Partition : %s" %
-                                       str(msg))
 
         #Arg list
         xorrisoargs = ['xorriso',

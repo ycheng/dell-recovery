@@ -40,7 +40,7 @@ from gettext import bindtextdomain, textdomain
 
 class DellRecoveryToolGTK:
     """GTK implementation of the Dell Recovery suite for Linux"""
-    def __init__(self, recovery, utility, mode='recovery'):
+    def __init__(self, recovery, mode='recovery'):
         def action_objects(widgets, objects, action):
             for item in ['button', 'image', 'label']:
                 if action == 'hide':
@@ -73,7 +73,6 @@ class DellRecoveryToolGTK:
 
         #variables
         self.rp = recovery
-        self.up = utility
         self._dbus_iface = None
 
 #### Polkit enhanced ###

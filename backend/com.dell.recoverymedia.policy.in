@@ -45,16 +45,6 @@
     </defaults>
   </action>
 
-  <action id="com.dell.recoverymedia.utility">
-    <_description>Boot utility partition to flash BIOS</_description>
-    <_message>System policy prevents changing system bootup</_message>
-    <defaults>
-      <allow_any>auth_admin_keep</allow_any>
-      <allow_inactive>auth_admin_keep</allow_inactive>
-      <allow_active>auth_admin_keep</allow_active>
-    </defaults>
-  </action>
-
   <action id="com.dell.recoverymedia.driverinstall">
     <_description>Install Dell driver packages</_description>
     <_message>System policy prevents installing packages.</_message>

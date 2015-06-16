@@ -186,8 +186,8 @@
         </para>
         <para>
         You will be brought to a recovery screen allowing you to rebuild entirely to factory state, or to resize
-        your existing OS install.  If you choose the second option, the installer will not build a utility partition
-        or recovery partition, but will keep all data intact.
+        your existing OS install.  If you choose the second option, the installer will not build a 
+        recovery partition, but will keep all data intact.
         </para>
         <figure id="usb-recovery-figure">
           <title>DVD and USB Recovery Screen</title>
@@ -207,8 +207,8 @@
     <para>
       The &app; tool includes an additional more advanced mode that allows
       you to apply additional granularity to the type of image that is generated.
-      This mode can be used to insert additional drivers, applications, and utility
-      partitions into the generated image.
+      This mode can be used to insert additional drivers, and applications
+      into the generated image.
     </para>
     <para>
       If your system does not contain a recovery partition, the tool will automatically
@@ -273,30 +273,6 @@
         <mediaobject>
           <imageobject>
             <imagedata fileref="figures/fid.png"
-                       format="PNG"/>
-          </imageobject>
-        </mediaobject>
-      </screenshot>
-    </figure>
-  </sect2>
-  <sect2 id="bto-up">
-    <title>Utility Partition</title>
-    <para>
-      The Utility Partition is the first partition on most Dell factory shipped systems.  It
-      usually contains diagnostic tools that can be invoked from the BIOS boot device selection
-      option.
-    </para>
-    <para>
-      On this screen you will be able to select either a zip file containing the utilties you
-      want for this partition or to use the utility partition on the existing system if this
-      is a system with a Dell factory installation already.
-    </para>
-    <figure id="bto-up-figure">
-      <title>Utility Partition Page</title>
-      <screenshot>
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="figures/up.png"
                        format="PNG"/>
           </imageobject>
         </mediaobject>

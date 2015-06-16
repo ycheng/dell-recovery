@@ -70,10 +70,6 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     rm -rf $RP/dellrmk.bin
     rm -rf $RP/linld.com
     rm -rf $RP/cmd.cfg
-    rm -rf $RP/up.zip
-    rm -rf $RP/up.tgz
-    rm -rf $RP/upimg.bin
-    rm -rf $RP/upimg.gz
     rm -rf $RP/SDR
     rm -rf $RP/*.SDR
     rm -rf $RP/srv

@@ -40,10 +40,10 @@ from Dell.recovery_common import (UIDIR, dbus_sync_call_signal_wrapper)
 from gettext import gettext as _
 
 class DriverGTK(DellRecoveryToolGTK):
-    def __init__(self, recovery, utility, fname, mode):
+    def __init__(self, recovery, fname, mode):
         #Run the normal init first
         #This sets up lots of common variables as well as translation domain
-        DellRecoveryToolGTK.__init__(self, recovery, utility, mode)
+        DellRecoveryToolGTK.__init__(self, recovery, mode)
 
         #init the UI and translate widgets/connect signals
         self.widgets = Gtk.Builder()

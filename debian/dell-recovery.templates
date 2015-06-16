@@ -75,7 +75,7 @@ _Description: Restore entire hard drive.
 
 Template: ubiquity/text/automated_info
 Type: text
-_Description: This will rebuild all utility, recovery, and OS partitions.
+_Description: This will rebuild all recovery, and OS partitions.
 
 Template: ubiquity/text/automated_warning_label
 Type: text
