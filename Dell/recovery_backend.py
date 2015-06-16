@@ -1222,9 +1222,11 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                 output = pipe.read()
                 if output.strip():
                     logging.debug(output.strip())
-                    progress = output.split()[4]
-                    if (progress[-1:] == '%'):
-                        self.report_progress(_('Building ISO'), progress[:-1])
+                    split = output.split()
+                    if (len(split) > 4):
+                        progress = split[4]
+                        if (progress[-1:] == '%'):
+                            self.report_progress(_('Building ISO'), progress[:-1])
             retval = seg1.poll()
         if retval is not 0:
             logging.error(" create_ubuntu: xorriso exited with a nonstandard return value.")
