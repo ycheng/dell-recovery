@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-16 03:26-0500\n"
+"POT-Creation-Date: 2015-06-17 08:37-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -175,11 +175,11 @@ msgstr ""
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1093
+#: ../Dell/recovery_backend.py:1099
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1182
+#: ../Dell/recovery_backend.py:1188
 msgid "Building ISO"
 msgstr ""
 
