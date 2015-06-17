@@ -14,6 +14,7 @@ dell-recovery (1.38) UNRELEASED; urgency=medium
   * Always put 'ubuntu' in BootNext if any. (LP: #1454503)
   * Enable oem-config/reboot. (LP: #1441493)
   * Don't force failsafe graphics off. (LP: #1457741)
+  * Support both of UEFI BIOS and legacy BIOS in casper. (LP: #1454439)
 
  -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Wed, 03 Jun 2015 16:57:55 +0800
 

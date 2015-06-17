@@ -100,10 +100,12 @@ for seed in dell-recovery gfx wlan; do
     fi
 done
 
-#EFI deviations
 if [ -d /sys/firmware/efi ]; then
-    #grub-pc is in livefs, need grub-efi-amd64
-    chroot /root apt-get install grub-efi-amd64 -y
+    # UEFI BIOS mode
+    chroot /root apt-get install grub-efi-amd64-signed -y
+else
+    # Legacy BIOS mode
+    chroot /root apt-get install grub-pc -y
 fi
 
 # In case we're running a kernel not in the squashfs already
