@@ -1049,15 +1049,9 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                        '-l',
                        '-cache-inodes',
                        '-iso-level', '3',
-                       '-isohybrid-mbr', '/usr/lib/syslinux/isohdpfx.bin',
-                       '-partition_offset', '16',
                        '-A', 'Dell Recovery',
                        '-p', 'Dell',
                        '-publisher', 'Dell',
-                       '-no-emul-boot' ,
-                       '-boot-load-size', '4',
-                       '-boot-info-table', 
-                       '-b', 'boot/grub/efi.img',
                        '-o', iso,
                        '-m', '*.exe',
                        '-m', '*.sys',
@@ -1066,6 +1060,18 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                        '-m', os.path.join(mntdir, 'bto.xml'),
                        '-m', os.path.join(mntdir, 'isolinux'),
                        '-m', os.path.join(mntdir, 'bto_version')]
+
+        #include bootloader as eltorito if we have it
+        if os.path.exists(os.path.join(mntdir, 'boot', 'efi.img')):
+            xorrisoargs.append('-e')
+            xorrisoargs.append('boot/efi.img')
+            xorrisoargs.append('-no-emul-boot')
+            xorrisoargs.append('-append_partition')
+            xorrisoargs.append('2')
+            xorrisoargs.append('0xef')
+            xorrisoargs.append(os.path.join(mntdir, 'boot', 'efi.img'))
+            xorrisoargs.append('-partition_cyl_align')
+            xorrisoargs.append('all')
 
         #disable 32 bit bootloader if it was there.
         grub_path = os.path.join(mntdir, 'boot', 'grub', 'i386-pc')

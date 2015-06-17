@@ -7,6 +7,7 @@ dell-recovery (1.38) UNRELEASED; urgency=medium
   * It's possible some xorriso output is too short, don't crash when this
     happens.
   * Don't build a utility partition into image anymore.
+  * Fix building of ISO images that are compliant to dd.
 
   [ Chen-Han Hsiao (Stanley) ]
   * Add dependency of smartmontools used in ubiquity/dell-bootstrap.py
