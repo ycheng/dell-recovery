@@ -1,3 +1,9 @@
+dell-recovery (1.39) UNRELEASED; urgency=medium
+
+  * Fix hiding OS partition with changes to no UP.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 18 Jun 2015 05:26:08 -0500
+
 dell-recovery (1.38) wily; urgency=medium
 
   [ Mario Limonciello ]
