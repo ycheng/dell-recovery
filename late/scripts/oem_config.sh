@@ -31,8 +31,8 @@
 
 if [ "$1" = "early" ]; then
     DEVICE=$(python3 << EOF
-from Dell.recovery_common import find_partitions
-print(find_partitions()[1].decode('utf-8'))
+from Dell.recovery_common import find_partition
+print(find_partition().decode('utf-8'))
 EOF
 )
     mkdir -p $2

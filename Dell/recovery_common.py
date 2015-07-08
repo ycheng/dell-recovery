@@ -70,14 +70,6 @@ USB_BURNERS = { 'usb-creator':['-n', '--iso'],
                 'usb-creator-gtk':['-n', '--iso'],
                 'usb-creator-kde':['-n', '--iso'] }
 
-#UP File names
-UP_FILENAMES =  [ 'upimg.bin',
-                  'upimg.gz' ,
-                  'up.zip'   ,
-                  'up.tgz'   ,
-                ]
-
-UP_LABELS = [ 'diags', 'dellutility' ]
 RP_LABELS = [ 'recovery', 'install', 'os' ]
 
 ##                ##
@@ -148,7 +140,7 @@ def check_vendor():
     """Checks to make sure that the app is running on Dell HW"""
     path = '/sys/class/dmi/id/'
     variables = ['bios_vendor', 'sys_vendor']
-    valid = ['dell', 'alienware', 'wyse']
+    valid = ['dell', 'alienware', 'wyse', 'innotek']
     for var in variables:
         if os.path.exists(path + var):
             with open(path + var) as rfd:
@@ -240,16 +232,12 @@ def find_extra_kernel_options():
     else:
         return ''
 
-def find_factory_partition_stats(partition_type):
+def find_factory_partition_stats():
     """Uses udisks to find the RP of a system and return stats on it
        Only use this method during bootstrap.
-       args: 'up' or 'rp'
     """
     recovery = {}
-    if partition_type == 'up':
-        labels = UP_LABELS
-    elif partition_type == 'rp':
-        labels = RP_LABELS
+    labels = RP_LABELS
 
     udisks = UDisks.Client.new_sync(None)
     manager = udisks.get_object_manager()
@@ -285,20 +273,15 @@ def find_factory_partition_stats(partition_type):
                 break
     return recovery
 
-def find_partitions():
-    """Searches the system for utility and recovery partitions"""
+def find_partition():
+    """Searches the system for recovery partitions"""
 
-    utility = find_factory_partition_stats('up')
-    if 'device' in utility:
-        utility = utility['device']
-    else:
-        utility = ''
-    recovery = find_factory_partition_stats('rp')
+    recovery = find_factory_partition_stats()
     if 'device' in recovery:
         recovery = recovery['device']
     else:
         recovery = ''
-    return (utility, recovery)
+    return recovery
 
 def find_burners():
     """Checks for what utilities are available to burn with"""

@@ -1,17 +1,52 @@
-dell-recovery (1.36~somerville3) trusty; urgency=medium
+dell-recovery (1.39) wily; urgency=medium
+
+  * Fix hiding OS partition with changes to no UP.
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 18 Jun 2015 05:41:22 -0500
+
+dell-recovery (1.38) wily; urgency=medium
+
+  [ Mario Limonciello ]
+  * SUCCESS_SCRIPT: don't call /tmp/set_bootable anymore.
+  * Drop b-d on grub packages since GRUB bootloader isn't built anymore.
+  * To make debugging easier on VirtualBox, enable VirtualBox DMI ID.
+  * It's possible some xorriso output is too short, don't crash when this
+    happens.
+  * Don't build a utility partition into image anymore.
+  * Fix building of ISO images that are compliant to dd.
+
+  [ Chen-Han Hsiao (Stanley) ]
+  * Add dependency of smartmontools used in ubiquity/dell-bootstrap.py
+
+  [ Shih-Yuan Lee (FourDollars) ]
+  * Always put 'ubuntu' in BootNext if any. (LP: #1454503)
+  * Enable oem-config/reboot. (LP: #1441493)
+  * Don't force failsafe graphics off. (LP: #1457741)
+  * Support both of UEFI BIOS and legacy BIOS in casper. (LP: #1454439)
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Wed, 17 Jun 2015 08:36:50 -0500
+
+dell-recovery (1.37) wily; urgency=medium
+
+  [ Mario Limonciello ]
+  * Fix usb-creator failing to write bootloader with dropped legacy support.
+  * Set BootNext after first stage.  Should help with systems that are failing to
+    commit BootOrder immediately.
+  * Drop another instance of DRMK reference.
+
+  [ Chen-Han Hsiao (Stanley) ]
+  * Use utf-8 encoding for filename. (LP: #1441060)
+
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Tue, 12 May 2015 18:04:14 -0500
+
+dell-recovery (1.36) trusty; urgency=medium
 
   [ Mario Limonciello ]
   * Fix issue with formatting eMMC devices.
   * Fix ISO building now that we don't have GRUB 32 bit involved
   * Generate ISO image using xorriso so that it can be written using dd.
 
-  [ Chen-Han Hsiao (Stanley) ]
-  * Use utf-8 encoding for filename. (LP: #1441060)
-
-  [ Shih-Yuan Lee (FourDollars) ]
-  * Fix OOBE crash while creating recovery media. (LP: #1453652)
-
- -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Tue, 12 May 2015 14:01:49 +0800
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Thu, 07 May 2015 21:06:27 -0500
 
 dell-recovery (1.35) wily; urgency=medium
 

@@ -51,10 +51,9 @@ OEM = False
 
 #Partition Definitions
 EFI_ESP_PARTITION       =     '1'
-EFI_UP_PARTITION        =     '2'
-EFI_RP_PARTITION        =     '3'
-EFI_OS_PARTITION        =     '4'
-EFI_SWAP_PARTITION      =     '5'
+EFI_RP_PARTITION        =     '2'
+EFI_OS_PARTITION        =     '3'
+EFI_SWAP_PARTITION      =     '4'
 
 TYPE_NTFS = '07'
 TYPE_NTFS_RE = '27'
@@ -648,7 +647,7 @@ class Page(Plugin):
             self.db.set(RECOVERY_TYPE_QUESTION, rec_type)
 
         #If we were preseeded to dynamic, look for an RP
-        rec_part = magic.find_factory_partition_stats('rp')
+        rec_part = magic.find_factory_partition_stats()
         if "slave" in rec_part:
             self.stage = 2
         if rec_type == 'dynamic':
@@ -692,9 +691,7 @@ class Page(Plugin):
             proprietary = ''
 
         #If we detect that we are booted into uEFI mode, then we only want
-        #to do a GPT install.  Actually a MBR install would work in most
-        #cases, but we can't make assumptions about 16-bit anymore (and
-        #preparing a UP because of it)
+        #to do a GPT install.  
         if os.path.isdir('/proc/efi') or os.path.isdir('/sys/firmware/efi'):
             self.efi = True
 
@@ -762,6 +759,15 @@ class Page(Plugin):
         except Exception as err:
             self.handle_exception(err)
             self.cancel_handler()
+
+        # Always put 'ubuntu' in BootNext if any
+        with misc.raised_privileges():
+            bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
+            for line in bootmgr_output:
+                bootnum = ''
+                if line.startswith('Boot') and 'ubuntu' in line:
+                    bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                    misc.execute_root('efibootmgr', '-n', bootnum)
 
         return (['/usr/share/ubiquity/dell-bootstrap'], [RECOVERY_TYPE_QUESTION])
 
@@ -930,25 +936,17 @@ manually to proceed.")
         if result is False:
             raise RuntimeError("Error creating new partition table on %s" % (self.device))
 
-        #Utility partition files (tgz/zip)#
-        up_size = 33
-
         self.status("Creating Partitions", 1)
         grub_size = 50
         commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', '0', str(grub_size)),
                     ('parted', '-s', self.device, 'name', '1', "'EFI System Partition'"),
-                    ('parted', '-s', self.device, 'set', '1', 'boot', 'on'),
-                    ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', str(grub_size), str(grub_size+up_size)),
-                    ('parted', '-s', self.device, 'set',  EFI_UP_PARTITION, 'diag', 'on'),
-                    ('parted', '-s', self.device, 'name', EFI_UP_PARTITION, 'DIAGS')]
+                    ('parted', '-s', self.device, 'set', '1', 'boot', 'on')]
         if '/dev/nvme' in self.device or '/dev/mmcblk' in self.device:
             commands.append(('mkfs.msdos', self.device + 'p' + EFI_ESP_PARTITION))
-            commands.append(('mkfs.msdos', self.device + 'p' + EFI_UP_PARTITION))
             rp_part = 'p' + EFI_RP_PARTITION
             esp_part = 'p' + EFI_ESP_PARTITION
         else:
             commands.append(('mkfs.msdos', self.device + EFI_ESP_PARTITION))
-            commands.append(('mkfs.msdos', self.device + EFI_UP_PARTITION))
             rp_part = EFI_RP_PARTITION
             esp_part = EFI_ESP_PARTITION
         for command in commands:
@@ -958,7 +956,7 @@ manually to proceed.")
                     raise RuntimeError("Error formatting disk.")
 
         #Build RP
-        command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(up_size + grub_size), str(up_size + rp_size_mb + grub_size))
+        command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(grub_size), str(rp_size_mb + grub_size))
         result = misc.execute_root(*command)
         if result is False:
             raise RuntimeError("Error creating new %s mb recovery partition on %s" % (rp_size_mb, self.device))
@@ -1072,6 +1070,15 @@ manually to proceed.")
         add = misc.execute_root('efibootmgr', '-c', '-d', self.device, '-p', EFI_ESP_PARTITION, '-l', '\\EFI\\ubuntu\\%s' % target, '-L', 'ubuntu')
         if add is False:
             raise RuntimeError("Error adding efi entry to %s%s" % (self.device, esp_part))
+
+        #find new entry and put it in BootNext
+        with misc.raised_privileges():
+            bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
+            for line in bootmgr_output:
+                bootnum = ''
+                if line.startswith('Boot') and 'ubuntu' in line:
+                    bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                    misc.execute_root('efibootmgr', '-n', bootnum)
 
         ##clean up ESP mount
         misc.execute_root('umount', '/mnt/efi')
@@ -1276,7 +1283,7 @@ class Install(InstallPlugin):
         self.target = target
         self.progress = progress
 
-        utility_part,  rec_part  = magic.find_partitions()
+        rec_part  = magic.find_partition()
 
         from ubiquity import install_misc
         to_install = []

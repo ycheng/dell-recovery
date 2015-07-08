@@ -44,10 +44,6 @@ rm -f $TARGET/var/lib/apt/lists/*Packages
 rm -f $TARGET/etc/apt/sources.list.d/dell.list
 #https://bugs.launchpad.net/ubuntu/+source/choose-mirror/+bug/550694
 sed -i "s/http:\/\/.*.archive.ubuntu.com/http:\/\/archive.ubuntu.com/" $TARGET/etc/apt/sources.list
-#We disabled Ethernet in phase 1 and 2 of installation, now enable it back. (LP: #1329148)
-if [ -f "$TARGET/etc/init/network-manager.conf.orig" ]; then
-    mv $TARGET/etc/init/network-manager.conf.orig $TARGET/etc/init/network-manager.conf
-fi
 
 if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     if [ -d "/isodevice" ]; then
@@ -63,25 +59,17 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     grub-editenv $RP/factory/grubenv unset install_in_progress
     grub-editenv $RP/factory/grubenv set install_finished=1
 
-    #Set the right partition active and restore MBR
-    /tmp/set_bootable
-
     IFHALT "Clean up FI Env..."
     rm -rf $RP/scripts/chroot-scripts/os-post/95-set_UTC_TZ.sh
     rm -rf $RP/misc/dell-unsupported.py
     rm -rf $RP/misc/run-tz-fix
     rm -rf $RP/misc/tz_offset.py
-    rm -rf $RP/misc/drmk.zip
     rm -rf $RP/command.com
     rm -rf $RP/autoexec.bat
     rm -rf $RP/dellbio.bin
     rm -rf $RP/dellrmk.bin
     rm -rf $RP/linld.com
     rm -rf $RP/cmd.cfg
-    rm -rf $RP/up.zip
-    rm -rf $RP/up.tgz
-    rm -rf $RP/upimg.bin
-    rm -rf $RP/upimg.gz
     rm -rf $RP/SDR
     rm -rf $RP/*.SDR
     rm -rf $RP/srv

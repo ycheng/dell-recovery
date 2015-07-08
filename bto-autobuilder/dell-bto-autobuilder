@@ -288,7 +288,6 @@ if __name__ == '__main__':
             '',                              # application FISH packages
             dell_recovery_pkg,               # specify pkg source
             'create_ubuntu',                 # called by 'assemble_image'
-            '',                              # create_ubuntu args...
             current_tag.revision,
             os.path.join(options.bto_dir, bto_name))
 

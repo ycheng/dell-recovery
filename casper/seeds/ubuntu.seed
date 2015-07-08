@@ -130,6 +130,7 @@
  d-i oem-config/enable boolean true
  d-i oem-config/id string Dell Inc.
  d-i oem-config/remove boolean true
+ d-i oem-config/reboot boolean true
  d-i oem-config/early_command string dynamic
  d-i oem-config/late_command string /usr/share/dell/scripts/oem_config.sh late
  d-i oem-config/remove_extras boolean true

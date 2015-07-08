@@ -21,7 +21,7 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
-from Dell.recovery_common import find_partitions
+from Dell.recovery_common import find_partition
 import subprocess
 from Dell.driver_gtk import DriverGTK
 import argparse
@@ -52,9 +52,9 @@ setup_logging(parser_args.debug, parser_args.logfile)
 if __name__ == '__main__':
     import dbus.mainloop.glib
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-    utility, recovery = find_partitions()
+    recovery = find_partition()
 
-    args = (recovery, utility, parser_args.fname, 'driver')
+    args = (recovery, parser_args.fname, 'driver')
     tool = DriverGTK(*args)
     
     tool.run()

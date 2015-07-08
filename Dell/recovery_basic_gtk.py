@@ -30,7 +30,7 @@ import dbus
 from gi.repository import Gtk
 
 from Dell.recovery_gtk import DellRecoveryToolGTK, translate_widgets
-from Dell.recovery_common import (find_partitions, find_burners, UIDIR, SVGDIR,
+from Dell.recovery_common import (find_partition, find_burners, UIDIR, SVGDIR,
                                   increment_bto_version,
                                   dbus_sync_call_signal_wrapper,
                                   fetch_output)
@@ -42,11 +42,11 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
     """The BasicGeneratorGTK is the GTK generator that solely generates images
        from the recovery partition on a machine.
     """
-    def __init__(self, utility, recovery, version, media, target, overwrite):
+    def __init__(self, recovery, version, media, target, overwrite):
 
         #Run the normal init first
         #This sets up lots of common variables as well as translation domain
-        DellRecoveryToolGTK.__init__(self, recovery, utility)
+        DellRecoveryToolGTK.__init__(self, recovery)
 
         #init the UI and translate widgets/connect signals
         self.widgets = Gtk.Builder()
@@ -91,7 +91,6 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
                 self.distributor = self.distributor.split(item)[0]
 
         #set any command line arguments for this frontend
-        self.up = utility
         self.widgets.get_object('version').set_text(version)
         self.media = media
         self.path = target
@@ -99,17 +98,15 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
 
     def check_preloaded_system(self):
         """Checks that the system this tool is being run on contains a
-           utility partition and recovery partition"""
+           recovery partition"""
 
         #check any command line arguments
-        if self.up and not os.path.exists(self.up):
-            self.up = None
         if self.rp and not os.path.exists(self.rp):
             self.rp = None
-        if self.up and self.rp:
+        if self.rp:
             return True
 
-        (self.up, self.rp) = find_partitions()
+        self.rp = find_partition()
 
         return self.rp
 
@@ -167,8 +164,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
                 self.widgets.get_object('action').set_text( \
                                                        _("Building Base image"))
                 function = 'create_' + self.distributor
-                args = (self.up,
-                        self.rp)
+                args = (self.rp,)
 
             #all functions require this at the end
             args += ( self.widgets.get_object('version').get_text(),

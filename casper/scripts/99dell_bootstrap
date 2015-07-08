@@ -74,9 +74,6 @@ chroot /root apt-get install dell-recovery -y --no-install-recommends
 #only if we are in factory or bto-a
 if chroot /root apt-cache show fist 2>/dev/null 1>/dev/null; then
     chroot /root apt-get install fist -y
-#recovery media wants DRMK added to it for bootable partitions
-elif chroot /root apt-cache show dell-drmk 2>/dev/null 1>/dev/null; then
-    chroot /root apt-get install dell-drmk -y
 fi
 
 ###Set up all preseeds###
@@ -103,12 +100,12 @@ for seed in dell-recovery gfx wlan; do
     fi
 done
 
-#EFI deviations
 if [ -d /sys/firmware/efi ]; then
-    #grub-pc is in livefs, need grub-efi-amd64
-    chroot /root apt-get install grub-efi-amd64 -y
-    #force failsafe graphics off, we're guaranteed efifb
-    casper-preseed /root ubiquity/force_failsafe_graphics false
+    # UEFI BIOS mode
+    chroot /root apt-get install grub-efi-amd64-signed -y
+else
+    # Legacy BIOS mode
+    chroot /root apt-get install grub-pc -y
 fi
 
 # In case we're running a kernel not in the squashfs already
