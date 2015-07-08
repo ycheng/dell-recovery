@@ -1,3 +1,9 @@
+dell-recovery (1.39somerville1) trusty; urgency=medium
+
+  * Make a simple GTK+3 UI to burn DVD with the minimum speed by wodim. (LP: #1464130)
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Tue, 07 Jul 2015 20:00:00 +0800
+
 dell-recovery (1.39) wily; urgency=medium
 
   * Fix hiding OS partition with changes to no UP.
