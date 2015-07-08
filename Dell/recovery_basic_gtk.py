@@ -75,7 +75,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         self.timeout = 0
         self.image = ''
         
-        (self.cd_burn_cmd, self.usb_burn_cmd) = find_burners()
+        (self.dvd_burn_cmd, self.usb_burn_cmd) = find_burners()
 
         try:
             self.release = fetch_output(['lsb_release', '-r', '-s']).strip('\n')
@@ -191,13 +191,24 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
         while not success:
             success = True
             if self.widgets.get_object('dvdbutton').get_active():
-                cmd = self.cd_burn_cmd + [os.path.join(self.path, self.image)]
+                cmd = self.dvd_burn_cmd + [os.path.join(self.path, self.image)]
             elif self.widgets.get_object('usbbutton').get_active():
                 cmd = self.usb_burn_cmd + [os.path.join(self.path, self.image)]
             else:
                 cmd = None
             if cmd:
-                subprocess.call(cmd)
+                try:
+                    subprocess.call(cmd)
+                except subprocess.CalledProcessError as e:
+                    self.show_alert(Gtk.MessageType.INFO, "CalledProcessError", e,
+                        transient_for=self.widgets.get_object('progress_dialog'))
+                except subprocess.TimeoutExpired as e:
+                    self.show_alert(Gtk.MessageType.INFO, "TimeoutExpired", e,
+                        transient_for=self.widgets.get_object('progress_dialog'))
+                except subprocess.SubprocessError as e:
+                    self.show_alert(Gtk.MessageType.INFO, "SubprocessError", e,
+                        transient_for=self.widgets.get_object('progress_dialog'))
+
 
         header = _("Recovery Media Creation Process Complete")
         body = _("If you would like to archive another copy, the generated \
@@ -304,14 +315,14 @@ partition layout.")
             else:
                 self.widgets.get_object('nomediabutton').set_active(True)
             #remove invalid options (missing burners)
-            if self.cd_burn_cmd is None:
+            if self.dvd_burn_cmd is None:
                 self.widgets.get_object('dvd_box').hide()
                 self.widgets.get_object('usbbutton').set_active(True)
             else:
                 self.widgets.get_object('dvd_box').show()
             if self.usb_burn_cmd is None:
                 self.widgets.get_object('usb_box').hide()
-                if self.cd_burn_cmd is None:
+                if self.dvd_burn_cmd is None:
                     self.widgets.get_object('nomediabutton').set_active(True)
             else:
                 self.widgets.get_object('usb_box').show()

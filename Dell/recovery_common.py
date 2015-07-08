@@ -64,8 +64,7 @@ else:
 
 
 #Supported burners and their arguments
-DVD_BURNERS = { 'brasero':['-i'],
-               'nautilus-cd-burner':['--source-iso='] }
+DVD_BURNERS = { '/usr/share/dell/scripts/wodim-iso.py':['/dev/sr0'] }
 USB_BURNERS = { 'usb-creator':['-n', '--iso'],
                 'usb-creator-gtk':['-n', '--iso'],
                 'usb-creator-kde':['-n', '--iso'] }
@@ -206,8 +205,10 @@ def process_conf_file(original, new, uuid, number, ako='', recovery_text=''):
                     line = line.replace("#EXTRA#", "%s" % extra_cmdline.strip())
                 output.write(line)
 
-def fetch_output(cmd, data='', environment=os.environ):
+def fetch_output(cmd, data='', environment=None):
     '''Helper function to just read the output from a command'''
+    if environment is None:
+        environment = os.environ.copy()
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE,
                                  stdin=subprocess.PIPE,
