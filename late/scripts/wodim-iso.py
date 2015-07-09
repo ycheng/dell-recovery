@@ -16,11 +16,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import math, re, subprocess, sys, threading
+import math, os, re, subprocess, sys, threading
 
 from gettext import gettext as _
 from gettext import textdomain
 from gi.repository import GObject, Gdk, Gtk
+
+if os.getgid() == 0:
+    sys.stdout = open('/var/log/wodim-iso.log', 'w', encoding='utf-8')
 
 class Wodim:
     def __init__(self, device, iso):
