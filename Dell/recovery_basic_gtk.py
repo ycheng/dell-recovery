@@ -197,18 +197,7 @@ class BasicGeneratorGTK(DellRecoveryToolGTK):
             else:
                 cmd = None
             if cmd:
-                try:
-                    subprocess.call(cmd)
-                except subprocess.CalledProcessError as e:
-                    self.show_alert(Gtk.MessageType.INFO, "CalledProcessError", e,
-                        transient_for=self.widgets.get_object('progress_dialog'))
-                except subprocess.TimeoutExpired as e:
-                    self.show_alert(Gtk.MessageType.INFO, "TimeoutExpired", e,
-                        transient_for=self.widgets.get_object('progress_dialog'))
-                except subprocess.SubprocessError as e:
-                    self.show_alert(Gtk.MessageType.INFO, "SubprocessError", e,
-                        transient_for=self.widgets.get_object('progress_dialog'))
-
+                subprocess.call(cmd)
 
         header = _("Recovery Media Creation Process Complete")
         body = _("If you would like to archive another copy, the generated \
