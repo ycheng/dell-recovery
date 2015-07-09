@@ -1,6 +1,7 @@
-dell-recovery (1.39somerville2) trusty; urgency=medium
+dell-recovery (1.39somerville3) trusty; urgency=medium
 
   * Make a simple GTK+3 UI to burn DVD with the minimum speed by wodim. (LP: #1464130)
+  * Add radeon.modeset=0 nouveau.modeset=0 by default. (LP: #1471767)
 
  -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Thu, 09 Jul 2015 11:05:40 +0800
 
