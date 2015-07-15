@@ -96,22 +96,43 @@ class Wodim:
     def fast_blank(self):
         command = ['wodim', 'dev=' + self.device, 'blank=fast']
         print('> ' + ' '.join(command))
-        output = subprocess.check_output(command, stderr=subprocess.STDOUT).decode('utf-8')
-        print(output)
+        with subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True) as process:
+            for line in process.stdout:
+                print(line.strip())
 
     def force_all_blank(self):
         command = ['wodim', 'dev=' + self.device, 'blank=all', '-force']
         print('> ' + ' '.join(command))
-        output = subprocess.check_output(command, stderr=subprocess.STDOUT).decode('utf-8')
-        print(output)
+        with subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True) as process:
+            for line in process.stdout:
+                print(line.strip())
 
-    def burn(self):
-        command = ['wodim', '-eject', 'dev=' + self.device, 'speed=' + self.get_minimum_speed(), self.iso]
+    def burn(self, task=None):
+        command = ['wodim', '-v', '-eject', 'dev=' + self.device, 'speed=' + self.get_minimum_speed(), self.iso]
         if self.is_burnfree():
             command.extend(['driveropts=burnfree'])
         print('> ' + ' '.join(command))
-        output = subprocess.check_output(command, stderr=subprocess.STDOUT).decode('utf-8')
-        print(output)
+        progress = re.compile("Track \d+:\s+(?P<current>\d+) of (?P<total>\d+) MB written \(fifo\s+\d+%\) \[buf\s+\d+%\]\s+(?P<speed>[0-9.]+)x.")
+        ending = re.compile("Track \d+: Total bytes read/written: (?P<read>\d+)/(?P<write>\d+) \((?P<sector>\d+) sectors\).")
+        with subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True) as process:
+            for raw in process.stdout:
+                line = raw.strip()
+                if not line.startswith('Track'):
+                    print(line)
+                    continue
+                if '%' in line:
+                    result = progress.match(line)
+                    if result:
+                        current = int(result.group('current'))
+                        total = int(result.group('total'))
+                        percentage = current * 100 // total
+                        fraction = current / total
+                        task.prompt("%d / %d MB (%d%%)" % (current, total, percentage), fraction)
+                else:
+                    print(line)
+                    result = ending.match(line)
+                    if result:
+                        task.prompt('Burning DVD')
 
     def eject(self):
         command = ['eject', self.device]
@@ -139,14 +160,24 @@ class Prompt(Gtk.Window):
         self.set_decorated(False)
         self.set_resizable(False)
         self.set_keep_above(True)
+        self.fraction = 0.0
+        self.pulse = True
 
     def on_timeout(self, user_data):
-        self.progressbar.pulse()
+        if self.pulse:
+            self.progressbar.pulse()
+        else:
+            self.progressbar.set_fraction(self.fraction)
         return True
 
-    def set_text(self, text):
+    def set_text(self, text, fraction):
         Gdk.threads_enter()
         self.progressbar.set_text(text)
+        if fraction is None:
+            self.pulse = True
+        else:
+            self.pulse = False
+            self.fraction = fraction
         self.show_all()
         Gdk.threads_leave()
 
@@ -186,8 +217,8 @@ class DVDBurnTask:
         else:
             return False
 
-    def prompt(self, text):
-        self._prompt.set_text(_(text))
+    def prompt(self, text, fraction=None):
+        self._prompt.set_text(_(text), fraction)
 
     def hide(self):
         Gdk.threads_enter()
@@ -222,7 +253,7 @@ class DVDBurnTask:
                                     continue
                             self.prompt('Burning DVD')
                             try:
-                                dvd.burn()
+                                dvd.burn(self)
                             except subprocess.CalledProcessError:
                                 if self.question(BURNING_ERROR, REPLACE_DVD):
                                     continue
@@ -234,7 +265,7 @@ class DVDBurnTask:
                     else:
                         self.prompt('Burning DVD')
                         try:
-                            dvd.burn()
+                            dvd.burn(self)
                         except subprocess.CalledProcessError:
                             if self.question(BURNING_ERROR, REPLACE_DVD):
                                 continue
