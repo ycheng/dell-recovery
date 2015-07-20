@@ -1,9 +1,9 @@
 dell-recovery (1.40) UNRELEASED; urgency=medium
 
   * Make a simple GTK+3 UI to burn DVD with the minimum speed by wodim. (LP: #1464130)
-  * Use radeon.modeset=0 nouveau.modeset=0 by default. (LP: #1471767)
+  * Use nomodeset by default. (LP: #1471767)
 
- -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Fri, 17 Jul 2015 19:24:25 +0800
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Sun, 19 Jul 2015 21:13:41 +0800
 
 dell-recovery (1.39) wily; urgency=medium
 
