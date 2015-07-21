@@ -45,6 +45,15 @@ rm -f $TARGET/etc/apt/sources.list.d/dell.list
 #https://bugs.launchpad.net/ubuntu/+source/choose-mirror/+bug/550694
 sed -i "s/http:\/\/.*.archive.ubuntu.com/http:\/\/archive.ubuntu.com/" $TARGET/etc/apt/sources.list
 
+#The script below was removed because we use a package based solution in
+#Somerville Trusty OSP1 image. Old Trusty image still needs this to re-enable
+#NetworkManager. (LP: #1476151)
+
+#We disabled Ethernet in phase 1 and 2 of installation, now enable it back. (LP: #1329148)
+if [ -f "$TARGET/etc/init/network-manager.conf.orig" ]; then
+    mv $TARGET/etc/init/network-manager.conf.orig $TARGET/etc/init/network-manager.conf
+fi
+
 if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     if [ -d "/isodevice" ]; then
         RP="/isodevice"
