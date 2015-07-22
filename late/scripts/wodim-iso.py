@@ -93,6 +93,13 @@ class Wodim:
                 else:
                     return False
 
+    def format(self):
+        command = ['wodim', 'dev=' + self.device, '-format']
+        print('> ' + ' '.join(command))
+        with subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True) as process:
+            for line in process.stdout:
+                print(line.strip())
+
     def fast_blank(self):
         command = ['wodim', 'dev=' + self.device, 'blank=fast']
         print('> ' + ' '.join(command))
@@ -185,7 +192,8 @@ textdomain('brasero')
 
 BLANKING_ERROR = _('Error while blanking.')
 BURNING_ERROR = _('Error while burning.')
-REPLACE_DVD = _('Do you want to replace the disc and continue?')
+UNKNOWN_ERROR = _('An unknown error occurred')
+REPLACE_DISC = _('Do you want to replace the disc and continue?')
 REPLACE_DVD_W = _('Please replace the disc with a writable DVD.')
 INSERT_DVD_W = _('Please insert a writable DVD.')
 NOT_SUPPORTED = _('The disc is not supported')
@@ -231,55 +239,66 @@ class DVDBurnTask:
             return
         dvd = Wodim(device=sys.argv[1], iso=sys.argv[2])
         while self._running:
+            # Get the media type.
             try:
                 media_type = dvd.media_type()
             except subprocess.CalledProcessError:
                 dvd.umount()
                 continue
-            if media_type:
-                if media_type.startswith('DVD'):
-                    if not dvd.is_blank():
-                        if 'RW' in media_type:
-                            self.prompt('Disc Blanking')
-                            try:
-                                dvd.fast_blank()
-                            except subprocess.CalledProcessError:
-                                try:
-                                    dvd.force_all_blank()
-                                except subprocess.CalledProcessError:
-                                    dvd.eject()
-                                    if not self.question(BLANKING_ERROR, REPLACE_DVD):
-                                        self.terminate()
-                                    continue
-                            self.prompt('Burning DVD')
-                            try:
-                                dvd.burn(self)
-                            except subprocess.CalledProcessError:
-                                if self.question(BURNING_ERROR, REPLACE_DVD):
-                                    continue
-                            self.terminate()
-                        else:
-                            dvd.eject()
-                            if not self.question(NOT_SUPPORTED, REPLACE_DVD_W):
-                                self.terminate()
-                    else:
-                        self.prompt('Burning DVD')
-                        try:
-                            dvd.burn(self)
-                        except subprocess.CalledProcessError:
-                            if self.question(BURNING_ERROR, REPLACE_DVD):
-                                continue
-                        self.terminate()
-                elif media_type.startswith('CD'):
-                    dvd.eject()
-                    if not self.question(NOT_SUPPORTED, REPLACE_DVD_W):
-                        self.terminate()
-                else:
-                    dvd.eject()
-                    if not self.question(NOT_SUPPORTED, REPLACE_DVD_W):
-                        self.terminate()
-            else:
+
+            # Insert another disc is no media type available.
+            if not media_type:
                 if not self.question(NO_DISC, INSERT_DVD_W):
+                    self.terminate()
+                continue
+
+            # Check DVD
+            if media_type.startswith('DVD'):
+                blank = dvd.is_blank()
+                # Blank DVD+RW needs to be formatted at least once.
+                if '+RW' in media_type and blank:
+                    self.prompt('Formatting disc')
+                    try:
+                        dvd.format()
+                    except subprocess.CalledProcessError:
+                        dvd.eject()
+                        if not self.question(UNKNOWN_ERROR, REPLACE_DISC):
+                            self.terminate()
+                # Non-blank DVD-RW needs to be blanked.
+                elif '-RW' in media_type and not blank:
+                    self.prompt('Disc Blanking')
+                    try:
+                        dvd.fast_blank()
+                    except subprocess.CalledProcessError:
+                        try:
+                            dvd.force_all_blank()
+                        except subprocess.CalledProcessError:
+                            dvd.eject()
+                            if not self.question(BLANKING_ERROR, REPLACE_DISC):
+                                self.terminate()
+                # DVD+R and DVD-R need to be blank.
+                elif not 'RW' in media_type and not blank:
+                    dvd.eject()
+                    if not self.question(NOT_SUPPORTED, REPLACE_DVD_W):
+                        self.terminate()
+                # Burning DVD if everything is ready.
+                else:
+                    self.prompt('Burning DVD')
+                    try:
+                        dvd.burn(self)
+                    except subprocess.CalledProcessError:
+                        if self.question(BURNING_ERROR, REPLACE_DISC):
+                            continue
+                    self.terminate()
+            # CD is not supported.
+            elif media_type.startswith('CD'):
+                dvd.eject()
+                if not self.question(NOT_SUPPORTED, REPLACE_DVD_W):
+                    self.terminate()
+            # Unknown media type is not supported.
+            else:
+                dvd.eject()
+                if not self.question(NOT_SUPPORTED, REPLACE_DVD_W):
                     self.terminate()
 
 if __name__ == '__main__':
