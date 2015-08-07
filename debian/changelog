@@ -1,4 +1,4 @@
-dell-recovery (1.40) UNRELEASED; urgency=medium
+dell-recovery (1.40) wily; urgency=medium
 
   [ Shih-Yuan Lee (FourDollars)
   * Make a simple GTK+3 UI to burn DVD with the minimum speed by wodim. (LP: #1464130)
@@ -8,7 +8,7 @@ dell-recovery (1.40) UNRELEASED; urgency=medium
   [ Mario Limonciello ]
   * Only allow running dell-recovery on systems without an MSDM table.
 
- -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Wed, 22 Jul 2015 13:57:21 +0800
+ -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 07 Aug 2015 16:44:36 -0500
 
 dell-recovery (1.39) wily; urgency=medium
 
