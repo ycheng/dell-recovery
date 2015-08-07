@@ -148,6 +148,13 @@ def check_vendor():
                 return True
     return False
 
+def check_msdm():
+    """Checks to see if MSDM has been populated"""
+    path = '/sys/firmware/acpi/tables/MSDM'
+    if os.path.exists(path):
+        return True
+    return False
+
 def check_version(package='dell-recovery'):
     """Queries the package management system for the current tool version"""
     try:
