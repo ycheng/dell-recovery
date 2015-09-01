@@ -43,7 +43,9 @@ fi
 rm -f $TARGET/var/lib/apt/lists/*Packages
 rm -f $TARGET/etc/apt/sources.list.d/dell.list
 #https://bugs.launchpad.net/ubuntu/+source/choose-mirror/+bug/550694
-sed -i "s/http:\/\/.*.archive.ubuntu.com/http:\/\/archive.ubuntu.com/" $TARGET/etc/apt/sources.list
+if [ -f "$TARGET/etc/apt/sources.list" ]; then
+    sed -i "s/http:\/\/.*.archive.ubuntu.com/http:\/\/archive.ubuntu.com/" $TARGET/etc/apt/sources.list
+fi
 
 #The script below was removed because we use a package based solution in
 #Somerville Trusty OSP1 image. Old Trusty image still needs this to re-enable
