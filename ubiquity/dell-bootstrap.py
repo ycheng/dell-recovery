@@ -122,7 +122,7 @@ class PageGtk(PluginUI):
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
 
         self.efi = False
-        self.genuine = magic.check_vendor()
+        self.genuine = magic.check_vendor() and not magic.check_msdm()
 
         if not oem:
             from gi.repository import Gtk

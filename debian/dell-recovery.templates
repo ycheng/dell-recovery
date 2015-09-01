@@ -91,7 +91,7 @@ _Description: This option allows you to resize any existing partitions.
 
 Template: ubiquity/text/genuine_bootstrap_warning_label
 Type: text
-_Description: ERROR: This recovery media only functions on Dell and Alienware systems.
+_Description: ERROR: This recovery media only functions on Dell and Alienware systems purchased with Ubuntu.
 
 Template: ubiquity/text/status_warning_label
 Type: text
