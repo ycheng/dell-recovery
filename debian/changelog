@@ -1,14 +1,18 @@
 dell-recovery (1.40) wily; urgency=medium
 
-  [ Shih-Yuan Lee (FourDollars)
+  [ Mario Limonciello ]
+  * Only allow running dell-recovery on systems without an MSDM table.
+
+  [ Shih-Yuan Lee (FourDollars) ]
   * Make a simple GTK+3 UI to burn DVD with the minimum speed by wodim. (LP: #1464130)
   * Use nomodeset by default. (LP: #1471767)
   * Add the backward compatible fix for the network manager. (LP: #1476151)
 
-  [ Mario Limonciello ]
-  * Only allow running dell-recovery on systems without an MSDM table.
+  [ Tammy Yang (wanchingy) ]
+  * Add dell-recovery-lp1488786.patch to handle the exception
+    if sources.list does not exist. (LP: #1488786)
 
- -- Mario Limonciello <Mario_Limonciello@Dell.com>  Fri, 07 Aug 2015 16:44:36 -0500
+ -- Tammy Yang <tammy.yang@canonical.com>  Thu, 27 Aug 2015 17:16:35 +0800
 
 dell-recovery (1.39) wily; urgency=medium
 
