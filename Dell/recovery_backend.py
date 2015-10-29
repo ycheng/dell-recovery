@@ -311,7 +311,7 @@ class Backend(dbus.service.Object):
         output = fetch_output(['zcat', '/usr/share/doc/dell-recovery/changelog.gz'])
         package_distro = output.split('\n')[0].split()[2].strip(';')
 
-        with open(os.path.join(mount, '.disk', 'info')) as rfd:
+        with open(os.path.join(mount, '.disk', 'info.recovery')) as rfd:
             rp_distro = rfd.readline().split()[2].strip('"').lower()
             
         if rp_distro in package_distro:
@@ -1010,8 +1010,8 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         mntdir = self.request_mount(recovery, "r", sender, conn)
 
         #validate that ubuntu is on the partition
-        if not os.path.exists(os.path.join(mntdir, '.disk', 'info')):
-            logging.warning("create_ubuntu: recovery partition missing .disk/info.")
+        if not os.path.exists(os.path.join(mntdir, '.disk', 'info.recovery')):
+            logging.warning("create_ubuntu: recovery partition missing .disk/info.recovery")
             if os.path.exists(os.path.join(mntdir, 'bootmgr')):
                 raise CreateFailed("This tool can not create a recovery image from a Windows recovery partition.")
             raise CreateFailed("Recovery partition is missing critical ubuntu files.")
@@ -1083,12 +1083,6 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         for name in ['boot.img', 'core.img']:
             with open(os.path.join(grub_path, name), 'w'):
                 pass
-                       
-        #include EFI binaries
-        if os.path.exists(os.path.join(mntdir, 'efi.factory')):
-            xorrisoargs.append('-m')
-            xorrisoargs.append('efi.factory')
-            shutil.copytree(os.path.join(mntdir, 'efi.factory'), os.path.join(tmpdir, 'efi'))
 
         #if no bootstrap in RP, we'll put it in the initrd
         bootstrap_initrd = not os.path.exists(os.path.join(mntdir, 'scripts', 'bootstrap.sh'))
@@ -1109,6 +1103,21 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         xorrisoargs.append(os.path.join('.disk', old_uuid))
         xorrisoargs.append('-m')
         xorrisoargs.append(os.path.join('casper', old_initrd))
+                       
+        #Restore bootx64.efi
+        efi_path = os.path.join(mntdir, 'efi', 'boot', 'recovery.efi')
+        if os.path.exists(efi_path):
+            os.makedirs(os.path.join(tmpdir, 'efi', 'boot'))
+            xorrisoargs.append('-m')
+            xorrisoargs.append(efi_path)
+            shutil.copy(efi_path, os.path.join(tmpdir, 'efi', 'boot', 'bootx64.efi'))
+        
+        #Restore .disk/info
+        info_path = os.path.join(mntdir, '.disk', 'info.recovery')
+        if os.path.exists(info_path):
+            xorrisoargs.append('-m')
+            xorrisoargs.append(info_path)
+            shutil.copy(info_path, os.path.join(tmpdir, '.disk', 'info'))
 
         #if we have any any ISO/USB bootable bootloader on the image, copy in a theme
         grub_theme = False

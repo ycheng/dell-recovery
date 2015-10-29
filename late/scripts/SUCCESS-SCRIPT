@@ -64,11 +64,20 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     fi
     mount -o remount,rw $RP
 
-    IFHALT "Resetting grub fail state"
-    mkdir -p $RP/factory
-    grub-editenv $RP/factory/grubenv unset recordfail
-    grub-editenv $RP/factory/grubenv unset install_in_progress
-    grub-editenv $RP/factory/grubenv set install_finished=1
+    # Bypass the grub2-signed issue. (LP: #1482514)
+    IFHALT "Renaming .disk/info to .disk/info.recovery"
+
+    if [ -f "$RP/.disk/info.recovery" -a -f "$RP/.disk/info" ]; then
+        rm -fr $RP/.disk/info
+    elif [ -f "$RP/.disk/info" ]; then
+        mv $RP/.disk/info $RP/.disk/info.recovery
+    fi
+
+    #Make changes that would normally be done in factory stage1
+    ##rename bootx64.efi so we don't offer it to customer boot in NVRAM menu
+    if [ -f "$RP/efi/boot/bootx64.efi" ]; then
+        mv $RP/efi/boot/bootx64.efi $RP/efi/boot/recovery.efi
+    fi
 
     IFHALT "Clean up FI Env..."
     rm -rf $RP/scripts/chroot-scripts/os-post/95-set_UTC_TZ.sh
@@ -87,6 +96,7 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     rm -rf $RP/factory/*.dll
     rm -rf $RP/factory/*.exe
     rm -rf $RP/factory/*.bat
+    rm -fr $RP/factory/grubenv
     rm -rf $RP/.disk/casper-uuid*
 
     IFHALT "Report the LOG..."

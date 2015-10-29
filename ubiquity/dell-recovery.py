@@ -168,7 +168,7 @@ class Install(InstallPlugin):
 
         #can also expect that this was mounted at /cdrom during OOBE
         rpart = magic.find_factory_partition_stats()
-        if rpart and os.path.exists('/cdrom/.disk/info'):
+        if rpart and os.path.exists('/cdrom/.disk/info.recovery'):
             rec_text = progress.get('ubiquity/text/99_grub_menu')
             magic.process_conf_file(original = '/usr/share/dell/grub/99_dell_recovery', \
                                     new = '/etc/grub.d/99_dell_recovery',               \

@@ -29,14 +29,18 @@
 # for early:
 # $2 -> /cdrom or /isodevice
 
-if [ "$1" = "early" ]; then
-    DEVICE=$(python3 << EOF
+DEVICE=$(python3 << EOF
 from Dell.recovery_common import find_partition
 print(find_partition().decode('utf-8'))
 EOF
 )
+
+if [ "$1" = "early" ]; then
     mkdir -p $2
     mount $DEVICE $2
+    if [ -f $2/.disk/info.recovery -a ! -f $2/.disk/info ]; then
+        cp $2/.disk/info.recovery $2/.disk/info
+    fi
     if [ -f "$2/factory/grubenv" ]; then
         grub-editenv $2/factory/grubenv unset install_finished
     fi
@@ -50,7 +54,13 @@ elif [ "$1" = "late" ]; then
         umount /isodevice
         rm -rf /isodevice
     fi
+    mount $DEVICE /cdrom
+    if [ -f /cdrom/.disk/info.recovery -a -f /cdrom/.disk/info ]; then
+        rm -f /cdrom/.disk/info
+    fi
+    umount /cdrom
     rm -f /etc/apt/sources.list.d/dell.list
+    apt-get purge --yes casper
 else
     echo "Unknown arguments $1 $2"
 fi

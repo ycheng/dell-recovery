@@ -367,15 +367,27 @@ class Page(Plugin):
             swap = item.get_swapspace()
             if not swap:
                 continue
+
             part = item.get_partition()
             if not part:
                 continue
+
             #Check if the swap is active or not
             swap_active = swap.get_cached_property("Active").get_boolean()
             if not swap_active:
                 continue
+
+            block = item.get_block()
+            if not block:
+                continue
+
+            device = block.get_cached_property('Device').get_bytestring().decode('utf-8')
+
             swap.call_stop_sync(no_options)
-            part.call_delete_sync(no_options)
+
+            # Only delete the swap partitions on the target
+            if device.startswith(self.device):
+                part.call_delete_sync(no_options)
 
     def sleep_network(self):
         """Requests the network be disabled for the duration of install to
@@ -579,15 +591,32 @@ class Page(Plugin):
             
             disks.append([devicefile, devicesize, "%s GB %s %s (%s)" % (devicesize_gb, devicevendor, devicemodel, devicefile)])
 
-        #If multiple candidates were found, record in the logs
         if len(disks) == 0:
             raise RuntimeError("Unable to find and candidate hard disks to install to.")
-        if len(disks) > 1:
+
+        # Search for the recovery partition on the same disk first
+        the_same_disk = None
+        for disk in disks:
+            device = disk[0]
+            with open('/proc/mounts', 'r') as mounts:
+                for line in mounts.readlines():
+                    if device in line:
+                        self.device = device
+                        the_same_disk = disk
+                        break
+            if the_same_disk:
+                break 
+        if the_same_disk:
+            disks.remove(the_same_disk)
+            disks.insert(0, the_same_disk)
+        else:
             disks.sort()
+            self.device = disks[0][0]
+
+        #If multiple candidates were found, record in the logs
+        if len(disks) > 1:
             self.log("Multiple disk candidates were found: %s" % disks)
 
-        #Always choose the first candidate to start
-        self.device = disks[0][0]
         self.log("Initially selected candidate disk: %s" % self.device)
 
         #populate UI
@@ -754,6 +783,7 @@ class Page(Plugin):
         #Clarify which device we're operating on initially in the UI
         try:
             self.fixup_recovery_devices()
+            self.log("rec_type %s, stage %d, device %s" % (rec_type, self.stage, self.device))
             if (rec_type == 'factory' and self.stage == 2) or rec_type == 'hdd':
                 self.fixup_factory_devices(rec_part)
         except Exception as err:
@@ -775,13 +805,14 @@ class Page(Plugin):
         """Copy answers from debconf questions"""
         #basic questions
         rec_type = self.ui.get_type()
-        self.log("recovery type set to %s" % rec_type)
+        self.log("recovery type set to '%s'" % rec_type)
         self.preseed(RECOVERY_TYPE_QUESTION, rec_type)
         (device, size) = self.ui.get_selected_device()
         if device:
             self.device = device
         if size:
             self.device_size = size
+        self.log("selected device %s %d" % (device, size))
 
         #advanced questions
         for question in [SWAP_QUESTION,
@@ -875,6 +906,12 @@ class Page(Plugin):
 
     def cancel_handler(self):
         """Called when we don't want to perform recovery'"""
+        if os.path.exists(os.path.join('/cdrom', '.disk', 'info.recovery')) and \
+           os.path.exists(os.path.join('/cdrom', '.disk', 'info')) and \
+           misc.execute_root('mount', '-o', 'remount,rw', '/cdrom'):
+            with misc.raised_privileges():
+                os.remove(os.path.join('/cdrom', '.disk', 'info')) 
+            misc.execute_root('mount', '-o', 'remount,ro', '/cdrom')
         misc.execute_root('reboot')
 
     def handle_exception(self, err):
@@ -1055,10 +1092,10 @@ manually to proceed.")
             #delete old entries
             for line in bootmgr_output:
                 bootnum = ''
-                if line.startswith('Boot') and 'ubuntu' in line:
+                if line.startswith('Boot') and 'ubuntu' in line.lower():
                     bootnum = line.split('Boot')[1].replace('*', '').split()[0]
                 if bootnum:
-                    bootmgr = misc.execute_root('efibootmgr', '-q', '-b', bootnum, '-B')
+                    bootmgr = misc.execute_root('efibootmgr', '-v', '-b', bootnum, '-B')
                     if bootmgr is False:
                         raise RuntimeError("Error removing old EFI boot manager entries")
 
@@ -1067,7 +1104,7 @@ manually to proceed.")
             os.rename(os.path.join(direct_path, 'bootx64.efi'),
                       os.path.join(direct_path, target))
 
-        add = misc.execute_root('efibootmgr', '-c', '-d', self.device, '-p', EFI_ESP_PARTITION, '-l', '\\EFI\\ubuntu\\%s' % target, '-L', 'ubuntu')
+        add = misc.execute_root('efibootmgr', '-v', '-c', '-d', self.device, '-p', EFI_RP_PARTITION, '-l', '\\EFI\\boot\\bootx64.efi', '-L', 'ubuntu')
         if add is False:
             raise RuntimeError("Error adding efi entry to %s%s" % (self.device, esp_part))
 
@@ -1078,16 +1115,10 @@ manually to proceed.")
                 bootnum = ''
                 if line.startswith('Boot') and 'ubuntu' in line:
                     bootnum = line.split('Boot')[1].replace('*', '').split()[0]
-                    misc.execute_root('efibootmgr', '-n', bootnum)
+                    misc.execute_root('efibootmgr', '-v', '-n', bootnum)
 
         ##clean up ESP mount
         misc.execute_root('umount', '/mnt/efi')
-
-        #Make changes that would normally be done in factory stage1
-        ##rename efi directory so we don't offer it to customer boot in NVRAM menu
-        if os.path.exists('/mnt/efi'):
-            with misc.raised_privileges():
-                shutil.move('/mnt/efi', '/mnt/efi.factory')
 
         ##set install_in_progress flag
         with misc.raised_privileges():
