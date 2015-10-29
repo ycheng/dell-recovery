@@ -1,6 +1,7 @@
 dell-recovery (1.41) UNRELEASED; urgency=medium
 
   * Bypass the grub2-signed issue #1097570 and support multiple recovery partitions. (LP: #1482514)
+  * Backward compatible improvement for the recovery media creation.
 
  -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Thu, 29 Oct 2015 10:59:50 +0800
 

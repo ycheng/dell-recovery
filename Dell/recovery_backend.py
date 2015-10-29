@@ -311,8 +311,12 @@ class Backend(dbus.service.Object):
         output = fetch_output(['zcat', '/usr/share/doc/dell-recovery/changelog.gz'])
         package_distro = output.split('\n')[0].split()[2].strip(';')
 
-        with open(os.path.join(mount, '.disk', 'info.recovery')) as rfd:
-            rp_distro = rfd.readline().split()[2].strip('"').lower()
+        for info in ('info.recovery', 'info'):
+            file_path = os.path.join(mount, '.disk', info)
+            if os.path.exists(file_path):
+                with open(file_path) as rfd:
+                    rp_distro = rfd.readline().split()[2].strip('"').lower()
+                    break
             
         if rp_distro in package_distro:
             logging.debug("_test_for_new_dell_recovery: Distro %s matches %s", rp_distro, package_distro)
@@ -1010,8 +1014,9 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         mntdir = self.request_mount(recovery, "r", sender, conn)
 
         #validate that ubuntu is on the partition
-        if not os.path.exists(os.path.join(mntdir, '.disk', 'info.recovery')):
-            logging.warning("create_ubuntu: recovery partition missing .disk/info.recovery")
+        if not os.path.exists(os.path.join(mntdir, '.disk', 'info') and \
+           not os.path.exists(os.path.join(mntdir, '.disk', 'info.recovery')):
+            logging.warning("create_ubuntu: recovery partition missing .disk/info and .disk/info.recovery")
             if os.path.exists(os.path.join(mntdir, 'bootmgr')):
                 raise CreateFailed("This tool can not create a recovery image from a Windows recovery partition.")
             raise CreateFailed("Recovery partition is missing critical ubuntu files.")
@@ -1083,6 +1088,13 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         for name in ['boot.img', 'core.img']:
             with open(os.path.join(grub_path, name), 'w'):
                 pass
+
+        #include EFI binaries
+        if os.path.exists(os.path.join(mntdir, 'efi.factory')) and \
+           not os.path.exists(os.path.join(mntdir, 'efi')):
+            xorrisoargs.append('-m')
+            xorrisoargs.append('efi.factory')
+            shutil.copytree(os.path.join(mntdir, 'efi.factory'), os.path.join(tmpdir, 'efi'))
 
         #if no bootstrap in RP, we'll put it in the initrd
         bootstrap_initrd = not os.path.exists(os.path.join(mntdir, 'scripts', 'bootstrap.sh'))
