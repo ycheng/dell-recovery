@@ -58,7 +58,9 @@ if ! grep -q "single" /proc/cmdline 2>&1 >/dev/null; then
     sed -i "s/ubiquity=\$/ubiquity=1/; s/\$automatic\ \$choose/--automatic/" /root/etc/init/ubiquity.conf
 fi
 #if they use a ubiquity icon it needs to run in automatic
-sed -i "s/prompt=1$/prompt=/;" /root/etc/init.d/casper
+if [ -f /root/etc/init.d/casper ]; then
+	sed -i "s/prompt=1$/prompt=/;" /root/etc/init.d/casper
+fi
 sed -i "s/Exec=ubiquity/Exec=ubiquity --automatic/" /root/usr/share/applications/ubiquity-gtkui.desktop 2>/dev/null || true
 
 #Build custom pool (static and dynamic)
