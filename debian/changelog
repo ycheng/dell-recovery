@@ -1,3 +1,10 @@
+dell-recovery (1.41) UNRELEASED; urgency=medium
+
+  * Disable MSDM table check.  It caused previously unforseen negative
+    consequences that are more important than it's original intention.
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 23 Feb 2016 12:29:20 -0600
+
 dell-recovery (1.40) wily; urgency=medium
 
   [ Mario Limonciello ]
