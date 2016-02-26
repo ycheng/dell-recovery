@@ -1,8 +1,8 @@
-dell-recovery (1.42) UNRELEASED; urgency=medium
+dell-recovery (1.42) xenial; urgency=medium
 
   * Shuffle pool command cleanup phase to avoid issues with new apt.
 
- -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 26 Feb 2016 17:41:02 -0600
+ -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 26 Feb 2016 17:56:13 -0600
 
 dell-recovery (1.41) xenial; urgency=medium
 
