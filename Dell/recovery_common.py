@@ -247,6 +247,22 @@ def find_factory_partition_stats():
         check_label = block.get_cached_property("IdLabel")
         if not check_label:
             continue
+
+        # Only search for the recovery partition on the same disk
+        device = block.get_cached_property("Device").get_bytestring().decode('utf-8')
+        if device.startswith('/dev/mmcblk') or device.startswith('/dev/nvme'):
+            offset = 2
+        else: # /dev/sd[a-z]
+            offset = 1
+        the_same_drive = False
+        with open('/proc/mounts', 'r') as mounts:
+            for line in mounts.readlines():
+                if device[:-offset] in line:
+                    the_same_drive = True
+                    break
+        if not the_same_drive:
+            continue
+
         if check_label.get_string().lower() in labels:
             partition = item.get_partition()
             recovery["label"] = check_label.get_string()

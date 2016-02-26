@@ -53,6 +53,18 @@ export DEBIAN_HAS_FRONTEND=
 export DEBCONF_REDIR=
 export DEBIAN_FRONTEND=noninteractive
 
+if [ -d /root/isodevice ]; then
+    if [ -f /root/isodevice/.disk/info.recovery -a ! -f /root/isodevice/.disk/info ]; then
+	mount -o remount,rw /root/isodevice
+	cp /root/isodevice/.disk/info.recovery /root/isodevice/.disk/info
+	mount -o remount,ro /root/isodevice
+    fi
+elif [ -f /root/cdrom/.disk/info.recovery -a ! -f /root/cdrom/.disk/info ]; then
+    mount -o remount,rw /root/cdrom
+    cp /root/cdrom/.disk/info.recovery /root/cdrom/.disk/info
+    mount -o remount,ro /root/cdrom
+fi
+
 #Force ubiquity to run in automatic regardless if there are ubiquity options in /proc/cmdline (except single user mode)
 if ! grep -q "single" /proc/cmdline 2>&1 >/dev/null; then
     sed -i "s/ubiquity=\$/ubiquity=1/; s/\$automatic\ \$choose/--automatic/" /root/etc/init/ubiquity.conf

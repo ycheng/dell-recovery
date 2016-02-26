@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-23 12:30-0600\n"
+"POT-Creation-Date: 2016-02-26 17:18-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -163,23 +163,23 @@ msgstr ""
 msgid "All SRVs must be filled to proceed."
 msgstr ""
 
-#: ../Dell/recovery_backend.py:342
+#: ../Dell/recovery_backend.py:346
 msgid "Processing FISH packages"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:465
+#: ../Dell/recovery_backend.py:469
 msgid "Adding in base image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1029
+#: ../Dell/recovery_backend.py:1034
 msgid "Preparing nested image"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1099
+#: ../Dell/recovery_backend.py:1105
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1188
+#: ../Dell/recovery_backend.py:1201
 msgid "Building ISO"
 msgstr ""
 

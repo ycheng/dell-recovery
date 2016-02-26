@@ -76,7 +76,7 @@ class PageNoninteractive(PluginUI):
     def __init__(self, controller, *args, **kwargs):
         self.controller = controller
         PluginUI.__init__(self, controller, *args, **kwargs)
-    
+
     def get_type(self):
         '''For the noninteractive frontend, get_type always returns an empty str
             This is because the noninteractive frontend always runs in "factory"
@@ -325,7 +325,7 @@ class PageGtk(PluginUI):
             return model.get_value(iterator, 0)
         else:
             return ""
- 
+
     def advanced_callback(self, widget, data = None):
         """Callback when an advanced widget is toggled"""
         if widget == self.proprietary_combobox:
@@ -367,15 +367,27 @@ class Page(Plugin):
             swap = item.get_swapspace()
             if not swap:
                 continue
+
             part = item.get_partition()
             if not part:
                 continue
+
             #Check if the swap is active or not
             swap_active = swap.get_cached_property("Active").get_boolean()
             if not swap_active:
                 continue
+
+            block = item.get_block()
+            if not block:
+                continue
+
+            device = block.get_cached_property('Device').get_bytestring().decode('utf-8')
+
             swap.call_stop_sync(no_options)
-            part.call_delete_sync(no_options)
+
+            # Only delete the swap partitions on the target
+            if device.startswith(self.device):
+                part.call_delete_sync(no_options)
 
     def sleep_network(self):
         """Requests the network be disabled for the duration of install to
@@ -385,7 +397,7 @@ class Page(Plugin):
         try:
             backend_iface = dbus.Interface(bus.get_object(magic.DBUS_BUS_NAME, '/RecoveryMedia'), magic.DBUS_INTERFACE_NAME)
             backend_iface.force_network(False)
-            backend_iface.request_exit() 
+            backend_iface.request_exit()
         except Exception:
             pass
 
@@ -400,7 +412,7 @@ class Page(Plugin):
     def clean_recipe(self):
         """Cleans up the recipe to remove swap if we have a small drive"""
 
-        #If we are in dynamic (dell-recovery/swap=dynamic) and small drive 
+        #If we are in dynamic (dell-recovery/swap=dynamic) and small drive
         #   or we explicitly disabled (dell-recovery/swap=false)
         if self.test_swap():
             self.log("Performing swap recipe fixup (%s, hdd: %i, mem: %f)" % \
@@ -553,7 +565,7 @@ class Page(Plugin):
             drive_obj = block.get_cached_property("Drive").get_string()
             if drive_obj == '/':
                 continue
-                
+
             drive = udisks.get_object(drive_obj).get_drive()
             if drive:
                 bus = drive.get_cached_property("ConnectionBus").get_string()
@@ -567,7 +579,7 @@ class Page(Plugin):
                     continue
             else:
                 continue
-        
+
             devicesize = drive.get_cached_property("Size").unpack()
             if devicesize == 0:
                 continue
@@ -576,18 +588,35 @@ class Page(Plugin):
             devicemodel = drive.get_cached_property("Model").get_string()
             devicevendor = drive.get_cached_property("Vendor").get_string()
             devicesize_gb = "%i" % (devicesize / 1000000000)
-            
+
             disks.append([devicefile, devicesize, "%s GB %s %s (%s)" % (devicesize_gb, devicevendor, devicemodel, devicefile)])
 
-        #If multiple candidates were found, record in the logs
         if len(disks) == 0:
             raise RuntimeError("Unable to find and candidate hard disks to install to.")
-        if len(disks) > 1:
+
+        # Search for the recovery partition on the same disk first
+        the_same_disk = None
+        for disk in disks:
+            device = disk[0]
+            with open('/proc/mounts', 'r') as mounts:
+                for line in mounts.readlines():
+                    if device in line:
+                        self.device = device
+                        the_same_disk = disk
+                        break
+            if the_same_disk:
+                break
+        if the_same_disk:
+            disks.remove(the_same_disk)
+            disks.insert(0, the_same_disk)
+        else:
             disks.sort()
+            self.device = disks[0][0]
+
+        #If multiple candidates were found, record in the logs
+        if len(disks) > 1:
             self.log("Multiple disk candidates were found: %s" % disks)
 
-        #Always choose the first candidate to start
-        self.device = disks[0][0]
         self.log("Initially selected candidate disk: %s" % self.device)
 
         #populate UI
@@ -631,7 +660,7 @@ class Page(Plugin):
         with misc.raised_privileges():
             version = magic.check_version()
         self.log("version %s" % version)
-        
+
         #mountpoint
         mount = find_boot_device()
         self.log("mounted from %s" % mount)
@@ -691,7 +720,7 @@ class Page(Plugin):
             proprietary = ''
 
         #If we detect that we are booted into uEFI mode, then we only want
-        #to do a GPT install.  
+        #to do a GPT install.
         if os.path.isdir('/proc/efi') or os.path.isdir('/sys/firmware/efi'):
             self.efi = True
 
@@ -745,7 +774,7 @@ class Page(Plugin):
         client_type = os.path.join('/cdrom', '.oem', 'client_type')
         if os.path.isfile(client_type):
             with open (client_type, "r") as myfile:
-                content=myfile.read().replace('\n', '') 
+                content=myfile.read().replace('\n', '')
             if content == "kylin":
                 language = 'zh_CN.UTF-8'
             self.preseed('debian-installer/locale', language)
@@ -754,6 +783,7 @@ class Page(Plugin):
         #Clarify which device we're operating on initially in the UI
         try:
             self.fixup_recovery_devices()
+            self.log("rec_type %s, stage %d, device %s" % (rec_type, self.stage, self.device))
             if (rec_type == 'factory' and self.stage == 2) or rec_type == 'hdd':
                 self.fixup_factory_devices(rec_part)
         except Exception as err:
@@ -775,13 +805,14 @@ class Page(Plugin):
         """Copy answers from debconf questions"""
         #basic questions
         rec_type = self.ui.get_type()
-        self.log("recovery type set to %s" % rec_type)
+        self.log("recovery type set to '%s'" % rec_type)
         self.preseed(RECOVERY_TYPE_QUESTION, rec_type)
         (device, size) = self.ui.get_selected_device()
         if device:
             self.device = device
         if size:
             self.device_size = size
+        self.log("selected device %s %d" % (device, size))
 
         #advanced questions
         for question in [SWAP_QUESTION,
@@ -831,7 +862,7 @@ class Page(Plugin):
                                                "0")
                 size_thread.progress = self.report_progress
                 #init builder
-                self.rp_builder = RPbuilder(self.device, 
+                self.rp_builder = RPbuilder(self.device,
                                             self.device_size,
                                             self.rp_filesystem,
                                             self.mem,
@@ -875,6 +906,12 @@ class Page(Plugin):
 
     def cancel_handler(self):
         """Called when we don't want to perform recovery'"""
+        if os.path.exists(os.path.join('/cdrom', '.disk', 'info.recovery')) and \
+           os.path.exists(os.path.join('/cdrom', '.disk', 'info')) and \
+           misc.execute_root('mount', '-o', 'remount,rw', '/cdrom'):
+            with misc.raised_privileges():
+                os.remove(os.path.join('/cdrom', '.disk', 'info'))
+            misc.execute_root('mount', '-o', 'remount,ro', '/cdrom')
         misc.execute_root('reboot')
 
     def handle_exception(self, err):
@@ -1016,7 +1053,7 @@ manually to proceed.")
 
         #Check for a grub.cfg - replace as necessary
         files = {'recovery_partition.cfg': 'grub.cfg',
-                 'common.cfg' : 'common.cfg'} 
+                 'common.cfg' : 'common.cfg'}
         for item in files:
             full_path = os.path.join('/mnt', 'factory', files[item])
             if os.path.exists(full_path):
@@ -1055,10 +1092,10 @@ manually to proceed.")
             #delete old entries
             for line in bootmgr_output:
                 bootnum = ''
-                if line.startswith('Boot') and 'ubuntu' in line:
+                if line.startswith('Boot') and 'ubuntu' in line.lower():
                     bootnum = line.split('Boot')[1].replace('*', '').split()[0]
                 if bootnum:
-                    bootmgr = misc.execute_root('efibootmgr', '-q', '-b', bootnum, '-B')
+                    bootmgr = misc.execute_root('efibootmgr', '-v', '-b', bootnum, '-B')
                     if bootmgr is False:
                         raise RuntimeError("Error removing old EFI boot manager entries")
 
@@ -1067,7 +1104,7 @@ manually to proceed.")
             os.rename(os.path.join(direct_path, 'bootx64.efi'),
                       os.path.join(direct_path, target))
 
-        add = misc.execute_root('efibootmgr', '-c', '-d', self.device, '-p', EFI_ESP_PARTITION, '-l', '\\EFI\\ubuntu\\%s' % target, '-L', 'ubuntu')
+        add = misc.execute_root('efibootmgr', '-v', '-c', '-d', self.device, '-p', EFI_ESP_PARTITION, '-l', '\\EFI\\ubuntu\\%s' % target, '-L', 'ubuntu')
         if add is False:
             raise RuntimeError("Error adding efi entry to %s%s" % (self.device, esp_part))
 
@@ -1078,7 +1115,7 @@ manually to proceed.")
                 bootnum = ''
                 if line.startswith('Boot') and 'ubuntu' in line:
                     bootnum = line.split('Boot')[1].replace('*', '').split()[0]
-                    misc.execute_root('efibootmgr', '-n', bootnum)
+                    misc.execute_root('efibootmgr', '-v', '-n', bootnum)
 
         ##clean up ESP mount
         misc.execute_root('umount', '/mnt/efi')
@@ -1194,7 +1231,7 @@ def find_n_set_iterator(combobox, value, column = 0):
 ###########################################
 class Install(InstallPlugin):
     """The install time dell-bootstrap ubiquity plugin"""
-    
+
     def __init__(self, frontend, db=None, ui=None):
         self.progress = None
         self.target = None
@@ -1344,7 +1381,7 @@ class Install(InstallPlugin):
         to_install += magic.mark_upgrades()
 
         self.remove_unwanted_drivers()
-                    
+
         self.remove_ricoh_mmc()
 
         self.propagate_kernel_parameters()
@@ -1355,4 +1392,3 @@ class Install(InstallPlugin):
         install_misc.record_removed(to_remove)
 
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
-

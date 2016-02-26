@@ -110,7 +110,7 @@ class Backend(dbus.service.Object):
         self._timeout = False
         self.dbus_name = None
         self.xml_obj = BTOxml()
-        
+
         # cached D-BUS interfaces for _check_polkit_privilege()
         self.dbus_info = None
         self.polkit = None
@@ -307,20 +307,24 @@ class Backend(dbus.service.Object):
            If it does, check for any potential SRUs to apply to the recovery media
         """
         logging.debug("_test_for_new_dell_recovery: testing mount %s and assembly_tmp %s" % (mount, assembly_tmp))
-        
+
         output = fetch_output(['zcat', '/usr/share/doc/dell-recovery/changelog.gz'])
         package_distro = output.split('\n')[0].split()[2].strip(';')
 
-        with open(os.path.join(mount, '.disk', 'info')) as rfd:
-            rp_distro = rfd.readline().split()[2].strip('"').lower()
-            
+        for info in ('info.recovery', 'info'):
+            file_path = os.path.join(mount, '.disk', info)
+            if os.path.exists(file_path):
+                with open(file_path) as rfd:
+                    rp_distro = rfd.readline().split()[2].strip('"').lower()
+                    break
+
         if rp_distro in package_distro:
             logging.debug("_test_for_new_dell_recovery: Distro %s matches %s", rp_distro, package_distro)
             from apt.cache import Cache
             cache = Cache()
             package_version = cache['dell-recovery'].installed.version
             rp_version = self.query_have_dell_recovery(mount)
-            
+
             if debian_support.version_compare(package_version, rp_version) > 0:
                 logging.debug("_test_for_new_dell_recovery: Including updated dell-recovery package version, %s (original was %s)", package_version, rp_version)
                 dest = os.path.join(assembly_tmp, 'debs')
@@ -420,7 +424,7 @@ class Backend(dbus.service.Object):
         obj = bus.get_object('org.freedesktop.NetworkManager', '/org/freedesktop/NetworkManager')
         int = dbus.Interface(obj, 'org.freedesktop.NetworkManager')
         return int.Sleep(not enable)
-    
+
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature = '', out_signature = '', sender_keyword = 'sender',
         connection_keyword = 'conn')
@@ -525,7 +529,7 @@ class Backend(dbus.service.Object):
                     if test in item:
                         return test
             return fetch_output(['dpkg', '--print-architecture']).strip()
-            
+
         def find_float(input_str):
             """Finds the floating point number in a string"""
             for piece in input_str.split():
@@ -555,7 +559,7 @@ class Backend(dbus.service.Object):
             out, err = invokation.communicate()
             if invokation.returncode is None:
                 invokation.wait()
-            if out:        
+            if out:
                 distributor_str = out
                 distributor = "ubuntu"
             if err:
@@ -654,7 +658,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                     date = rfd.readline().strip('\n')
             #no /bto.xml or /bto_version found, check initrd for bootsrap files
             elif os.path.exists(os.path.join(mntdir, 'casper', 'initrd.lz')):
-                version = test_initrd(['cat', os.path.join(mntdir, 'casper', 'initrd.lz')])                    
+                version = test_initrd(['cat', os.path.join(mntdir, 'casper', 'initrd.lz')])
 
         return (version, date)
 
@@ -832,8 +836,8 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         debs_dir = os.path.join(self.package_dir, 'debs')
         if os.path.exists(debs_dir):
             self.report_progress("Building APT Package listing.")
-            build = subprocess.Popen(['apt-ftparchive', 'packages', '.'], 
-                             stdout=subprocess.PIPE, 
+            build = subprocess.Popen(['apt-ftparchive', 'packages', '.'],
+                             stdout=subprocess.PIPE,
                              cwd=debs_dir)
             output = build.communicate()[0]
             with open(os.path.join(debs_dir, 'Packages'), 'wb') as wfd:
@@ -948,7 +952,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         """Helper function to reboot into an entry"""
         #find our one time boot entry
         if not os.path.exists("/etc/grub.d/%s" % dest):
-            raise RestoreFailed("missing %s to parse" % dest) 
+            raise RestoreFailed("missing %s to parse" % dest)
 
         with open('/etc/grub.d/%s' % dest) as rfd:
             grub_file = rfd.readlines()
@@ -1010,8 +1014,9 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         mntdir = self.request_mount(recovery, "r", sender, conn)
 
         #validate that ubuntu is on the partition
-        if not os.path.exists(os.path.join(mntdir, '.disk', 'info')):
-            logging.warning("create_ubuntu: recovery partition missing .disk/info.")
+        if not os.path.exists(os.path.join(mntdir, '.disk', 'info')) and \
+           not os.path.exists(os.path.join(mntdir, '.disk', 'info.recovery')):
+            logging.warning("create_ubuntu: recovery partition missing .disk/info and .disk/info.recovery")
             if os.path.exists(os.path.join(mntdir, 'bootmgr')):
                 raise CreateFailed("This tool can not create a recovery image from a Windows recovery partition.")
             raise CreateFailed("Recovery partition is missing critical ubuntu files.")
@@ -1083,9 +1088,10 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         for name in ['boot.img', 'core.img']:
             with open(os.path.join(grub_path, name), 'w'):
                 pass
-                       
+
         #include EFI binaries
-        if os.path.exists(os.path.join(mntdir, 'efi.factory')):
+        if os.path.exists(os.path.join(mntdir, 'efi.factory')) and \
+           not os.path.exists(os.path.join(mntdir, 'efi')):
             xorrisoargs.append('-m')
             xorrisoargs.append('efi.factory')
             shutil.copytree(os.path.join(mntdir, 'efi.factory'), os.path.join(tmpdir, 'efi'))
@@ -1110,6 +1116,13 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
         xorrisoargs.append('-m')
         xorrisoargs.append(os.path.join('casper', old_initrd))
 
+        #Restore .disk/info
+        info_path = os.path.join(mntdir, '.disk', 'info.recovery')
+        if os.path.exists(info_path):
+            xorrisoargs.append('-m')
+            xorrisoargs.append(info_path)
+            shutil.copy(info_path, os.path.join(tmpdir, '.disk', 'info'))
+
         #if we have any any ISO/USB bootable bootloader on the image, copy in a theme
         grub_theme = False
         for topdir in [mntdir, tmpdir]:
@@ -1133,7 +1146,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                 xorrisoargs.append(os.path.join(mntdir,'boot/grub/%s/grub.cfg' % 'x86_64-efi'))
             #theme
             if not os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'dell')):
-                shutil.copytree('/usr/share/dell/grub/theme/dell', 
+                shutil.copytree('/usr/share/dell/grub/theme/dell',
                                 os.path.join(tmpdir, 'boot', 'grub', 'dell'))
             #fonts
             if not os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'dejavu-sans-12.pf2')):
@@ -1143,7 +1156,7 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
                     raise CreateFailed("Creating GRUB fonts failed.")
 
             if not os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'dejavu-sans-bold-14.pf2')):
-                ret = subprocess.call(['grub-mkfont', '/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-Bold.ttf', 
+                ret = subprocess.call(['grub-mkfont', '/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-Bold.ttf',
                                        '-s=14', '--output=%s' % os.path.join(tmpdir, 'boot', 'grub', 'dejavu-sans-bold-14.pf2')])
                 if ret is not 0:
                     raise CreateFailed("Creating GRUB fonts failed.")
