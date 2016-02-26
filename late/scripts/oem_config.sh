@@ -59,7 +59,7 @@ elif [ "$1" = "late" ]; then
         rm -f /cdrom/.disk/info
     fi
     umount /cdrom
-    rm -f /etc/apt/sources.list.d/dell.list
+    /usr/share/dell/scripts/pool.sh cleanup
     apt-get purge --yes casper
 else
     echo "Unknown arguments $1 $2"

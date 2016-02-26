@@ -39,6 +39,9 @@ if [ -f "$TARGET/var/lib/ubiquity/installed-packages" ]; then
     chroot $TARGET dpkg --get-selections | grep -v ubiquity | awk '{print $1}' > \
            $TARGET/var/lib/ubiquity/installed-packages
 fi
+
+chroot $TARGET /usr/share/dell/scripts/pool.sh cleanup
+
 #Fixup APT how we want it for a successful oem-config run
 rm -f $TARGET/var/lib/apt/lists/*Packages
 rm -f $TARGET/etc/apt/sources.list.d/dell.list

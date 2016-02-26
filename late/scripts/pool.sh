@@ -84,6 +84,9 @@ if [ ! -f /etc/apt/sources.list.d/dell.list ]; then
     mv /etc/apt/sources.list /etc/apt/sources.list.ubuntu
     apt-get update
 
+fi
+
+if [ "$1" = "cleanup" ]; then
     #cleanup
     mv /etc/apt/sources.list.ubuntu /etc/apt/sources.list
     rm -f /Packages
@@ -92,6 +95,3 @@ if [ ! -f /etc/apt/sources.list.d/dell.list ]; then
         rm -rf /etc/apt/sources.list.d.old
     fi
 fi
-
-
-
