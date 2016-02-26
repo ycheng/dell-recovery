@@ -4,6 +4,7 @@ dell-recovery (1.41) UNRELEASED; urgency=medium
   * Disable MSDM table check.  It caused previously unforseen negative
     consequences that are more important than it's original intention.
   * Only modify casper init script if it exists.
+  * update standards version
 
   [ Shih-Yuan Lee (Fourdollars) ]
   * Bypass the grub2-signed issue #1097570 and support multiple recovery partitions. (LP: #1482514)
