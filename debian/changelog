@@ -1,4 +1,4 @@
-dell-recovery (1.41) UNRELEASED; urgency=medium
+dell-recovery (1.41) xenial; urgency=medium
 
   [ Mario Limonciello ]
   * Disable MSDM table check.  It caused previously unforseen negative
@@ -10,7 +10,7 @@ dell-recovery (1.41) UNRELEASED; urgency=medium
   * Bypass the grub2-signed issue #1097570 and support multiple recovery partitions. (LP: #1482514)
   * Backward compatible improvement for the recovery media creation.
 
- -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 23 Feb 2016 12:29:20 -0600
+ -- Mario Limonciello <mario_limonciello@dell.com>  Fri, 26 Feb 2016 17:22:48 -0600
 
 dell-recovery (1.40) wily; urgency=medium
 
