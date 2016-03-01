@@ -8,6 +8,7 @@ dell-recovery (1.43) UNRELEASED; urgency=medium
   * Since changes to apt pool setup, apt-setup fails.  Touch a dummy file
     to satiate it.
   * fix gi.repository imports to no longer complain about version loading.
+  * usb-creator has dropped support for persistence, disable this function.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 01 Mar 2016 09:25:32 -0600
 

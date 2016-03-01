@@ -67,9 +67,9 @@ else:
 
 #Supported burners and their arguments
 DVD_BURNERS = { '/usr/share/dell/scripts/wodim-iso.py':['/dev/sr0'] }
-USB_BURNERS = { 'usb-creator':['-n', '--iso'],
-                'usb-creator-gtk':['-n', '--iso'],
-                'usb-creator-kde':['-n', '--iso'] }
+USB_BURNERS = { 'usb-creator':['--iso'],
+                'usb-creator-gtk':['--iso'],
+                'usb-creator-kde':['--iso'] }
 
 RP_LABELS = [ 'recovery', 'install', 'os' ]
 
