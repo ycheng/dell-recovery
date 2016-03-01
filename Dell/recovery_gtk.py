@@ -28,6 +28,8 @@ import subprocess
 import dbus
 import sys
 
+import gi
+gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk,GLib
 
 from Dell.recovery_common import (DOMAIN, LOCALEDIR, UIDIR, SVGDIR, DBUS_INTERFACE_NAME,

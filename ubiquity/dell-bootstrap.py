@@ -42,6 +42,8 @@ import syslog
 import glob
 import zipfile
 import tarfile
+import gi
+gi.require_version('UDisks', '2.0')
 from gi.repository import GLib, UDisks
 
 NAME = 'dell-bootstrap'
@@ -125,6 +127,7 @@ class PageGtk(PluginUI):
         self.genuine = magic.check_vendor()
 
         if not oem:
+            gi.require_version('Gtk', '3.0')
             from gi.repository import Gtk
             builder = Gtk.Builder()
             builder.add_from_file('/usr/share/ubiquity/gtk/stepDellBootstrap.ui')

@@ -33,6 +33,8 @@ from aptdaemon.gtk3widgets import AptProgressBar, AptStatusLabel
 from aptdaemon.enums import EXIT_SUCCESS
 
 #GUI
+import gi
+gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from Dell.recovery_gtk import DellRecoveryToolGTK, translate_widgets
 from Dell.recovery_common import (UIDIR, dbus_sync_call_signal_wrapper)

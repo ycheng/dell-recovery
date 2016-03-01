@@ -25,6 +25,8 @@
 
 import dbus.mainloop.glib
 import subprocess
+import gi
+gi.require_version('UDisks', '2.0')
 from gi.repository import GLib, UDisks
 import os
 import shutil

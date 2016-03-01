@@ -30,6 +30,7 @@ import os
 import Dell.recovery_common as magic
 import dbus
 import syslog
+import gi
 
 NAME = 'dell-recovery'
 AFTER = 'usersetup'
@@ -51,6 +52,7 @@ class PageGtk(PluginUI):
         self.genuine = magic.check_vendor()
         if oem and (dvd or usb) and (rpart or not self.genuine):
             try:
+                gi.require_version('Gtk', '3.0')
                 from gi.repository import Gtk
                 builder = Gtk.Builder()
                 builder.add_from_file('/usr/share/ubiquity/gtk/stepRecoveryMedia.ui')

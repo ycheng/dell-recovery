@@ -7,6 +7,7 @@ dell-recovery (1.43) UNRELEASED; urgency=medium
     how dell-recovery-casper hook runs to satisfy it.
   * Since changes to apt pool setup, apt-setup fails.  Touch a dummy file
     to satiate it.
+  * fix gi.repository imports to no longer complain about version loading.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 01 Mar 2016 09:25:32 -0600
 
