@@ -575,8 +575,6 @@ class Page(Plugin):
                     media = drive.get_cached_property("Media").get_string()
                     if not media:
                         continue
-                elif drive.get_cached_property("Removable").get_boolean():
-                    continue
             else:
                 continue
 
