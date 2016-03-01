@@ -3,6 +3,8 @@ dell-recovery (1.43) UNRELEASED; urgency=medium
   * Virtualbox treats HDD as removable now, don't exclude removable
     from candidate disks.  Some more exclusions will probably come up
     as necessary later.
+  * newer initramfs-tools requires ORDER to be built properly. Adjust
+    how dell-recovery-casper hook runs to satisfy it.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 01 Mar 2016 09:25:32 -0600
 
