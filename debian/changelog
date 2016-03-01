@@ -9,6 +9,7 @@ dell-recovery (1.43) UNRELEASED; urgency=medium
     to satiate it.
   * fix gi.repository imports to no longer complain about version loading.
   * usb-creator has dropped support for persistence, disable this function.
+  * cleanup /etc/apt/sources.list.d/dell.list on pool cleanup too.
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 01 Mar 2016 09:25:32 -0600
 

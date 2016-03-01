@@ -91,6 +91,7 @@ if [ "$1" = "cleanup" ]; then
     #cleanup
     mv /etc/apt/sources.list.ubuntu /etc/apt/sources.list
     rm -f /Packages
+    rm -f /etc/apt/sources.list.d/dell.list
     if [ -d /etc/apt/sources.list.d.old ]; then
         mv /etc/apt/sources.list.d.old/* /etc/apt/sources.list.d
         rm -rf /etc/apt/sources.list.d.old
