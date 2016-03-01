@@ -82,6 +82,7 @@ if [ ! -f /etc/apt/sources.list.d/dell.list ]; then
 
     #fill up the cache
     mv /etc/apt/sources.list /etc/apt/sources.list.ubuntu
+    touch /etc/apt/sources.list
     apt-get update
 
 fi
