@@ -10,6 +10,8 @@ dell-recovery (1.43) UNRELEASED; urgency=medium
   * fix gi.repository imports to no longer complain about version loading.
   * usb-creator has dropped support for persistence, disable this function.
   * cleanup /etc/apt/sources.list.d/dell.list on pool cleanup too.
+  * call Reboot instead of RequestReboot (which is no longer implemented by
+    gnome session manager).
 
  -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 01 Mar 2016 09:25:32 -0600
 

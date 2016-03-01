@@ -156,7 +156,7 @@ class DriverGTK(DellRecoveryToolGTK):
             proxy_obj = bus.get_object("org.gnome.SessionManager",
                                        "/org/gnome/SessionManager")
             iface = dbus.Interface(proxy_obj, "org.gnome.SessionManager")
-            iface.RequestReboot()
+            iface.Reboot()
         except dbus.DBusException:
             self._request_reboot_via_logind()
         except:

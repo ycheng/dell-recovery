@@ -140,7 +140,7 @@ class DellRecoveryToolGTK:
                     dbus_sync_call_signal_wrapper(self.backend(),
                                                   "enable_boot_to_restore",
                                                   {})
-                    iface.RequestReboot()
+                    iface.Reboot()
                     self.destroy()
                 except dbus.DBusException as msg:
                     self.dbus_exception_handler(msg)
