@@ -988,6 +988,10 @@ manually to proceed.")
             rp_part = EFI_RP_PARTITION
             esp_part = EFI_ESP_PARTITION
         for command in commands:
+            #wait for settle
+            if command[0] == 'mkfs.msdos':
+                while not os.path.exists(command[-1]):
+                    time.sleep(1)
             result = misc.execute_root(*command)
             if result is False:
                 if self.efi:
@@ -1005,6 +1009,8 @@ manually to proceed.")
             command = ('mkfs.msdos', '-n', 'OS', self.device + rp_part)
         elif self.rp_type == 'ntfs':
             command = ('mkfs.ntfs', '-f', '-L', 'RECOVERY', self.device + rp_part)
+        while not os.path.exists(command[-1]):
+            time.sleep(1)
         result = misc.execute_root(*command)
         if result is False:
             raise RuntimeError("Error creating %s filesystem on %s%s" % (self.rp_type, self.device, rp_part))

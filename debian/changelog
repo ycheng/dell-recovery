@@ -6,6 +6,7 @@ dell-recovery (1.44) UNRELEASED; urgency=medium
 
   [ Mario Limonciello ]
   * If efibootmgr not found in livefs, install it.
+  * Wait for kernel to settle /dev/ nodes before trying to make filesystems. 
 
  -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Wed, 02 Mar 2016 16:04:51 +0800
 
