@@ -1252,14 +1252,6 @@ class Install(InstallPlugin):
             if line.startswith('ricoh_mmc'):
                 misc.execute('rmmod', line.split()[0])
 
-    def enable_oem_config(self):
-        '''Enables OEM config on the target'''
-        oem_dir = os.path.join(self.target, 'var/lib/oem-config')
-        if not os.path.exists(oem_dir):
-            os.makedirs(oem_dir)
-        with open(os.path.join(oem_dir, 'run'), 'w'):
-            pass
-
     def propagate_kernel_parameters(self):
         '''Copies in kernel command line parameters that were needed during
            installation'''
@@ -1332,13 +1324,6 @@ class Install(InstallPlugin):
         from ubiquity import install_misc
         to_install = []
         to_remove  = []
-
-        #Determine if we are doing OOBE
-        try:
-            if progress.get('oem-config/enable') == 'true':
-                self.enable_oem_config()
-        except debconf.DebconfError:
-            pass
 
         #if we are loop mounted, make sure the chroot knows it too
         if os.path.isdir(magic.ISO_MOUNT):
