@@ -1060,7 +1060,7 @@ manually to proceed.")
 
         #Check for a grub.cfg - replace as necessary
         files = {'recovery_partition.cfg': 'grub.cfg',
-                 'common.cfg' : 'common.cfg'}
+                }
         for item in files:
             full_path = os.path.join('/mnt', 'factory', files[item])
             if os.path.exists(full_path):
@@ -1252,35 +1252,6 @@ class Install(InstallPlugin):
             if line.startswith('ricoh_mmc'):
                 misc.execute('rmmod', line.split()[0])
 
-    def propagate_kernel_parameters(self):
-        '''Copies in kernel command line parameters that were needed during
-           installation'''
-        extra = magic.find_extra_kernel_options()
-        new = ''
-        for item in extra.split():
-            if not 'debian-installer/'                in item and \
-               not 'console-setup/'                   in item and \
-               not 'locale='                          in item and \
-               not 'BOOT_IMAGE='                      in item and \
-               not 'iso-scan/'                        in item and \
-               not 'ubiquity'                         in item:
-                new += '%s ' % item
-        extra = new.strip()
-
-        grubf = os.path.join(self.target, 'etc/default/grub')
-        if extra and os.path.exists(grubf):
-            #read/write new grub
-            with open(grubf, 'r') as rfd:
-                default_grub = rfd.readlines()
-            with open(grubf, 'w') as wfd:
-                for line in default_grub:
-                    if 'GRUB_CMDLINE_LINUX_DEFAULT' in line:
-                        line = line.replace('GRUB_CMDLINE_LINUX_DEFAULT="', \
-                                      'GRUB_CMDLINE_LINUX_DEFAULT="%s ' % extra)
-                    wfd.write(line)
-            from ubiquity import install_misc
-            install_misc.chrex(self.target, 'update-grub')
-
     def remove_unwanted_drivers(self):
         '''Removes drivers that were preseeded to not used for postinstall'''
         drivers = ''
@@ -1375,8 +1346,6 @@ class Install(InstallPlugin):
         self.remove_unwanted_drivers()
 
         self.remove_ricoh_mmc()
-
-        self.propagate_kernel_parameters()
 
         self.wake_network()
 
