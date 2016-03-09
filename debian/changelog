@@ -1,4 +1,4 @@
-dell-recovery (1.44) UNRELEASED; urgency=medium
+dell-recovery (1.44) xenial; urgency=medium
 
   [ Shih-Yuan Lee (FourDollars) ]
   * grub-installer will install related grub packages. No need to install grub
@@ -11,7 +11,7 @@ dell-recovery (1.44) UNRELEASED; urgency=medium
   * Remove feature to propogate kernel options into target system.
     This means that they would be required in a package to add GRUB option.
 
- -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Wed, 02 Mar 2016 16:04:51 +0800
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 09 Mar 2016 00:45:23 -0600
 
 dell-recovery (1.43) xenial; urgency=medium
 
