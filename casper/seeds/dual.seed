@@ -37,8 +37,7 @@
 
 ### Dell Factory Process specific
 #These control what partitions are deleted initially
- d-i dell-recovery/os_partition string 4
- d-i dell-recovery/swap_partition string
+ d-i dell-recovery/os_partition string UBUNTU
 
 #This controls whether dell-recovery, dell-oobe, and dell-eula get installed
  d-i dell-recovery/dual_boot boolean true
