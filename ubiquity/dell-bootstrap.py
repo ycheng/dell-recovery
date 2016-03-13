@@ -975,7 +975,7 @@ manually to proceed.")
             raise RuntimeError("Error creating new partition table on %s" % (self.device))
 
         self.status("Creating Partitions", 1)
-        grub_size = 50
+        grub_size = 250
         commands = [('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'primary', 'fat16', '0', str(grub_size)),
                     ('parted', '-s', self.device, 'name', '1', "'EFI System Partition'"),
                     ('parted', '-s', self.device, 'set', '1', 'boot', 'on')]
