@@ -1,3 +1,12 @@
+dell-recovery (1.45) xenial; urgency=medium
+
+  * Add gitignore
+  * Move to Vcs-git
+  * Set ESP size to 250M by default
+  * Call gnome-session-quit instead of using dbus directly. (Fixes: #1)
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 15 Mar 2016 08:30:58 -0500
+
 dell-recovery (1.44) xenial; urgency=medium
 
   [ Shih-Yuan Lee (FourDollars) ]
