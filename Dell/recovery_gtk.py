@@ -130,23 +130,8 @@ class DellRecoveryToolGTK:
         else:
             tool_selector = self.tool_widgets.get_object('tool_selector')
             tool_selector.set_sensitive(False)
-            bus = dbus.SessionBus()
-            obj = bus.get_object('org.gnome.SessionManager',
-                                 '/org/gnome/SessionManager')
-            iface = dbus.Interface(obj, 'org.gnome.SessionManager')
-            #Restore System Button
-            if widget == self.tool_widgets.get_object('restore_system_button'):
-                try:
-                    dbus_sync_call_signal_wrapper(self.backend(),
-                                                  "enable_boot_to_restore",
-                                                  {})
-                    iface.Reboot()
-                    self.destroy()
-                except dbus.DBusException as msg:
-                    self.dbus_exception_handler(msg)
+            proc = subprocess.Popen(["gnome-session-quit", "--reboot"])
             tool_selector.set_sensitive(True)
-            
-            #don't do further processing
             return False
 
     def menu_item_clicked(self, widget):
