@@ -91,7 +91,8 @@ done
 casper-set-selections "/root/usr/share/dell/casper/seeds/ubuntu.seed"
 
 # If we have a dual boot option, load the dual boot preseed
-if db_get dell-recovery/dual_boot && [ "$RET" = true ] || [ -e /root/usr/lib/ubiquity/plugins/omsk-recovery.py ]; then
+#if db_get dell-recovery/dual_boot && [ "$RET" = true ] || [ -e /root/usr/lib/ubiquity/plugins/omsk-recovery.py ]; then
+if [ -e /root/usr/share/dell/casper/seeds/dual.seed ]; then
     casper-set-selections "/root/usr/share/dell/casper/seeds/dual.seed"
 fi
 
