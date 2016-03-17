@@ -1318,8 +1318,8 @@ class Install(InstallPlugin):
             if progress.get('dell-recovery/dual_boot'):
                 num = progress.get('dell-recovery/os_partition')
                 misc.execute_root('e2label',num,'UBUNTU')
-            except Exception:
-                pass
+        except Exception:
+            pass
         
         from ubiquity import install_misc
         to_install = []
