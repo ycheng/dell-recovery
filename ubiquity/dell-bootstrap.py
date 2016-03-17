@@ -414,13 +414,22 @@ class Page(Plugin):
 
     def remove_extra_partitions(self):
         """Removes partitions we are installing on for the process to start"""
-        #check for small disks.
-        #on small disks or big mem, don't look for extended or delete swap.
+       #check for small disks.
+       #on small disks or big mem, don't look for extended or delete swap.
         swap_part = EFI_SWAP_PARTITION
+        os_part = EFI_OS_PARTITION
         if self.test_swap():
             swap_part = ''
-        #remove extras
-        for number in (EFI_OS_PARTITION, swap_part):
+       # check dual boot or not
+        try:
+            if self.db.get('dell-recovery/dual_boot'):
+           ##dual boot get the partition number of OS and swap
+                os_label = self.db.get('dell-recovery/os_partition')
+                os_part,swap_part = self.dual_partition_num(os_label)
+        except debconf.DebconfError as err:
+            self.log(str(err))    
+       #remove extras
+        for number in (os_part,swap_part):
             if number.isdigit():
                 remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
                 if remove is False:
@@ -428,6 +437,25 @@ class Page(Plugin):
                 refresh = misc.execute_root('partx', '-d', '--nr', number, self.device)
                 if refresh is False:
                     self.log("Error updating partition %s for kernel device %s (this may be normal)'" % (number, self.device))
+       
+    def dual_partition_num(self,label):    
+       #remove UBUNTU patition for dual boot
+       ##OS num
+        digits = re.compile('\d+')
+        os_path = misc.execute_root('readlink','/dev/disk/by-label/'+label)
+        os_part = digits.search(os_path[0].split('/')[-1]).group()
+       ## if found OS partition num , restore it into debconf for install use
+        if os_part:
+            try:
+                self.db.set('dell-recovery/os_partition',self.device+os_part)
+            except debconf.DebconfError as err:
+                self.log(str(err))            
+       ##swap num 
+        partitions = misc.execute_root('parted','-s',self.device,'print')
+        for line in partitions:
+            if 'swap' in line:
+                swap_part = line.split()[0]
+        return os_part,swap_part
 
     def explode_sdr(self):
         '''Explodes all content explicitly defined in an SDR
@@ -1284,7 +1312,15 @@ class Install(InstallPlugin):
         self.progress = progress
 
         rec_part  = magic.find_partition()
-
+        
+        #Determine if we label partition when dual boot
+        try:
+            if progress.get('dell-recovery/dual_boot'):
+                num = progress.get('dell-recovery/os_partition')
+                misc.execute_root('e2label',num,'UBUNTU')
+            except Exception:
+                pass
+        
         from ubiquity import install_misc
         to_install = []
         to_remove  = []
