@@ -26,6 +26,11 @@
  d-i partman-auto/expert_recipe string \
                                        \
    dell ::                             \
+       100 150 200 free                \
+       $iflabel{ gpt }                 \
+       $reusemethod{ }                 \
+       method{ efi }                   \
+       format{ } .                     \
                                        \
        500 10000 4000000 ext4          \
        $primary{ }                     \
@@ -37,7 +42,7 @@
 
 ### Dell Factory Process specific
 #These control what partitions are deleted initially
- d-i dell-recovery/os_partition string UBUNTU
+ dell-recovery dell-recovery/os_partition string UBUNTU
 
 #This controls whether dell-recovery, dell-oobe, and dell-eula get installed
- d-i dell-recovery/dual_boot boolean true
+ dell-recovery dell-recovery/dual_boot boolean true
