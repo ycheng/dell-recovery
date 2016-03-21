@@ -418,43 +418,56 @@ class Page(Plugin):
        #on small disks or big mem, don't look for extended or delete swap.
         swap_part = EFI_SWAP_PARTITION
         os_part = EFI_OS_PARTITION
-        if self.test_swap():
-            swap_part = ''
+        
        # check dual boot or not
         try:
-            if self.db.get('dell-recovery/dual_boot'):
+            if self.db.get('dell-recovery/dual_boot')=='true':
            ##dual boot get the partition number of OS and swap
                 os_label = self.db.get('dell-recovery/os_partition')
+                self.log("dual_boot value is %s,os_label is %s"%(self.db.get('dell-recovery/dual_boot'),os_label))
                 os_part,swap_part = self.dual_partition_num(os_label)
+                self.log("after dual check os_label is %s"%(self.db.get('dell-recovery/os_partition')))
         except debconf.DebconfError as err:
-            self.log(str(err))    
+            self.log(str(err))
+        
+        if self.test_swap():
+            swap_part = ''        
        #remove extras
         for number in (os_part,swap_part):
             if number.isdigit():
                 remove = misc.execute_root('parted', '-s', self.device, 'rm', number)
                 if remove is False:
                     self.log("Error removing partition number: %s on %s (this may be normal)'" % (number, self.device))
-                refresh = misc.execute_root('partx', '-d', '--nr', number, self.device)
-                if refresh is False:
-                    self.log("Error updating partition %s for kernel device %s (this may be normal)'" % (number, self.device))
+                #refresh = misc.execute_root('partx', '-d', '--nr', number, self.device)
+                #if refresh is False:
+                    #self.log("Error updating partition %s for kernel device %s (this may be normal)'" % (number, self.device))
        
     def dual_partition_num(self,label):    
        #remove UBUNTU patition for dual boot
        ##OS num
         digits = re.compile('\d+')
-        os_path = misc.execute_root('readlink','/dev/disk/by-label/'+label)
+        try:
+            os_path = magic.fetch_output(['readlink','/dev/disk/by-label/'+label]).split('\n')            
+        except Exception as err:
+            self.log('os_path command is executed failed, the error is %s'%str(err))
+       
         os_part = digits.search(os_path[0].split('/')[-1]).group()
        ## if found OS partition num , restore it into debconf for install use
         if os_part:
             try:
                 self.db.set('dell-recovery/os_partition',self.device+os_part)
             except debconf.DebconfError as err:
-                self.log(str(err))            
+                self.log(str(err))
+        else:
+            os_part = EFI_OS_PARTITION
        ##swap num 
-        partitions = misc.execute_root('parted','-s',self.device,'print')
-        for line in partitions:
-            if 'swap' in line:
-                swap_part = line.split()[0]
+        swap_part = EFI_SWAP_PARTITION
+        with misc.raised_privileges():
+            partitions = magic.fetch_output(['parted','-s',self.device,'print']).split('\n')
+            for line in partitions:
+                if 'swap' in line:
+                    swap_part = line.split()[0]            
+       
         return os_part,swap_part
 
     def explode_sdr(self):
