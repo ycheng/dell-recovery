@@ -162,3 +162,10 @@
  ubiquity ubiquity/failure_command string /usr/share/dell/scripts/chroot.sh failure
  ubiquity ubiquity/reboot boolean true
  ubiquity ubiquity/poweroff boolean false
+
+### Dell Factory Process specific
+#These control what partitions are deleted initially
+ dell-recovery dell-recovery/os_partition string UBUNTU
+
+#This controls whether dell-recovery, dell-oobe, and dell-eula get installed
+ dell-recovery dell-recovery/dual_boot boolean true
