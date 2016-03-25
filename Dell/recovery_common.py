@@ -585,9 +585,6 @@ def mark_unconditional_debs(add_directory=''):
                     if not modaliases and (arch == "all" or arch == my_arch):
                         to_install.append(package)
 
-    #These aren't in all images, but desirable if available
-    to_install.append('dkms')
-
     return to_install
 
 def dbus_sync_call_signal_wrapper(dbus_iface, func, handler_map, *args, **kwargs):
