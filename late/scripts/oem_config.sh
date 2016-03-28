@@ -60,7 +60,6 @@ elif [ "$1" = "late" ]; then
     fi
     umount /cdrom
     /usr/share/dell/scripts/pool.sh cleanup
-    apt-get purge --yes casper
 else
     echo "Unknown arguments $1 $2"
 fi
