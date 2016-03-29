@@ -100,7 +100,7 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     if [ -f /dell/fist/tal ]; then
         cp $TARGET/$LOG/chroot.sh.log /tmp/fist.log
         /dell/fist/tal PutFiles /tmp/fist.log
-        rm -rf /cdrom/debs/fist
+        rm -rf /cdrom/debs/fist*
     fi
 
     #If we have another script to run, do it
