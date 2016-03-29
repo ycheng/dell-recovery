@@ -60,6 +60,14 @@ elif [ "$1" = "late" ]; then
     fi
     umount /cdrom
     /usr/share/dell/scripts/pool.sh cleanup
+
+    BOOTNUM=$(efibootmgr | sed '/MokSBStateSet/!d; s,\* .*,,; s,Boot,,')
+    if [ -n "$BOOTNUM" ]; then
+        efibootmgr -b "$BOOTNUM" -B
+    fi
+
+    #if this was installed to work around secure boot, clean it up
+    rm -f /boot/efi/EFI/ubuntu/MokSBStateSet.efi
 else
     echo "Unknown arguments $1 $2"
 fi
