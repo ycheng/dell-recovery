@@ -24,7 +24,8 @@ Description: Dell Recovery Media Creation Package
 
 Package: dell-recovery-casper
 Architecture: all
-Depends: dell-recovery, casper, ubiquity, ${misc:Depends}
+Depends: dell-recovery, casper, ${misc:Depends}
+Recommends: ubiquity
 Description: Dell Recovery Casper Hooks
  This package provides hooks to allow the dell-recovery
  bootstrap to run directly from casper without any other
