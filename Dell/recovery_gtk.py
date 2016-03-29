@@ -130,7 +130,16 @@ class DellRecoveryToolGTK:
         else:
             tool_selector = self.tool_widgets.get_object('tool_selector')
             tool_selector.set_sensitive(False)
-            proc = subprocess.Popen(["gnome-session-quit", "--reboot"])
+            #Restore System Button
+            if widget == self.tool_widgets.get_object('restore_system_button'):
+                try:
+                    dbus_sync_call_signal_wrapper(self.backend(),
+                                                  "enable_boot_to_restore",
+                                                  {})
+                    proc = subprocess.Popen(["gnome-session-quit", "--reboot"])
+                    self.destroy()
+                except dbus.DBusException as msg:
+                    self.dbus_exception_handler(msg)
             tool_selector.set_sensitive(True)
             return False
 
