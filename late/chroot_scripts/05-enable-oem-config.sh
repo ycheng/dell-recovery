@@ -25,6 +25,6 @@
 
 . /usr/share/dell/scripts/fifuncs ""
 
-IFHALT "Enable oem-config systemd target"
-/bin/systemctl set-default oem-config.target
+IFHALT "Enable oem-config"
+oem-config-prepare --quiet
 IFHALT "Done with enable oem config"
