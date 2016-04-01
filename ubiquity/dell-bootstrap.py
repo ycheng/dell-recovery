@@ -424,9 +424,7 @@ class Page(Plugin):
             if self.db.get('dell-recovery/dual_boot')=='true':
            ##dual boot get the partition number of OS and swap
                 os_label = self.db.get('dell-recovery/os_partition')
-                self.log("dual_boot value is %s,os_label is %s"%(self.db.get('dell-recovery/dual_boot'),os_label))
                 os_part,swap_part = self.dual_partition_num(os_label)
-                self.log("after dual check os_label is %s"%(self.db.get('dell-recovery/os_partition')))
         except debconf.DebconfError as err:
             self.log(str(err))
         
@@ -1328,7 +1326,7 @@ class Install(InstallPlugin):
         
         #Determine if we label partition when dual boot
         try:
-            if progress.get('dell-recovery/dual_boot'):
+            if progress.get('dell-recovery/dual_boot')=='true':
                 num = progress.get('dell-recovery/os_partition')
                 misc.execute_root('e2label',num,'UBUNTU')
         except Exception:
