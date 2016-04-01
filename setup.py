@@ -62,7 +62,7 @@ setup(
                 ('share/dell/bin', ['bto-autobuilder/dell-bto-autobuilder']),
                 ('share/pixmaps', glob.glob("gtk/*.svg")),
                 ('share/dell/bin', ['backend/recovery-media-backend']),
-                ('share/dell/secure_boot/', glob.glob('secure_boot/*.efi')),
+                ('lib/dell/x86_64/', glob.glob('secure_boot/*.efi')),
                 ('share/dell/casper/scripts', glob.glob('casper/scripts/*')),
                 ('share/dell/casper/hooks', glob.glob('casper/hooks/*')),
                 ('share/dell/casper/seeds', glob.glob('casper/seeds/*')),

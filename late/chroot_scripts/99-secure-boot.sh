@@ -1,6 +1,6 @@
 #!/bin/sh
 
-EFI_APP=/usr/share/dell/secure_boot/MokSBStateSet.efi
+EFI_APP=/usr/lib/dell/x86_64/MokSBStateSet.efi
 
 #test if SB is enabled
 efi_vars_dir=/sys/firmware/efi/vars
@@ -20,7 +20,7 @@ if dpkg-query -l dkms >/dev/null 2>&1 && \
     PARTITION_NODE=$(mount | sed '/\/boot\/efi/!d; s, .*,,; s,/dev/,,;')
     DEVICE=$(readlink /sys/class/block/$PARTITION_NODE | sed 's,/$PARTITION_NODE,,; 's,.*/,,'')
     PARTITION_NUMBER=$(cat /sys/class/block/$PARTITION_NODE/partition)
-    efibootmgr -C -l '\\EFI\\ubuntu\\MokSBStateSet.efi' -L 'MokSBStateSet' -d /dev/$DEVICE -p $PARTITION_NUMBER
+    efibootmgr -C -l '\EFI\ubuntu\MokSBStateSet.efi' -L 'MokSBStateSet' -d /dev/$DEVICE -p $PARTITION_NUMBER
     BOOTNUM=$(efibootmgr | sed '/MokSBStateSet/!d; s,\* .*,,; s,Boot,,')
     efibootmgr -n $BOOTNUM
 fi
