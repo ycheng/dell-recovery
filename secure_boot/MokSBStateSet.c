@@ -34,6 +34,11 @@ efi_main(EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
          1,
          &Data
          );
+  Print(L"Wrote MokSBState variable\n");
+  uefi_call_wrapper(BS->Stall, 1, 2000000);
+
+  uefi_call_wrapper(RT->ResetSystem, 4, EfiResetWarm, EFI_SUCCESS,
+                    0, NULL);
 
   return EFI_SUCCESS;
 }
