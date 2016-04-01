@@ -24,16 +24,18 @@ efi_main(EFI_HANDLE image, EFI_SYSTEM_TABLE *systab)
   UINT32        VariableAttr;
   EFI_GUID      VariableMoksbGuid = MOKSBSTATE_GUID;
   UINT8         Data=1;
-
   VariableAttr = (EFI_VARIABLE_NON_VOLATILE|EFI_VARIABLE_BOOTSERVICE_ACCESS);
 
-  systab->RuntimeServices->SetVariable (
-         L"MokSBState",
-         &VariableMoksbGuid,
-         VariableAttr,
-         1,
-         &Data
-         );
+  InitializeLib(image, systab);
+
+  uefi_call_wrapper(RT->SetVariable, 5,
+                    L"MokSBState",
+                    &VariableMoksbGuid,
+                    VariableAttr,
+                    1,
+                    &Data
+                  );
+
   Print(L"Wrote MokSBState variable\n");
   uefi_call_wrapper(BS->Stall, 1, 2000000);
 
