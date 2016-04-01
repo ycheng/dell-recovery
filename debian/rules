@@ -22,6 +22,7 @@ check:
 override_dh_clean: check
 	dh_clean
 	cd $(CURDIR)/po; make clean
+	cd $(CURDIR)/secure_boot; make clean
 
 override_dh_auto_clean:
 	set -ex; for python in $(shell py3versions -r); do \

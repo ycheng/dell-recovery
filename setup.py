@@ -19,6 +19,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+import subprocess
 from distutils.core import setup
 from DistUtilsExtra.command import (build_extra, 
                                    build_i18n, 
@@ -36,6 +37,10 @@ def files_only(directory):
                 array.append(os.path.join(directory, file))
             return array
 
+class SecureBootBuild(build_extra.build_extra):
+    def run(self):
+        subprocess.Popen(['make'], cwd='secure_boot')
+        build_extra.build_extra.run(self)
 
 I18NFILES = []
 for filepath in glob.glob("po/mo/*/LC_MESSAGES/*.mo"):
@@ -75,7 +80,7 @@ setup(
                 ('share/ubiquity', ['ubiquity/dell-bootstrap'])]+I18NFILES,
     scripts=["dell-recovery", "dell-driver-installer"],
 
-    cmdclass = { 'build': build_extra.build_extra,
+    cmdclass = { 'build': SecureBootBuild,
                  'build_i18n': build_i18n.build_i18n,
                  "build_help" : build_help.build_help,
                  'build_icons': build_icons.build_icons,
