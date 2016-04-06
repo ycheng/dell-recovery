@@ -55,6 +55,9 @@ else
     exec > $TARGET/$LOG/chroot.sh.log 2>&1
 fi
 
+#for debugging later, show efibootmgr output before we proceed
+efibootmgr -v
+
 # Nobulate Here.
 # This way if we die early we'll RED Screen
 if [ -x /dell/fist/tal ]; then
