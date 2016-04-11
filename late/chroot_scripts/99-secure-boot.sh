@@ -11,11 +11,9 @@ if [ -e "$SB" ] && \
     SECURE_BOOT="1"
 fi
 
-#if DKMS was installed and we don't already have secure boot on
+#if we don't already have secure boot on
 #disable module verification
-if dpkg-query -l dkms >/dev/null 2>&1 && \
-   [ -z "$SECURE_BOOT" ] && \
-   [ -f "$EFI_APP" ]; then
+if [ -z "$SECURE_BOOT" ] && [ -f "$EFI_APP" ]; then
     cp -v "$EFI_APP" /boot/efi/EFI/ubuntu/
     PARTITION_NODE=$(mount | sed '/\/boot\/efi/!d; s, .*,,; s,/dev/,,;')
     DEVICE=$(readlink /sys/class/block/$PARTITION_NODE | sed "s,/$PARTITION_NODE,,; s,.*/,,")
