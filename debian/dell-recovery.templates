@@ -1,3 +1,13 @@
+Template: dell-recovery/dual_boot
+Type: boolean
+Default: false
+Description: for internal use; determines if EFI enabled dual boot enabled
+
+Template: dell-recovery/os_partition
+Type: string
+Default: 
+Description: for internal use; determines the label of the OS partition to remove
+
 Template: dell-recovery/destination
 Type: string
 Default: none

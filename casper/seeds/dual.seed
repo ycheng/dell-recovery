@@ -1,11 +1,13 @@
 #
 #       <dual.seed>
 #
-#       Dell dual-boot preseed that stacks on ubuntu.seed
-#        * Last updated for Ubuntu 10.04
+#       Dell preseed file used for dual boot
+#        * Last updated for Ubuntu 16.04
 #
-#       Copyright 2010 Dell Inc.
+#           Copyright 2008-2016 Dell Inc.
 #           Mario Limonciello <Mario_Limonciello@Dell.com>
+#           Hatim Amro <Hatim_Amro@Dell.com>
+#           Michael E Brown <Michael_E_Brown@Dell.com>
 #
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -22,10 +24,16 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-#Special dual boot partitioning
+# Provide an expert recipe because the default recipe will make all
+# logical partitions
  d-i partman-auto/expert_recipe string \
                                        \
    dell ::                             \
+       100 150 200 free                \
+       $iflabel{ gpt }                 \
+       $reusemethod{ }                 \
+       method{ efi }                   \
+       format{ } .                     \
                                        \
        500 10000 4000000 ext4          \
        $primary{ }                     \
@@ -37,8 +45,7 @@
 
 ### Dell Factory Process specific
 #These control what partitions are deleted initially
- d-i dell-recovery/os_partition string 4
- d-i dell-recovery/swap_partition string
+ dell-recovery dell-recovery/os_partition string UBUNTU
 
 #This controls whether dell-recovery, dell-oobe, and dell-eula get installed
- d-i dell-recovery/dual_boot boolean true
+ dell-recovery dell-recovery/dual_boot boolean true
