@@ -129,7 +129,7 @@ class Page(Plugin):
         """Handler ran when OK is pressed"""
         destination = self.ui.get_type()
         self.preseed('dell-recovery/destination', destination)
-        for item in ['98', '99']:        
+        for item in ['98', '99']:
             self.preseed('ubiquity/text/%s_grub_menu' % item, self.ui.get_grub_line('%s_grub_menu' % item))
         Plugin.ok_handler(self)
 
@@ -143,7 +143,7 @@ class Install(InstallPlugin):
     def log(self, error):
         """Outputs a debugging string to /var/log/installer/debug"""
         self.debug("%s: %s" % (NAME, error))
-        
+
     def _update_progress_gui(self, progress_text, progress_percent):
         """Function called by the backend to update the progress in frontend"""
         self.progress.substitute('dell-recovery/build_progress', 'MESSAGE', \
@@ -170,15 +170,15 @@ class Install(InstallPlugin):
                     misc.execute_root('e2label',item[0],'UBUNTU')
                 except Exception:
                     pass
-        
+
     def install(self, target, progress, *args, **kwargs):
         """Perform actual install time activities for oem-config"""
         if not 'UBIQUITY_OEM_USER_CONFIG' in os.environ:
             return
-        
+
         #find the '/' mount partition and then label it as UBUNTU
         self.Set_RootPartitionLabel()
-        
+
         env = os.environ
         lang = progress.get('debian-installer/locale')
         env['LANG'] = lang
@@ -297,4 +297,3 @@ class Install(InstallPlugin):
             os.chmod(fname, 0o744)
 
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
-
