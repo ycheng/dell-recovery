@@ -1,3 +1,32 @@
+dell-recovery (1.46) xenial; urgency=medium
+
+  [ Mario Limonciello ]
+  * Add initial templates for dual boot
+  * Adjust dual boot seed. 
+  * Drop support for jockey
+  * Don't install DKMS in all images (let dependencies pull it in if necessary)
+  * Fix HDD based restoration
+  * cleanup FIST even if it was installed outside debs/fist
+  * If we have MokSBState.efi available, install/activate it on target system
+  * For debugging purposes output efibootmgr output in every install into logs
+  * Remove references to omsk recovery
+
+  [ Kevin Rustin Wang ]
+  * add UBUNTU partiton check
+  * fix get and set UBUNTU partition label
+  * only put the dual_boot content into ubuntu.seed can work
+  * if exist /factory/dual_enable file,do dual boot
+  * label the '/' mounted partition UBUNTU as default
+
+  [ Shih-Yuan Lee (FourDollars) ]
+  * Don't purge casper. (LP: #1558990)
+  * Keep dell-recovery-casper not purged by ubiquity. (LP: #1558990)
+  * Use oem-config-prepare instead of hacking systemd target.
+  * Fix the problem that EFI boot configuration cannot be persistent in VirtualBox VM.
+  * Fix the script for creating MokSBStateSet boot entry. (#6)
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Mon, 11 Apr 2016 15:38:54 -0500
+
 dell-recovery (1.45) xenial; urgency=medium
 
   * Add gitignore
