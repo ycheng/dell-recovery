@@ -1,3 +1,13 @@
+dell-recovery (1.47) xenial; urgency=medium
+
+  [ Mario Limonciello ]
+  * Write out MokSBStateRT as well (LP: #1568658)
+
+  [ Ivan Hu ]
+  * MokSBStateSet: need the NON_VOLATILE attribute
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Wed, 13 Apr 2016 11:31:39 -0500
+
 dell-recovery (1.46) xenial; urgency=medium
 
   [ Mario Limonciello ]
