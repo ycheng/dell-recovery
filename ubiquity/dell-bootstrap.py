@@ -433,7 +433,7 @@ class Page(Plugin):
        #on small disks or big mem, don't look for extended or delete swap.
         swap_part = EFI_SWAP_PARTITION
         os_part = EFI_OS_PARTITION
-        
+
        # check dual boot or not
         try:
             if self.db.get('dell-recovery/dual_boot')=='true':
@@ -442,7 +442,7 @@ class Page(Plugin):
                 os_part,swap_part = self.dual_partition_num(os_label)
         except debconf.DebconfError as err:
             self.log(str(err))
-        
+
         if self.test_swap():
             swap_part = ''
        #remove extras
@@ -454,18 +454,18 @@ class Page(Plugin):
                 refresh = misc.execute_root('partx', '-d', '--nr', number, self.device)
                 if refresh is False:
                     self.log("Error updating partition %s for kernel device %s (this may be normal)'" % (number, self.device))
-       
-    def dual_partition_num(self,label):    
+
+    def dual_partition_num(self,label):
        #remove UBUNTU patition for dual boot
        ##OS num
         os_part = ''
         swap_part = ''
         digits = re.compile('\d+')
         try:
-            os_path = magic.fetch_output(['readlink','/dev/disk/by-label/'+label]).split('\n')            
+            os_path = magic.fetch_output(['readlink','/dev/disk/by-label/'+label]).split('\n')
         except Exception as err:
             self.log('os_path command is executed failed, the error is %s'%str(err))
-       
+
         os_part = digits.search(os_path[0].split('/')[-1]).group()
 
         with misc.raised_privileges():
