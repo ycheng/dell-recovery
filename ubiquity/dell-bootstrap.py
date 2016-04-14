@@ -465,8 +465,10 @@ class Page(Plugin):
         try:
             os_path = magic.fetch_output(['readlink','/dev/disk/by-label/'+label]).split('\n')
         except Exception as err:
-            self.log('os_path command is executed failed, the error is %s'%str(err))
-
+            # compatible with DUALSYS partition label when boot from hdd
+            os_path = magic.fetch_output(['readlink','/dev/disk/by-label/UBUNTU']).split('\n')
+            if not os_path:
+                self.log('os_path command is executed failed, the error is %s'%str(err))
         os_part = digits.search(os_path[0].split('/')[-1]).group()
 
         with misc.raised_privileges():
@@ -963,7 +965,6 @@ class RPbuilder(Thread):
 
     def build_rp(self, cushion=600):
         """Copies content to the recovery partition using a parted wrapper.
-
            This might be better implemented in python-parted or parted_server/partman,
            but those would require extra dependencies, and are generally more complex
            than necessary for what needs to be accomplished here."""
@@ -1333,6 +1334,14 @@ class Install(InstallPlugin):
 
         #install dell-recovery only if there is an RP
         if rec_part:
+            #hide the recovery partition as default
+            try:
+                recovery = magic.find_factory_partition_stats()
+                command = ('parted', '-a', 'optimal', '-s', recovery['slave'], 'set', str(recovery['number']), 'msftres', 'on' )
+                misc.execute_root(*command)                
+            except Exception:
+                pass
+            
             to_install.append('dell-recovery')
             to_install.append('dell-eula')
 
