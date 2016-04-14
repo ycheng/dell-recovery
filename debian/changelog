@@ -1,3 +1,16 @@
+dell-recovery (1.48) xenial; urgency=medium
+
+  [ Shih-Yuan Lee ]
+  * Don't set BootNext for 'ubuntu' boot entry. (LP: #1564236) (#7)
+
+  [ Kevin Rustin Wang ]
+  * Fix swap deleting not working properly
+
+  [ Mario Limonciello ]
+  * cleanup whitespace
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Thu, 14 Apr 2016 17:14:09 -0500
+
 dell-recovery (1.47) xenial; urgency=medium
 
   [ Mario Limonciello ]
