@@ -468,7 +468,7 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     old_suffix = ''
     for fname in old_initrd_files:
         if len(fname.split('.')) > 1:
-            old_suffix = fname.split('.')[1]
+            old_suffix = fname.split('.')[-1]
         if old_suffix == "lz":
             old_compression = "lzma"
             old_initrd_file = fname
