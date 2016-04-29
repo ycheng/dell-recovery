@@ -72,7 +72,7 @@ USB_BURNERS = { 'usb-creator':['--iso'],
                 'usb-creator-gtk':['--iso'],
                 'usb-creator-kde':['--iso'] }
 
-RP_LABELS = [ 'recovery', 'install', 'os' ]
+RP_LABELS = [ 'dualrcvy', 'recovery', 'install', 'os' ]
 
 ##                ##
 ##Common Functions##
@@ -240,37 +240,39 @@ def find_factory_partition_stats():
 
     udisks = UDisks.Client.new_sync(None)
     manager = udisks.get_object_manager()
-    for item in manager.get_objects():
-        block = item.get_block()
-        if not block:
-            continue
-        check_label = block.get_cached_property("IdLabel")
-        if not check_label:
-            continue
+    for label in labels:
+        for item in manager.get_objects():
+            block = item.get_block()
+            if not block:
+                continue
+            check_label = block.get_cached_property("IdLabel")
+            if not check_label:
+                continue
 
-        # Only search for the recovery partition on the same disk
-        device = block.get_cached_property("Device").get_bytestring().decode('utf-8')
-        if device.startswith('/dev/mmcblk') or device.startswith('/dev/nvme'):
-            offset = 2
-        else: # /dev/sd[a-z]
-            offset = 1
-        the_same_drive = False
-        with open('/proc/mounts', 'r') as mounts:
-            for line in mounts.readlines():
-                if device[:-offset] in line:
-                    the_same_drive = True
-                    break
-        if not the_same_drive:
-            continue
+            # Only search for the recovery partition on the same disk
+            device = block.get_cached_property("Device").get_bytestring().decode('utf-8')
+            if device.startswith('/dev/mmcblk') or device.startswith('/dev/nvme'):
+                offset = 2
+            else: # /dev/sd[a-z]
+                offset = 1
+            the_same_drive = False
+            with open('/proc/mounts', 'r') as mounts:
+                for line in mounts.readlines():
+                    if device[:-offset] in line:
+                        the_same_drive = True
+                        break
+            if not the_same_drive:
+                continue
 
-        if check_label.get_string().lower() in labels:
-            partition = item.get_partition()
-            recovery["label"] = check_label.get_string()
-            recovery["device"] = block.get_cached_property("Device").get_bytestring()
-            recovery["fs"] = block.get_cached_property("IdType").get_string()
-            recovery["drive"] = block.get_cached_property("Drive").get_string()
-            recovery["number"] = partition.get_cached_property("Number").unpack()
-            recovery["uuid"] = block.get_cached_property("IdUUID").get_string()
+            if check_label.get_string().lower() == label:
+                partition = item.get_partition()
+                recovery["label"] = check_label.get_string()
+                recovery["device"] = block.get_cached_property("Device").get_bytestring()
+                recovery["fs"] = block.get_cached_property("IdType").get_string()
+                recovery["drive"] = block.get_cached_property("Drive").get_string()
+                recovery["number"] = partition.get_cached_property("Number").unpack()
+                recovery["uuid"] = block.get_cached_property("IdUUID").get_string()
+        if recovery:
             break
 
     #find parent slave node, used for dell-bootstrap
