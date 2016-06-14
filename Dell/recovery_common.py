@@ -145,9 +145,10 @@ def check_vendor():
     for var in variables:
         if os.path.exists(path + var):
             with open(path + var) as rfd:
-                value = rfd.readline().split()
-                if len(value) > 0:
-                    value = value[0].lower()
+                value = rfd.readline().strip()
+                if not value:
+                    return True
+                value = value.split()[0].lower()
             if value in valid:
                 return True
     return False
