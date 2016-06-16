@@ -81,12 +81,12 @@ def black_tree(action, blacklist, src, dst='', base=None):
     """Recursively ACTIONs files from src to dest only
        when they don't match the blacklist outlined in blacklist"""
     return _tree(action, blacklist, src, dst, base, False)
-    
+
 def white_tree(action, whitelist, src, dst='', base=None):
     """Recursively ACTIONs files from src to dest only
        when they match the whitelist outlined in whitelist"""
     return _tree(action, whitelist, src, dst, base, True)
-    
+
 def _tree(action, list, src, dst, base, white):
     """Helper function for tree calls"""
     from distutils.file_util import copy_file
@@ -151,6 +151,28 @@ def check_vendor():
                 value = value.split()[0].lower()
             if value in valid:
                 return True
+    return check_rebrand()
+
+def check_rebrand():
+    """If on a rebrand system, see if it was originally created
+       by Dell"""
+    call = subprocess.Popen(['dmidecode', '--type', '11'],
+                              stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE)
+    output = call.communicate()[0].decode()
+    if call.returncode != 0:
+        print("Unable to run dmidecode:", call.returncode)
+        return False
+    header = "String 1: "
+    for line in output.split('\n'):
+        if header in line:
+            result = line.split(header)
+            if (len(result) > 1):
+                result = line.split(header)[1].strip()
+                if "Dell System" == result:
+                    return True
+                else:
+                    break
     return False
 
 def check_version(package='dell-recovery'):
@@ -442,7 +464,7 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
 
     old_initrd_file = ''
     old_compression = ''
-    old_suffix = ''  
+    old_suffix = ''
     for fname in old_initrd_files:
         if len(fname.split('.')) > 1:
             old_suffix = fname.split('.')[1]
@@ -484,7 +506,7 @@ old compression method %s" % (old_initrd_file, old_uuid_file,
     #Newer (Ubuntu 11.04+) images may support including the bootstrap in initrd
     if include_bootstrap:
         chain0 = subprocess.Popen(['/usr/share/dell/casper/hooks/dell-bootstrap'], env={'DESTDIR': tmpdir, 'INJECT': '1'})
-        chain0.communicate()    
+        chain0.communicate()
 
     #Detect compression
     new_suffix = ''
