@@ -24,6 +24,7 @@
 ##################################################################################
 
 from ubiquity.plugin import PluginUI, InstallPlugin, Plugin
+from ubiquity import misc
 import pwd
 import subprocess
 import os
@@ -49,7 +50,8 @@ class PageGtk(PluginUI):
         rpart  = magic.find_partition()
         dvd, usb = magic.find_burners()
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
-        self.genuine = magic.check_vendor()
+        with misc.raised_privileges():
+            self.genuine = magic.check_vendor()
         if oem and (dvd or usb) and (rpart or not self.genuine):
             try:
                 gi.require_version('Gtk', '3.0')

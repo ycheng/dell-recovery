@@ -124,7 +124,8 @@ class PageGtk(PluginUI):
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
 
         self.efi = False
-        self.genuine = magic.check_vendor()
+        with misc.raised_privileges():
+            self.genuine = magic.check_vendor()
 
         if not oem:
             gi.require_version('Gtk', '3.0')
@@ -1297,9 +1298,10 @@ class Install(InstallPlugin):
         '''This is highly dependent upon being called AFTER configure_apt
         in install.  If that is ever converted into a plugin, we'll
         have some major problems!'''
-        genuine = magic.check_vendor()
-        if not genuine:
-            raise RuntimeError("This recovery media requires Dell Hardware.")
+        with misc.raised_privileges():
+            genuine = magic.check_vendor()
+            if not genuine:
+                raise RuntimeError("This recovery media requires Dell Hardware.")
 
         self.target = target
         self.progress = progress
