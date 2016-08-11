@@ -89,6 +89,13 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     rm -rf $RP/factory/*.bat
     rm -rf $RP/.disk/casper-uuid*
 
+    IFHALT "Regenerate md5sum.txt at the end..."
+    $(python3 << EOF
+from Dell.recovery_common import regenerate_md5sum
+regenerate_md5sum("$RP")
+EOF
+)
+
     IFHALT "Report the LOG..."
     if [ -f /dell/fist/tal ]; then
         cp $TARGET/$LOG/chroot.sh.log /tmp/fist.log

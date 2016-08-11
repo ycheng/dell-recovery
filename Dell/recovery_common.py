@@ -34,6 +34,7 @@ import glob
 import sys
 import datetime
 import logging
+import hashlib
 
 ##                ##
 ##Common Variables##
@@ -640,6 +641,50 @@ def dbus_sync_call_signal_wrapper(dbus_iface, func, handler_map, *args, **kwargs
         raise _h_exception_exc
     return _h_reply_result
 
+
+def regenerate_md5sum(root_dir,sec_dir=None):
+    '''generate the md5sum.txt when building the ISO image.
+
+    No matter whether the md5sum.txt exits or not, we will walk through the files and then build a new file.
+    '''
+    #check and delete the previsous md5sum.txt if the root dir exists md5sum.txt file
+    if os.path.exists(os.path.join(root_dir, 'md5sum.txt')):
+        os.remove(os.path.join(root_dir, 'md5sum.txt'))
+
+    #define the head info of md5sum.txt
+    head_info = """This file contains the list of md5 checksums of all files on this medium.\n\nYou can verify them automatically with the 'integrity-check' boot parameter,\nor, manually with: 'md5sum -c md5sum.txt'.\n\n"""
+    #get the root dir file list for summing md5
+    root_list = []
+    #some files don't need to check md5
+    uncheck_list = ["md5sum.txt","grubenv"]
+    for root,dirs,files in os.walk(root_dir):
+        for f in files:
+            if f not in uncheck_list:
+                root_list.append(os.path.join(root,f))
+    #sum md5 then write into file function
+    def md5sum(fd,path,root):
+        file_path = '.' + path.split(root)[1]
+        md5 = hashlib.md5(open(path,'rb').read()).hexdigest()
+        content = md5+"  "+file_path+"\n"
+        fd.write(content)
+
+    with open(os.path.join(root_dir, 'md5sum.txt'),'w') as wfd:
+        wfd.write(head_info)
+        try:
+            #write the md5 of root file list
+            for full_path in root_list:
+                md5sum(wfd,full_path,root_dir)
+            #check the secondary dir or not for building ISO image by dell recovery
+            if sec_dir:
+                for root,dirs,files in os.walk(sec_dir):
+                    for f in files:
+                        if f not in uncheck_list:
+                            full_path = os.path.join(root,f)
+                            if root_dir + full_path.split(sec_dir)[1] not in root_list:
+                                md5sum(wfd,full_path,sec_dir)
+        except Exception as err:
+            import syslog
+            syslog.syslog("rewrite the md5sum.txt file failed with : %s" %(err))
 
 ##                ##
 ## Common Classes ##

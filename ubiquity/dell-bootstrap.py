@@ -1216,6 +1216,10 @@ class Install(InstallPlugin):
         self.target = None
         InstallPlugin.__init__(self, frontend, db, ui)
 
+    def log(self, error):
+        """Outputs a debugging string to /var/log/installer/debug"""
+        self.debug("%s: %s" % (NAME, error))
+
     def remove_ricoh_mmc(self):
         '''Removes the ricoh_mmc kernel module which is known to cause problems
            with MDIAGS'''
