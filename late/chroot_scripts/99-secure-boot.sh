@@ -20,5 +20,7 @@ if [ -z "$SECURE_BOOT" ] && [ -f "$EFI_APP" ]; then
     PARTITION_NUMBER=$(cat /sys/class/block/$PARTITION_NODE/partition)
     efibootmgr -C -l '\EFI\ubuntu\MokSBStateSet.efi' -L 'MokSBStateSet' -d /dev/$DEVICE -p $PARTITION_NUMBER
     BOOTNUM=$(efibootmgr | sed '/MokSBStateSet/!d; s,\* .*,,; s,Boot,,')
+    BOOTORDER=$(efibootmgr | sed '/BootOrder/!d; s/BootOrder: //')
+    efibootmgr -o $BOOTORDER,$BOOTNUM
     efibootmgr -v -n $BOOTNUM
 fi
