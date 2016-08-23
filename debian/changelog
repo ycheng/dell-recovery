@@ -1,3 +1,32 @@
+dell-recovery (1.49) UNRELEASED; urgency=medium
+
+  [ Shih-Yuan Lee ]
+  * Prevent from the crash when empty string. (#12)
+
+  [ Mario Limonciello ]
+  * Allow debranded SMBIOS strings to let the system install
+  * Detect rebrand scenarios
+  * Add dmidecode to dependencies for previous commit
+  * Raise privilege check when checking vendor since dmidecode needs root
+  * Try to install a metapackage based upon BIOS ID
+  * update standards version
+
+  [ Shih-Yuan Lee ]
+  * Only search for the prefix 'String 2:' and lowercase the BIOS ID. (#13)
+
+  [ Kai-Heng Feng ]
+  * Include post-rts-gfx.cfg and post-rts-wlan.cfg on user launched recovery. (#16)
+
+  [ kevinkellyspacey ]
+  * fixed BIOS bootorder issue (#17)
+  * regenerate the md5sum.txt during both ISO building and FI process (#15)
+  * fix the swap partition delete issue
+  * fix a bug about initrd.lz type when the file path has hidden dir
+  * support dual os log file and change the tal order at last
+  * add DUALSYS and DUALRCVY for dual os partitions
+
+ -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 23 Aug 2016 16:27:08 -0500
+
 dell-recovery (1.48) xenial; urgency=medium
 
   [ Shih-Yuan Lee ]
