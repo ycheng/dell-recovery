@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-09 00:03-0600\n"
+"POT-Creation-Date: 2016-09-06 14:23-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,12 +29,12 @@ msgstr ""
 msgid "Exception"
 msgstr ""
 
-#: ../Dell/recovery_gtk.py:164 ../gtk/dell-recovery-media.desktop.in.h:1
+#: ../Dell/recovery_gtk.py:158 ../gtk/dell-recovery-media.desktop.in.h:1
 #: ../gtk/tool_selector.ui.h:2
 msgid "Dell Recovery"
 msgstr ""
 
-#: ../Dell/recovery_gtk.py:165
+#: ../Dell/recovery_gtk.py:159
 msgid "Copyright 2008-2012 Dell Inc."
 msgstr ""
 
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Regenerating UUID / Rebuilding initramfs"
 msgstr ""
 
-#: ../Dell/recovery_backend.py:1201
+#: ../Dell/recovery_backend.py:1206
 msgid "Building ISO"
 msgstr ""
 

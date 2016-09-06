@@ -57,16 +57,8 @@ EFI_RP_PARTITION        =     '2'
 EFI_OS_PARTITION        =     '3'
 EFI_SWAP_PARTITION      =     '4'
 
-TYPE_NTFS = '07'
-TYPE_NTFS_RE = '27'
-TYPE_VFAT = '0b'
-TYPE_VFAT_LBA = '0c'
-
 #Continually Reused ubiquity templates
 RECOVERY_TYPE_QUESTION =  'dell-recovery/recovery_type'
-SWAP_QUESTION = 'dell-recovery/swap'
-RP_FILESYSTEM_QUESTION = 'dell-recovery/recovery_partition_filesystem'
-DRIVER_INSTALL_QUESTION = 'dell-recovery/disable-driver-install'
 
 no_options = GLib.Variant('a{sv}', {})
 
@@ -104,10 +96,6 @@ class PageNoninteractive(PluginUI):
     def set_advanced(self, item, value):
         """Empty skeleton function for the non-interactive UI"""
         pass
-
-    def get_advanced(self, item):
-        """Empty skeleton function for the non-interactive UI"""
-        return ''
 
 ############
 # GTK Page #
@@ -159,10 +147,6 @@ class PageGtk(PluginUI):
             self.version_detail = builder.get_object('version_detail')
             self.mount_detail = builder.get_object('mountpoint_detail')
             self.memory_detail = builder.get_object('memory_detail')
-            self.proprietary_combobox = builder.get_object('disable_proprietary_driver_combobox')
-            self.rp_filesystem_combobox = builder.get_object('recovery_partition_filesystem_checkbox')
-            self.swap_combobox = builder.get_object('swap_behavior_combobox')
-            self.ui_combobox = builder.get_object('default_ui_combobox')
 
             if not (self.genuine and 'UBIQUITY_AUTOMATIC' in os.environ):
                 builder.get_object('error_box').show()
@@ -299,17 +283,6 @@ class PageGtk(PluginUI):
                 self.err_dialog.hide()
                 return
 
-    def _map_combobox(self, item):
-        """Maps a combobox to a question"""
-        combobox = None
-        if item == DRIVER_INSTALL_QUESTION:
-            combobox = self.proprietary_combobox
-        elif item == RP_FILESYSTEM_QUESTION:
-            combobox = self.rp_filesystem_combobox
-        elif item == SWAP_QUESTION:
-            combobox = self.swap_combobox
-        return combobox
-
     def set_advanced(self, item, value):
         """Populates the options that should be on the advanced page"""
 
@@ -327,25 +300,6 @@ class PageGtk(PluginUI):
                     value = 'true'
                 else:
                     value = 'false'
-            combobox = self._map_combobox(item)
-            if combobox:
-                iterator = find_item_iterator(combobox, value)
-                if iterator is not None:
-                    combobox.set_active_iter(iterator)
-                else:
-                    syslog.syslog("DEBUG: setting %s to %s failed" % \
-                                                                  (item, value))
-                    combobox.set_active(0)
-
-    def get_advanced(self, item):
-        """Returns the value in an advanced key"""
-        combobox = self._map_combobox(item)
-        if combobox:
-            model = combobox.get_model()
-            iterator = combobox.get_active_iter()
-            return model.get_value(iterator, 0)
-        else:
-            return ""
 
 ################
 # Debconf Page #
@@ -359,8 +313,6 @@ class Page(Plugin):
         self.preseed_config = ''
         self.rp_builder = None
         self.disk_size = None
-        self.rp_filesystem = None
-        self.swap = None
         self.stage = 1
         Plugin.__init__(self, frontend, db, ui)
 
@@ -411,9 +363,8 @@ class Page(Plugin):
             pass
 
     def test_swap(self):
-        """Tests what to do with swap"""
-        if not self.swap or (self.swap == "dynamic" and \
-                                       (self.mem >= 32 or self.disk_size <= 64)):
+        """Tests whether to do a swap fixup"""
+        if (self.mem >= 32 or self.disk_size <= 64):
             return True
         else:
             return False
@@ -421,11 +372,9 @@ class Page(Plugin):
     def clean_recipe(self):
         """Cleans up the recipe to remove swap if we have a small drive"""
 
-        #If we are in dynamic (dell-recovery/swap=dynamic) and small drive
-        #   or we explicitly disabled (dell-recovery/swap=false)
         if self.test_swap():
-            self.log("Performing swap recipe fixup (%s, hdd: %i, mem: %f)" % \
-                                        (self.swap, self.disk_size, self.mem))
+            self.log("Performing swap recipe fixup (hdd: %i, mem: %f)" % \
+                                        (self.disk_size, self.mem))
             try:
                 recipe = self.db.get('partman-auto/expert_recipe')
                 self.db.set('partman-auto/expert_recipe',
@@ -683,13 +632,6 @@ class Page(Plugin):
         #EFI install finds ESP
         self.db.set('grub-installer/bootdev', self.device)
 
-        if rec_part["fs"] == "ntfs":
-            self.rp_filesystem = TYPE_NTFS_RE
-        elif rec_part["fs"] == "vfat":
-            self.rp_filesystem = TYPE_VFAT_LBA
-        else:
-            raise RuntimeError("Unknown filesystem on recovery partition: %s" % rec_part["fs"])
-
         self.disk_size = rec_part["size_gb"]
 
         self.log("Detected device we are operating on is %s" % self.device)
@@ -737,29 +679,6 @@ class Page(Plugin):
             self.db.set(RECOVERY_TYPE_QUESTION, '')
             self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'false')
 
-        #Support cases where the recovery partition isn't a linux partition
-        try:
-            self.rp_filesystem = self.db.get(RP_FILESYSTEM_QUESTION)
-        except debconf.DebconfError as err:
-            self.log(str(err))
-            self.rp_filesystem = TYPE_VFAT_LBA
-
-        #Behavior of the swap partition
-        try:
-            self.swap = self.db.get(SWAP_QUESTION)
-            if self.swap != "dynamic":
-                self.swap = misc.create_bool(self.swap)
-        except debconf.DebconfError as err:
-            self.log(str(err))
-            self.swap = 'dynamic'
-
-        #Proprietary driver installation preventions
-        try:
-            proprietary = self.db.get(DRIVER_INSTALL_QUESTION)
-        except debconf.DebconfError as err:
-            self.log(str(err))
-            proprietary = ''
-
         #If we detect that we are booted into uEFI mode, then we only want
         #to do a GPT install.
         if os.path.isdir('/proc/efi') or os.path.isdir('/sys/firmware/efi'):
@@ -791,9 +710,6 @@ class Page(Plugin):
         #Fill in UI data
         twiddle = {"mount": mount,
                    "version": version,
-                   SWAP_QUESTION: self.swap,
-                   DRIVER_INSTALL_QUESTION: proprietary,
-                   RP_FILESYSTEM_QUESTION: self.rp_filesystem,
                    "mem": self.mem,
                    "efi": self.efi}
         # The order invoking set_advanced() is important. (LP: #1324394)
@@ -846,21 +762,6 @@ class Page(Plugin):
             self.device_size = size
         self.log("selected device %s %d" % (device, size))
 
-        #advanced questions
-        for question in [SWAP_QUESTION,
-                         DRIVER_INSTALL_QUESTION,
-                         RP_FILESYSTEM_QUESTION]:
-            answer = self.ui.get_advanced(question)
-            if answer:
-                self.log("advanced option %s set to %s" % (question, answer))
-                self.preseed_config += question + "=" + answer + " "
-                if question == RP_FILESYSTEM_QUESTION:
-                    self.rp_filesystem = answer
-            if type(answer) is bool:
-                self.preseed_bool(question, answer)
-            else:
-                self.preseed(question, answer)
-
         return Plugin.ok_handler(self)
 
     def report_progress(self, info, percent):
@@ -896,7 +797,6 @@ class Page(Plugin):
                 #init builder
                 self.rp_builder = RPbuilder(self.device,
                                             self.device_size,
-                                            self.rp_filesystem,
                                             self.mem,
                                             self.efi,
                                             self.preseed_config,
@@ -956,10 +856,9 @@ class Page(Plugin):
 ############################
 class RPbuilder(Thread):
     """The recovery partition builder worker thread"""
-    def __init__(self, device, size, rp_type, mem, efi, preseed_config, sizing_thread):
+    def __init__(self, device, size, mem, efi, preseed_config, sizing_thread):
         self.device = device
         self.device_size = size
-        self.rp_type = rp_type
         self.mem = mem
         self.efi = efi
         self.preseed_config = preseed_config
@@ -982,16 +881,6 @@ class RPbuilder(Thread):
             raise RuntimeError("Attempting to install to the same device as booted from.\n\
 You will need to clear the contents of the recovery partition\n\
 manually to proceed.")
-
-        #Adjust recovery partition type to something parted will recognize
-        if self.rp_type == TYPE_NTFS or \
-           self.rp_type == TYPE_NTFS_RE:
-            self.rp_type = 'ntfs'
-        elif self.rp_type == TYPE_VFAT or \
-             self.rp_type == TYPE_VFAT_LBA:
-            self.rp_type = 'fat32'
-        else:
-            raise RuntimeError("Unsupported recovery partition filesystem: %s" % self.rp_type)
 
         #Calculate RP size
         rp_size = magic.black_tree("size", black_pattern, magic.CDROM_MOUNT)
@@ -1028,22 +917,19 @@ manually to proceed.")
                     raise RuntimeError("Error formatting disk.")
 
         #Build RP
-        command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', self.rp_type, self.rp_type, str(grub_size), str(rp_size_mb + grub_size))
+        command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', "fat32", "fat32", str(grub_size), str(rp_size_mb + grub_size))
         result = misc.execute_root(*command)
         if result is False:
             raise RuntimeError("Error creating new %s mb recovery partition on %s" % (rp_size_mb, self.device))
 
         #Build RP filesystem
         self.status("Formatting Partitions", 2)
-        if self.rp_type == 'fat32':
-            command = ('mkfs.msdos', '-n', 'OS', self.device + rp_part)
-        elif self.rp_type == 'ntfs':
-            command = ('mkfs.ntfs', '-f', '-L', 'RECOVERY', self.device + rp_part)
+        command = ('mkfs.msdos', '-n', 'OS', self.device + rp_part)
         while not os.path.exists(command[-1]):
             time.sleep(1)
         result = misc.execute_root(*command)
         if result is False:
-            raise RuntimeError("Error creating %s filesystem on %s%s" % (self.rp_type, self.device, rp_part))
+            raise RuntimeError("Error creating fat32 filesystem on %s%s" % (self.device, rp_part))
 
         #Mount RP
         mount = misc.execute_root('mount', self.device + rp_part, '/mnt')
@@ -1277,21 +1163,6 @@ class Install(InstallPlugin):
             if line.startswith('ricoh_mmc'):
                 misc.execute('rmmod', line.split()[0])
 
-    def remove_unwanted_drivers(self):
-        '''Removes drivers that were preseeded to not used for postinstall'''
-        drivers = ''
-
-        try:
-            drivers = self.progress.get(DRIVER_INSTALL_QUESTION).split(',')
-        except debconf.DebconfError:
-            pass
-
-        if len(drivers) > 0:
-            for driver in drivers:
-                if driver:
-                    with open (os.path.join(self.target, 'usr/share/jockey/modaliases/', driver), 'w') as wfd:
-                        wfd.write('reset %s\n' % driver)
-
     def wake_network(self):
         """Wakes the network back up"""
         bus = dbus.SystemBus()
@@ -1376,8 +1247,6 @@ class Install(InstallPlugin):
                 wfd.write('WARRANTY=%s\n' % destination)
 
         to_install += magic.mark_upgrades()
-
-        self.remove_unwanted_drivers()
 
         self.remove_ricoh_mmc()
 

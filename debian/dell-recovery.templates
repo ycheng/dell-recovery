@@ -19,26 +19,6 @@ Default: dynamic
 Description: for internal use;determines whether to offer the bootstrap 
  ubiquity plugin to the user. valid: [dynamic, factory, usb, dvd]
 
-Template: dell-recovery/recovery_partition_filesystem
-Type: string
-Default: 0c
-Description: for internal use; determines the filesystem of the recovery partition
-
-Template: dell-recovery/disable-driver-install
-Type: string
-Default:
-Description: for internal use; determines any *-modaliases packages that should be removed
-
-Template: dell-recovery/swap
-Type: string
-Default: dynamic
-Description: for internal use; determines swap behavior; binary enable (true/false) or dynamically determined based on disk size (dynamic)
-
-Template: dell-oobe/user-interface
-Type: string
-Default: dynamic
-Description: for internal use; determines the default UI; (une/ude) or dynamically determined based on LOB/screen rez (dynamic)
-
 Template: dell-recovery/build_start
 Type: text
 _Description: Building Dell Recovery Media...
