@@ -1,9 +1,9 @@
-#! /bin/sh 
+#! /bin/sh
 ################################################################################
 #
 # Get the OS installation failed logs by USB key
 # After running the script, it will store the logs into the target folder (OSLogs)
-# 
+#
 #
 ################################################################################
 #find the usb key mount point
@@ -41,13 +41,13 @@ fi
 #copy the logs into usb target folder
 if [ -d /mnt/var/log ];then
 #    cp -r /mnt/var/log/ /cdrom/OSLogs
-    tar -zcf "/cdrom/OSLogs/ubuntu.log.tar.gz" /mnt/var/log/ 2>/dev/null	  
+    tar -zcf "/cdrom/OSLogs/ubuntu.log.tar.gz" /mnt/var/log/ 2>/dev/null
     if [ $? -eq 0 ];then
         echo "Finish copying the OS installation logs!"
-    fi	
+    fi
 else
     echo "/var/log dir doesn't exist!" > /cdrom/OSLogs/error_message
-fi 
+fi
 #revert the mount points
 umount /mnt
 mount -o remount,$mount_property /cdrom
