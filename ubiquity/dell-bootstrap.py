@@ -38,7 +38,6 @@ import shutil
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 DBusGMainLoop(set_as_default=True)
-import syslog
 import glob
 import zipfile
 import tarfile
@@ -277,7 +276,7 @@ class PageGtk(PluginUI):
                 self.log_dialog.hide()
                 return
             else:
-                data = "Try to collect logs failed!"
+                data = magic.fetch_output(["tail", "/var/log/syslog" ,"-n" "5"])
                 self.err_dialog.format_secondary_text(str(data))
                 self.err_dialog.run()
                 self.err_dialog.hide()
