@@ -15,7 +15,8 @@ dell-recovery (1.49) UNRELEASED; urgency=medium
   * Only search for the prefix 'String 2:' and lowercase the BIOS ID. (#13)
 
   [ Kai-Heng Feng ]
-  * Include post-rts-gfx.cfg and post-rts-wlan.cfg on user launched recovery. (#16)
+  * Include post-rts-gfx.cfg and post-rts-wlan.cfg on user launched
+    recovery. (#16)
 
   [ kevinkellyspacey ]
   * fixed BIOS bootorder issue (#17)
