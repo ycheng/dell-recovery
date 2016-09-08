@@ -118,6 +118,12 @@ EOF
         rm -rf /cdrom/debs/fist
     fi
 
+    #If we have collecting log folders,remove it
+    if [ -d /cdrom/OSLogs ]; then
+        rm -rf /cdrom/OSLogs
+    fi
+
+
     #If we have another script to run, do it
     if [ -f $RP/scripts/chroot-scripts/SUCCESS-SCRIPT ]; then
         $RP/scripts/chroot-scripts/SUCCESS-SCRIPT

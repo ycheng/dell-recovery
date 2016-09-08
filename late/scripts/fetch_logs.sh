@@ -6,14 +6,19 @@
 #
 #
 ################################################################################
+#save the /cdrom mount property
+MOUNT_PROPERTY=$(mount | sed '/\/cdrom/!d; s,.* (,,; s,),,;')
+export MOUNT_PROPERTY
+
+# Execute CLEANUP-SCRIPT if we exit for any reason (abnormally)
+trap ". /usr/share/dell/scripts/CLEANUP-SCRIPT" TERM INT HUP EXIT QUIT
+
 #find the usb key mount point
 usb_part=`mount | grep "/cdrom" | cut -d ' ' -f 1`
 if [ $? -ne 0 ]; then
-    echo "Can't find the USB key"
+    echo "Can't find the USB key!!"
 	exit 1
 fi
-#save the /cdrom mount property
-mount_property = $(mount | sed '/\/cdrom/!d; s,.* (,,; s,),,;')
 #make the USB key partition write acess
 mount -o remount,rw /cdrom
 #create the target folder to save logs
@@ -29,9 +34,7 @@ if [ -z $linux_part ];then
     #store the disk layout info
     lsblk > /cdrom/OSLogs/disk_part
     echo "This disk has not parted yet!!"
-    #revert the mount points
-    mount -o remount,$mount_property /cdrom
-	exit 0
+	exit 1
 fi
 #mount the partition
 mount | grep "/mnt" 2>/dev/null
@@ -47,7 +50,10 @@ if [ -d /mnt/var/log ];then
     fi
 else
     echo "/var/log dir doesn't exist!" > /cdrom/OSLogs/error_message
+	exit 1
 fi
-#revert the mount points
-umount /mnt
-mount -o remount,$mount_property /cdrom
+# reset traps, as we are now exiting normally
+trap - TERM INT HUP EXIT QUIT
+#Clean up the environment
+. /usr/share/dell/scripts/CLEANUP-SCRIPT
+
