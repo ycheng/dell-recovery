@@ -1,4 +1,4 @@
-dell-recovery (1.49) UNRELEASED; urgency=medium
+dell-recovery (1.49) yakkety; urgency=medium
 
   [ Shih-Yuan Lee ]
   * Prevent from the crash when empty string. (#12)
@@ -10,6 +10,8 @@ dell-recovery (1.49) UNRELEASED; urgency=medium
   * Raise privilege check when checking vendor since dmidecode needs root
   * Try to install a metapackage based upon BIOS ID
   * update standards version
+  * drop related items to dell-recovery driver disablement
+  * add more informative information to the fail log
 
   [ Shih-Yuan Lee ]
   * Only search for the prefix 'String 2:' and lowercase the BIOS ID. (#13)
@@ -25,8 +27,9 @@ dell-recovery (1.49) UNRELEASED; urgency=medium
   * fix a bug about initrd.lz type when the file path has hidden dir
   * support dual os log file and change the tal order at last
   * add DUALSYS and DUALRCVY for dual os partitions
+  * optimize the collecting log function
 
- -- Mario Limonciello <mario_limonciello@dell.com>  Tue, 23 Aug 2016 16:27:08 -0500
+ -- Mario Limonciello <mario.limonciello@dell.com>  Thu, 08 Sep 2016 10:10:12 -0500
 
 dell-recovery (1.48) xenial; urgency=medium
 
