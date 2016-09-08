@@ -4,7 +4,7 @@
 #
 #       Called in the event that postinstall (chroot) steps complete successfully
 #
-#       Copyright 2008-2010 Dell Inc.
+#       Copyright 2008-2016 Dell Inc.
 #           Mario Limonciello <Mario_Limonciello@Dell.com>
 #           Hatim Amro <Hatim_Amro@Dell.com>
 #           Michael E Brown <Michael_E_Brown@Dell.com>
