@@ -30,3 +30,8 @@ Ubiquity
 Dell recovery is built with an integrated Ubiquity plugin.  It is branched with each Ubuntu release and has code
 that will tightly integrate with Ubiquity for factory installation.  Documentation for all of the features
 in Ubiquity mode and how to create packages to support it are stored outside of the dell-recovery tree.
+
+Modifying a factory image
+---
+Information about how to modify a factory image are available here:
+https://github.com/dell/dell-recovery/blob/master/modifying_factory_image.md
