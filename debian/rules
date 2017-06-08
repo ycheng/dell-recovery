@@ -26,7 +26,7 @@ override_dh_clean: check
 
 override_dh_auto_clean:
 	set -ex; for python in $(shell py3versions -r); do \
-		$$python setup.py build; \
+		$$python setup.py clean; \
 	done;
 
 override_dh_auto_build:
