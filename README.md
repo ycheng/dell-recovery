@@ -1,5 +1,7 @@
 Dell Recovery Media Creator
 ----
+[![Build Status](https://travis-ci.org/dell/dell-recovery.png)](https://travis-ci.org/dell/dell-recovery)
+
 The Dell Recovery media creation tool supports two different usage modes,
 "End User Mode" and "Builder Mode".  In End User mode, the tool will simply
 create an image from an existing recovery partition with no customizations.

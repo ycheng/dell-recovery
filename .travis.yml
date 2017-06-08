@@ -1,0 +1,22 @@
+language: c
+sudo: required
+dist: trusty
+
+services:
+  - docker
+
+before_script:
+  - docker build -t dell-recovery-ubuntu-xenial -f docker/Dockerfile-ubuntu-xenial .
+
+script:
+  - docker run -t -v `pwd`:/build/dell-recovery dell-recovery-ubuntu-xenial ./docker/build_and_test.sh
+
+#deploy:
+#  provider: releases
+#  api_key:
+#  file_glob: True
+#  file: build/*.deb
+#  skip_cleanup: true
+#  on:
+#    tags: true
+#    branch: master
