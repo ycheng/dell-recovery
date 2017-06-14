@@ -135,6 +135,24 @@ done
 chroot $TARGET chattr -a $LOG/chroot.sh.log
 
 sync;sync
+# check apt-installed package list
+
+#Record a list of all installed packages from post-phase to prevent ubiquity removing them.
+if [ -f "$TARGET/var/lib/ubiquity/installed-packages" ]; then
+    chroot $TARGET dpkg --get-selections | grep -v ubiquity | awk '{print $1}' > \
+           $TARGET/var/lib/ubiquity/installed-packages
+fi
+
+#check the packages installed or not
+if [ -f "$TARGET/tmp/apt-installed" ]; then
+    mv $TARGET/tmp/apt-installed $TARGET/var/lib/ubiquity/dell-apt
+    grep -x -f $TARGET/var/lib/ubiquity/dell-apt $TARGET/var/lib/ubiquity/installed-packages > $TARGET/var/lib/ubiquity/dell_installed
+    awk '{print $0}' $TARGET/var/lib/ubiquity/dell-apt $TARGET/var/lib/ubiquity/dell_installed |sort |uniq -u > $TARGET/var/lib/ubiquity/dell_uninstalled
+fi
+
+#check the checked_uninstalled file is empty or not, we will turn to FAIL-SCRIPT if it is not empty
+[ ! -s "$TARGET/var/lib/ubiquity/dell_uninstalled" ]
+
 
 # reset traps, as we are now exiting normally
 trap - TERM INT HUP EXIT QUIT
