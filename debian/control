@@ -31,8 +31,8 @@ Recommends: usb-creator-gtk,
             xorriso,
             dvd+rw-tools,
             lsb-release,
-            python-aptdaemon.gtk3widgets, 
             parted,
+            python3-aptdaemon.gtk3widgets, 
             python3-progressbar
 Enhances: oem-config-gtk, ubiquity-frontend-gtk
 Suggests: grub-pc
