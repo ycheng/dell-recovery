@@ -28,7 +28,13 @@ Depends: ${python3:Depends},
          xorriso,
 Replaces: dell-artwork, dell-oobe
 Conflicts: dell-oobe
-Recommends: usb-creator-gtk, wodim, dvd+rw-tools, lsb-release, python-aptdaemon.gtk3widgets, parted, python3-progressbar
+Recommends: usb-creator-gtk, 
+            wodim, 
+            dvd+rw-tools, 
+            lsb-release, 
+            python-aptdaemon.gtk3widgets, 
+            parted, 
+            python3-progressbar
 Enhances: oem-config-gtk, ubiquity-frontend-gtk
 Suggests: grub-pc
 Description: Dell Recovery Media Creation Package
