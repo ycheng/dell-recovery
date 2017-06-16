@@ -31,7 +31,6 @@ from Dell.recovery_threading import ProgressBySize
 import debconf
 import Dell.recovery_common as magic
 from Dell.recovery_xml import BTOxml
-import subprocess
 import os
 import re
 import shutil
@@ -532,22 +531,10 @@ class Page(Plugin):
             #Check the disk is type of NVME SSD
             device_path = block.get_cached_property("Device").get_bytestring().decode('utf-8')
             if device_path.startswith('/dev/nvme'):
-                with misc.raised_privileges():
-                    getdisk_subp = subprocess.Popen(['smartctl', '-d', 'scsi', '--all', device_path], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-                    output = getdisk_subp.communicate()[0]
-                    vendor = ""
-                    model = ""
-                    for prop in output.decode('utf-8').split('\n'):
-                        if prop.startswith('Vendor:'):
-                            vendor = prop.split(':')[1].strip()
-                        elif prop.startswith('Product:'):
-                            model = prop.split(':')[1].strip()
-                        else:
-                            continue
-
+                output = block.get_cached_property("Id")
+                model = output.split("-")[-1].replace("_", " ")
                 nvme_dev_size = block.get_cached_property("Size").unpack()
-                nvme_size_gb = "%i" % (nvme_dev_size / 1000000000)
-                disks.append([device_path, nvme_dev_size, "%s GB %s %s (%s)" % (nvme_size_gb, vendor, model, device_path)])
+                disks.append([device_path, nvme_dev_size, "%s (%s)" % (model, device_path)])
                 continue
 
             drive_obj = block.get_cached_property("Drive").get_string()
