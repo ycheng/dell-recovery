@@ -531,7 +531,7 @@ class Page(Plugin):
             #Check the disk is type of NVME SSD
             device_path = block.get_cached_property("Device").get_bytestring().decode('utf-8')
             if device_path.startswith('/dev/nvme'):
-                output = block.get_cached_property("Id")
+                output = block.get_cached_property("Id").get_string()
                 model = output.split("-")[-1].replace("_", " ")
                 nvme_dev_size = block.get_cached_property("Size").unpack()
                 disks.append([device_path, nvme_dev_size, "%s (%s)" % (model, device_path)])
