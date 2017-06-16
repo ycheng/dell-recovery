@@ -24,7 +24,7 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ##################################################################################
 
-import logging, os, os.path, signal, sys, re
+import logging, os, os.path, signal, re
 
 from gi.repository import GLib
 import dbus
@@ -59,20 +59,7 @@ import select
 from gettext import gettext as _
 from gettext import bindtextdomain, textdomain
 
-#TODO, when python3 version of debian-support is available,
-# drop this ugly test
-if sys.version >= "3":
-    class emulator:
-        def version_compare(self, this, that):
-            if this > that:
-                return 1
-            if this == that:
-                return 0
-            else:
-                return -1
-    debian_support = emulator()
-else:
-    from debian_bundle import debian_support
+from debian_bundle import debian_support
 
 def safe_tar_extract(filename, destination):
     """Safely extracts a tarball into destination"""
