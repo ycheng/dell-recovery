@@ -25,10 +25,10 @@ Depends: ${python3:Depends},
          python3-gi,
          udisks2,
          uuid-runtime,
-         xorriso,
 Replaces: dell-artwork, dell-oobe
 Conflicts: dell-oobe
 Recommends: usb-creator-gtk, 
+            xorriso,
             wodim, 
             dvd+rw-tools, 
             lsb-release, 
