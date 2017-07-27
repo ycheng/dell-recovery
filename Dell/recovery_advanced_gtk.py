@@ -35,12 +35,6 @@ from Dell.recovery_basic_gtk import BasicGeneratorGTK
 from Dell.recovery_common import (UIDIR,
                                   dbus_sync_call_signal_wrapper)
 
-try:
-    from aptdaemon import client
-    from aptdaemon.gtk3widgets import AptProgressDialog
-except:
-    pass
-
 #Translation support
 from gettext import gettext as _
 
@@ -443,40 +437,9 @@ create an USB key or DVD image."))
         wizard.set_page_complete(page, proceed)
         return proceed
 
-    def install_app(self, widget):
-        """Launch into an installer for dpkg-repack"""
-        packages = []
-        wizard = self.widgets.get_object('wizard')
-        
-        packages = ['dpkg-repack']
-        try:
-            trans = self.apt_client.install_packages(packages,
-                                    wait=False,
-                                    reply_handler=None,
-                                    error_handler=None)
-            
-            dialog = AptProgressDialog(trans, transient_for=wizard)
-            dialog.run()
-            super(AptProgressDialog, dialog).run()
-        except dbus.exceptions.DBusException as msg:
-            self.dbus_exception_handler(msg, wizard)
-
-        widget.hide()
-
     def add_dell_recovery_clicked(self, widget):
         """Callback to launch a dialog to add dell-recovery to the image"""
-        #check if dpkg-repack is available
-        if not os.path.exists('/usr/bin/dpkg-repack'):
-            if not self.apt_client:
-                try:
-                    self.apt_client = client.AptClient()
-                except NameError:
-                    pass
-            if self.apt_client:
-                self.builder_widgets.get_object('add_dell_recovery_repack_button').show()
-            self.builder_widgets.get_object('build_dell_recovery_button').set_sensitive(False)
-        else:
-            self.builder_widgets.get_object('build_dell_recovery_button').set_sensitive(True)
+        self.builder_widgets.get_object('build_dell_recovery_button').set_sensitive(True)
         self.builder_widgets.get_object('builder_add_dell_recovery_window').show()
 
     def add_dell_recovery_closed(self, widget):

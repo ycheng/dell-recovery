@@ -39,15 +39,12 @@ import datetime
 import distutils.dir_util
 import lsb_release
 from hashlib import md5
-from aptdaemon import client
-from defer import inline_callbacks
 
 from Dell.recovery_common import (DOMAIN, LOCALEDIR,
                                   walk_cleanup, create_new_uuid, white_tree,
                                   black_tree, fetch_output, check_version,
                                   DBUS_BUS_NAME, DBUS_INTERFACE_NAME,
                                   RestoreFailed, CreateFailed,
-                                  mark_upgrades, mark_unconditional_debs,
                                   regenerate_md5sum, PermissionDeniedByPolicy)
 from Dell.recovery_threading import ProgressByPulse, ProgressBySize
 from Dell.recovery_xml import BTOxml
@@ -772,158 +769,6 @@ arch %s, distributor_str %s" % (bto_version, distributor, release, arch, distrib
             description = self.xml_obj.fetch_node_contents('driver')
         logging.debug("Validation complete: valid %s" % valid)
         self.report_package_info(valid, description, error_warning)
-
-    @dbus.service.method(DBUS_INTERFACE_NAME,
-        in_signature = 'ss', out_signature = '', sender_keyword = 'sender',
-        connection_keyword = 'conn')
-    def install_driver_package(self, package, recovery, sender=None, conn=None):
-        """Prepares to tnstall a Dell driver package"""
-        self._reset_timeout()
-        self._check_polkit_privilege(sender, conn, 'com.dell.recoverymedia.driverinstall')
-
-        #extract package
-        self.report_progress("Creating temporary directory.")
-        self.package_dir = tempfile.mkdtemp()
-        os.chmod(self.package_dir, 0o755)
-        atexit.register(walk_cleanup, self.package_dir)
-        self.report_progress("Extracting package.")
-        safe_tar_extract(package, self.package_dir)
-
-        #emulate fat32 partition automatically setting sh and py scripts executable
-        for root, dirs, files in os.walk(self.package_dir, topdown=False):
-            for name in files:
-                if name.endswith('.sh'):
-                    with open(os.path.join(root, name), 'r') as rfd:
-                        script = rfd.readlines()
-                    with open(os.path.join(root, name), 'w') as wfd:
-                        for line in script:
-                            if '/cdrom' in line:
-                                line = line.replace('/cdrom', self.package_dir)
-                            elif 'apt-get purge' in line:
-                                line = line.replace('\n', ' || true\n')
-                            wfd.write(line)
-                if name.endswith('.sh') or name.endswith('.py'):
-                    os.chmod(os.path.join(root, name), 0o755)
-
-        #mount RP (if possible)
-        if recovery:
-            self.report_progress("Mounting recovery partition.")
-            mntdir = self.request_mount(recovery, "r")
-            #build the pool with stuff from RP
-            for directory in ['debs', 'pool']:
-                if os.path.exists(os.path.join(mntdir, directory)):
-                    if not os.path.isdir(os.path.join(self.package_dir, 'debs')):
-                        os.mkdir(os.path.join(self.package_dir, 'debs'))
-                    os.symlink(os.path.join(mntdir, directory), \
-                        os.path.join(self.package_dir, 'debs', 'rp_' + directory))
-
-        #produce apt source
-        #if we have an apt source, this is taken over by signals now
-        #if not, then we jump directly to the next step
-        debs_dir = os.path.join(self.package_dir, 'debs')
-        if os.path.exists(debs_dir):
-            self.report_progress("Building APT Package listing.")
-            build = subprocess.Popen(['apt-ftparchive', 'packages', '.'],
-                             stdout=subprocess.PIPE,
-                             cwd=debs_dir)
-            output = build.communicate()[0]
-            with open(os.path.join(debs_dir, 'Packages'), 'wb') as wfd:
-                wfd.write(output)
-
-            source_list = os.path.join('/etc', 'apt', 'sources.list.d', os.path.basename(self.package_dir) + '.list')
-            if os.path.exists(source_list):
-                raise CreateFailed("File already exists")
-            with open(source_list, 'w') as wfd:
-                wfd.write("deb file:%s /\n" % debs_dir)
-            atexit.register(walk_cleanup, source_list)
-
-            self._update_cache(source_list)
-        else:
-            self._process_scripts('exit-success')
-
-    @inline_callbacks
-    def _install_debs(self):
-        """Use AptDaemon to install all debs that would normally be installed"""
-        logging.debug('enter _install_debs')
-        apt_client = client.AptClient()
-        to_install = mark_upgrades() + mark_unconditional_debs(self.package_dir)
-        logging.debug("debs to install: %s" % to_install)
-        tid = yield apt_client.install_packages(to_install)
-        yield tid.set_allow_unauthenticated(True)
-        yield tid.connect("finished", self._install_debs_finished)
-        self.report_progress("Installing debian packages.", tid.tid)
-        yield tid.run()
-        logging.debug("leave _install_debs")
-
-    @inline_callbacks
-    def _update_cache(self, source_list):
-        """Use AptDaemon to update the partial cache"""
-        logging.debug("enter _update_cache")
-        apt_client = client.AptClient()
-        tid = yield apt_client.update_cache(source_list)
-        yield tid.connect("finished", self._update_cache_finished)
-        self.report_progress("Building APT cache.", tid.tid)
-        yield tid.run()
-        logging.debug("leave _update_cache")
-
-    def _update_cache_finished(self, trans, exit_status):
-        """Signal relay to notify frontend that the cache is ready to go"""
-        logging.debug("Cache update completed. exit status: %s" % exit_status)
-        #if not success, return now
-        if exit_status != 'exit-success':
-            self.report_package_installed(exit_status, '')
-        #otherwise continue and try to install debs
-        self._install_debs()
-
-    def _install_debs_finished(self, trans, exit_status):
-        """Signal relay for debs being finished installed (or none present)"""
-        logging.debug("Deb install completed. exit status %s" % exit_status)
-        #if not success, return now
-        if exit_status != 'exit-success':
-            self.report_package_installed(exit_status, '')
-        #otherwise continue and try to process scripts
-        try:
-            self._process_scripts(exit_status)
-        except RuntimeError as msg:
-            self.report_package_installed('exit-failed', str(msg))
-
-    def _process_scripts(self, exit_status):
-        """Process the scripts portion of a FISH package"""
-        logging.debug("enter _process_scripts")
-        scripts = []
-        self.report_progress("Processing post scripts.", '')
-        for directory in (os.path.join(self.package_dir, 'scripts',
-                                       'chroot-scripts', 'fish'),
-                          '/usr/share/dell/scripts/non-negotiable'):
-            if os.path.isdir(directory):
-                for item in os.listdir(directory):
-                    scripts.append(os.path.join(directory, item))
-        environment = os.environ
-        environment['DEBIAN_FRONTEND'] = 'noninteractive'
-        environment['PATH'] = '/sbin:/usr/sbin:/bin:/usr/bin'
-        scripts.append('/usr/bin/apt-get -f install --yes')
-        scripts.append('/usr/bin/ubuntu-drivers autoinstall')
-        num = float(1)
-        total = len(scripts)
-        for script in scripts:
-            if 'installer' in script:
-                logging.debug('skipping script: %s' % script)
-                continue
-            logging.debug('executing script: %s' % script)
-            self.report_progress("executing %s" % script, num/total)
-            #in case shell script is missing starting shebang (a few are)
-            if script.endswith('.sh'):
-                cmd = ['/bin/sh', script]
-            else:
-                #for apt-get and ubuntu-drivers
-                if ' ' in script:
-                    cmd = script.split()
-                else:
-                    cmd = [script]
-            logging.debug(fetch_output(cmd, None, environment))
-            num+=1
-        logging.debug("leave _process_scripts")
-        self.report_package_installed(exit_status, '')
 
     @dbus.service.method(DBUS_INTERFACE_NAME,
         in_signature = '', out_signature = '', sender_keyword = 'sender',
