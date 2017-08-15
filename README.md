@@ -37,3 +37,7 @@ Modifying a factory image
 ---
 Information about how to modify a factory image are available here:
 https://github.com/dell/dell-recovery/blob/master/modifying_factory_image.md
+
+Standalone Mode
+---
+This mode allows using Dell Recovery without ubiquity to simulate FI for non-Ubuntu process.

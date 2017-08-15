@@ -56,7 +56,7 @@ setup(
     maintainer_email="Mario_Limonciello@Dell.com",
     url="http://linux.dell.com/",
     license="gpl",
-    description="Creates a piece of recovery media for a Dell Factory image",
+    description="Creates a piece of recovery media for a Dell Factory image or install",
     packages=["Dell"],
     data_files=[("share/dell", glob.glob("gtk/*.ui")),
                 ('share/dell/bin', ['bto-autobuilder/dell-bto-autobuilder']),

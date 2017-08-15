@@ -46,7 +46,10 @@ DBUS_BUS_NAME = 'com.dell.RecoveryMedia'
 DBUS_INTERFACE_NAME = 'com.dell.RecoveryMedia'
 
 #For install time
-CDROM_MOUNT = '/cdrom'
+if os.path.isdir('/cdrom'):
+    CDROM_MOUNT = '/cdrom'
+else:
+    CDROM_MOUNT = '/usr/lib/live/mount/medium'
 ISO_MOUNT = '/isodevice'
 
 #Translation Support

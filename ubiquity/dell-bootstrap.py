@@ -23,12 +23,18 @@
 # Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 ################################################################################
 
-from ubiquity.plugin import InstallPlugin, Plugin, PluginUI
-from ubiquity import misc
+#try to run in ubiquity mode first
+try:
+    from ubiquity.plugin import InstallPlugin, Plugin, PluginUI
+    from ubiquity import misc
+    import debconf
+except ImportError:
+    import Dell.standalone as misc
+    from Dell.standalone import InstallPlugin, Plugin, PluginUI
+    import threading
 from threading import Thread
 import time
 from Dell.recovery_threading import ProgressBySize
-import debconf
 import Dell.recovery_common as magic
 from Dell.recovery_xml import BTOxml
 import os
@@ -42,7 +48,8 @@ import zipfile
 import tarfile
 import gi
 gi.require_version('UDisks', '2.0')
-from gi.repository import GLib, UDisks
+gi.require_version('Gdk', '3.0')
+from gi.repository import GLib, UDisks, Gdk, GObject
 
 NAME = 'dell-bootstrap'
 BEFORE = 'language'
@@ -109,6 +116,11 @@ class PageGtk(PluginUI):
 
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
 
+        if 'mode' in args and args['mode'] is 'standalone':
+            self.standalone = True
+        else:
+            self.standalone = False
+
         self.efi = False
         with misc.raised_privileges():
             self.genuine = magic.check_vendor()
@@ -117,10 +129,15 @@ class PageGtk(PluginUI):
             gi.require_version('Gtk', '3.0')
             from gi.repository import Gtk
             builder = Gtk.Builder()
+            #TODO - do we use separate files or hide widgets?
+            # self.builder.add_from_file('/usr/share/dell/gtk/stepDellBootstrap.ui')
             builder.add_from_file('/usr/share/ubiquity/gtk/stepDellBootstrap.ui')
             builder.connect_signals(self)
+
             self.controller = controller
-            self.controller.add_builder(builder)
+            if self.controller:
+                self.controller.add_builder(builder)
+
             self.plugin_widgets = builder.get_object('stepDellBootstrap')
             self.automated_recovery = builder.get_object('automated_recovery')
             self.automated_recovery_box = builder.get_object('automated_recovery_box')
@@ -149,6 +166,19 @@ class PageGtk(PluginUI):
                 builder.get_object('error_box').show()
             PluginUI.__init__(self, controller, *args, **kwargs)
 
+            if self.standalone:
+                self.progress_section = self.builder.get_object("progress_section")
+                self.standalone_window = self.builder.get_object("standalone")
+                self.install_progress = self.builder.get_object('install_progress')
+                self.install_progress_text = self.builder.get_object('install_progress_text')
+                self.builder.get_object("buttons").show()
+                self.interactive_recovery_box.hide()
+                self.hdd_recovery_box.hide()
+                self.device = None
+                self.page = Page(frontend=None, db= None, ui=self)
+                self.page.prepare()
+
+
     def plugin_get_current_page(self):
         """Called when ubiquity tries to realize this page.
            * Disable the progress bar
@@ -164,6 +194,10 @@ class PageGtk(PluginUI):
         self.toggle_progress()
 
         return self.plugin_widgets
+
+    def standalone_ok_clicked(self, widget):
+        self.page.cleanup()
+
 
     def toggle_progress(self):
         """Toggles the progress bar for RP build"""
@@ -214,15 +248,17 @@ class PageGtk(PluginUI):
 
     def toggle_type(self, widget):
         """Allows the user to go forward after they've made a selection'"""
-        self.controller.allow_go_forward(True)
+        if self.controller:
+            self.controller.allow_go_forward(True)
         self.automated_combobox.set_sensitive(self.automated_recovery.get_active())
 
     def show_dialog(self, which, data = None):
         """Shows a dialog"""
         if which == "info":
-            self.controller._wizard.quit.set_label(
-                         self.controller.get_string('ubiquity/imported/cancel'))
-            self.controller.allow_go_forward(False)
+            if self.controller:
+                self.controller._wizard.quit.set_label(
+                             self.controller.get_string('ubiquity/imported/cancel'))
+                self.controller.allow_go_forward(False)
             self.automated_recovery_box.hide()
             self.interactive_recovery_box.hide()
             self.info_box.show_all()
@@ -639,14 +675,14 @@ class Page(Plugin):
         self.log("mounted from %s" % mount)
 
         #recovery type
-        rec_type = None
-        try:
-            rec_type = self.db.get(RECOVERY_TYPE_QUESTION)
-        except debconf.DebconfError as err:
-            self.log(str(err))
-            rec_type = 'dynamic'
-            self.db.register('debian-installer/dummy', RECOVERY_TYPE_QUESTION)
-            self.db.set(RECOVERY_TYPE_QUESTION, rec_type)
+        rec_type = dynamic
+        if self.db:
+            try:
+                rec_type = self.db.get(RECOVERY_TYPE_QUESTION)
+            except debconf.DebconfError as err:
+                self.log(str(err))
+                self.db.register('debian-installer/dummy', RECOVERY_TYPE_QUESTION)
+                self.db.set(RECOVERY_TYPE_QUESTION, rec_type)
 
         #If we were preseeded to dynamic, look for an RP
         rec_part = magic.find_factory_partition_stats()
@@ -663,11 +699,12 @@ class Page(Plugin):
                 rec_type = 'dvd'
 
         #Media boots should be interrupted at first screen in --automatic mode
-        if rec_type == 'factory':
-            self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'true')
-        else:
-            self.db.set(RECOVERY_TYPE_QUESTION, '')
-            self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'false')
+        if self.db:
+            if rec_type == 'factory':
+                self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'true')
+            else:
+                self.db.set(RECOVERY_TYPE_QUESTION, '')
+                self.db.fset(RECOVERY_TYPE_QUESTION, 'seen', 'false')
 
         #If we detect that we are booted into uEFI mode, then we only want
         #to do a GPT install.
@@ -708,10 +745,12 @@ class Page(Plugin):
         self.ui.set_type(rec_type, self.stage)
 
         #Make sure some locale was set so we can guarantee automatic mode
-        try:
-            language = self.db.get('debian-installer/locale')
-        except debconf.DebconfError:
-            language = ''
+        language = ''
+        if self.db:
+            try:
+                language = self.db.get('debian-installer/locale')
+            except debconf.DebconfError:
+                language = ''
         if not language:
             language = 'en_US.UTF-8'
             self.preseed('debian-installer/locale', language)
@@ -737,10 +776,15 @@ class Page(Plugin):
             self.handle_exception(err)
             self.cancel_handler()
 
-        return (['/usr/share/ubiquity/dell-bootstrap'], [RECOVERY_TYPE_QUESTION])
+        if not self.db:
+            self.ui.standalone_window.show()
+        else:
+            return (['/usr/share/ubiquity/dell-bootstrap'], [RECOVERY_TYPE_QUESTION])
 
     def ok_handler(self):
-        """Copy answers from debconf questions"""
+        """Copy answers from debconf questions
+           unused in standalone mode
+        """
         #basic questions
         rec_type = self.ui.get_type()
         self.log("recovery type set to '%s'" % rec_type)
@@ -755,9 +799,16 @@ class Page(Plugin):
         return Plugin.ok_handler(self)
 
     def report_progress(self, info, percent):
-        """Reports to the frontend an update about th progress"""
-        self.frontend.debconf_progress_info(info)
-        self.frontend.debconf_progress_set(percent)
+        """Reports to the frontend an update about the progress"""
+        if self.standalone:
+            Gdk.threads_enter()
+            self.ui.install_progress_text.set_label(info)
+            self.ui.install_progress.set_fraction(percent/100)
+            Gdk.threads_leave()
+            time.sleep(0.3)
+        else:
+            self.frontend.debconf_progress_info(info)
+            self.frontend.debconf_progress_set(percent)
 
     def cleanup(self):
         """Do all the real processing for this plugin.
@@ -766,7 +817,10 @@ class Page(Plugin):
            * Run is the wrong time too because it runs before the user can
              answer potential questions
         """
-        rec_type = self.db.get('dell-recovery/recovery_type')
+        if self.db:
+            rec_type = self.db.get('dell-recovery/recovery_type')
+        else:
+            rec_type = "automatic"
 
         try:
             # User recovery - need to copy RP
@@ -779,7 +833,10 @@ class Page(Plugin):
                 self.delete_swap()
 
                 #init progress bar and size thread
-                self.frontend.debconf_progress_start(0, 100, "")
+                if self.db:
+                    self.frontend.debconf_progress_start(0, 100, "")
+                else:
+                    self.ui.progress_section.show_all()
                 size_thread = ProgressBySize("Copying Files",
                                                "/mnt",
                                                "0")
@@ -826,20 +883,26 @@ class Page(Plugin):
         self.ui.controller.translate(just_me=False, not_me=True, reget=True)
         Plugin.cleanup(self)
 
-    def cancel_handler(self):
+    def cancel_handler(self, widget=None):
         """Called when we don't want to perform recovery'"""
-        if os.path.exists(os.path.join('/cdrom', '.disk', 'info.recovery')) and \
-           os.path.exists(os.path.join('/cdrom', '.disk', 'info')) and \
-           misc.execute_root('mount', '-o', 'remount,rw', '/cdrom'):
-            with misc.raised_privileges():
-                os.remove(os.path.join('/cdrom', '.disk', 'info'))
-            misc.execute_root('mount', '-o', 'remount,ro', '/cdrom')
-        misc.execute_root('reboot')
+        if not self.standalone:
+            if os.path.exists(os.path.join('/cdrom', '.disk', 'info.recovery')) and \
+               os.path.exists(os.path.join('/cdrom', '.disk', 'info')) and \
+               misc.execute_root('mount', '-o', 'remount,rw', '/cdrom'):
+                with misc.raised_privileges():
+                    os.remove(os.path.join('/cdrom', '.disk', 'info'))
+                misc.execute_root('mount', '-o', 'remount,ro', '/cdrom')
+        reboot_machine(None)
 
     def handle_exception(self, err):
         """Handle all exceptions thrown by any part of the application"""
         self.log(str(err))
-        self.ui.show_dialog("exception", err)
+        if self.standalone:
+            Gdk.threads_enter()
+            self.show_dialog("exception", err)
+            Gdk.threads_leave()
+        else:
+            self.ui.show_dialog("exception", err)
 
 ############################
 # RP Builder Worker Thread #
@@ -857,7 +920,7 @@ class RPbuilder(Thread):
         self.xml_obj = BTOxml()
         Thread.__init__(self)
 
-    def build_rp(self, cushion=600):
+    def build_rp(self):
         """Copies content to the recovery partition using a parted wrapper.
            This might be better implemented in python-parted or parted_server/partman,
            but those would require extra dependencies, and are generally more complex
@@ -865,16 +928,21 @@ class RPbuilder(Thread):
 
         black_pattern = re.compile('casper-rw|casper-uuid')
 
-        #Check if we are booted from same device as target
+        cushion = 600
+        if os.path.exists(magic.CDROM_MOUNT + '/IMAGE/rcx.flg'):
+            cushion = 1600
+        black_pattern = re.compile("no_black_pattern")
+
+        # Check if we are booted from same device as target
         mounted_device = find_boot_device()
         if self.device in mounted_device:
             raise RuntimeError("Attempting to install to the same device as booted from.\n\
 You will need to clear the contents of the recovery partition\n\
 manually to proceed.")
 
-        #Calculate RP size
+        # Calculate RP size
         rp_size = magic.black_tree("size", black_pattern, magic.CDROM_MOUNT)
-        #in mbytes
+        # in mbytes
         rp_size_mb = (rp_size / 1000000) + cushion
 
         # Build new partition table
@@ -897,31 +965,67 @@ manually to proceed.")
             rp_part = EFI_RP_PARTITION
             esp_part = EFI_ESP_PARTITION
         for command in commands:
-            #wait for settle
+            # wait for settle
             if command[0] == 'mkfs.msdos':
                 while not os.path.exists(command[-1]):
                     time.sleep(1)
             result = misc.execute_root(*command)
             if result is False:
-                if self.efi:
                     raise RuntimeError("Error formatting disk.")
 
-        #Build RP
-        command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', "fat32", "fat32", str(grub_size), str(rp_size_mb + grub_size))
+        # Drag some variable of parted command to support RCX
+        file_format = 'fat32'
+        file_type = 'mkfs.msdos'
+        file_para = '-n'
+        part_label = 'OS'
+
+        # Change file system if installed RCX
+        if os.path.exists(magic.CDROM_MOUNT + '/IMAGE/rcx.flg'):
+            # Set RCX variable parameters
+            file_format = 'ext2'
+            file_type = 'mkfs.ext2'
+            file_para = '-L'
+            part_label = 'rhimg'
+            # Build OS Part
+            command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', 'fat32', 'fat32', str(grub_size),
+                       str(250 + grub_size))
+            result = misc.execute_root(*command)
+            if result is False:
+                self.handle_exception("Error creating new 250 mb OS partition on %s" % (self.device))
+                raise RuntimeError("Error creating new 250 mb OS partition on %s" % (self.device))
+            # Build OS filesystem
+            command = ('mkfs.msdos', '-n', 'OS', self.device + rp_part)
+            while not os.path.exists(command[-1]):
+                time.sleep(1)
+            result = misc.execute_root(*command)
+            if result is False:
+                self.handle_exception("Error creating fat32 filesystem on %s%s" % (self.device, rp_part))
+                raise RuntimeError("Error creating fat32 filesystem on %s%s" % (self.device, rp_part))
+            # Refresh the grub_size and rp_part value
+            grub_size = grub_size + 250
+            rp_part = rp_part[:-1] + '3'
+            rp_size_mb = rp_size_mb + 5000
+
+        # Build RP
+        command = ('parted', '-a', 'optimal', '-s', self.device, 'mkpart', file_format, file_format, str(grub_size),
+                   str(rp_size_mb + grub_size))
         result = misc.execute_root(*command)
         if result is False:
             raise RuntimeError("Error creating new %s mb recovery partition on %s" % (rp_size_mb, self.device))
 
-        #Build RP filesystem
+        # Build RP filesystem
         self.status("Formatting Partitions", 2)
-        command = ('mkfs.msdos', '-n', 'OS', self.device + rp_part)
+        if os.path.exists(magic.CDROM_MOUNT + '/IMAGE/rcx.flg'):
+            command = (file_type, '-F', file_para, part_label, self.device + rp_part)
+        else:
+            command = (file_type, file_para, part_label, self.device + rp_part)
         while not os.path.exists(command[-1]):
             time.sleep(1)
         result = misc.execute_root(*command)
         if result is False:
-            raise RuntimeError("Error creating fat32 filesystem on %s%s" % (self.device, rp_part))
+            raise RuntimeError("Error creating %s filesystem on %s%s" % (file_format, self.device, rp_part))
 
-        #Mount RP
+        # Mount RP
         mount = misc.execute_root('mount', self.device + rp_part, '/mnt')
         if mount is False:
             raise RuntimeError("Error mounting %s%s" % (self.device, rp_part))
@@ -932,15 +1036,61 @@ manually to proceed.")
         self.file_size_thread.set_starting_value(2)
         self.file_size_thread.start()
 
-        #Copy RP Files
+        # Copy RP Files
         with misc.raised_privileges():
             if os.path.exists(magic.ISO_MOUNT):
                 magic.black_tree("copy", re.compile(".*\.iso$"), magic.ISO_MOUNT, '/mnt')
-            magic.black_tree("copy", black_pattern, magic.CDROM_MOUNT, '/mnt')
+            elif os.path.exists(os.path.join(magic.CDROM_MOUNT, "IMAGE")):
+                magic.black_tree("copy", black_pattern, magic.CDROM_MOUNT + '/IMAGE', '/mnt')
+            else:
+                magic.black_tree("copy", black_pattern, magic.CDROM_MOUNT, '/mnt')
 
         self.file_size_thread.join()
 
-        #find uuid of drive
+        # combine the RCX iso image as its size is too big to store in vfat sticky
+        if os.path.exists(magic.CDROM_MOUNT + '/IMAGE/rcx.flg'):
+            # lock.acquire()
+            tgz_file = "/tmp/RCX_ISO.tar.gz"
+            with misc.raised_privileges():
+                # merge compress iso files
+                gza_files = glob.glob("/mnt/*.tar.gza*")
+                with open(tgz_file, 'wb') as outfile:
+                    ISO_size = sum(map(os.path.getsize, gza_files))
+                    size_thread = ProgressBySize("Merge Compress RCX ISO Files ...",
+                                                 tgz_file,
+                                                 ISO_size)
+                    size_thread.progress = self.report_progress
+                    size_thread.reset_write(ISO_size)
+                    size_thread.set_starting_value(2)
+                    size_thread.start()
+                    for fname in sorted(gza_files):
+                        with open(fname, 'rb') as infile:
+                            for line in infile:
+                                outfile.write(line)
+                    size_thread.join()
+                # remove the gza files
+                for gza_file in gza_files:
+                    os.remove(gza_file)
+
+            import tarfile
+            tf = tarfile.open(tgz_file)
+            tarfile_size = sum(map(lambda x:getattr(x,"size"),tf.getmembers()))
+            ISO_file = os.path.join("/mnt", tf.getmembers()[0].name)
+            if not os.path.exists(ISO_file):
+                os.mknod(ISO_file)
+            size_thread = ProgressBySize("Unpacking RCX ISO Image ...",
+                                         ISO_file,
+                                         tarfile_size)
+            size_thread.progress = self.report_progress
+            size_thread.reset_write(tarfile_size)
+            size_thread.set_starting_value(2)
+            size_thread.start()
+            tf.extractall(path="/mnt/")
+            tf.close()
+            size_thread.join()
+            os.remove(tgz_file)
+
+
         with misc.raised_privileges():
             blkid = magic.fetch_output(['blkid', self.device + rp_part, "-p", "-o", "udev"]).split('\n')
             for item in blkid:
@@ -979,33 +1129,39 @@ manually to proceed.")
 
         #Install grub
         self.status("Installing GRUB", 88)
+
         ##If we don't have grub binaries, build them
-        grub_files = ['/cdrom/efi/boot/bootx64.efi',
-                      '/cdrom/efi/boot/grubx64.efi']
+        grub_files = [magic.CDROM_MOUNT + '/IMAGE/efi/boot/bootx64.efi',
+                      magic.CDROM_MOUNT + '/IMAGE/efi/boot/grubx64.efi',
+                      magic.CDROM_MOUNT + '/efi/boot/bootx64.efi',
+                      magic.CDROM_MOUNT + '/efi/boot/grubx64.efi']
 
         ##Mount ESP
+        if not os.path.exists(os.path.join('/mnt', 'efi')):
+            with misc.raised_privileges():
+                os.makedirs(os.path.join('/mnt', 'efi'))
         mount = misc.execute_root('mount', self.device + esp_part, '/mnt/efi')
         if mount is False:
             raise RuntimeError("Error mounting %s%s" % (self.device, esp_part))
 
         ##find old entries and prep directory
-        direct_path = '/mnt/efi' + '/efi/ubuntu'
+        direct_path = '/mnt/efi' + '/EFI/linux'
         with misc.raised_privileges():
             os.makedirs(direct_path)
 
-            #copy boot loader files
+            # copy boot loader files
             for item in grub_files:
                 if not os.path.exists(item):
                     raise RuntimeError("Error, %s doesn't exist." % item)
                 shutil.copy(item, direct_path)
 
-            #find old entries
+            # find old entries
             bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
 
-            #delete old entries
+            # delete old entries
             for line in bootmgr_output:
                 bootnum = ''
-                if line.startswith('Boot') and 'ubuntu' in line.lower():
+                if line.startswith('Boot') and 'LinuxIns' in line.lower():
                     bootnum = line.split('Boot')[1].replace('*', '').split()[0]
                 if bootnum:
                     bootmgr = misc.execute_root('efibootmgr', '-v', '-b', bootnum, '-B')
@@ -1013,31 +1169,48 @@ manually to proceed.")
                         raise RuntimeError("Error removing old EFI boot manager entries")
 
         target = 'shimx64.efi'
+        source = 'bootx64.efi'
+        # RCX bootloader source file name is different
+        if os.path.exists(magic.CDROM_MOUNT + '/IMAGE/rcx.flg'):
+            source = 'grubx64.efi'
+
         with misc.raised_privileges():
-            os.rename(os.path.join(direct_path, 'bootx64.efi'),
+            os.rename(os.path.join(direct_path, source),
                       os.path.join(direct_path, target))
 
-        add = misc.execute_root('efibootmgr', '-v', '-c', '-d', self.device, '-p', EFI_ESP_PARTITION, '-l', '\\EFI\\ubuntu\\%s' % target, '-L', 'ubuntu')
+        add = misc.execute_root('efibootmgr', '-v', '-c', '-d', self.device, '-p', EFI_ESP_PARTITION, '-l',
+                                '\\EFI\\linux\\%s' % target, '-L', 'LinuxIns')
         if add is False:
             raise RuntimeError("Error adding efi entry to %s%s" % (self.device, esp_part))
+
+        #TODO check me - am I really needed?
+        # set the LinuxIns entry on the first place for next reboot
+        with misc.raised_privileges():
+            bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
+            for line in bootmgr_output:
+                bootnum = ''
+                if line.startswith('Boot') and 'LinuxIns' in line:
+                    bootnum = line.split('Boot')[1].replace('*', '').split()[0]
+                    misc.execute_root('efibootmgr', '-n', bootnum)
+        ##copy other possible bootloader files
+        with misc.raised_privileges():
+            for path in [os.path.join(magic.ISO_MOUNT, "IMAGE", "factory", "grub.cfg"),
+                         os.path.join(magic.CDROM_MOUNT, "IMAGE", "factory", "grub.cfg")]:
+                if os.path.exists(path):
+                    shutil.copy(path, '/mnt/efi/EFI/linux/grub.cfg')
 
         ##clean up ESP mount
         misc.execute_root('umount', '/mnt/efi')
 
         #Make changes that would normally be done in factory stage1
         ##rename efi directory so we don't offer it to customer boot in NVRAM menu
-        if os.path.exists('/mnt/efi'):
-            with misc.raised_privileges():
-                shutil.move('/mnt/efi', '/mnt/efi.factory')
-
-        ##set install_in_progress flag
-        with misc.raised_privileges():
-            if not os.path.exists('/mnt/factory/grub.cfg'):
-                build = misc.execute_root('/usr/share/dell/grub/build-factory.sh')
-                if build is False:
-                    raise RuntimeError("Error building grub cfg.")
+        if not self.standalone:
+            if os.path.exists('/mnt/efi'):
                 with misc.raised_privileges():
-                    magic.white_tree("copy", re.compile('.'), '/var/lib/dell-recovery', '/mnt/factory')
+                    shutil.move('/mnt/efi', '/mnt/efi.factory')
+
+        # set install_in_progress flag
+        with misc.raised_privileges():
             magic.fetch_output(['grub-editenv', '/mnt/factory/grubenv', 'set', 'install_in_progress=1'])
 
         #update bto.xml
@@ -1067,7 +1240,7 @@ manually to proceed.")
             self.xml_obj.write_xml('/mnt/bto.xml')
         misc.execute_root('umount', '/mnt')
 
-        for count in range(100,0,-10):
+        for count in range(100, 0, -10):
             self.status("Restarting in %d seconds." % int(count/10), count)
             time.sleep(1)
 
@@ -1250,3 +1423,18 @@ class Install(InstallPlugin):
         shutil.copy(apt_installed, os.path.join(self.target, 'tmp', os.path.basename(apt_installed)))
 
         return InstallPlugin.install(self, target, progress, *args, **kwargs)
+
+# allow executing in standalone mode
+def main():
+    gi.require_version('Gtk', '3.0')
+    from gi.repository import Gtk
+    GObject.threads_init()
+    Gdk.threads_init()
+    Gdk.threads_enter()
+    args = {"mode": "standalone"}
+    PageGtk(controller=None, args=args, kwargs=None)
+    Gtk.main()
+    Gdk.threads_leave()
+
+if __name__ == '__main__':
+    main()
