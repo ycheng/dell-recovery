@@ -393,7 +393,7 @@ class Page(Plugin):
 
        # check dual boot or not
         try:
-            if self.db.get('dell-recovery/dual_boot')=='true':
+            if self.db.get('dell-recovery/dual_boot') == 'true':
            ##dual boot get the partition number of OS and swap
                 os_label = self.db.get('dell-recovery/os_partition')
                 os_part,swap_part = self.dual_partition_num(os_label)
@@ -1225,6 +1225,15 @@ class Install(InstallPlugin):
                     wfd.write(line)
                 if not found:
                     wfd.write("GRUB_DISABLE_OS_PROBER=true\n")
+
+            #set default recovery_type of 99_dell_recovery grub as 'hdd' for non-Wyse platforms
+            recovery_type = 'hdd'
+            #if wyse mode is on (dell-recovery/mode == 'wyse'), set the recovery_type to be 'factory'
+            #as Wyse platforms will always skip the "Restore OS Linux partition" dialog
+            if self.db.get('dell-recovery/wyse_mode') == 'true':
+                recovery_type = 'factory'
+            #create 99_dell_recovery grub
+            magic.create_grub_entries(self.target, recovery_type)
 
         #for tos
         try:
