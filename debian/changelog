@@ -1,3 +1,15 @@
+dell-recovery (1.52) artful; urgency=medium
+
+  [ Shih-Yuan Lee (FourDollars) ]
+  * Recommend the missing package for DVD recovery media since
+    062d0f220f2032fef550cea573a6257eddf4d0d8.
+  * Fix the crash since c8be7db6e07c3a51d21181f4f90e5379e8feac68.
+  * Import the missing packages since
+    dd1958f418e67cf7019e8ee0cb0777a79d0d437f.
+  * Redirect the messages to /dev/ttyprintk. (Closes: #44)
+
+ -- Shih-Yuan Lee (FourDollars) <fourdollars@gmail.com>  Wed, 11 Oct 2017 08:11:10 -0500
+
 dell-recovery (1.51) artful; urgency=medium
 
   * New release.
