@@ -1,3 +1,10 @@
+dell-recovery (1.53) artful; urgency=medium
+
+  [ Shih-Yuan Lee (FourDollars) ]
+  * Fix more crash since c8be7db6e07c3a51d21181f4f90e5379e8feac68.
+
+ -- Shih-Yuan Lee (FourDollars) <fourdollars@gmail.com>  Fri, 13 Oct 2017 13:42:23 -0500
+
 dell-recovery (1.52) artful; urgency=medium
 
   [ Shih-Yuan Lee (FourDollars) ]
