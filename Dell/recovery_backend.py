@@ -1035,6 +1035,12 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
             xorrisoargs.append('-m')
             xorrisoargs.append(os.path.join(mntdir, 'md5sum.txt'))
             regenerate_md5sum(tmpdir, mntdir)
+
+        #ignore any failures on disk
+        if os.path.exists(os.path.join(mntdir, 'factory', 'grubenv')):
+            xorrisoargs.append('-m')
+            xorrisoargs.append(os.path.join(mntdir, 'factory', 'grubenv'))
+
         #Directories to install
         xorrisoargs.append(tmpdir + '/')
         xorrisoargs.append(mntdir + '/')
