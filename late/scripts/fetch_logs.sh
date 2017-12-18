@@ -93,7 +93,8 @@ if [ -d /cdrom/OSLogs ];then
 fi
 mkdir /cdrom/OSLogs
 
-linux_part=`fdisk -l | grep "Linux filesystem" | cut -d ' ' -f 1`
+STICKY=$(mount | sed '/\/cdrom/!d; s,\(.*\) on .*,\1,;')
+linux_part=`fdisk -l | grep "Linux filesystem" | grep -v "$STICKY" | cut -d ' ' -f 1`
 #check the mount partition
 if [ -z $linux_part ];then
     #store the disk layout info
