@@ -88,8 +88,6 @@ if [ "$BOOTDEV" = "$TARGETDEV" ]; then
     rm -rf $RP/dellrmk.bin
     rm -rf $RP/linld.com
     rm -rf $RP/cmd.cfg
-    rm -rf $RP/SDR
-    rm -rf $RP/*.SDR
     rm -rf $RP/srv
     rm -rf $RP/factory/*.dll
     rm -rf $RP/factory/*.exe

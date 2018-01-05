@@ -909,6 +909,8 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
                        '-o', iso,
                        '-m', '*.exe',
                        '-m', '*.sys',
+                       '-m', '*.SDR',
+                       '-m', 'SDR',
                        '-m', 'syslinux',
                        '-m', 'syslinux.cfg',
                        '-m', os.path.join(mntdir, 'bto.xml'),
