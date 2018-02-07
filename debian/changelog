@@ -1,3 +1,19 @@
+dell-recovery (1.55) bionic; urgency=medium
+
+  [ Shih-Yuan Lee (FourDollars) ]
+  * Add an option for dell-bto-autobuilder not to update dell-recovery automatically.
+
+  [ Kevin Rustin Wang ]
+  * fix an EULA bug
+
+  [ kevin_rustin_wang ]
+  * fix collect log function bug
+
+  [ Mario Limonciello ]
+  * Simplify travis build rule
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Wed, 07 Feb 2018 09:59:44 -0600
+
 dell-recovery (1.54) bionic; urgency=medium
 
   [ Mario Limonciello ]
