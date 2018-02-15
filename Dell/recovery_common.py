@@ -140,6 +140,19 @@ def _tree(action, list, src, dst, base, white):
 
     return outputs
 
+def check_family(test):
+    """Checks if a system definitely matches a family"""
+    path = '/sys/class/dmi/id/product_family'
+    if not os.path.exists(path):
+        return False
+    with open(path) as rfd:
+        value = rfd.readline().strip()
+        if not value:
+            return False
+        if test.lower() in value.lower():
+            return True
+    return False
+
 def check_vendor():
     """Checks to make sure that the app is running on Dell HW"""
     path = '/sys/class/dmi/id/'
