@@ -1,3 +1,9 @@
+dell-recovery (1.56) bionic; urgency=medium
+
+  * Add detection for Wyse systems to force minimal install mode
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Wed, 21 Feb 2018 09:09:00 -0600
+
 dell-recovery (1.55) bionic; urgency=medium
 
   [ Shih-Yuan Lee (FourDollars) ]
