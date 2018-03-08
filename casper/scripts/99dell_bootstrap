@@ -53,6 +53,13 @@ export DEBIAN_HAS_FRONTEND=
 export DEBCONF_REDIR=
 export DEBIAN_FRONTEND=noninteractive
 
+# Early emergency installer fix
+if [ -e /root/cdrom/scripts/emergency.sh ]; then
+    . /root/cdrom/scripts/emergency.sh
+elif [ -e /root/isodevice/scripts/emergency.sh ]; then
+    . /root/isodevice/scripts/emergency.sh
+fi
+
 if [ -d /root/isodevice ]; then
     if [ -f /root/isodevice/.disk/info.recovery -a ! -f /root/isodevice/.disk/info ]; then
 	mount -o remount,rw /root/isodevice
@@ -131,12 +138,7 @@ fi
 # Clear out debconf database backup files to save memory.
 rm -f /root/var/cache/debconf/*.dat-old
 
-#Emergency installer fixes
-if [ -e /root/cdrom/scripts/emergency.sh ]; then
-    . /root/cdrom/scripts/emergency.sh
-elif [ -e /root/isodevice/scripts/emergency.sh ]; then
-    . /root/isodevice/scripts/emergency.sh
-fi
+# Later emergency installer fixes
 if [ -d /root/cdrom/scripts/emergency-scripts ]; then
     for script in /root/cdrom/scripts/emergency-scripts/[0-9]*; do
         . $script
