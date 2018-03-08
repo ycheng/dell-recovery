@@ -36,6 +36,7 @@ if [ ! -f /etc/apt/apt.conf.d/00AllowUnauthenticated ]; then
     cat > /etc/apt/apt.conf.d/00AllowUnauthenticated << EOF
 APT::Get::AllowUnauthenticated "true";
 Aptitude::CmdLine::Ignore-Trust-Violations "true";
+Acquire::AllowInsecureRepositories "true";
 EOF
 fi
 
@@ -90,7 +91,7 @@ fi
 if [ "$1" = "cleanup" ]; then
     #cleanup
     mv /etc/apt/sources.list.ubuntu /etc/apt/sources.list
-    rm -f /Packages
+    rm -f /Packages /etc/apt/apt.conf.d/00AllowUnauthenticated /etc/apt/apt.conf.d/00NoMountCDROM
     rm -f /etc/apt/sources.list.d/dell.list
     if [ -d /etc/apt/sources.list.d.old ]; then
         mv /etc/apt/sources.list.d.old/* /etc/apt/sources.list.d
