@@ -1,10 +1,10 @@
-dell-recovery (1.57) UNRELEASED; urgency=medium
+dell-recovery (1.57) bionic; urgency=medium
 
   [ Shih-Yuan Lee (FourDollars) ]
   * Fix the local repository.
   * Provide early emergency script.
 
- -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Tue, 27 Mar 2018 16:05:50 -0500
+ -- Mario Limonciello <mario.limonciello@dell.com>  Tue, 27 Mar 2018 16:06:12 -0500
 
 dell-recovery (1.56) bionic; urgency=medium
 
