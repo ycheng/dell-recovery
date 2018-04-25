@@ -144,11 +144,12 @@ def check_vendor():
     """Checks to make sure that the app is running on Dell HW"""
     path = '/sys/class/dmi/id/'
     variables = ['bios_vendor', 'sys_vendor']
-    valid = ['dell', 'alienware', 'wyse', 'innotek']
+    valid = [b'dell', b'alienware', b'wyse', b'innotek']
     for var in variables:
-        if os.path.exists(path + var):
-            with open(path + var) as rfd:
-                value = rfd.readline().strip()
+        target = os.path.join(path, var)
+        if os.path.exists(target):
+            with open(target, 'rb') as rfd:
+                value = rfd.read().strip()
                 if not value:
                     return True
                 value = value.split()[0].lower()
