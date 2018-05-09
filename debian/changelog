@@ -1,7 +1,8 @@
-dell-recovery (1.54) bionic; urgency=medium
+dell-recovery (1.54~xenial1) UNRELEASED; urgency=medium
 
   [ Mario Limonciello ]
   * Never allow grubenv to propogate to ISOs
+  * Cherry pick fix for SMBIOS strings on debranded systems.
 
   [ Alex Tu ]
   * filter out ":amd64" string when comparing new installed packages name (#47)
