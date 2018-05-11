@@ -145,7 +145,7 @@ fi
 
 #check the packages installed or not
 if [ -f "$TARGET/tmp/apt-installed" ]; then
-    mv $TARGET/tmp/apt-installed $TARGET/var/lib/ubiquity/dell-apt
+    grep -v "ubiquity" $TARGET/tmp/apt-installed > $TARGET/var/lib/ubiquity/dell-apt
     sed "s/:$(dpkg --print-architecture)//g" $TARGET/var/lib/ubiquity/installed-packages > $TARGET/var/lib/ubiquity/installed-packages-filtered
     grep -x -f $TARGET/var/lib/ubiquity/dell-apt $TARGET/var/lib/ubiquity/installed-packages-filtered > $TARGET/var/lib/ubiquity/dell_installed
     awk '{print $0}' $TARGET/var/lib/ubiquity/dell-apt $TARGET/var/lib/ubiquity/dell_installed |sort |uniq -u > $TARGET/var/lib/ubiquity/dell_uninstalled
