@@ -32,13 +32,13 @@ set -e
 export TARGET=/target
 
 if [ -d "/isodevice" ]; then
-    DEVICE=$(mount | sed -n 's/\ on\ \/isodevice.*//p')
+    DEVICE=$(mount | sed -n 's/\ on\ \/isodevice .*//p')
 else
-    DEVICE=$(mount | sed -n 's/\ on\ \/cdrom.*//p')
+    DEVICE=$(mount | sed -n 's/\ on\ \/cdrom .*//p')
 fi
 
 export BOOTDEV=${DEVICE%%[0-9]*}
-DEVICE=$(mount | sed -n 's/\ on\ \/target.*//p')
+DEVICE=$(mount | sed -n 's/\ on\ \/target .*//p')
 export TARGETDEV=${DEVICE%%[0-9]*}
 
 LOG="var/log"
