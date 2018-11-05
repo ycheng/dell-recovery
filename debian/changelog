@@ -1,5 +1,6 @@
-dell-recovery (1.60) UNRELEASED; urgency=medium
+dell-recovery (1.60) disco; urgency=medium
 
+  [ Shih-Yuan Lee (FourDollars) ]
   * Change the order of the kernel parameter options to avoid the propagation
     by accident.
   * Reduce some PyGIWarning messages.
@@ -7,7 +8,10 @@ dell-recovery (1.60) UNRELEASED; urgency=medium
   * Renew .disk/ubuntu_dist_channel for ubuntu-report.
   * Support UBUNTU_DRIVERS_BLACKLIST mechanism in fish tarball.
 
- -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Fri, 11 May 2018 18:41:43 +0800
+  [ Mario Limonciello ]
+  * Correct the detection of location of /target when using LVM
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Mon, 05 Nov 2018 17:44:20 -0600
 
 dell-recovery (1.59) bionic; urgency=medium
 
