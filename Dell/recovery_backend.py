@@ -36,7 +36,6 @@ import subprocess
 import tarfile
 import shutil
 import datetime
-import distutils.dir_util
 import lsb_release
 from hashlib import md5
 
@@ -374,8 +373,7 @@ class Backend(dbus.service.Object):
             if dest is not None:
                 if not os.path.isdir(dest):
                     os.makedirs(dest)
-                distutils.file_util.copy_file(fishie, dest,
-                                              verbose=1, update=0)
+                shutil.copy(fishie, dest)
 
 
     def start_sizable_progress_thread(self, input_str, mnt, w_size):
@@ -480,9 +478,7 @@ class Backend(dbus.service.Object):
                     new_name += '.zip'
                 elif os.path.exists(fishie) and tarfile.is_tarfile(fishie):
                     new_name += '.tgz'
-                distutils.file_util.copy_file(fishie,
-                                              os.path.join(dest, new_name),
-                                              verbose=1, update=0)
+                shutil.copy_file(fishie, os.path.join(dest, new_name))
 
         #If dell-recovery needs to be injected into the image
         if dell_recovery_package:
@@ -497,7 +493,7 @@ class Backend(dbus.service.Object):
                 (out, err) = call.communicate()
             else:
                 logging.debug("Adding manually included dell-recovery package, %s", dell_recovery_package)
-                distutils.file_util.copy_file(dell_recovery_package, dest)
+                shutil.copy(dell_recovery_package, dest)
 
         function = getattr(Backend, create_fn)
         function(self, assembly_tmp, version, iso, platform, no_update)

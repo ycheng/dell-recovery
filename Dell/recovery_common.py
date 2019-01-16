@@ -92,8 +92,6 @@ def white_tree(action, whitelist, src, dst='', base=None):
 
 def _tree(action, list, src, dst, base, white):
     """Helper function for tree calls"""
-    from distutils.file_util import copy_file
-
     if base is None:
         base = src
         if not base.endswith('/'):
@@ -131,8 +129,7 @@ def _tree(action, list, src, dst, base, white):
             if action == "copy":
                 if not os.path.isdir(dst):
                     os.makedirs(dst)
-                copy_file(src_name, dst_name, preserve_mode=1,
-                          preserve_times=1, update=1, dry_run=0)
+                shtuil.copy(src_name, dst_name)
                 outputs.append(dst_name)
 
             elif action == "size":
