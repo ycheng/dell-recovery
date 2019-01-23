@@ -28,9 +28,11 @@ Depends: ${python3:Depends},
          uuid-runtime,
 Replaces: dell-artwork, dell-oobe
 Conflicts: dell-oobe
-Recommends: dvd+rw-tools,
+Recommends: cryptsetup,
+            dvd+rw-tools,
             isolinux,
             lsb-release,
+            lvm2,
             mdadm (>> 4.1~rc1-2),
             parted,
             python3-progressbar,
