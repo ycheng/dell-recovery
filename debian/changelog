@@ -1,4 +1,4 @@
-dell-recovery (1.61) UNRELEASED; urgency=medium
+dell-recovery (1.61) disco; urgency=medium
 
   [ Shih-Yuan Lee (FourDollars) ]
   * Fix the installation problem when the volume name of Intel RSTe SATA RAID
@@ -15,7 +15,10 @@ dell-recovery (1.61) UNRELEASED; urgency=medium
   * add lvm2 and cryptsetup to recommends so they won't be removed in
     encrypted rootfs use case.
 
- -- Yuan-Chen Cheng <yc.cheng@canonical.com>  Wed, 23 Jan 2019 10:43:06 +0800
+  [ Mario Limonciello ]
+  * don't use distutils.copy_file, but instead shutil.copy
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Fri, 25 Jan 2019 13:54:10 -0600
 
 dell-recovery (1.60) disco; urgency=medium
 
