@@ -521,7 +521,7 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
         initramfs_root = tmpdir
     for item in [new_uuid_file, os.path.join(initramfs_root, 'conf', 'uuid.conf')]:
         with open(item, "w") as uuid_fd:
-            uuid_fd.write(new_uuid)
+            uuid_fd.write("%s\n" % new_uuid)
 
     #Add bootstrap to initrd
     chain0 = subprocess.Popen(['/usr/share/dell/casper/hooks/dell-bootstrap'], env={'DESTDIR': initramfs_root, 'INJECT': '1'})
