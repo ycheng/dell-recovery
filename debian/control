@@ -7,11 +7,11 @@ Build-Depends: debhelper (>= 11), python3-all, python3-distutils-extra, po-debco
 X-Python3-Version: >= 3.2
 Homepage: http://linux.dell.com/
 Vcs-Git: http://github.com/superm1/dell-recovery
-Standards-Version: 3.9.8
+Standards-Version: 4.4.0
 
 Package: dell-recovery
 Architecture: all
-Depends: ${python3:Depends}, 
+Depends: ${python3:Depends},
          ${misc:Depends},
          dmidecode,
          dpkg-repack,
@@ -42,7 +42,7 @@ Enhances: oem-config-gtk, ubiquity-frontend-gtk
 Suggests: grub-pc
 Description: Dell Recovery Media Creation Package
  This package is used to produce a Dell recovery media image.
- It then uses known open source tools to write the image to 
+ It then uses known open source tools to write the image to
  a USB flash drive or DVD writer.
 
 Package: dell-recovery-casper
@@ -59,7 +59,7 @@ Architecture: all
 Depends: dell-recovery, ubiquity, ${misc:Depends}
 Recommends: grub-efi-amd64-bin
 Description: Bootloader configuration for Dell's factory process
- This package is used to generate GRUB2 configuration that is 
+ This package is used to generate GRUB2 configuration that is
  used in the Dell Linux factory installation process.
  .
  This package doesn't have much use outside of the Dell environment
