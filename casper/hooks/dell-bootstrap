@@ -25,7 +25,10 @@ fi
 
 #invoked from dell-recovery
 if [ -n "$INJECT" ]; then
-    . /usr/share/initramfs-tools/scripts/functions
-    rm -f $DESTDIR/scripts/casper-bottom/ORDER
-    cache_run_scripts "${DESTDIR}" "/scripts/casper-bottom"
+    if ! grep 99dell_bootstrap $DESTDIR/scripts/casper-bottom/ORDER >/dev/null; then
+        cat >> $DESTDIR/scripts/casper-bottom/ORDER << EOF
+/scripts/casper-bottom/99dell_bootstrap "\$@"
+[ -e /conf/param.conf ] && . /conf/param.conf
+EOF
+    fi
 fi
