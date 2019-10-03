@@ -537,7 +537,7 @@ old compression method %s" % (old_initrd_file, old_uuid_file,
 
     if use_mkinitramfs:
         #Extract old initramfs with the new format
-        chain0 = subprocess.Popen(["unmkinitramfs", old_initrd_file, "."],
+        chain0 = subprocess.Popen(["/usr/bin/unmkinitramfs", old_initrd_file, "."],
                                 stdout=subprocess.PIPE, cwd=tmpdir)
         chain0.communicate()
     else:
@@ -584,7 +584,7 @@ old compression method %s" % (old_initrd_file, old_uuid_file,
     logging.debug("create_new_uuid: new initrd file: %s" % new_initrd_file)
 
     if use_mkinitramfs:
-        chain0 = subprocess.Popen(['mkinitramfs', '-o', new_initrd_file], cwd=tmpdir, stdout=subprocess.PIPE)
+        chain0 = subprocess.Popen(['/usr/sbin/mkinitramfs', '-o', new_initrd_file], cwd=tmpdir, stdout=subprocess.PIPE)
         chain0.communicate()
     else:
         chain0 = subprocess.Popen(['find'], cwd=tmpdir, stdout=subprocess.PIPE)
