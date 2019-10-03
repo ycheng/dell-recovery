@@ -943,7 +943,13 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
             xorrisoargs.append(os.path.join('/', 'usr', 'lib', 'ISOLINUX', 'isohdpfx.bin'))
 
         #include bootloader as eltorito if we have it
-        if os.path.exists(os.path.join(mntdir, 'boot', 'efi.img')):
+        if os.path.exists(os.path.join(mntdir, 'boot', 'grub', 'efi.img')):
+            xorrisoargs.append('-eltorito-alt-boot')
+            xorrisoargs.append('-e')
+            xorrisoargs.append('boot/grub/efi.img')
+            xorrisoargs.append('-no-emul-boot')
+            xorrisoargs.append('-isohybrid-gpt-basdat')
+        elif os.path.exists(os.path.join(mntdir, 'boot', 'efi.img')):
             xorrisoargs.append('-eltorito-alt-boot')
             xorrisoargs.append('-e')
             xorrisoargs.append('boot/efi.img')
