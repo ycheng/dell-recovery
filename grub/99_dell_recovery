@@ -28,10 +28,18 @@ menuentry "#RECOVERY_TEXT#" {
         fi
         if [ -s /factory/dual_enable ]; then
             set options="dell-recovery/dual_boot=true \$options"
-        fi 
+        fi
 
-        linux   /casper/vmlinuz.efi dell-recovery/recovery_type=#REC_TYPE# \$uuid_options \$options
-	initrd	/casper/initrd.lz
+        kernel=/casper/vmlinuz
+        if [ ! -f $kernel ]; then
+            kernel=/casper/vmlinuz.efi
+        fi
+        initrd=/casper/vmlinuz
+        if [ ! -f $initrd ]; then
+            initrd=/casper/initrd.lz
+        fi
+        linux   \$kernel dell-recovery/recovery_type=#REC_TYPE# \$uuid_options \$options
+	initrd	\$initrd
 }
 EOF
 
