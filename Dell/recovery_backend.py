@@ -979,9 +979,6 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
             xorrisoargs.append('efi.factory')
             shutil.copytree(os.path.join(mntdir, 'efi.factory'), os.path.join(tmpdir, 'efi'))
 
-        #if no bootstrap in RP, we'll put it in the initrd
-        bootstrap_initrd = not os.path.exists(os.path.join(mntdir, 'scripts', 'bootstrap.sh'))
-
         #Renerate UUID
         os.mkdir(os.path.join(tmpdir, '.disk'))
         os.mkdir(os.path.join(tmpdir, 'casper'))
@@ -990,9 +987,7 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
          old_uuid) = create_new_uuid(os.path.join(mntdir, 'casper'),
                         os.path.join(mntdir, '.disk'),
                         os.path.join(tmpdir, 'casper'),
-                        os.path.join(tmpdir, '.disk'),
-                        new_compression="auto",
-                        include_bootstrap=bootstrap_initrd)
+                        os.path.join(tmpdir, '.disk'))
         self.stop_progress_thread()
         xorrisoargs.append('-m')
         xorrisoargs.append(os.path.join('.disk', old_uuid))

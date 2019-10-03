@@ -39,6 +39,7 @@ import logging
 import hashlib
 import io
 import locale
+import uuid
 
 ##                ##
 ##Common Variables##
@@ -480,22 +481,15 @@ def walk_cleanup(directory):
         os.rmdir(directory)
 
 def create_new_uuid(old_initrd_directory, old_casper_directory,
-                    new_initrd_directory, new_casper_directory,
-                    new_compression="auto",
-                    include_bootstrap=False):
+                    new_initrd_directory, new_casper_directory):
     """ Regenerates the UUID contained in a casper initramfs
-        Supported compression types:
-        * auto (auto detects lzma/gzip)
-        * lzma
-        * gzip
-        * None
         Returns full path of the old initrd and casper files (for blacklisting)
     """
     tmpdir = tempfile.mkdtemp()
 
     #Detect the old initramfs stuff
     try:
-        old_initrd_files = glob.glob('%s/initrd*' % old_initrd_directory)
+        old_initrd_file = glob.glob('%s/initrd*' % old_initrd_directory)[0]
     except Exception as msg:
         logging.warning("create_new_uuid: %s" % str(msg))
         raise dbus.DBusException("Missing initrd in image.")
@@ -505,95 +499,72 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
         logging.warning("create_new_uuid: Old casper UUID not found, assuming 'casper-uuid'")
         old_uuid_file   = '%s/casper-uuid' % old_casper_directory
 
-    old_initrd_file = ''
-    old_compression = ''
-    old_suffix = ''
-    for fname in old_initrd_files:
-        parts = fname.split('.')
-        if len(parts) > 1:
-            old_suffix = parts[1]
-        # New combined format for initrd in recent Ubuntu releases
-        if os.path.basename(fname) == 'initrd':
-            use_mkinitramfs = True
-            old_initrd_file = fname
-            break
-        if old_suffix == "lz":
-            old_compression = "lzma"
-            old_initrd_file = fname
-            break
-        elif old_suffix == "gz":
-            old_compression = "gzip"
-            old_initrd_file = fname
-            break
-        else:
-            old_suffix = ''
-
-    if (not use_mkinitramfs and not old_suffix) or not old_initrd_file or not old_uuid_file:
+    if not old_initrd_file or not old_uuid_file:
         raise dbus.DBusException("Unable to detect valid initrd.")
 
-    logging.debug("create_new_uuid: old initrd %s, old uuid %s, old suffix %s, \
-old compression method %s" % (old_initrd_file, old_uuid_file,
-                            old_suffix, old_compression))
+    logging.debug("create_new_uuid: old initrd %s, old uuid %s" %
+                 (old_initrd_file, old_uuid_file))
 
-    if use_mkinitramfs:
-        #Extract old initramfs with the new format
-        chain0 = subprocess.Popen(["/usr/bin/unmkinitramfs", old_initrd_file, "."],
-                                stdout=subprocess.PIPE, cwd=tmpdir)
-        chain0.communicate()
-    else:
-        #Extract old initramfs
-        chain0 = subprocess.Popen([old_compression, '-cd', old_initrd_file, '-S',
-                                old_suffix], stdout=subprocess.PIPE)
-        chain1 = subprocess.Popen(['cpio', '-id'], stdin=chain0.stdout, cwd=tmpdir)
-        chain1.communicate()
+    #Extract old initramfs with the new format
+    chain0 = subprocess.Popen(["/usr/bin/unmkinitramfs", old_initrd_file, "."],
+                            stdout=subprocess.PIPE, cwd=tmpdir)
+    chain0.communicate()
 
     #Generate new UUID
     new_uuid_file = os.path.join(new_casper_directory,
                                  os.path.basename(old_uuid_file))
     logging.debug("create_new_uuid: new uuid file: %s" % new_uuid_file)
-    chain0 = subprocess.Popen(['uuidgen', '-r'], stdout=subprocess.PIPE)
-    new_uuid = chain0.communicate()[0]
-    logging.debug("create_new_uuid: new UUID: %s" % new_uuid.strip())
+    new_uuid = str(uuid.uuid4())
+    logging.debug("create_new_uuid: new UUID: %s" % new_uuid)
     initramfs_root = os.path.join(tmpdir, 'main')
     if not os.path.exists(initramfs_root):
         initramfs_root = tmpdir
     for item in [new_uuid_file, os.path.join(initramfs_root, 'conf', 'uuid.conf')]:
-        with open(item, "wb") as uuid_fd:
+        with open(item, "w") as uuid_fd:
             uuid_fd.write(new_uuid)
 
-    #Newer (Ubuntu 11.04+) images may support including the bootstrap in initrd
-    if include_bootstrap:
-        chain0 = subprocess.Popen(['/usr/share/dell/casper/hooks/dell-bootstrap'], env={'DESTDIR': initramfs_root, 'INJECT': '1'})
-        chain0.communicate()
+    #Add bootstrap to initrd
+    chain0 = subprocess.Popen(['/usr/share/dell/casper/hooks/dell-bootstrap'], env={'DESTDIR': initramfs_root, 'INJECT': '1'})
+    chain0.communicate()
 
     #Detect compression
-    new_suffix = ''
-    if not use_mkinitramfs:
-        if new_compression == "gzip":
-            new_suffix = '.gz'
-        elif new_compression == 'lzma':
-            new_suffix = '.lz'
-        elif new_compression == "auto":
-            new_compression = old_compression
-            new_suffix = '.' + old_suffix
-        logging.debug("create_new_uuid: new suffix: %s" % new_suffix)
-        logging.debug("create_new_uuid: new compression method: %s" % new_compression)
+    lines = ''
+    root = os.path.join(tmpdir, 'main', 'conf', 'initramfs.conf')
+    with open(root, 'r') as rfd:
+        lines = rfd.readlines()
+    new_compression = ''
+    for line in lines:
+        if line.startswith('COMPRESS='):
+            components = line.split('=')
+            if len(components) > 1:
+                new_compression = components[1].strip()
+
+    if new_compression == "gzip":
+        compress_command = ["gzip", "-n"]
+    elif new_compression == 'lzma' or new_compression == "xz":
+        compress_command = ["xz", "--check=crc32"]
+    elif new_compression == "lz4":
+        compress_command = ["lz4", "-9", "-l"]
+    logging.debug("create_new_uuid: compression detected: %s" % new_compression)
+    logging.debug("create_new_uuid: compression command: %s" % compress_command)
 
     #Generate new initramfs
-    new_initrd_file = os.path.join(new_initrd_directory, 'initrd' + new_suffix)
+    new_initrd_file = os.path.join(new_initrd_directory, 'initrd')
     logging.debug("create_new_uuid: new initrd file: %s" % new_initrd_file)
 
-    if use_mkinitramfs:
-        chain0 = subprocess.Popen(['/usr/sbin/mkinitramfs', '-o', new_initrd_file], cwd=tmpdir, stdout=subprocess.PIPE)
-        chain0.communicate()
-    else:
-        chain0 = subprocess.Popen(['find'], cwd=tmpdir, stdout=subprocess.PIPE)
-        chain1 = subprocess.Popen(['cpio', '--quiet', '-o', '-H', 'newc'],
-                                cwd=tmpdir, stdin=chain0.stdout,
+    # make the early and late sections separately
+    for component in ['early', 'early2', 'main']:
+        root = os.path.join(tmpdir, component)
+        if not os.path.exists (root):
+            continue
+        chain0 = subprocess.Popen(['find'], cwd=root,
                                 stdout=subprocess.PIPE)
-        with open(new_initrd_file, 'wb') as initrd_fd:
-            if new_compression:
-                chain2 = subprocess.Popen([new_compression, '-9c'],
+        chain1 = subprocess.Popen(['cpio', '--quiet', '-o', '-H', 'newc'],
+                                cwd=root, stdin=chain0.stdout,
+                                stdout=subprocess.PIPE)
+        with open(new_initrd_file, 'ab') as initrd_fd:
+            if component == 'main':
+                chain2 = subprocess.Popen(compress_command,
                                         stdin=chain1.stdout,
                                         stdout=subprocess.PIPE)
                 initrd_fd.write(chain2.communicate()[0])
