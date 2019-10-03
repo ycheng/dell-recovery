@@ -478,7 +478,7 @@ class Backend(dbus.service.Object):
                     new_name += '.zip'
                 elif os.path.exists(fishie) and tarfile.is_tarfile(fishie):
                     new_name += '.tgz'
-                shutil.copy_file(fishie, os.path.join(dest, new_name))
+                shutil.copyfile(fishie, os.path.join(dest, new_name))
 
         #If dell-recovery needs to be injected into the image
         if dell_recovery_package:
