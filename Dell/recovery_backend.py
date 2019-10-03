@@ -632,7 +632,7 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
                         version = out[0]
                         date = out[1]
                 else:
-                    version = test_initrd(['isoinfo', '-J', '-i', recovery, '-x', '/casper/initrd.lz'])
+                    version = test_initrd(['isoinfo', '-J', '-i', recovery, '-x', '/casper/initrd'])
 
         else:
             mntdir = self.request_mount(recovery, "r", sender, conn)
@@ -647,8 +647,8 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
                     version = rfd.readline().strip('\n')
                     date = rfd.readline().strip('\n')
             #no /bto.xml or /bto_version found, check initrd for bootsrap files
-            elif os.path.exists(os.path.join(mntdir, 'casper', 'initrd.lz')):
-                version = test_initrd(['cat', os.path.join(mntdir, 'casper', 'initrd.lz')])
+            elif os.path.exists(os.path.join(mntdir, 'casper', 'initrd')):
+                version = test_initrd(['cat', os.path.join(mntdir, 'casper', 'initrd')])
 
         return (version, date, platform)
 

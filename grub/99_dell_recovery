@@ -34,12 +34,8 @@ menuentry "#RECOVERY_TEXT#" {
         if [ ! -f $kernel ]; then
             kernel=/casper/vmlinuz.efi
         fi
-        initrd=/casper/vmlinuz
-        if [ ! -f $initrd ]; then
-            initrd=/casper/initrd.lz
-        fi
         linux   \$kernel dell-recovery/recovery_type=#REC_TYPE# \$uuid_options \$options
-	initrd	\$initrd
+	    initrd	/casper/initrd
 }
 EOF
 
