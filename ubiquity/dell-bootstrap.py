@@ -1074,8 +1074,7 @@ manually to proceed.")
         #Install grub
         self.status("Installing GRUB", 88)
         ##If we don't have grub binaries, build them
-        grub_files = ['/cdrom/efi/boot/bootx64.efi',
-                      '/cdrom/efi/boot/grubx64.efi']
+        grub_files = ['bootx64.efi', 'grubx64.efi']
 
         ##Mount ESP
         mount = misc.execute_root('mount', self.device + esp_part, '/mnt/efi')
@@ -1088,10 +1087,11 @@ manually to proceed.")
             os.makedirs(direct_path)
 
             #copy boot loader files
-            for item in grub_files:
-                if not os.path.exists(item):
-                    raise RuntimeError("Error, %s doesn't exist." % item)
-                shutil.copy(item, direct_path)
+            for root, dirs, files in os.walk('/cdrom', topdown=False):
+                for bootloader in grub_files:
+                    for f in files:
+                        if bootloader in f.lower():
+                            shutil.copy(os.path.join(root,f), direct_path)
 
             #find old entries
             bootmgr_output = magic.fetch_output(['efibootmgr', '-v']).split('\n')
@@ -1301,10 +1301,10 @@ class Install(InstallPlugin):
             try:
                 recovery = magic.find_factory_partition_stats()
                 command = ('parted', '-a', 'optimal', '-s', recovery['slave'], 'set', str(recovery['number']), 'msftres', 'on' )
-                misc.execute_root(*command)                
+                misc.execute_root(*command)
             except Exception:
                 pass
-            
+
             to_install.append('dell-recovery')
             to_install.append('dell-eula')
 
