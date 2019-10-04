@@ -1078,18 +1078,25 @@ arch %s, distributor_str %s, bto_platform %s" % (bto_version, distributor, relea
         xorrisoargs.append(mntdir + '/')
 
         #ISO Creation
-        seg1 = subprocess.Popen(xorrisoargs,
-                              stderr=subprocess.PIPE,
-                              stdout=subprocess.PIPE,
-                              universal_newlines=True)
-        pipe = seg1.stderr
+        try:
+            seg1 = subprocess.Popen(xorrisoargs,
+                                  stderr=subprocess.PIPE,
+                                  stdout=subprocess.PIPE,
+                                  universal_newlines=True)
+            pipe = seg1.stderr
 
-        fcntl.fcntl(
-            pipe.fileno(),
-            fcntl.F_SETFL,
-            fcntl.fcntl(pipe.fileno(), fcntl.F_GETFL) | os.O_NONBLOCK)
+            fcntl.fcntl(
+                pipe.fileno(),
+                fcntl.F_SETFL,
+                fcntl.fcntl(pipe.fileno(), fcntl.F_GETFL) | os.O_NONBLOCK)
 
-        retval = seg1.poll()
+            retval = seg1.poll()
+        except OSError as e:
+            if isinstance(e, FileNotFoundError):
+                raise CreateFailed("xorriso is not installed")
+            else:
+                raise e
+
         logging.debug(" create_ubuntu: xorriso debug")
         while (retval is None):
             readx = select.select([pipe.fileno()], [], [])[0]

@@ -240,6 +240,7 @@ def fetch_output(cmd, data='', environment=os.environ):
     try:
         (out, err) = proc.communicate(data)
     except UnicodeDecodeError as error:
+        logging.warning ("unicode decode error: %s" % error)
         if locale.getpreferredencoding() != "UTF-8":
             os.environ["LC_ALL"] = "C.UTF-8"
             locale.setlocale(locale.LC_ALL, '')
@@ -496,7 +497,7 @@ def create_new_uuid(old_initrd_directory, old_casper_directory,
     try:
         old_uuid_file   = glob.glob('%s/casper-uuid*' % old_casper_directory)[0]
     except Exception as msg:
-        logging.warning("create_new_uuid: Old casper UUID not found, assuming 'casper-uuid'")
+        logging.warning("create_new_uuid: Old casper UUID not found, assuming 'casper-uuid': %s" % msg)
         old_uuid_file   = '%s/casper-uuid' % old_casper_directory
 
     if not old_initrd_file or not old_uuid_file:
@@ -664,7 +665,6 @@ def mark_packages(recovery_partition):
 
 def create_grub_entries(target_dir='/target', rec_type='hdd'):
     '''Create GRUB entry for dell-recovery during ubiquity installation'''
-    env = os.environ
     rpart = find_factory_partition_stats()
     target_grub = '%s/etc/grub.d/99_dell_recovery' % target_dir
     #create the grub entry only when recovery partition exists

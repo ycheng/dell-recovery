@@ -137,7 +137,7 @@ class DellRecoveryToolGTK:
                                                   "enable_boot_to_restore",
                                                   {},
                                                   False)
-                    proc = subprocess.Popen(["gnome-session-quit", "--reboot"])
+                    subprocess.Popen(["gnome-session-quit", "--reboot"])
                     self.destroy()
                 except dbus.DBusException as msg:
                     self.dbus_exception_handler(msg)
@@ -184,7 +184,7 @@ class DellRecoveryToolGTK:
         label_hig  = self.tool_widgets.get_object('label_hig')
         image_hig  = self.tool_widgets.get_object('image_hig')
         tool_selector = self.tool_widgets.get_object('tool_selector')
-        
+
         if transient_for is not None:
             dialog_hig.set_transient_for(transient_for)
         else:
@@ -195,7 +195,7 @@ class DellRecoveryToolGTK:
             message = "%s\n\n%s" % (message, body)
             print(body, file=sys.stderr)
         label_hig.set_markup(message)
-        
+
         if alert_type == Gtk.MessageType.ERROR:
             image_hig.set_property("stock", "gtk-dialog-error")
         elif alert_type == Gtk.MessageType.WARNING:

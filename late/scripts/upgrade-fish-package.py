@@ -23,7 +23,7 @@ if parser_args.fname.endswith('.fish.tar.gz'):
     print ("This is likely already upgraded, please provide a package that doesn't end in .fish.tar.gz")
     sys.exit(1)
 
-description = raw_input("Enter a description for this FISH package.\n")
+description = input("Enter a description for this FISH package.\n")
 
 #extract old FISH package
 package_dir = tempfile.mkdtemp()
@@ -37,7 +37,7 @@ xml_file = os.path.join(package_dir, 'prepackage.dell')
 xml_obj = BTOxml()
 if os.path.exists(xml_file):
     xml_obj.load_bto_xml(xml_file)
-xml_obj.replace_node_contents('os', lsb_release.get_lsb_information()['RELEASE'])
+xml_obj.replace_node_contents('os', lsb_release.get_os_release()['RELEASE'])
 xml_obj.append_fish('driver', description, 'n/a')
 xml_obj.write_xml(xml_file)
 

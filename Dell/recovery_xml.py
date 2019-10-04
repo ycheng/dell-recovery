@@ -26,20 +26,12 @@
 import xml.dom.minidom
 import codecs
 import os
-import sys
-
-if sys.version >= '3':
-    text_type = str
-    binary_type = bytes
-else:
-    text_type = unicode
-    binary_type = str
 
 def utf8str(old):
-    if isinstance(old, text_type):
+    if isinstance(old, str):
         return old
     else:
-        return text_type(binary_type(old), 'utf-8', errors='ignore')
+        return str(bytes(old), 'utf-8', errors='ignore')
 
 class BTOxml:
     def __init__(self):
@@ -68,7 +60,7 @@ class BTOxml:
     def fetch_node_contents(self, tag):
         """Fetches all children of a tag"""
         elements = self.dom.getElementsByTagName(tag)
-        values = text_type('')
+        values = str('')
         if len(elements) > 1:
             values = []
         if elements:
