@@ -609,20 +609,19 @@ def write_seed(seed, keys):
 
 def mark_upgrades():
     '''Mark packages that can upgrade to upgrade during install'''
-    from apt.cache import Cache
-    cache = Cache()
-    to_install = []
-    for key in cache.keys():
-        if cache[key].is_upgradable:
-            to_install.append(key)
-    del cache
-    return to_install
 
-def mark_unconditional_debs(add_directory=''):
-    '''Finds any debs from debs/main that we want unconditionally installed
-       (but ONLY the latest version on the media)'''
+
+def mark_packages(recovery_partition):
+    '''Finds packages to install:
+        * any debs from debs/main that we want unconditionally installed
+          (but ONLY the latest version on the media)
+        * upgrades
+        * dell-recovery - if recovery partition
+        * dell-eula - if it exists
+    '''
     import apt_inst
     import apt_pkg
+    from apt.cache import Cache
 
     def parse(fname):
         """ read a deb """
@@ -637,7 +636,7 @@ def mark_unconditional_debs(add_directory=''):
     #process debs/main
     to_install = []
     my_arch = fetch_output(['dpkg', '--print-architecture']).strip()
-    for top in [ISO_MOUNT, CDROM_MOUNT, add_directory]:
+    for top in [ISO_MOUNT, CDROM_MOUNT]:
         repo = os.path.join(top, 'debs', 'main')
         if os.path.isdir(repo):
             for fname in os.listdir(repo):
@@ -645,6 +644,21 @@ def mark_unconditional_debs(add_directory=''):
                     arch, package, modaliases = parse(os.path.join(repo, fname))
                     if not modaliases and (arch == "all" or arch == my_arch):
                         to_install.append(package)
+
+    #mark upgrades and dell-recovery/dell-eula
+    cache = Cache()
+    for key in cache.keys():
+        if cache[key].is_upgradable:
+            to_install.append(key)
+            continue
+        #only install if present on the media
+        if key == 'dell-eula' and recovery_partition:
+            to_install.append(key)
+    del cache
+
+    #only install if using recovery partition
+    if recovery_partition:
+        to_install.append('dell-recovery')
 
     return to_install
 

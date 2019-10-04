@@ -1292,9 +1292,6 @@ class Install(InstallPlugin):
         shutil.copy(pool_cmd, os.path.join(self.target, 'tmp', os.path.basename(pool_cmd)))
         install_misc.chrex(self.target, os.path.join('/tmp', os.path.basename(pool_cmd)))
 
-        #Stuff that is installed on all configs without fish scripts
-        to_install += magic.mark_unconditional_debs()
-
         #install dell-recovery only if there is an RP
         if rec_part:
             #hide the recovery partition as default
@@ -1304,9 +1301,6 @@ class Install(InstallPlugin):
                 misc.execute_root(*command)
             except Exception:
                 pass
-
-            to_install.append('dell-recovery')
-            to_install.append('dell-eula')
 
             #block os-prober in grub-installer
             os.rename('/usr/bin/os-prober', '/usr/bin/os-prober.real')
@@ -1342,7 +1336,8 @@ class Install(InstallPlugin):
             with open(fname, 'w') as wfd:
                 wfd.write('WARRANTY=%s\n' % destination)
 
-        to_install += magic.mark_upgrades()
+        #mark all upgrades and unconditional installs
+        to_install += magic.mark_packages(rec_part)
 
         self.remove_ricoh_mmc()
 
