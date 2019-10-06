@@ -8,7 +8,7 @@ RUN apt-get install -yq --no-install-recommends \
 	python3-all \
 	python3-distutils-extra \
 	po-debconf \
-	pyflakes \
+	pyflakes3 \
 	lsb-release \
 	gnu-efi
 RUN mkdir -p /build/dell-recovery
