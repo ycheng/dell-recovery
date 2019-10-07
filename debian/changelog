@@ -1,3 +1,55 @@
+dell-recovery (1.63) UNRELEASED; urgency=medium
+
+  [ Shih-Yuan Lee (FourDollars) ]
+  * Change the order of the kernel parameter options to avoid the propagation by accident.
+  * Reduce some PyGIWarning messages.
+
+  [ Kevin ]
+  * security design to turning on policy kit enforcement
+
+  [ Shih-Yuan Lee (FourDollars) ]
+  * Use the regional mirror site instead of the global mirror site.
+
+  [ Kevin ]
+  * support RSTe RAID install in dell-recovery
+
+  [ Alex Tu ]
+  * secureboot: keep original mok for recovery from disk.
+  * refine the code based on comment from PR review.
+  * change to log m5sum by hashlib which based on PR response.
+  * Refine the wording of the entry of full disk encryption during installation
+
+  [ Ryan Graham ]
+  * Adds flag for new initrd format. Use [un]mkinitramfs instead of raw compression when set
+
+  [ Mario Limonciello ]
+  * update gitignore
+  * update standards version
+  * correct some instances of is not -> !=
+  * correct an instance of copy_file -> copyfile
+  * correct some more linting errors
+  * trivial: correct python3-progressbar error message
+  * Update initrd functions to work properly on 19.10
+  * hardcode mkinitramfs/unmkinitramfs paths
+  * Search boot/grub and boot/ for efi.img
+  * recovery_backend: raise some failures during build if we know it won't work
+  * grub: Detect kernel and initramfs extensions
+  * debian/control: add ttf-dejavu for recommends
+  * rework initrd/uuid generation
+  * drop references to initrd.lz, only use initrd going forward
+  * trivial: add missing newline character for UUID
+  * casper: don't use cache_run_scripts anymore to build ORDER
+  * Allow QEMU for debugging/development purposes
+  * ubiquity: fix case sensitivity detection for bootloaders
+  * remove failsafe entry; not actually useful
+  * adjust logic for package installation
+  * correct some errors caught by linter
+  * move to pyflakes3
+  * trivial: add pyflakes3 into CI
+  * add the 'nopersistent' flag to allow disabling casper-rw creation
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Mon, 07 Oct 2019 07:13:45 -0500
+
 dell-recovery (1.62) disco; urgency=medium
 
   [ iktyrrell ]
