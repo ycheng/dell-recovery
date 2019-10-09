@@ -9,7 +9,7 @@ menuentry "#RECOVERY_TEXT#" {
         if [ -s /factory/common.cfg ]; then
             source /factory/common.cfg
         else
-            set options="boot=casper automatic-ubiquity noprompt quiet splash nomodeset"
+            set options="boot=casper automatic-ubiquity noprompt quiet splash nomodeset nopersistent"
         fi
         if [ -s /factory/post-rts-gfx.cfg ]; then
             source /factory/post-rts-gfx.cfg
