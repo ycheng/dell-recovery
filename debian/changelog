@@ -1,4 +1,4 @@
-dell-recovery (1.63) UNRELEASED; urgency=medium
+dell-recovery (1.63) eoan; urgency=medium
 
   [ Shih-Yuan Lee (FourDollars) ]
   * Change the order of the kernel parameter options to avoid the propagation
@@ -49,8 +49,12 @@ dell-recovery (1.63) UNRELEASED; urgency=medium
   * move to pyflakes3
   * trivial: add pyflakes3 into CI
   * add the 'nopersistent' flag to allow disabling casper-rw creation
+  * disable snapd during dell-recovery run
+  * add some missing instances of nopersistent
+  * dell-bootstrap: use distro policy for swap (Fixes: #82) (LP: #1842325)
+  * Drop swap fixup code
 
- -- Mario Limonciello <mario.limonciello@dell.com>  Mon, 07 Oct 2019 07:13:45 -0500
+ -- Mario Limonciello <mario.limonciello@dell.com>  Tue, 15 Oct 2019 10:41:02 -0500
 
 dell-recovery (1.62) disco; urgency=medium
 
