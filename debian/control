@@ -12,8 +12,8 @@ Build-Depends: debhelper (>= 11),
                lsb-release,
                gnu-efi (>= 3.0.2)
 X-Python3-Version: >= 3.7
-Homepage: http://github.com/superm1/dell-recovery
-Vcs-Git: http://github.com/superm1/dell-recovery
+Homepage: http://github.com/dell/dell-recovery
+Vcs-Git: http://github.com/dell/dell-recovery
 Standards-Version: 4.4.0
 
 Package: dell-recovery
