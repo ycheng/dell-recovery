@@ -1,3 +1,9 @@
+dell-recovery (1.64somerville2) focal; urgency=medium
+
+  *  filter the output of `ubuntu-drivers list`
+
+ -- Alex Tu <alex.tu@canonical.com>  Mon, 27 Apr 2020 23:18:09 +0800
+
 dell-recovery (1.64somerville1) focal; urgency=medium
 
   [ Shih-Yuan Lee (FourDollars) ]
