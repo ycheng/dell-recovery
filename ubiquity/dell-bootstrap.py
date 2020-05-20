@@ -591,6 +591,8 @@ class Page(Plugin):
             elif device_path.startswith('/dev/nvme'):
                 output = block.get_cached_property("Id").get_string()
                 model = output.split("-")[-1].replace("_", " ")
+                if len(model) < 4:
+                    model = output.split("-")[-2].replace("_", " ")
                 nvme_dev_size = block.get_cached_property("Size").unpack()
                 disks.append([device_path, nvme_dev_size, "%s (%s)" % (model, device_path)])
                 continue
