@@ -1,3 +1,10 @@
+dell-recovery (1.64somerville4) focal; urgency=medium
+
+  * ubiquity/dell-bootstrap.py: cherry-pick commit that properly show model
+    name of certain optane modules.
+
+ -- Yuan-Chen Cheng <yc.cheng@canonical.com>  Fri, 22 May 2020 16:43:29 +0800
+
 dell-recovery (1.64somerville3) focal; urgency=medium
 
   [ Li-Hao Liao (Leon Liao) ]
