@@ -1,3 +1,25 @@
+dell-recovery (1.65) groovy; urgency=medium
+
+  [ Alex Tu ]
+  * filter the output of `ubuntu-drivers list`
+
+  [ Li-Hao Liao (Leon Liao) ]
+  * Retire the dell-$BIOS_ID-meta
+
+  [ Yuan-Chen Cheng ]
+  * fix model naming retrival for Intel® Optane Memory H10 with Solid State Storage, 32GB + 512GB
+
+  [ Dimitri John Ledkov ]
+  * Use the modern name for the dejavu font package
+
+  [ Shih-Yuan Lee (FourDollars) ]
+  * Using `dpkg-query -W $pkg` is unreliable.
+  * Make the local archive in /dell/debs/ when using the customized installation without the recovery partition. (Closes: #105)
+  * Only download language packs and their uninstalled dependent packages.
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Tue, 16 Jun 2020 15:06:29 -0500
+
+
 dell-recovery (1.64) focal; urgency=medium
 
   [ Mario Limonciello ]
