@@ -1,3 +1,11 @@
+dell-recovery (1.64somerville5) focal; urgency=medium
+
+  * Make the local archive in /dell/debs/ when using the customized
+    installation without the recovery partition. (LP: #1882662)
+  * Only download language packs and their uninstalled dependent packages.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Wed, 17 Jun 2020 15:39:15 +0800
+
 dell-recovery (1.64somerville4) focal; urgency=medium
 
   * ubiquity/dell-bootstrap.py: cherry-pick commit that properly show model
