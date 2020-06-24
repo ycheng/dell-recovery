@@ -44,6 +44,8 @@ import gi
 gi.require_version('UDisks', '2.0')
 from gi.repository import GLib, UDisks
 import hashlib
+import syslog
+
 
 NAME = 'dell-bootstrap'
 BEFORE = 'language'
@@ -162,6 +164,21 @@ class PageGtk(PluginUI):
                 builder.get_object('error_box').show()
             PluginUI.__init__(self, controller, *args, **kwargs)
 
+    def on_window_focus(self, a, b):
+        syslog.syslog("focus")
+        if os.path.exists("/cdrom/demo-mode"):
+            syslog.syslog("demo-mode exists, set time out")
+            GLib.timeout_add(1500, self.demo_set_default)
+
+    def demo_set_default(self):
+        syslog.syslog("demo_set_default")
+        self.hdd_recovery.set_active(True)
+        GLib.timeout_add(1500, self.demo_go_next)
+
+    def demo_go_next(self):
+        syslog.syslog("# demo_go_next")
+        self.controller.go_forward()
+
     def plugin_get_current_page(self):
         """Called when ubiquity tries to realize this page.
            * Disable the progress bar
@@ -249,6 +266,7 @@ class PageGtk(PluginUI):
                 self.interactive_recovery.set_sensitive(False)
                 self.automated_recovery.set_sensitive(False)
                 self.dhc_automated_recovery.set_sensitive(False)
+                self.hdd_recovery_box.connect("focus", self.on_window_focus)
 
     def toggle_type(self, widget):
         """Allows the user to go forward after they've made a selection'"""

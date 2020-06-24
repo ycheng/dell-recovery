@@ -1,3 +1,9 @@
+dell-recovery (1.64somerville5oem1) UNRELEASED; urgency=medium
+
+  * add demo mode.
+
+ -- Yuan-Chen Cheng <yc.cheng@canonical.com>  Wed, 24 Jun 2020 10:55:33 +0800
+
 dell-recovery (1.64somerville5) focal; urgency=medium
 
   * Make the local archive in /dell/debs/ when using the customized
