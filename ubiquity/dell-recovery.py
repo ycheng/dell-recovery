@@ -33,6 +33,10 @@ import dbus
 import syslog
 import gi
 
+gi.require_version('Gtk', '3.0')
+from gi.repository import GLib
+import shutil
+
 NAME = 'dell-recovery'
 AFTER = 'usersetup'
 BEFORE = None
@@ -75,6 +79,8 @@ class PageGtk(PluginUI):
                     builder.get_object('dvd_box').hide()
                     builder.get_object('none_box').hide()
                     builder.get_object('genuine_box').show()
+
+                self.plugin_widgets.connect("focus", self.on_window_focus)
             except Exception as err:
                 syslog.syslog('Could not create Dell Recovery page: %s', err)
                 self.plugin_widgets = None
@@ -87,6 +93,16 @@ class PageGtk(PluginUI):
             self.plugin_widgets = None
 
         PluginUI.__init__(self, controller, *args, **kwargs)
+
+    def on_window_focus(self, a, b):
+        syslog.syslog("focus")
+        if os.path.exists("/cdrom/demo-mode"):
+            syslog.syslog("demo-mode exists, set time out")
+            GLib.timeout_add(1500, self.demo_go_next)
+
+    def demo_go_next(self):
+        syslog.syslog("plugin: dell-recovery.py: demo_go_next")
+        self.controller.go_forward()
 
     def plugin_get_current_page(self):
         """Called when ubiquity tries to realize this page."""
@@ -262,6 +278,14 @@ class Install(InstallPlugin):
                 os.makedirs(directory)
                 os.chown('/home/%s/.config' % user, uid, gid)
                 os.chown(directory, uid, gid)
+
+            # Hack: local-sanity on first boot if the dekstop file exists.
+            src = "/usr/share/local-sanity/local-sanity.desktop"
+            if os.path.isfile(src):
+                fname = os.path.join(directory, 'local-sanity.desktop')
+                shutil.copyfile(src, fname)
+                os.chown(fname, uid, gid)
+
             fname = os.path.join(directory, 'dell-recovery.desktop')
             with open('/usr/share/applications/dell-recovery-media.desktop', encoding='utf-8') as rfd:
                 with open(fname, 'w', encoding='utf-8') as wfd:
