@@ -36,6 +36,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import GLib
 import shutil
+import json
 
 NAME = 'dell-recovery'
 AFTER = 'usersetup'
@@ -96,9 +97,12 @@ class PageGtk(PluginUI):
 
     def on_window_focus(self, a, b):
         syslog.syslog("focus")
-        if os.path.exists("/cdrom/demo-mode"):
-            syslog.syslog("demo-mode exists, set time out")
-            GLib.timeout_add(1500, self.demo_go_next)
+        animation_file = "/cdrom/animation-mode.json"
+        if os.path.exists(animation_file):
+            with open(animation_file, 'r') as infile:
+                self.animation_config = json.load(infile)
+                delay = self.animation_config["animation-delay"]
+                GLib.timeout_add(delay, self.demo_go_next)
 
     def demo_go_next(self):
         syslog.syslog("plugin: dell-recovery.py: demo_go_next")
