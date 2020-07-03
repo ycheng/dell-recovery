@@ -44,6 +44,7 @@ import gi
 gi.require_version('UDisks', '2.0')
 from gi.repository import GLib, UDisks
 import hashlib
+from functools import cmp_to_key
 
 NAME = 'dell-bootstrap'
 BEFORE = 'language'
@@ -349,6 +350,30 @@ class PageGtk(PluginUI):
                 else:
                     value = 'false'
 
+
+def disk_sort_comp(d1, d2):
+    def disk_type_key(d):
+        disk_type_weight = {
+            "/dev/dm": 10,
+            "/dev/md": 9,
+            "/dev/nvme": 8,
+            "/dev/pmem": 7,
+            "/dev/sd": 6
+            }
+        key = 0
+        for dev in disk_type_weight:
+            if d[0].startswith(dev):
+                key = disk_type_weight[dev]
+                break
+        return key
+
+    d1_key, d2_key = disk_type_key(d1), disk_type_key(d2)
+    if d1_key == d2_key:
+        return d2[1] - d1[1]
+    else:
+        return d2_key - d1_key
+
+
 ################
 # Debconf Page #
 ################
@@ -644,11 +669,11 @@ class Page(Plugin):
                         break
             if the_same_disk:
                 break
+        disks.sort(key=cmp_to_key(disk_sort_comp))
         if the_same_disk:
             disks.remove(the_same_disk)
             disks.insert(0, the_same_disk)
         else:
-            disks.sort()
             self.device = disks[0][0]
 
         #If multiple candidates were found, record in the logs
