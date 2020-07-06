@@ -1,3 +1,9 @@
+dell-recovery (1.64somerville6) focal; urgency=medium
+
+  * Try to install the platform factory meta package automatically.
+
+ -- Shih-Yuan Lee (FourDollars) <sylee@canonical.com>  Mon, 06 Jul 2020 10:38:36 +0800
+
 dell-recovery (1.64somerville5) focal; urgency=medium
 
   * Make the local archive in /dell/debs/ when using the customized
