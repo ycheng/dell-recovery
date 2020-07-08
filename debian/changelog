@@ -1,7 +1,12 @@
 dell-recovery (1.66) UNRELEASED; urgency=medium
 
+  [ Shih-Yuan Lee (FourDollars)]
+
+  * Try to install the platform factory meta package automatically.
+
   [ Yuan-Chen Cheng ]
   * sort disk name by type and size.
+  * properly show disk with rst attribute.
 
  -- Yuan-Chen Cheng <yc.cheng@canonical.com>  Fri, 03 Jul 2020 16:22:57 +0800
 
