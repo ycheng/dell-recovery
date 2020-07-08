@@ -584,9 +584,10 @@ class Page(Plugin):
                block.get_cached_property("ReadOnly").get_boolean():
                 continue
 
+            is_raid_member = False
             id_type = block.get_cached_property("IdType").get_string()
             if id_type == 'isw_raid_member':
-                continue
+                is_raid_member = True
 
             device_path = block.get_cached_property("Device").get_bytestring().decode('utf-8')
 
@@ -617,7 +618,10 @@ class Page(Plugin):
                 if len(model) < 4:
                     model = output.split("-")[-2].replace("_", " ")
                 nvme_dev_size = block.get_cached_property("Size").unpack()
-                disks.append([device_path, nvme_dev_size, "%s (%s)" % (model, device_path)])
+                display_template = "%s (%s)"
+                if is_raid_member:
+                    display_template = "* " + display_template
+                disks.append([device_path, nvme_dev_size, display_template % (model, device_path)])
                 continue
 
             # Support Persistent Memory storage
@@ -652,7 +656,10 @@ class Page(Plugin):
             devicevendor = drive.get_cached_property("Vendor").get_string()
             devicesize_gb = "%i" % (devicesize / 1000000000)
 
-            disks.append([devicefile, devicesize, "%s GB %s %s (%s)" % (devicesize_gb, devicevendor, devicemodel, devicefile)])
+            display_template = "%s GB %s %s (%s)"
+            if is_raid_member:
+                display_template = "* " + display_template
+            disks.append([devicefile, devicesize, display_template % (devicesize_gb, devicevendor, devicemodel, devicefile)])
 
         if len(disks) == 0:
             raise RuntimeError("Unable to find and candidate hard disks to install to.")
