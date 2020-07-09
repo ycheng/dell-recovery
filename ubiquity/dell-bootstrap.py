@@ -89,11 +89,11 @@ class PageNoninteractive(PluginUI):
         """Empty skeleton function for the non-interactive UI"""
         pass
 
-    def populate_devices(self, devices):
+    def populate_devices(self, devices, has_raid_member=False):
         """Empty skeleton function for the non-interactive UI"""
         pass
 
-    def dhc_populate_devices(self, devices):
+    def dhc_populate_devices(self, devices, has_raid_member=False):
         """Empty skeleton function for the non-interactive UI"""
         pass
 
@@ -141,6 +141,7 @@ class PageGtk(PluginUI):
             self.hdd_recovery = builder.get_object('hdd_recovery')
             self.hdd_recovery_box = builder.get_object('hdd_recovery_box')
             self.hidden_radio = builder.get_object('hidden_radio')
+            self.raid_warning_label = builder.get_object('raid_warning_label')
             self.dhc_automated_recovery = builder.get_object('dhc_automated_recovery')
             self.dhc_automated_recovery_box = builder.get_object('dhc_automated_recovery_box')
             self.dhc_automated_combobox = builder.get_object('dhc_hard_drive_combobox')
@@ -282,7 +283,7 @@ class PageGtk(PluginUI):
                 self.err_dialog.hide()
                 return
 
-    def populate_devices(self, devices):
+    def populate_devices(self, devices, has_raid_member=False):
         """Feeds a selection of devices into the GUI
            devices should be an array of 3 column arrays
         """
@@ -293,8 +294,10 @@ class PageGtk(PluginUI):
 
         #default to the first item active (it should be sorted anyway)
         self.automated_combobox.set_active(0)
+        if not has_raid_member:
+            self.raid_warning_label.hide()
 
-    def dhc_populate_devices(self, devices):
+    def dhc_populate_devices(self, devices, has_raid_member=False):
         """Feeds a selection of devices into the GUI
            devices should be an array of 3 column arrays
         """
@@ -305,6 +308,8 @@ class PageGtk(PluginUI):
 
         #default to the first item active (it should be sorted anyway)
         self.dhc_automated_combobox.set_active(0)
+        if not has_raid_member:
+            self.raid_warning_label.hide()
 
     ##                      ##
     ## Advanced GUI options ##
@@ -563,6 +568,7 @@ class Page(Plugin):
         udisks = UDisks.Client.new_sync(None)
         manager = udisks.get_object_manager()
         drive = None
+        has_raid_member = False
 
         raids = {}
         for item in manager.get_objects():
@@ -620,6 +626,7 @@ class Page(Plugin):
                 nvme_dev_size = block.get_cached_property("Size").unpack()
                 display_template = "%s (%s)"
                 if is_raid_member:
+                    has_raid_member = True
                     display_template = "* " + display_template
                 disks.append([device_path, nvme_dev_size, display_template % (model, device_path)])
                 continue
@@ -658,6 +665,7 @@ class Page(Plugin):
 
             display_template = "%s GB %s %s (%s)"
             if is_raid_member:
+                has_raid_member = True
                 display_template = "* " + display_template
             disks.append([devicefile, devicesize, display_template % (devicesize_gb, devicevendor, devicemodel, devicefile)])
 
@@ -690,7 +698,7 @@ class Page(Plugin):
         self.log("Initially selected candidate disk: %s" % self.device)
 
         #populate UI
-        self.ui.populate_devices(disks)
+        self.ui.populate_devices(disks, has_raid_member)
 
     def fixup_factory_devices(self, rec_part):
         """Find the factory recovery partition, and re-adjust preseeds to use that data"""
