@@ -208,6 +208,7 @@ class PageGtk(PluginUI):
         else:
             self.dhc_automated_recovery_box.hide()
             self.dhc_automated_recovery.set_sensitive(False)
+            # onfocius of automatied_recovery_box
         self.toggle_progress()
 
         return self.plugin_widgets
@@ -254,7 +255,7 @@ class PageGtk(PluginUI):
         if not self.genuine:
             return
         self.hidden_radio.set_active(True)
-
+        # TODO: test which is the one we need.
         if value == "automatic":
             self.automated_recovery.set_active(True)
         elif value == "dhc":
@@ -275,6 +276,8 @@ class PageGtk(PluginUI):
                 self.automated_recovery.set_sensitive(False)
                 self.dhc_automated_recovery.set_sensitive(False)
                 self.hdd_recovery_box.connect("focus", self.on_window_focus)
+                # do the hdd recovery blalala
+                # which: self.hdd_recovery.set_active(True)
 
     def toggle_type(self, widget):
         """Allows the user to go forward after they've made a selection'"""
