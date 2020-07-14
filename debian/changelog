@@ -1,3 +1,19 @@
+dell-recovery (1.64somerville7) UNRELEASED; urgency=medium
+
+  [ Yuan-Chen Cheng ]
+  * sort disk name by type and size.
+  * properly show disk with rst attribute.
+  * fix model naming retrival for Intel® Optane Memory H10 with Solid State
+    Storage, 32GB + 512GB
+
+  [ Alex Tu ]
+  * fix issue #113: ignore ubiquity uninstallation
+
+  [ Dimitri John Ledkov ]
+  * Use the modern name for the dejavu font package
+
+ -- Alex Tu <alex.tu@canonical.com>  Tue, 14 Jul 2020 23:01:50 +0800
+
 dell-recovery (1.64somerville6) focal; urgency=medium
 
   * Try to install the platform factory meta package automatically.

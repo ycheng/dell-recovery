@@ -44,6 +44,7 @@ import gi
 gi.require_version('UDisks', '2.0')
 from gi.repository import GLib, UDisks
 import hashlib
+from functools import cmp_to_key
 
 NAME = 'dell-bootstrap'
 BEFORE = 'language'
@@ -88,11 +89,11 @@ class PageNoninteractive(PluginUI):
         """Empty skeleton function for the non-interactive UI"""
         pass
 
-    def populate_devices(self, devices):
+    def populate_devices(self, devices, has_raid_member=False):
         """Empty skeleton function for the non-interactive UI"""
         pass
 
-    def dhc_populate_devices(self, devices):
+    def dhc_populate_devices(self, devices, has_raid_member=False):
         """Empty skeleton function for the non-interactive UI"""
         pass
 
@@ -140,6 +141,7 @@ class PageGtk(PluginUI):
             self.hdd_recovery = builder.get_object('hdd_recovery')
             self.hdd_recovery_box = builder.get_object('hdd_recovery_box')
             self.hidden_radio = builder.get_object('hidden_radio')
+            self.raid_warning_label = builder.get_object('raid_warning_label')
             self.dhc_automated_recovery = builder.get_object('dhc_automated_recovery')
             self.dhc_automated_recovery_box = builder.get_object('dhc_automated_recovery_box')
             self.dhc_automated_combobox = builder.get_object('dhc_hard_drive_combobox')
@@ -281,7 +283,7 @@ class PageGtk(PluginUI):
                 self.err_dialog.hide()
                 return
 
-    def populate_devices(self, devices):
+    def populate_devices(self, devices, has_raid_member=False):
         """Feeds a selection of devices into the GUI
            devices should be an array of 3 column arrays
         """
@@ -292,8 +294,10 @@ class PageGtk(PluginUI):
 
         #default to the first item active (it should be sorted anyway)
         self.automated_combobox.set_active(0)
+        if not has_raid_member:
+            self.raid_warning_label.hide()
 
-    def dhc_populate_devices(self, devices):
+    def dhc_populate_devices(self, devices, has_raid_member=False):
         """Feeds a selection of devices into the GUI
            devices should be an array of 3 column arrays
         """
@@ -304,6 +308,8 @@ class PageGtk(PluginUI):
 
         #default to the first item active (it should be sorted anyway)
         self.dhc_automated_combobox.set_active(0)
+        if not has_raid_member:
+            self.raid_warning_label.hide()
 
     ##                      ##
     ## Advanced GUI options ##
@@ -348,6 +354,30 @@ class PageGtk(PluginUI):
                     value = 'true'
                 else:
                     value = 'false'
+
+
+def disk_sort_comp(d1, d2):
+    def disk_type_key(d):
+        disk_type_weight = {
+            "/dev/dm": 10,
+            "/dev/md": 9,
+            "/dev/nvme": 8,
+            "/dev/pmem": 7,
+            "/dev/sd": 6
+            }
+        key = 0
+        for dev in disk_type_weight:
+            if d[0].startswith(dev):
+                key = disk_type_weight[dev]
+                break
+        return key
+
+    d1_key, d2_key = disk_type_key(d1), disk_type_key(d2)
+    if d1_key == d2_key:
+        return d2[1] - d1[1]
+    else:
+        return d2_key - d1_key
+
 
 ################
 # Debconf Page #
@@ -538,6 +568,7 @@ class Page(Plugin):
         udisks = UDisks.Client.new_sync(None)
         manager = udisks.get_object_manager()
         drive = None
+        has_raid_member = False
 
         raids = {}
         for item in manager.get_objects():
@@ -559,9 +590,10 @@ class Page(Plugin):
                block.get_cached_property("ReadOnly").get_boolean():
                 continue
 
+            is_raid_member = False
             id_type = block.get_cached_property("IdType").get_string()
             if id_type == 'isw_raid_member':
-                continue
+                is_raid_member = True
 
             device_path = block.get_cached_property("Device").get_bytestring().decode('utf-8')
 
@@ -592,7 +624,11 @@ class Page(Plugin):
                 if len(model) < 4:
                     model = output.split("-")[-2].replace("_", " ")
                 nvme_dev_size = block.get_cached_property("Size").unpack()
-                disks.append([device_path, nvme_dev_size, "%s (%s)" % (model, device_path)])
+                display_template = "%s (%s)"
+                if is_raid_member:
+                    has_raid_member = True
+                    display_template = "* " + display_template
+                disks.append([device_path, nvme_dev_size, display_template % (model, device_path)])
                 continue
 
             # Support Persistent Memory storage
@@ -627,7 +663,11 @@ class Page(Plugin):
             devicevendor = drive.get_cached_property("Vendor").get_string()
             devicesize_gb = "%i" % (devicesize / 1000000000)
 
-            disks.append([devicefile, devicesize, "%s GB %s %s (%s)" % (devicesize_gb, devicevendor, devicemodel, devicefile)])
+            display_template = "%s GB %s %s (%s)"
+            if is_raid_member:
+                has_raid_member = True
+                display_template = "* " + display_template
+            disks.append([devicefile, devicesize, display_template % (devicesize_gb, devicevendor, devicemodel, devicefile)])
 
         if len(disks) == 0:
             raise RuntimeError("Unable to find and candidate hard disks to install to.")
@@ -644,11 +684,11 @@ class Page(Plugin):
                         break
             if the_same_disk:
                 break
+        disks.sort(key=cmp_to_key(disk_sort_comp))
         if the_same_disk:
             disks.remove(the_same_disk)
             disks.insert(0, the_same_disk)
         else:
-            disks.sort()
             self.device = disks[0][0]
 
         #If multiple candidates were found, record in the logs
@@ -658,7 +698,7 @@ class Page(Plugin):
         self.log("Initially selected candidate disk: %s" % self.device)
 
         #populate UI
-        self.ui.populate_devices(disks)
+        self.ui.populate_devices(disks, has_raid_member)
 
     def fixup_factory_devices(self, rec_part):
         """Find the factory recovery partition, and re-adjust preseeds to use that data"""
