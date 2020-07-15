@@ -8,8 +8,9 @@ dell-recovery (1.66) UNRELEASED; urgency=medium
   * sort disk name by type and size.
   * properly show disk with rst attribute.
   * don't show the page to create media if we run in automatic mode.
+  * select first disk automatically if /cdrom/dvd-automatic exist in stage 1.
 
- -- Yuan-Chen Cheng <yc.cheng@canonical.com>  Fri, 03 Jul 2020 16:22:57 +0800
+ -- Yuan-Chen Cheng <yc.cheng@canonical.com>  Wed, 15 Jul 2020 14:46:59 +0800
 
 dell-recovery (1.65) groovy; urgency=medium
 

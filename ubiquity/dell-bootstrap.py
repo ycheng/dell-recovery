@@ -241,6 +241,12 @@ class PageGtk(PluginUI):
         elif value == "factory":
             if stage == 2:
                 self.plugin_widgets.hide()
+        elif value == "dvd":
+            if os.path.exists("/cdrom/dvd-automatic"):
+                self.automated_recovery.set_active(True)
+                self.controller.go_forward()
+            else:
+                self.controller.allow_go_forward(False)
         else:
             self.controller.allow_go_forward(False)
             if value == "hdd":
