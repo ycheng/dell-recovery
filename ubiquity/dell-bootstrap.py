@@ -258,7 +258,7 @@ class PageGtk(PluginUI):
                 self.automated_recovery.set_sensitive(False)
                 self.dhc_automated_recovery.set_sensitive(False)
                 if os.path.exists("/cdrom/hdd-automatic"):
-                    self.controller.allow_go_forward(False)
+                    self.controller.allow_go_forward(True)
                     self.hdd_recovery.set_active(True)
                     self.controller.go_forward()
 
