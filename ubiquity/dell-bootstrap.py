@@ -45,6 +45,7 @@ gi.require_version('UDisks', '2.0')
 from gi.repository import GLib, UDisks
 import hashlib
 from functools import cmp_to_key
+import syslog
 
 NAME = 'dell-bootstrap'
 BEFORE = 'language'
@@ -228,6 +229,7 @@ class PageGtk(PluginUI):
 
     def set_type(self, value, stage):
         """Sets the type of recovery to do in GUI"""
+        syslog.syslog("set type: " + value + ", stage: " + str(stage))
         if not self.genuine:
             return
         self.hidden_radio.set_active(True)
@@ -751,6 +753,8 @@ class Page(Plugin):
             self.db.register('debian-installer/dummy', RECOVERY_TYPE_QUESTION)
             self.db.set(RECOVERY_TYPE_QUESTION, rec_type)
 
+        syslog.syslog("mark 1 type: " + rec_type)
+
         #If we were preseeded to dynamic, look for an RP
         rec_part = magic.find_factory_partition_stats()
         if "slave" in rec_part:
@@ -776,6 +780,8 @@ class Page(Plugin):
             else:
                 self.log("No (matching) RP found.  Assuming media based boot")
                 rec_type = 'dvd'
+
+        syslog.syslog("mark 2 type: " + rec_type)
 
         #Media boots should be interrupted at first screen in --automatic mode
         if rec_type == 'factory':
@@ -846,6 +852,7 @@ class Page(Plugin):
         try:
             self.fixup_recovery_devices()
             self.log("rec_type %s, stage %d, device %s" % (rec_type, self.stage, self.device))
+            syslog.syslog("rec_type %s, stage %d, device %s" % (rec_type, self.stage, self.device))
             if (rec_type == 'factory' and self.stage == 2) or rec_type == 'hdd':
                 self.fixup_factory_devices(rec_part)
             if rec_type == 'hdd':
@@ -1381,6 +1388,7 @@ class Install(InstallPlugin):
 
             #set default recovery_type of 99_dell_recovery grub as 'hdd' for non-Wyse platforms
             recovery_type = 'hdd'
+            syslog.syslog("recovery_type = hdd")
             #if wyse mode is on (dell-recovery/mode == 'wyse'), set the recovery_type to be 'factory'
             #as Wyse platforms will always skip the "Restore OS Linux partition" dialog
             if self.db.get('dell-recovery/wyse_mode') == 'true' or magic.check_family(b"wyse") or magic.check_install_dhc_id() or magic.check_recovery_dhc_id():
