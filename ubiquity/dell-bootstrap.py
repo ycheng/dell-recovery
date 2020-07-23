@@ -77,7 +77,7 @@ class PageNoninteractive(PluginUI):
             mode, which expects such a str""'''
         return ""
 
-    def set_type(self, value, stage):
+    def set_type(self, value, stage, hdd_flag):
         """Empty skeleton function for the non-interactive UI"""
         pass
 
@@ -228,7 +228,6 @@ class PageGtk(PluginUI):
 
     def set_type(self, value, stage, hdd_flag):
         """Sets the type of recovery to do in GUI"""
-
         if not self.genuine:
             return
         self.hidden_radio.set_active(True)
