@@ -250,12 +250,14 @@ class PageGtk(PluginUI):
                 self.interactive_recovery.set_sensitive(False)
                 self.automated_recovery.set_sensitive(False)
                 self.dhc_automated_recovery.set_sensitive(False)
-            if value == "dev" and (not hdd_flag):
+            if value == "dev" and (not hdd_flag): # USB installation, stage 2
                 self.automated_recovery.set_active(True)
-                self.controller.go_forward()
-            elif value == "dev" and hdd_flag:
+                self.controller.allow_go_forward(True)
+                GLib.timeout_add(5000, self.controller.go_forward)
+            elif value == "dev" and hdd_flag: # Recovery from hdd.
                 self.hdd_recovery.set_active(True)
-                self.controller.go_forward()
+                self.controller.allow_go_forward(True)
+                GLib.timeout_add(5000, self.controller.go_forward)
             else:
                 self.controller.allow_go_forward(False)
 
