@@ -52,7 +52,7 @@ class PageGtk(PluginUI):
         oem = 'UBIQUITY_OEM_USER_CONFIG' in os.environ
         with misc.raised_privileges():
             self.genuine = magic.check_vendor()
-        if oem and (dvd or usb) and (rpart or not self.genuine):
+        if oem and (dvd or usb) and (rpart or not self.genuine) and ('UBIQUITY_AUTOMATIC' not in os.environ):
             try:
                 gi.require_version('Gtk', '3.0')
                 from gi.repository import Gtk

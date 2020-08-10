@@ -1,3 +1,14 @@
+dell-recovery (1.64somerville8) UNRELEASED; urgency=medium
+
+  [ Yuan-Chen Cheng ]
+  * don't show the page to create media if we run in automatic mode.
+  * add a dev mode that's full-automatic in stage 1, 2 and recovery from hdd.
+
+  [ Alex Tu ]
+  * change NetworkManager dbus method from Sleep to Enable (Close #114)
+
+ -- Alex Tu <alex.tu@canonical.com>  Mon, 10 Aug 2020 13:52:35 +0800
+
 dell-recovery (1.64somerville7) focal; urgency=medium
 
   [ Yuan-Chen Cheng ]

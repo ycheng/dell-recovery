@@ -77,7 +77,7 @@ class PageNoninteractive(PluginUI):
             mode, which expects such a str""'''
         return ""
 
-    def set_type(self, value, stage):
+    def set_type(self, value, stage, hdd_flag):
         """Empty skeleton function for the non-interactive UI"""
         pass
 
@@ -226,7 +226,7 @@ class PageGtk(PluginUI):
             size = model.get_value(iterator, 1)
         return (device, size)
 
-    def set_type(self, value, stage):
+    def set_type(self, value, stage, hdd_flag):
         """Sets the type of recovery to do in GUI"""
         if not self.genuine:
             return
@@ -242,8 +242,7 @@ class PageGtk(PluginUI):
             if stage == 2:
                 self.plugin_widgets.hide()
         else:
-            self.controller.allow_go_forward(False)
-            if value == "hdd":
+            if value == "hdd" or (value == "dev" and hdd_flag):
                 self.hdd_recovery_box.show()
                 self.interactive_recovery_box.hide()
                 self.automated_recovery_box.hide()
@@ -251,6 +250,14 @@ class PageGtk(PluginUI):
                 self.interactive_recovery.set_sensitive(False)
                 self.automated_recovery.set_sensitive(False)
                 self.dhc_automated_recovery.set_sensitive(False)
+            if value == "dev" and (not hdd_flag):
+                self.automated_recovery.set_active(True)
+                self.controller.go_forward()
+            elif value == "dev" and hdd_flag:
+                self.hdd_recovery.set_active(True)
+                self.controller.go_forward()
+            else:
+                self.controller.allow_go_forward(False)
 
     def toggle_type(self, widget):
         """Allows the user to go forward after they've made a selection'"""
@@ -378,6 +385,9 @@ def disk_sort_comp(d1, d2):
     else:
         return d2_key - d1_key
 
+
+def is_boot_with_hdd_flag():
+    return 'dell-recovery/recovery_type=hdd' in open('/proc/cmdline', 'r').read().split()
 
 ################
 # Debconf Page #
@@ -750,12 +760,13 @@ class Page(Plugin):
             rec_type = 'dynamic'
             self.db.register('debian-installer/dummy', RECOVERY_TYPE_QUESTION)
             self.db.set(RECOVERY_TYPE_QUESTION, rec_type)
+        hdd_flag = is_boot_with_hdd_flag()
 
         #If we were preseeded to dynamic, look for an RP
         rec_part = magic.find_factory_partition_stats()
         if "slave" in rec_part:
             self.stage = 2
-        if rec_type == 'dynamic':
+        if rec_type == 'dynamic' or (rec_type == 'dev' and not hdd_flag):
             # we rebooted with no USB stick or DVD in drive and have the RP
             # mounted at /cdrom
             if self.stage == 2 and rec_part["slave"] in mount:
@@ -773,6 +784,8 @@ class Page(Plugin):
             elif mount.startswith("/dev/pmem") and self.stage == 2 and rec_part["slave"][:-1] in mount:
                 self.log("Detected RP at %s, setting to factory boot" % mount)
                 rec_type = 'factory'
+            elif rec_type == 'dev':
+                self.log("No (matching) RP found.  Assuming media based boot, in dev mode.")
             else:
                 self.log("No (matching) RP found.  Assuming media based boot")
                 rec_type = 'dvd'
@@ -820,7 +833,7 @@ class Page(Plugin):
         # The order invoking set_advanced() is important. (LP: #1324394)
         for twaddle in reversed(sorted(twiddle)):
             self.ui.set_advanced(twaddle, twiddle[twaddle])
-        self.ui.set_type(rec_type, self.stage)
+        self.ui.set_type(rec_type, self.stage, hdd_flag)
 
         #Make sure some locale was set so we can guarantee automatic mode
         try:
@@ -846,9 +859,9 @@ class Page(Plugin):
         try:
             self.fixup_recovery_devices()
             self.log("rec_type %s, stage %d, device %s" % (rec_type, self.stage, self.device))
-            if (rec_type == 'factory' and self.stage == 2) or rec_type == 'hdd':
+            if (rec_type == 'factory' and self.stage == 2) or rec_type == 'hdd' or (rec_type == "dev" and hdd_flag):
                 self.fixup_factory_devices(rec_part)
-            if rec_type == 'hdd':
+            if hdd_flag:
                 # copy old mok key so that user don't need to enroll it again.
                 rootfs = mount[0:-1] + EFI_OS_PARTITION
                 self.log("old rootfs from %s" % rootfs)
@@ -949,7 +962,7 @@ class Page(Plugin):
 
             # Factory install, and booting from RP
             else:
-                if 'dell-recovery/recovery_type=hdd' in open('/proc/cmdline', 'r').read().split():
+                if is_boot_with_hdd_flag():
                     self.ui.toggle_progress()
                 self.sleep_network()
                 self.delete_swap()
@@ -1402,8 +1415,6 @@ class Install(InstallPlugin):
         to_install += magic.mark_packages(rec_part)
 
         self.remove_ricoh_mmc()
-
-        self.wake_network()
 
         install_misc.record_installed(to_install)
         install_misc.record_removed(to_remove)
