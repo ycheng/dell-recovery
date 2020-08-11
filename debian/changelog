@@ -1,7 +1,6 @@
-dell-recovery (1.66) UNRELEASED; urgency=medium
+dell-recovery (1.66) groovy; urgency=medium
 
   [ Shih-Yuan Lee (FourDollars)]
-
   * Try to install the platform factory meta package automatically.
 
   [ Yuan-Chen Cheng ]
@@ -13,7 +12,11 @@ dell-recovery (1.66) UNRELEASED; urgency=medium
   [ Alex Tu ]
   * change NetworkManager dbus method from Sleep to Enable (Close #114)
 
- -- Yuan-Chen Cheng <yc.cheng@canonical.com>  Thu, 23 Jul 2020 06:31:03 +0800
+  [ Mario Limonciello ]
+  * Fix a crash in about dialog (LP: #1795705)
+  * fix some issues with new pyflakes (LP: #1890819)
+
+ -- Mario Limonciello <mario.limonciello@dell.com>  Mon, 10 Aug 2020 21:32:14 -0500
 
 dell-recovery (1.65) groovy; urgency=medium
 
