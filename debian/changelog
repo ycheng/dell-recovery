@@ -1,3 +1,9 @@
+dell-recovery (1.64somerville8automode1) focal; urgency=medium
+
+  * delay 5 seconds so that the GUI event-loop works as expected.
+
+ -- Yuan-Chen Cheng <yc.cheng@canonical.com>  Tue, 18 Aug 2020 15:16:21 +0800
+
 dell-recovery (1.64somerville8) focal; urgency=medium
 
   [ Yuan-Chen Cheng ]
